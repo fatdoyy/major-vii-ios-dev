@@ -8,5 +8,7 @@ target 'major-7-ios' do
   # Pods for major-7-ios
   
   pod 'Firebase/Core'
+  pod 'Localize-Swift', '~> 2.0'  #localization
+
   
 end
