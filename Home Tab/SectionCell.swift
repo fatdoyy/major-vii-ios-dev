@@ -8,12 +8,12 @@
 
 import UIKit
 
-class EventsCollectionViewCell: UICollectionViewCell {
+class SectionCell: UICollectionViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        //backgroundColor = .red
+        backgroundColor = .gray
 
     }
     

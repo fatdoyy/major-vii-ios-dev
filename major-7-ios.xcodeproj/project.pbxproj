@@ -15,8 +15,10 @@
 		966A6CC3217DBDAF00DF872F /* EventsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 966A6CC2217DBDAF00DF872F /* EventsViewController.swift */; };
 		966A6CC5217DBDC400DF872F /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 966A6CC4217DBDC400DF872F /* SettingsViewController.swift */; };
 		966A6CC7217DC16500DF872F /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 966A6CC6217DC16500DF872F /* Colors.swift */; };
-		966A6CCC217DE6DD00DF872F /* EventsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 966A6CCA217DE6DD00DF872F /* EventsCollectionViewCell.swift */; };
-		966A6CCD217DE6DD00DF872F /* EventsCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 966A6CCB217DE6DD00DF872F /* EventsCollectionViewCell.xib */; };
+		966A6CCC217DE6DD00DF872F /* SectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 966A6CCA217DE6DD00DF872F /* SectionCell.swift */; };
+		966A6CCD217DE6DD00DF872F /* SectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 966A6CCB217DE6DD00DF872F /* SectionCell.xib */; };
+		966A6CD0217F096700DF872F /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 966A6CCE217F096700DF872F /* HeaderView.swift */; };
+		966A6CD1217F096700DF872F /* HeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 966A6CCF217F096700DF872F /* HeaderView.xib */; };
 		CA550AA621706A65008E493D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA550AA521706A65008E493D /* AppDelegate.swift */; };
 		CA550AAB21706A65008E493D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CA550AA921706A65008E493D /* Main.storyboard */; };
 		CA550AAE21706A65008E493D /* major_7_ios.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = CA550AAC21706A65008E493D /* major_7_ios.xcdatamodeld */; };
@@ -35,8 +37,10 @@
 		966A6CC2217DBDAF00DF872F /* EventsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsViewController.swift; sourceTree = "<group>"; };
 		966A6CC4217DBDC400DF872F /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		966A6CC6217DC16500DF872F /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
-		966A6CCA217DE6DD00DF872F /* EventsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsCollectionViewCell.swift; sourceTree = "<group>"; };
-		966A6CCB217DE6DD00DF872F /* EventsCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EventsCollectionViewCell.xib; sourceTree = "<group>"; };
+		966A6CCA217DE6DD00DF872F /* SectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionCell.swift; sourceTree = "<group>"; };
+		966A6CCB217DE6DD00DF872F /* SectionCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SectionCell.xib; sourceTree = "<group>"; };
+		966A6CCE217F096700DF872F /* HeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderView.swift; sourceTree = "<group>"; };
+		966A6CCF217F096700DF872F /* HeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HeaderView.xib; sourceTree = "<group>"; };
 		CA550AA221706A65008E493D /* major-7-ios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "major-7-ios.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CA550AA521706A65008E493D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CA550AAA21706A65008E493D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -104,8 +108,10 @@
 			isa = PBXGroup;
 			children = (
 				966A6CBB217DB86D00DF872F /* HomeViewController.swift */,
-				966A6CCA217DE6DD00DF872F /* EventsCollectionViewCell.swift */,
-				966A6CCB217DE6DD00DF872F /* EventsCollectionViewCell.xib */,
+				966A6CCA217DE6DD00DF872F /* SectionCell.swift */,
+				966A6CCB217DE6DD00DF872F /* SectionCell.xib */,
+				966A6CCE217F096700DF872F /* HeaderView.swift */,
+				966A6CCF217F096700DF872F /* HeaderView.xib */,
 			);
 			path = "Home Tab";
 			sourceTree = "<group>";
@@ -206,7 +212,8 @@
 				CA550AB321706A66008E493D /* LaunchScreen.storyboard in Resources */,
 				CA550ABB21706BA5008E493D /* GoogleService-Info.plist in Resources */,
 				CA550AB021706A66008E493D /* Assets.xcassets in Resources */,
-				966A6CCD217DE6DD00DF872F /* EventsCollectionViewCell.xib in Resources */,
+				966A6CD1217F096700DF872F /* HeaderView.xib in Resources */,
+				966A6CCD217DE6DD00DF872F /* SectionCell.xib in Resources */,
 				CA550AAB21706A65008E493D /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -264,10 +271,11 @@
 				966A6CBC217DB86D00DF872F /* HomeViewController.swift in Sources */,
 				966A6CC7217DC16500DF872F /* Colors.swift in Sources */,
 				966A6CC3217DBDAF00DF872F /* EventsViewController.swift in Sources */,
-				966A6CCC217DE6DD00DF872F /* EventsCollectionViewCell.swift in Sources */,
+				966A6CCC217DE6DD00DF872F /* SectionCell.swift in Sources */,
 				966A6CB8217DB5F500DF872F /* TabBarViewController.swift in Sources */,
 				966A6CC1217DBD9F00DF872F /* AgentsViewController.swift in Sources */,
 				CA550AAE21706A65008E493D /* major_7_ios.xcdatamodeld in Sources */,
+				966A6CD0217F096700DF872F /* HeaderView.swift in Sources */,
 				966A6CBF217DBD7F00DF872F /* BuskersViewController.swift in Sources */,
 				CA550AA621706A65008E493D /* AppDelegate.swift in Sources */,
 				966A6CC5217DBDC400DF872F /* SettingsViewController.swift in Sources */,
