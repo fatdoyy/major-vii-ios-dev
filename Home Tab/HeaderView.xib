@@ -13,26 +13,26 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <collectionReusableView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="U6b-Vx-4bR" customClass="HeaderView" customModule="major_7_ios" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="200" height="59"/>
+            <rect key="frame" x="0.0" y="0.0" width="200" height="58"/>
             <autoresizingMask key="autoresizingMask"/>
             <subviews>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bKY-bI-ElZ">
-                    <rect key="frame" x="20" y="16" width="180" height="43"/>
+                    <rect key="frame" x="20" y="15" width="180" height="43"/>
                     <fontDescription key="fontDescription" type="boldSystem" pointSize="36"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
             </subviews>
             <constraints>
-                <constraint firstItem="bKY-bI-ElZ" firstAttribute="bottom" secondItem="VXr-Tz-HHm" secondAttribute="bottom" id="CCm-1A-QHi"/>
-                <constraint firstAttribute="trailing" secondItem="bKY-bI-ElZ" secondAttribute="trailing" id="KYk-aj-hnH"/>
-                <constraint firstItem="bKY-bI-ElZ" firstAttribute="leading" secondItem="VXr-Tz-HHm" secondAttribute="leading" constant="20" id="WZU-ao-uCg"/>
+                <constraint firstItem="bKY-bI-ElZ" firstAttribute="bottom" secondItem="VXr-Tz-HHm" secondAttribute="bottom" id="EmP-ad-YaF"/>
+                <constraint firstAttribute="trailing" secondItem="bKY-bI-ElZ" secondAttribute="trailing" id="HM2-Fh-gcf"/>
+                <constraint firstItem="bKY-bI-ElZ" firstAttribute="leading" secondItem="VXr-Tz-HHm" secondAttribute="leading" constant="20" id="bg0-UX-eYn"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="VXr-Tz-HHm"/>
             <connections>
                 <outlet property="newsTitle" destination="bKY-bI-ElZ" id="Iuf-R4-WRv"/>
             </connections>
-            <point key="canvasLocation" x="35.200000000000003" y="153.82308845577214"/>
+            <point key="canvasLocation" x="33.600000000000001" y="161.01949025487258"/>
         </collectionReusableView>
     </objects>
 </document>

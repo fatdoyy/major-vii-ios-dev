@@ -6,18 +6,27 @@
 //  Copyright © 2018 Major VII. All rights reserved.
 //
 
-import Foundation
 import UIKit
+import DynamicColor
+
+// MARK: UIColor extension
 
 extension UIColor {
     
-    // MARK: General UI Colors
-    class func darkColor() -> UIColor {
+    //General UI Colors
+    class func darkGray() -> UIColor {
         return UIColor(red:0.12, green:0.12, blue:0.14, alpha:1.0)
     }
     
+    class func lightPurple() -> UIColor {
+        return UIColor(hexString: "#3498db")
+    }
     
-    // MARK: Text Colors
+    class func darkPurple() -> UIColor {
+        return UIColor(hexString: "#854cc5")
+    }
+    
+    //Text Colors
     class func whiteText() -> UIColor {
         return UIColor.white
     }

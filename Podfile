@@ -8,7 +8,10 @@ target 'major-7-ios' do
   # Pods for major-7-ios
   
   pod 'Firebase/Core'
-  pod 'Localize-Swift', '~> 2.0'  #localization
+  
+  pod 'Localize-Swift', '~> 2.0'  # localization
+  pod 'DynamicColor', '~> 4.0.2'  # UIColor extension
+  pod 'SnapKit', '~> 4.0.0'       # layout constaints
 
   
 end
