@@ -9,11 +9,18 @@
 import UIKit
 
 class HomeViewController: UIViewController {
-
+    
+    private let headerViewId = "header"
     private let eventsSectionId = "eventsSection"
     private let newsHeaderViewId = "newsHeader"
-    private let newsCellId = "newsCell"
-    private let headerViewId = "header"
+    
+    private let newsCellType1Id = "newsCell1"
+    private let newsCellType2Id = "newsCell2"
+    private let newsCellType3Id = "newsCell3"
+    private let newsCellType4Id = "newsCell4"
+    private let newsCellType5Id = "newsCell5"
+
+    let cellType = 5
     
     @IBOutlet weak var mainCollectionView: UICollectionView!
     
@@ -29,9 +36,17 @@ class HomeViewController: UIViewController {
         mainCollectionView.showsHorizontalScrollIndicator = false
         
         mainCollectionView.register(UINib.init(nibName: "HeaderView", bundle: nil), forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: headerViewId)
+        
         mainCollectionView.register(UINib.init(nibName: "EventsSection", bundle: nil), forCellWithReuseIdentifier: eventsSectionId)
+        
         mainCollectionView.register(UINib.init(nibName: "NewsHeaderView", bundle: nil), forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: newsHeaderViewId)
-        mainCollectionView.register(UINib.init(nibName: "NewsCell", bundle: nil), forCellWithReuseIdentifier: newsCellId)
+        
+        mainCollectionView.register(UINib.init(nibName: "NewsCellType1", bundle: nil), forCellWithReuseIdentifier: newsCellType1Id)
+        mainCollectionView.register(UINib.init(nibName: "NewsCellType2", bundle: nil), forCellWithReuseIdentifier: newsCellType2Id)
+        mainCollectionView.register(UINib.init(nibName: "NewsCellType3", bundle: nil), forCellWithReuseIdentifier: newsCellType3Id)
+        mainCollectionView.register(UINib.init(nibName: "NewsCellType4", bundle: nil), forCellWithReuseIdentifier: newsCellType4Id)
+        mainCollectionView.register(UINib.init(nibName: "NewsCellType5", bundle: nil), forCellWithReuseIdentifier: newsCellType5Id)
+
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -39,48 +54,97 @@ class HomeViewController: UIViewController {
     }
 }
 
-// MARK: UICollection View Delegate Methods
+// MARK: UICollectionView Data Source
 
 extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if section == 0 {
             return 1
         } else {
-            return 10
+            return 20
         }
-        
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 2
     }
     
-    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        if indexPath.section == 0 {
+        if indexPath.section == 0 { //events section
             let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: eventsSectionId, for: indexPath) as! EventsSection
             return cell
-        } else {
-            let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: newsCellId, for: indexPath) as! NewsCell
-            let bgImg = UIImage(named: "music-studio-12")
+        } else { //news section
+            switch cellType {
+            case 1:
+                let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: newsCellType1Id, for: indexPath) as! NewsCellType1
+                let bgImg = UIImage(named: "music-studio-12")
+                
+                cell.timeLabel.text = "2 months ago"
+                cell.bgImgView.image = bgImg
+                
+                return cell
+            case 2:
+                let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: newsCellType2Id, for: indexPath) as! NewsCellType2
+                let bgImg = UIImage(named: "music-studio-12")
+                
+                cell.newsTitle.text = "This is the title. This is the title. This is the title. This is the title. This is the title. This is the title. "
+                cell.bgImgView.image = bgImg
+                
+                return cell
+            case 3:
+                let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: newsCellType3Id, for: indexPath) as! NewsCellType3
+                let bgImg = UIImage(named: "music-studio-12")
+                
+                cell.newsTitle.text = "This is the title. This is the title. This is the title. This is the title."
+                cell.subTitle.text = "Unforgettable experience."
+                cell.bgImgView.image = bgImg
+                
+                return cell
+            case 4:
+                let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: newsCellType4Id, for: indexPath) as! NewsCellType4
+                //let bgImg = UIImage(named: "music-studio-12")
+                
+                cell.newsTitle.text = "This is the title. This is the title. This is the title. This is the title."
+                cell.subTitle.text = "Shakin' the ground"
+                //cell.bgImgView.image = bgImg
+                
+                return cell
+            case 5:
+                let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: newsCellType5Id, for: indexPath) as! NewsCellType5
+                //let bgImg = UIImage(named: "music-studio-12")
+                
+                cell.newsTitle.text = "This is the title. This is the title. This is the title. This is the title."
+                cell.subTitle.text = "Shakin' the ground"
+                //cell.bgImgView.image = bgImg
+                
+                return cell
+            default:
+                fatalError("Unexpected cell type!")
+            }
             
-            cell.timeLabel.text = "2 months ago"
-            cell.bgImgView.frame = CGRect(x: 0, y: 0, width: collectionView.frame.size.width, height: NewsCell.cellHeight)
-            cell.bgImgView.image = bgImg
-            
-            return cell
+
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let width = self.view.frame.width
-        
         if indexPath.section == 0 {
             // Upcoming events section
             return CGSize(width: width, height: EventsSection.sectionHeight)
         } else {
             // News section
-            return CGSize(width: NewsCell.cellWidth, height: NewsCell.cellHeight)
+            switch cellType {
+            case 1, 2:
+                return CGSize(width: NewsCellType1.cellWidth, height: NewsCellType1.cellHeight)
+            default:
+                return CGSize(width: NewsCellType3.cellWidth, height: NewsCellType3.cellHeight)
+            }
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if indexPath.section == 1{
+            print("\(indexPath.row)")
         }
     }
     

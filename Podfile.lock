@@ -47,12 +47,14 @@ PODS:
     - nanopb/encode (= 0.3.8)
   - nanopb/decode (0.3.8)
   - nanopb/encode (0.3.8)
+  - Pastel (0.5.1)
   - SnapKit (4.0.1)
 
 DEPENDENCIES:
   - DynamicColor (~> 4.0.2)
   - Firebase/Core
   - Localize-Swift (~> 2.0)
+  - Pastel
   - SnapKit (~> 4.0.0)
 
 SPEC REPOS:
@@ -66,6 +68,7 @@ SPEC REPOS:
     - GoogleUtilities
     - Localize-Swift
     - nanopb
+    - Pastel
     - SnapKit
 
 SPEC CHECKSUMS:
@@ -78,8 +81,9 @@ SPEC CHECKSUMS:
   GoogleUtilities: 760ccb53b7c7f40f9c02d8c241f76f841a7a6162
   Localize-Swift: c798ec9286494866f7068f85f7c71283ac5bdab4
   nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
+  Pastel: b3dd5b8d612dac06ae7c63c97c45c900829bc139
   SnapKit: 0de968a9fec17499afa29683b05d0c775b6d1c29
 
-PODFILE CHECKSUM: 5fd760b24857e0680758fd71683e7bfd8dddae44
+PODFILE CHECKSUM: 5ce63a82ff4c0b3ab4b6fba0ff178440fab9e17f
 
 COCOAPODS: 1.5.3

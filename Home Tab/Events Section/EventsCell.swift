@@ -21,7 +21,7 @@ class EventsCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        backgroundColor = .clear
+        backgroundColor = .darkGray()
         setupLabels()
         
         let layer = CAGradientLayer()
@@ -30,7 +30,7 @@ class EventsCell: UICollectionViewCell {
         layer.cornerRadius = 12
         layer.startPoint = CGPoint(x: 0, y: 0.5)
         layer.endPoint = CGPoint(x: 1, y: 0.5)
-        bgView.layer.insertSublayer(layer, below: dateLabel.layer)
+        bgView.layer.insertSublayer(layer, at: 0)
         //sendSubviewToBack(bgView)
     }
 

@@ -10,7 +10,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--More-->
+        <!--Settings View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="SettingsViewController" customModule="major_7_ios" customModuleProvider="target" sceneMemberID="viewController">
@@ -20,14 +20,16 @@
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="More" id="skP-eK-JY3"/>
+                    <tabBarItem key="tabBarItem" title="" image="tabbar_more" id="skP-eK-JY3">
+                        <inset key="imageInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="-10"/>
+                    </tabBarItem>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="937" y="1074"/>
         </scene>
-        <!--Events-->
+        <!--Events View Controller-->
         <scene sceneID="4j0-ao-38G">
             <objects>
                 <viewController id="wTP-qq-E8x" customClass="EventsViewController" customModule="major_7_ios" customModuleProvider="target" sceneMemberID="viewController">
@@ -37,13 +39,15 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="Jre-s0-qBI"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Events" id="a1q-tS-mt5"/>
+                    <tabBarItem key="tabBarItem" title="" image="tabbar_events" id="a1q-tS-mt5">
+                        <inset key="imageInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="-10"/>
+                    </tabBarItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Kjm-bj-XPm" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="938" y="387"/>
         </scene>
-        <!--Buskers-->
+        <!--Buskers View Controller-->
         <scene sceneID="82B-WS-XpR">
             <objects>
                 <viewController id="ISg-XY-dAr" customClass="BuskersViewController" customModule="major_7_ios" customModuleProvider="target" sceneMemberID="viewController">
@@ -53,14 +57,16 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="3Xa-nK-xVa"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Buskers" id="Wfs-Ce-3lu"/>
+                    <tabBarItem key="tabBarItem" title="" image="tabbar_buskers" id="Wfs-Ce-3lu">
+                        <inset key="imageInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="-10"/>
+                    </tabBarItem>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JZZ-Dv-j0t" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="937" y="-986"/>
         </scene>
-        <!--Agent-->
+        <!--Agents View Controller-->
         <scene sceneID="apQ-qF-xM3">
             <objects>
                 <viewController id="JNt-6k-y41" customClass="AgentsViewController" customModule="major_7_ios" customModuleProvider="target" sceneMemberID="viewController">
@@ -70,7 +76,9 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="a9I-E6-5Cq"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Agent" id="HDB-70-6wy"/>
+                    <tabBarItem key="tabBarItem" title="" image="tabbar_coop" id="HDB-70-6wy">
+                        <inset key="imageInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="-10"/>
+                    </tabBarItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="enw-Kl-JBh" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -97,7 +105,7 @@
             </objects>
             <point key="canvasLocation" x="-87" y="-17"/>
         </scene>
-        <!--Home-->
+        <!--Home View Controller-->
         <scene sceneID="Kim-5d-BVd">
             <objects>
                 <viewController id="sXn-Jw-JsF" customClass="HomeViewController" customModule="major_7_ios" customModuleProvider="target" sceneMemberID="viewController">
@@ -126,7 +134,9 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Qmu-PV-ePk"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Home" id="qnY-OO-jlc"/>
+                    <tabBarItem key="tabBarItem" title="" image="tabbar_explore" id="qnY-OO-jlc">
+                        <inset key="imageInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="-10"/>
+                    </tabBarItem>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="mainCollectionView" destination="jRV-mZ-rWk" id="U6G-un-PRI"/>
@@ -137,4 +147,11 @@
             <point key="canvasLocation" x="919.20000000000005" y="-1675.1231527093596"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="tabbar_buskers" width="48" height="48"/>
+        <image name="tabbar_coop" width="48" height="48"/>
+        <image name="tabbar_events" width="48" height="48"/>
+        <image name="tabbar_explore" width="48" height="48"/>
+        <image name="tabbar_more" width="48" height="48"/>
+    </resources>
 </document>
