@@ -20,7 +20,9 @@ class HomeViewController: UIViewController {
     private let newsCellType4Id = "newsCell4"
     private let newsCellType5Id = "newsCell5"
 
-    let cellType = 5
+    var news: [News] = []
+    
+    //let cellType = 5
     
     @IBOutlet weak var mainCollectionView: UICollectionView!
     
@@ -46,7 +48,14 @@ class HomeViewController: UIViewController {
         mainCollectionView.register(UINib.init(nibName: "NewsCellType3", bundle: nil), forCellWithReuseIdentifier: newsCellType3Id)
         mainCollectionView.register(UINib.init(nibName: "NewsCellType4", bundle: nil), forCellWithReuseIdentifier: newsCellType4Id)
         mainCollectionView.register(UINib.init(nibName: "NewsCellType5", bundle: nil), forCellWithReuseIdentifier: newsCellType5Id)
-
+        
+        NewsService.getNews().done{ news -> () in
+            self.news = news.list!
+            self.mainCollectionView.reloadData()
+            }.ensure {
+                UIApplication.shared.isNetworkActivityIndicatorVisible = false
+            }.catch { error in }
+        
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -61,7 +70,7 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
         if section == 0 {
             return 1
         } else {
-            return 20
+            return news.count
         }
     }
     
@@ -74,12 +83,13 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
             let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: eventsSectionId, for: indexPath) as! EventsSection
             return cell
         } else { //news section
+            let cellType = news[indexPath.row].cellType
             switch cellType {
             case 1:
                 let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: newsCellType1Id, for: indexPath) as! NewsCellType1
                 let bgImg = UIImage(named: "music-studio-12")
                 
-                cell.timeLabel.text = "2 months ago"
+                cell.newsTitle.text = news[indexPath.row].title
                 cell.bgImgView.image = bgImg
                 
                 return cell
@@ -87,7 +97,7 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
                 let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: newsCellType2Id, for: indexPath) as! NewsCellType2
                 let bgImg = UIImage(named: "music-studio-12")
                 
-                cell.newsTitle.text = "This is the title. This is the title. This is the title. This is the title. This is the title. This is the title. "
+                cell.newsTitle.text = news[indexPath.row].title
                 cell.bgImgView.image = bgImg
                 
                 return cell
@@ -95,8 +105,8 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
                 let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: newsCellType3Id, for: indexPath) as! NewsCellType3
                 let bgImg = UIImage(named: "music-studio-12")
                 
-                cell.newsTitle.text = "This is the title. This is the title. This is the title. This is the title."
-                cell.subTitle.text = "Unforgettable experience."
+                cell.newsTitle.text = news[indexPath.row].title
+                cell.subTitle.text = news[indexPath.row].subTitle
                 cell.bgImgView.image = bgImg
                 
                 return cell
@@ -104,8 +114,8 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
                 let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: newsCellType4Id, for: indexPath) as! NewsCellType4
                 //let bgImg = UIImage(named: "music-studio-12")
                 
-                cell.newsTitle.text = "This is the title. This is the title. This is the title. This is the title."
-                cell.subTitle.text = "Shakin' the ground"
+                cell.newsTitle.text = news[indexPath.row].title
+                cell.subTitle.text = news[indexPath.row].subTitle
                 //cell.bgImgView.image = bgImg
                 
                 return cell
@@ -113,8 +123,8 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
                 let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: newsCellType5Id, for: indexPath) as! NewsCellType5
                 //let bgImg = UIImage(named: "music-studio-12")
                 
-                cell.newsTitle.text = "This is the title. This is the title. This is the title. This is the title."
-                cell.subTitle.text = "Shakin' the ground"
+                cell.newsTitle.text = news[indexPath.row].title
+                cell.subTitle.text = news[indexPath.row].subTitle
                 //cell.bgImgView.image = bgImg
                 
                 return cell
@@ -133,6 +143,7 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
             return CGSize(width: width, height: EventsSection.sectionHeight)
         } else {
             // News section
+            let cellType = news[indexPath.row].cellType
             switch cellType {
             case 1, 2:
                 return CGSize(width: NewsCellType1.cellWidth, height: NewsCellType1.cellHeight)

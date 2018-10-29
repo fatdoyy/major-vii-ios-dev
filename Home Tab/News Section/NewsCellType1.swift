@@ -29,7 +29,7 @@ class NewsCellType1: UICollectionViewCell {
         
         //newsTitle.lineBreakMode = .byWordWrapping
         newsTitle.numberOfLines = 0
-        newsTitle.text = "JL is releasing an brand new album."
+        newsTitle.text = "123"
         newsTitle.textColor = .whiteText()
         
         timeLabel.text = "1 month ago"

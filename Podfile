@@ -9,11 +9,13 @@ target 'major-7-ios' do
   
   pod 'Firebase/Core'
   
-  pod 'Localize-Swift', '~> 2.0'  # localization
-  pod 'DynamicColor', '~> 4.0.2'  # UIColor extension
-  pod 'SnapKit', '~> 4.0.0'       # layout constaints
-  #pod 'SkeletonView'              # as title
-  pod 'Pastel'                    # gradient background
-  
+  pod 'Localize-Swift', '~> 2.0'                # localization
+  pod 'DynamicColor', '~> 4.0.2'                # UIColor extension
+  pod 'SnapKit', '~> 4.0.0'                     # layout constaints
+  pod 'SkeletonView'                            # as title
+  pod 'Pastel'                                  # dynamic gradient background
+  pod 'ObjectMapper'                            # json mapping
+  pod 'Alamofire', '~> 4.7'                     # network requests
+  pod 'PromiseKit/CorePromise' , '~> 6.0'       # as title
   
 end

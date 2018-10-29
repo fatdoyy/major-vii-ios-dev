@@ -25,7 +25,7 @@ class NewsCellType2: UICollectionViewCell {
         
         //newsTitle.lineBreakMode = .byWordWrapping
         newsTitle.numberOfLines = 0
-        newsTitle.text = "Clockenflap 2018"
+        newsTitle.text = "123"
         newsTitle.textColor = .whiteText()
         
         timeLabel.text = "3 days ago"
