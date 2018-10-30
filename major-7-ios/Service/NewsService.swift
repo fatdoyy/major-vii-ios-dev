@@ -21,6 +21,7 @@ extension NewsService {
                     resolver.reject(PMKError.cancelled)
                     return
                 }
+                
                 resolver.fulfill(news)
                 }.catch { error in
                     resolver.reject(error)

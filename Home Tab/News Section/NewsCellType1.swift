@@ -29,7 +29,6 @@ class NewsCellType1: UICollectionViewCell {
         
         //newsTitle.lineBreakMode = .byWordWrapping
         newsTitle.numberOfLines = 0
-        newsTitle.text = "123"
         newsTitle.textColor = .whiteText()
         
         timeLabel.text = "1 month ago"
@@ -43,6 +42,7 @@ class NewsCellType1: UICollectionViewCell {
         
         bgImgView = UIImageView()
         bgImgView.frame = CGRect(x: 0, y: 0, width: NewsCellType1.cellWidth, height: NewsCellType1.cellHeight)
+        bgImgView.backgroundColor = .gray
         bgImgView.contentMode = .scaleAspectFill
         bgImgView.layer.cornerRadius = 12
         bgImgView.clipsToBounds = true
@@ -56,6 +56,7 @@ class NewsCellType1: UICollectionViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        
+        bgImgView.sd_cancelCurrentImageLoad()
+        bgImgView.image = nil
     }
 }

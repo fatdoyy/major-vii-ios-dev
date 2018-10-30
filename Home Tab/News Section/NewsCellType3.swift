@@ -40,10 +40,8 @@ class NewsCellType3: UICollectionViewCell {
             }
         }
         
-        newsTitle.text = "Clockenflap 2018"
         newsTitle.textColor = .whiteText()
         
-        subTitle.text = ""
         subTitle.textColor = .whiteText()
         
         timeLabel.text = "3 days ago"
@@ -70,7 +68,8 @@ class NewsCellType3: UICollectionViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        
+        bgImgView.sd_cancelCurrentImageLoad()
+        bgImgView.image = nil
     }
 
 }

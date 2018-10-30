@@ -19,8 +19,8 @@
                 <rect key="frame" x="0.0" y="0.0" width="335" height="258"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Rx-dO-zha">
-                        <rect key="frame" x="20" y="150.5" width="295" height="31.5"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="JL is releasing an brand new album" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Rx-dO-zha">
+                        <rect key="frame" x="20" y="153.5" width="295" height="62.5"/>
                         <fontDescription key="fontDescription" type="boldSystem" pointSize="26"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
@@ -46,13 +46,14 @@
                 </subviews>
             </view>
             <constraints>
+                <constraint firstItem="7Rx-dO-zha" firstAttribute="top" relation="lessThanOrEqual" secondItem="ZTg-uK-7eu" secondAttribute="top" constant="184.5" id="1kR-NY-Z43"/>
                 <constraint firstItem="ZTg-uK-7eu" firstAttribute="bottom" secondItem="a4A-eW-IR0" secondAttribute="bottom" constant="15" id="3Mj-pO-INH"/>
                 <constraint firstItem="ZTg-uK-7eu" firstAttribute="trailing" secondItem="7Rx-dO-zha" secondAttribute="trailing" constant="20" id="8BN-lU-yH5"/>
                 <constraint firstItem="Gkj-4I-2xb" firstAttribute="leading" secondItem="lgk-5A-gyd" secondAttribute="trailing" constant="4" id="FVM-rf-8r1"/>
+                <constraint firstItem="a4A-eW-IR0" firstAttribute="top" secondItem="7Rx-dO-zha" secondAttribute="bottom" constant="10" id="maQ-Qd-PNU"/>
                 <constraint firstItem="7Rx-dO-zha" firstAttribute="leading" secondItem="ZTg-uK-7eu" secondAttribute="leading" constant="20" id="pJA-gp-NgL"/>
                 <constraint firstItem="ZTg-uK-7eu" firstAttribute="trailing" secondItem="Gkj-4I-2xb" secondAttribute="trailing" constant="20" id="q9s-ju-Z8H"/>
                 <constraint firstItem="ZTg-uK-7eu" firstAttribute="bottom" secondItem="Gkj-4I-2xb" secondAttribute="bottom" constant="16" id="sYz-Fj-Uhe"/>
-                <constraint firstItem="7Rx-dO-zha" firstAttribute="top" secondItem="ZTg-uK-7eu" secondAttribute="top" constant="150.5" id="udZ-Tx-NWa"/>
                 <constraint firstItem="a4A-eW-IR0" firstAttribute="leading" secondItem="ZTg-uK-7eu" secondAttribute="leading" constant="20" id="yW9-Tb-dwE"/>
                 <constraint firstItem="ZTg-uK-7eu" firstAttribute="bottom" secondItem="lgk-5A-gyd" secondAttribute="bottom" constant="15" id="ze1-mt-ugJ"/>
             </constraints>

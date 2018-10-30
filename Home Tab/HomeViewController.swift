@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SDWebImage
 
 class HomeViewController: UIViewController {
     
@@ -20,9 +21,9 @@ class HomeViewController: UIViewController {
     private let newsCellType4Id = "newsCell4"
     private let newsCellType5Id = "newsCell5"
 
+    var coverImagesUrl: [String] = []
     var news: [News] = []
-    
-    //let cellType = 5
+    var cellType: Int?
     
     @IBOutlet weak var mainCollectionView: UICollectionView!
     
@@ -49,17 +50,28 @@ class HomeViewController: UIViewController {
         mainCollectionView.register(UINib.init(nibName: "NewsCellType4", bundle: nil), forCellWithReuseIdentifier: newsCellType4Id)
         mainCollectionView.register(UINib.init(nibName: "NewsCellType5", bundle: nil), forCellWithReuseIdentifier: newsCellType5Id)
         
-        NewsService.getNews().done{ news -> () in
-            self.news = news.list!
-            self.mainCollectionView.reloadData()
-            }.ensure {
-                UIApplication.shared.isNetworkActivityIndicatorVisible = false
-            }.catch { error in }
-        
+        getNews()
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
+    }
+    
+    func getNews(){
+        NewsService.getNews().done{ news -> () in
+            self.news = news.list!
+            
+//            for news in self.news{
+//                for coverImage in news.coverImages{
+//                    self.coverImagesUrl.append(coverImage.secureUrl!)
+//                    print(self.coverImagesUrl)
+//                }
+//            }
+            
+            self.mainCollectionView.reloadData()
+            }.ensure {
+                UIApplication.shared.isNetworkActivityIndicatorVisible = false
+            }.catch { error in }
     }
 }
 
@@ -70,7 +82,8 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
         if section == 0 {
             return 1
         } else {
-            return news.count
+            let count = news.isEmpty ? 2 : news.count
+            return count
         }
     }
     
@@ -83,56 +96,73 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
             let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: eventsSectionId, for: indexPath) as! EventsSection
             return cell
         } else { //news section
-            let cellType = news[indexPath.row].cellType
+            if !news.isEmpty{
+                self.cellType = news[indexPath.row].cellType!
+            }
+            
             switch cellType {
             case 1:
                 let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: newsCellType1Id, for: indexPath) as! NewsCellType1
-                let bgImg = UIImage(named: "music-studio-12")
-                
+
                 cell.newsTitle.text = news[indexPath.row].title
-                cell.bgImgView.image = bgImg
                 
+                cell.bgImgView.sd_imageTransition = .fade
+                if let url = URL(string: news[indexPath.row].coverImages[0].secureUrl!){
+                    cell.bgImgView.sd_setImage(with: url, completed: { (image, error, cacheType, imageURL) in
+                        print("image is set")
+                    })
+                }
                 return cell
             case 2:
                 let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: newsCellType2Id, for: indexPath) as! NewsCellType2
-                let bgImg = UIImage(named: "music-studio-12")
                 
                 cell.newsTitle.text = news[indexPath.row].title
-                cell.bgImgView.image = bgImg
+                
+                cell.bgImgView.sd_imageTransition = .fade
+                if let url = URL(string: news[indexPath.row].coverImages[0].secureUrl!){
+                    cell.bgImgView.sd_setImage(with: url, completed: { (image, error, cacheType, imageURL) in
+                        print("image is set")
+                    })
+                }
                 
                 return cell
             case 3:
                 let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: newsCellType3Id, for: indexPath) as! NewsCellType3
-                let bgImg = UIImage(named: "music-studio-12")
                 
                 cell.newsTitle.text = news[indexPath.row].title
                 cell.subTitle.text = news[indexPath.row].subTitle
-                cell.bgImgView.image = bgImg
+                
+                cell.bgImgView.sd_imageTransition = .fade
+                if let url = URL(string: news[indexPath.row].coverImages[0].secureUrl!){
+                    cell.bgImgView.sd_setImage(with: url, completed: { (image, error, cacheType, imageURL) in
+                        print("image is set")
+                    })
+                }
                 
                 return cell
             case 4:
                 let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: newsCellType4Id, for: indexPath) as! NewsCellType4
-                //let bgImg = UIImage(named: "music-studio-12")
                 
+                for view in cell.skeletonViews{ //hide all skeleton views because template 4 is the default template
+                    view.hideSkeleton()
+                }
+                
+                cell.gradientBg.startAnimation()
                 cell.newsTitle.text = news[indexPath.row].title
                 cell.subTitle.text = news[indexPath.row].subTitle
-                //cell.bgImgView.image = bgImg
                 
                 return cell
             case 5:
                 let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: newsCellType5Id, for: indexPath) as! NewsCellType5
-                //let bgImg = UIImage(named: "music-studio-12")
                 
                 cell.newsTitle.text = news[indexPath.row].title
                 cell.subTitle.text = news[indexPath.row].subTitle
-                //cell.bgImgView.image = bgImg
                 
                 return cell
-            default:
-                fatalError("Unexpected cell type!")
+            default: //loading template
+                let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: newsCellType4Id, for: indexPath) as! NewsCellType4
+                return cell
             }
-            
-
         }
     }
     
@@ -143,7 +173,9 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
             return CGSize(width: width, height: EventsSection.sectionHeight)
         } else {
             // News section
-            let cellType = news[indexPath.row].cellType
+            if !news.isEmpty{
+                self.cellType = news[indexPath.row].cellType!
+            }
             switch cellType {
             case 1, 2:
                 return CGSize(width: NewsCellType1.cellWidth, height: NewsCellType1.cellHeight)

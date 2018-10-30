@@ -19,32 +19,32 @@
                 <rect key="frame" x="0.0" y="0.0" width="335" height="203"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OBg-lJ-YT9">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="JL is releasing" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OBg-lJ-YT9">
                         <rect key="frame" x="20" y="60.5" width="295" height="31.5"/>
                         <fontDescription key="fontDescription" type="boldSystem" pointSize="26"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GDe-vZ-uph">
-                        <rect key="frame" x="20" y="171" width="36" height="17"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="3 days ago" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GDe-vZ-uph">
+                        <rect key="frame" x="20" y="171" width="70.5" height="17"/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bQK-He-l3L">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="views" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bQK-He-l3L">
                         <rect key="frame" x="284" y="172" width="31" height="15"/>
                         <fontDescription key="fontDescription" type="system" weight="light" pointSize="12"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iH5-Q6-ok1">
-                        <rect key="frame" x="243" y="171" width="37" height="17"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2,874" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iH5-Q6-ok1">
+                        <rect key="frame" x="241.5" y="171" width="38.5" height="17"/>
                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="14"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OMb-4P-InM">
-                        <rect key="frame" x="20" y="97" width="44" height="22"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Long awaited one." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OMb-4P-InM">
+                        <rect key="frame" x="20" y="97" width="145.5" height="22"/>
                         <fontDescription key="fontDescription" type="system" weight="light" pointSize="18"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
@@ -68,10 +68,14 @@
             <size key="customSize" width="191" height="123"/>
             <connections>
                 <outlet property="countLabel" destination="iH5-Q6-ok1" id="r63-Qt-xmK"/>
-                <outlet property="newsTitle" destination="OBg-lJ-YT9" id="B3A-hh-xR7"/>
+                <outlet property="newsTitle" destination="OBg-lJ-YT9" id="xGd-b4-Ck8"/>
                 <outlet property="subTitle" destination="OMb-4P-InM" id="BQg-Jh-g5H"/>
                 <outlet property="timeLabel" destination="GDe-vZ-uph" id="dOD-6d-KYZ"/>
                 <outlet property="viewsLabel" destination="bQK-He-l3L" id="nT4-2U-UQ1"/>
+                <outletCollection property="skeletonViews" destination="OBg-lJ-YT9" collectionClass="NSMutableArray" id="kWB-QH-e20"/>
+                <outletCollection property="skeletonViews" destination="OMb-4P-InM" collectionClass="NSMutableArray" id="XRm-o9-et5"/>
+                <outletCollection property="skeletonViews" destination="GDe-vZ-uph" collectionClass="NSMutableArray" id="Ih8-OL-B2S"/>
+                <outletCollection property="skeletonViews" destination="iH5-Q6-ok1" collectionClass="NSMutableArray" id="Ujb-Qk-ASq"/>
             </connections>
             <point key="canvasLocation" x="207" y="182"/>
         </collectionViewCell>

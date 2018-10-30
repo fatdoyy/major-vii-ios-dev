@@ -51,6 +51,9 @@ PODS:
   - ObjectMapper (3.3.0)
   - Pastel (0.5.1)
   - PromiseKit/CorePromise (6.5.2)
+  - SDWebImage (4.4.2):
+    - SDWebImage/Core (= 4.4.2)
+  - SDWebImage/Core (4.4.2)
   - SkeletonView (1.4.1)
   - SnapKit (4.0.1)
 
@@ -62,6 +65,7 @@ DEPENDENCIES:
   - ObjectMapper
   - Pastel
   - PromiseKit/CorePromise (~> 6.0)
+  - SDWebImage (~> 4.0)
   - SkeletonView
   - SnapKit (~> 4.0.0)
 
@@ -80,6 +84,7 @@ SPEC REPOS:
     - ObjectMapper
     - Pastel
     - PromiseKit
+    - SDWebImage
     - SkeletonView
     - SnapKit
 
@@ -97,9 +102,10 @@ SPEC CHECKSUMS:
   ObjectMapper: b612bf8c8e99c4dc0bb6013a51f7c27966ed5da9
   Pastel: b3dd5b8d612dac06ae7c63c97c45c900829bc139
   PromiseKit: 27c1601bfb73405871b805bcb8cf7e55c4dad3db
+  SDWebImage: 624d6e296c69b244bcede364c72ae0430ac14681
   SkeletonView: 60d6ce7edb0cb4c7758db33c74add50392b3c475
   SnapKit: 0de968a9fec17499afa29683b05d0c775b6d1c29
 
-PODFILE CHECKSUM: 75a5d9be923e8e8bb1e46576ac974b51dd01e09f
+PODFILE CHECKSUM: 94f5a3c50f3a213330381aea641307e8faa67d3b
 
 COCOAPODS: 1.5.3
