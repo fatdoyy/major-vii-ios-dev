@@ -77,6 +77,9 @@ class NewsCellType5: UICollectionViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        
+    }
+    
+    override var isHighlighted: Bool {
+        didSet { Animations.bounce(isHighlighted, view: self) }
     }
 }

@@ -18,6 +18,6 @@ target 'major-7-ios' do
   pod 'PromiseKit/CorePromise' , '~> 6.0'       # as title
   pod 'SDWebImage', '~> 4.0'                    # image downloading
   pod 'SkeletonView'                            # as title
-
+  pod 'BouncyLayout'                            # UICollectionView animation
   
 end

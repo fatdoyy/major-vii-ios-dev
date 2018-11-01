@@ -37,6 +37,8 @@
 		966A6CE021808BB100DF872F /* NewsCellType1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 966A6CDE21808BB100DF872F /* NewsCellType1.swift */; };
 		966A6CE121808BB100DF872F /* NewsCellType1.xib in Resources */ = {isa = PBXBuildFile; fileRef = 966A6CDF21808BB100DF872F /* NewsCellType1.xib */; };
 		966A6CE32180C15400DF872F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 966A6CE22180C15300DF872F /* Assets.xcassets */; };
+		96799FE221889D520074C828 /* Animations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96799FE121889D520074C828 /* Animations.swift */; };
+		96799FE4218AF8E70074C828 /* Hashtags.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96799FE3218AF8E60074C828 /* Hashtags.swift */; };
 		CA550AA621706A65008E493D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA550AA521706A65008E493D /* AppDelegate.swift */; };
 		CA550AAB21706A65008E493D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CA550AA921706A65008E493D /* Main.storyboard */; };
 		CA550AAE21706A65008E493D /* major_7_ios.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = CA550AAC21706A65008E493D /* major_7_ios.xcdatamodeld */; };
@@ -76,6 +78,8 @@
 		966A6CDE21808BB100DF872F /* NewsCellType1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsCellType1.swift; sourceTree = "<group>"; };
 		966A6CDF21808BB100DF872F /* NewsCellType1.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewsCellType1.xib; sourceTree = "<group>"; };
 		966A6CE22180C15300DF872F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		96799FE121889D520074C828 /* Animations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Animations.swift; sourceTree = "<group>"; };
+		96799FE3218AF8E60074C828 /* Hashtags.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hashtags.swift; sourceTree = "<group>"; };
 		CA550AA221706A65008E493D /* major-7-ios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "major-7-ios.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CA550AA521706A65008E493D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CA550AAA21706A65008E493D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -168,6 +172,8 @@
 			isa = PBXGroup;
 			children = (
 				966A6CC6217DC16500DF872F /* Colors.swift */,
+				96799FE121889D520074C828 /* Animations.swift */,
+				96799FE3218AF8E60074C828 /* Hashtags.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -327,6 +333,7 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-major-7-ios/Pods-major-7-ios-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/BouncyLayout/BouncyLayout.framework",
 				"${BUILT_PRODUCTS_DIR}/DynamicColor/DynamicColor.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
 				"${BUILT_PRODUCTS_DIR}/Localize-Swift/Localize_Swift.framework",
@@ -341,6 +348,7 @@
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/BouncyLayout.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DynamicColor.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Localize_Swift.framework",
@@ -401,7 +409,9 @@
 				CA550AA621706A65008E493D /* AppDelegate.swift in Sources */,
 				965838C221831866000FE8B0 /* NewsCellType5.swift in Sources */,
 				966A6CC5217DBDC400DF872F /* SettingsViewController.swift in Sources */,
+				96799FE4218AF8E70074C828 /* Hashtags.swift in Sources */,
 				966A6CDC218086BC00DF872F /* NewsHeaderView.swift in Sources */,
+				96799FE221889D520074C828 /* Animations.swift in Sources */,
 				965838B62181CAE7000FE8B0 /* NewsCellType2.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

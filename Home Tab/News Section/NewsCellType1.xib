@@ -65,7 +65,7 @@
                 <outlet property="timeLabel" destination="a4A-eW-IR0" id="XND-bn-oep"/>
                 <outlet property="viewsLabel" destination="Gkj-4I-2xb" id="Z5i-rn-jkN"/>
             </connections>
-            <point key="canvasLocation" x="207" y="182"/>
+            <point key="canvasLocation" x="205.59999999999999" y="181.70914542728636"/>
         </collectionViewCell>
     </objects>
 </document>

@@ -40,7 +40,6 @@ class News: Mappable {
     required init?(map: Map) {}
     
     func mapping(map: Map) {
-        
         id              <- map["_id"]
         isPublished     <- map["published"]
         publishTime     <- map["publish_time"]

@@ -26,6 +26,11 @@ extension UIColor {
         return UIColor(hexString: "#854cc5")
     }
     
+    class func mintGreen() -> UIColor {
+        return UIColor(hexString: "#51B79F")
+    }
+
+    
     //Text Colors
     class func whiteText() -> UIColor {
         return UIColor.white
@@ -41,5 +46,9 @@ extension UIColor {
     
     class func whiteText75Alpha() -> UIColor {
         return UIColor.white.withAlphaComponent(0.75)
+    }
+    
+    class func white15Alpha() -> UIColor {
+        return UIColor.white.withAlphaComponent(0.15)
     }
 }

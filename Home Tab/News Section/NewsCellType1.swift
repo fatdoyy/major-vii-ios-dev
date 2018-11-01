@@ -59,4 +59,8 @@ class NewsCellType1: UICollectionViewCell {
         bgImgView.sd_cancelCurrentImageLoad()
         bgImgView.image = nil
     }
+    
+    override var isHighlighted: Bool {
+        didSet { Animations.bounce(isHighlighted, view: self) }
+    }
 }
