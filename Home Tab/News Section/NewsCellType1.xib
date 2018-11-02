@@ -19,7 +19,11 @@
                 <rect key="frame" x="0.0" y="0.0" width="335" height="258"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="JL is releasing an brand new album" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Rx-dO-zha">
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eEd-hW-uKx" customClass="ImageOverlay" customModule="major_7_ios" customModuleProvider="target">
+                        <rect key="frame" x="0.0" y="129" width="335" height="129"/>
+                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </view>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="JL is releasing an brand new album." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Rx-dO-zha">
                         <rect key="frame" x="20" y="153.5" width="295" height="62.5"/>
                         <fontDescription key="fontDescription" type="boldSystem" pointSize="26"/>
                         <nil key="textColor"/>
@@ -46,14 +50,17 @@
                 </subviews>
             </view>
             <constraints>
-                <constraint firstItem="7Rx-dO-zha" firstAttribute="top" relation="lessThanOrEqual" secondItem="ZTg-uK-7eu" secondAttribute="top" constant="184.5" id="1kR-NY-Z43"/>
+                <constraint firstItem="eEd-hW-uKx" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="1R2-Zq-1ni"/>
                 <constraint firstItem="ZTg-uK-7eu" firstAttribute="bottom" secondItem="a4A-eW-IR0" secondAttribute="bottom" constant="15" id="3Mj-pO-INH"/>
+                <constraint firstItem="eEd-hW-uKx" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="129" id="3yo-jl-8k1"/>
                 <constraint firstItem="ZTg-uK-7eu" firstAttribute="trailing" secondItem="7Rx-dO-zha" secondAttribute="trailing" constant="20" id="8BN-lU-yH5"/>
+                <constraint firstAttribute="bottom" secondItem="eEd-hW-uKx" secondAttribute="bottom" id="99w-PW-Ow9"/>
                 <constraint firstItem="Gkj-4I-2xb" firstAttribute="leading" secondItem="lgk-5A-gyd" secondAttribute="trailing" constant="4" id="FVM-rf-8r1"/>
-                <constraint firstItem="a4A-eW-IR0" firstAttribute="top" secondItem="7Rx-dO-zha" secondAttribute="bottom" constant="10" id="maQ-Qd-PNU"/>
                 <constraint firstItem="7Rx-dO-zha" firstAttribute="leading" secondItem="ZTg-uK-7eu" secondAttribute="leading" constant="20" id="pJA-gp-NgL"/>
                 <constraint firstItem="ZTg-uK-7eu" firstAttribute="trailing" secondItem="Gkj-4I-2xb" secondAttribute="trailing" constant="20" id="q9s-ju-Z8H"/>
                 <constraint firstItem="ZTg-uK-7eu" firstAttribute="bottom" secondItem="Gkj-4I-2xb" secondAttribute="bottom" constant="16" id="sYz-Fj-Uhe"/>
+                <constraint firstItem="ZTg-uK-7eu" firstAttribute="bottom" secondItem="7Rx-dO-zha" secondAttribute="bottom" constant="42" id="uhX-La-HoF"/>
+                <constraint firstItem="eEd-hW-uKx" firstAttribute="centerX" secondItem="7Rx-dO-zha" secondAttribute="centerX" id="voQ-Pb-1Ox"/>
                 <constraint firstItem="a4A-eW-IR0" firstAttribute="leading" secondItem="ZTg-uK-7eu" secondAttribute="leading" constant="20" id="yW9-Tb-dwE"/>
                 <constraint firstItem="ZTg-uK-7eu" firstAttribute="bottom" secondItem="lgk-5A-gyd" secondAttribute="bottom" constant="15" id="ze1-mt-ugJ"/>
             </constraints>
@@ -61,6 +68,7 @@
             <size key="customSize" width="191" height="123"/>
             <connections>
                 <outlet property="countLabel" destination="lgk-5A-gyd" id="GDk-Cr-SIo"/>
+                <outlet property="imageOverlay" destination="eEd-hW-uKx" id="4Hm-So-eCZ"/>
                 <outlet property="newsTitle" destination="7Rx-dO-zha" id="7e5-U9-jSa"/>
                 <outlet property="timeLabel" destination="a4A-eW-IR0" id="XND-bn-oep"/>
                 <outlet property="viewsLabel" destination="Gkj-4I-2xb" id="Z5i-rn-jkN"/>

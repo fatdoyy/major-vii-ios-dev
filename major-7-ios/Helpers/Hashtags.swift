@@ -11,11 +11,13 @@ import UIKit
 
 class Hashtags {
     
-    static func create(x: CGFloat, y: CGFloat, dataSource: [String], toCell: UICollectionViewCell, multiLines: Bool? = false, solidColor: Bool? = false, type: Hashtags.type? = .top){
+    static func create(position: Hashtags.Position, dataSource: [String], toCell: UICollectionViewCell, multiLines: Bool? = false, solidColor: Bool? = false){
         var leftPaddingToCell: CGFloat = 20
         let rightPaddingToCell: CGFloat = 20
         
         var topPaddingToCell: CGFloat = 20
+        let bottomPaddingToCell: CGFloat = 55
+        
         let labelTopBottomPaddingInBgView: CGFloat = 5
         let labelLeftRightPaddingInBgView: CGFloat = 8
         let paddingBetweenTags: CGFloat = 10
@@ -24,12 +26,17 @@ class Hashtags {
             for tag in dataSource{
                 let tagLabel = UILabel()
                 
-
-                
-                tagLabel.frame = CGRect(x: x + leftPaddingToCell + labelLeftRightPaddingInBgView,
-                                        y: y + topPaddingToCell + labelTopBottomPaddingInBgView,
-                                        width: tagLabel.intrinsicContentSize.width,
-                                        height: 14)
+                if position == .top {
+                    tagLabel.frame = CGRect(x: toCell.contentView.frame.minX + leftPaddingToCell + labelLeftRightPaddingInBgView,
+                                            y: toCell.contentView.frame.minY + topPaddingToCell + labelTopBottomPaddingInBgView,
+                                            width: tagLabel.intrinsicContentSize.width,
+                                            height: 14)
+                } else {
+                    tagLabel.frame = CGRect(x: toCell.contentView.frame.minX + leftPaddingToCell + labelLeftRightPaddingInBgView,
+                                            y: toCell.frame.height - bottomPaddingToCell - labelTopBottomPaddingInBgView,
+                                            width: tagLabel.intrinsicContentSize.width,
+                                            height: 14)
+                }
                 
                 if !tagLabel.isHidden {
                     tagLabel.font = UIFont.systemFont(ofSize: 12, weight: .regular)
@@ -44,8 +51,8 @@ class Hashtags {
                                 leftPaddingToCell = 20
                                 
                                 var newFrame = tagLabel.frame
-                                newFrame.origin.x = x + leftPaddingToCell + labelLeftRightPaddingInBgView
-                                newFrame.origin.y = y + topPaddingToCell + labelTopBottomPaddingInBgView
+                                newFrame.origin.x = toCell.contentView.frame.minX + leftPaddingToCell + labelLeftRightPaddingInBgView
+                                newFrame.origin.y = toCell.contentView.frame.minY + topPaddingToCell + labelTopBottomPaddingInBgView
                                 tagLabel.frame = newFrame
                             }
                         } else {
@@ -55,7 +62,7 @@ class Hashtags {
                         }
                     }
                     
-                    if !tagLabel.isHidden{ //only add to subView when tagLabel is not set hidden
+                    if !tagLabel.isHidden{ //only add bgView under tagLabel when it's not set hidden
                         //background view under UILabel
                         let bgView = UIView(frame: CGRect(x: tagLabel.frame.minX - labelLeftRightPaddingInBgView,
                                                           y: tagLabel.frame.minY - labelTopBottomPaddingInBgView,
@@ -85,9 +92,8 @@ class Hashtags {
     }
 }
 
-
 extension Hashtags {
-    enum type {
+    enum Position {
         case top
         case bottom
     }

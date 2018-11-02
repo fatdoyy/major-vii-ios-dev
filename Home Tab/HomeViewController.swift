@@ -107,7 +107,7 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
             case 1:
                 let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: newsCellType1Id, for: indexPath) as! NewsCellType1
                 
-                Hashtags.create(x: cell.contentView.frame.minX, y: cell.contentView.frame.minY, dataSource: news[indexPath.row].hashtags, toCell: cell, multiLines: true, solidColor: true)
+                Hashtags.create(position: .top, dataSource: news[indexPath.row].hashtags, toCell: cell, multiLines: true, solidColor: true)
                 cell.newsTitle.text = news[indexPath.row].title
                 cell.bgImgView.sd_imageTransition = .fade
                 if let url = URL(string: news[indexPath.row].coverImages[0].secureUrl!){
@@ -120,7 +120,9 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
             case 2:
                 let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: newsCellType2Id, for: indexPath) as! NewsCellType2
                 
-                Hashtags.create(x: cell.contentView.frame.minX, y: cell.contentView.frame.height, dataSource: news[indexPath.row].hashtags, toCell: cell, solidColor: true)
+                print(cell.frame.height)
+                
+                Hashtags.create(position: .bottom, dataSource: news[indexPath.row].hashtags, toCell: cell, solidColor: true)
                 cell.newsTitle.text = news[indexPath.row].title
                 cell.bgImgView.sd_imageTransition = .fade
                 if let url = URL(string: news[indexPath.row].coverImages[0].secureUrl!){
@@ -133,7 +135,7 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
             case 3:
                 let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: newsCellType3Id, for: indexPath) as! NewsCellType3
                 
-                Hashtags.create(x: cell.contentView.frame.minX, y: cell.contentView.frame.minY, dataSource: news[indexPath.row].hashtags, toCell: cell, solidColor: true)
+                Hashtags.create(position: .top, dataSource: news[indexPath.row].hashtags, toCell: cell, solidColor: true)
                 cell.newsTitle.text = news[indexPath.row].title
                 cell.subTitle.text = news[indexPath.row].subTitle
                 
@@ -153,7 +155,7 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
                 }
                 
                 cell.gradientBg.startAnimation()
-                Hashtags.create(x: cell.contentView.frame.minX, y: cell.contentView.frame.minY, dataSource: news[indexPath.row].hashtags, toCell: cell)
+                Hashtags.create(position: .top, dataSource: news[indexPath.row].hashtags, toCell: cell)
                 cell.newsTitle.text = news[indexPath.row].title
                 cell.subTitle.text = news[indexPath.row].subTitle
                 
@@ -161,7 +163,7 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
             case 5:
                 let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: newsCellType5Id, for: indexPath) as! NewsCellType5
                 
-                Hashtags.create(x: cell.contentView.frame.minX, y: cell.contentView.frame.minY, dataSource: news[indexPath.row].hashtags, toCell: cell)
+                Hashtags.create(position: .top, dataSource: news[indexPath.row].hashtags, toCell: cell)
                 cell.newsTitle.text = news[indexPath.row].title
                 cell.subTitle.text = news[indexPath.row].subTitle
                 

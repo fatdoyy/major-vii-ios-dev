@@ -19,13 +19,16 @@ class NewsCellType1: UICollectionViewCell {
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var viewsLabel: UILabel!
     @IBOutlet weak var countLabel: UILabel!
-    
+    @IBOutlet weak var imageOverlay: ImageOverlay!
     
     var bgImgView = UIImageView()
     
     override func awakeFromNib() {
         super.awakeFromNib()
         backgroundColor = .darkGray()
+
+        imageOverlay.clipsToBounds = true
+        imageOverlay.layer.cornerRadius = 12
         
         //newsTitle.lineBreakMode = .byWordWrapping
         newsTitle.numberOfLines = 0
@@ -52,6 +55,7 @@ class NewsCellType1: UICollectionViewCell {
             make.height.equalTo(NewsCellType1.cellHeight)
         }
         sendSubviewToBack(bgImgView)
+       
     }
     
     override func prepareForReuse() {

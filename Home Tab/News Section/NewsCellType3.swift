@@ -63,7 +63,16 @@ class NewsCellType3: UICollectionViewCell {
             make.width.equalTo(Self.cellWidth)
             make.height.equalTo(Self.cellHeight)
         }
+        let overlayView = UIView()
+        overlayView.backgroundColor = UIColor(hexString: "333333").withAlphaComponent(0.75)
+        overlayView.layer.cornerRadius = 12
+        overlayView.snp.makeConstraints { (make) -> Void in
+            make.width.equalTo(Self.cellWidth)
+            make.height.equalTo(Self.cellHeight)
+        }
         sendSubviewToBack(bgImgView)
+        insertSubview(overlayView, aboveSubview: bgImgView)
+        
     }
     
     override func prepareForReuse() {

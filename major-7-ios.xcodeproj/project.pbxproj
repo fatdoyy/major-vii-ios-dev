@@ -39,6 +39,7 @@
 		966A6CE32180C15400DF872F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 966A6CE22180C15300DF872F /* Assets.xcassets */; };
 		96799FE221889D520074C828 /* Animations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96799FE121889D520074C828 /* Animations.swift */; };
 		96799FE4218AF8E70074C828 /* Hashtags.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96799FE3218AF8E60074C828 /* Hashtags.swift */; };
+		96799FE6218C5A280074C828 /* ImageOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96799FE5218C5A270074C828 /* ImageOverlay.swift */; };
 		CA550AA621706A65008E493D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA550AA521706A65008E493D /* AppDelegate.swift */; };
 		CA550AAB21706A65008E493D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CA550AA921706A65008E493D /* Main.storyboard */; };
 		CA550AAE21706A65008E493D /* major_7_ios.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = CA550AAC21706A65008E493D /* major_7_ios.xcdatamodeld */; };
@@ -80,6 +81,7 @@
 		966A6CE22180C15300DF872F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		96799FE121889D520074C828 /* Animations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Animations.swift; sourceTree = "<group>"; };
 		96799FE3218AF8E60074C828 /* Hashtags.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hashtags.swift; sourceTree = "<group>"; };
+		96799FE5218C5A270074C828 /* ImageOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageOverlay.swift; sourceTree = "<group>"; };
 		CA550AA221706A65008E493D /* major-7-ios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "major-7-ios.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CA550AA521706A65008E493D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CA550AAA21706A65008E493D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -174,6 +176,7 @@
 				966A6CC6217DC16500DF872F /* Colors.swift */,
 				96799FE121889D520074C828 /* Animations.swift */,
 				96799FE3218AF8E60074C828 /* Hashtags.swift */,
+				96799FE5218C5A270074C828 /* ImageOverlay.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -400,6 +403,7 @@
 				966A6CCC217DE6DD00DF872F /* EventsSection.swift in Sources */,
 				966A6CB8217DB5F500DF872F /* TabBarViewController.swift in Sources */,
 				964761ED2186FAAD0004F58C /* BaseService.swift in Sources */,
+				96799FE6218C5A280074C828 /* ImageOverlay.swift in Sources */,
 				966A6CC1217DBD9F00DF872F /* AgentsViewController.swift in Sources */,
 				CA550AAE21706A65008E493D /* major_7_ios.xcdatamodeld in Sources */,
 				966A6CD0217F096700DF872F /* HeaderView.swift in Sources */,
