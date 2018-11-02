@@ -20,7 +20,9 @@ class HomeViewController: UIViewController {
     private let newsCellType3Id = "newsCell3"
     private let newsCellType4Id = "newsCell4"
     private let newsCellType5Id = "newsCell5"
-
+    
+    private var cell1Flag = false
+    
     var coverImagesUrl: [String] = []
     var news: [News] = []
     var cellType: Int?
@@ -30,6 +32,8 @@ class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .darkGray()
+        
+        self.tabBarController?.delegate = self
         
         mainCollectionView.dataSource = self
         mainCollectionView.delegate = self
@@ -61,12 +65,12 @@ class HomeViewController: UIViewController {
         NewsService.fetchNews().done{ news -> () in
             self.news = news.list!
             
-//            for news in self.news{
-//                for tag in news.hashtags{
-//                    self.coverImagesUrl.append(tag)
-//                    print(self.coverImagesUrl)
-//                }
-//            }
+            //            for news in self.news{
+            //                for tag in news.hashtags{
+            //                    self.coverImagesUrl.append(tag)
+            //                    print(self.coverImagesUrl)
+            //                }
+            //            }
             
             self.mainCollectionView.reloadData()
             }.ensure {
@@ -80,7 +84,7 @@ class HomeViewController: UIViewController {
 // MARK: UICollectionView Data Source
 
 extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource, UICollectionViewDelegate {
-
+    
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if section == 0 {
@@ -108,6 +112,8 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
                 let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: newsCellType1Id, for: indexPath) as! NewsCellType1
                 
                 Hashtags.create(position: .top, dataSource: news[indexPath.row].hashtags, toCell: cell, multiLines: true, solidColor: true)
+                
+                
                 cell.newsTitle.text = news[indexPath.row].title
                 cell.bgImgView.sd_imageTransition = .fade
                 if let url = URL(string: news[indexPath.row].coverImages[0].secureUrl!){
@@ -120,7 +126,7 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
             case 2:
                 let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: newsCellType2Id, for: indexPath) as! NewsCellType2
                 
-                print(cell.frame.height)
+                //print(cell.frame.height)
                 
                 Hashtags.create(position: .bottom, dataSource: news[indexPath.row].hashtags, toCell: cell, solidColor: true)
                 cell.newsTitle.text = news[indexPath.row].title
@@ -149,8 +155,11 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
                 return cell
             case 4:
                 let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: newsCellType4Id, for: indexPath) as! NewsCellType4
-
+                
                 for view in cell.skeletonViews{ //hide all skeleton views because template 4 is the default template
+                    if view.tag == 2{ //remove dummyTagLabel
+                        view.removeFromSuperview()
+                    }
                     view.hideSkeleton()
                 }
                 
@@ -158,6 +167,7 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
                 Hashtags.create(position: .top, dataSource: news[indexPath.row].hashtags, toCell: cell)
                 cell.newsTitle.text = news[indexPath.row].title
                 cell.subTitle.text = news[indexPath.row].subTitle
+                
                 
                 return cell
             case 5:
@@ -216,7 +226,6 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
         }
     }
     
-    
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         
         switch kind {
@@ -228,12 +237,22 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
                 return reusableview
             default: //case 0
                 let reusableview = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: headerViewId, for: indexPath) as! HeaderView
-                
                 reusableview.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: HeaderView.viewHeight)
                 return reusableview
             }
-    
         default:  fatalError("Unexpected element kind")
+        }
+    }
+}
+
+extension HomeViewController: UITabBarControllerDelegate {
+    func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
+        let tabBarIndex = tabBarController.selectedIndex
+        
+        print(tabBarIndex)
+        
+        if tabBarIndex == 0 {
+            mainCollectionView.setContentOffset(CGPoint.zero, animated: true)
         }
     }
 }

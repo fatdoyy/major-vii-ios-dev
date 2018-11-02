@@ -17,12 +17,11 @@ class NewsCellType4: UICollectionViewCell {
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var viewsLabel: UILabel!
     @IBOutlet weak var countLabel: UILabel!
+    @IBOutlet weak var dummyTagLabel: UILabel!
     
     @IBOutlet var skeletonViews: Array<UILabel>!
-
     
     var gradientBg = PastelView()
-    //var skeletonViews = [newstitle]
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -55,6 +54,7 @@ class NewsCellType4: UICollectionViewCell {
         //gradientBg.isHidden = true
         
         SkeletonAppearance.default.multilineCornerRadius = 6
+        SkeletonAppearance.default.gradient = SkeletonGradient(baseColor: .gray)
         
         if UIDevice().userInterfaceIdiom == .phone {
             switch UIScreen.main.nativeBounds.height {
@@ -65,12 +65,9 @@ class NewsCellType4: UICollectionViewCell {
             }
         }
         
-//        newsTitle.snp.makeConstraints {(make) -> Void in
-//            make.width.equalTo(frame.width - 40)
-//        }
-        
-        let animation = SkeletonAnimationBuilder().makeSlidingAnimation(withDirection: .leftRight, duration: 1)
+        let animation = SkeletonAnimationBuilder().makeSlidingAnimation(withDirection: .leftRight, duration: 2)
         newsTitle.tag = 1
+        dummyTagLabel.tag = 2
         for view in skeletonViews{
             if view.tag == 1 {
                 SkeletonAppearance.default.multilineHeight = 20
@@ -78,9 +75,9 @@ class NewsCellType4: UICollectionViewCell {
                 SkeletonAppearance.default.multilineHeight = 15
             }
             view.isSkeletonable = true
-            view.showAnimatedSkeleton(animation: animation)
+            view.showAnimatedGradientSkeleton(animation: animation)
         }
-
+        
         newsTitle.lineBreakMode = .byTruncatingTail
         newsTitle.lastLineFillPercent = 70
         newsTitle.textColor = .whiteText()
@@ -92,12 +89,10 @@ class NewsCellType4: UICollectionViewCell {
         countLabel.textColor = .whiteText()
         
         viewsLabel.textColor = .whiteText()
-        
     }
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        
     }
     
     override var isHighlighted: Bool {
