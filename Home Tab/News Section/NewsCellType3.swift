@@ -10,6 +10,8 @@ import UIKit
 
 class NewsCellType3: UICollectionViewCell {
 
+    static let reuseIdentifier: String = "newsCell3"
+    
     private typealias `Self` = NewsCellType3
     
     static let aspectRatio: CGFloat = 335.0 / 203.0 //template 3 ratio according to zeplin

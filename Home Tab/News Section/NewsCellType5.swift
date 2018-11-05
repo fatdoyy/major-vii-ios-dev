@@ -11,6 +11,8 @@ import Pastel
 
 class NewsCellType5: UICollectionViewCell {
 
+    static let reuseIdentifier: String = "newsCell5"
+    
     @IBOutlet weak var newsTitle: UILabel!
     @IBOutlet weak var subTitle: UILabel!
     @IBOutlet weak var timeLabel: UILabel!

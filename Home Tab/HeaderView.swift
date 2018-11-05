@@ -10,7 +10,9 @@ import UIKit
 
 class HeaderView: UICollectionReusableView {
 
-    internal static let viewHeight: CGFloat = 58
+    static let reuseIdentifier: String = "header"
+
+    internal static let height: CGFloat = 58
     
     @IBOutlet weak var newsTitle: UILabel!
     

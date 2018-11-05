@@ -11,6 +11,8 @@ import SnapKit
 
 class NewsCellType2: UICollectionViewCell {
     
+    static let reuseIdentifier: String = "newsCell2"
+    
     @IBOutlet weak var newsTitle: UILabel!
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var viewsLabel: UILabel!

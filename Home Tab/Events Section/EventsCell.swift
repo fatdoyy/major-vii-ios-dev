@@ -10,6 +10,8 @@ import UIKit
 
 class EventsCell: UICollectionViewCell {
 
+    static let reuseIdentifier: String = "eventCell"
+    
     static let cellWidth: CGFloat = 197
     static let cellHeight: CGFloat = 96
     
@@ -42,5 +44,9 @@ class EventsCell: UICollectionViewCell {
         dateLabel.textColor = .whiteText()
         eventLabel.textColor = .whiteText()
         performerLabel.textColor = .whiteText()
+    }
+    
+    override var isHighlighted: Bool {
+        didSet { Animations.bounce(isHighlighted, view: self) }
     }
 }

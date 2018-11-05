@@ -94,7 +94,7 @@
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </tabBar>
                     <connections>
-                        <segue destination="sXn-Jw-JsF" kind="relationship" relationship="viewControllers" id="mEj-n3-OD1"/>
+                        <segue destination="24W-mU-zt7" kind="relationship" relationship="viewControllers" id="mEj-n3-OD1"/>
                         <segue destination="ISg-XY-dAr" kind="relationship" relationship="viewControllers" id="5Gy-VL-jnl"/>
                         <segue destination="JNt-6k-y41" kind="relationship" relationship="viewControllers" id="zI7-hD-bDb"/>
                         <segue destination="wTP-qq-E8x" kind="relationship" relationship="viewControllers" id="AZQ-vC-L3I"/>
@@ -114,7 +114,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="jRV-mZ-rWk">
-                                <rect key="frame" x="0.0" y="44" width="375" height="685"/>
+                                <rect key="frame" x="0.0" y="88" width="375" height="641"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="20" minimumInteritemSpacing="0.0" id="up6-qi-OQN">
                                     <size key="itemSize" width="50" height="50"/>
@@ -134,15 +134,50 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Qmu-PV-ePk"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="" image="tabbar_explore" id="qnY-OO-jlc">
-                        <inset key="imageInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="-10"/>
-                    </tabBarItem>
+                    <navigationItem key="navigationItem" id="xuC-tY-7LJ"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="mainCollectionView" destination="jRV-mZ-rWk" id="U6G-un-PRI"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HVC-kG-RG6" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1861.5999999999999" y="-1675.1231527093596"/>
+        </scene>
+        <!--Events List View Controller-->
+        <scene sceneID="OQ6-Fa-v8w">
+            <objects>
+                <viewController storyboardIdentifier="eventsVc" id="C84-6i-1Og" customClass="EventsListViewController" customModule="major_7_ios" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="ZTv-ls-liq">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="wwf-Ze-8TO"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="c0U-xo-uyT"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="qoJ-B8-Y4x" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2817" y="-1675"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="jwi-gD-kLw">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="24W-mU-zt7" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="" image="tabbar_explore" id="qnY-OO-jlc">
+                        <inset key="imageInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="-10"/>
+                    </tabBarItem>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="MOF-FI-OrC">
+                        <rect key="frame" x="0.0" y="44" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="sXn-Jw-JsF" kind="relationship" relationship="rootViewController" id="040-qU-UKm"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="6Jk-na-5c4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="919.20000000000005" y="-1675.1231527093596"/>
         </scene>

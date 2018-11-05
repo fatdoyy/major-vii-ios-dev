@@ -39,6 +39,9 @@
                         <rect key="frame" x="327" y="20" width="38" height="27"/>
                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                         <state key="normal" title="Button"/>
+                        <connections>
+                            <action selector="viewAllBtnTapped:" destination="gTV-IL-0wX" eventType="touchUpInside" id="27M-hn-ekj"/>
+                        </connections>
                     </button>
                 </subviews>
             </view>

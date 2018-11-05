@@ -10,7 +10,9 @@ import UIKit
 import SnapKit
 
 class NewsCellType1: UICollectionViewCell {
-        
+    
+    static let reuseIdentifier: String = "newsCell1"
+    
     static let aspectRatio: CGFloat = 335.0 / 258.0 //according to zeplin
     static let cellWidth = UIScreen.main.bounds.width - 40 // minus leading (20pt) and trailing (20pt) space
     static let cellHeight = cellWidth / aspectRatio

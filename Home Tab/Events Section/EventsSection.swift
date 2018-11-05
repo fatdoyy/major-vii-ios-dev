@@ -7,11 +7,19 @@
 //
 
 import UIKit
+import BouncyLayout
+
+protocol EventsSectionDelegate {
+    func viewAllBtnTapped()
+}
 
 class EventsSection: UICollectionViewCell, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     
+    var delegate: EventsSectionDelegate?
+    
+    static let reuseIdentifier: String = "eventsSection"
+    
     static let sectionHeight: CGFloat = 163 //equals to xib frame height
-    private let eventCellId = "eventCell"
 
     @IBOutlet weak var eventsCollectionView: UICollectionView!
     @IBOutlet weak var eventsLabel: UILabel!
@@ -35,18 +43,25 @@ class EventsSection: UICollectionViewCell, UICollectionViewDataSource, UICollect
         eventsCollectionView.showsHorizontalScrollIndicator = false
         
         eventsCollectionView.backgroundColor = .darkGray()
-        eventsCollectionView.register(UINib.init(nibName: "EventsCell", bundle: nil), forCellWithReuseIdentifier: eventCellId)
+        eventsCollectionView.register(UINib.init(nibName: "EventsCell", bundle: nil), forCellWithReuseIdentifier: EventsCell.reuseIdentifier)
 
     }
+    @IBAction func viewAllBtnTapped(_ sender: Any) {
+
+        delegate?.viewAllBtnTapped()
+        //print("clicked")
+
+       //self.window?.rootViewController?.present(nextViewController, animated:true, completion:nil)
+    }
     
-    // MARK: UICollectionView Delegate Methods
+    // MARK: UICollectionView Data Source
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 4
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = eventsCollectionView.dequeueReusableCell(withReuseIdentifier: eventCellId, for: indexPath) as! EventsCell
+        let cell = eventsCollectionView.dequeueReusableCell(withReuseIdentifier: EventsCell.reuseIdentifier, for: indexPath) as! EventsCell
         return cell
     }
     
@@ -54,4 +69,7 @@ class EventsSection: UICollectionViewCell, UICollectionViewDataSource, UICollect
         return CGSize(width: EventsCell.cellWidth, height: EventsCell.cellHeight)
     }
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print("\(indexPath.row)")
+    }
 }
