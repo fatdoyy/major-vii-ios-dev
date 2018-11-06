@@ -41,6 +41,10 @@
 		96799FE4218AF8E70074C828 /* Hashtags.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96799FE3218AF8E60074C828 /* Hashtags.swift */; };
 		96799FE6218C5A280074C828 /* ImageOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96799FE5218C5A270074C828 /* ImageOverlay.swift */; };
 		96C55414219044D00065D70A /* EventsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96C55413219044D00065D70A /* EventsListViewController.swift */; };
+		96C5541B21918CB90065D70A /* TrendingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96C5541921918CB90065D70A /* TrendingCell.swift */; };
+		96C5541C21918CB90065D70A /* TrendingCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96C5541A21918CB90065D70A /* TrendingCell.xib */; };
+		96C5541F219199700065D70A /* TrendingSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96C5541D219199700065D70A /* TrendingSection.swift */; };
+		96C55420219199700065D70A /* TrendingSection.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96C5541E219199700065D70A /* TrendingSection.xib */; };
 		CA550AA621706A65008E493D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA550AA521706A65008E493D /* AppDelegate.swift */; };
 		CA550AAB21706A65008E493D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CA550AA921706A65008E493D /* Main.storyboard */; };
 		CA550AAE21706A65008E493D /* major_7_ios.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = CA550AAC21706A65008E493D /* major_7_ios.xcdatamodeld */; };
@@ -84,6 +88,10 @@
 		96799FE3218AF8E60074C828 /* Hashtags.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hashtags.swift; sourceTree = "<group>"; };
 		96799FE5218C5A270074C828 /* ImageOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageOverlay.swift; sourceTree = "<group>"; };
 		96C55413219044D00065D70A /* EventsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsListViewController.swift; sourceTree = "<group>"; };
+		96C5541921918CB90065D70A /* TrendingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendingCell.swift; sourceTree = "<group>"; };
+		96C5541A21918CB90065D70A /* TrendingCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TrendingCell.xib; sourceTree = "<group>"; };
+		96C5541D219199700065D70A /* TrendingSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendingSection.swift; sourceTree = "<group>"; };
+		96C5541E219199700065D70A /* TrendingSection.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TrendingSection.xib; sourceTree = "<group>"; };
 		CA550AA221706A65008E493D /* major-7-ios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "major-7-ios.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CA550AA521706A65008E493D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CA550AAA21706A65008E493D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -221,6 +229,10 @@
 			isa = PBXGroup;
 			children = (
 				96C55413219044D00065D70A /* EventsListViewController.swift */,
+				96C5541D219199700065D70A /* TrendingSection.swift */,
+				96C5541E219199700065D70A /* TrendingSection.xib */,
+				96C5541921918CB90065D70A /* TrendingCell.swift */,
+				96C5541A21918CB90065D70A /* TrendingCell.xib */,
 			);
 			path = Events;
 			sourceTree = "<group>";
@@ -324,7 +336,9 @@
 				CA550ABB21706BA5008E493D /* GoogleService-Info.plist in Resources */,
 				965838C321831866000FE8B0 /* NewsCellType5.xib in Resources */,
 				966A6CDD218086BC00DF872F /* NewsHeaderView.xib in Resources */,
+				96C55420219199700065D70A /* TrendingSection.xib in Resources */,
 				966A6CD1217F096700DF872F /* HeaderView.xib in Resources */,
+				96C5541C21918CB90065D70A /* TrendingCell.xib in Resources */,
 				966A6CD52180492F00DF872F /* EventsCell.xib in Resources */,
 				965838BF218317CE000FE8B0 /* NewsCellType4.xib in Resources */,
 				965838BB2181CAFE000FE8B0 /* NewsCellType3.xib in Resources */,
@@ -407,10 +421,12 @@
 				965838BA2181CAFE000FE8B0 /* NewsCellType3.swift in Sources */,
 				966A6CD42180492F00DF872F /* EventsCell.swift in Sources */,
 				966A6CBC217DB86D00DF872F /* HomeViewController.swift in Sources */,
+				96C5541F219199700065D70A /* TrendingSection.swift in Sources */,
 				964761EF21870EE60004F58C /* NewsService.swift in Sources */,
 				966A6CC7217DC16500DF872F /* Colors.swift in Sources */,
 				966A6CC3217DBDAF00DF872F /* EventsViewController.swift in Sources */,
 				965838BE218317CE000FE8B0 /* NewsCellType4.swift in Sources */,
+				96C5541B21918CB90065D70A /* TrendingCell.swift in Sources */,
 				966A6CCC217DE6DD00DF872F /* EventsSection.swift in Sources */,
 				966A6CB8217DB5F500DF872F /* TabBarViewController.swift in Sources */,
 				964761ED2186FAAD0004F58C /* BaseService.swift in Sources */,

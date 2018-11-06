@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Localize_Swift
 
 class HeaderView: UICollectionReusableView {
 

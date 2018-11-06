@@ -13,13 +13,13 @@ protocol EventsSectionDelegate {
     func viewAllBtnTapped()
 }
 
-class EventsSection: UICollectionViewCell, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+class EventsSection: UICollectionViewCell {
     
     var delegate: EventsSectionDelegate?
     
     static let reuseIdentifier: String = "eventsSection"
     
-    static let sectionHeight: CGFloat = 163 //equals to xib frame height
+    static let height: CGFloat = 163 //equals to xib frame height
 
     @IBOutlet weak var eventsCollectionView: UICollectionView!
     @IBOutlet weak var eventsLabel: UILabel!
@@ -44,18 +44,16 @@ class EventsSection: UICollectionViewCell, UICollectionViewDataSource, UICollect
         
         eventsCollectionView.backgroundColor = .darkGray()
         eventsCollectionView.register(UINib.init(nibName: "EventsCell", bundle: nil), forCellWithReuseIdentifier: EventsCell.reuseIdentifier)
-
     }
+    
     @IBAction func viewAllBtnTapped(_ sender: Any) {
-
         delegate?.viewAllBtnTapped()
-        //print("clicked")
-
-       //self.window?.rootViewController?.present(nextViewController, animated:true, completion:nil)
     }
     
-    // MARK: UICollectionView Data Source
-    
+}
+
+// MARK: UICollectionView Data Source
+extension EventsSection: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 4
     }

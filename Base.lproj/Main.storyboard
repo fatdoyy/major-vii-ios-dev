@@ -114,7 +114,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="jRV-mZ-rWk">
-                                <rect key="frame" x="0.0" y="88" width="375" height="641"/>
+                                <rect key="frame" x="0.0" y="88" width="375" height="724"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="20" minimumInteritemSpacing="0.0" id="up6-qi-OQN">
                                     <size key="itemSize" width="50" height="50"/>
@@ -128,7 +128,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="jRV-mZ-rWk" firstAttribute="leading" secondItem="ENP-Qc-3Y5" secondAttribute="leading" id="MWE-4W-BIV"/>
-                            <constraint firstItem="jRV-mZ-rWk" firstAttribute="bottom" secondItem="Qmu-PV-ePk" secondAttribute="bottom" id="kyN-Kc-8Ak"/>
+                            <constraint firstAttribute="bottom" secondItem="jRV-mZ-rWk" secondAttribute="bottom" id="chZ-Xt-blY"/>
                             <constraint firstItem="jRV-mZ-rWk" firstAttribute="top" secondItem="Qmu-PV-ePk" secondAttribute="top" id="phh-Ho-A2a"/>
                             <constraint firstAttribute="trailing" secondItem="jRV-mZ-rWk" secondAttribute="trailing" id="zZh-Yi-DAA"/>
                         </constraints>
@@ -151,14 +151,36 @@
                     <view key="view" contentMode="scaleToFill" id="ZTv-ls-liq">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="xs1-tf-VX4">
+                                <rect key="frame" x="0.0" y="44" width="375" height="768"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="ulZ-OY-Nvb">
+                                    <size key="itemSize" width="50" height="50"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells/>
+                            </collectionView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="xs1-tf-VX4" secondAttribute="trailing" id="MYL-zv-pBM"/>
+                            <constraint firstItem="xs1-tf-VX4" firstAttribute="leading" secondItem="ZTv-ls-liq" secondAttribute="leading" id="PVr-NG-59g"/>
+                            <constraint firstAttribute="bottom" secondItem="xs1-tf-VX4" secondAttribute="bottom" id="WR2-qV-3yY"/>
+                            <constraint firstItem="xs1-tf-VX4" firstAttribute="top" secondItem="wwf-Ze-8TO" secondAttribute="top" id="wSd-mZ-YUx"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="wwf-Ze-8TO"/>
                     </view>
                     <navigationItem key="navigationItem" id="c0U-xo-uyT"/>
+                    <connections>
+                        <outlet property="mainCollectionView" destination="xs1-tf-VX4" id="s6T-Ym-SHb"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qoJ-B8-Y4x" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2817" y="-1675"/>
+            <point key="canvasLocation" x="2816.8000000000002" y="-1675.1231527093596"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="jwi-gD-kLw">

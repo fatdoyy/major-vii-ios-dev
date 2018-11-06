@@ -8,8 +8,9 @@
 
 import UIKit
 import SDWebImage
+import Localize_Swift
 
-class HomeViewController: UIViewController {
+class HomeViewController: UIViewController, UIGestureRecognizerDelegate {
     
     var coverImagesUrl: [String] = []
     var news: [News] = []
@@ -21,7 +22,6 @@ class HomeViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .darkGray()
         
-        //self.navigationController?.navigationBar.barStyle = .black
         self.tabBarController?.delegate = self
         
         mainCollectionView.dataSource = self
@@ -45,7 +45,6 @@ class HomeViewController: UIViewController {
         
         fetchNews()
     }
-    
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
@@ -99,9 +98,7 @@ class HomeViewController: UIViewController {
 extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource, UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if section == 0 {
-            return 1
-        } else {
+        if section == 0 { return 1 } else {
             let count = news.isEmpty ? 2 : news.count
             return count
         }
@@ -117,9 +114,8 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
             cell.delegate = self
             return cell
         } else { //news section
-            if !news.isEmpty{
-                self.cellType = news[indexPath.row].cellType!
-            }
+            if !news.isEmpty { self.cellType = news[indexPath.row].cellType! }
+            
             switch cellType {
             case 1:
                 let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: NewsCellType1.reuseIdentifier, for: indexPath) as! NewsCellType1
@@ -189,19 +185,13 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let width = self.view.frame.width
-        if indexPath.section == 0 {
-            // Upcoming events section
-            return CGSize(width: width, height: EventsSection.sectionHeight)
-        } else {
+        // Upcoming events section
+        if indexPath.section == 0 { return CGSize(width: width, height: EventsSection.height)} else {
             // News section
-            if !news.isEmpty{
-                self.cellType = news[indexPath.row].cellType!
-            }
+            if !news.isEmpty { self.cellType = news[indexPath.row].cellType! }
             switch cellType {
-            case 1, 2:
-                return CGSize(width: NewsCellType1.cellWidth, height: NewsCellType1.cellHeight)
-            default:
-                return CGSize(width: NewsCellType3.cellWidth, height: NewsCellType3.cellHeight)
+            case 1, 2:  return CGSize(width: NewsCellType1.cellWidth, height: NewsCellType1.cellHeight)
+            default:    return CGSize(width: NewsCellType3.cellWidth, height: NewsCellType3.cellHeight)
             }
         }
     }
@@ -224,7 +214,7 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
         if section == 0 {
             return CGSize(width: mainCollectionView.bounds.width, height: HeaderView.height)
         } else {
-            return CGSize(width: mainCollectionView.bounds.width, height: NewsHeaderView.viewHeight)
+            return CGSize(width: mainCollectionView.bounds.width, height: NewsHeaderView.height)
         }
     }
     
@@ -270,6 +260,7 @@ extension HomeViewController: UITabBarControllerDelegate {
     }
 }
 
+//avoid preferredStatusBarStyle not being called
 extension UINavigationController {
     override open var childForStatusBarStyle: UIViewController? {
         return self.topViewController

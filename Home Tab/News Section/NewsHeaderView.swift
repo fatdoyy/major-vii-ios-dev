@@ -12,7 +12,7 @@ class NewsHeaderView: UICollectionViewCell{
 
     static let reuseIdentifier: String = "newsHeader"
     
-    static let viewHeight: CGFloat = 74 //height form xib frame
+    static let height: CGFloat = 74 //height form xib frame
     
     @IBOutlet weak var newsLabel: UILabel!
     @IBOutlet weak var postsLabel: UILabel!
