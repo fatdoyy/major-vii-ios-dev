@@ -64,7 +64,7 @@ extension EventsSection: UICollectionViewDataSource, UICollectionViewDelegate, U
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: EventsCell.cellWidth, height: EventsCell.cellHeight)
+        return CGSize(width: EventsCell.width, height: EventsCell.height)
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {

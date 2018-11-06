@@ -16,23 +16,25 @@ class TrendingCell: UICollectionViewCell {
     private typealias `Self` = TrendingCell
     
     static let aspectRatio: CGFloat = 335.0 / 210.0 //ratio according to zeplin
-    static let width = NewsCellType1.cellWidth
-    static let height: CGFloat = width / aspectRatio
+    static let width = UIScreen.main.bounds.width - 40
+    static var height: CGFloat = width / aspectRatio
+    //static var height: CGFloat?
     
     @IBOutlet weak var eventTitle: UILabel!
     @IBOutlet weak var performerLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var imageOverlay: ImageOverlay!
 
-    
     @IBOutlet var skeletonViews: Array<UILabel>!
     
     var bgImgView = UIImageView()
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        backgroundColor = .red
+        backgroundColor = .darkGray()
         layer.cornerRadius = 12
+        
+        //print("cell.frame.height = \(self.frame.height)")
         
         imageOverlay.clipsToBounds = true
         imageOverlay.layer.cornerRadius = 12
@@ -67,6 +69,11 @@ class TrendingCell: UICollectionViewCell {
             make.height.equalTo(Self.height)
         }
         sendSubviewToBack(bgImgView)
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        print("TrendingCell.height = \(self.frame.size.height)")
     }
     
     override var isHighlighted: Bool {

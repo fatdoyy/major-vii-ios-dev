@@ -190,7 +190,7 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
             // News section
             if !news.isEmpty { self.cellType = news[indexPath.row].cellType! }
             switch cellType {
-            case 1, 2:  return CGSize(width: NewsCellType1.cellWidth, height: NewsCellType1.cellHeight)
+            case 1, 2:  return CGSize(width: NewsCellType1.width, height: NewsCellType1.height)
             default:    return CGSize(width: NewsCellType3.cellWidth, height: NewsCellType3.cellHeight)
             }
         }

@@ -43,14 +43,14 @@ class NewsCellType2: UICollectionViewCell {
         viewsLabel.textColor = .whiteText()
         
         bgImgView = UIImageView()
-        bgImgView.frame = CGRect(x: 0, y: 0, width: NewsCellType1.cellWidth, height: NewsCellType1.cellHeight)
+        bgImgView.frame = CGRect(x: 0, y: 0, width: NewsCellType1.width, height: NewsCellType1.height)
         bgImgView.contentMode = .scaleAspectFill
         bgImgView.layer.cornerRadius = 12
         bgImgView.clipsToBounds = true
         addSubview(bgImgView)
         bgImgView.snp.makeConstraints { (make) -> Void in
-            make.width.equalTo(NewsCellType1.cellWidth)
-            make.height.equalTo(NewsCellType1.cellHeight)
+            make.width.equalTo(NewsCellType1.width)
+            make.height.equalTo(NewsCellType1.height)
         }
         sendSubviewToBack(bgImgView)
     }

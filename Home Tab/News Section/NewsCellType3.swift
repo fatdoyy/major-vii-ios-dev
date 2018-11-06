@@ -15,7 +15,7 @@ class NewsCellType3: UICollectionViewCell {
     private typealias `Self` = NewsCellType3
     
     static let aspectRatio: CGFloat = 335.0 / 203.0 //template 3 ratio according to zeplin
-    static let cellWidth = NewsCellType1.cellWidth
+    static let cellWidth = NewsCellType1.width
     static let cellHeight: CGFloat = cellWidth / aspectRatio
     
     @IBOutlet weak var newsTitle: UILabel!

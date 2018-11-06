@@ -139,7 +139,7 @@ extension EventsListViewController: UICollectionViewDelegate, UICollectionViewDe
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 5
+        return 2
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {

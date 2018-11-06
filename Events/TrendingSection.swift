@@ -12,8 +12,8 @@ class TrendingSection: UICollectionViewCell {
 
     static let reuseIdentifier = "tredingSection"
     
-    static let aspectRatio: CGFloat = 335.0 / 294.0 //ratio according to zeplin
-    static let width = NewsCellType1.cellWidth
+    static let aspectRatio: CGFloat = 335.0 / 293.0 //ratio according to zeplin
+    static let width = NewsCellType1.width
     static let height: CGFloat = width / aspectRatio
     
     @IBOutlet weak var trendingCollectionView: UICollectionView!
@@ -21,7 +21,7 @@ class TrendingSection: UICollectionViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        
+
         trendingLabel.textColor = .whiteText()
         trendingLabel.text = "Trending"
         
@@ -35,6 +35,13 @@ class TrendingSection: UICollectionViewCell {
         trendingCollectionView.register(UINib.init(nibName: "TrendingCell", bundle: nil), forCellWithReuseIdentifier: TrendingCell.reuseIdentifier)
     }
 
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        print("TrendingSection.height = \(self.frame.size.height)")
+        print("trendingCollectionView.frame.height = \(trendingCollectionView.frame.height)")
+        trendingCollectionView.frame.size.height = TrendingCell.height
+    }
 }
 
 // MARK: UICollectionView Data Source
@@ -48,6 +55,7 @@ extension TrendingSection: UICollectionViewDataSource, UICollectionViewDelegate,
         cell.eventTitle.text = "This is a good event"
         cell.performerLabel.text = "Billy Fung"
         cell.bgImgView.image = UIImage(named: "music-studio-12")
+        cell.bgImgView.backgroundColor = .lightGray
         return cell
     }
     

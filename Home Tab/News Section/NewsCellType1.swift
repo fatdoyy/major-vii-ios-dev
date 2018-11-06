@@ -14,8 +14,8 @@ class NewsCellType1: UICollectionViewCell {
     static let reuseIdentifier: String = "newsCell1"
     
     static let aspectRatio: CGFloat = 335.0 / 258.0 //according to zeplin
-    static let cellWidth = UIScreen.main.bounds.width - 40 // minus leading (20pt) and trailing (20pt) space
-    static let cellHeight = cellWidth / aspectRatio
+    static let width = UIScreen.main.bounds.width - 40 // minus leading (20pt) and trailing (20pt) space
+    static let height = width / aspectRatio
     
     @IBOutlet weak var newsTitle: UILabel!
     @IBOutlet weak var timeLabel: UILabel!
@@ -46,15 +46,15 @@ class NewsCellType1: UICollectionViewCell {
         viewsLabel.textColor = .whiteText()
         
         bgImgView = UIImageView()
-        bgImgView.frame = CGRect(x: 0, y: 0, width: NewsCellType1.cellWidth, height: NewsCellType1.cellHeight)
+        bgImgView.frame = CGRect(x: 0, y: 0, width: NewsCellType1.width, height: NewsCellType1.height)
         bgImgView.backgroundColor = .gray
         bgImgView.contentMode = .scaleAspectFill
         bgImgView.layer.cornerRadius = 12
         bgImgView.clipsToBounds = true
         addSubview(bgImgView)
         bgImgView.snp.makeConstraints { (make) -> Void in
-            make.width.equalTo(NewsCellType1.cellWidth)
-            make.height.equalTo(NewsCellType1.cellHeight)
+            make.width.equalTo(NewsCellType1.width)
+            make.height.equalTo(NewsCellType1.height)
         }
         sendSubviewToBack(bgImgView)
        

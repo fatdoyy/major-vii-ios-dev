@@ -12,8 +12,8 @@ class EventsCell: UICollectionViewCell {
 
     static let reuseIdentifier: String = "eventCell"
     
-    static let cellWidth: CGFloat = 197
-    static let cellHeight: CGFloat = 96
+    static let width: CGFloat = 197
+    static let height: CGFloat = 96
     
     @IBOutlet weak var bgView: UIView!
     @IBOutlet weak var dateLabel: UILabel!
