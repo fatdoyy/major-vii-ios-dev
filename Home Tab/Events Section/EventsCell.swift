@@ -29,7 +29,7 @@ class EventsCell: UICollectionViewCell {
         let layer = CAGradientLayer()
         layer.colors = [UIColor.lightPurple().cgColor, UIColor.darkPurple().cgColor]
         layer.frame = bgView.bounds
-        layer.cornerRadius = 12
+        layer.cornerRadius = GlobalCornerRadius.value
         layer.startPoint = CGPoint(x: 0, y: 0.5)
         layer.endPoint = CGPoint(x: 1, y: 0.5)
         bgView.layer.insertSublayer(layer, at: 0)

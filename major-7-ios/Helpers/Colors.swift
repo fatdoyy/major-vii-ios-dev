@@ -18,6 +18,10 @@ extension UIColor {
         return UIColor(red:0.12, green:0.12, blue:0.14, alpha:1.0)
     }
     
+    class func charcoal() -> UIColor {
+        return UIColor(hexString: "#292b32")
+    }
+    
     class func lightPurple() -> UIColor {
         return UIColor(hexString: "#3498db")
     }
@@ -30,6 +34,9 @@ extension UIColor {
         return UIColor(hexString: "#51B79F")
     }
 
+    class func white15Alpha() -> UIColor {
+        return UIColor.white.withAlphaComponent(0.15)
+    }
     
     //Text Colors
     class func whiteText() -> UIColor {
@@ -47,9 +54,9 @@ extension UIColor {
     class func whiteText75Alpha() -> UIColor {
         return UIColor.white.withAlphaComponent(0.75)
     }
-    
-    class func white15Alpha() -> UIColor {
-        return UIColor.white.withAlphaComponent(0.15)
+
+    class func purpleText() -> UIColor {
+        return UIColor(hexString: "#7e7ecf")
     }
 }
 

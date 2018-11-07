@@ -30,7 +30,9 @@ class EventsListViewController: UIViewController, UIGestureRecognizerDelegate {
         setupRightBarItems()
         
         mainCollectionView.register(UINib.init(nibName: "TrendingSection", bundle: nil), forCellWithReuseIdentifier: TrendingSection.reuseIdentifier)
-        
+        mainCollectionView.register(UINib.init(nibName: "FollowingSection", bundle: nil), forCellWithReuseIdentifier: FollowingSection.reuseIdentifier)
+        mainCollectionView.register(UINib.init(nibName: "BookmarkSection", bundle: nil), forCellWithReuseIdentifier: BookmarkSection.reuseIdentifier)
+        mainCollectionView.register(UINib.init(nibName: "SuggestedCell", bundle: nil), forCellWithReuseIdentifier: SuggestedCell.reuseIdentifier)
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -132,35 +134,66 @@ class EventsListViewController: UIViewController, UIGestureRecognizerDelegate {
 
 extension EventsListViewController: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        switch section{
-        case 3:  return 2 //suggestedEvents.count
-        default: return 1
+        if let section = Section(rawValue: section){
+            switch section{
+            case .Suggested:  return 2 //suggestedEvents.count
+            default: return 1 //return the cell contains horizontal collection view
+            }
+        } else {
+            fatalError("numberOfItemsInSection section error!")
         }
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 2
+        return 4
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let section = indexPath.section
-        switch section{
-        case 0:
-            let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: TrendingSection.reuseIdentifier, for: indexPath) as! TrendingSection
-            return cell
-        default:
-            let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: TrendingSection.reuseIdentifier, for: indexPath) as! TrendingSection
-            return cell
+        if let section = Section(rawValue: indexPath.section){
+            switch section{
+            case .Following:
+                let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: FollowingSection.reuseIdentifier, for: indexPath) as! FollowingSection
+                return cell
+            case .Bookmark:
+                let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: BookmarkSection.reuseIdentifier, for: indexPath) as! BookmarkSection
+                return cell
+            case .Suggested:
+                let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: SuggestedCell.reuseIdentifier, for: indexPath) as! SuggestedCell
+                cell.eventTitle.text = "Music on the Habour"
+                cell.performerLabel.text = "Music ABC"
+                cell.bookmarkCountLabel.text = "201"
+                return cell
+            default: //case 0, trending section
+                let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: TrendingSection.reuseIdentifier, for: indexPath) as! TrendingSection
+                return cell
+            }
+        } else {
+            fatalError("cellForItemAt section error!")
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let section = indexPath.section
-        let width = self.view.frame.width
-        switch section{
-        case 0:  return CGSize(width: width, height: TrendingSection.height)
-        default: return CGSize(width: width, height: TrendingSection.height)
+        if let section = Section(rawValue: indexPath.section){
+            let width = self.view.frame.width
+            switch section{
+            case .Following:    return CGSize(width: width, height: FollowingSection.height)
+            case .Bookmark:     return CGSize(width: width, height: BookmarkSection.height)
+            case .Suggested:     return CGSize(width: SuggestedCell.width, height: SuggestedCell.height)
+            default:            return CGSize(width: width, height: TrendingSection.height) //case 0, trending section
+            }
+        } else {
+            fatalError("sizeForItemAt section error!")
         }
     }
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if indexPath.section == Section.Suggested.rawValue{
+            print("\(indexPath.row)")
+        }
+    }
+    
+}
+
+enum Section: Int {
+    case Trending = 0, Following, Bookmark, Suggested
 }

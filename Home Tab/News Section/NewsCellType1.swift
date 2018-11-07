@@ -30,7 +30,7 @@ class NewsCellType1: UICollectionViewCell {
         backgroundColor = .darkGray()
 
         imageOverlay.clipsToBounds = true
-        imageOverlay.layer.cornerRadius = 12
+        imageOverlay.layer.cornerRadius = GlobalCornerRadius.value
         
         //newsTitle.lineBreakMode = .byWordWrapping
         newsTitle.numberOfLines = 0
@@ -49,7 +49,7 @@ class NewsCellType1: UICollectionViewCell {
         bgImgView.frame = CGRect(x: 0, y: 0, width: NewsCellType1.width, height: NewsCellType1.height)
         bgImgView.backgroundColor = .gray
         bgImgView.contentMode = .scaleAspectFill
-        bgImgView.layer.cornerRadius = 12
+        bgImgView.layer.cornerRadius = GlobalCornerRadius.value
         bgImgView.clipsToBounds = true
         addSubview(bgImgView)
         bgImgView.snp.makeConstraints { (make) -> Void in

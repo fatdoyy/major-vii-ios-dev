@@ -11,7 +11,7 @@ import SkeletonView
 
 class TrendingCell: UICollectionViewCell {
 
-    static let reuseIdentifier: String = "trendingCell"
+    static let reuseIdentifier = "trendingCell"
     
     private typealias `Self` = TrendingCell
     
@@ -32,14 +32,14 @@ class TrendingCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         backgroundColor = .darkGray()
-        layer.cornerRadius = 12
+        layer.cornerRadius = GlobalCornerRadius.value
         
         //print("cell.frame.height = \(self.frame.height)")
         
         imageOverlay.clipsToBounds = true
-        imageOverlay.layer.cornerRadius = 12
+        imageOverlay.layer.cornerRadius = GlobalCornerRadius.value
         
-        SkeletonAppearance.default.multilineCornerRadius = 6
+        SkeletonAppearance.default.multilineCornerRadius = Int(GlobalCornerRadius.value / 2)
         SkeletonAppearance.default.gradient = SkeletonGradient(baseColor: .gray)
         
 //        let animation = SkeletonAnimationBuilder().makeSlidingAnimation(withDirection: .leftRight, duration: 2)
@@ -61,7 +61,8 @@ class TrendingCell: UICollectionViewCell {
         bgImgView = UIImageView()
         bgImgView.frame = CGRect(x: 0, y: 0, width: Self.width, height: Self.height)
         bgImgView.contentMode = .scaleAspectFill
-        bgImgView.layer.cornerRadius = 12
+        bgImgView.backgroundColor = .lightGray
+        bgImgView.layer.cornerRadius = GlobalCornerRadius.value
         bgImgView.clipsToBounds = true
         addSubview(bgImgView)
         bgImgView.snp.makeConstraints { (make) -> Void in
@@ -69,11 +70,6 @@ class TrendingCell: UICollectionViewCell {
             make.height.equalTo(Self.height)
         }
         sendSubviewToBack(bgImgView)
-    }
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        print("TrendingCell.height = \(self.frame.size.height)")
     }
     
     override var isHighlighted: Bool {

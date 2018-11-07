@@ -22,7 +22,7 @@ class NewsCellType5: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         backgroundColor = .darkGray
-        layer.cornerRadius = 12
+        layer.cornerRadius = GlobalCornerRadius.value
         
         let gradientBg = PastelView()
         gradientBg.snp.makeConstraints { (make) -> Void in

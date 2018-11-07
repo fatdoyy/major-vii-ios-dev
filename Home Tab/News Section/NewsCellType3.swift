@@ -58,7 +58,7 @@ class NewsCellType3: UICollectionViewCell {
         bgImgView = UIImageView()
         bgImgView.frame = CGRect(x: 0, y: 0, width: Self.cellWidth, height: Self.cellHeight)
         bgImgView.contentMode = .scaleAspectFill
-        bgImgView.layer.cornerRadius = 12
+        bgImgView.layer.cornerRadius = GlobalCornerRadius.value
         bgImgView.clipsToBounds = true
         addSubview(bgImgView)
         bgImgView.snp.makeConstraints { (make) -> Void in
@@ -67,7 +67,7 @@ class NewsCellType3: UICollectionViewCell {
         }
         let overlayView = UIView()
         overlayView.backgroundColor = UIColor(hexString: "333333").withAlphaComponent(0.75)
-        overlayView.layer.cornerRadius = 12
+        overlayView.layer.cornerRadius = GlobalCornerRadius.value
         overlayView.snp.makeConstraints { (make) -> Void in
             make.width.equalTo(Self.cellWidth)
             make.height.equalTo(Self.cellHeight)

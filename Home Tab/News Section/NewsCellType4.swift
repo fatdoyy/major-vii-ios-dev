@@ -28,7 +28,7 @@ class NewsCellType4: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         backgroundColor = .darkGray
-        layer.cornerRadius = 12
+        layer.cornerRadius = GlobalCornerRadius.value
         
         gradientBg.snp.makeConstraints { (make) -> Void in
             make.width.equalTo(NewsCellType3.cellWidth)
@@ -55,7 +55,7 @@ class NewsCellType4: UICollectionViewCell {
         insertSubview(gradientBg, at: 0)
         //gradientBg.isHidden = true
         
-        SkeletonAppearance.default.multilineCornerRadius = 6
+        SkeletonAppearance.default.multilineCornerRadius = Int(GlobalCornerRadius.value / 2)
         SkeletonAppearance.default.gradient = SkeletonGradient(baseColor: .gray)
         
         if UIDevice().userInterfaceIdiom == .phone {
