@@ -12,7 +12,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="SuggestedCell" customModule="major_7_ios" customModuleProvider="target">
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="FeaturedCell" customModule="major_7_ios" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="335" height="90"/>
             <autoresizingMask key="autoresizingMask"/>
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -36,10 +36,10 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="suggested_cell_bookmarked" translatesAutoresizingMaskIntoConstraints="NO" id="uut-SG-FZx">
-                        <rect key="frame" x="120" y="59" width="16" height="16"/>
+                        <rect key="frame" x="118" y="59" width="16" height="16"/>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Uhx-zG-5WN">
-                        <rect key="frame" x="137" y="61" width="28" height="12"/>
+                        <rect key="frame" x="135" y="61" width="28" height="12"/>
                         <fontDescription key="fontDescription" type="boldSystem" pointSize="10"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
@@ -57,7 +57,7 @@
                 <constraint firstItem="vIu-SJ-7sk" firstAttribute="top" secondItem="MeS-8f-6mZ" secondAttribute="bottom" constant="5" id="W1v-R8-DiC"/>
                 <constraint firstAttribute="bottom" secondItem="f8D-ae-Kaq" secondAttribute="bottom" id="bip-uT-sIp"/>
                 <constraint firstItem="MeS-8f-6mZ" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="15" id="eEv-fS-Zeh"/>
-                <constraint firstItem="MeS-8f-6mZ" firstAttribute="leading" secondItem="uut-SG-FZx" secondAttribute="leading" id="oHg-Wb-KnD"/>
+                <constraint firstItem="MeS-8f-6mZ" firstAttribute="leading" secondItem="uut-SG-FZx" secondAttribute="leading" constant="2" id="oHg-Wb-KnD"/>
                 <constraint firstItem="uut-SG-FZx" firstAttribute="centerY" secondItem="Uhx-zG-5WN" secondAttribute="centerY" id="uYJ-Dd-RxD"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>

@@ -19,23 +19,32 @@ class TrendingSection: UICollectionViewCell {
     @IBOutlet weak var trendingSectionLabel: UILabel!
     @IBOutlet weak var trendingCollectionView: UICollectionView!
     
+    
     override func awakeFromNib() {
         super.awakeFromNib()
 
         trendingSectionLabel.textColor = .whiteText()
         trendingSectionLabel.text = "Trending"
         
+        if let layout = trendingCollectionView.collectionViewLayout as? PagedCollectionViewLayout {
+            layout.scrollDirection = .horizontal
+            layout.itemSize = CGSize(width: TrendingCell.width, height: TrendingCell.height)
+            layout.minimumLineSpacing = 10
+        }
+        
         trendingCollectionView.dataSource = self
         trendingCollectionView.delegate = self
         
         trendingCollectionView.showsVerticalScrollIndicator = false
         trendingCollectionView.showsHorizontalScrollIndicator = false
+        trendingCollectionView.isPagingEnabled = false
         
+        trendingCollectionView.contentInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
+ 
         trendingCollectionView.backgroundColor = .darkGray()
         trendingCollectionView.register(UINib.init(nibName: "TrendingCell", bundle: nil), forCellWithReuseIdentifier: TrendingCell.reuseIdentifier)
     }
 
-    
     override func layoutSubviews() {
         super.layoutSubviews()
         //fix big/small screen ratio issue
@@ -57,11 +66,13 @@ extension TrendingSection: UICollectionViewDataSource, UICollectionViewDelegate,
         return cell
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: TrendingCell.width, height: TrendingCell.height)
-    }
+//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+//        return CGSize(width: TrendingCell.width, height: TrendingCell.height)
+//    }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print("\(indexPath.row)")
     }
 }
+
+

@@ -35,7 +35,7 @@ class HomeViewController: UIViewController, UIGestureRecognizerDelegate {
         
         mainCollectionView.register(UINib.init(nibName: "EventsSection", bundle: nil), forCellWithReuseIdentifier: EventsSection.reuseIdentifier)
         
-        mainCollectionView.register(UINib.init(nibName: "NewsHeaderView", bundle: nil), forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: NewsHeaderView.reuseIdentifier)
+        mainCollectionView.register(UINib.init(nibName: "NewsSectionHeader", bundle: nil), forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: NewsSectionHeader.reuseIdentifier)
         
         mainCollectionView.register(UINib.init(nibName: "NewsCellType1", bundle: nil), forCellWithReuseIdentifier: NewsCellType1.reuseIdentifier)
         mainCollectionView.register(UINib.init(nibName: "NewsCellType2", bundle: nil), forCellWithReuseIdentifier: NewsCellType2.reuseIdentifier)
@@ -214,7 +214,7 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
         if section == 0 {
             return CGSize(width: mainCollectionView.bounds.width, height: HeaderView.height)
         } else {
-            return CGSize(width: mainCollectionView.bounds.width, height: NewsHeaderView.height)
+            return CGSize(width: mainCollectionView.bounds.width, height: NewsSectionHeader.height)
         }
     }
     
@@ -225,12 +225,12 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
             let section = indexPath.section
             switch section {
             case 1:
-                let reusableview = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: NewsHeaderView.reuseIdentifier, for: indexPath) as! NewsHeaderView
-                return reusableview
+                let reusableView = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: NewsSectionHeader.reuseIdentifier, for: indexPath) as! NewsSectionHeader
+                return reusableView
             default: //case 0
-                let reusableview = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HeaderView.reuseIdentifier, for: indexPath) as! HeaderView
-                reusableview.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: HeaderView.height)
-                return reusableview
+                let reusableView = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HeaderView.reuseIdentifier, for: indexPath) as! HeaderView
+                reusableView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: HeaderView.height)
+                return reusableView
             }
         default:  fatalError("Unexpected element kind")
         }

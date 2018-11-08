@@ -32,7 +32,10 @@ class EventsListViewController: UIViewController, UIGestureRecognizerDelegate {
         mainCollectionView.register(UINib.init(nibName: "TrendingSection", bundle: nil), forCellWithReuseIdentifier: TrendingSection.reuseIdentifier)
         mainCollectionView.register(UINib.init(nibName: "FollowingSection", bundle: nil), forCellWithReuseIdentifier: FollowingSection.reuseIdentifier)
         mainCollectionView.register(UINib.init(nibName: "BookmarkSection", bundle: nil), forCellWithReuseIdentifier: BookmarkSection.reuseIdentifier)
-        mainCollectionView.register(UINib.init(nibName: "SuggestedCell", bundle: nil), forCellWithReuseIdentifier: SuggestedCell.reuseIdentifier)
+        
+        mainCollectionView.register(UINib.init(nibName: "FeaturedSectionHeader", bundle: nil), forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: FeaturedSectionHeader.reuseIdentifier)
+        
+        mainCollectionView.register(UINib.init(nibName: "FeaturedCell", bundle: nil), forCellWithReuseIdentifier: FeaturedCell.reuseIdentifier)
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -136,7 +139,7 @@ extension EventsListViewController: UICollectionViewDelegate, UICollectionViewDe
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if let section = Section(rawValue: section){
             switch section{
-            case .Suggested:  return 2 //suggestedEvents.count
+            case .Featured:  return 4 //featuredEvents.count
             default: return 1 //return the cell contains horizontal collection view
             }
         } else {
@@ -157,11 +160,12 @@ extension EventsListViewController: UICollectionViewDelegate, UICollectionViewDe
             case .Bookmark:
                 let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: BookmarkSection.reuseIdentifier, for: indexPath) as! BookmarkSection
                 return cell
-            case .Suggested:
-                let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: SuggestedCell.reuseIdentifier, for: indexPath) as! SuggestedCell
+            case .Featured:
+                let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: FeaturedCell.reuseIdentifier, for: indexPath) as! FeaturedCell
                 cell.eventTitle.text = "Music on the Habour"
                 cell.performerLabel.text = "Music ABC"
                 cell.bookmarkCountLabel.text = "201"
+                cell.bgImgView.image = UIImage(named: "music-studio-12")
                 return cell
             default: //case 0, trending section
                 let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: TrendingSection.reuseIdentifier, for: indexPath) as! TrendingSection
@@ -178,7 +182,7 @@ extension EventsListViewController: UICollectionViewDelegate, UICollectionViewDe
             switch section{
             case .Following:    return CGSize(width: width, height: FollowingSection.height)
             case .Bookmark:     return CGSize(width: width, height: BookmarkSection.height)
-            case .Suggested:     return CGSize(width: SuggestedCell.width, height: SuggestedCell.height)
+            case .Featured:     return CGSize(width: FeaturedCell.width, height: FeaturedCell.height)
             default:            return CGSize(width: width, height: TrendingSection.height) //case 0, trending section
             }
         } else {
@@ -186,8 +190,40 @@ extension EventsListViewController: UICollectionViewDelegate, UICollectionViewDe
         }
     }
     
+    //Header view for featured section
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        switch kind{
+        case UICollectionView.elementKindSectionHeader:
+            if indexPath.section == Section.Featured.rawValue{
+                let reusableView = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: FeaturedSectionHeader.reuseIdentifier, for: indexPath) as! FeaturedSectionHeader
+                return reusableView
+            } else {
+                let reusableView = UICollectionReusableView(frame: .zero)
+                return reusableView
+            }
+        default:
+            fatalError("Unexpected element kind")
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        if section == Section.Featured.rawValue{
+            return CGSize(width: mainCollectionView.bounds.width, height: FeaturedSectionHeader.height)
+        } else {
+            return CGSize.zero
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        if section == Section.Featured.rawValue{
+            return 15
+        } else {
+            return 10
+        }
+    }
+    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if indexPath.section == Section.Suggested.rawValue{
+        if indexPath.section == Section.Featured.rawValue{
             print("\(indexPath.row)")
         }
     }
@@ -195,5 +231,5 @@ extension EventsListViewController: UICollectionViewDelegate, UICollectionViewDe
 }
 
 enum Section: Int {
-    case Trending = 0, Following, Bookmark, Suggested
+    case Trending = 0, Following, Bookmark, Featured
 }

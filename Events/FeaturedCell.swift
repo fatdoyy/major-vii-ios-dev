@@ -1,5 +1,5 @@
 //
-//  SuggestedCell.swift
+//  FeaturedCell.swift
 //  major-7-ios
 //
 //  Created by jason on 7/11/2018.
@@ -9,12 +9,12 @@
 import UIKit
 import SkeletonView
 
-class SuggestedCell: UICollectionViewCell {
+class FeaturedCell: UICollectionViewCell {
 
-    static let reuseIdentifier = "suggestedCell"
+    static let reuseIdentifier = "featuredCell"
     
     static let width = TrendingSection.width
-    static let height: CGFloat = 166
+    static let height: CGFloat = 90
     
     @IBOutlet weak var bgView: UIView!    
     @IBOutlet weak var eventTitle: UILabel!
@@ -53,7 +53,7 @@ class SuggestedCell: UICollectionViewCell {
         bgImgView.frame = CGRect(x: 0, y: 0, width: bgView.frame.width, height: bgView.frame.height)
         bgImgView.contentMode = .scaleAspectFill
         bgImgView.backgroundColor = .lightGray
-        bgImgView.layer.cornerRadius = GlobalCornerRadius.value
+        //bgImgView.layer.cornerRadius = GlobalCornerRadius.value
         bgImgView.clipsToBounds = true
         
         bgImgView.snp.makeConstraints { (make) -> Void in

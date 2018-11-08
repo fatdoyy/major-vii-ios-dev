@@ -8,7 +8,7 @@
 
 import UIKit
 
-class NewsHeaderView: UICollectionViewCell{
+class NewsSectionHeader: UICollectionViewCell{
 
     static let reuseIdentifier: String = "newsHeader"
     
