@@ -8,8 +8,9 @@
 
 import UIKit
 import Localize_Swift
+import AMScrollingNavbar
 
-class EventsListViewController: UIViewController, UIGestureRecognizerDelegate {
+class EventsListViewController: ScrollingNavigationViewController, UIGestureRecognizerDelegate {
     
     @IBOutlet weak var mainCollectionView: UICollectionView!
     
@@ -47,6 +48,14 @@ class EventsListViewController: UIViewController, UIGestureRecognizerDelegate {
         hideTabBar()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        //hide navigation bar
+        if let navigationController = self.navigationController as? ScrollingNavigationController {
+            navigationController.followScrollView(mainCollectionView, delay: 10.0)
+        }
+    }
+    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         showTabBar()
@@ -54,7 +63,7 @@ class EventsListViewController: UIViewController, UIGestureRecognizerDelegate {
     
     private func setupLeftBarItems(){
         let customView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: 110, height: 44.0))
-        customView.backgroundColor = .darkGray()
+        customView.backgroundColor = .clear
         
         let menuBtn = UIButton(type: .custom)
         menuBtn.frame = CGRect(x: 5, y: 10, width: 14.13, height: 24)
@@ -64,7 +73,7 @@ class EventsListViewController: UIViewController, UIGestureRecognizerDelegate {
         
         let titleLabel = UILabel()
         titleLabel.frame = CGRect(x: menuBtn.frame.maxX + 20, y: 0, width: 90, height: 44)
-        titleLabel.backgroundColor = .darkGray()
+        titleLabel.backgroundColor = .clear
         titleLabel.textColor = .whiteText()
         titleLabel.font = UIFont.systemFont(ofSize: 24, weight: .bold)
         titleLabel.text = "Events"
@@ -139,7 +148,7 @@ extension EventsListViewController: UICollectionViewDelegate, UICollectionViewDe
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if let section = Section(rawValue: section){
             switch section{
-            case .Featured:  return 4 //featuredEvents.count
+            case .Featured:  return 7 //featuredEvents.count
             default: return 1 //return the cell contains horizontal collection view
             }
         } else {

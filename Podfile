@@ -19,5 +19,6 @@ target 'major-7-ios' do
   pod 'SDWebImage', '~> 4.0'                    # image downloading
   pod 'SkeletonView'                            # as title
   pod 'BouncyLayout'                            # UICollectionView animation
+  pod 'AMScrollingNavbar'                       # UINavigationBar hiding
   
 end

@@ -72,7 +72,8 @@ class HomeViewController: UIViewController, UIGestureRecognizerDelegate {
         //transparent navigation bar
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
         navigationController?.navigationBar.shadowImage = UIImage()
-        navigationController?.navigationBar.isTranslucent = true
+        navigationController?.navigationBar.barTintColor = .darkGray()
+        navigationController?.navigationBar.isTranslucent = false
     }
     
     func fetchNews(){

@@ -108,10 +108,10 @@
 		96C5541E219199700065D70A /* TrendingSection.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TrendingSection.xib; sourceTree = "<group>"; };
 		96C554232192C2AC0065D70A /* BookmarkSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkSection.swift; sourceTree = "<group>"; };
 		96C554242192C2AC0065D70A /* BookmarkSection.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BookmarkSection.xib; sourceTree = "<group>"; };
-		96C554282192C2DF0065D70A /* FollowingSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = FollowingSection.swift; path = ../FollowingSection.swift; sourceTree = "<group>"; };
-		96C554292192C2DF0065D70A /* FollowingSection.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = FollowingSection.xib; path = ../FollowingSection.xib; sourceTree = "<group>"; };
-		96C5542C2192C6720065D70A /* FollowingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = FollowingCell.swift; path = ../FollowingCell.swift; sourceTree = "<group>"; };
-		96C5542D2192C6730065D70A /* FollowingCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = FollowingCell.xib; path = ../FollowingCell.xib; sourceTree = "<group>"; };
+		96C554282192C2DF0065D70A /* FollowingSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowingSection.swift; sourceTree = "<group>"; };
+		96C554292192C2DF0065D70A /* FollowingSection.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FollowingSection.xib; sourceTree = "<group>"; };
+		96C5542C2192C6720065D70A /* FollowingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowingCell.swift; sourceTree = "<group>"; };
+		96C5542D2192C6730065D70A /* FollowingCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FollowingCell.xib; sourceTree = "<group>"; };
 		96C554302192CBCE0065D70A /* GlobalCornerRadius.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalCornerRadius.swift; sourceTree = "<group>"; };
 		96C554382192D9980065D70A /* BookmarkCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkCell.swift; sourceTree = "<group>"; };
 		96C554392192D9980065D70A /* BookmarkCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BookmarkCell.xib; sourceTree = "<group>"; };
@@ -255,12 +255,23 @@
 			path = "News Section";
 			sourceTree = "<group>";
 		};
+		9681E77E21955E5000B4F80A /* Following Section */ = {
+			isa = PBXGroup;
+			children = (
+				96C554282192C2DF0065D70A /* FollowingSection.swift */,
+				96C554292192C2DF0065D70A /* FollowingSection.xib */,
+				96C5542C2192C6720065D70A /* FollowingCell.swift */,
+				96C5542D2192C6730065D70A /* FollowingCell.xib */,
+			);
+			name = "Following Section";
+			sourceTree = "<group>";
+		};
 		96C55412219044710065D70A /* Events */ = {
 			isa = PBXGroup;
 			children = (
 				96C55413219044D00065D70A /* EventsListViewController.swift */,
 				96C554212192BF0F0065D70A /* Trending Section */,
-				96C554272192C2B40065D70A /* Following Section */,
+				9681E77E21955E5000B4F80A /* Following Section */,
 				96C554372192D8E50065D70A /* Bookmark Section */,
 				96C5545421943B020065D70A /* Featured Collection */,
 			);
@@ -276,18 +287,6 @@
 				96C5541A21918CB90065D70A /* TrendingCell.xib */,
 			);
 			name = "Trending Section";
-			sourceTree = "<group>";
-		};
-		96C554272192C2B40065D70A /* Following Section */ = {
-			isa = PBXGroup;
-			children = (
-				96C554282192C2DF0065D70A /* FollowingSection.swift */,
-				96C554292192C2DF0065D70A /* FollowingSection.xib */,
-				96C5542C2192C6720065D70A /* FollowingCell.swift */,
-				96C5542D2192C6730065D70A /* FollowingCell.xib */,
-			);
-			name = "Following Section";
-			path = "Bookmarks Section";
 			sourceTree = "<group>";
 		};
 		96C554372192D8E50065D70A /* Bookmark Section */ = {
@@ -441,6 +440,7 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-major-7-ios/Pods-major-7-ios-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/AMScrollingNavbar/AMScrollingNavbar.framework",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/BouncyLayout/BouncyLayout.framework",
 				"${BUILT_PRODUCTS_DIR}/DynamicColor/DynamicColor.framework",
@@ -456,6 +456,7 @@
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AMScrollingNavbar.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/BouncyLayout.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DynamicColor.framework",

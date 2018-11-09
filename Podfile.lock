@@ -1,5 +1,6 @@
 PODS:
   - Alamofire (4.7.3)
+  - AMScrollingNavbar (5.1.1)
   - BouncyLayout (2.1.0)
   - DynamicColor (4.0.2)
   - Firebase/Core (5.8.1):
@@ -60,6 +61,7 @@ PODS:
 
 DEPENDENCIES:
   - Alamofire (~> 4.7)
+  - AMScrollingNavbar
   - BouncyLayout
   - DynamicColor (~> 4.0.2)
   - Firebase/Core
@@ -74,6 +76,7 @@ DEPENDENCIES:
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - Alamofire
+    - AMScrollingNavbar
     - BouncyLayout
     - DynamicColor
     - Firebase
@@ -93,6 +96,7 @@ SPEC REPOS:
 
 SPEC CHECKSUMS:
   Alamofire: c7287b6e5d7da964a70935e5db17046b7fde6568
+  AMScrollingNavbar: 128e9e17af3b93f80d6705befe7cc2ae5e8a8435
   BouncyLayout: a7955879861375cc4e88bb64d42bcf622cd2694c
   DynamicColor: c7adcfe871781a2b39877a5774e452ba51b79eb3
   Firebase: a870ed114d769b424021a0c8ddb0c86c3250a0c5
@@ -110,6 +114,6 @@ SPEC CHECKSUMS:
   SkeletonView: 60d6ce7edb0cb4c7758db33c74add50392b3c475
   SnapKit: 0de968a9fec17499afa29683b05d0c775b6d1c29
 
-PODFILE CHECKSUM: e2201780ded08fa027a29e194d9b5c877af45186
+PODFILE CHECKSUM: cf58af63141acfeb2bd339515362be305c51cec7
 
 COCOAPODS: 1.5.3

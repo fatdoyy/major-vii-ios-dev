@@ -153,7 +153,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="xs1-tf-VX4">
-                                <rect key="frame" x="0.0" y="44" width="375" height="768"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="ulZ-OY-Nvb">
                                     <size key="itemSize" width="50" height="50"/>
@@ -166,10 +166,10 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="xs1-tf-VX4" secondAttribute="trailing" id="MYL-zv-pBM"/>
-                            <constraint firstItem="xs1-tf-VX4" firstAttribute="leading" secondItem="ZTv-ls-liq" secondAttribute="leading" id="PVr-NG-59g"/>
-                            <constraint firstAttribute="bottom" secondItem="xs1-tf-VX4" secondAttribute="bottom" id="WR2-qV-3yY"/>
-                            <constraint firstItem="xs1-tf-VX4" firstAttribute="top" secondItem="wwf-Ze-8TO" secondAttribute="top" id="wSd-mZ-YUx"/>
+                            <constraint firstItem="xs1-tf-VX4" firstAttribute="top" secondItem="ZTv-ls-liq" secondAttribute="top" id="86b-lO-Kao"/>
+                            <constraint firstAttribute="bottom" secondItem="xs1-tf-VX4" secondAttribute="bottom" id="aFH-st-5fo"/>
+                            <constraint firstItem="xs1-tf-VX4" firstAttribute="leading" secondItem="ZTv-ls-liq" secondAttribute="leading" id="djW-3M-vQE"/>
+                            <constraint firstAttribute="trailing" secondItem="xs1-tf-VX4" secondAttribute="trailing" id="uWY-ni-gn7"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="wwf-Ze-8TO"/>
                     </view>
@@ -180,12 +180,12 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qoJ-B8-Y4x" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2816.8000000000002" y="-1675.1231527093596"/>
+            <point key="canvasLocation" x="2816.8000000000002" y="-1675.4122938530736"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Scrolling Navigation Controller-->
         <scene sceneID="jwi-gD-kLw">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="24W-mU-zt7" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="24W-mU-zt7" customClass="ScrollingNavigationController" customModule="AMScrollingNavbar" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="" image="tabbar_explore" id="qnY-OO-jlc">
                         <inset key="imageInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="-10"/>
                     </tabBarItem>
