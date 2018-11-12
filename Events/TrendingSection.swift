@@ -12,7 +12,7 @@ class TrendingSection: UICollectionViewCell {
 
     static let reuseIdentifier = "trendingSection"
     
-    static let aspectRatio: CGFloat = 335.0 / 293.0 //ratio according to zeplin
+    static let aspectRatio: CGFloat = 335.0 / 297.0 //ratio according to zeplin
     static let width = NewsCellType1.width
     static let height: CGFloat = width / aspectRatio
     
@@ -60,6 +60,7 @@ extension TrendingSection: UICollectionViewDataSource, UICollectionViewDelegate,
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = trendingCollectionView.dequeueReusableCell(withReuseIdentifier: TrendingCell.reuseIdentifier, for: indexPath) as! TrendingCell
+        cell.delegate = self
         cell.eventTitle.text = "This is a good event"
         cell.performerLabel.text = "Billy Fung"
         cell.bgImgView.image = UIImage(named: "music-studio-12")
@@ -75,4 +76,8 @@ extension TrendingSection: UICollectionViewDataSource, UICollectionViewDelegate,
     }
 }
 
-
+extension TrendingSection: TrendingCellDelegate {
+    func bookmarkBtnTapped() {
+        print("tapped")
+    }
+}

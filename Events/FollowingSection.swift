@@ -12,7 +12,7 @@ class FollowingSection: UICollectionViewCell {
 
     static let reuseIdentifier = "followingSection"
     
-    static let height: CGFloat = 235
+    static let height: CGFloat = 238
     
     @IBOutlet weak var followingSectionTitle: UILabel!
     @IBOutlet weak var followingSectionCollectionView: UICollectionView!
@@ -42,6 +42,7 @@ extension FollowingSection: UICollectionViewDataSource, UICollectionViewDelegate
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = followingSectionCollectionView.dequeueReusableCell(withReuseIdentifier: FollowingCell.reuseIdentifier, for: indexPath) as! FollowingCell
+        cell.delegate = self
         cell.eventTitle.text = "天星碼頭"
         cell.dateLabel.text = "明天"
         cell.performerLabel.text = "Billy Fung"
@@ -55,5 +56,12 @@ extension FollowingSection: UICollectionViewDataSource, UICollectionViewDelegate
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print("\(indexPath.row)")
+    }
+    
+}
+
+extension FollowingSection: FollowingCellDelegate {
+    func bookmarkBtnTapped() {
+        print("tapped")
     }
 }

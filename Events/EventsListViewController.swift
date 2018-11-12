@@ -171,10 +171,11 @@ extension EventsListViewController: UICollectionViewDelegate, UICollectionViewDe
                 return cell
             case .Featured:
                 let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: FeaturedCell.reuseIdentifier, for: indexPath) as! FeaturedCell
+                cell.delegate = self
                 cell.eventTitle.text = "Music on the Habour"
                 cell.performerLabel.text = "Music ABC"
                 cell.bookmarkCountLabel.text = "201"
-                cell.bgImgView.image = UIImage(named: "music-studio-12")
+                cell.imgView.image = UIImage(named: "music-studio-12")
                 return cell
             default: //case 0, trending section
                 let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: TrendingSection.reuseIdentifier, for: indexPath) as! TrendingSection
@@ -237,6 +238,12 @@ extension EventsListViewController: UICollectionViewDelegate, UICollectionViewDe
         }
     }
     
+}
+
+extension EventsListViewController: FeaturedCellDelegate{
+    func bookmarkBtnTapped() {
+        print("tapped")
+    }
 }
 
 enum Section: Int {

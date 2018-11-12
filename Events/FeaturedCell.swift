@@ -9,26 +9,51 @@
 import UIKit
 import SkeletonView
 
+protocol FeaturedCellDelegate {
+    func bookmarkBtnTapped()
+}
+
 class FeaturedCell: UICollectionViewCell {
 
     static let reuseIdentifier = "featuredCell"
     
+    var delegate: FeaturedCellDelegate?
+    
     static let width = TrendingSection.width
     static let height: CGFloat = 90
     
-    @IBOutlet weak var bgView: UIView!    
+    @IBOutlet weak var bgView: UIView!
+    @IBOutlet weak var dummyBgImgView: UIView!
     @IBOutlet weak var eventTitle: UILabel!
     @IBOutlet weak var performerLabel: UILabel!
     @IBOutlet weak var bookmarkCountLabel: UILabel!
+    @IBOutlet weak var bookmarkBtn: UIButton!
     
     @IBOutlet var skeletonViews: Array<UILabel>!
     
-    var bgImgView = UIImageView()
+    var imgView = UIImageView()
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        backgroundColor = .charcoal()
-        layer.cornerRadius = GlobalCornerRadius.value
+        backgroundColor = .darkGray()
+        bgView.backgroundColor = .charcoal()
+        bgView.layer.cornerRadius = GlobalCornerRadius.value
+        
+        bookmarkBtn.backgroundColor = .clear
+        bookmarkBtn.layer.cornerRadius = GlobalCornerRadius.value / 3
+        bookmarkBtn.layer.shadowColor = UIColor.black.cgColor
+        bookmarkBtn.layer.shadowOffset = CGSize(width: 0, height: 5)
+        bookmarkBtn.layer.shadowRadius = 5
+        bookmarkBtn.layer.shadowOpacity = 0.7
+        
+        let path = UIBezierPath(roundedRect:dummyBgImgView.bounds,
+                                byRoundingCorners:[.topLeft, .bottomLeft],
+                                cornerRadii: CGSize(width: GlobalCornerRadius.value, height:  GlobalCornerRadius.value))
+
+        let maskLayer = CAShapeLayer()
+
+        maskLayer.path = path.cgPath
+        dummyBgImgView.layer.mask = maskLayer
         
         SkeletonAppearance.default.multilineCornerRadius = Int(GlobalCornerRadius.value / 2)
         SkeletonAppearance.default.gradient = SkeletonGradient(baseColor: .gray)
@@ -49,21 +74,36 @@ class FeaturedCell: UICollectionViewCell {
         performerLabel.textColor = .whiteText()
         bookmarkCountLabel.textColor = .whiteText()
         
-        bgImgView = UIImageView()
-        bgImgView.frame = CGRect(x: 0, y: 0, width: bgView.frame.width, height: bgView.frame.height)
-        bgImgView.contentMode = .scaleAspectFill
-        bgImgView.backgroundColor = .lightGray
+        imgView = UIImageView()
+        imgView.frame = CGRect(x: 0, y: 0, width: dummyBgImgView.frame.width, height: dummyBgImgView.frame.height)
+        imgView.contentMode = .scaleAspectFill
+        imgView.backgroundColor = .lightGray
         //bgImgView.layer.cornerRadius = GlobalCornerRadius.value
-        bgImgView.clipsToBounds = true
+        imgView.clipsToBounds = true
         
-        bgImgView.snp.makeConstraints { (make) -> Void in
-            make.width.equalTo(bgView.frame.width)
-            make.height.equalTo(bgView.frame.height)
+        imgView.snp.makeConstraints { (make) -> Void in
+            make.width.equalTo(dummyBgImgView.frame.width)
+            make.height.equalTo(dummyBgImgView.frame.height)
         }
-        bgView.addSubview(bgImgView)
+        dummyBgImgView.addSubview(imgView)
         
     }
 
+    @IBAction func bookmarkBtnTapped(_ sender: Any) {
+        
+        if (self.bookmarkBtn.backgroundColor?.isEqual(UIColor.clear))! {
+            UIView.animate(withDuration: 0.2, animations: {
+                self.bookmarkBtn.backgroundColor = .mintGreen()
+            })
+        } else {
+            UIView.animate(withDuration: 0.2, animations: {
+                self.bookmarkBtn.backgroundColor = .clear
+            })
+        }
+        
+        delegate?.bookmarkBtnTapped()
+    }
+    
     override var isHighlighted: Bool {
         didSet { Animations.bounce(isHighlighted, view: self) }
     }

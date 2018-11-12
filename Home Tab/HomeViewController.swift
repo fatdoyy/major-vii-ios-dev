@@ -238,6 +238,7 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
     }
 }
 
+//View all btn tapped
 extension HomeViewController: EventsSectionDelegate {
     func viewAllBtnTapped() {
         let storyBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)

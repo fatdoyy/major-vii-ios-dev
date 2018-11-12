@@ -9,12 +9,18 @@
 import UIKit
 import SkeletonView
 
+protocol FollowingCellDelegate {
+    func bookmarkBtnTapped()
+}
+
 class FollowingCell: UICollectionViewCell {
 
     static let reuseIdentifier = "followingCell"
     
+    var delegate: FollowingCellDelegate?
+    
     static let width: CGFloat = 137
-    static let height: CGFloat = 166
+    static let height: CGFloat = 169
     
     @IBOutlet weak var bgView: UIView!
     @IBOutlet weak var imageOverlay: ImageOverlay!
@@ -22,6 +28,8 @@ class FollowingCell: UICollectionViewCell {
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var byLabel: UILabel!
     @IBOutlet weak var performerLabel: UILabel!
+    @IBOutlet weak var bookmarkBtn: UIButton!
+    @IBOutlet weak var bookmarkCountLabel: UILabel!
     
     @IBOutlet var skeletonViews: Array<UILabel>!
 
@@ -34,6 +42,15 @@ class FollowingCell: UICollectionViewCell {
         
         imageOverlay.clipsToBounds = true
         imageOverlay.layer.cornerRadius = GlobalCornerRadius.value
+        
+        bookmarkBtn.backgroundColor = .clear
+        bookmarkBtn.layer.cornerRadius = GlobalCornerRadius.value / 3
+        bookmarkBtn.layer.shadowColor = UIColor.black.cgColor
+        bookmarkBtn.layer.shadowOffset = CGSize(width: 0, height: 5)
+        bookmarkBtn.layer.shadowRadius = 5
+        bookmarkBtn.layer.shadowOpacity = 0.7
+        
+        bookmarkCountLabel.textColor = .whiteText()
         
         SkeletonAppearance.default.multilineCornerRadius = Int(GlobalCornerRadius.value / 2)
         SkeletonAppearance.default.gradient = SkeletonGradient(baseColor: .gray)
@@ -70,4 +87,18 @@ class FollowingCell: UICollectionViewCell {
         bgView.sendSubviewToBack(bgImgView)
     }
 
+    @IBAction func bookmarkBtnTapped(_ sender: Any) {
+        
+        if (self.bookmarkBtn.backgroundColor?.isEqual(UIColor.clear))! {
+            UIView.animate(withDuration: 0.2, animations: {
+                self.bookmarkBtn.backgroundColor = .mintGreen()
+            })
+        } else {
+            UIView.animate(withDuration: 0.2, animations: {
+                self.bookmarkBtn.backgroundColor = .clear
+            })
+        }
+ 
+        delegate?.bookmarkBtnTapped()
+    }
 }

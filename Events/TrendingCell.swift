@@ -9,9 +9,15 @@
 import UIKit
 import SkeletonView
 
+protocol TrendingCellDelegate {
+    func bookmarkBtnTapped()
+}
+
 class TrendingCell: UICollectionViewCell {
 
     static let reuseIdentifier = "trendingCell"
+    
+    var delegate: TrendingCellDelegate?
     
     private typealias `Self` = TrendingCell
     
@@ -20,24 +26,33 @@ class TrendingCell: UICollectionViewCell {
     static var height: CGFloat = width / aspectRatio
     //static var height: CGFloat?
     
+    @IBOutlet weak var bgImgView: UIImageView!
     @IBOutlet weak var eventTitle: UILabel!
     @IBOutlet weak var performerLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var imageOverlay: ImageOverlay!
-
-    @IBOutlet var skeletonViews: Array<UILabel>!
+    @IBOutlet weak var bookmarkBtn: UIButton!
+    @IBOutlet weak var bookmarkCountLabel: UILabel!
     
-    var bgImgView = UIImageView()
+    @IBOutlet var skeletonViews: Array<UILabel>!
     
     override func awakeFromNib() {
         super.awakeFromNib()
         backgroundColor = .darkGray()
-        layer.cornerRadius = GlobalCornerRadius.value
         
-        //print("cell.frame.height = \(self.frame.height)")
+        bgImgView.layer.cornerRadius = GlobalCornerRadius.value
         
         imageOverlay.clipsToBounds = true
         imageOverlay.layer.cornerRadius = GlobalCornerRadius.value
+        
+        bookmarkBtn.backgroundColor = .clear
+        bookmarkBtn.layer.cornerRadius = GlobalCornerRadius.value / 3
+        bookmarkBtn.layer.shadowColor = UIColor.black.cgColor
+        bookmarkBtn.layer.shadowOffset = CGSize(width: 0, height: 5)
+        bookmarkBtn.layer.shadowRadius = 5
+        bookmarkBtn.layer.shadowOpacity = 0.7
+        
+        bookmarkCountLabel.textColor = .whiteText()
         
         SkeletonAppearance.default.multilineCornerRadius = Int(GlobalCornerRadius.value / 2)
         SkeletonAppearance.default.gradient = SkeletonGradient(baseColor: .gray)
@@ -57,22 +72,22 @@ class TrendingCell: UICollectionViewCell {
         eventTitle.textColor = .whiteText()
         performerLabel.textColor = .whiteText()
         dateLabel.textColor = .whiteText()
-        
-        bgImgView = UIImageView()
-        bgImgView.frame = CGRect(x: 0, y: 0, width: Self.width, height: Self.height)
-        bgImgView.contentMode = .scaleAspectFill
-        bgImgView.backgroundColor = .lightGray
-        bgImgView.layer.cornerRadius = GlobalCornerRadius.value
-        bgImgView.clipsToBounds = true
-        addSubview(bgImgView)
-        bgImgView.snp.makeConstraints { (make) -> Void in
-            make.width.equalTo(Self.width)
-            make.height.equalTo(Self.height)
-        }
-        sendSubviewToBack(bgImgView)
     }
     
     override var isHighlighted: Bool {
         didSet { Animations.bounce(isHighlighted, view: self) }
+    }
+    
+    @IBAction func bookmarkBtnTapped(_ sender: Any) {
+        if (self.bookmarkBtn.backgroundColor?.isEqual(UIColor.clear))! {
+            UIView.animate(withDuration: 0.2, animations: {
+                self.bookmarkBtn.backgroundColor = .mintGreen()
+            })
+        } else {
+            UIView.animate(withDuration: 0.2, animations: {
+                self.bookmarkBtn.backgroundColor = .clear
+            })
+        }
+        delegate?.bookmarkBtnTapped()
     }
 }
