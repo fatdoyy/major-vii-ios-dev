@@ -241,11 +241,19 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
 //View all btn tapped
 extension HomeViewController: EventsSectionDelegate {
     func viewAllBtnTapped() {
-        let storyBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
-        let eventsVc = storyBoard.instantiateViewController(withIdentifier: "eventsVc")
+        let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+        let eventsVc = storyboard.instantiateViewController(withIdentifier: EventsListViewController.storyboardId)
         
         self.navigationItem.title = "Events"
         self.navigationController?.pushViewController(eventsVc, animated: true)
+    }
+    
+    func cellTapped() {
+        let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+        let detailsVc = storyboard.instantiateViewController(withIdentifier: EventDetailsViewController.storyboardId)
+        
+        self.navigationItem.title = ""
+        self.navigationController?.pushViewController(detailsVc, animated: true)
     }
 }
 

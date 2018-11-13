@@ -41,6 +41,8 @@
 		96799FE221889D520074C828 /* Animations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96799FE121889D520074C828 /* Animations.swift */; };
 		96799FE4218AF8E70074C828 /* Hashtags.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96799FE3218AF8E60074C828 /* Hashtags.swift */; };
 		96799FE6218C5A280074C828 /* ImageOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96799FE5218C5A270074C828 /* ImageOverlay.swift */; };
+		96862EB9219ACE1F00F709B0 /* EventDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96862EB8219ACE1F00F709B0 /* EventDetailsViewController.swift */; };
+		96862EBB219AD8AC00F709B0 /* TabBarHiding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96862EBA219AD8AC00F709B0 /* TabBarHiding.swift */; };
 		96C55414219044D00065D70A /* EventsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96C55413219044D00065D70A /* EventsListViewController.swift */; };
 		96C5541B21918CB90065D70A /* TrendingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96C5541921918CB90065D70A /* TrendingCell.swift */; };
 		96C5541C21918CB90065D70A /* TrendingCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96C5541A21918CB90065D70A /* TrendingCell.xib */; };
@@ -103,6 +105,8 @@
 		96799FE121889D520074C828 /* Animations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Animations.swift; sourceTree = "<group>"; };
 		96799FE3218AF8E60074C828 /* Hashtags.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hashtags.swift; sourceTree = "<group>"; };
 		96799FE5218C5A270074C828 /* ImageOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageOverlay.swift; sourceTree = "<group>"; };
+		96862EB8219ACE1F00F709B0 /* EventDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDetailsViewController.swift; sourceTree = "<group>"; };
+		96862EBA219AD8AC00F709B0 /* TabBarHiding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarHiding.swift; sourceTree = "<group>"; };
 		96C55413219044D00065D70A /* EventsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsListViewController.swift; sourceTree = "<group>"; };
 		96C5541921918CB90065D70A /* TrendingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendingCell.swift; sourceTree = "<group>"; };
 		96C5541A21918CB90065D70A /* TrendingCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TrendingCell.xib; sourceTree = "<group>"; };
@@ -221,6 +225,7 @@
 				96C554302192CBCE0065D70A /* GlobalCornerRadius.swift */,
 				96C5544F219438F00065D70A /* PagedCollectionViewLayout.swift */,
 				960A475F219AA8FE00780AD4 /* HapticFeedback.swift */,
+				96862EBA219AD8AC00F709B0 /* TabBarHiding.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -273,10 +278,11 @@
 			isa = PBXGroup;
 			children = (
 				96C55413219044D00065D70A /* EventsListViewController.swift */,
+				96862EB8219ACE1F00F709B0 /* EventDetailsViewController.swift */,
 				96C554212192BF0F0065D70A /* Trending Section */,
 				9681E77E21955E5000B4F80A /* Following Section */,
 				96C554372192D8E50065D70A /* Bookmark Section */,
-				96C5545421943B020065D70A /* Featured Collection */,
+				96C5545421943B020065D70A /* Featured Section */,
 			);
 			path = Events;
 			sourceTree = "<group>";
@@ -303,7 +309,7 @@
 			name = "Bookmark Section";
 			sourceTree = "<group>";
 		};
-		96C5545421943B020065D70A /* Featured Collection */ = {
+		96C5545421943B020065D70A /* Featured Section */ = {
 			isa = PBXGroup;
 			children = (
 				96C55446219408400065D70A /* FeaturedSectionHeader.swift */,
@@ -311,7 +317,7 @@
 				96C55449219408560065D70A /* FeaturedCell.swift */,
 				96C5544A219408560065D70A /* FeaturedCell.xib */,
 			);
-			name = "Featured Collection";
+			name = "Featured Section";
 			sourceTree = "<group>";
 		};
 		CA550A9921706A65008E493D = {
@@ -515,6 +521,7 @@
 				966A6CC3217DBDAF00DF872F /* EventsViewController.swift in Sources */,
 				965838BE218317CE000FE8B0 /* NewsCellType4.swift in Sources */,
 				96C5541B21918CB90065D70A /* TrendingCell.swift in Sources */,
+				96862EBB219AD8AC00F709B0 /* TabBarHiding.swift in Sources */,
 				966A6CCC217DE6DD00DF872F /* EventsSection.swift in Sources */,
 				966A6CB8217DB5F500DF872F /* TabBarViewController.swift in Sources */,
 				964761ED2186FAAD0004F58C /* BaseService.swift in Sources */,
@@ -530,6 +537,7 @@
 				966A6CBF217DBD7F00DF872F /* BuskersViewController.swift in Sources */,
 				966A6CE021808BB100DF872F /* NewsCellType1.swift in Sources */,
 				96C554252192C2AC0065D70A /* BookmarkSection.swift in Sources */,
+				96862EB9219ACE1F00F709B0 /* EventDetailsViewController.swift in Sources */,
 				CA550AA621706A65008E493D /* AppDelegate.swift in Sources */,
 				965838C221831866000FE8B0 /* NewsCellType5.swift in Sources */,
 				966A6CC5217DBDC400DF872F /* SettingsViewController.swift in Sources */,

@@ -12,7 +12,7 @@ class EventsCell: UICollectionViewCell {
 
     static let reuseIdentifier: String = "eventCell"
     
-    static let width: CGFloat = 197
+    static let width: CGFloat = 198
     static let height: CGFloat = 96
     
     @IBOutlet weak var bgView: UIView!
@@ -44,9 +44,5 @@ class EventsCell: UICollectionViewCell {
         dateLabel.textColor = .whiteText()
         eventLabel.textColor = .whiteText()
         performerLabel.textColor = .whiteText()
-    }
-    
-    override var isHighlighted: Bool {
-        didSet { Animations.bounce(isHighlighted, view: self) }
     }
 }

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import BouncyLayout
 
 class BookmarkSection: UICollectionViewCell {
 
@@ -27,6 +28,12 @@ class BookmarkSection: UICollectionViewCell {
         bookmarksCountLabel.textColor = .purpleText()
         bookmarksCountLabel.text = "4 Events"
         
+        if let layout = bookmarksCollectionView.collectionViewLayout as? BouncyLayout {
+            layout.scrollDirection = .horizontal
+            layout.minimumLineSpacing = 15
+            layout.sectionInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
+        }
+        
         bookmarksCollectionView.dataSource = self
         bookmarksCollectionView.delegate = self
         
@@ -41,7 +48,7 @@ class BookmarkSection: UICollectionViewCell {
 
 extension BookmarkSection: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 4
+        return 10
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -50,7 +57,7 @@ extension BookmarkSection: UICollectionViewDataSource, UICollectionViewDelegate,
         cell.eventTitle.text = "天星碼頭"
         cell.dateLabel.text = "明天"
         cell.performerLabel.text = "Billy Fung"
-        cell.bgImgView.image = UIImage(named: "music-studio-12")
+        cell.bgImgView.image = UIImage(named: "cat")
         return cell
     }
     

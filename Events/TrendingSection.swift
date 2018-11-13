@@ -19,7 +19,6 @@ class TrendingSection: UICollectionViewCell {
     @IBOutlet weak var trendingSectionLabel: UILabel!
     @IBOutlet weak var trendingCollectionView: UICollectionView!
     
-    
     override func awakeFromNib() {
         super.awakeFromNib()
 

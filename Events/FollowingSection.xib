@@ -28,12 +28,7 @@
                     <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="ksR-eM-H75">
                         <rect key="frame" x="0.0" y="69" width="335" height="169"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="15" minimumInteritemSpacing="0.0" id="l5i-pK-lRf">
-                            <size key="itemSize" width="50" height="50"/>
-                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                            <inset key="sectionInset" minX="20" minY="0.0" maxX="20" maxY="0.0"/>
-                        </collectionViewFlowLayout>
+                        <collectionViewLayout key="collectionViewLayout" id="FQQ-aa-e7S" customClass="BouncyLayout" customModule="BouncyLayout"/>
                     </collectionView>
                 </subviews>
             </view>

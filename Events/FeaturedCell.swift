@@ -20,19 +20,16 @@ class FeaturedCell: UICollectionViewCell {
     var delegate: FeaturedCellDelegate?
     
     static let width = TrendingSection.width
-    static let height: CGFloat = 90
+    static let height: CGFloat = 93
     
     @IBOutlet weak var bgView: UIView!
-    @IBOutlet weak var dummyBgImgView: UIView!
+    @IBOutlet weak var bgImgView: UIImageView!
     @IBOutlet weak var eventTitle: UILabel!
     @IBOutlet weak var performerLabel: UILabel!
     @IBOutlet weak var bookmarkCountLabel: UILabel!
     @IBOutlet weak var bookmarkBtn: UIButton!
     
     @IBOutlet var skeletonViews: Array<UILabel>!
-    
-    
-    var imgView = UIImageView()
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -47,14 +44,14 @@ class FeaturedCell: UICollectionViewCell {
         bookmarkBtn.layer.shadowRadius = 5
         bookmarkBtn.layer.shadowOpacity = 0.7
         
-        let path = UIBezierPath(roundedRect:dummyBgImgView.bounds,
+        let path = UIBezierPath(roundedRect:bgImgView.bounds,
                                 byRoundingCorners:[.topLeft, .bottomLeft],
                                 cornerRadii: CGSize(width: GlobalCornerRadius.value, height:  GlobalCornerRadius.value))
 
         let maskLayer = CAShapeLayer()
 
         maskLayer.path = path.cgPath
-        dummyBgImgView.layer.mask = maskLayer
+        bgImgView.layer.mask = maskLayer
         
         SkeletonAppearance.default.multilineCornerRadius = Int(GlobalCornerRadius.value / 2)
         SkeletonAppearance.default.gradient = SkeletonGradient(baseColor: .gray)
@@ -74,20 +71,6 @@ class FeaturedCell: UICollectionViewCell {
         eventTitle.textColor = .whiteText()
         performerLabel.textColor = .whiteText()
         bookmarkCountLabel.textColor = .whiteText()
-        
-        imgView = UIImageView()
-        imgView.frame = CGRect(x: 0, y: 0, width: dummyBgImgView.frame.width, height: dummyBgImgView.frame.height)
-        imgView.contentMode = .scaleAspectFill
-        imgView.backgroundColor = .lightGray
-        //bgImgView.layer.cornerRadius = GlobalCornerRadius.value
-        imgView.clipsToBounds = true
-        
-        imgView.snp.makeConstraints { (make) -> Void in
-            make.width.equalTo(dummyBgImgView.frame.width)
-            make.height.equalTo(dummyBgImgView.frame.height)
-        }
-        dummyBgImgView.addSubview(imgView)
-        
     }
 
     @IBAction func bookmarkBtnTapped(_ sender: Any) {

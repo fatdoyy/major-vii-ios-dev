@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import BouncyLayout
 
 class FollowingSection: UICollectionViewCell {
 
@@ -22,6 +23,12 @@ class FollowingSection: UICollectionViewCell {
         
         followingSectionTitle.textColor = .whiteText()
         followingSectionTitle.text = "Your Followings"
+        
+        if let layout = followingSectionCollectionView.collectionViewLayout as? BouncyLayout {
+            layout.scrollDirection = .horizontal
+            layout.minimumLineSpacing = 15
+            layout.sectionInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
+        }
         
         followingSectionCollectionView.dataSource = self
         followingSectionCollectionView.delegate = self
@@ -46,7 +53,7 @@ extension FollowingSection: UICollectionViewDataSource, UICollectionViewDelegate
         cell.eventTitle.text = "天星碼頭"
         cell.dateLabel.text = "明天"
         cell.performerLabel.text = "Billy Fung"
-        cell.bgImgView.image = UIImage(named: "music-studio-12")
+        cell.bgImgView.image = UIImage(named: "cat")
         return cell
     }
     

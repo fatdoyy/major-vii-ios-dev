@@ -13,24 +13,24 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="uby-Tt-cJ5" customClass="FollowingCell" customModule="major_7_ios" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="137" height="166"/>
+            <rect key="frame" x="0.0" y="0.0" width="138" height="166"/>
             <autoresizingMask key="autoresizingMask"/>
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                <rect key="frame" x="0.0" y="0.0" width="137" height="166"/>
+                <rect key="frame" x="0.0" y="0.0" width="138" height="166"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="5Cu-Zt-chs">
-                        <rect key="frame" x="0.0" y="3" width="137" height="141"/>
+                        <rect key="frame" x="0.0" y="3" width="138" height="141"/>
                         <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="by" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yti-Ln-olh">
-                        <rect key="frame" x="10" y="150" width="12" height="12"/>
+                        <rect key="frame" x="10" y="150" width="13" height="12"/>
                         <fontDescription key="fontDescription" type="system" weight="light" pointSize="10"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ctj-La-Tnx">
-                        <rect key="frame" x="26" y="150" width="103" height="12"/>
+                        <rect key="frame" x="27" y="150" width="103" height="12"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="103" id="ZNp-H5-866"/>
                         </constraints>
@@ -39,7 +39,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mF7-ZR-7Rz">
-                        <rect key="frame" x="107" y="0.0" width="30" height="36"/>
+                        <rect key="frame" x="108" y="0.0" width="30" height="36"/>
                         <color key="backgroundColor" red="0.31764705879999999" green="0.71764705880000002" blue="0.62352941179999999" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="30" id="5kE-ty-Dlc"/>
@@ -51,13 +51,13 @@
                         </connections>
                     </button>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2k+" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tTR-JB-VXG">
-                        <rect key="frame" x="112" y="39" width="20" height="12"/>
+                        <rect key="frame" x="113" y="39" width="20" height="12"/>
                         <fontDescription key="fontDescription" type="boldSystem" pointSize="10"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1KW-x2-uUH" customClass="ImageOverlay" customModule="major_7_ios" customModuleProvider="target">
-                        <rect key="frame" x="0.0" y="70" width="137" height="74"/>
+                        <rect key="frame" x="0.0" y="70" width="138" height="74"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OAc-Po-34R">
                                 <rect key="frame" x="12" y="52" width="26" height="12"/>
@@ -66,7 +66,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ByJ-Or-Tlp">
-                                <rect key="frame" x="12" y="30" width="117" height="17"/>
+                                <rect key="frame" x="12" y="30" width="118" height="17"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="14"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -117,7 +117,7 @@
                 <outletCollection property="skeletonViews" destination="yti-Ln-olh" collectionClass="NSMutableArray" id="Hdp-fp-WGD"/>
                 <outletCollection property="skeletonViews" destination="tTR-JB-VXG" collectionClass="NSMutableArray" id="ZmS-Ey-JBy"/>
             </connections>
-            <point key="canvasLocation" x="132" y="153.82308845577214"/>
+            <point key="canvasLocation" x="131.19999999999999" y="153.37331334332833"/>
         </collectionViewCell>
     </objects>
     <resources>

@@ -12,6 +12,8 @@ import AMScrollingNavbar
 
 class EventsListViewController: ScrollingNavigationViewController, UIGestureRecognizerDelegate {
     
+    static let storyboardId = "eventsVc"
+    
     @IBOutlet weak var mainCollectionView: UICollectionView!
     
     override func viewDidLoad() {
@@ -45,7 +47,7 @@ class EventsListViewController: ScrollingNavigationViewController, UIGestureReco
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        hideTabBar()
+        TabBar.hide(rootView: self)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -58,7 +60,7 @@ class EventsListViewController: ScrollingNavigationViewController, UIGestureReco
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        showTabBar()
+        TabBar.show(rootView: self)
     }
     
     private func setupLeftBarItems(){
@@ -109,35 +111,6 @@ class EventsListViewController: ScrollingNavigationViewController, UIGestureReco
         navigationController?.popViewController(animated: true)
     }
     
-    private func hideTabBar(){
-        var frame = self.tabBarController?.tabBar.frame
-        if frame?.minY != self.view.frame.maxY {
-            let newY = UIScreen.main.bounds.height + (frame?.size.height)!
-            frame?.origin.y = newY
-            UIView.animate(withDuration: 0.5, animations: {
-                self.tabBarController?.tabBar.frame = frame!
-            })
-        }
-    }
-    
-    private func showTabBar(){
-        var frame = self.tabBarController?.tabBar.frame
-        let newY = UIScreen.main.bounds.height - (frame?.size.height)!
-        let originY = (frame?.minY)! - (frame?.height)!
-        if frame?.minY != self.view.frame.maxY {
-            
-            frame?.origin.y = newY
-            UIView.animate(withDuration: 0.5, animations: {
-                self.tabBarController?.tabBar.frame = frame!
-            })
-            
-        } else{
-            frame?.origin.y = originY
-            // print(frame?.origin.y)
-            print("frame resetted")
-        }
-    }
-    
     //swipe pop gesture
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return true
@@ -175,7 +148,7 @@ extension EventsListViewController: UICollectionViewDelegate, UICollectionViewDe
                 cell.eventTitle.text = "Music on the Habour"
                 cell.performerLabel.text = "Music ABC"
                 cell.bookmarkCountLabel.text = "201"
-                cell.imgView.image = UIImage(named: "music-studio-12")
+                cell.bgImgView.image = UIImage(named: "cat")
                 return cell
             default: //case 0, trending section
                 let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: TrendingSection.reuseIdentifier, for: indexPath) as! TrendingSection

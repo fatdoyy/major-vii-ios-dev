@@ -1,5 +1,5 @@
 //
-//  EventsCollectionViewCell.swift
+//  EventsSection.swift
 //  major-7-ios
 //
 //  Created by jason on 22/10/2018.
@@ -11,6 +11,7 @@ import BouncyLayout
 
 protocol EventsSectionDelegate {
     func viewAllBtnTapped()
+    func cellTapped()
 }
 
 class EventsSection: UICollectionViewCell {
@@ -36,6 +37,12 @@ class EventsSection: UICollectionViewCell {
         viewAllBtn.setTitle("VIEW ALL", for: .normal)
         viewAllBtn.setTitleColor(.whiteText75Alpha(), for: .normal)
         
+        if let layout = eventsCollectionView.collectionViewLayout as? BouncyLayout {
+            layout.scrollDirection = .horizontal
+            layout.minimumLineSpacing = 15
+            layout.sectionInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
+        }
+        
         eventsCollectionView.dataSource = self
         eventsCollectionView.delegate = self
         
@@ -55,7 +62,7 @@ class EventsSection: UICollectionViewCell {
 // MARK: UICollectionView Data Source
 extension EventsSection: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 4
+        return 10 //upcomingEvents.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -68,6 +75,6 @@ extension EventsSection: UICollectionViewDataSource, UICollectionViewDelegate, U
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("\(indexPath.row)")
+        delegate?.cellTapped()
     }
 }

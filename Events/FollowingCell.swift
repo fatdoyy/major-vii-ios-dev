@@ -19,8 +19,8 @@ class FollowingCell: UICollectionViewCell {
     
     var delegate: FollowingCellDelegate?
     
-    static let width: CGFloat = 137
-    static let height: CGFloat = 169
+    static let width: CGFloat = 138
+    static let height: CGFloat = 166
     
     @IBOutlet weak var bgImgView: UIImageView!
     @IBOutlet weak var imageOverlay: ImageOverlay!

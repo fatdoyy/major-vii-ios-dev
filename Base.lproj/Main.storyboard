@@ -180,7 +180,46 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qoJ-B8-Y4x" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2816.8000000000002" y="-1675.4122938530736"/>
+            <point key="canvasLocation" x="2644" y="-1675"/>
+        </scene>
+        <!--Event Details View Controller-->
+        <scene sceneID="5GU-zy-LRZ">
+            <objects>
+                <viewController storyboardIdentifier="eventDetails" id="GMV-qX-vEE" customClass="EventDetailsViewController" customModule="major_7_ios" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="hgd-DL-QC7">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="cpZ-ve-JUZ">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="250"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="250" id="ena-j7-obj"/>
+                                </constraints>
+                            </imageView>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QNu-xN-zbw">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                            </scrollView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="cpZ-ve-JUZ" firstAttribute="top" secondItem="hgd-DL-QC7" secondAttribute="top" id="5MD-k5-yec"/>
+                            <constraint firstItem="QNu-xN-zbw" firstAttribute="top" secondItem="hgd-DL-QC7" secondAttribute="top" id="6dZ-Yo-GTy"/>
+                            <constraint firstItem="QNu-xN-zbw" firstAttribute="leading" secondItem="arw-y3-SIZ" secondAttribute="leading" id="E7e-KM-i78"/>
+                            <constraint firstAttribute="bottom" secondItem="QNu-xN-zbw" secondAttribute="bottom" id="JmH-Y6-LKC"/>
+                            <constraint firstItem="QNu-xN-zbw" firstAttribute="trailing" secondItem="arw-y3-SIZ" secondAttribute="trailing" id="WxD-JN-PZx"/>
+                            <constraint firstItem="cpZ-ve-JUZ" firstAttribute="leading" secondItem="arw-y3-SIZ" secondAttribute="leading" id="egA-Xy-eiW"/>
+                            <constraint firstItem="cpZ-ve-JUZ" firstAttribute="trailing" secondItem="arw-y3-SIZ" secondAttribute="trailing" id="lcr-F0-Ylb"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="arw-y3-SIZ"/>
+                    </view>
+                    <connections>
+                        <outlet property="headerImg" destination="cpZ-ve-JUZ" id="rpJ-RX-aZw"/>
+                        <outlet property="mainScrollView" destination="QNu-xN-zbw" id="9ge-dw-Qfw"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Scu-FI-UHM" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3413.5999999999999" y="-1675.1231527093596"/>
         </scene>
         <!--Scrolling Navigation Controller-->
         <scene sceneID="jwi-gD-kLw">
