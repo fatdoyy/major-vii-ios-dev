@@ -31,6 +31,7 @@ class FeaturedCell: UICollectionViewCell {
     
     @IBOutlet var skeletonViews: Array<UILabel>!
     
+    
     var imgView = UIImageView()
     
     override func awakeFromNib() {
@@ -38,7 +39,7 @@ class FeaturedCell: UICollectionViewCell {
         backgroundColor = .darkGray()
         bgView.backgroundColor = .charcoal()
         bgView.layer.cornerRadius = GlobalCornerRadius.value
-        
+         
         bookmarkBtn.backgroundColor = .clear
         bookmarkBtn.layer.cornerRadius = GlobalCornerRadius.value / 3
         bookmarkBtn.layer.shadowColor = UIColor.black.cgColor
@@ -90,7 +91,7 @@ class FeaturedCell: UICollectionViewCell {
     }
 
     @IBAction func bookmarkBtnTapped(_ sender: Any) {
-        
+        HapticFeedback.createImpact(style: .medium)
         if (self.bookmarkBtn.backgroundColor?.isEqual(UIColor.clear))! {
             UIView.animate(withDuration: 0.2, animations: {
                 self.bookmarkBtn.backgroundColor = .mintGreen()

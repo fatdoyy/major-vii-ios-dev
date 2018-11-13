@@ -22,7 +22,7 @@ class FollowingCell: UICollectionViewCell {
     static let width: CGFloat = 137
     static let height: CGFloat = 169
     
-    @IBOutlet weak var bgView: UIView!
+    @IBOutlet weak var bgImgView: UIImageView!
     @IBOutlet weak var imageOverlay: ImageOverlay!
     @IBOutlet weak var eventTitle: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
@@ -32,13 +32,11 @@ class FollowingCell: UICollectionViewCell {
     @IBOutlet weak var bookmarkCountLabel: UILabel!
     
     @IBOutlet var skeletonViews: Array<UILabel>!
-
-    var bgImgView = UIImageView()
     
     override func awakeFromNib() {
         super.awakeFromNib()
         backgroundColor = .darkGray()
-        bgView.layer.cornerRadius = GlobalCornerRadius.value
+        bgImgView.layer.cornerRadius = GlobalCornerRadius.value
         
         imageOverlay.clipsToBounds = true
         imageOverlay.layer.cornerRadius = GlobalCornerRadius.value
@@ -71,24 +69,10 @@ class FollowingCell: UICollectionViewCell {
         byLabel.textColor = .whiteText()
         performerLabel.textColor = .whiteText()
         dateLabel.textColor = .whiteText()
-        
-        bgImgView = UIImageView()
-        bgImgView.frame = CGRect(x: 0, y: 0, width: bgView.frame.width, height: bgView.frame.height)
-        bgImgView.contentMode = .scaleAspectFill
-        bgImgView.backgroundColor = .lightGray
-        bgImgView.layer.cornerRadius = GlobalCornerRadius.value
-        bgImgView.clipsToBounds = true
-        
-        bgImgView.snp.makeConstraints { (make) -> Void in
-            make.width.equalTo(bgView.frame.width)
-            make.height.equalTo(bgView.frame.height)
-        }
-        bgView.addSubview(bgImgView)
-        bgView.sendSubviewToBack(bgImgView)
     }
 
     @IBAction func bookmarkBtnTapped(_ sender: Any) {
-        
+        HapticFeedback.createImpact(style: .medium)
         if (self.bookmarkBtn.backgroundColor?.isEqual(UIColor.clear))! {
             UIView.animate(withDuration: 0.2, animations: {
                 self.bookmarkBtn.backgroundColor = .mintGreen()

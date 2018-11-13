@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		20A96B2F0DADE6B405F6D3CE /* Pods_major_7_ios.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 72E5F17BF3B3C6876EB735D2 /* Pods_major_7_ios.framework */; };
+		960A4760219AA8FE00780AD4 /* HapticFeedback.swift in Sources */ = {isa = PBXBuildFile; fileRef = 960A475F219AA8FE00780AD4 /* HapticFeedback.swift */; };
 		964761ED2186FAAD0004F58C /* BaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 964761EC2186FAAD0004F58C /* BaseService.swift */; };
 		964761EF21870EE60004F58C /* NewsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 964761EE21870EE60004F58C /* NewsService.swift */; };
 		965838B32181C5A4000FE8B0 /* News.swift in Sources */ = {isa = PBXBuildFile; fileRef = 965838B22181C5A4000FE8B0 /* News.swift */; };
@@ -69,6 +70,7 @@
 /* Begin PBXFileReference section */
 		72E5F17BF3B3C6876EB735D2 /* Pods_major_7_ios.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_major_7_ios.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		85E2A7C70D0DC04C0984E968 /* Pods-major-7-ios.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-major-7-ios.debug.xcconfig"; path = "Pods/Target Support Files/Pods-major-7-ios/Pods-major-7-ios.debug.xcconfig"; sourceTree = "<group>"; };
+		960A475F219AA8FE00780AD4 /* HapticFeedback.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticFeedback.swift; sourceTree = "<group>"; };
 		964761EC2186FAAD0004F58C /* BaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseService.swift; sourceTree = "<group>"; };
 		964761EE21870EE60004F58C /* NewsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsService.swift; sourceTree = "<group>"; };
 		965838B22181C5A4000FE8B0 /* News.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = News.swift; sourceTree = "<group>"; };
@@ -218,6 +220,7 @@
 				96799FE5218C5A270074C828 /* ImageOverlay.swift */,
 				96C554302192CBCE0065D70A /* GlobalCornerRadius.swift */,
 				96C5544F219438F00065D70A /* PagedCollectionViewLayout.swift */,
+				960A475F219AA8FE00780AD4 /* HapticFeedback.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -505,6 +508,7 @@
 				966A6CBC217DB86D00DF872F /* HomeViewController.swift in Sources */,
 				96C5543A2192D9980065D70A /* BookmarkCell.swift in Sources */,
 				96C5541F219199700065D70A /* TrendingSection.swift in Sources */,
+				960A4760219AA8FE00780AD4 /* HapticFeedback.swift in Sources */,
 				964761EF21870EE60004F58C /* NewsService.swift in Sources */,
 				966A6CC7217DC16500DF872F /* Colors.swift in Sources */,
 				96C5544C219408580065D70A /* FeaturedCell.swift in Sources */,
