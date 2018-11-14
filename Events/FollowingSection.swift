@@ -9,9 +9,15 @@
 import UIKit
 import BouncyLayout
 
+protocol FollowingSectionDelegate{
+    func followingCellTapped()
+}
+
 class FollowingSection: UICollectionViewCell {
 
     static let reuseIdentifier = "followingSection"
+    
+    var delegate: FollowingSectionDelegate?
     
     static let height: CGFloat = 238
     
@@ -62,7 +68,8 @@ extension FollowingSection: UICollectionViewDataSource, UICollectionViewDelegate
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("\(indexPath.row)")
+        print(indexPath.row)
+        delegate?.followingCellTapped()
     }
     
 }

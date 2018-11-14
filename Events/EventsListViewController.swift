@@ -47,6 +47,11 @@ class EventsListViewController: ScrollingNavigationViewController, UIGestureReco
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        //transparent navigation bar
+        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
+        navigationController?.navigationBar.shadowImage = UIImage()
+        navigationController?.navigationBar.barTintColor = .darkGray()
+        navigationController?.navigationBar.isTranslucent = false
         TabBar.hide(rootView: self)
     }
     
@@ -138,9 +143,11 @@ extension EventsListViewController: UICollectionViewDelegate, UICollectionViewDe
             switch section{
             case .Following:
                 let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: FollowingSection.reuseIdentifier, for: indexPath) as! FollowingSection
+                cell.delegate = self
                 return cell
             case .Bookmark:
                 let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: BookmarkSection.reuseIdentifier, for: indexPath) as! BookmarkSection
+                cell.delegate = self
                 return cell
             case .Featured:
                 let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: FeaturedCell.reuseIdentifier, for: indexPath) as! FeaturedCell
@@ -152,6 +159,7 @@ extension EventsListViewController: UICollectionViewDelegate, UICollectionViewDe
                 return cell
             default: //case 0, trending section
                 let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: TrendingSection.reuseIdentifier, for: indexPath) as! TrendingSection
+                cell.delegate = self
                 return cell
             }
         } else {
@@ -213,9 +221,31 @@ extension EventsListViewController: UICollectionViewDelegate, UICollectionViewDe
     
 }
 
+//MARK: Trending Section Delegate
+extension EventsListViewController: TrendingSectionDelegate{
+    func trendingCellTapped() {
+        EventDetailsViewController.push(fromView: self)
+    }
+}
+
+//MARK: Following Section Delegate
+extension EventsListViewController: FollowingSectionDelegate{
+    func followingCellTapped() {
+        EventDetailsViewController.push(fromView: self)
+    }
+}
+
+//MARK: Bookmark Section Delegate
+extension EventsListViewController: BookmarkSectionDelegate{
+    func bookmarkCellTapped() {
+        EventDetailsViewController.push(fromView: self)
+    }
+}
+
+//MARK: Featured Section bookmark btn
 extension EventsListViewController: FeaturedCellDelegate{
     func bookmarkBtnTapped() {
-        print("tapped")
+        EventDetailsViewController.push(fromView: self)
     }
 }
 

@@ -9,9 +9,15 @@
 import UIKit
 import BouncyLayout
 
+protocol BookmarkSectionDelegate{
+    func bookmarkCellTapped()
+}
+
 class BookmarkSection: UICollectionViewCell {
 
     static let reuseIdentifier = "bookmarkSection"
+    
+    var delegate: BookmarkSectionDelegate?
     
     static let height: CGFloat = 247
     
@@ -66,7 +72,8 @@ extension BookmarkSection: UICollectionViewDataSource, UICollectionViewDelegate,
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("\(indexPath.row)")
+        print(indexPath.row)
+        delegate?.bookmarkCellTapped()
     }
 }
 

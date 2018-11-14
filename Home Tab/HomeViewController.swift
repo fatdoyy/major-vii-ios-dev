@@ -69,11 +69,7 @@ class HomeViewController: UIViewController, UIGestureRecognizerDelegate {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        //transparent navigation bar
-        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
-        navigationController?.navigationBar.shadowImage = UIImage()
-        navigationController?.navigationBar.barTintColor = .darkGray()
-        navigationController?.navigationBar.isTranslucent = false
+
     }
     
     func fetchNews(){
@@ -238,7 +234,7 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
     }
 }
 
-//View all btn tapped
+//View all btn/cell tapped
 extension HomeViewController: EventsSectionDelegate {
     func viewAllBtnTapped() {
         let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)

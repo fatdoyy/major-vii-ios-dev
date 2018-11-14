@@ -8,9 +8,15 @@
 
 import UIKit
 
+protocol TrendingSectionDelegate{
+    func trendingCellTapped()
+}
+
 class TrendingSection: UICollectionViewCell {
 
     static let reuseIdentifier = "trendingSection"
+    
+    var delegate: TrendingSectionDelegate?
     
     static let aspectRatio: CGFloat = 335.0 / 297.0 //ratio according to zeplin
     static let width = NewsCellType1.width
@@ -66,12 +72,10 @@ extension TrendingSection: UICollectionViewDataSource, UICollectionViewDelegate,
         return cell
     }
     
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-//        return CGSize(width: TrendingCell.width, height: TrendingCell.height)
-//    }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("\(indexPath.row)")
+        print(indexPath.row)
+        delegate?.trendingCellTapped()
     }
 }
 
