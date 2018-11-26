@@ -136,6 +136,9 @@
                     </view>
                     <navigationItem key="navigationItem" id="xuC-tY-7LJ"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="isHeroEnabled" value="YES"/>
+                    </userDefinedRuntimeAttributes>
                     <connections>
                         <outlet property="mainCollectionView" destination="jRV-mZ-rWk" id="U6G-un-PRI"/>
                     </connections>
@@ -174,6 +177,9 @@
                         <viewLayoutGuide key="safeArea" id="wwf-Ze-8TO"/>
                     </view>
                     <navigationItem key="navigationItem" id="c0U-xo-uyT"/>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="isHeroEnabled" value="YES"/>
+                    </userDefinedRuntimeAttributes>
                     <connections>
                         <outlet property="mainCollectionView" destination="xs1-tf-VX4" id="s6T-Ym-SHb"/>
                     </connections>
@@ -191,17 +197,20 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="cpZ-ve-JUZ">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="300"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="330"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="300" id="sZh-V8-mdG"/>
+                                    <constraint firstAttribute="height" constant="330" id="sZh-V8-mdG"/>
                                 </constraints>
                             </imageView>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QNu-xN-zbw">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SaP-N2-BUd" customClass="roundedView" customModule="major_7_ios" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="300" width="375" height="30"/>
+                                <color key="backgroundColor" red="0.59999999999999998" green="0.0" blue="0.015686274510000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </view>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QNu-xN-zbw">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                                 <subviews>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fzh-wP-JSm">
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fzh-wP-JSm" customClass="EventDetailsView" customModule="major_7_ios" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
-                                        <color key="backgroundColor" red="0.36470588240000001" green="0.2901960784" blue="0.59999999999999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </view>
                                 </subviews>
                                 <constraints>
@@ -217,18 +226,24 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="cpZ-ve-JUZ" firstAttribute="trailing" secondItem="arw-y3-SIZ" secondAttribute="trailing" id="5hg-3l-DoX"/>
+                            <constraint firstItem="SaP-N2-BUd" firstAttribute="top" secondItem="cpZ-ve-JUZ" secondAttribute="top" constant="300" id="Lxa-b2-fAW"/>
                             <constraint firstAttribute="bottom" secondItem="QNu-xN-zbw" secondAttribute="bottom" id="NQM-ja-qaW"/>
                             <constraint firstItem="cpZ-ve-JUZ" firstAttribute="leading" secondItem="arw-y3-SIZ" secondAttribute="leading" id="a3b-6m-oDJ"/>
                             <constraint firstItem="cpZ-ve-JUZ" firstAttribute="top" secondItem="hgd-DL-QC7" secondAttribute="top" id="bBC-3S-XtH"/>
+                            <constraint firstItem="SaP-N2-BUd" firstAttribute="bottom" secondItem="cpZ-ve-JUZ" secondAttribute="bottom" id="eBP-4n-XyV"/>
+                            <constraint firstItem="SaP-N2-BUd" firstAttribute="trailing" secondItem="arw-y3-SIZ" secondAttribute="trailing" id="fPF-Bo-Gx0"/>
                             <constraint firstItem="QNu-xN-zbw" firstAttribute="trailing" secondItem="cpZ-ve-JUZ" secondAttribute="trailing" id="fv5-6W-c5y"/>
+                            <constraint firstItem="SaP-N2-BUd" firstAttribute="leading" secondItem="arw-y3-SIZ" secondAttribute="leading" id="hM3-L8-qzc"/>
                             <constraint firstItem="QNu-xN-zbw" firstAttribute="leading" secondItem="cpZ-ve-JUZ" secondAttribute="leading" id="u3y-jc-BxV"/>
                             <constraint firstItem="QNu-xN-zbw" firstAttribute="top" secondItem="cpZ-ve-JUZ" secondAttribute="top" id="vTP-dQ-9Xe"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="arw-y3-SIZ"/>
                     </view>
                     <connections>
+                        <outlet property="bgView" destination="fzh-wP-JSm" id="AdD-Zj-fMG"/>
                         <outlet property="headerImg" destination="cpZ-ve-JUZ" id="rpJ-RX-aZw"/>
                         <outlet property="mainScrollView" destination="QNu-xN-zbw" id="9ge-dw-Qfw"/>
+                        <outlet property="roundedView" destination="SaP-N2-BUd" id="0AT-B4-ip5"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Scu-FI-UHM" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -248,6 +263,9 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="isHeroEnabled" value="YES"/>
+                    </userDefinedRuntimeAttributes>
                     <connections>
                         <segue destination="sXn-Jw-JsF" kind="relationship" relationship="rootViewController" id="040-qU-UKm"/>
                     </connections>

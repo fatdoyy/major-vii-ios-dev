@@ -11,91 +11,116 @@ import UIKit
 
 class Hashtags {
     
-    static func create(position: Hashtags.Position, dataSource: [String], toCell: UICollectionViewCell, multiLines: Bool? = false, solidColor: Bool? = false){
-        let allLabels = toCell.allSubViewsOf(type: TagLabel.self)
-
+    static func create(position: Hashtags.Position, dataSource: [String], toView: UIView? = nil, toCell: UICollectionViewCell? = nil, multiLines: Bool? = false, solidColor: Bool? = false){
+        
+        //cell paddings
         var leftPaddingToCell: CGFloat = 20
         let rightPaddingToCell: CGFloat = 20
         
         var topPaddingToCell: CGFloat = 20
         let bottomPaddingToCell: CGFloat = 55
         
+        //tag padding in BG view
         let labelTopBottomPaddingInBgView: CGFloat = 5
         let labelLeftRightPaddingInBgView: CGFloat = 8
         let paddingBetweenTags: CGFloat = 10
         
-        if allLabels.isEmpty { // avoid adding the same hashtags multiple times
-            if !dataSource.isEmpty{
-                for tag in dataSource{
-                    let tagLabel = TagLabel()
-                    
-                    if position == .top {
-                        tagLabel.frame = CGRect(x: toCell.contentView.frame.minX + leftPaddingToCell + labelLeftRightPaddingInBgView,
-                                                y: toCell.contentView.frame.minY + topPaddingToCell + labelTopBottomPaddingInBgView,
-                                                width: tagLabel.intrinsicContentSize.width,
-                                                height: 14)
-                    } else {
-                        tagLabel.frame = CGRect(x: toCell.contentView.frame.minX + leftPaddingToCell + labelLeftRightPaddingInBgView,
-                                                y: toCell.frame.height - bottomPaddingToCell - labelTopBottomPaddingInBgView,
-                                                width: tagLabel.intrinsicContentSize.width,
-                                                height: 14)
-                    }
-                    
-                    if !tagLabel.isHidden { //if the next hashtag is not out of bounds
-                        tagLabel.font = UIFont.systemFont(ofSize: 12, weight: .regular)
-                        tagLabel.textAlignment = .center
-                        tagLabel.text = "#\(tag)"
-                        tagLabel.sizeToFit()
+        if let cell = toCell {
+            let allLabels = cell.allSubViewsOf(type: TagLabel.self)
+            
+            if allLabels.isEmpty { // avoid adding the same hashtags multiple times
+                if !dataSource.isEmpty{
+                    for tag in dataSource{
+                        let tagLabel = TagLabel()
                         
-                        if let isMultiLine = multiLines{ //breaking to next line if hashtag is out of bounds
-                            if isMultiLine {
-                                if tagLabel.frame.maxX >= toCell.contentView.frame.width {
-                                    topPaddingToCell += 30
-                                    leftPaddingToCell = 20
-                                    
-                                    var newFrame = tagLabel.frame
-                                    newFrame.origin.x = toCell.contentView.frame.minX + leftPaddingToCell + labelLeftRightPaddingInBgView
-                                    newFrame.origin.y = toCell.contentView.frame.minY + topPaddingToCell + labelTopBottomPaddingInBgView
-                                    tagLabel.frame = newFrame
-                                }
-                            } else {
-                                if tagLabel.frame.maxX >= (toCell.contentView.frame.width - rightPaddingToCell){
-                                    tagLabel.isHidden = true //not showing all hashtags due to cell width
-                                }
-                            }
+                        switch position {
+                        case .cellTop:
+                            tagLabel.frame = CGRect(x: cell.contentView.frame.minX + leftPaddingToCell + labelLeftRightPaddingInBgView,
+                                                    y: cell.contentView.frame.minY + topPaddingToCell + labelTopBottomPaddingInBgView,
+                                                    width: tagLabel.intrinsicContentSize.width,
+                                                    height: 14)
+                        case .cellBottom:
+                            tagLabel.frame = CGRect(x: cell.contentView.frame.minX + leftPaddingToCell + labelLeftRightPaddingInBgView,
+                                                    y: cell.frame.height - bottomPaddingToCell - labelTopBottomPaddingInBgView,
+                                                    width: tagLabel.intrinsicContentSize.width,
+                                                    height: 14)
+                        default: // details view
+                            tagLabel.frame = CGRect(x: toView!.frame.minX + leftPaddingToCell + labelLeftRightPaddingInBgView,
+                                                    y: toView!.frame.minY + topPaddingToCell + labelTopBottomPaddingInBgView,
+                                                    width: tagLabel.intrinsicContentSize.width,
+                                                    height: 14)
                         }
                         
-                        if !tagLabel.isHidden{ //only add bgView under tagLabel when it's not set hidden
-                            //background view under UILabel
-                            let bgView = UIView(frame: CGRect(x: tagLabel.frame.minX - labelLeftRightPaddingInBgView,
-                                                              y: tagLabel.frame.minY - labelTopBottomPaddingInBgView,
-                                                              width: tagLabel.frame.width + (labelLeftRightPaddingInBgView * 2),
-                                                              height: tagLabel.frame.height + (labelTopBottomPaddingInBgView * 2)))
-                            bgView.layer.cornerRadius = 8
+                        
+                        //                    if position == .cellTop {
+                        //                        tagLabel.frame = CGRect(x: toCell!.contentView.frame.minX + leftPaddingToCell + labelLeftRightPaddingInBgView,
+                        //                                                y: toCell!.contentView.frame.minY + topPaddingToCell + labelTopBottomPaddingInBgView,
+                        //                                                width: tagLabel.intrinsicContentSize.width,
+                        //                                                height: 14)
+                        //                    } else {
+                        //                        tagLabel.frame = CGRect(x: toCell!.contentView.frame.minX + leftPaddingToCell + labelLeftRightPaddingInBgView,
+                        //                                                y: toCell!.frame.height - bottomPaddingToCell - labelTopBottomPaddingInBgView,
+                        //                                                width: tagLabel.intrinsicContentSize.width,
+                        //                                                height: 14)
+                        //                    }
+                        
+                        if !tagLabel.isHidden { //if the next hashtag is not out of bounds
+                            tagLabel.font = UIFont.systemFont(ofSize: 12, weight: .regular)
+                            tagLabel.textAlignment = .center
+                            tagLabel.text = "#\(tag)"
+                            tagLabel.sizeToFit()
                             
-                            if let isSolidColor = solidColor{
-                                if isSolidColor{
-                                    bgView.backgroundColor = .mintGreen()
-                                    tagLabel.textColor = .whiteText()
+                            if let isMultiLine = multiLines{ //breaking to next line if hashtag is out of bounds
+                                if isMultiLine {
+                                    if tagLabel.frame.maxX >= toCell!.contentView.frame.width {
+                                        topPaddingToCell += 30
+                                        leftPaddingToCell = 20
+                                        
+                                        var newFrame = tagLabel.frame
+                                        newFrame.origin.x = cell.contentView.frame.minX + leftPaddingToCell + labelLeftRightPaddingInBgView
+                                        newFrame.origin.y = cell.contentView.frame.minY + topPaddingToCell + labelTopBottomPaddingInBgView
+                                        tagLabel.frame = newFrame
+                                    }
                                 } else {
-                                    bgView.backgroundColor = .white15Alpha()
-                                    tagLabel.textColor = .whiteText75Alpha()
+                                    if tagLabel.frame.maxX >= (cell.contentView.frame.width - rightPaddingToCell){
+                                        tagLabel.isHidden = true //not showing all hashtags due to cell width
+                                    }
                                 }
                             }
                             
-                            leftPaddingToCell += (tagLabel.frame.width + paddingBetweenTags + (labelLeftRightPaddingInBgView * 2)) //calculate new x for next hashtag
-                            
-                            toCell.addSubview(tagLabel)
-                            toCell.insertSubview(bgView, belowSubview: tagLabel)
+                            if !tagLabel.isHidden{ //only add bgView under tagLabel when it's not set hidden
+                                //background view under UILabel
+                                let bgView = UIView(frame: CGRect(x: tagLabel.frame.minX - labelLeftRightPaddingInBgView,
+                                                                  y: tagLabel.frame.minY - labelTopBottomPaddingInBgView,
+                                                                  width: tagLabel.frame.width + (labelLeftRightPaddingInBgView * 2),
+                                                                  height: tagLabel.frame.height + (labelTopBottomPaddingInBgView * 2)))
+                                bgView.layer.cornerRadius = 8
+                                
+                                if let isSolidColor = solidColor{
+                                    if isSolidColor{
+                                        bgView.backgroundColor = .mintGreen()
+                                        tagLabel.textColor = .whiteText()
+                                    } else {
+                                        bgView.backgroundColor = .white15Alpha()
+                                        tagLabel.textColor = .whiteText75Alpha()
+                                    }
+                                }
+                                
+                                leftPaddingToCell += (tagLabel.frame.width + paddingBetweenTags + (labelLeftRightPaddingInBgView * 2)) //calculate new x for next hashtag
+                                
+                                cell.addSubview(tagLabel)
+                                cell.insertSubview(bgView, belowSubview: tagLabel)
+                            }
                         }
                     }
+                } else {
+                    print("Hashtag array is empty")
                 }
             } else {
-                print("Hashtag array is empty")
+                print("Hashtags already created!")
             }
-        } else {
-            print("Hashtags already created for that cell!")
         }
+        
     }
 }
 
@@ -111,8 +136,9 @@ class TagLabel: UILabel {
 
 extension Hashtags {
     enum Position {
-        case top
-        case bottom
+        case cellTop
+        case cellBottom
+        case detailsView
     }
 }
 

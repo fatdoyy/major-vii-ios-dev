@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		20A96B2F0DADE6B405F6D3CE /* Pods_major_7_ios.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 72E5F17BF3B3C6876EB735D2 /* Pods_major_7_ios.framework */; };
 		960A4760219AA8FE00780AD4 /* HapticFeedback.swift in Sources */ = {isa = PBXBuildFile; fileRef = 960A475F219AA8FE00780AD4 /* HapticFeedback.swift */; };
+		9639216F21ABC85500BA515A /* EventDetailsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9639216E21ABC85500BA515A /* EventDetailsView.xib */; };
+		9639217121ABCA3000BA515A /* EventDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9639217021ABCA3000BA515A /* EventDetailsView.swift */; };
 		964761ED2186FAAD0004F58C /* BaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 964761EC2186FAAD0004F58C /* BaseService.swift */; };
 		964761EF21870EE60004F58C /* NewsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 964761EE21870EE60004F58C /* NewsService.swift */; };
 		965838B32181C5A4000FE8B0 /* News.swift in Sources */ = {isa = PBXBuildFile; fileRef = 965838B22181C5A4000FE8B0 /* News.swift */; };
@@ -73,6 +75,8 @@
 		72E5F17BF3B3C6876EB735D2 /* Pods_major_7_ios.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_major_7_ios.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		85E2A7C70D0DC04C0984E968 /* Pods-major-7-ios.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-major-7-ios.debug.xcconfig"; path = "Pods/Target Support Files/Pods-major-7-ios/Pods-major-7-ios.debug.xcconfig"; sourceTree = "<group>"; };
 		960A475F219AA8FE00780AD4 /* HapticFeedback.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticFeedback.swift; sourceTree = "<group>"; };
+		9639216E21ABC85500BA515A /* EventDetailsView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EventDetailsView.xib; sourceTree = "<group>"; };
+		9639217021ABCA3000BA515A /* EventDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDetailsView.swift; sourceTree = "<group>"; };
 		964761EC2186FAAD0004F58C /* BaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseService.swift; sourceTree = "<group>"; };
 		964761EE21870EE60004F58C /* NewsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsService.swift; sourceTree = "<group>"; };
 		965838B22181C5A4000FE8B0 /* News.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = News.swift; sourceTree = "<group>"; };
@@ -279,6 +283,8 @@
 			children = (
 				96C55413219044D00065D70A /* EventsListViewController.swift */,
 				96862EB8219ACE1F00F709B0 /* EventDetailsViewController.swift */,
+				9639217021ABCA3000BA515A /* EventDetailsView.swift */,
+				9639216E21ABC85500BA515A /* EventDetailsView.xib */,
 				96C554212192BF0F0065D70A /* Trending Section */,
 				9681E77E21955E5000B4F80A /* Following Section */,
 				96C554372192D8E50065D70A /* Bookmark Section */,
@@ -425,6 +431,7 @@
 				96C55420219199700065D70A /* TrendingSection.xib in Resources */,
 				966A6CD1217F096700DF872F /* HeaderView.xib in Resources */,
 				96C5541C21918CB90065D70A /* TrendingCell.xib in Resources */,
+				9639216F21ABC85500BA515A /* EventDetailsView.xib in Resources */,
 				966A6CD52180492F00DF872F /* EventsCell.xib in Resources */,
 				965838BF218317CE000FE8B0 /* NewsCellType4.xib in Resources */,
 				965838BB2181CAFE000FE8B0 /* NewsCellType3.xib in Resources */,
@@ -454,7 +461,9 @@
 				"${BUILT_PRODUCTS_DIR}/BouncyLayout/BouncyLayout.framework",
 				"${BUILT_PRODUCTS_DIR}/DynamicColor/DynamicColor.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
+				"${BUILT_PRODUCTS_DIR}/Hero/Hero.framework",
 				"${BUILT_PRODUCTS_DIR}/Localize-Swift/Localize_Swift.framework",
+				"${BUILT_PRODUCTS_DIR}/MXParallaxHeader/MXParallaxHeader.framework",
 				"${BUILT_PRODUCTS_DIR}/ObjectMapper/ObjectMapper.framework",
 				"${BUILT_PRODUCTS_DIR}/Pastel/Pastel.framework",
 				"${BUILT_PRODUCTS_DIR}/PromiseKit/PromiseKit.framework",
@@ -470,7 +479,9 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/BouncyLayout.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DynamicColor.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Hero.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Localize_Swift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MXParallaxHeader.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ObjectMapper.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Pastel.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PromiseKit.framework",
@@ -546,6 +557,7 @@
 				96C55414219044D00065D70A /* EventsListViewController.swift in Sources */,
 				966A6CDC218086BC00DF872F /* NewsSectionHeader.swift in Sources */,
 				96799FE221889D520074C828 /* Animations.swift in Sources */,
+				9639217121ABCA3000BA515A /* EventDetailsView.swift in Sources */,
 				965838B62181CAE7000FE8B0 /* NewsCellType2.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

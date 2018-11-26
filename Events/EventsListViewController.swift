@@ -216,6 +216,7 @@ extension EventsListViewController: UICollectionViewDelegate, UICollectionViewDe
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if indexPath.section == Section.Featured.rawValue{
             print("\(indexPath.row)")
+            EventDetailsViewController.push(fromView: self)
         }
     }
     
@@ -245,7 +246,7 @@ extension EventsListViewController: BookmarkSectionDelegate{
 //MARK: Featured Section bookmark btn
 extension EventsListViewController: FeaturedCellDelegate{
     func bookmarkBtnTapped() {
-        EventDetailsViewController.push(fromView: self)
+        
     }
 }
 

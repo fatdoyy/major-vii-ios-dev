@@ -44,7 +44,9 @@ PODS:
   - "GoogleUtilities/NSData+zlib (5.3.0)"
   - GoogleUtilities/Reachability (5.3.0):
     - GoogleUtilities/Logger
+  - Hero (1.4.0)
   - Localize-Swift (2.0.0)
+  - MXParallaxHeader (0.6.1)
   - nanopb (0.3.8):
     - nanopb/decode (= 0.3.8)
     - nanopb/encode (= 0.3.8)
@@ -65,7 +67,9 @@ DEPENDENCIES:
   - BouncyLayout
   - DynamicColor (~> 4.0.2)
   - Firebase/Core
+  - Hero
   - Localize-Swift (~> 2.0)
+  - MXParallaxHeader
   - ObjectMapper
   - Pastel
   - PromiseKit/CorePromise (~> 6.0)
@@ -85,7 +89,9 @@ SPEC REPOS:
     - FirebaseInstanceID
     - GoogleAppMeasurement
     - GoogleUtilities
+    - Hero
     - Localize-Swift
+    - MXParallaxHeader
     - nanopb
     - ObjectMapper
     - Pastel
@@ -105,7 +111,9 @@ SPEC CHECKSUMS:
   FirebaseInstanceID: ea5af6920d0a4a29b40459d055bebe4a6c1333c4
   GoogleAppMeasurement: 7d2552cea4e12d09ce737ef0441887a746585ff3
   GoogleUtilities: 760ccb53b7c7f40f9c02d8c241f76f841a7a6162
+  Hero: bac92350d7201a1a940003e0767c7b52ce7c99a1
   Localize-Swift: c798ec9286494866f7068f85f7c71283ac5bdab4
+  MXParallaxHeader: 858c403532ed933b381556a81ce333d7065ad182
   nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
   ObjectMapper: b612bf8c8e99c4dc0bb6013a51f7c27966ed5da9
   Pastel: b3dd5b8d612dac06ae7c63c97c45c900829bc139
@@ -114,6 +122,6 @@ SPEC CHECKSUMS:
   SkeletonView: 60d6ce7edb0cb4c7758db33c74add50392b3c475
   SnapKit: 0de968a9fec17499afa29683b05d0c775b6d1c29
 
-PODFILE CHECKSUM: cf58af63141acfeb2bd339515362be305c51cec7
+PODFILE CHECKSUM: b33cefabc5a50df9b23fb2b73e9c833a0e1a8909
 
 COCOAPODS: 1.5.3

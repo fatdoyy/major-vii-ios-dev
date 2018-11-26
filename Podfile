@@ -20,5 +20,7 @@ target 'major-7-ios' do
   pod 'SkeletonView'                            # as title
   pod 'BouncyLayout'                            # UICollectionView animation
   pod 'AMScrollingNavbar'                       # UINavigationBar hiding
+  pod 'Hero'                                    # transitions
+  pod 'MXParallaxHeader'                        # parallax header
   
 end
