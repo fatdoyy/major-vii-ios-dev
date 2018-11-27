@@ -36,32 +36,34 @@ class EventDetailsViewController: UIViewController {
         self.hero.isEnabled = true
         setupLeftBarItems()
         gesture?.delegate = self
-        bgView.hero.modifiers = [.translate(y: 500)]
+        //bgView.hero.modifiers = [.duration(0.3), .translate(y: 500)]
         
         view.backgroundColor = .darkGray()
         roundedView.backgroundColor = .darkGray()
         self.headerImg.image = UIImage(named: "cat")
         
-        mainScrollView.contentSize = CGSize(width: mainScrollView.contentSize.width, height: 0)
         mainScrollView.delegate = self
+
+        bgView.titleLabel.text = "CityEcho呈獻：星期五時代廣場Busking"
+        bgView.descLabel.text = "Right click on the portion of the screen where your project’s files are (view controller, storyboard, etc) and choose “new file”. Xcode will prompt you for which file type you’d like to create. Choose the “View” option under the User Interface menu. On the following pop up you’ll be prompted to name your xib — we called ours “TestView”.Right click on the portion of the screen where your project’s files are (view controller, storyboard, etc) and choose “new file”. Xcode will prompt you for which file type you’d like to create. Choose the “View” option under the User Interface menu. On the following pop up you’ll be prompted to name your xib — we called ours “TestView”.Right click on the portion of the screen where your project’s files are (view controller, storyboard, etc) and choose “new file”. Xcode will prompt you for which file type you’d like to create. Choose the “View” option under the User Interface menu. On the following pop up you’ll be prompted to name your xib — we called ours “TestView”."
+        bgView.layoutIfNeeded()
         
+        //mainScrollView.contentSize = CGSize(width: mainScrollView.contentSize.width, height: 0)
+        mainScrollView.contentInset = UIEdgeInsets(top: 300, left: 0, bottom: 0, right: 0)
+   
         //bgView.backgroundColor = .darkGray()
         //bgView.layer.cornerRadius = GlobalCornerRadius.value + 4
         
-        bgView.titleLabel.text = "CityEcho呈獻：星期五時代廣場Busking"
-        Hashtags.create(position: .detailsView, dataSource: ["123", "456", "789", "222", "666"], toView: self.bgView, multiLines: true, solidColor: true)
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
+
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        mainScrollView.contentInset = UIEdgeInsets(top: 300, left: 0, bottom: 0, right: 0)
-        
-     
-        
+
         //transparent navigation bar
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
         navigationController?.navigationBar.shadowImage = UIImage()

@@ -191,7 +191,7 @@
         <!--Event Details View Controller-->
         <scene sceneID="5GU-zy-LRZ">
             <objects>
-                <viewController storyboardIdentifier="eventDetails" id="GMV-qX-vEE" customClass="EventDetailsViewController" customModule="major_7_ios" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="eventDetails" automaticallyAdjustsScrollViewInsets="NO" id="GMV-qX-vEE" customClass="EventDetailsViewController" customModule="major_7_ios" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="hgd-DL-QC7">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -214,12 +214,12 @@
                                     </view>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstItem="fzh-wP-JSm" firstAttribute="leading" secondItem="QNu-xN-zbw" secondAttribute="leading" id="TqY-eF-q9t"/>
-                                    <constraint firstItem="fzh-wP-JSm" firstAttribute="centerX" secondItem="QNu-xN-zbw" secondAttribute="centerX" id="dX8-xp-i32"/>
-                                    <constraint firstAttribute="trailing" secondItem="fzh-wP-JSm" secondAttribute="trailing" id="dok-hF-447"/>
-                                    <constraint firstItem="fzh-wP-JSm" firstAttribute="centerY" secondItem="QNu-xN-zbw" secondAttribute="centerY" id="guN-d2-Ur1"/>
-                                    <constraint firstItem="fzh-wP-JSm" firstAttribute="top" secondItem="QNu-xN-zbw" secondAttribute="top" id="hls-Uy-PaO"/>
-                                    <constraint firstAttribute="bottom" secondItem="fzh-wP-JSm" secondAttribute="bottom" id="uKF-Oo-tpF"/>
+                                    <constraint firstItem="fzh-wP-JSm" firstAttribute="top" secondItem="QNu-xN-zbw" secondAttribute="top" id="6z4-ba-Yml"/>
+                                    <constraint firstItem="fzh-wP-JSm" firstAttribute="leading" secondItem="QNu-xN-zbw" secondAttribute="leading" id="WBc-hM-uGh"/>
+                                    <constraint firstAttribute="bottom" secondItem="fzh-wP-JSm" secondAttribute="bottom" id="dmK-4Q-wAc"/>
+                                    <constraint firstItem="fzh-wP-JSm" firstAttribute="width" secondItem="QNu-xN-zbw" secondAttribute="width" id="lAG-yp-XVY"/>
+                                    <constraint firstItem="fzh-wP-JSm" firstAttribute="height" secondItem="QNu-xN-zbw" secondAttribute="height" priority="250" id="s0l-EW-ET5"/>
+                                    <constraint firstAttribute="trailing" secondItem="fzh-wP-JSm" secondAttribute="trailing" id="ss3-tK-gL6"/>
                                 </constraints>
                             </scrollView>
                         </subviews>

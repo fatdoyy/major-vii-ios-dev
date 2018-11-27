@@ -58,5 +58,9 @@ extension UIColor {
     class func purpleText() -> UIColor {
         return UIColor(hexString: "#7e7ecf")
     }
+    
+    class func topazText() -> UIColor {
+        return UIColor(hexString: "16ccbd")
+    }
 }
 
