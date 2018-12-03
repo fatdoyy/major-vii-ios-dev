@@ -9,6 +9,8 @@
 import UIKit
 import Localize_Swift
 import SkeletonView
+import BouncyLayout
+import ImageViewer
 
 class EventDetailsView: UIView {
     
@@ -35,6 +37,10 @@ class EventDetailsView: UIView {
     @IBOutlet weak var webTitleLabel: UILabel!
     @IBOutlet weak var webLabel: UILabel!
     
+    var array = ["descTitleLabel", "descLabel", "webTitleLabel", "remarksTitleLabel", "imgCollectionView", "hashtagsCollectionView", "performerLabel", "titleLabel"]
+    
+    var images: [UIImage] = [UIImage(named: "cat")!, UIImage(named: "icon_white")!, UIImage(named: "music-studio-12")!, UIImage(named: "tabbar_buskers")!, UIImage(named: "tabbar_coop")!]
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         commonInit()
@@ -50,18 +56,47 @@ class EventDetailsView: UIView {
         addSubview(contentView)
         contentView.frame = self.bounds
         
-        contentView.backgroundColor = .darkGray
+        contentView.backgroundColor = .darkGray()
         contentView.layer.cornerRadius = GlobalCornerRadius.value + 4
         contentView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         
-        hashtagsCollectionView.backgroundColor = .red
+        setupLabels()
+        
+        hashtagsCollectionView.delegate = self
+        hashtagsCollectionView.dataSource = self
+        if let layout = hashtagsCollectionView.collectionViewLayout as? HashtagsFlowLayout {
+            layout.scrollDirection = .horizontal
+        }
+        
+        if #available(iOS 11.0, *) {
+            hashtagsCollectionView.contentInsetAdjustmentBehavior = .always
+        }
+        
+        hashtagsCollectionView.backgroundColor = .darkGray()
+        hashtagsCollectionView.register(UINib.init(nibName: "HashtagCell", bundle: nil), forCellWithReuseIdentifier: HashtagCell.reuseIdentifier)
+        
+        
+        imgCollectionView.delegate = self
+        imgCollectionView.dataSource = self
+        if let layout = imgCollectionView.collectionViewLayout as? BouncyLayout {
+            layout.scrollDirection = .horizontal
+            layout.minimumLineSpacing = 10
+            layout.sectionInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
+        }
+        
+        imgCollectionView.backgroundColor = .darkGray()
+        imgCollectionView.register(UINib.init(nibName: "DetailsImageCell", bundle: nil), forCellWithReuseIdentifier: DetailsImageCell.reuseIdentifier)
         
         
         if UIDevice().userInterfaceIdiom == .phone {
             switch UIScreen.main.nativeBounds.height {
-            case 1136:
-                print("iPhone 5 or 5S or 5C")
+            case 1136: //hiding imgCollectionView on iPhone SE
                 imgCollectionView.removeFromSuperview()
+                remarksTitleLabel.translatesAutoresizingMaskIntoConstraints = false
+                
+                let verticalSpace = NSLayoutConstraint(item: remarksTitleLabel, attribute: .top, relatedBy: .equal, toItem: descLabel, attribute: .bottom, multiplier: 1, constant: 20)
+                
+                NSLayoutConstraint.activate([verticalSpace])
             case 1334:
                 print("iPhone 6/6S/7/8")
             case 1920, 2208:
@@ -77,5 +112,87 @@ class EventDetailsView: UIView {
             }
         }
         
+    }
+    
+    private func setupLabels(){
+        titleLabel.textColor = .whiteText()
+        performerLabel.textColor = .whiteText75Alpha()
+        
+        dateTitleLabel.textColor = .topazText()
+        dateTitleLabel.text = "Date | Time"
+        dateLabel.textColor = .whiteText()
+        
+        venueTitleLabel.textColor = .topazText()
+        venueTitleLabel.text = "Venue"
+        venueLabel.textColor = .whiteText()
+        
+        descTitleLabel.textColor = .topazText()
+        descTitleLabel.text = "Description"
+        descLabel.textColor = .whiteText()
+        
+        remarksTitleLabel.textColor = .topazText()
+        remarksTitleLabel.text = "Remarks"
+        remarksLabel.textColor = .whiteText()
+        
+        webTitleLabel.textColor = .topazText()
+        webTitleLabel.text = "Website"
+        webLabel.textColor = .whiteText()
+    }
+    
+}
+
+extension EventDetailsView: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout{
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        if collectionView == hashtagsCollectionView{
+            return array.count
+        } else { //imgCollectionView
+            return 6 //images.count
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        if collectionView == hashtagsCollectionView {
+            let cell = hashtagsCollectionView.dequeueReusableCell(withReuseIdentifier: HashtagCell.reuseIdentifier, for: indexPath) as! HashtagCell
+            cell.hashtag.text = "#\(array[indexPath.row])"
+            return cell
+        } else { //imgCollectionView
+            let cell = imgCollectionView.dequeueReusableCell(withReuseIdentifier: DetailsImageCell.reuseIdentifier, for: indexPath) as! DetailsImageCell
+            cell.imgView.image = UIImage(named: "cat")
+            return cell
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        if collectionView == hashtagsCollectionView {
+            let size = (array[indexPath.row] as NSString).size(withAttributes: nil)
+            return CGSize(width: size.width + 32, height: HashtagCell.height)
+        } else { //imgCollectionView
+            return CGSize(width: DetailsImageCell.width, height: DetailsImageCell.height)
+        }
+    }
+
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if collectionView == hashtagsCollectionView {} else {
+            self.presentImageGallery(GalleryViewController(startIndex: indexPath.row, itemsDataSource: self))
+        }
+    }
+}
+
+
+//extension EventDetailsView: GalleryDisplacedViewsDataSource {
+//    
+//    func provideDisplacementItem(atIndex index: Int) -> DisplaceableView? {
+//        return index < images.count ? images[index].imageView : nil
+//    }
+//}
+
+extension EventDetailsView: GalleryItemsDataSource {
+    
+    func itemCount() -> Int {
+        return images.count
+    }
+    
+    func provideGalleryItem(_ index: Int) -> GalleryItem {
+        return images[index]
     }
 }

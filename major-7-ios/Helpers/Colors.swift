@@ -54,6 +54,10 @@ extension UIColor {
     class func whiteText75Alpha() -> UIColor {
         return UIColor.white.withAlphaComponent(0.75)
     }
+    
+    class func whiteText80Alpha() -> UIColor {
+        return UIColor.white.withAlphaComponent(0.8)
+    }
 
     class func purpleText() -> UIColor {
         return UIColor(hexString: "#7e7ecf")

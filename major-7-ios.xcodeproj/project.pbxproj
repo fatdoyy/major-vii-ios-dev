@@ -66,6 +66,8 @@
 		96C5544C219408580065D70A /* FeaturedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96C55449219408560065D70A /* FeaturedCell.swift */; };
 		96C5544D219408580065D70A /* FeaturedCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96C5544A219408560065D70A /* FeaturedCell.xib */; };
 		96C55450219438F10065D70A /* PagedCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96C5544F219438F00065D70A /* PagedCollectionViewLayout.swift */; };
+		96EA375321B528E900E9DB74 /* DetailsImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96EA375121B528E900E9DB74 /* DetailsImageCell.swift */; };
+		96EA375421B528E900E9DB74 /* DetailsImageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96EA375221B528E900E9DB74 /* DetailsImageCell.xib */; };
 		CA550AA621706A65008E493D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA550AA521706A65008E493D /* AppDelegate.swift */; };
 		CA550AAB21706A65008E493D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CA550AA921706A65008E493D /* Main.storyboard */; };
 		CA550AAE21706A65008E493D /* major_7_ios.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = CA550AAC21706A65008E493D /* major_7_ios.xcdatamodeld */; };
@@ -134,6 +136,8 @@
 		96C55449219408560065D70A /* FeaturedCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeaturedCell.swift; sourceTree = "<group>"; };
 		96C5544A219408560065D70A /* FeaturedCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FeaturedCell.xib; sourceTree = "<group>"; };
 		96C5544F219438F00065D70A /* PagedCollectionViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PagedCollectionViewLayout.swift; sourceTree = "<group>"; };
+		96EA375121B528E900E9DB74 /* DetailsImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsImageCell.swift; sourceTree = "<group>"; };
+		96EA375221B528E900E9DB74 /* DetailsImageCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DetailsImageCell.xib; sourceTree = "<group>"; };
 		CA550AA221706A65008E493D /* major-7-ios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "major-7-ios.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CA550AA521706A65008E493D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CA550AAA21706A65008E493D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -286,11 +290,7 @@
 			isa = PBXGroup;
 			children = (
 				96C55413219044D00065D70A /* EventsListViewController.swift */,
-				96862EB8219ACE1F00F709B0 /* EventDetailsViewController.swift */,
-				9639217021ABCA3000BA515A /* EventDetailsView.swift */,
-				9639216E21ABC85500BA515A /* EventDetailsView.xib */,
-				9639217221AD1C4500BA515A /* HashtagCell.swift */,
-				9639217321AD1C4500BA515A /* HashtagCell.xib */,
+				96EA375021B5271100E9DB74 /* Event Details Page */,
 				96C554212192BF0F0065D70A /* Trending Section */,
 				9681E77E21955E5000B4F80A /* Following Section */,
 				96C554372192D8E50065D70A /* Bookmark Section */,
@@ -330,6 +330,20 @@
 				96C5544A219408560065D70A /* FeaturedCell.xib */,
 			);
 			name = "Featured Section";
+			sourceTree = "<group>";
+		};
+		96EA375021B5271100E9DB74 /* Event Details Page */ = {
+			isa = PBXGroup;
+			children = (
+				96862EB8219ACE1F00F709B0 /* EventDetailsViewController.swift */,
+				9639217021ABCA3000BA515A /* EventDetailsView.swift */,
+				9639216E21ABC85500BA515A /* EventDetailsView.xib */,
+				9639217221AD1C4500BA515A /* HashtagCell.swift */,
+				9639217321AD1C4500BA515A /* HashtagCell.xib */,
+				96EA375121B528E900E9DB74 /* DetailsImageCell.swift */,
+				96EA375221B528E900E9DB74 /* DetailsImageCell.xib */,
+			);
+			name = "Event Details Page";
 			sourceTree = "<group>";
 		};
 		CA550A9921706A65008E493D = {
@@ -441,6 +455,7 @@
 				9639216F21ABC85500BA515A /* EventDetailsView.xib in Resources */,
 				966A6CD52180492F00DF872F /* EventsCell.xib in Resources */,
 				965838BF218317CE000FE8B0 /* NewsCellType4.xib in Resources */,
+				96EA375421B528E900E9DB74 /* DetailsImageCell.xib in Resources */,
 				965838BB2181CAFE000FE8B0 /* NewsCellType3.xib in Resources */,
 				966A6CE121808BB100DF872F /* NewsCellType1.xib in Resources */,
 				96C5544D219408580065D70A /* FeaturedCell.xib in Resources */,
@@ -469,6 +484,7 @@
 				"${BUILT_PRODUCTS_DIR}/DynamicColor/DynamicColor.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
 				"${BUILT_PRODUCTS_DIR}/Hero/Hero.framework",
+				"${BUILT_PRODUCTS_DIR}/ImageViewer/ImageViewer.framework",
 				"${BUILT_PRODUCTS_DIR}/Localize-Swift/Localize_Swift.framework",
 				"${BUILT_PRODUCTS_DIR}/MXParallaxHeader/MXParallaxHeader.framework",
 				"${BUILT_PRODUCTS_DIR}/ObjectMapper/ObjectMapper.framework",
@@ -487,6 +503,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DynamicColor.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Hero.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ImageViewer.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Localize_Swift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MXParallaxHeader.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ObjectMapper.framework",
@@ -544,6 +561,7 @@
 				966A6CB8217DB5F500DF872F /* TabBarViewController.swift in Sources */,
 				964761ED2186FAAD0004F58C /* BaseService.swift in Sources */,
 				96799FE6218C5A280074C828 /* ImageOverlay.swift in Sources */,
+				96EA375321B528E900E9DB74 /* DetailsImageCell.swift in Sources */,
 				96C5542A2192C2DF0065D70A /* FollowingSection.swift in Sources */,
 				966A6CC1217DBD9F00DF872F /* AgentsViewController.swift in Sources */,
 				96C55450219438F10065D70A /* PagedCollectionViewLayout.swift in Sources */,

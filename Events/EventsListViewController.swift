@@ -113,6 +113,7 @@ class EventsListViewController: ScrollingNavigationViewController, UIGestureReco
     }
     
     @objc private func popView(){
+        navigationController?.hero.navigationAnimationType = .uncover(direction: .down)
         navigationController?.popViewController(animated: true)
     }
     

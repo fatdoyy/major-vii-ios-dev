@@ -36,7 +36,7 @@ class EventDetailsViewController: UIViewController {
         self.hero.isEnabled = true
         setupLeftBarItems()
         gesture?.delegate = self
-        //bgView.hero.modifiers = [.duration(0.3), .translate(y: 500)]
+        bgView.hero.modifiers = [.delay(0.1), .translate(y: 500)]
         
         view.backgroundColor = .darkGray()
         roundedView.backgroundColor = .darkGray()
@@ -53,14 +53,13 @@ class EventDetailsViewController: UIViewController {
    
         //bgView.backgroundColor = .darkGray()
         //bgView.layer.cornerRadius = GlobalCornerRadius.value + 4
-        
+    
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
 
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
@@ -97,6 +96,7 @@ class EventDetailsViewController: UIViewController {
     }
     
     @objc private func popView(){
+        navigationController?.hero.navigationAnimationType = .zoomOut
         navigationController?.popViewController(animated: true)
     }
 }
@@ -120,7 +120,7 @@ extension EventDetailsViewController{
         let detailsVc = storyboard.instantiateViewController(withIdentifier: EventDetailsViewController.storyboardId)
         
         fromView.navigationItem.title = ""
-       //fromView.navigationController?.hero.navigationAnimationType = .pageIn(direction: .left)
+        fromView.navigationController?.hero.navigationAnimationType = .zoom
         fromView.navigationController?.pushViewController(detailsVc, animated: true)
     }
 }

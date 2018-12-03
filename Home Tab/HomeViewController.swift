@@ -241,15 +241,12 @@ extension HomeViewController: EventsSectionDelegate {
         let eventsVc = storyboard.instantiateViewController(withIdentifier: EventsListViewController.storyboardId)
         
         self.navigationItem.title = "Events"
+        self.navigationController?.hero.navigationAnimationType = .cover(direction: .up)
         self.navigationController?.pushViewController(eventsVc, animated: true)
     }
     
     func cellTapped() {
-        let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
-        let detailsVc = storyboard.instantiateViewController(withIdentifier: EventDetailsViewController.storyboardId)
-        
-        self.navigationItem.title = ""
-        self.navigationController?.pushViewController(detailsVc, animated: true)
+        EventDetailsViewController.push(fromView: self)
     }
 }
 

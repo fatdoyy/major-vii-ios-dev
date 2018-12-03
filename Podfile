@@ -22,5 +22,6 @@ target 'major-7-ios' do
   pod 'AMScrollingNavbar'                       # UINavigationBar hiding
   pod 'Hero'                                    # transitions
   pod 'MXParallaxHeader'                        # parallax header
+  pod 'ImageViewer', :inhibit_warnings => true, :git=> 'https://github.com/mezhevikin/ImageViewer'                             # as title
   
 end
