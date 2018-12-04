@@ -10,7 +10,10 @@ import UIKit
 import Localize_Swift
 import SkeletonView
 import BouncyLayout
-import ImageViewer
+
+protocol EventsDetailsViewDelegate {
+    func imageCellTapped(index: Int, displacementItem: UIImageView)
+}
 
 class EventDetailsView: UIView {
     
@@ -37,9 +40,13 @@ class EventDetailsView: UIView {
     @IBOutlet weak var webTitleLabel: UILabel!
     @IBOutlet weak var webLabel: UILabel!
     
-    var array = ["descTitleLabel", "descLabel", "webTitleLabel", "remarksTitleLabel", "imgCollectionView", "hashtagsCollectionView", "performerLabel", "titleLabel"]
+    var delegate: EventsDetailsViewDelegate?
     
-    var images: [UIImage] = [UIImage(named: "cat")!, UIImage(named: "icon_white")!, UIImage(named: "music-studio-12")!, UIImage(named: "tabbar_buskers")!, UIImage(named: "tabbar_coop")!]
+    var hashtagsArray: [String] = []
+    
+    var imgArray: [UIImage] = []
+    
+    var displacementItems: [UIImageView] = []
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -52,6 +59,7 @@ class EventDetailsView: UIView {
     }
     
     private func commonInit(){
+        
         Bundle.main.loadNibNamed("EventDetailsView", owner: self, options: nil)
         addSubview(contentView)
         contentView.frame = self.bounds
@@ -74,7 +82,6 @@ class EventDetailsView: UIView {
         
         hashtagsCollectionView.backgroundColor = .darkGray()
         hashtagsCollectionView.register(UINib.init(nibName: "HashtagCell", bundle: nil), forCellWithReuseIdentifier: HashtagCell.reuseIdentifier)
-        
         
         imgCollectionView.delegate = self
         imgCollectionView.dataSource = self
@@ -144,55 +151,39 @@ class EventDetailsView: UIView {
 extension EventDetailsView: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if collectionView == hashtagsCollectionView{
-            return array.count
+            return hashtagsArray.count
         } else { //imgCollectionView
-            return 6 //images.count
+            return imgArray.count
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if collectionView == hashtagsCollectionView {
             let cell = hashtagsCollectionView.dequeueReusableCell(withReuseIdentifier: HashtagCell.reuseIdentifier, for: indexPath) as! HashtagCell
-            cell.hashtag.text = "#\(array[indexPath.row])"
+            cell.hashtag.text = "#\(hashtagsArray[indexPath.row])"
             return cell
         } else { //imgCollectionView
             let cell = imgCollectionView.dequeueReusableCell(withReuseIdentifier: DetailsImageCell.reuseIdentifier, for: indexPath) as! DetailsImageCell
-            cell.imgView.image = UIImage(named: "cat")
+            cell.imgView.image = imgArray[indexPath.row]
             return cell
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         if collectionView == hashtagsCollectionView {
-            let size = (array[indexPath.row] as NSString).size(withAttributes: nil)
+            let size = (hashtagsArray[indexPath.row] as NSString).size(withAttributes: nil)
             return CGSize(width: size.width + 32, height: HashtagCell.height)
         } else { //imgCollectionView
             return CGSize(width: DetailsImageCell.width, height: DetailsImageCell.height)
         }
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if collectionView == hashtagsCollectionView {} else {
-            self.presentImageGallery(GalleryViewController(startIndex: indexPath.row, itemsDataSource: self))
+            let cell = imgCollectionView.cellForItem(at: indexPath) as! DetailsImageCell
+            delegate?.imageCellTapped(index: indexPath.row, displacementItem: cell.imgView)
         }
     }
 }
 
 
-//extension EventDetailsView: GalleryDisplacedViewsDataSource {
-//    
-//    func provideDisplacementItem(atIndex index: Int) -> DisplaceableView? {
-//        return index < images.count ? images[index].imageView : nil
-//    }
-//}
-
-extension EventDetailsView: GalleryItemsDataSource {
-    
-    func itemCount() -> Int {
-        return images.count
-    }
-    
-    func provideGalleryItem(_ index: Int) -> GalleryItem {
-        return images[index]
-    }
-}

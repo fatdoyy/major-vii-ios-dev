@@ -68,6 +68,7 @@
 		96C55450219438F10065D70A /* PagedCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96C5544F219438F00065D70A /* PagedCollectionViewLayout.swift */; };
 		96EA375321B528E900E9DB74 /* DetailsImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96EA375121B528E900E9DB74 /* DetailsImageCell.swift */; };
 		96EA375421B528E900E9DB74 /* DetailsImageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96EA375221B528E900E9DB74 /* DetailsImageCell.xib */; };
+		96EA375621B66BBC00E9DB74 /* ImageViewerHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96EA375521B66BBC00E9DB74 /* ImageViewerHelper.swift */; };
 		CA550AA621706A65008E493D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA550AA521706A65008E493D /* AppDelegate.swift */; };
 		CA550AAB21706A65008E493D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CA550AA921706A65008E493D /* Main.storyboard */; };
 		CA550AAE21706A65008E493D /* major_7_ios.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = CA550AAC21706A65008E493D /* major_7_ios.xcdatamodeld */; };
@@ -138,6 +139,7 @@
 		96C5544F219438F00065D70A /* PagedCollectionViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PagedCollectionViewLayout.swift; sourceTree = "<group>"; };
 		96EA375121B528E900E9DB74 /* DetailsImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsImageCell.swift; sourceTree = "<group>"; };
 		96EA375221B528E900E9DB74 /* DetailsImageCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DetailsImageCell.xib; sourceTree = "<group>"; };
+		96EA375521B66BBC00E9DB74 /* ImageViewerHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewerHelper.swift; sourceTree = "<group>"; };
 		CA550AA221706A65008E493D /* major-7-ios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "major-7-ios.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CA550AA521706A65008E493D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CA550AAA21706A65008E493D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -238,6 +240,7 @@
 				96C5544F219438F00065D70A /* PagedCollectionViewLayout.swift */,
 				960A475F219AA8FE00780AD4 /* HapticFeedback.swift */,
 				96862EBA219AD8AC00F709B0 /* TabBarHiding.swift */,
+				96EA375521B66BBC00E9DB74 /* ImageViewerHelper.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -561,6 +564,7 @@
 				966A6CB8217DB5F500DF872F /* TabBarViewController.swift in Sources */,
 				964761ED2186FAAD0004F58C /* BaseService.swift in Sources */,
 				96799FE6218C5A280074C828 /* ImageOverlay.swift in Sources */,
+				96EA375621B66BBC00E9DB74 /* ImageViewerHelper.swift in Sources */,
 				96EA375321B528E900E9DB74 /* DetailsImageCell.swift in Sources */,
 				96C5542A2192C2DF0065D70A /* FollowingSection.swift in Sources */,
 				966A6CC1217DBD9F00DF872F /* AgentsViewController.swift in Sources */,
