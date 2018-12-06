@@ -9,6 +9,8 @@
 import UIKit
 import Hero
 import ImageViewer
+import CircleMenu
+import Floaty
 
 //rounded view in header's bottom (i.e. the red view in IB)
 class roundedView: UIView {
@@ -33,6 +35,10 @@ class EventDetailsViewController: UIViewController {
     @IBOutlet weak var bgView: EventDetailsView!
     @IBOutlet weak var roundedView: UIView!
     
+//    @IBInspectable var buttonsCount: Int = 3
+//    @IBInspectable var duration: Double = 2 // circle animation duration
+//    @IBInspectable var distance: Float = 100 // distance between center button and buttons
+    
     //img viewer
     var imgArray: [UIImage] = []
     var imgViewerItems: [ImgViewerItem] = []
@@ -52,9 +58,9 @@ class EventDetailsViewController: UIViewController {
         self.hero.isEnabled = true
         view.backgroundColor = .darkGray()
         roundedView.backgroundColor = .darkGray()
-        
-        bgView.hero.modifiers = [.delay(0.1), .translate(y: 500)]
         mainScrollView.delegate = self
+        
+        createHeroTransitions()
         
         setupLeftBarItems()
         loadDetails()
@@ -102,6 +108,13 @@ class EventDetailsViewController: UIViewController {
         bgView.layoutIfNeeded()
     }
     
+    private func createHeroTransitions(){
+        bgView.hero.modifiers = [.delay(0.1), .translate(y: 500)]
+        bgView.bookmarkBtn.hero.modifiers = [.delay(0.3), .translate(y: 500)]
+        bgView.bookmarkCountImg.hero.modifiers = [.delay(0.35), .translate(y: 500)]
+        bgView.bookmarkCountLabel.hero.modifiers = [.delay(0.4), .translate(y: 500)]
+    }
+    
     private func setupLeftBarItems(){
         let customView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: 20, height: 44.0))
         customView.backgroundColor = .clear
@@ -147,38 +160,36 @@ class EventDetailsViewController: UIViewController {
     }
 }
 
+// MARK: scrollview delegate
+extension EventDetailsViewController: UIScrollViewDelegate{
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {}
+}
+
+// MARK: Events Details View Delegate
 extension EventDetailsViewController: EventsDetailsViewDelegate{
+    func bookmarkBtnTapped(sender: UIButton) {
+        let bookmarkedImg = UIImage(named: "eventdetails_bookmarked_1")
+        let notBookmarkedImg = UIImage(named: "eventdetails_bookmarked_0")
+        
+        if (sender.currentImage?.isEqual(notBookmarkedImg))! { //if the image is notBookmarkedImg, then do bookmark action
+            HapticFeedback.createImpact(style: .heavy)
+            sender.setImage(bookmarkedImg, for: .normal)
+            print("bookmarked")
+        } else {
+            HapticFeedback.createImpact(style: .light)
+            sender.setImage(notBookmarkedImg, for: .normal)
+            print("removed bookmark")
+        }
+    }
+
+    
     func imageCellTapped(index: Int, displacementItem: UIImageView) {
         showImageViewer(atIndex: index)
         displaceableImgView = displacementItem
     }
 }
 
-//swipe pop gesture
-extension EventDetailsViewController: UIGestureRecognizerDelegate{
-    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-        return true
-    }
-}
-
-//scrollview did scroll?
-extension EventDetailsViewController: UIScrollViewDelegate{
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {}
-}
-
-//function to push this view controller
-extension EventDetailsViewController{
-    static func push(fromView: UIViewController){
-        let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
-        let detailsVc = storyboard.instantiateViewController(withIdentifier: EventDetailsViewController.storyboardId)
-        
-        fromView.navigationItem.title = ""
-        fromView.navigationController?.hero.navigationAnimationType = .zoom
-        fromView.navigationController?.pushViewController(detailsVc, animated: true)
-    }
-}
-
-//present image viewer when imgCollectionView cell is tapped
+// MARK: present image viewer when imgCollectionView cell is tapped
 extension EventDetailsViewController{
     func showImageViewer(atIndex: Int){
         let frame = CGRect(x: 0, y: 0, width: 200, height: 24)
@@ -204,9 +215,10 @@ extension EventDetailsViewController{
     }
 }
 
-//extend UIImageView to subclass displaceableview
+// MARK: extend UIImageView to subclass displaceableview
 extension UIImageView: DisplaceableView {}
 
+// MARK: image viewer data source
 extension EventDetailsViewController: GalleryDisplacedViewsDataSource {
     func provideDisplacementItem(atIndex index: Int) -> DisplaceableView? {
         print(index)
@@ -221,5 +233,31 @@ extension EventDetailsViewController: GalleryItemsDataSource {
     
     func provideGalleryItem(_ index: Int) -> GalleryItem {
         return imgViewerItems[index].galleryItem
+    }
+}
+
+// MARK: Floating Button (CircleMenu) Delegate
+extension EventDetailsViewController: CircleMenuDelegate{
+    func circleMenu(_ circleMenu: CircleMenu, willDisplay button: UIButton, atIndex: Int) {
+        //...
+    }
+}
+
+// MARK: swipe pop gesture
+extension EventDetailsViewController: UIGestureRecognizerDelegate{
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
+    }
+}
+
+// MARK: function to push this view controller
+extension EventDetailsViewController{
+    static func push(fromView: UIViewController){
+        let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+        let detailsVc = storyboard.instantiateViewController(withIdentifier: EventDetailsViewController.storyboardId)
+        
+        fromView.navigationItem.title = ""
+        fromView.navigationController?.hero.navigationAnimationType = .zoom
+        fromView.navigationController?.pushViewController(detailsVc, animated: true)
     }
 }

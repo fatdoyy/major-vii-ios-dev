@@ -12,6 +12,9 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="EventDetailsView" customModule="major_7_ios" customModuleProvider="target">
             <connections>
+                <outlet property="bookmarkBtn" destination="a4D-dS-swh" id="d3Y-wE-FHQ"/>
+                <outlet property="bookmarkCountImg" destination="dqa-dI-bS4" id="BCq-v4-TKA"/>
+                <outlet property="bookmarkCountLabel" destination="8h0-lt-YzF" id="3w4-MY-SB1"/>
                 <outlet property="contentView" destination="iN0-l3-epB" id="xf0-Bx-pOI"/>
                 <outlet property="dateLabel" destination="Spy-qX-CqE" id="auj-oc-Pah"/>
                 <outlet property="dateTitleLabel" destination="i2a-JN-Gcd" id="gaZ-ys-8qx"/>
@@ -129,6 +132,9 @@
                         <constraint firstAttribute="width" constant="64" id="Tmo-3i-1Yy"/>
                     </constraints>
                     <state key="normal" image="eventdetails_bookmarked_1"/>
+                    <connections>
+                        <action selector="bookmarkBtnTapped:" destination="-1" eventType="touchUpInside" id="qnL-M6-uLj"/>
+                    </connections>
                 </button>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="eventdetails_user" translatesAutoresizingMaskIntoConstraints="NO" id="dqa-dI-bS4">
                     <rect key="frame" x="304" y="34" width="16" height="16"/>

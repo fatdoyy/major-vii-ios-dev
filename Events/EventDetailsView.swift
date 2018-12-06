@@ -13,11 +13,17 @@ import BouncyLayout
 
 protocol EventsDetailsViewDelegate {
     func imageCellTapped(index: Int, displacementItem: UIImageView)
+    func bookmarkBtnTapped(sender: UIButton)
 }
 
 class EventDetailsView: UIView {
     
     @IBOutlet var contentView: UIView!
+    
+    @IBOutlet weak var bookmarkBtn: UIButton!
+    @IBOutlet weak var bookmarkCountImg: UIImageView!
+    @IBOutlet weak var bookmarkCountLabel: UILabel!
+    
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var performerLabel: UILabel!
     
@@ -94,7 +100,6 @@ class EventDetailsView: UIView {
         imgCollectionView.backgroundColor = .darkGray()
         imgCollectionView.register(UINib.init(nibName: "DetailsImageCell", bundle: nil), forCellWithReuseIdentifier: DetailsImageCell.reuseIdentifier)
         
-        
         if UIDevice().userInterfaceIdiom == .phone {
             switch UIScreen.main.nativeBounds.height {
             case 1136: //hiding imgCollectionView on iPhone SE
@@ -121,7 +126,14 @@ class EventDetailsView: UIView {
         
     }
     
+    @IBAction func bookmarkBtnTapped(_ sender: UIButton) {
+        Animations.btnBounce(sender: sender)
+        delegate?.bookmarkBtnTapped(sender: sender)
+    }
+    
     private func setupLabels(){
+        bookmarkCountLabel.textColor = .whiteText50Alpha()
+        
         titleLabel.textColor = .whiteText()
         performerLabel.textColor = .whiteText75Alpha()
         

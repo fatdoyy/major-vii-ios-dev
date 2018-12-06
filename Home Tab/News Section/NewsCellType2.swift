@@ -62,6 +62,6 @@ class NewsCellType2: UICollectionViewCell {
     }
     
     override var isHighlighted: Bool {
-        didSet { Animations.bounce(isHighlighted, view: self) }
+        didSet { Animations.cellBounce(isHighlighted, view: self) }
     }
 }

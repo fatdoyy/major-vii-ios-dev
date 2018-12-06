@@ -72,17 +72,17 @@ class FollowingCell: UICollectionViewCell {
     }
 
     @IBAction func bookmarkBtnTapped(_ sender: Any) {
-        HapticFeedback.createImpact(style: .medium)
-        if (self.bookmarkBtn.backgroundColor?.isEqual(UIColor.clear))! {
+        if (self.bookmarkBtn.backgroundColor?.isEqual(UIColor.clear))! { //bookmarked
+            HapticFeedback.createImpact(style: .heavy)
             UIView.animate(withDuration: 0.2, animations: {
                 self.bookmarkBtn.backgroundColor = .mintGreen()
             })
-        } else {
+        } else { //remove bookmark
+            HapticFeedback.createImpact(style: .light)
             UIView.animate(withDuration: 0.2, animations: {
                 self.bookmarkBtn.backgroundColor = .clear
             })
         }
- 
         delegate?.bookmarkBtnTapped()
     }
 }

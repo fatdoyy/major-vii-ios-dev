@@ -11,7 +11,7 @@ import UIKit
 
 class Animations {
     
-    static func bounce(_ bounce: Bool, view: UIView) {
+    static func cellBounce(_ bounce: Bool, view: UIView) {
         UIView.animate(
             withDuration: 0.8,
             delay: 0,
@@ -21,4 +21,20 @@ class Animations {
             animations: { view.transform = bounce ? CGAffineTransform(scaleX: 0.9, y: 0.9) : .identity },
             completion: nil)
     }
+    
+    static func btnBounce(sender: UIButton){
+        sender.transform = CGAffineTransform(scaleX: 0.6, y: 0.6)
+        
+        UIView.animate(withDuration: 1.0,
+                       delay: 0,
+                       usingSpringWithDamping: CGFloat(0.20),
+                       initialSpringVelocity: CGFloat(6.0),
+                       options: .allowUserInteraction,
+                       animations: {
+                        sender.transform = CGAffineTransform.identity
+        },
+                       completion: { Void in()  }
+        )
+    }
+    
 }
