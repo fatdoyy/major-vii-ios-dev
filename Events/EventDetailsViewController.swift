@@ -9,7 +9,6 @@
 import UIKit
 import Hero
 import ImageViewer
-import CircleMenu
 import Floaty
 
 //rounded view in header's bottom (i.e. the red view in IB)
@@ -44,6 +43,9 @@ class EventDetailsViewController: UIViewController {
     var imgViewerItems: [ImgViewerItem] = []
     var displaceableImgView: UIImageView?
     
+    //floaty btn
+    var floatyBtn = Floaty()
+    
     //gesture for swipe-pop
     var gesture: UIGestureRecognizer?
     
@@ -65,6 +67,8 @@ class EventDetailsViewController: UIViewController {
         setupLeftBarItems()
         loadDetails()
         loadImgIntoImgViewer()
+        FloatyBtn.create(btn: floatyBtn, toVc: self)
+        floatyBtn.fabDelegate = self
         
         mainScrollView.contentInset = UIEdgeInsets(top: 300, left: 0, bottom: 0, right: 0)
     }
@@ -236,12 +240,25 @@ extension EventDetailsViewController: GalleryItemsDataSource {
     }
 }
 
-// MARK: Floating Button (CircleMenu) Delegate
-extension EventDetailsViewController: CircleMenuDelegate{
-    func circleMenu(_ circleMenu: CircleMenu, willDisplay button: UIButton, atIndex: Int) {
-        //...
+// MARK: Floating Button Delegate
+extension EventDetailsViewController: FloatyDelegate {
+    func floatyWillOpen(_ floaty: Floaty) {
+        print("Floaty Will Open")
+    }
+    
+    func floatyDidOpen(_ floaty: Floaty) {
+        print("Floaty Did Open")
+    }
+    
+    func floatyWillClose(_ floaty: Floaty) {
+        print("Floaty Will Close")
+    }
+    
+    func floatyDidClose(_ floaty: Floaty) {
+        print("Floaty Did Close")
     }
 }
+
 
 // MARK: swipe pop gesture
 extension EventDetailsViewController: UIGestureRecognizerDelegate{

@@ -222,32 +222,6 @@
                                     <constraint firstAttribute="trailing" secondItem="fzh-wP-JSm" secondAttribute="trailing" id="ss3-tK-gL6"/>
                                 </constraints>
                             </scrollView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JpU-Rp-rnu">
-                                <rect key="frame" x="291" y="583" width="64" height="64"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="64" id="4Nm-El-h5p"/>
-                                    <constraint firstAttribute="height" constant="64" id="Dqm-LB-MPP"/>
-                                </constraints>
-                                <state key="normal" image="eventdetails_menu"/>
-                                <state key="selected" image="eventdetails_menu_close"/>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="buttonsCount">
-                                        <integer key="value" value="2"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="duration">
-                                        <real key="value" value="0.5"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="distance">
-                                        <real key="value" value="100"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="startAngle">
-                                        <real key="value" value="270"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="endAngle">
-                                        <real key="value" value="360"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
-                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -256,12 +230,10 @@
                             <constraint firstAttribute="bottom" secondItem="QNu-xN-zbw" secondAttribute="bottom" id="NQM-ja-qaW"/>
                             <constraint firstItem="cpZ-ve-JUZ" firstAttribute="leading" secondItem="arw-y3-SIZ" secondAttribute="leading" id="a3b-6m-oDJ"/>
                             <constraint firstItem="cpZ-ve-JUZ" firstAttribute="top" secondItem="hgd-DL-QC7" secondAttribute="top" id="bBC-3S-XtH"/>
-                            <constraint firstItem="arw-y3-SIZ" firstAttribute="trailing" secondItem="JpU-Rp-rnu" secondAttribute="trailing" constant="20" id="bQ9-eo-fwZ"/>
                             <constraint firstItem="SaP-N2-BUd" firstAttribute="bottom" secondItem="cpZ-ve-JUZ" secondAttribute="bottom" id="eBP-4n-XyV"/>
                             <constraint firstItem="SaP-N2-BUd" firstAttribute="trailing" secondItem="arw-y3-SIZ" secondAttribute="trailing" id="fPF-Bo-Gx0"/>
                             <constraint firstItem="QNu-xN-zbw" firstAttribute="trailing" secondItem="cpZ-ve-JUZ" secondAttribute="trailing" id="fv5-6W-c5y"/>
                             <constraint firstItem="SaP-N2-BUd" firstAttribute="leading" secondItem="arw-y3-SIZ" secondAttribute="leading" id="hM3-L8-qzc"/>
-                            <constraint firstItem="arw-y3-SIZ" firstAttribute="bottom" secondItem="JpU-Rp-rnu" secondAttribute="bottom" constant="20" id="qPc-1U-Y6w"/>
                             <constraint firstItem="QNu-xN-zbw" firstAttribute="leading" secondItem="cpZ-ve-JUZ" secondAttribute="leading" id="u3y-jc-BxV"/>
                             <constraint firstItem="QNu-xN-zbw" firstAttribute="top" secondItem="cpZ-ve-JUZ" secondAttribute="top" id="vTP-dQ-9Xe"/>
                         </constraints>
@@ -304,8 +276,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="eventdetails_menu" width="64" height="64"/>
-        <image name="eventdetails_menu_close" width="64" height="64"/>
         <image name="tabbar_buskers" width="48" height="48"/>
         <image name="tabbar_coop" width="48" height="48"/>
         <image name="tabbar_events" width="48" height="48"/>

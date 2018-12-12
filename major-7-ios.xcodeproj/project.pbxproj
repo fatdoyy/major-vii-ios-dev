@@ -24,6 +24,7 @@
 		965838BF218317CE000FE8B0 /* NewsCellType4.xib in Resources */ = {isa = PBXBuildFile; fileRef = 965838BD218317CE000FE8B0 /* NewsCellType4.xib */; };
 		965838C221831866000FE8B0 /* NewsCellType5.swift in Sources */ = {isa = PBXBuildFile; fileRef = 965838C021831866000FE8B0 /* NewsCellType5.swift */; };
 		965838C321831866000FE8B0 /* NewsCellType5.xib in Resources */ = {isa = PBXBuildFile; fileRef = 965838C121831866000FE8B0 /* NewsCellType5.xib */; };
+		9658789C21C0FC70005B491A /* FloatyBtn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9658789B21C0FC70005B491A /* FloatyBtn.swift */; };
 		966A6CB8217DB5F500DF872F /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 966A6CB7217DB5F500DF872F /* TabBarViewController.swift */; };
 		966A6CBC217DB86D00DF872F /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 966A6CBB217DB86D00DF872F /* HomeViewController.swift */; };
 		966A6CBF217DBD7F00DF872F /* BuskersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 966A6CBE217DBD7F00DF872F /* BuskersViewController.swift */; };
@@ -95,6 +96,7 @@
 		965838BD218317CE000FE8B0 /* NewsCellType4.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewsCellType4.xib; sourceTree = "<group>"; };
 		965838C021831866000FE8B0 /* NewsCellType5.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsCellType5.swift; sourceTree = "<group>"; };
 		965838C121831866000FE8B0 /* NewsCellType5.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewsCellType5.xib; sourceTree = "<group>"; };
+		9658789B21C0FC70005B491A /* FloatyBtn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatyBtn.swift; sourceTree = "<group>"; };
 		966A6CB7217DB5F500DF872F /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		966A6CBB217DB86D00DF872F /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		966A6CBE217DBD7F00DF872F /* BuskersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuskersViewController.swift; sourceTree = "<group>"; };
@@ -241,6 +243,7 @@
 				960A475F219AA8FE00780AD4 /* HapticFeedback.swift */,
 				96862EBA219AD8AC00F709B0 /* TabBarHiding.swift */,
 				96EA375521B66BBC00E9DB74 /* ImageViewerHelper.swift */,
+				9658789B21C0FC70005B491A /* FloatyBtn.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -593,6 +596,7 @@
 				96799FE221889D520074C828 /* Animations.swift in Sources */,
 				9639217121ABCA3000BA515A /* EventDetailsView.swift in Sources */,
 				965838B62181CAE7000FE8B0 /* NewsCellType2.swift in Sources */,
+				9658789C21C0FC70005B491A /* FloatyBtn.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
