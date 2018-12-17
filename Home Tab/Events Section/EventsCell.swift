@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SkeletonView
 
 class EventsCell: UICollectionViewCell {
 
@@ -20,27 +21,32 @@ class EventsCell: UICollectionViewCell {
     @IBOutlet weak var eventLabel: UILabel!
     @IBOutlet weak var performerLabel: UILabel!
     
+    @IBOutlet var skeletonViews: Array<UILabel>!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
-        backgroundColor = .darkGray()
+        backgroundColor = .darkGray
+        layer.cornerRadius = GlobalCornerRadius.value
+        
         setupLabels()
         
-        let layer = CAGradientLayer()
-        layer.colors = [UIColor.lightPurple().cgColor, UIColor.darkPurple().cgColor]
-        layer.frame = bgView.bounds
-        layer.cornerRadius = GlobalCornerRadius.value
-        layer.startPoint = CGPoint(x: 0, y: 0.5)
-        layer.endPoint = CGPoint(x: 1, y: 0.5)
-        bgView.layer.insertSublayer(layer, at: 0)
-        //sendSubviewToBack(bgView)
+        SkeletonAppearance.default.multilineCornerRadius = Int(GlobalCornerRadius.value / 2)
+        SkeletonAppearance.default.gradient = SkeletonGradient(baseColor: .gray)
+        
+        let animation = SkeletonAnimationBuilder().makeSlidingAnimation(withDirection: .leftRight, duration: 2)
+        dateLabel.tag = 1
+        for view in skeletonViews{
+            if view.tag == 1 {
+                SkeletonAppearance.default.multilineHeight = 20
+            } else {
+                SkeletonAppearance.default.multilineHeight = 14
+            }
+            view.isSkeletonable = true
+            view.showAnimatedGradientSkeleton(animation: animation)
+        }
     }
 
     private func setupLabels(){
-        dateLabel.text = "31 Apr"
-        eventLabel.text = "Clockenflap @ 中環 feat. Jay Lee, jamistry"
-        performerLabel.text = "Clockenflap"
-        
         dateLabel.textColor = .whiteText()
         eventLabel.textColor = .whiteText()
         performerLabel.textColor = .whiteText()

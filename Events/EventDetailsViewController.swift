@@ -117,6 +117,7 @@ class EventDetailsViewController: UIViewController {
         bgView.bookmarkBtn.hero.modifiers = [.delay(0.3), .translate(y: 500)]
         bgView.bookmarkCountImg.hero.modifiers = [.delay(0.35), .translate(y: 500)]
         bgView.bookmarkCountLabel.hero.modifiers = [.delay(0.4), .translate(y: 500)]
+        self.floatyBtn.hero.modifiers = [.fade]
     }
     
     private func setupLeftBarItems(){

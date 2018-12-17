@@ -19,6 +19,8 @@ class BaseService: NSObject {
         switch actionPath {
         case .getNews:
             actionPathStr = "news"
+        case .getUpcomingEvents:
+            actionPathStr = "events/upcoming"
             
         }
         return endpoint + actionPathStr
@@ -63,7 +65,10 @@ class BaseService: NSObject {
 extension BaseService {
     enum ActionPath{
         
+        //News
         case getNews
         
+        //Events
+        case getUpcomingEvents
     }
 }

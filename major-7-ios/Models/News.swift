@@ -30,7 +30,7 @@ class News: Mappable {
     var cellType: Int?
     var title: String?
     var subTitle: String?
-    var coverImages = [CoverImage]()
+    var coverImages = [Image]()
     var videoUrl = [String]()
     var content: String?
     var contentUrl: String?
@@ -56,23 +56,5 @@ class News: Mappable {
     }
 }
 
-class CoverImage: Mappable {
-    var publicId: String?
-    var version: Int?
-    var format: String?
-    var resourceType: String?
-    var url: String?
-    var secureUrl: String?
-    
-    required init?(map: Map) {}
-    
-    func mapping(map: Map) {
-        publicId        <- map["public_id"]
-        version         <- map["version"]
-        format          <- map["format"]
-        resourceType    <- map["resource_type"]
-        url             <- map["url"]
-        secureUrl       <- map["secure_url"]
-    }
-}
+
 

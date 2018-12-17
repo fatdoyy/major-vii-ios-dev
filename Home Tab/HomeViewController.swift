@@ -12,6 +12,7 @@ import Localize_Swift
 
 class HomeViewController: UIViewController, UIGestureRecognizerDelegate {
     
+    
     var coverImagesUrl: [String] = []
     var news: [News] = []
     var cellType: Int?
@@ -72,10 +73,19 @@ class HomeViewController: UIViewController, UIGestureRecognizerDelegate {
 
     }
     
-    func fetchNews(){
+//    private func fetchUpcomingEvents(){
+//        EventsService.fetchUpcomingEvents().done { events -> () in
+//            EventsSection.upcomingEvents = events.list!
+//          
+//            }.ensure {
+//                UIApplication.shared.isNetworkActivityIndicatorVisible = false
+//            }.catch { error in }
+//    }
+    
+    private func fetchNews(){
         NewsService.fetchNews().done{ news -> () in
             self.news = news.list!
-            
+
             //            for news in self.news{
             //                for tag in news.hashtags{
             //                    self.coverImagesUrl.append(tag)
@@ -109,6 +119,7 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
         if indexPath.section == 0 { //events section
             let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: EventsSection.reuseIdentifier, for: indexPath) as! EventsSection
             cell.delegate = self
+            cell.eventsCollectionView.reloadData()
             return cell
         } else { //news section
             if !news.isEmpty { self.cellType = news[indexPath.row].cellType! }
