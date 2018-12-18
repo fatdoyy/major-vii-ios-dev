@@ -11,7 +11,7 @@ import ObjectMapper
 class NewsList: Mappable {
     var skip: Int?
     var limit: Int?
-    var list: [News]?
+    var list = [News]()
     
     required init?(map: Map) {}
     

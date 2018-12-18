@@ -9,7 +9,7 @@
 import ObjectMapper
 
 class UpcomingEventsList: Mappable {
-    var list: [UpcomingEvents]?
+    var list = [UpcomingEvent]()
     
     required init?(map: Map) {}
     
@@ -18,7 +18,7 @@ class UpcomingEventsList: Mappable {
     }
 }
 
-class UpcomingEvents: Mappable {
+class UpcomingEvent: Mappable {
     var images = [Image]()
     var id: String?
     var title: String?

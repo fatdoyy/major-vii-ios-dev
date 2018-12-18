@@ -8,6 +8,7 @@
 
 import UIKit
 import Hero
+import SDWebImage
 import ImageViewer
 import Floaty
 
@@ -28,7 +29,7 @@ struct ImgViewerItem {
 class EventDetailsViewController: UIViewController {
     
     static let storyboardId = "eventDetails"
-
+    
     @IBOutlet weak var headerImg: UIImageView!
     @IBOutlet weak var mainScrollView: UIScrollView!
     @IBOutlet weak var bgView: EventDetailsView!
@@ -49,13 +50,25 @@ class EventDetailsViewController: UIViewController {
     //gesture for swipe-pop
     var gesture: UIGestureRecognizer?
     
+    var eventId = "" {
+        didSet {
+            fetchDetails(eventId: eventId)
+        }
+    }
+    
+    var details : EventDetails? {
+        didSet {
+            loadDetails()
+        }
+    }
+    
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         gesture?.delegate = self
         self.hero.isEnabled = true
         view.backgroundColor = .darkGray()
@@ -65,12 +78,13 @@ class EventDetailsViewController: UIViewController {
         createHeroTransitions()
         
         setupLeftBarItems()
-        loadDetails()
         loadImgIntoImgViewer()
         FloatyBtn.create(btn: floatyBtn, toVc: self)
         floatyBtn.fabDelegate = self
         
         mainScrollView.contentInset = UIEdgeInsets(top: 300, left: 0, bottom: 0, right: 0)
+
+
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -90,16 +104,32 @@ class EventDetailsViewController: UIViewController {
         TabBar.show(rootView: self)
     }
     
+    private func fetchDetails(eventId: String){
+        EventsService.fetchEventDetails(eventId: eventId).done{ details -> () in
+            self.details = details
+            }.ensure {
+                UIApplication.shared.isNetworkActivityIndicatorVisible = false
+            }.catch { error in }
+    }
+    
     private func loadDetails(){
-        self.headerImg.image = UIImage(named: "cat")
+        
+        if let url = URL(string: (details!.item?.images.first?.secureUrl)!) {
+            headerImg.sd_imageTransition = .fade
+            headerImg.sd_setImage(with: url, completed: nil)
+        }
         
         bgView.delegate = self
-        bgView.titleLabel.text = "CityEcho呈獻：星期五時代廣場Busking"
-        bgView.descLabel.text = "Right click on the portion of the screen where your project’s files are (view controller, storyboard, etc) and choose “new file”. Xcode will prompt you for which file type you’d like to create. Choose the “View” option under the User Interface menu. On the following pop up you’ll be prompted to name your xib — we called ours “TestView”.Right click on the portion of the screen where your project’s files are (view controller, storyboard, etc) and choose “new file”. Xcode will prompt you for which file type you’d like to create. Choose the “View” option under the User Interface menu. On the following pop up you’ll be prompted to name your xib — we called ours “TestView”.Right click on the portion of the screen where your project’s files are (view controller, storyboard, etc) and choose “new file”. Xcode will prompt you for which file type you’d like to create. Choose the “View” option under the User Interface menu. On the following pop up you’ll be prompted to name your xib — we called ours “TestView”."
+        bgView.titleLabel.text = details!.item?.title
+        bgView.performerLabel.text = details!.item?.organizerProfile?.name
         
-        bgView.hashtagsArray = ["descTitleLabel", "descLabel", "webTitleLabel", "remarksTitleLabel", "imgCollectionView", "hashtagsCollectionView", "performerLabel", "titleLabel"]
+        bgView.hashtagsArray = (details?.item?.hashtags)!
         bgView.hashtagsCollectionView.reloadData()
-    
+        
+        bgView.dateLabel.text = details?.item?.dateTime
+        bgView.venueLabel.text = details?.item?.venue
+        bgView.descLabel.text = details!.item?.desc
+
         imgArray = [UIImage(named: "cat")!, UIImage(named: "icon_white")!, UIImage(named: "music-studio-12")!, UIImage(named: "tabbar_buskers")!, UIImage(named: "tabbar_coop")!]
         bgView.imgArray = self.imgArray
         
@@ -109,7 +139,11 @@ class EventDetailsViewController: UIViewController {
             }
         }
         
+        bgView.remarksLabel.text = details?.item?.remarks
+        bgView.webLabel.text = details?.item?.webUrl
+        
         bgView.layoutIfNeeded()
+        
     }
     
     private func createHeroTransitions(){
@@ -157,7 +191,6 @@ class EventDetailsViewController: UIViewController {
             imgViewerItems.append(ImgViewerItem(imageView: imgView, galleryItem: galleryItem))
         }
     }
-    
     
     @objc private func popView(){
         navigationController?.hero.navigationAnimationType = .zoomOut
@@ -270,9 +303,11 @@ extension EventDetailsViewController: UIGestureRecognizerDelegate{
 
 // MARK: function to push this view controller
 extension EventDetailsViewController{
-    static func push(fromView: UIViewController){
+    static func push(fromView: UIViewController, eventId: String){
         let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
-        let detailsVc = storyboard.instantiateViewController(withIdentifier: EventDetailsViewController.storyboardId)
+        let detailsVc = storyboard.instantiateViewController(withIdentifier: EventDetailsViewController.storyboardId) as! EventDetailsViewController
+        
+        detailsVc.eventId = eventId
         
         fromView.navigationItem.title = ""
         fromView.navigationController?.hero.navigationAnimationType = .zoom

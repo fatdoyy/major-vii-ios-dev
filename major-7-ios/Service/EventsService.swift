@@ -13,6 +13,7 @@ import ObjectMapper
 class EventsService: BaseService {}
 
 extension EventsService {
+    
     //upcoming events
     static func fetchUpcomingEvents() -> Promise<UpcomingEventsList> {
         return Promise { resolver in
@@ -28,5 +29,22 @@ extension EventsService {
             }
         }
     }
+    
+    //event details
+    static func fetchEventDetails(eventId: String) -> Promise<EventDetails> {
+        return Promise { resolver in
+            request(method: .get, url: getActionPath(.getEventDetails(eventId: eventId))).done { response in
+                guard let details = Mapper<EventDetails>().map(JSONObject: response) else {
+                    resolver.reject(PMKError.cancelled)
+                    return
+                }
+                
+                resolver.fulfill(details)
+                }.catch { error in
+                    resolver.reject(error)
+            }
+        }
+    }
+    
     
 }

@@ -17,10 +17,21 @@ class BaseService: NSObject {
     static func getActionPath(_ actionPath: ActionPath) -> String {
         var actionPathStr = ""
         switch actionPath {
+        //News
         case .getNews:
             actionPathStr = "news"
+            
+        //Events
         case .getUpcomingEvents:
             actionPathStr = "events/upcoming"
+        case .getTrendingEvents:
+            actionPathStr = "events/mostPopular"
+        case .getFollowingEvents:
+            actionPathStr = "events/userFollowing"
+        case .getFeaturedEvents:
+            actionPathStr = "events/feature"
+        case .getEventDetails(let eventId):
+            actionPathStr = "events/\(eventId)"
             
         }
         return endpoint + actionPathStr
@@ -70,5 +81,9 @@ extension BaseService {
         
         //Events
         case getUpcomingEvents
+        case getTrendingEvents
+        case getFollowingEvents
+        case getFeaturedEvents
+        case getEventDetails(eventId: String)
     }
 }

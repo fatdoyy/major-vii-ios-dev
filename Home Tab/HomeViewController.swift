@@ -69,22 +69,11 @@ class HomeViewController: UIViewController, UIGestureRecognizerDelegate {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
-
     }
-    
-//    private func fetchUpcomingEvents(){
-//        EventsService.fetchUpcomingEvents().done { events -> () in
-//            EventsSection.upcomingEvents = events.list!
-//          
-//            }.ensure {
-//                UIApplication.shared.isNetworkActivityIndicatorVisible = false
-//            }.catch { error in }
-//    }
     
     private func fetchNews(){
         NewsService.fetchNews().done{ news -> () in
-            self.news = news.list!
+            self.news = news.list
 
             //            for news in self.news{
             //                for tag in news.hashtags{
@@ -247,6 +236,7 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
 
 //View all btn/cell tapped
 extension HomeViewController: EventsSectionDelegate {
+    
     func viewAllBtnTapped() {
         let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
         let eventsVc = storyboard.instantiateViewController(withIdentifier: EventsListViewController.storyboardId)
@@ -256,8 +246,8 @@ extension HomeViewController: EventsSectionDelegate {
         self.navigationController?.pushViewController(eventsVc, animated: true)
     }
     
-    func cellTapped() {
-        EventDetailsViewController.push(fromView: self)
+    func cellTapped(eventId: String) {
+        EventDetailsViewController.push(fromView: self, eventId: eventId)
     }
 }
 

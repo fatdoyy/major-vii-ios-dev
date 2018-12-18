@@ -217,7 +217,7 @@ extension EventsListViewController: UICollectionViewDelegate, UICollectionViewDe
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if indexPath.section == Section.Featured.rawValue{
             print("\(indexPath.row)")
-            EventDetailsViewController.push(fromView: self)
+            EventDetailsViewController.push(fromView: self, eventId: "")
         }
     }
     
@@ -226,21 +226,21 @@ extension EventsListViewController: UICollectionViewDelegate, UICollectionViewDe
 //MARK: Trending Section Delegate
 extension EventsListViewController: TrendingSectionDelegate{
     func trendingCellTapped() {
-        EventDetailsViewController.push(fromView: self)
+        EventDetailsViewController.push(fromView: self, eventId: "")
     }
 }
 
 //MARK: Following Section Delegate
 extension EventsListViewController: FollowingSectionDelegate{
     func followingCellTapped() {
-        EventDetailsViewController.push(fromView: self)
+        EventDetailsViewController.push(fromView: self, eventId: "")
     }
 }
 
 //MARK: Bookmark Section Delegate
 extension EventsListViewController: BookmarkSectionDelegate{
     func bookmarkCellTapped() {
-        EventDetailsViewController.push(fromView: self)
+        EventDetailsViewController.push(fromView: self, eventId: "")
     }
 }
 

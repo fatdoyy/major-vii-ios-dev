@@ -11,7 +11,7 @@ import BouncyLayout
 
 protocol EventsSectionDelegate {
     func viewAllBtnTapped()
-    func cellTapped()
+    func cellTapped(eventId: String)
 }
 
 class EventsSection: UICollectionViewCell {
@@ -28,7 +28,7 @@ class EventsSection: UICollectionViewCell {
     @IBOutlet weak var eventsLabel: UILabel!
     @IBOutlet weak var viewAllBtn: UIButton!
     
-    var upcomingEvents: [UpcomingEvents] = []{
+    var upcomingEvents: [UpcomingEvent] = [] {
         didSet {
             eventsCollectionView.reloadData()
         }
@@ -70,7 +70,7 @@ class EventsSection: UICollectionViewCell {
     //get upcoming events list
     private func fetchUpcomingEvents(){
         EventsService.fetchUpcomingEvents().done { events -> () in
-            self.upcomingEvents = events.list!
+            self.upcomingEvents = events.list
             }.ensure {
                 UIApplication.shared.isNetworkActivityIndicatorVisible = false
             }.catch { error in }
@@ -122,6 +122,9 @@ extension EventsSection: UICollectionViewDataSource, UICollectionViewDelegate, U
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        delegate?.cellTapped()
+//        let detailsVc = EventDetailsViewController()
+//        detailsVc.eventsId = upcomingEvents[indexPath.row].id ?? ""
+        //print(upcomingEvents[indexPath.row].id ?? "")
+        delegate?.cellTapped(eventId: upcomingEvents[indexPath.row].id ?? "")
     }
 }
