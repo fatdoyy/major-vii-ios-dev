@@ -28,6 +28,7 @@ class EventDetailsView: UIView {
     @IBOutlet weak var performerLabel: UILabel!
     
     @IBOutlet weak var hashtagsCollectionView: UICollectionView!
+    @IBOutlet weak var dummyTagLabel: UILabel! //a dummy view to show skeleton view, will removeFromSuperview later
     
     @IBOutlet weak var dateTitleLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
@@ -46,11 +47,14 @@ class EventDetailsView: UIView {
     @IBOutlet weak var webTitleLabel: UILabel!
     @IBOutlet weak var webLabel: UILabel!
     
+    @IBOutlet var skeletonViews: Array<UILabel>!
+    @IBOutlet var viewsToShowLater: Array<UIView>!
+    
     var delegate: EventsDetailsViewDelegate?
     
     var hashtagsArray: [String] = []
     
-    var imgArray: [UIImage] = []
+    var imgUrlArray: [String] = []
     
     var displacementItems: [UIImageView] = []
     
@@ -75,6 +79,7 @@ class EventDetailsView: UIView {
         contentView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         
         setupLabels()
+        hideViews()
         
         hashtagsCollectionView.delegate = self
         hashtagsCollectionView.dataSource = self
@@ -124,6 +129,23 @@ class EventDetailsView: UIView {
             }
         }
         
+        SkeletonAppearance.default.multilineCornerRadius = Int(GlobalCornerRadius.value / 2)
+        SkeletonAppearance.default.gradient = SkeletonGradient(baseColor: .gray)
+        
+        let animation = SkeletonAnimationBuilder().makeSlidingAnimation(withDirection: .leftRight, duration: 2)
+        titleLabel.tag = 1
+        dummyTagLabel.tag = 2
+        dateLabel.tag = 3
+        venueLabel.tag = 4
+        for view in skeletonViews{
+            if view.tag == 1 || view.tag == 2 || view.tag == 3 || view.tag == 4 {
+                SkeletonAppearance.default.multilineHeight = 20
+            } else {
+                SkeletonAppearance.default.multilineHeight = 15
+            }
+            view.isSkeletonable = true
+            view.showAnimatedGradientSkeleton(animation: animation)
+        }
     }
     
     @IBAction func bookmarkBtnTapped(_ sender: UIButton) {
@@ -158,6 +180,11 @@ class EventDetailsView: UIView {
         webLabel.textColor = .whiteText()
     }
     
+    private func hideViews(){
+        for view in viewsToShowLater {
+            view.alpha = 0
+        }
+    }
 }
 
 extension EventDetailsView: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout{
@@ -165,7 +192,7 @@ extension EventDetailsView: UICollectionViewDelegate, UICollectionViewDataSource
         if collectionView == hashtagsCollectionView{
             return hashtagsArray.count
         } else { //imgCollectionView
-            return imgArray.count
+            return imgUrlArray.count
         }
     }
     
@@ -176,7 +203,7 @@ extension EventDetailsView: UICollectionViewDelegate, UICollectionViewDataSource
             return cell
         } else { //imgCollectionView
             let cell = imgCollectionView.dequeueReusableCell(withReuseIdentifier: DetailsImageCell.reuseIdentifier, for: indexPath) as! DetailsImageCell
-            cell.imgView.image = imgArray[indexPath.row]
+            cell.imgView.kf.setImage(with: URL(string: imgUrlArray[indexPath.row]), options: [.transition(.fade(1))])
             return cell
         }
     }

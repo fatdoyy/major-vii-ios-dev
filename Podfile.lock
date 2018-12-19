@@ -48,6 +48,7 @@ PODS:
     - GoogleUtilities/Logger
   - Hero (1.4.0)
   - ImageViewer (5.0.0)
+  - Kingfisher (5.0.1)
   - Localize-Swift (2.0.0)
   - MXParallaxHeader (0.6.1)
   - nanopb (0.3.8):
@@ -58,9 +59,6 @@ PODS:
   - ObjectMapper (3.3.0)
   - Pastel (0.5.1)
   - PromiseKit/CorePromise (6.5.2)
-  - SDWebImage (4.4.2):
-    - SDWebImage/Core (= 4.4.2)
-  - SDWebImage/Core (4.4.2)
   - SkeletonView (1.4.1)
   - SnapKit (4.0.1)
 
@@ -74,12 +72,12 @@ DEPENDENCIES:
   - Floaty (~> 4.1.0)
   - Hero
   - ImageViewer (from `https://github.com/mezhevikin/ImageViewer`)
+  - Kingfisher
   - Localize-Swift (~> 2.0)
   - MXParallaxHeader
   - ObjectMapper
   - Pastel
   - PromiseKit/CorePromise (~> 6.0)
-  - SDWebImage (~> 4.0)
   - SkeletonView
   - SnapKit (~> 4.0.0)
 
@@ -98,13 +96,13 @@ SPEC REPOS:
     - GoogleAppMeasurement
     - GoogleUtilities
     - Hero
+    - Kingfisher
     - Localize-Swift
     - MXParallaxHeader
     - nanopb
     - ObjectMapper
     - Pastel
     - PromiseKit
-    - SDWebImage
     - SkeletonView
     - SnapKit
 
@@ -132,16 +130,16 @@ SPEC CHECKSUMS:
   GoogleUtilities: 760ccb53b7c7f40f9c02d8c241f76f841a7a6162
   Hero: bac92350d7201a1a940003e0767c7b52ce7c99a1
   ImageViewer: 997018c2f4f7f9830602349bbcc3b2b776424942
+  Kingfisher: 4f771421b9208185217550528a06fd48756cb7c2
   Localize-Swift: c798ec9286494866f7068f85f7c71283ac5bdab4
   MXParallaxHeader: 858c403532ed933b381556a81ce333d7065ad182
   nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
   ObjectMapper: b612bf8c8e99c4dc0bb6013a51f7c27966ed5da9
   Pastel: b3dd5b8d612dac06ae7c63c97c45c900829bc139
   PromiseKit: 27c1601bfb73405871b805bcb8cf7e55c4dad3db
-  SDWebImage: 624d6e296c69b244bcede364c72ae0430ac14681
   SkeletonView: 60d6ce7edb0cb4c7758db33c74add50392b3c475
   SnapKit: 0de968a9fec17499afa29683b05d0c775b6d1c29
 
-PODFILE CHECKSUM: e934e74f16ae63172a9bc91fb5a5c00a5d50c770
+PODFILE CHECKSUM: 4d8a659326dc276a75a97dbad4948e71c344b1cf
 
 COCOAPODS: 1.5.3

@@ -35,12 +35,9 @@ class EventDetailsViewController: UIViewController {
     @IBOutlet weak var bgView: EventDetailsView!
     @IBOutlet weak var roundedView: UIView!
     
-//    @IBInspectable var buttonsCount: Int = 3
-//    @IBInspectable var duration: Double = 2 // circle animation duration
-//    @IBInspectable var distance: Float = 100 // distance between center button and buttons
     
     //img viewer
-    var imgArray: [UIImage] = []
+    var imgUrlArray: [String] = []
     var imgViewerItems: [ImgViewerItem] = []
     var displaceableImgView: UIImageView?
     
@@ -78,7 +75,6 @@ class EventDetailsViewController: UIViewController {
         createHeroTransitions()
         
         setupLeftBarItems()
-        loadImgIntoImgViewer()
         FloatyBtn.create(btn: floatyBtn, toVc: self)
         floatyBtn.fabDelegate = self
         
@@ -107,6 +103,8 @@ class EventDetailsViewController: UIViewController {
     private func fetchDetails(eventId: String){
         EventsService.fetchEventDetails(eventId: eventId).done{ details -> () in
             self.details = details
+            self.loadImgIntoImgViewer()
+
             }.ensure {
                 UIApplication.shared.isNetworkActivityIndicatorVisible = false
             }.catch { error in }
@@ -115,8 +113,7 @@ class EventDetailsViewController: UIViewController {
     private func loadDetails(){
         
         if let url = URL(string: (details!.item?.images.first?.secureUrl)!) {
-            headerImg.sd_imageTransition = .fade
-            headerImg.sd_setImage(with: url, completed: nil)
+            headerImg.kf.setImage(with: url, options: [.transition(.fade(1))])
         }
         
         bgView.delegate = self
@@ -129,12 +126,15 @@ class EventDetailsViewController: UIViewController {
         bgView.dateLabel.text = details?.item?.dateTime
         bgView.venueLabel.text = details?.item?.venue
         bgView.descLabel.text = details!.item?.desc
-
-        imgArray = [UIImage(named: "cat")!, UIImage(named: "icon_white")!, UIImage(named: "music-studio-12")!, UIImage(named: "tabbar_buskers")!, UIImage(named: "tabbar_coop")!]
-        bgView.imgArray = self.imgArray
         
-        if UIDevice().userInterfaceIdiom == .phone { //only reload imgCollectionView if device is not iPhone SE
+        if UIDevice().userInterfaceIdiom == .phone { //only load imgCollectionView if device is not iPhone SE
             if UIScreen.main.nativeBounds.height != 1136 {
+                
+                for img in (details?.item?.images)! {
+                    imgUrlArray.append(img.secureUrl ?? "")
+                }
+            
+                bgView.imgUrlArray = self.imgUrlArray
                 bgView.imgCollectionView.reloadData()
             }
         }
@@ -144,6 +144,18 @@ class EventDetailsViewController: UIViewController {
         
         bgView.layoutIfNeeded()
         
+        for view in bgView.skeletonViews {
+            if view.tag == 2{ //remove dummyTagLabel
+                view.removeFromSuperview()
+            }
+            view.hideSkeleton()
+        }
+        
+        for view in bgView.viewsToShowLater {
+            UIView.animate(withDuration: 0.75){
+                view.alpha = 1.0
+            }
+        }
     }
     
     private func createHeroTransitions(){
@@ -173,23 +185,28 @@ class EventDetailsViewController: UIViewController {
     }
     
     private func loadImgIntoImgViewer(){
-        var imgViewArray: [UIImageView] = []
         
-        if imgArray.count != 0 {
-            for img in imgArray {
-                let imgView = UIImageView(image: img)
-                imgViewArray.append(imgView)
+        if imgUrlArray.count != 0 {
+            
+            for i in 0 ..< imgUrlArray.count {
+                let imgView = UIImageView() //create imgView for each url
+                let galleryItem = GalleryItem.image { imageCompletion in
+                    let url = URL(string: self.imgUrlArray[i])
+                    imgView.kf.setImage(with: url) { result in
+                        switch result {
+                        case .success(let value):
+                            //print(value.image)
+                            imageCompletion(value.image)
+                        case .failure(let error):
+                            print(error)
+                        }
+                    }
+                }
+
+                imgViewerItems.append(ImgViewerItem(imageView: imgView, galleryItem: galleryItem))
             }
         }
-        
-        for imgView in imgViewArray {
-            var galleryItem: GalleryItem!
-            
-            let image = imgView.image
-            galleryItem = GalleryItem.image { $0(image) }
-            
-            imgViewerItems.append(ImgViewerItem(imageView: imgView, galleryItem: galleryItem))
-        }
+
     }
     
     @objc private func popView(){
@@ -232,7 +249,6 @@ extension EventDetailsViewController{
     func showImageViewer(atIndex: Int){
         let frame = CGRect(x: 0, y: 0, width: 200, height: 24)
         let footerView = CounterView(frame: frame, currentIndex: atIndex, count: imgViewerItems.count)
-        
         
         let galleryViewController = GalleryViewController(startIndex: atIndex, itemsDataSource: self, displacedViewsDataSource: self, configuration: ImageViewerHelper.config())
         //galleryViewController.headerView = headerView

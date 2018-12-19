@@ -20,6 +20,7 @@
                 <outlet property="dateTitleLabel" destination="i2a-JN-Gcd" id="gaZ-ys-8qx"/>
                 <outlet property="descLabel" destination="8Su-Xi-y58" id="pQw-qj-14V"/>
                 <outlet property="descTitleLabel" destination="r6D-gr-ciZ" id="Zfy-x1-ZJS"/>
+                <outlet property="dummyTagLabel" destination="Hjb-ZY-saj" id="lxP-A9-J6v"/>
                 <outlet property="hashtagsCollectionView" destination="ayP-3G-BSj" id="jTT-K5-5vy"/>
                 <outlet property="imgCollectionView" destination="hyy-PB-FP4" id="xda-95-uE7"/>
                 <outlet property="performerLabel" destination="ntD-tk-Z5d" id="HhE-3F-hhU"/>
@@ -30,6 +31,21 @@
                 <outlet property="venueTitleLabel" destination="Cia-k0-s8d" id="fiV-7N-eef"/>
                 <outlet property="webLabel" destination="IcA-O6-2P0" id="Vyj-rr-tc7"/>
                 <outlet property="webTitleLabel" destination="rFO-Jx-a7a" id="8fV-ws-eoa"/>
+                <outletCollection property="viewsToShowLater" destination="ayP-3G-BSj" collectionClass="NSMutableArray" id="iKG-hj-EzD"/>
+                <outletCollection property="viewsToShowLater" destination="r6D-gr-ciZ" collectionClass="NSMutableArray" id="nGN-sy-vCK"/>
+                <outletCollection property="viewsToShowLater" destination="8Su-Xi-y58" collectionClass="NSMutableArray" id="FCo-Pz-r3O"/>
+                <outletCollection property="viewsToShowLater" destination="hyy-PB-FP4" collectionClass="NSMutableArray" id="GSR-Bu-7bS"/>
+                <outletCollection property="viewsToShowLater" destination="z5f-0n-r6g" collectionClass="NSMutableArray" id="2Bq-Sz-wjv"/>
+                <outletCollection property="viewsToShowLater" destination="FB5-dR-Ztb" collectionClass="NSMutableArray" id="Z1C-qk-QLU"/>
+                <outletCollection property="viewsToShowLater" destination="rFO-Jx-a7a" collectionClass="NSMutableArray" id="E1I-uH-ZBM"/>
+                <outletCollection property="viewsToShowLater" destination="IcA-O6-2P0" collectionClass="NSMutableArray" id="0uV-7L-06y"/>
+                <outletCollection property="skeletonViews" destination="eW8-AA-gTc" collectionClass="NSMutableArray" id="Mki-eE-dwr"/>
+                <outletCollection property="skeletonViews" destination="ntD-tk-Z5d" collectionClass="NSMutableArray" id="XRq-Yg-v9e"/>
+                <outletCollection property="skeletonViews" destination="Hjb-ZY-saj" collectionClass="NSMutableArray" id="nsy-aB-AtS"/>
+                <outletCollection property="skeletonViews" destination="i2a-JN-Gcd" collectionClass="NSMutableArray" id="t0f-mM-iwt"/>
+                <outletCollection property="skeletonViews" destination="Spy-qX-CqE" collectionClass="NSMutableArray" id="VoD-E3-rwZ"/>
+                <outletCollection property="skeletonViews" destination="Cia-k0-s8d" collectionClass="NSMutableArray" id="NTF-oW-JdJ"/>
+                <outletCollection property="skeletonViews" destination="DRX-o6-eb2" collectionClass="NSMutableArray" id="KIE-iT-f82"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -56,14 +72,14 @@
                     </constraints>
                     <collectionViewLayout key="collectionViewLayout" id="Ni2-fc-zr8" customClass="HashtagsFlowLayout" customModule="major_7_ios" customModuleProvider="target"/>
                 </collectionView>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="i2a-JN-Gcd">
-                    <rect key="frame" x="20" y="152" width="33" height="15"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Date | Time" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="i2a-JN-Gcd">
+                    <rect key="frame" x="20" y="152" width="67.5" height="15"/>
                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="12"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Cia-k0-s8d">
-                    <rect key="frame" x="20" y="209" width="33" height="15"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Venue" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Cia-k0-s8d">
+                    <rect key="frame" x="20" y="209" width="37" height="15"/>
                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="12"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
@@ -112,8 +128,8 @@
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Spy-qX-CqE">
-                    <rect key="frame" x="20" y="172" width="38" height="17"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2018-12-12  03:38PM" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Spy-qX-CqE">
+                    <rect key="frame" x="20" y="172" width="151" height="17"/>
                     <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
@@ -153,6 +169,12 @@
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="#thisWillBeRemoved" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hjb-ZY-saj">
+                    <rect key="frame" x="20" y="108" width="157" height="21"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
             </subviews>
             <color key="backgroundColor" red="0.59607843140000005" green="0.80000000000000004" blue="0.31764705879999999" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
@@ -160,6 +182,7 @@
                 <constraint firstItem="a4D-dS-swh" firstAttribute="top" secondItem="eW8-AA-gTc" secondAttribute="top" constant="-49" id="1uu-hh-ORw"/>
                 <constraint firstItem="rFO-Jx-a7a" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="20" id="2hV-L3-fjn"/>
                 <constraint firstItem="FB5-dR-Ztb" firstAttribute="top" secondItem="z5f-0n-r6g" secondAttribute="bottom" constant="5" id="2sG-Uc-bY7"/>
+                <constraint firstItem="Hjb-ZY-saj" firstAttribute="top" secondItem="ntD-tk-Z5d" secondAttribute="bottom" constant="17" id="5Bz-1H-s7G"/>
                 <constraint firstItem="hyy-PB-FP4" firstAttribute="trailing" secondItem="vUN-kp-3ea" secondAttribute="trailing" id="5hU-8y-qBF"/>
                 <constraint firstItem="8Su-Xi-y58" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="20" id="8At-hL-5ep"/>
                 <constraint firstItem="FB5-dR-Ztb" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="20" id="8lL-uA-xr1"/>
@@ -167,6 +190,8 @@
                 <constraint firstItem="z5f-0n-r6g" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="20" id="BF2-7W-eLU"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="DRX-o6-eb2" secondAttribute="trailing" constant="20" id="BTS-WA-4bO"/>
                 <constraint firstItem="8Su-Xi-y58" firstAttribute="top" secondItem="r6D-gr-ciZ" secondAttribute="bottom" constant="5" id="Cn0-bB-Yqj"/>
+                <constraint firstItem="Hjb-ZY-saj" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="20" id="CyC-cX-Ael"/>
+                <constraint firstItem="i2a-JN-Gcd" firstAttribute="top" secondItem="Hjb-ZY-saj" secondAttribute="bottom" constant="23" id="Drr-6m-5OQ"/>
                 <constraint firstItem="8h0-lt-YzF" firstAttribute="leading" secondItem="dqa-dI-bS4" secondAttribute="trailing" constant="2" id="E6B-2Z-3k9"/>
                 <constraint firstItem="ntD-tk-Z5d" firstAttribute="top" secondItem="eW8-AA-gTc" secondAttribute="bottom" constant="10" id="EMr-Y9-YOB"/>
                 <constraint firstItem="hyy-PB-FP4" firstAttribute="top" secondItem="8Su-Xi-y58" secondAttribute="bottom" constant="25" id="EfM-ub-XjF"/>
