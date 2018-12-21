@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import SDWebImage
 import Kingfisher
 import Localize_Swift
 

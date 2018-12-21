@@ -8,7 +8,6 @@
 
 import UIKit
 import Hero
-import SDWebImage
 import ImageViewer
 import Floaty
 
@@ -125,7 +124,22 @@ class EventDetailsViewController: UIViewController {
         
         bgView.dateLabel.text = details?.item?.dateTime
         bgView.venueLabel.text = details?.item?.venue
-        bgView.descLabel.text = details!.item?.desc
+        //bgView.descLabel.text = details!.item?.desc
+        
+        let paragraphStyle = NSMutableParagraphStyle()
+        
+        // create attributed string
+        let myString = details!.item?.desc
+        let myAttribute = [ NSAttributedString.Key.foregroundColor: UIColor.blue ]
+        let myAttrString = NSAttributedString(string: myString!, attributes: myAttribute)
+        //myString.addAttribute(NSAttributedString.Key.paragraphStyle, value:paragraphStyle, range:NSMakeRange(0, myString.length))
+
+        // set attributed text on a UILabel
+        bgView.descLabel.attributedText = myAttrString
+        
+        // *** set LineSpacing property in points ***
+        paragraphStyle.lineSpacing = 2 // Whatever line spacing you want in points
+        
         
         if UIDevice().userInterfaceIdiom == .phone { //only load imgCollectionView if device is not iPhone SE
             if UIScreen.main.nativeBounds.height != 1136 {

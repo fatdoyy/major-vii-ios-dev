@@ -114,16 +114,10 @@ class EventDetailsView: UIView {
                 let verticalSpace = NSLayoutConstraint(item: remarksTitleLabel, attribute: .top, relatedBy: .equal, toItem: descLabel, attribute: .bottom, multiplier: 1, constant: 20)
                 
                 NSLayoutConstraint.activate([verticalSpace])
-            case 1334:
+            case 1334: // iPhone 6/6S/7/8
                 print("iPhone 6/6S/7/8")
-            case 1920, 2208:
-                print("iPhone 6+/6S+/7+/8+")
-            case 2436:
-                print("iPhone X, Xs")
-            case 2688:
-                print("iPhone Xs Max")
-            case 1792:
-                print("iPhone Xr")
+            case 1920, 2208, 2436, 2688, 1792:
+                descLabel.numberOfLines = 4
             default:
                 print("unknown")
             }

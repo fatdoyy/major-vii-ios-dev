@@ -68,3 +68,15 @@ extension UIColor {
     }
 }
 
+//turn UIColor to cgColor
+extension Array where Element == UIColor {
+    func cgColors() -> [CGColor] {
+        var cgColorArray: [CGColor] = []
+        
+        for color in self {
+            cgColorArray.append(color.cgColor)
+        }
+        
+        return cgColorArray
+    }
+}

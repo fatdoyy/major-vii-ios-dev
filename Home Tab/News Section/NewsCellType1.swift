@@ -62,7 +62,6 @@ class NewsCellType1: UICollectionViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        bgImgView.sd_cancelCurrentImageLoad()
         bgImgView.image = nil
     }
     

@@ -10,11 +10,19 @@ import UIKit
 
 class GradientLayer {
     
-    static func create(frame: CGRect) -> CAGradientLayer {
+    static func create(frame: CGRect, colors: [UIColor], locations: [NSNumber]? = nil, cornerRadius: Bool? = nil) -> CAGradientLayer {
         let gradientBg = CAGradientLayer()
-        gradientBg.colors = [UIColor.lightPurple().cgColor, UIColor.darkPurple().cgColor]
         gradientBg.frame = frame
-        gradientBg.cornerRadius = GlobalCornerRadius.value
+        gradientBg.colors = colors.cgColors()
+        
+        if let locations = locations {
+            gradientBg.locations = locations
+        }
+        
+        if cornerRadius == true {
+            gradientBg.cornerRadius = GlobalCornerRadius.value
+        }
+       
         gradientBg.startPoint = CGPoint(x: 0, y: 0.5)
         gradientBg.endPoint = CGPoint(x: 1, y: 0.5)
 

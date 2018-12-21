@@ -92,7 +92,9 @@ extension EventsSection: UICollectionViewDataSource, UICollectionViewDelegate, U
                 view.hideSkeleton()
             }
             
-            cell.bgView.layer.insertSublayer(GradientLayer.create(frame: cell.bgView!.bounds), at: 0)
+            cell.bgView.layer.insertSublayer(GradientLayer.create(frame: cell.bgView!.bounds, colors: [.lightPurple(), .darkPurple()], cornerRadius: true), at: 0)
+            //cell.bgImgView.image = UIImage(named: "cat")
+
             
             //decoding the date to "dd MMM"
             let dateResponse = upcomingEvents[indexPath.row].dateTime

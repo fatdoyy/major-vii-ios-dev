@@ -44,8 +44,8 @@
                 <outletCollection property="skeletonViews" destination="Hjb-ZY-saj" collectionClass="NSMutableArray" id="nsy-aB-AtS"/>
                 <outletCollection property="skeletonViews" destination="i2a-JN-Gcd" collectionClass="NSMutableArray" id="t0f-mM-iwt"/>
                 <outletCollection property="skeletonViews" destination="Spy-qX-CqE" collectionClass="NSMutableArray" id="VoD-E3-rwZ"/>
-                <outletCollection property="skeletonViews" destination="Cia-k0-s8d" collectionClass="NSMutableArray" id="NTF-oW-JdJ"/>
-                <outletCollection property="skeletonViews" destination="DRX-o6-eb2" collectionClass="NSMutableArray" id="KIE-iT-f82"/>
+                <outletCollection property="viewsToShowLater" destination="DRX-o6-eb2" collectionClass="NSMutableArray" id="sJu-ot-PKQ"/>
+                <outletCollection property="viewsToShowLater" destination="Cia-k0-s8d" collectionClass="NSMutableArray" id="YIi-hO-KeN"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
