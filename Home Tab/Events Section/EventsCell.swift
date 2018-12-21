@@ -20,6 +20,7 @@ class EventsCell: UICollectionViewCell {
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var eventLabel: UILabel!
     @IBOutlet weak var performerLabel: UILabel!
+    @IBOutlet weak var imgOverlay: UIView!
     @IBOutlet weak var bgImgView: UIImageView!
     
     @IBOutlet var skeletonViews: Array<UILabel>!
@@ -51,18 +52,6 @@ class EventsCell: UICollectionViewCell {
         dateLabel.textColor = .whiteText()
         eventLabel.textColor = .whiteText()
         performerLabel.textColor = .whiteText()
-        bgImgView.image = UIImage(named: "cat")
-        bgImgView.alpha = 0.2
-        //createGradientOverlay()
-    }
-    
-    private func createGradientOverlay(){
-        let view = UIView(frame: bgImgView.frame)
-        
-        //bgImgView.alpha = 0.3
-        let gradientLayer = GradientLayer.create(frame: view.frame, colors: [.clear, .white], locations: [0.0, 1.0])
-        view.layer.insertSublayer(gradientLayer, at: 0)
-        bgImgView.mask = view
-        //bgImgView.bringSubviewToFront(view)
+        //bgImgView.image = UIImage(named: "cat")
     }
 }

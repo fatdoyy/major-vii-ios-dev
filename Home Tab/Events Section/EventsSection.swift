@@ -8,6 +8,7 @@
 
 import UIKit
 import BouncyLayout
+import Kingfisher
 
 protocol EventsSectionDelegate {
     func viewAllBtnTapped()
@@ -92,9 +93,13 @@ extension EventsSection: UICollectionViewDataSource, UICollectionViewDelegate, U
                 view.hideSkeleton()
             }
             
+            cell.backgroundColor = .white
             cell.bgView.layer.insertSublayer(GradientLayer.create(frame: cell.bgView!.bounds, colors: [.lightPurple(), .darkPurple()], cornerRadius: true), at: 0)
-            //cell.bgImgView.image = UIImage(named: "cat")
-
+            cell.bgView.alpha = 0.75
+            cell.imgOverlay.layer.insertSublayer(GradientLayer.create(frame: cell.imgOverlay!.bounds, colors: [.white, UIColor.white.withAlphaComponent(0)]), at: 0)
+            if let imgUrl = URL(string: (upcomingEvents[indexPath.row].images.first?.secureUrl)!) {
+                cell.bgImgView.kf.setImage(with: imgUrl, options: [.transition(.fade(1))])
+            }
             
             //decoding the date to "dd MMM"
             let dateResponse = upcomingEvents[indexPath.row].dateTime

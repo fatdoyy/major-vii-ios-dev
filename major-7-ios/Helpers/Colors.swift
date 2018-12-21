@@ -23,7 +23,7 @@ extension UIColor {
     }
     
     class func lightPurple() -> UIColor {
-        return UIColor(hexString: "#3498db")
+        return UIColor(hexString: "#c86dd7")
     }
     
     class func darkPurple() -> UIColor {
