@@ -96,7 +96,7 @@ extension EventsSection: UICollectionViewDataSource, UICollectionViewDelegate, U
             cell.backgroundColor = .white
             cell.bgView.layer.insertSublayer(GradientLayer.create(frame: cell.bgView!.bounds, colors: [.lightPurple(), .darkPurple()], cornerRadius: true), at: 0)
             cell.bgView.alpha = 0.75
-            cell.imgOverlay.layer.insertSublayer(GradientLayer.create(frame: cell.imgOverlay!.bounds, colors: [.white, UIColor.white.withAlphaComponent(0)]), at: 0)
+            cell.imgOverlay.isHidden = false
             if let imgUrl = URL(string: (upcomingEvents[indexPath.row].images.first?.secureUrl)!) {
                 cell.bgImgView.kf.setImage(with: imgUrl, options: [.transition(.fade(1))])
             }

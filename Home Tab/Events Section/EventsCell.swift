@@ -49,9 +49,11 @@ class EventsCell: UICollectionViewCell {
     }
 
     private func setupViews(){
+        imgOverlay.isHidden = true
         dateLabel.textColor = .whiteText()
         eventLabel.textColor = .whiteText()
         performerLabel.textColor = .whiteText()
         //bgImgView.image = UIImage(named: "cat")
+        imgOverlay.layer.insertSublayer(GradientLayer.create(frame: imgOverlay!.bounds, colors: [.white, UIColor.white.withAlphaComponent(0)]), at: 0)
     }
 }
