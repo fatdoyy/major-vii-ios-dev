@@ -91,6 +91,7 @@ class NewsCellType4: UICollectionViewCell {
         countLabel.textColor = .whiteText()
         
         viewsLabel.textColor = .whiteText()
+        viewsLabel.isHidden = true
     }
     
     override func prepareForReuse() {

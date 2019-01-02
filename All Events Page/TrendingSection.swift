@@ -9,7 +9,7 @@
 import UIKit
 
 protocol TrendingSectionDelegate{
-    func trendingCellTapped()
+    func trendingCellTapped(eventId: String)
 }
 
 class TrendingSection: UICollectionViewCell {
@@ -24,6 +24,12 @@ class TrendingSection: UICollectionViewCell {
     
     @IBOutlet weak var trendingSectionLabel: UILabel!
     @IBOutlet weak var trendingCollectionView: UICollectionView!
+    
+    var trendingEvents: [Event] = [] {
+        didSet {
+            trendingCollectionView.reloadData()
+        }
+    }
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -48,6 +54,8 @@ class TrendingSection: UICollectionViewCell {
  
         trendingCollectionView.backgroundColor = .darkGray()
         trendingCollectionView.register(UINib.init(nibName: "TrendingCell", bundle: nil), forCellWithReuseIdentifier: TrendingCell.reuseIdentifier)
+        
+        fetchTrendingEvents()
     }
 
     override func layoutSubviews() {
@@ -55,27 +63,57 @@ class TrendingSection: UICollectionViewCell {
         //fix big/small screen ratio issue
         //trendingCollectionView.frame.size.height = TrendingCell.height
     }
+    
+    //get trending events list
+    private func fetchTrendingEvents(){
+        EventsService.fetchTrendingEvents().done { events -> () in
+            self.trendingEvents = events.list
+            }.ensure {
+                UIApplication.shared.isNetworkActivityIndicatorVisible = false
+            }.catch { error in }
+    }
 }
 
 // MARK: UICollectionView Data Source
 extension TrendingSection: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 4
+        let count = trendingEvents.isEmpty ? 2 : trendingEvents.count
+        return count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = trendingCollectionView.dequeueReusableCell(withReuseIdentifier: TrendingCell.reuseIdentifier, for: indexPath) as! TrendingCell
-        cell.delegate = self
-        cell.eventTitle.text = "This is a good event"
-        cell.performerLabel.text = "Billy Fung"
-        cell.bgImgView.image = UIImage(named: "music-studio-12")
+        
+        if !trendingEvents.isEmpty {
+            cell.delegate = self
+            
+            for view in cell.skeletonViews { //hide all skeleton views
+                view.hideSkeleton()
+            }
+            
+            for view in cell.viewsToShowLater { //show hidden view
+                UIView.animate(withDuration: 0.75){
+                    view.alpha = 1.0
+                }
+            }
+            
+            if let imgUrl = URL(string: (trendingEvents[indexPath.row].images.first?.secureUrl)!) {
+                cell.bgImgView.kf.setImage(with: imgUrl, options: [.transition(.fade(0.75))])
+            }
+            
+            cell.eventTitle.text = trendingEvents[indexPath.row].title
+            cell.performerLabel.text = trendingEvents[indexPath.row].organizerProfile?.name
+            cell.dateLabel.text = trendingEvents[indexPath.row].dateTime
+
+        }
+    
         return cell
     }
     
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print(indexPath.row)
-        delegate?.trendingCellTapped()
+        delegate?.trendingCellTapped(eventId: trendingEvents[indexPath.row].id ?? "")
     }
 }
 

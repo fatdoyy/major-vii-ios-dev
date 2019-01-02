@@ -112,7 +112,7 @@ class EventDetailsViewController: UIViewController {
     private func loadDetails(){
         
         if let url = URL(string: (details!.item?.images.first?.secureUrl)!) {
-            headerImg.kf.setImage(with: url, options: [.transition(.fade(1))])
+            headerImg.kf.setImage(with: url, options: [.transition(.fade(0.75))])
         }
         
         bgView.delegate = self
@@ -126,22 +126,23 @@ class EventDetailsViewController: UIViewController {
         bgView.venueLabel.text = details?.item?.venue
         //bgView.descLabel.text = details!.item?.desc
         
+        // setup attributes for string
+        let descString = details!.item?.desc
+        
         let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineSpacing = 8
+        paragraphStyle.lineBreakMode = .byTruncatingTail
+        
+        let myAttribute = [ NSAttributedString.Key.foregroundColor: UIColor.whiteText(), NSAttributedString.Key.paragraphStyle: paragraphStyle ]
         
         // create attributed string
-        let myString = details!.item?.desc
-        let myAttribute = [ NSAttributedString.Key.foregroundColor: UIColor.blue ]
-        let myAttrString = NSAttributedString(string: myString!, attributes: myAttribute)
-        //myString.addAttribute(NSAttributedString.Key.paragraphStyle, value:paragraphStyle, range:NSMakeRange(0, myString.length))
+        let descAttrString = NSAttributedString(string: descString!, attributes: myAttribute)
 
         // set attributed text on a UILabel
-        bgView.descLabel.attributedText = myAttrString
+        bgView.descLabel.attributedText = descAttrString
         
-        // *** set LineSpacing property in points ***
-        paragraphStyle.lineSpacing = 2 // Whatever line spacing you want in points
-        
-        
-        if UIDevice().userInterfaceIdiom == .phone { //only load imgCollectionView if device is not iPhone SE
+        //only load imgCollectionView if device is not iPhone SE
+        if UIDevice().userInterfaceIdiom == .phone {
             if UIScreen.main.nativeBounds.height != 1136 {
                 
                 for img in (details?.item?.images)! {
@@ -159,15 +160,19 @@ class EventDetailsViewController: UIViewController {
         bgView.layoutIfNeeded()
         
         for view in bgView.skeletonViews {
-            if view.tag == 2{ //remove dummyTagLabel
+            if view.tag == 2 { //remove dummyTagLabel
                 view.removeFromSuperview()
             }
             view.hideSkeleton()
         }
         
         for view in bgView.viewsToShowLater {
-            UIView.animate(withDuration: 0.75){
+            if view.tag == 111 { //not fading hashtagsCollectionView for better exp.
                 view.alpha = 1.0
+            } else {
+                UIView.animate(withDuration: 0.75){
+                    view.alpha = 1.0
+                }
             }
         }
     }
@@ -203,7 +208,7 @@ class EventDetailsViewController: UIViewController {
         if imgUrlArray.count != 0 {
             
             for i in 0 ..< imgUrlArray.count {
-                let imgView = UIImageView() //create imgView for each url
+                let imgView = UIImageView() //create imgView for each web url
                 let galleryItem = GalleryItem.image { imageCompletion in
                     let url = URL(string: self.imgUrlArray[i])
                     imgView.kf.setImage(with: url) { result in
@@ -216,11 +221,11 @@ class EventDetailsViewController: UIViewController {
                         }
                     }
                 }
-
+                
                 imgViewerItems.append(ImgViewerItem(imageView: imgView, galleryItem: galleryItem))
             }
         }
-
+        
     }
     
     @objc private func popView(){

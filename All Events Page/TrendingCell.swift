@@ -35,7 +35,8 @@ class TrendingCell: UICollectionViewCell {
     @IBOutlet weak var bookmarkCountLabel: UILabel!
     
     @IBOutlet var skeletonViews: Array<UILabel>!
-    
+    @IBOutlet var viewsToShowLater: Array<UIView>!
+
     override func awakeFromNib() {
         super.awakeFromNib()
         backgroundColor = .darkGray()
@@ -52,23 +53,27 @@ class TrendingCell: UICollectionViewCell {
         bookmarkBtn.layer.shadowRadius = 5
         bookmarkBtn.layer.shadowOpacity = 0.7
         
-        bookmarkCountLabel.textColor = .whiteText()
-        
         SkeletonAppearance.default.multilineCornerRadius = Int(GlobalCornerRadius.value / 2)
         SkeletonAppearance.default.gradient = SkeletonGradient(baseColor: .gray)
         
-//        let animation = SkeletonAnimationBuilder().makeSlidingAnimation(withDirection: .leftRight, duration: 2)
-//        eventTitle.tag = 1
-//        for view in skeletonViews{
-//            if view.tag == 1 {
-//                SkeletonAppearance.default.multilineHeight = 20
-//            } else {
-//                SkeletonAppearance.default.multilineHeight = 15
-//            }
-//            view.isSkeletonable = true
-//            view.showAnimatedGradientSkeleton(animation: animation)
-//        }
+        let animation = SkeletonAnimationBuilder().makeSlidingAnimation(withDirection: .leftRight, duration: 2)
+        eventTitle.tag = 1
+        for view in skeletonViews{
+            if view.tag == 1 {
+                SkeletonAppearance.default.multilineHeight = 20
+            } else {
+                SkeletonAppearance.default.multilineHeight = 15
+            }
+            view.isSkeletonable = true
+            view.showAnimatedGradientSkeleton(animation: animation)
+        }
         
+        //hide some views for later
+        for view in viewsToShowLater {
+            view.alpha = 0
+        }
+
+        bookmarkCountLabel.textColor = .whiteText()
         eventTitle.textColor = .whiteText()
         performerLabel.textColor = .whiteText()
         dateLabel.textColor = .whiteText()

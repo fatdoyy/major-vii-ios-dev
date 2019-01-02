@@ -121,7 +121,7 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
                 cell.newsTitle.text = news[indexPath.row].title
                 //cell.bgImgView.sd_imageTransition = .fade
                 if let url = URL(string: news[indexPath.row].coverImages[0].secureUrl!){
-                    cell.bgImgView.kf.setImage(with: url, options: [.transition(.fade(1))])
+                    cell.bgImgView.kf.setImage(with: url, options: [.transition(.fade(0.75))])
                 }
                 
                 return cell
@@ -131,7 +131,7 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
                 Hashtags.createAtCell(cell: cell, position: .cellBottom, dataSource: news[indexPath.row].hashtags, solidColor: true)
                 cell.newsTitle.text = news[indexPath.row].title
                 if let url = URL(string: news[indexPath.row].coverImages[0].secureUrl!){
-                    cell.bgImgView.kf.setImage(with: url, options: [.transition(.fade(1))])
+                    cell.bgImgView.kf.setImage(with: url, options: [.transition(.fade(0.75))])
                 }
                 
                 return cell
@@ -143,7 +143,7 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
                 cell.subTitle.text = news[indexPath.row].subTitle
                 
                 if let url = URL(string: news[indexPath.row].coverImages[0].secureUrl!){
-                    cell.bgImgView.kf.setImage(with: url, options: [.transition(.fade(1))])
+                    cell.bgImgView.kf.setImage(with: url, options: [.transition(.fade(0.75))])
                 }
                 
                 return cell
@@ -159,6 +159,7 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
                 
                 cell.gradientBg.startAnimation()
                 Hashtags.createAtCell(cell: cell, position: .cellTop, dataSource: news[indexPath.row].hashtags)
+                cell.viewsLabel.isHidden = false
                 cell.newsTitle.text = news[indexPath.row].title
                 cell.subTitle.text = news[indexPath.row].subTitle
                 

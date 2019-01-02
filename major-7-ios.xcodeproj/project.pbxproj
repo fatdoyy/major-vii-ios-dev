@@ -234,7 +234,7 @@
 			children = (
 				966A6CB7217DB5F500DF872F /* TabBarViewController.swift */,
 				966A6CC9217DE6AC00DF872F /* Home Tab */,
-				96C55412219044710065D70A /* Events */,
+				96C55412219044710065D70A /* All Events Page */,
 				966A6CBE217DBD7F00DF872F /* BuskersViewController.swift */,
 				966A6CC0217DBD9F00DF872F /* AgentsViewController.swift */,
 				966A6CC2217DBDAF00DF872F /* EventsViewController.swift */,
@@ -307,7 +307,7 @@
 			name = "Following Section";
 			sourceTree = "<group>";
 		};
-		96C55412219044710065D70A /* Events */ = {
+		96C55412219044710065D70A /* All Events Page */ = {
 			isa = PBXGroup;
 			children = (
 				96C55413219044D00065D70A /* EventsListViewController.swift */,
@@ -317,7 +317,7 @@
 				96C554372192D8E50065D70A /* Bookmark Section */,
 				96C5545421943B020065D70A /* Featured Section */,
 			);
-			path = Events;
+			path = "All Events Page";
 			sourceTree = "<group>";
 		};
 		96C554212192BF0F0065D70A /* Trending Section */ = {

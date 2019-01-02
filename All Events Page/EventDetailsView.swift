@@ -83,6 +83,8 @@ class EventDetailsView: UIView {
         
         hashtagsCollectionView.delegate = self
         hashtagsCollectionView.dataSource = self
+        hashtagsCollectionView.tag = 111
+        
         if let layout = hashtagsCollectionView.collectionViewLayout as? HashtagsFlowLayout {
             layout.scrollDirection = .horizontal
         }
@@ -197,7 +199,7 @@ extension EventDetailsView: UICollectionViewDelegate, UICollectionViewDataSource
             return cell
         } else { //imgCollectionView
             let cell = imgCollectionView.dequeueReusableCell(withReuseIdentifier: DetailsImageCell.reuseIdentifier, for: indexPath) as! DetailsImageCell
-            cell.imgView.kf.setImage(with: URL(string: imgUrlArray[indexPath.row]), options: [.transition(.fade(1))])
+            cell.imgView.kf.setImage(with: URL(string: imgUrlArray[indexPath.row]), options: [.transition(.fade(0.75))])
             return cell
         }
     }

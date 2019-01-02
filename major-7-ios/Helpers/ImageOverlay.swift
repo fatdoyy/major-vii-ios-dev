@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ImageOverlay: UIView {
+class ImageOverlay: UIView { //Black at bottom
     override open class var layerClass: AnyClass {
         return CAGradientLayer.classForCoder()
     }
@@ -24,7 +24,7 @@ class ImageOverlay: UIView {
     }
 }
 
-class ImageOverlayRevert: UIView {
+class ImageOverlayRevert: UIView { //Black at top 
     override open class var layerClass: AnyClass {
         return CAGradientLayer.classForCoder()
     }
@@ -36,6 +36,7 @@ class ImageOverlayRevert: UIView {
             UIColor.black.withAlphaComponent(0.65).cgColor,
             UIColor.clear.cgColor
         ]
+        
         backgroundColor = UIColor.clear
     }
 }

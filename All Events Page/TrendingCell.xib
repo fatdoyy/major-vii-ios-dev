@@ -33,8 +33,8 @@
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5m2-Hj-vPs">
-                        <rect key="frame" x="20" y="186" width="27" height="12"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="RubberBand" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5m2-Hj-vPs">
+                        <rect key="frame" x="21" y="186" width="59.5" height="12"/>
                         <fontDescription key="fontDescription" type="system" pointSize="10"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
@@ -74,7 +74,7 @@
                 <constraint firstAttribute="trailing" secondItem="drF-P2-f2Q" secondAttribute="trailing" constant="20" id="DbR-Za-FRK"/>
                 <constraint firstAttribute="trailing" secondItem="3nZ-qi-Tls" secondAttribute="trailing" constant="5" id="Gp6-FW-GOG"/>
                 <constraint firstAttribute="trailing" secondItem="n3B-l6-b2t" secondAttribute="trailing" id="LeI-mf-Xxe"/>
-                <constraint firstItem="5m2-Hj-vPs" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="20" id="WLG-QA-clY"/>
+                <constraint firstItem="5m2-Hj-vPs" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="21" id="WLG-QA-clY"/>
                 <constraint firstAttribute="bottom" secondItem="5m2-Hj-vPs" secondAttribute="bottom" constant="15" id="aBV-2L-hK6"/>
                 <constraint firstItem="fCN-bM-XLd" firstAttribute="centerX" secondItem="Qhg-RU-2Ym" secondAttribute="centerX" id="hSN-jY-nNv"/>
                 <constraint firstItem="fCN-bM-XLd" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="jBm-XZ-dQa"/>
@@ -94,10 +94,11 @@
                 <outlet property="dateLabel" destination="drF-P2-f2Q" id="Fwn-4N-Kb1"/>
                 <outlet property="eventTitle" destination="Qhg-RU-2Ym" id="jXA-YA-Fdg"/>
                 <outlet property="imageOverlay" destination="fCN-bM-XLd" id="LQx-TF-3KC"/>
-                <outlet property="performerLabel" destination="5m2-Hj-vPs" id="M3s-80-W7h"/>
-                <outletCollection property="skeletonViews" destination="drF-P2-f2Q" collectionClass="NSMutableArray" id="Ahf-EB-NJB"/>
-                <outletCollection property="skeletonViews" destination="Qhg-RU-2Ym" collectionClass="NSMutableArray" id="Jp3-4r-MCV"/>
-                <outletCollection property="skeletonViews" destination="5m2-Hj-vPs" collectionClass="NSMutableArray" id="dMe-Yh-Tgj"/>
+                <outlet property="performerLabel" destination="5m2-Hj-vPs" id="L61-a2-BFO"/>
+                <outletCollection property="skeletonViews" destination="Qhg-RU-2Ym" collectionClass="NSMutableArray" id="bJ5-yM-xGu"/>
+                <outletCollection property="skeletonViews" destination="5m2-Hj-vPs" collectionClass="NSMutableArray" id="xRp-DG-T7Z"/>
+                <outletCollection property="viewsToShowLater" destination="3nZ-qi-Tls" collectionClass="NSMutableArray" id="wIT-DZ-7vB"/>
+                <outletCollection property="viewsToShowLater" destination="drF-P2-f2Q" collectionClass="NSMutableArray" id="jHt-kU-2v6"/>
             </connections>
             <point key="canvasLocation" x="40.799999999999997" y="46.326836581709152"/>
         </collectionViewCell>

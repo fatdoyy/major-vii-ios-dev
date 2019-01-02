@@ -202,6 +202,13 @@
                                     <constraint firstAttribute="height" constant="330" id="sZh-V8-mdG"/>
                                 </constraints>
                             </imageView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FBG-96-rLN" customClass="ImageOverlayRevert" customModule="major_7_ios" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="110"/>
+                                <color key="backgroundColor" red="0.59607843140000005" green="0.80000000000000004" blue="0.31764705879999999" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="110" id="XLh-YF-8Yi"/>
+                                </constraints>
+                            </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SaP-N2-BUd" customClass="roundedView" customModule="major_7_ios" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="300" width="375" height="30"/>
                                 <color key="backgroundColor" red="0.59999999999999998" green="0.0" blue="0.015686274510000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -226,8 +233,11 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="cpZ-ve-JUZ" firstAttribute="trailing" secondItem="arw-y3-SIZ" secondAttribute="trailing" id="5hg-3l-DoX"/>
+                            <constraint firstItem="FBG-96-rLN" firstAttribute="trailing" secondItem="arw-y3-SIZ" secondAttribute="trailing" id="K5z-GQ-e36"/>
                             <constraint firstItem="SaP-N2-BUd" firstAttribute="top" secondItem="cpZ-ve-JUZ" secondAttribute="top" constant="300" id="Lxa-b2-fAW"/>
                             <constraint firstAttribute="bottom" secondItem="QNu-xN-zbw" secondAttribute="bottom" id="NQM-ja-qaW"/>
+                            <constraint firstItem="FBG-96-rLN" firstAttribute="top" secondItem="hgd-DL-QC7" secondAttribute="top" id="OFO-mp-rPI"/>
+                            <constraint firstItem="FBG-96-rLN" firstAttribute="leading" secondItem="arw-y3-SIZ" secondAttribute="leading" id="ObV-YR-aVe"/>
                             <constraint firstItem="cpZ-ve-JUZ" firstAttribute="leading" secondItem="arw-y3-SIZ" secondAttribute="leading" id="a3b-6m-oDJ"/>
                             <constraint firstItem="cpZ-ve-JUZ" firstAttribute="top" secondItem="hgd-DL-QC7" secondAttribute="top" id="bBC-3S-XtH"/>
                             <constraint firstItem="SaP-N2-BUd" firstAttribute="bottom" secondItem="cpZ-ve-JUZ" secondAttribute="bottom" id="eBP-4n-XyV"/>

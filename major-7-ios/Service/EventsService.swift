@@ -15,10 +15,26 @@ class EventsService: BaseService {}
 extension EventsService {
     
     //upcoming events
-    static func fetchUpcomingEvents() -> Promise<UpcomingEventsList> {
+    static func fetchUpcomingEvents() -> Promise<EventsList> {
         return Promise { resolver in
             request(method: .get, url: getActionPath(.getUpcomingEvents)).done { response in
-                guard let upcomingEvent = Mapper<UpcomingEventsList>().map(JSONObject: response) else {
+                guard let upcomingEvent = Mapper<EventsList>().map(JSONObject: response) else {
+                    resolver.reject(PMKError.cancelled)
+                    return
+                }
+                
+                resolver.fulfill(upcomingEvent)
+                }.catch { error in
+                    resolver.reject(error)
+            }
+        }
+    }
+    
+    //upcoming events
+    static func fetchTrendingEvents() -> Promise<EventsList> {
+        return Promise { resolver in
+            request(method: .get, url: getActionPath(.getTrendingEvents)).done { response in
+                guard let upcomingEvent = Mapper<EventsList>().map(JSONObject: response) else {
                     resolver.reject(PMKError.cancelled)
                     return
                 }

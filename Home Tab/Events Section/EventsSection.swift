@@ -29,7 +29,7 @@ class EventsSection: UICollectionViewCell {
     @IBOutlet weak var eventsLabel: UILabel!
     @IBOutlet weak var viewAllBtn: UIButton!
     
-    var upcomingEvents: [UpcomingEvent] = [] {
+    var upcomingEvents: [Event] = [] {
         didSet {
             eventsCollectionView.reloadData()
         }
@@ -87,6 +87,7 @@ extension EventsSection: UICollectionViewDataSource, UICollectionViewDelegate, U
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = eventsCollectionView.dequeueReusableCell(withReuseIdentifier: EventsCell.reuseIdentifier, for: indexPath) as! EventsCell
+        
         if !upcomingEvents.isEmpty {
             
             for view in cell.skeletonViews { //hide all skeleton views
@@ -95,10 +96,11 @@ extension EventsSection: UICollectionViewDataSource, UICollectionViewDelegate, U
             
             cell.backgroundColor = .white
             cell.bgView.layer.insertSublayer(GradientLayer.create(frame: cell.bgView!.bounds, colors: [.lightPurple(), .darkPurple()], cornerRadius: true), at: 0)
-            cell.bgView.alpha = 0.75
+            cell.bgView.alpha = 0.7
             cell.imgOverlay.isHidden = false
+            
             if let imgUrl = URL(string: (upcomingEvents[indexPath.row].images.first?.secureUrl)!) {
-                cell.bgImgView.kf.setImage(with: imgUrl, options: [.transition(.fade(1))])
+                cell.bgImgView.kf.setImage(with: imgUrl, options: [.transition(.fade(0.75))])
             }
             
             //decoding the date to "dd MMM"
@@ -121,6 +123,7 @@ extension EventsSection: UICollectionViewDataSource, UICollectionViewDelegate, U
             cell.eventLabel.text = upcomingEvents[indexPath.row].title
             cell.performerLabel.text = upcomingEvents[indexPath.row].organizerProfile?.name
         }
+        
         return cell
     }
     

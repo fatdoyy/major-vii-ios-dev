@@ -8,8 +8,8 @@
 
 import ObjectMapper
 
-class UpcomingEventsList: Mappable {
-    var list = [UpcomingEvent]()
+class EventsList: Mappable {
+    var list = [Event]()
     
     required init?(map: Map) {}
     
@@ -18,7 +18,8 @@ class UpcomingEventsList: Mappable {
     }
 }
 
-class UpcomingEvent: Mappable {
+class Event: Mappable {
+    var hashtags = [String]()
     var images = [Image]()
     var id: String?
     var title: String?
@@ -30,10 +31,11 @@ class UpcomingEvent: Mappable {
     required init?(map: Map) {}
     
     func mapping(map: Map) {
+        hashtags            <- map["hashtags"]
         images              <- map["images"]
         id                  <- map["_id"]
         title               <- map["title"]
-        organizerProfile   <- map["organizer_profile"]
+        organizerProfile    <- map["organizer_profile"]
         dateTime            <- map["datetime"]
         address             <- map["address"]
         location            <- map["location"]

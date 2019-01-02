@@ -15,6 +15,10 @@ class EventsListViewController: ScrollingNavigationViewController, UIGestureReco
     static let storyboardId = "eventsVc"
     
     @IBOutlet weak var mainCollectionView: UICollectionView!
+        
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,10 +44,7 @@ class EventsListViewController: ScrollingNavigationViewController, UIGestureReco
         
         mainCollectionView.register(UINib.init(nibName: "FeaturedCell", bundle: nil), forCellWithReuseIdentifier: FeaturedCell.reuseIdentifier)
     }
-    
-    override var preferredStatusBarStyle: UIStatusBarStyle {
-        return .lightContent
-    }
+
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -225,8 +226,8 @@ extension EventsListViewController: UICollectionViewDelegate, UICollectionViewDe
 
 //MARK: Trending Section Delegate
 extension EventsListViewController: TrendingSectionDelegate{
-    func trendingCellTapped() {
-        EventDetailsViewController.push(fromView: self, eventId: "")
+    func trendingCellTapped(eventId: String) {
+        EventDetailsViewController.push(fromView: self, eventId: eventId)
     }
 }
 
