@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		20A96B2F0DADE6B405F6D3CE /* Pods_major_7_ios.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 72E5F17BF3B3C6876EB735D2 /* Pods_major_7_ios.framework */; };
 		960A4760219AA8FE00780AD4 /* HapticFeedback.swift in Sources */ = {isa = PBXBuildFile; fileRef = 960A475F219AA8FE00780AD4 /* HapticFeedback.swift */; };
+		9620021821DDFC320055D070 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9620021721DDFC320055D070 /* LoginViewController.swift */; };
+		9620021A21DDFDC20055D070 /* LoginView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9620021921DDFDC20055D070 /* LoginView.xib */; };
+		9620021C21DDFDED0055D070 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9620021B21DDFDED0055D070 /* LoginView.swift */; };
 		9639216F21ABC85500BA515A /* EventDetailsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9639216E21ABC85500BA515A /* EventDetailsView.xib */; };
 		9639217121ABCA3000BA515A /* EventDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9639217021ABCA3000BA515A /* EventDetailsView.swift */; };
 		9639217421AD1C4500BA515A /* HashtagCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9639217221AD1C4500BA515A /* HashtagCell.swift */; };
@@ -86,6 +89,9 @@
 		72E5F17BF3B3C6876EB735D2 /* Pods_major_7_ios.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_major_7_ios.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		85E2A7C70D0DC04C0984E968 /* Pods-major-7-ios.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-major-7-ios.debug.xcconfig"; path = "Pods/Target Support Files/Pods-major-7-ios/Pods-major-7-ios.debug.xcconfig"; sourceTree = "<group>"; };
 		960A475F219AA8FE00780AD4 /* HapticFeedback.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticFeedback.swift; sourceTree = "<group>"; };
+		9620021721DDFC320055D070 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		9620021921DDFDC20055D070 /* LoginView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LoginView.xib; sourceTree = "<group>"; };
+		9620021B21DDFDED0055D070 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		9639216E21ABC85500BA515A /* EventDetailsView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EventDetailsView.xib; sourceTree = "<group>"; };
 		9639217021ABCA3000BA515A /* EventDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDetailsView.swift; sourceTree = "<group>"; };
 		9639217221AD1C4500BA515A /* HashtagCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HashtagCell.swift; sourceTree = "<group>"; };
@@ -191,6 +197,16 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		9620021621DDF1640055D070 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				9620021721DDFC320055D070 /* LoginViewController.swift */,
+				9620021B21DDFDED0055D070 /* LoginView.swift */,
+				9620021921DDFDC20055D070 /* LoginView.xib */,
+			);
+			name = Login;
+			sourceTree = "<group>";
+		};
 		964761EA2186F6D30004F58C /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -232,6 +248,7 @@
 		966A6CBD217DBC2C00DF872F /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				9620021621DDF1640055D070 /* Login */,
 				966A6CB7217DB5F500DF872F /* TabBarViewController.swift */,
 				966A6CC9217DE6AC00DF872F /* Home Tab */,
 				96C55412219044710065D70A /* All Events Page */,
@@ -480,6 +497,7 @@
 				965838BB2181CAFE000FE8B0 /* NewsCellType3.xib in Resources */,
 				966A6CE121808BB100DF872F /* NewsCellType1.xib in Resources */,
 				96C5544D219408580065D70A /* FeaturedCell.xib in Resources */,
+				9620021A21DDFDC20055D070 /* LoginView.xib in Resources */,
 				966A6CCD217DE6DD00DF872F /* EventsSection.xib in Resources */,
 				965838B72181CAE7000FE8B0 /* NewsCellType2.xib in Resources */,
 				966A6CE32180C15400DF872F /* Assets.xcassets in Resources */,
@@ -501,9 +519,14 @@
 				"${SRCROOT}/Pods/Target Support Files/Pods-major-7-ios/Pods-major-7-ios-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/AMScrollingNavbar/AMScrollingNavbar.framework",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework",
 				"${BUILT_PRODUCTS_DIR}/BouncyLayout/BouncyLayout.framework",
 				"${BUILT_PRODUCTS_DIR}/CircleMenu/CircleMenu.framework",
 				"${BUILT_PRODUCTS_DIR}/DynamicColor/DynamicColor.framework",
+				"${BUILT_PRODUCTS_DIR}/FBSDKCoreKit/FBSDKCoreKit.framework",
+				"${BUILT_PRODUCTS_DIR}/FBSDKLoginKit/FBSDKLoginKit.framework",
+				"${BUILT_PRODUCTS_DIR}/FacebookCore/FacebookCore.framework",
+				"${BUILT_PRODUCTS_DIR}/FacebookLogin/FacebookLogin.framework",
 				"${BUILT_PRODUCTS_DIR}/Floaty/Floaty.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
 				"${BUILT_PRODUCTS_DIR}/Hero/Hero.framework",
@@ -522,9 +545,14 @@
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AMScrollingNavbar.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Bolts.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/BouncyLayout.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CircleMenu.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DynamicColor.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKCoreKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKLoginKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FacebookCore.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FacebookLogin.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Floaty.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Hero.framework",
@@ -583,6 +611,7 @@
 				965838BE218317CE000FE8B0 /* NewsCellType4.swift in Sources */,
 				96C5541B21918CB90065D70A /* TrendingCell.swift in Sources */,
 				96862EBB219AD8AC00F709B0 /* TabBarHiding.swift in Sources */,
+				9620021821DDFC320055D070 /* LoginViewController.swift in Sources */,
 				966A6CCC217DE6DD00DF872F /* EventsSection.swift in Sources */,
 				966A6CB8217DB5F500DF872F /* TabBarViewController.swift in Sources */,
 				964761ED2186FAAD0004F58C /* BaseService.swift in Sources */,
@@ -606,6 +635,7 @@
 				96862EB9219ACE1F00F709B0 /* EventDetailsViewController.swift in Sources */,
 				CA550AA621706A65008E493D /* AppDelegate.swift in Sources */,
 				965838C221831866000FE8B0 /* NewsCellType5.swift in Sources */,
+				9620021C21DDFDED0055D070 /* LoginView.swift in Sources */,
 				96625F7F21C8C8030086A2B2 /* EventDetails.swift in Sources */,
 				966A6CC5217DBDC400DF872F /* SettingsViewController.swift in Sources */,
 				96799FE4218AF8E70074C828 /* Hashtags.swift in Sources */,

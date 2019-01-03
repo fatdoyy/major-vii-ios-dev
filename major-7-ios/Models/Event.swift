@@ -41,7 +41,6 @@ class Event: Mappable {
         location            <- map["location"]
     }
     
-    
 }
 
 class OrganizerProfile: Mappable {

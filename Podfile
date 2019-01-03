@@ -1,5 +1,5 @@
 # Uncomment the next line to define a global platform for your project
-# platform :ios, '9.0'
+ platform :ios, '10.0'
 
 source 'https://github.com/CocoaPods/Specs.git'
 
@@ -9,8 +9,16 @@ target 'major-7-ios' do
 
   # Pods for major-7-ios
   
+  #Firebase
   pod 'Firebase/Core'
   
+  #Facebook
+  pod 'FacebookCore'
+  pod 'FacebookLogin'
+  pod 'FBSDKCoreKit', '~> 4.38.0'
+  pod 'FBSDKLoginKit', '~> 4.38.0'
+  
+  #General Pods
   pod 'Localize-Swift', '~> 2.0'                # localization
   pod 'DynamicColor', '~> 4.0.2'                # UIColor extension
   pod 'SnapKit', '~> 4.0.0'                     # layout constaints

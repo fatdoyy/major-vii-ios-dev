@@ -73,10 +73,10 @@ class EventDetailsView: UIView {
         Bundle.main.loadNibNamed("EventDetailsView", owner: self, options: nil)
         addSubview(contentView)
         contentView.frame = self.bounds
+        contentView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         
         contentView.backgroundColor = .darkGray()
         contentView.layer.cornerRadius = GlobalCornerRadius.value + 4
-        contentView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         
         setupLabels()
         hideViews()
