@@ -34,6 +34,7 @@ target 'major-7-ios' do
   pod 'CircleMenu'                              # floating menu
   pod 'Floaty', '~> 4.1.0'                      # floating button
   pod 'Kingfisher'                              # image downloading
+  pod 'Reqres'                                  # network activity logger
   pod 'ImageViewer', :inhibit_warnings => true, :git=> 'https://github.com/mezhevikin/ImageViewer'                             # as title
 
 end

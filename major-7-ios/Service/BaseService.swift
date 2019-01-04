@@ -9,6 +9,7 @@
 import Foundation
 import Alamofire
 import PromiseKit
+import Reqres
 
 class BaseService: NSObject {
 
@@ -17,6 +18,11 @@ class BaseService: NSObject {
     static func getActionPath(_ actionPath: ActionPath) -> String {
         var actionPathStr = ""
         switch actionPath {
+            
+        //Login
+        case .fbLogin:
+            actionPathStr = "auth/login/facebook"
+            
         //News
         case .getNews:
             actionPathStr = "news"
@@ -38,7 +44,7 @@ class BaseService: NSObject {
     }
     
     static private var manager : Alamofire.SessionManager = {
-        let configuration = URLSessionConfiguration.default
+        let configuration = Reqres.defaultSessionConfiguration()
         
         configuration.httpAdditionalHeaders = Alamofire.SessionManager.defaultHTTPHeaders
         configuration.requestCachePolicy = .reloadIgnoringLocalCacheData
@@ -76,6 +82,9 @@ class BaseService: NSObject {
 extension BaseService {
     enum ActionPath{
         
+        //Login
+        case fbLogin
+        
         //News
         case getNews
         
@@ -85,5 +94,6 @@ extension BaseService {
         case getFollowingEvents
         case getFeaturedEvents
         case getEventDetails(eventId: String)
+        
     }
 }

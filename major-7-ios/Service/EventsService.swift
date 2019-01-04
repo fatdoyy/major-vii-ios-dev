@@ -30,7 +30,7 @@ extension EventsService {
         }
     }
     
-    //upcoming events
+    //trending events
     static func fetchTrendingEvents() -> Promise<EventsList> {
         return Promise { resolver in
             request(method: .get, url: getActionPath(.getTrendingEvents)).done { response in

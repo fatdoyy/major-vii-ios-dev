@@ -12,6 +12,7 @@
 		9620021821DDFC320055D070 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9620021721DDFC320055D070 /* LoginViewController.swift */; };
 		9620021A21DDFDC20055D070 /* LoginView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9620021921DDFDC20055D070 /* LoginView.xib */; };
 		9620021C21DDFDED0055D070 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9620021B21DDFDED0055D070 /* LoginView.swift */; };
+		9620021E21DF34B90055D070 /* LoginService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9620021D21DF34B90055D070 /* LoginService.swift */; };
 		9639216F21ABC85500BA515A /* EventDetailsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9639216E21ABC85500BA515A /* EventDetailsView.xib */; };
 		9639217121ABCA3000BA515A /* EventDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9639217021ABCA3000BA515A /* EventDetailsView.swift */; };
 		9639217421AD1C4500BA515A /* HashtagCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9639217221AD1C4500BA515A /* HashtagCell.swift */; };
@@ -92,6 +93,7 @@
 		9620021721DDFC320055D070 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		9620021921DDFDC20055D070 /* LoginView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LoginView.xib; sourceTree = "<group>"; };
 		9620021B21DDFDED0055D070 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		9620021D21DF34B90055D070 /* LoginService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginService.swift; sourceTree = "<group>"; };
 		9639216E21ABC85500BA515A /* EventDetailsView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EventDetailsView.xib; sourceTree = "<group>"; };
 		9639217021ABCA3000BA515A /* EventDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDetailsView.swift; sourceTree = "<group>"; };
 		9639217221AD1C4500BA515A /* HashtagCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HashtagCell.swift; sourceTree = "<group>"; };
@@ -222,6 +224,7 @@
 			isa = PBXGroup;
 			children = (
 				964761EC2186FAAD0004F58C /* BaseService.swift */,
+				9620021D21DF34B90055D070 /* LoginService.swift */,
 				964761EE21870EE60004F58C /* NewsService.swift */,
 				96625F7A21C793DA0086A2B2 /* EventsService.swift */,
 			);
@@ -537,6 +540,7 @@
 				"${BUILT_PRODUCTS_DIR}/ObjectMapper/ObjectMapper.framework",
 				"${BUILT_PRODUCTS_DIR}/Pastel/Pastel.framework",
 				"${BUILT_PRODUCTS_DIR}/PromiseKit/PromiseKit.framework",
+				"${BUILT_PRODUCTS_DIR}/Reqres/Reqres.framework",
 				"${BUILT_PRODUCTS_DIR}/SkeletonView/SkeletonView.framework",
 				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
@@ -563,6 +567,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ObjectMapper.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Pastel.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PromiseKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Reqres.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SkeletonView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
@@ -631,6 +636,7 @@
 				965838B32181C5A4000FE8B0 /* News.swift in Sources */,
 				966A6CBF217DBD7F00DF872F /* BuskersViewController.swift in Sources */,
 				966A6CE021808BB100DF872F /* NewsCellType1.swift in Sources */,
+				9620021E21DF34B90055D070 /* LoginService.swift in Sources */,
 				96C554252192C2AC0065D70A /* BookmarkSection.swift in Sources */,
 				96862EB9219ACE1F00F709B0 /* EventDetailsViewController.swift in Sources */,
 				CA550AA621706A65008E493D /* AppDelegate.swift in Sources */,

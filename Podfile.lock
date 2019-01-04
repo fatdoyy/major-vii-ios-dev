@@ -77,6 +77,7 @@ PODS:
   - ObjectMapper (3.3.0)
   - Pastel (0.5.1)
   - PromiseKit/CorePromise (6.5.2)
+  - Reqres (3.0.0)
   - SkeletonView (1.4.1)
   - SnapKit (4.0.1)
 
@@ -100,6 +101,7 @@ DEPENDENCIES:
   - ObjectMapper
   - Pastel
   - PromiseKit/CorePromise (~> 6.0)
+  - Reqres
   - SkeletonView
   - SnapKit (~> 4.0.0)
 
@@ -130,6 +132,7 @@ SPEC REPOS:
     - ObjectMapper
     - Pastel
     - PromiseKit
+    - Reqres
     - SkeletonView
     - SnapKit
 
@@ -169,9 +172,10 @@ SPEC CHECKSUMS:
   ObjectMapper: b612bf8c8e99c4dc0bb6013a51f7c27966ed5da9
   Pastel: b3dd5b8d612dac06ae7c63c97c45c900829bc139
   PromiseKit: 27c1601bfb73405871b805bcb8cf7e55c4dad3db
+  Reqres: fb0714daf1b13dbafca25dd293d583cb4f73e420
   SkeletonView: 60d6ce7edb0cb4c7758db33c74add50392b3c475
   SnapKit: 0de968a9fec17499afa29683b05d0c775b6d1c29
 
-PODFILE CHECKSUM: cbfaed80883223c0de1a4385f36fe0c00146841b
+PODFILE CHECKSUM: 2de6e0c4a3819e01447a044d5d18ac6710b11d2c
 
 COCOAPODS: 1.5.3

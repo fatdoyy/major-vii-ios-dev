@@ -57,13 +57,12 @@ class LoginView: UIView {
         emailLoginLabel.textColor = .whiteText()
         
         tcLabel.textColor = .whiteText50Alpha()
+        
     }
+    
     @IBAction func fbLoginPressed(_ sender: Any) {
         delegate?.fbLoginPressed()
 
     }
-    
-//    @objc func loginButtonClicked() {
-//        delegate?.fbLoginPressed()
-//    }
+
 }
