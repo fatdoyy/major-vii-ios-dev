@@ -24,6 +24,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //facebook
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
         
+        
+//        if FBSDKAccessToken.current() == nil {
+//            let rootController = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "loginVc")
+//            self.window?.rootViewController = rootController
+//        }
+        
         //dark tab bar
         UITabBar.appearance().barTintColor = UIColor(red:0.13, green:0.13, blue:0.13, alpha:0.75)
         UITabBar.appearance().tintColor = .white

@@ -44,6 +44,7 @@ class BaseService: NSObject {
     }
     
     static private var manager : Alamofire.SessionManager = {
+        //let configuration = URLSessionConfiguration.default
         let configuration = Reqres.defaultSessionConfiguration()
         
         configuration.httpAdditionalHeaders = Alamofire.SessionManager.defaultHTTPHeaders

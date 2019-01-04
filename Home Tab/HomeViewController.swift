@@ -12,7 +12,6 @@ import Localize_Swift
 
 class HomeViewController: UIViewController, UIGestureRecognizerDelegate {
     
-    
     var coverImagesUrl: [String] = []
     var news: [News] = []
     var cellType: Int?
@@ -22,6 +21,14 @@ class HomeViewController: UIViewController, UIGestureRecognizerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .darkGray()
+        
+        //UserService.FB.logOut()
+        
+        if UserService.isUserLoggedIn() == false {
+            let loginVc = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "loginVc") as! LoginViewController
+            self.present(loginVc, animated: true, completion: nil)
+        }
+        
         
         self.tabBarController?.delegate = self
         

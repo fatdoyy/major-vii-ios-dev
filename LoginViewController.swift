@@ -23,7 +23,7 @@ extension LoginViewController: LoginViewDelegate {
     
     //fb login
     func fbLoginPressed() {
-        LoginService.FB.login(fromVc: self)
+        UserService.FB.login(fromVc: self)
     }
     
     //google login
