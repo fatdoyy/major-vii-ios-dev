@@ -10,6 +10,7 @@ import UIKit
 
 protocol LoginViewDelegate{
     func fbLoginPressed()
+    func googleLoginPressed()
 }
 
 class LoginView: UIView {
@@ -62,7 +63,9 @@ class LoginView: UIView {
     
     @IBAction func fbLoginPressed(_ sender: Any) {
         delegate?.fbLoginPressed()
-
     }
 
+    @IBAction func googleLoginPressed(_ sender: Any) {
+        delegate?.googleLoginPressed()
+    }
 }

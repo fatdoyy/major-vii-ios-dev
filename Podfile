@@ -18,6 +18,9 @@ target 'major-7-ios' do
   pod 'FBSDKCoreKit', '~> 4.38.0'
   pod 'FBSDKLoginKit', '~> 4.38.0'
   
+  #Google
+  pod 'GoogleSignIn'
+  
   #General Pods
   pod 'Localize-Swift', '~> 2.0'                # localization
   pod 'DynamicColor', '~> 4.0.2'                # UIColor extension
@@ -35,6 +38,7 @@ target 'major-7-ios' do
   pod 'Floaty', '~> 4.1.0'                      # floating button
   pod 'Kingfisher'                              # image downloading
   pod 'Reqres'                                  # network activity logger
+  pod 'JGProgressHUD'                           # progress hud
   pod 'ImageViewer', :inhibit_warnings => true, :git=> 'https://github.com/mezhevikin/ImageViewer'                             # as title
 
 end

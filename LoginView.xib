@@ -45,6 +45,9 @@
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aYn-8n-H8i">
                     <rect key="frame" x="142" y="415" width="91" height="117"/>
                     <state key="normal" title="Google Login"/>
+                    <connections>
+                        <action selector="googleLoginPressed:" destination="-1" eventType="touchUpInside" id="v70-yo-ps1"/>
+                    </connections>
                 </button>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="或您可以使用電郵登入或註冊" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xdd-F5-hak">
                     <rect key="frame" x="94" y="573" width="186" height="17"/>
@@ -70,7 +73,7 @@
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="66Y-6q-Qmz">
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_white" translatesAutoresizingMaskIntoConstraints="NO" id="66Y-6q-Qmz">
                     <rect key="frame" x="68" y="111" width="240" height="128"/>
                     <constraints>
                         <constraint firstAttribute="width" secondItem="66Y-6q-Qmz" secondAttribute="height" multiplier="15:8" id="Tuo-zr-dJu"/>
@@ -112,4 +115,7 @@
             <point key="canvasLocation" x="39.200000000000003" y="46.551724137931039"/>
         </view>
     </objects>
+    <resources>
+        <image name="icon_white" width="641" height="272"/>
+    </resources>
 </document>

@@ -13,6 +13,7 @@
 		9620021A21DDFDC20055D070 /* LoginView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9620021921DDFDC20055D070 /* LoginView.xib */; };
 		9620021C21DDFDED0055D070 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9620021B21DDFDED0055D070 /* LoginView.swift */; };
 		9620021E21DF34B90055D070 /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9620021D21DF34B90055D070 /* UserService.swift */; };
+		9620022121E3B17A0055D070 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9620022021E3B17A0055D070 /* GoogleService-Info.plist */; };
 		9639216F21ABC85500BA515A /* EventDetailsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9639216E21ABC85500BA515A /* EventDetailsView.xib */; };
 		9639217121ABCA3000BA515A /* EventDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9639217021ABCA3000BA515A /* EventDetailsView.swift */; };
 		9639217421AD1C4500BA515A /* HashtagCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9639217221AD1C4500BA515A /* HashtagCell.swift */; };
@@ -83,7 +84,6 @@
 		CA550AAB21706A65008E493D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CA550AA921706A65008E493D /* Main.storyboard */; };
 		CA550AAE21706A65008E493D /* major_7_ios.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = CA550AAC21706A65008E493D /* major_7_ios.xcdatamodeld */; };
 		CA550AB321706A66008E493D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CA550AB121706A66008E493D /* LaunchScreen.storyboard */; };
-		CA550ABB21706BA5008E493D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CA550ABA21706BA5008E493D /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -94,6 +94,7 @@
 		9620021921DDFDC20055D070 /* LoginView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LoginView.xib; sourceTree = "<group>"; };
 		9620021B21DDFDED0055D070 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		9620021D21DF34B90055D070 /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
+		9620022021E3B17A0055D070 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		9639216E21ABC85500BA515A /* EventDetailsView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EventDetailsView.xib; sourceTree = "<group>"; };
 		9639217021ABCA3000BA515A /* EventDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDetailsView.swift; sourceTree = "<group>"; };
 		9639217221AD1C4500BA515A /* HashtagCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HashtagCell.swift; sourceTree = "<group>"; };
@@ -166,7 +167,6 @@
 		CA550AAD21706A65008E493D /* major_7_ios.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = major_7_ios.xcdatamodel; sourceTree = "<group>"; };
 		CA550AB221706A66008E493D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		CA550AB421706A66008E493D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		CA550ABA21706BA5008E493D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		F1225E86414DB82679F9522A /* Pods-major-7-ios.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-major-7-ios.release.xcconfig"; path = "Pods/Target Support Files/Pods-major-7-ios/Pods-major-7-ios.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -414,7 +414,7 @@
 				966A6CE22180C15300DF872F /* Assets.xcassets */,
 				CA550AB421706A66008E493D /* Info.plist */,
 				CA550AAC21706A65008E493D /* major_7_ios.xcdatamodeld */,
-				CA550ABA21706BA5008E493D /* GoogleService-Info.plist */,
+				9620022021E3B17A0055D070 /* GoogleService-Info.plist */,
 				964761EB2186FA7C0004F58C /* Service */,
 				964761EA2186F6D30004F58C /* Models */,
 				966A6CC8217DC27500DF872F /* Helpers */,
@@ -434,6 +434,7 @@
 				CA550A9F21706A65008E493D /* Frameworks */,
 				CA550AA021706A65008E493D /* Resources */,
 				3BE8C27AC7C40BF59CEBE2D9 /* [CP] Embed Pods Frameworks */,
+				676F654A7AA3CC92E3609B6F /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -484,7 +485,7 @@
 			files = (
 				96C5542B2192C2DF0065D70A /* FollowingSection.xib in Resources */,
 				CA550AB321706A66008E493D /* LaunchScreen.storyboard in Resources */,
-				CA550ABB21706BA5008E493D /* GoogleService-Info.plist in Resources */,
+				9620022121E3B17A0055D070 /* GoogleService-Info.plist in Resources */,
 				96C5542F2192C6730065D70A /* FollowingCell.xib in Resources */,
 				965838C321831866000FE8B0 /* NewsCellType5.xib in Resources */,
 				96C5543B2192D9980065D70A /* BookmarkCell.xib in Resources */,
@@ -531,9 +532,12 @@
 				"${BUILT_PRODUCTS_DIR}/FacebookCore/FacebookCore.framework",
 				"${BUILT_PRODUCTS_DIR}/FacebookLogin/FacebookLogin.framework",
 				"${BUILT_PRODUCTS_DIR}/Floaty/Floaty.framework",
+				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
 				"${BUILT_PRODUCTS_DIR}/Hero/Hero.framework",
 				"${BUILT_PRODUCTS_DIR}/ImageViewer/ImageViewer.framework",
+				"${BUILT_PRODUCTS_DIR}/JGProgressHUD/JGProgressHUD.framework",
 				"${BUILT_PRODUCTS_DIR}/Kingfisher/Kingfisher.framework",
 				"${BUILT_PRODUCTS_DIR}/Localize-Swift/Localize_Swift.framework",
 				"${BUILT_PRODUCTS_DIR}/MXParallaxHeader/MXParallaxHeader.framework",
@@ -558,9 +562,12 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FacebookCore.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FacebookLogin.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Floaty.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Hero.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ImageViewer.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/JGProgressHUD.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Kingfisher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Localize_Swift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MXParallaxHeader.framework",
@@ -575,6 +582,28 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-major-7-ios/Pods-major-7-ios-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		676F654A7AA3CC92E3609B6F /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-major-7-ios/Pods-major-7-ios-resources.sh",
+				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-major-7-ios/Pods-major-7-ios-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		994DBE643D51FE5199FD6EBF /* [CP] Check Pods Manifest.lock */ = {

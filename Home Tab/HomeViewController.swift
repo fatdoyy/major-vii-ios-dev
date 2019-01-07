@@ -22,7 +22,6 @@ class HomeViewController: UIViewController, UIGestureRecognizerDelegate {
         super.viewDidLoad()
         view.backgroundColor = .darkGray()
         
-        //UserService.FB.logOut()
         
         if UserService.isUserLoggedIn() == false {
             let loginVc = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "loginVc") as! LoginViewController

@@ -8,13 +8,38 @@
 
 import FacebookCore
 import FacebookLogin
+import GoogleSignIn
 import PromiseKit
+import JGProgressHUD
 
-class UserService : NSObject {
+protocol UserServiceDelegate {
+    func googleLoginPresent(_ viewController: UIViewController)
+    func googleLoginDismiss(_ viewController: UIViewController)
+}
+
+class UserService: NSObject {
     
-    //facebook login
+    public static var sharedInstance = UserService()
+    
+    var delegate: UserServiceDelegate?
+    
+    static var hud = JGProgressHUD(style: .dark)
+    
+    class func isUserLoggedIn() -> Bool {
+        if AccessToken.current == nil || GIDSignIn.sharedInstance()?.hasAuthInKeychain() == false {
+            return false
+        } else {
+            return true
+        }
+    }
+    
+}
+
+//facebook login
+extension UserService {
     struct FB{
         static func login(fromVc: UIViewController){
+            
             let loginManager = LoginManager()
             
             loginManager.logIn(readPermissions: [.publicProfile, .email], viewController: fromVc) { loginResult in
@@ -28,12 +53,18 @@ class UserService : NSObject {
                     print("grantedPermissions - \(grantedPermissions)")
                     print("declinedPermissions - \(declinedPermissions)")
                     
-                    getFbUserInfo(accessToken: accessToken, vc: fromVc)
+                    //show hud
+                    hud.textLabel.text = "Working Hard..."
+                    hud.detailTextLabel.text = "Stealing your data from Facebook... (☞ﾟ∀ﾟ)☞"
+                    hud.layoutMargins = UIEdgeInsets.init(top: 10.0, left: 10.0, bottom: 10.0, right: 10.0)
+                    hud.show(in: fromVc.view)
+                    
+                    getFbUserInfo(accessToken: accessToken, vc: fromVc, hud: hud)
                 }
             }
         }
         
-        static func getFbUserInfo(accessToken: AccessToken, vc: UIViewController){
+        static func getFbUserInfo(accessToken: AccessToken, vc: UIViewController, hud: JGProgressHUD){
             let graphRequest: GraphRequest = GraphRequest(graphPath: "me", parameters: ["fields": "first_name, email, picture.type(large)"], accessToken: accessToken, httpMethod: .GET)
             graphRequest.start({ (response, result) in
                 switch result {
@@ -48,20 +79,27 @@ class UserService : NSObject {
                         
                         //After getting user details on FB, register/login to Major VII
                         m7Login(token: accessToken.authenticationToken, userId: userId, email: email, name: name, dismissVc: vc).done { response in
-                            //print(response)
-                            //do work...
+                            print(response)
+                            
+                            UIView.animate(withDuration: 0.25, animations: {
+                                hud.textLabel.text = "Hello \(name)! (ᵔᴥᵔ)"
+                                hud.detailTextLabel.text = nil
+                                hud.indicatorView = JGProgressHUDSuccessIndicatorView()
+                            })
                             
                             }.ensure  {
+                                hud.dismiss(afterDelay: 0.75)
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                                    vc.dismiss(animated: true, completion: nil)
+                                }
                                 UIApplication.shared.isNetworkActivityIndicatorVisible = false
                             }.catch { error in }
-                        
                     }
-                    
                 }
             })
         }
         
-        //Login to Major VII
+        //Login to Major VII using facebook
         static func m7Login(token: String, userId: String, email: String, name: String, dismissVc: UIViewController) -> Promise<Any> {
             var param: [String : Any] = [:]
             param["fbAccessToken"]  = token
@@ -78,31 +116,90 @@ class UserService : NSObject {
             }
         }
         
+        //logout
         static func logOut(){
             LoginManager().logOut()
         }
         
     }
-    
-    //google login
-    struct Google {
-        static func login(){
-            
-        }
-    }
-    
-    
-    static func isUserLoggedIn() -> Bool {
-        //facebook
-        if AccessToken.current == nil {
-            return false
-        } else {
-            return true
-        }
-    }
-    
-    
-    
 }
 
+//google login
+extension UserService: GIDSignInDelegate, GIDSignInUIDelegate {
+    struct Google {
+        static func login(fromVc: UIViewController) {
 
+            GIDSignIn.sharedInstance().delegate = UserService.sharedInstance
+            GIDSignIn.sharedInstance().uiDelegate = UserService.sharedInstance
+            GIDSignIn.sharedInstance().signIn()
+
+            hud.textLabel.text = "123..."
+            hud.layoutMargins = UIEdgeInsets.init(top: 10.0, left: 10.0, bottom: 10.0, right: 10.0)
+            hud.show(in: fromVc.view)
+        }
+    }
+    
+    //google login delegate
+    func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
+        if let error = error {
+            print("\(error.localizedDescription)")
+        } else {
+            // Perform any operations on signed in user here.
+
+            //let dimension = round(100 * UIScreen.main.scale)
+            //let pic = user.profile.imageURL(withDimension: UInt(dimension))
+            
+            if let userId = user.userID, let token = user.authentication.idToken,let name = user.profile.givenName, let email = user.profile.email {
+                
+                print("userid = \(userId), token = \(token), name = \(name), email = \(email)")
+                
+                m7Login(token: token, userId: userId, email: email, name: name).done { response in
+                    print(response)
+                    
+                    UIView.animate(withDuration: 0.25, animations: {
+                        UserService.hud.textLabel.text = "Hello \(name)! (ᵔᴥᵔ)"
+                        UserService.hud.detailTextLabel.text = nil
+                        UserService.hud.indicatorView = JGProgressHUDSuccessIndicatorView()
+                    })
+                    
+                    }.ensure  {
+                        UserService.hud.dismiss(afterDelay: 0.75)
+                        UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                    }.catch { error in }
+            }
+        }
+    }
+    
+    //Login to Major VII using google
+    private func m7Login(token: String, userId: String, email: String, name: String) -> Promise<Any> {
+        var param: [String : Any] = [:]
+        param["idToken"]    = token
+        param["email"]      = email
+        param["userId"]     = userId
+        param["userName"]   = name
+        
+        return Promise { resolver in
+            BaseService.request(method: .post, url: BaseService.getActionPath(.googleLogin), param: param).done { response in
+                resolver.fulfill(response)
+                }.catch { error in
+                    resolver.reject(error)
+            }
+        }
+    }
+    
+    func sign(_ signIn: GIDSignIn!, present viewController: UIViewController!) {
+        delegate?.googleLoginPresent(viewController)
+    }
+    
+    func sign(_ signIn: GIDSignIn!, dismiss viewController: UIViewController!) {
+        delegate?.googleLoginDismiss(viewController)
+
+    }
+    
+    func sign(inWillDispatch signIn: GIDSignIn!, error: Error!) {
+        //UserService.hud.dismiss()
+        //UserService.hud.detailTextLabel.text = "Stealing from google... (づ￣ ³￣)づ"
+        UserService.hud.detailTextLabel.text = "google ing"
+    }
+
+}

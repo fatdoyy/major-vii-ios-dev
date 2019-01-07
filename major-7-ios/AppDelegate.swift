@@ -11,6 +11,7 @@ import CoreData
 import Firebase
 import FBSDKLoginKit
 import FBSDKCoreKit
+import GoogleSignIn
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -24,12 +25,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //facebook
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
         
+        //google login
+        GIDSignIn.sharedInstance().clientID = "1044647301084-uomk81nqohoq7vv28eakhqgbvgj5pbsr.apps.googleusercontent.com"
         
-//        if FBSDKAccessToken.current() == nil {
-//            let rootController = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "loginVc")
-//            self.window?.rootViewController = rootController
-//        }
-        
+        UserService.FB.logOut()
+        GIDSignIn.sharedInstance()?.signOut()
+        GIDSignIn.sharedInstance()?.disconnect()
+
         //dark tab bar
         UITabBar.appearance().barTintColor = UIColor(red:0.13, green:0.13, blue:0.13, alpha:0.75)
         UITabBar.appearance().tintColor = .white
@@ -38,8 +40,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
-        let handled = FBSDKApplicationDelegate.sharedInstance().application(app, open: url, sourceApplication: options[.sourceApplication] as? String, annotation: options[.annotation])
-        return handled
+
+        let fbDidHandle = FBSDKApplicationDelegate.sharedInstance().application(app, open: url, sourceApplication: options[.sourceApplication] as? String, annotation: options[.annotation])
+        let googleDidHandle = GIDSignIn.sharedInstance().handle(url as URL?, sourceApplication: options[.sourceApplication] as? String, annotation: options[.annotation])
+        
+        return fbDidHandle || googleDidHandle
     }
     
     func applicationWillResignActive(_ application: UIApplication) {
