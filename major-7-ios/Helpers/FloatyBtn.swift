@@ -10,7 +10,7 @@ import Floaty
 
 class FloatyBtn {
     
-    static func create(btn: Floaty, toVc: UIViewController) {
+    static func create(btn: Floaty, toVC: UIViewController) {
         let walletItem = FloatyItem()
         walletItem.hasShadow = true
         walletItem.buttonColor = .mintGreen()
@@ -45,7 +45,7 @@ class FloatyBtn {
         btn.buttonColor = .clear
         btn.sticky = true
         
-        toVc.view.addSubview(btn)
+        toVC.view.addSubview(btn)
         
     }
 }

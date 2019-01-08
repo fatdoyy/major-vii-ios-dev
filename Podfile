@@ -39,6 +39,8 @@ target 'major-7-ios' do
   pod 'Kingfisher'                              # image downloading
   pod 'Reqres'                                  # network activity logger
   pod 'JGProgressHUD'                           # progress hud
+  pod 'SwiftGifOrigin', '~> 1.6.1'              # gif in UIImageView
+  pod 'Bartinter'                               # update status bar style automatically
   pod 'ImageViewer', :inhibit_warnings => true, :git=> 'https://github.com/mezhevikin/ImageViewer'                             # as title
 
 end

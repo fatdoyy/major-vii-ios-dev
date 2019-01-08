@@ -15,15 +15,23 @@ import JGProgressHUD
 protocol UserServiceDelegate {
     func googleLoginPresent(_ viewController: UIViewController)
     func googleLoginDismiss(_ viewController: UIViewController)
+    func googleLoginWillDispatch()
 }
 
 class UserService: NSObject {
     
-    public static var sharedInstance = UserService()
+    static var sharedInstance = UserService()
     
     var delegate: UserServiceDelegate?
     
-    static var hud = JGProgressHUD(style: .dark)
+    static var hud = JGProgressHUD(style: .light)
+    
+    override init() {
+        super.init()
+        UserService.hud.vibrancyEnabled = true
+        GIDSignIn.sharedInstance().delegate = self
+        GIDSignIn.sharedInstance().uiDelegate = self
+    }
     
     class func isUserLoggedIn() -> Bool {
         if AccessToken.current == nil || GIDSignIn.sharedInstance()?.hasAuthInKeychain() == false {
@@ -38,11 +46,11 @@ class UserService: NSObject {
 //facebook login
 extension UserService {
     struct FB{
-        static func login(fromVc: UIViewController){
+        static func login(fromVC: UIViewController){
             
             let loginManager = LoginManager()
             
-            loginManager.logIn(readPermissions: [.publicProfile, .email], viewController: fromVc) { loginResult in
+            loginManager.logIn(readPermissions: [.publicProfile, .email], viewController: fromVC) { loginResult in
                 switch loginResult {
                 case .failed(let error):
                     print(error)
@@ -55,11 +63,11 @@ extension UserService {
                     
                     //show hud
                     hud.textLabel.text = "Working Hard..."
-                    hud.detailTextLabel.text = "Stealing your data from Facebook... (☞ﾟ∀ﾟ)☞"
+                    hud.detailTextLabel.text = "Stealing data from Facebook... (☞ﾟ∀ﾟ)☞"
                     hud.layoutMargins = UIEdgeInsets.init(top: 10.0, left: 10.0, bottom: 10.0, right: 10.0)
-                    hud.show(in: fromVc.view)
+                    hud.show(in: fromVC.view)
                     
-                    getFbUserInfo(accessToken: accessToken, vc: fromVc, hud: hud)
+                    getFbUserInfo(accessToken: accessToken, vc: fromVC, hud: hud)
                 }
             }
         }
@@ -78,7 +86,7 @@ extension UserService {
                         let name    = dict["first_name"] as! String
                         
                         //After getting user details on FB, register/login to Major VII
-                        m7Login(token: accessToken.authenticationToken, userId: userId, email: email, name: name, dismissVc: vc).done { response in
+                        m7Login(token: accessToken.authenticationToken, userId: userId, email: email, name: name, dismissVC: vc).done { response in
                             print(response)
                             
                             UIView.animate(withDuration: 0.25, animations: {
@@ -89,9 +97,7 @@ extension UserService {
                             
                             }.ensure  {
                                 hud.dismiss(afterDelay: 0.75)
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                                    vc.dismiss(animated: true, completion: nil)
-                                }
+                                NotificationCenter.default.post(name: .completedLogin, object: nil)
                                 UIApplication.shared.isNetworkActivityIndicatorVisible = false
                             }.catch { error in }
                     }
@@ -100,7 +106,7 @@ extension UserService {
         }
         
         //Login to Major VII using facebook
-        static func m7Login(token: String, userId: String, email: String, name: String, dismissVc: UIViewController) -> Promise<Any> {
+        static func m7Login(token: String, userId: String, email: String, name: String, dismissVC: UIViewController) -> Promise<Any> {
             var param: [String : Any] = [:]
             param["fbAccessToken"]  = token
             param["fbUserId"]       = userId
@@ -127,15 +133,13 @@ extension UserService {
 //google login
 extension UserService: GIDSignInDelegate, GIDSignInUIDelegate {
     struct Google {
-        static func login(fromVc: UIViewController) {
-
-            GIDSignIn.sharedInstance().delegate = UserService.sharedInstance
-            GIDSignIn.sharedInstance().uiDelegate = UserService.sharedInstance
+        static func login(fromVC: UIViewController) {
+       
             GIDSignIn.sharedInstance().signIn()
 
-            hud.textLabel.text = "123..."
+            //hud.textLabel.text = "123..."
             hud.layoutMargins = UIEdgeInsets.init(top: 10.0, left: 10.0, bottom: 10.0, right: 10.0)
-            hud.show(in: fromVc.view)
+            hud.show(in: fromVC.view)
         }
     }
     
@@ -143,13 +147,11 @@ extension UserService: GIDSignInDelegate, GIDSignInUIDelegate {
     func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
         if let error = error {
             print("\(error.localizedDescription)")
-        } else {
-            // Perform any operations on signed in user here.
-
+        } else { // Perform any operations on signed in user here.
             //let dimension = round(100 * UIScreen.main.scale)
             //let pic = user.profile.imageURL(withDimension: UInt(dimension))
             
-            if let userId = user.userID, let token = user.authentication.idToken,let name = user.profile.givenName, let email = user.profile.email {
+            if let userId = user.userID, let token = user.authentication.idToken, let name = user.profile.givenName, let email = user.profile.email {
                 
                 print("userid = \(userId), token = \(token), name = \(name), email = \(email)")
                 
@@ -164,6 +166,7 @@ extension UserService: GIDSignInDelegate, GIDSignInUIDelegate {
                     
                     }.ensure  {
                         UserService.hud.dismiss(afterDelay: 0.75)
+                        NotificationCenter.default.post(name: .completedLogin, object: nil)
                         UIApplication.shared.isNetworkActivityIndicatorVisible = false
                     }.catch { error in }
             }
@@ -187,19 +190,23 @@ extension UserService: GIDSignInDelegate, GIDSignInUIDelegate {
         }
     }
     
+    
     func sign(_ signIn: GIDSignIn!, present viewController: UIViewController!) {
         delegate?.googleLoginPresent(viewController)
     }
-    
+
     func sign(_ signIn: GIDSignIn!, dismiss viewController: UIViewController!) {
         delegate?.googleLoginDismiss(viewController)
-
     }
-    
+
     func sign(inWillDispatch signIn: GIDSignIn!, error: Error!) {
         //UserService.hud.dismiss()
-        //UserService.hud.detailTextLabel.text = "Stealing from google... (づ￣ ³￣)づ"
-        UserService.hud.detailTextLabel.text = "google ing"
+        UserService.hud.detailTextLabel.text = "Googling... (づ￣ ³￣)づ"
+        delegate?.googleLoginWillDispatch()
     }
 
+}
+
+extension Notification.Name {
+    static let completedLogin = Notification.Name("completedLogin")
 }

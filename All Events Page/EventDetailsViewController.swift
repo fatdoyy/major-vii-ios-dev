@@ -74,7 +74,7 @@ class EventDetailsViewController: UIViewController {
         createHeroTransitions()
         
         setupLeftBarItems()
-        FloatyBtn.create(btn: floatyBtn, toVc: self)
+        FloatyBtn.create(btn: floatyBtn, toVC: self)
         floatyBtn.fabDelegate = self
         
         mainScrollView.contentInset = UIEdgeInsets(top: 300, left: 0, bottom: 0, right: 0)
@@ -340,12 +340,12 @@ extension EventDetailsViewController: UIGestureRecognizerDelegate{
 extension EventDetailsViewController{
     static func push(fromView: UIViewController, eventId: String){
         let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
-        let detailsVc = storyboard.instantiateViewController(withIdentifier: EventDetailsViewController.storyboardId) as! EventDetailsViewController
+        let detailsVC = storyboard.instantiateViewController(withIdentifier: EventDetailsViewController.storyboardId) as! EventDetailsViewController
         
-        detailsVc.eventId = eventId
+        detailsVC.eventId = eventId
         
         fromView.navigationItem.title = ""
         fromView.navigationController?.hero.navigationAnimationType = .zoom
-        fromView.navigationController?.pushViewController(detailsVc, animated: true)
+        fromView.navigationController?.pushViewController(detailsVC, animated: true)
     }
 }

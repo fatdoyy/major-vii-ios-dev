@@ -7,39 +7,58 @@
 //
 
 import UIKit
+import Bartinter
 import GoogleSignIn
 
 class LoginViewController: UIViewController {
     
     @IBOutlet weak var loginView: LoginView!
-        
+    
+    let userService = UserService()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        UserService.sharedInstance.delegate = self
         loginView.delegate = self
-    }
+        NotificationCenter.default.addObserver(self, selector: #selector(dismissLoginVC), name: .completedLogin, object: nil)
+        updatesStatusBarAppearanceAutomatically = true
 
+    }
+    
+    override var prefersStatusBarHidden: Bool{
+        return true
+    }
+    
+    @objc func dismissLoginVC() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            self.dismiss(animated: true, completion: nil)
+        }
+    }
 }
 
 extension LoginViewController: LoginViewDelegate, UserServiceDelegate {
 
     //fb login
     func fbLoginPressed() {
-        UserService.FB.login(fromVc: self)
+        UserService.FB.login(fromVC: self)
     }
     
     //google login
     func googleLoginPressed() {
-        UserService.Google.login(fromVc: self)
+        userService.delegate = self
+        UserService.Google.login(fromVC: self)
         //UserService.login(fromVc: self)
     }
     
     func googleLoginPresent(_ viewController: UIViewController) {
         self.present(viewController, animated: true, completion: nil)
     }
-    
+
     func googleLoginDismiss(_ viewController: UIViewController) {
         self.dismiss(animated: true, completion: nil)
     }
 
+    func googleLoginWillDispatch() {
+        print("1234567")
+    }
+    
 }

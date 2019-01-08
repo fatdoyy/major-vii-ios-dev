@@ -12,7 +12,7 @@ import AMScrollingNavbar
 
 class EventsListViewController: ScrollingNavigationViewController, UIGestureRecognizerDelegate {
     
-    static let storyboardId = "eventsVc"
+    static let storyboardId = "eventsVC"
     
     @IBOutlet weak var mainCollectionView: UICollectionView!
         

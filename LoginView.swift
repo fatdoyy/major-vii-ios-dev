@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import SwiftGifOrigin
+import Localize_Swift
 
 protocol LoginViewDelegate{
     func fbLoginPressed()
@@ -19,6 +21,9 @@ class LoginView: UIView {
     
     @IBOutlet var contentView: UIView!
     
+    @IBOutlet weak var videoBg: UIImageView!
+    @IBOutlet weak var videoOverlay: UIView!
+    
     @IBOutlet weak var logo: UIImageView!
     @IBOutlet weak var descLabel: UILabel!
     
@@ -30,9 +35,13 @@ class LoginView: UIView {
     @IBOutlet weak var emailLoginBtn: UIButton!
     @IBOutlet weak var registerBtn: UIButton!
     
+    @IBOutlet weak var seperatorLine: UIView!
+    
     @IBOutlet weak var guestLoginBtn: UIButton!
     
     @IBOutlet weak var tcLabel: UILabel!
+    
+    let GIFs: [UIImage] = [UIImage.gif(name: "gif0")!, UIImage.gif(name: "gif1")!, UIImage.gif(name: "gif2")!, UIImage.gif(name: "gif3")!, UIImage.gif(name: "gif4")!, UIImage.gif(name: "gif5")!, UIImage.gif(name: "gif6")!, UIImage.gif(name: "gif7")!, UIImage.gif(name: "gif8")!, UIImage.gif(name: "gif9")!, UIImage.gif(name: "gif10")!]
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -49,16 +58,19 @@ class LoginView: UIView {
         addSubview(contentView)
         contentView.frame = self.bounds
         contentView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        
         contentView.backgroundColor = .darkGray
         
-        logo.backgroundColor = .lightGray
+        videoOverlay.backgroundColor = UIColor.black.withAlphaComponent(0.25)
+        
+        let gif = GIFs.randomElement()
+        videoBg.image = gif
         
         descLabel.textColor = .whiteText()
         emailLoginLabel.textColor = .whiteText()
         
+        seperatorLine.backgroundColor = UIColor.white.withAlphaComponent(0.5)
+        guestLoginBtn.setTitleColor(.whiteText75Alpha(), for: .normal)
         tcLabel.textColor = .whiteText50Alpha()
-        
     }
     
     @IBAction func fbLoginPressed(_ sender: Any) {

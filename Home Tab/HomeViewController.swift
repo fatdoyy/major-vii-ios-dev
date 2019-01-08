@@ -24,8 +24,8 @@ class HomeViewController: UIViewController, UIGestureRecognizerDelegate {
         
         
         if UserService.isUserLoggedIn() == false {
-            let loginVc = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "loginVc") as! LoginViewController
-            self.present(loginVc, animated: true, completion: nil)
+            let loginVC = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "loginVC") as! LoginViewController
+            self.present(loginVC, animated: true, completion: nil)
         }
         
         
