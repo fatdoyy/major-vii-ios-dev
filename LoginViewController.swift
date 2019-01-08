@@ -12,6 +12,10 @@ import GoogleSignIn
 
 class LoginViewController: UIViewController {
     
+    override var prefersStatusBarHidden: Bool{
+        return true
+    }
+    
     @IBOutlet weak var loginView: LoginView!
     
     let userService = UserService()
@@ -24,8 +28,14 @@ class LoginViewController: UIViewController {
 
     }
     
-    override var prefersStatusBarHidden: Bool{
-        return true
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        loadGIF()
+    }
+    
+    private func loadGIF() {
+        let gifIndex = loginView.gifIndex
+        loginView.videoBg.loadGif(name: gifIndex ?? "")
     }
     
     @objc func dismissLoginVC() {

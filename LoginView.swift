@@ -41,7 +41,10 @@ class LoginView: UIView {
     
     @IBOutlet weak var tcLabel: UILabel!
     
-    let GIFs: [UIImage] = [UIImage.gif(name: "gif0")!, UIImage.gif(name: "gif1")!, UIImage.gif(name: "gif2")!, UIImage.gif(name: "gif3")!, UIImage.gif(name: "gif4")!, UIImage.gif(name: "gif5")!, UIImage.gif(name: "gif6")!, UIImage.gif(name: "gif7")!, UIImage.gif(name: "gif8")!, UIImage.gif(name: "gif9")!, UIImage.gif(name: "gif10")!]
+    var gifIndex: String?
+    
+    //Note: these thumbnails are in the .xcassets file, not "GIFs" folder, since these are JPGs
+    let gifThumbnail: [UIImage] = [UIImage(named: "gif0_thumbnail")!, UIImage(named: "gif1_thumbnail")!, UIImage(named: "gif2_thumbnail")!, UIImage(named: "gif3_thumbnail")!, UIImage(named: "gif4_thumbnail")!, UIImage(named: "gif5_thumbnail")!, UIImage(named: "gif6_thumbnail")!, UIImage(named: "gif7_thumbnail")!, UIImage(named: "gif8_thumbnail")!, UIImage(named: "gif9_thumbnail")!, UIImage(named: "gif10_thumbnail")!, UIImage(named: "gif11_thumbnail")!]
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -60,13 +63,46 @@ class LoginView: UIView {
         contentView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         contentView.backgroundColor = .darkGray
         
-        videoOverlay.backgroundColor = UIColor.black.withAlphaComponent(0.25)
+        videoOverlay.backgroundColor = UIColor.black.withAlphaComponent(0.3)
         
-        let gif = GIFs.randomElement()
-        videoBg.image = gif
-        
+        let randomIndex = Int(arc4random_uniform(UInt32(gifThumbnail.count))) // not using .randomElemnt() here beacuse we will need the index
+        gifIndex = "gif\(randomIndex)"
+        videoBg.image = gifThumbnail[randomIndex]
+    
         descLabel.textColor = .whiteText()
+        
+        fbLoginBtn.backgroundColor = .fbBlue()
+        fbLoginBtn.layer.cornerRadius = GlobalCornerRadius.value
+        fbLoginBtn.setTitleColor(.white, for: .normal)
+        
+        googleLoginBtn.backgroundColor = .white
+        googleLoginBtn.layer.cornerRadius = GlobalCornerRadius.value
+        googleLoginBtn.setTitleColor(.darkGrayText(), for: .normal)
+        
         emailLoginLabel.textColor = .whiteText()
+    
+        //create blur effect for login/register buttons
+        let containerView = UIVisualEffectView(effect: UIBlurEffect(style: .regular))
+        containerView.layer.cornerRadius = GlobalCornerRadius.value
+        containerView.clipsToBounds = true
+        containerView.frame = emailLoginBtn.bounds
+        containerView.isUserInteractionEnabled = false
+        
+        emailLoginBtn.layer.cornerRadius = GlobalCornerRadius.value
+        emailLoginBtn.backgroundColor = .clear
+        emailLoginBtn.insertSubview(containerView, belowSubview: emailLoginBtn.titleLabel!)
+        emailLoginBtn.setTitleColor(.white, for: .normal)
+
+        let containerView2 = UIVisualEffectView(effect: UIBlurEffect(style: .regular))
+        containerView2.layer.cornerRadius = GlobalCornerRadius.value
+        containerView2.clipsToBounds = true
+        containerView2.frame = emailLoginBtn.bounds
+        containerView2.isUserInteractionEnabled = false
+        
+        registerBtn.layer.cornerRadius = GlobalCornerRadius.value
+        registerBtn.backgroundColor = .clear
+        registerBtn.insertSubview(containerView2, belowSubview: registerBtn.titleLabel!)
+        registerBtn.setTitleColor(.white, for: .normal)
         
         seperatorLine.backgroundColor = UIColor.white.withAlphaComponent(0.5)
         guestLoginBtn.setTitleColor(.whiteText75Alpha(), for: .normal)

@@ -33,6 +33,10 @@ extension UIColor {
     class func mintGreen() -> UIColor {
         return UIColor(hexString: "#51B79F")
     }
+    
+    class func fbBlue() -> UIColor {
+        return UIColor(hexString: "#3b5998")
+    }
 
     class func white15Alpha() -> UIColor {
         return UIColor.white.withAlphaComponent(0.15)
@@ -65,6 +69,10 @@ extension UIColor {
     
     class func topazText() -> UIColor {
         return UIColor(hexString: "16ccbd")
+    }
+    
+    class func darkGrayText() -> UIColor {
+        return UIColor(hexString: "#797979")
     }
 }
 
