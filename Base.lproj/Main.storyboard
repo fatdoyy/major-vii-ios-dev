@@ -107,7 +107,7 @@
                         <viewLayoutGuide key="safeArea" id="N7T-pX-Ocz"/>
                     </view>
                     <connections>
-                        <outlet property="loginView" destination="dLa-3j-ao0" id="ryR-tt-SJE"/>
+                        <outlet property="loginView" destination="dLa-3j-ao0" id="U3w-iM-Hpg"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KEJ-5W-gQY" userLabel="First Responder" sceneMemberID="firstResponder"/>

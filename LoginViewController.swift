@@ -25,17 +25,21 @@ class LoginViewController: UIViewController {
         loginView.delegate = self
         NotificationCenter.default.addObserver(self, selector: #selector(dismissLoginVC), name: .completedLogin, object: nil)
         updatesStatusBarAppearanceAutomatically = true
-
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        loadGIF()
+        if UIScreen.main.nativeBounds.height != 1136 { // not loading GIFs on iPhone SE becasue of performance issue
+            loadGIF()
+        }
     }
     
     private func loadGIF() {
-        let gifIndex = loginView.gifIndex
-        loginView.videoBg.loadGif(name: gifIndex ?? "")
+        if let gifIndex = loginView.gifIndex {
+            loginView.videoBg.loadGif(name: gifIndex)
+        }
+    
+        loginView.layoutIfNeeded()
     }
     
     @objc func dismissLoginVC() {
@@ -46,14 +50,14 @@ class LoginViewController: UIViewController {
 }
 
 extension LoginViewController: LoginViewDelegate, UserServiceDelegate {
-
+    
     //fb login
-    func fbLoginPressed() {
+    func didTapFbLogin() {
         UserService.FB.login(fromVC: self)
     }
     
     //google login
-    func googleLoginPressed() {
+    func didTapGoogleLogin() {
         userService.delegate = self
         UserService.Google.login(fromVC: self)
         //UserService.login(fromVc: self)
@@ -69,6 +73,26 @@ extension LoginViewController: LoginViewDelegate, UserServiceDelegate {
 
     func googleLoginWillDispatch() {
         print("1234567")
+    }
+    
+    //email login
+    func didTapEmailLogin() {
+        for view in loginView.socialLoginElements {
+            if view.alpha != 0 {
+                loginView.emailLoginBtn.setTitle("使用其他方法登入", for: .normal)
+                UIView.animate(withDuration: 0.2) {
+                    view.alpha = 0
+                    view.isUserInteractionEnabled = false
+                }
+            } else {
+                loginView.emailLoginBtn.setTitle("已經有Account? 立即登入！", for: .normal)
+                UIView.animate(withDuration: 0.2) {
+                    view.alpha = 1
+                    view.isUserInteractionEnabled = true
+                }
+            }
+        }
+        
     }
     
 }

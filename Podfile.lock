@@ -94,6 +94,7 @@ PODS:
   - PromiseKit/CorePromise (6.5.2)
   - Reqres (3.0.0)
   - SkeletonView (1.4.1)
+  - SkyFloatingLabelTextField (3.6.0)
   - SnapKit (4.0.1)
   - SwiftGifOrigin (1.6.1)
 
@@ -122,6 +123,7 @@ DEPENDENCIES:
   - PromiseKit/CorePromise (~> 6.0)
   - Reqres
   - SkeletonView
+  - SkyFloatingLabelTextField (~> 3.0)
   - SnapKit (~> 4.0.0)
   - SwiftGifOrigin (~> 1.6.1)
 
@@ -159,6 +161,7 @@ SPEC REPOS:
     - PromiseKit
     - Reqres
     - SkeletonView
+    - SkyFloatingLabelTextField
     - SnapKit
     - SwiftGifOrigin
 
@@ -205,9 +208,10 @@ SPEC CHECKSUMS:
   PromiseKit: 27c1601bfb73405871b805bcb8cf7e55c4dad3db
   Reqres: fb0714daf1b13dbafca25dd293d583cb4f73e420
   SkeletonView: 60d6ce7edb0cb4c7758db33c74add50392b3c475
+  SkyFloatingLabelTextField: 38164979b79512f9ff9288ad8acfc4bbf5d843e3
   SnapKit: 0de968a9fec17499afa29683b05d0c775b6d1c29
   SwiftGifOrigin: d6679d3ebe9df2e049a84bc52582635107b581f6
 
-PODFILE CHECKSUM: 2bed46330494b5cb542d55c9b9f1d52f360a9f75
+PODFILE CHECKSUM: e867f818a24cc244e67b49c1615cf8fb8a9aea02
 
 COCOAPODS: 1.5.3

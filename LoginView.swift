@@ -8,11 +8,13 @@
 
 import UIKit
 import SwiftGifOrigin
+import SkyFloatingLabelTextField
 import Localize_Swift
 
 protocol LoginViewDelegate{
-    func fbLoginPressed()
-    func googleLoginPressed()
+    func didTapFbLogin()
+    func didTapGoogleLogin()
+    func didTapEmailLogin()
 }
 
 class LoginView: UIView {
@@ -27,20 +29,29 @@ class LoginView: UIView {
     @IBOutlet weak var logo: UIImageView!
     @IBOutlet weak var descLabel: UILabel!
     
+    //MARK: Social Login Elements
     @IBOutlet weak var fbLoginBtn: UIButton!
     @IBOutlet weak var googleLoginBtn: UIButton!
-    
     @IBOutlet weak var emailLoginLabel: UILabel!
-    
-    @IBOutlet weak var emailLoginBtn: UIButton!
     @IBOutlet weak var registerBtn: UIButton!
     
-    @IBOutlet weak var seperatorLine: UIView!
+    /*MARK: Email Login Elements
+      Note: all view's hierarchy is below Social Login Elements
+     */
+    @IBOutlet weak var loginActionBtn: UIButton!
+    @IBOutlet weak var emailTextFieldBg: UIView!
+    @IBOutlet weak var emailTextField: SkyFloatingLabelTextField!
     
-    @IBOutlet weak var guestLoginBtn: UIButton!
+    
+    @IBOutlet weak var seperatorLine: UIView!
+    @IBOutlet weak var emailLoginBtn: UIButton!
+
     
     @IBOutlet weak var tcLabel: UILabel!
     
+    @IBOutlet var socialLoginElements: Array<UIView>!
+    @IBOutlet var emailLoginElements: Array<UIView>!
+
     var gifIndex: String?
     
     //Note: these thumbnails are in the .xcassets file, not "GIFs" folder, since these are JPGs
@@ -48,22 +59,20 @@ class LoginView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        commonInit()
+        addSubview(loadXibView(with: bounds))
+        setupUI()
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        commonInit()
+        addSubview(loadXibView(with: bounds))
+        setupUI()
     }
 
-    private func commonInit(){
-        Bundle.main.loadNibNamed("LoginView", owner: self, options: nil)
-        addSubview(contentView)
-        contentView.frame = self.bounds
-        contentView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+    private func setupUI(){
         contentView.backgroundColor = .darkGray
         
-        videoOverlay.backgroundColor = UIColor.black.withAlphaComponent(0.3)
+        videoOverlay.backgroundColor = UIColor.black.withAlphaComponent(0.35)
         
         let randomIndex = Int(arc4random_uniform(UInt32(gifThumbnail.count))) // not using .randomElemnt() here beacuse we will need the index
         gifIndex = "gif\(randomIndex)"
@@ -71,6 +80,17 @@ class LoginView: UIView {
     
         descLabel.textColor = .whiteText()
         
+        setupSocialLoginElements()
+        setupEmailLoginElements()
+        setupRegisterElements()
+        
+        seperatorLine.backgroundColor = UIColor.white.withAlphaComponent(0.5)
+        emailLoginBtn.setTitleColor(.whiteText75Alpha(), for: .normal)
+        emailLoginBtn.setTitleColor(.white, for: .selected)
+        tcLabel.textColor = .whiteText50Alpha()
+    }
+    
+    private func setupSocialLoginElements() {
         fbLoginBtn.backgroundColor = .fbBlue()
         fbLoginBtn.layer.cornerRadius = GlobalCornerRadius.value
         fbLoginBtn.setTitleColor(.white, for: .normal)
@@ -80,40 +100,65 @@ class LoginView: UIView {
         googleLoginBtn.setTitleColor(.darkGrayText(), for: .normal)
         
         emailLoginLabel.textColor = .whiteText()
-    
-        //create blur effect for login/register buttons
-        let containerView = UIVisualEffectView(effect: UIBlurEffect(style: .regular))
+        
+        //create blur effect for register button
+        let containerView = UIVisualEffectView(effect: UIBlurEffect(style: .light))
         containerView.layer.cornerRadius = GlobalCornerRadius.value
         containerView.clipsToBounds = true
-        containerView.frame = emailLoginBtn.bounds
+        containerView.frame = registerBtn.bounds
         containerView.isUserInteractionEnabled = false
-        
-        emailLoginBtn.layer.cornerRadius = GlobalCornerRadius.value
-        emailLoginBtn.backgroundColor = .clear
-        emailLoginBtn.insertSubview(containerView, belowSubview: emailLoginBtn.titleLabel!)
-        emailLoginBtn.setTitleColor(.white, for: .normal)
-
-        let containerView2 = UIVisualEffectView(effect: UIBlurEffect(style: .regular))
-        containerView2.layer.cornerRadius = GlobalCornerRadius.value
-        containerView2.clipsToBounds = true
-        containerView2.frame = emailLoginBtn.bounds
-        containerView2.isUserInteractionEnabled = false
         
         registerBtn.layer.cornerRadius = GlobalCornerRadius.value
         registerBtn.backgroundColor = .clear
-        registerBtn.insertSubview(containerView2, belowSubview: registerBtn.titleLabel!)
+        registerBtn.insertSubview(containerView, belowSubview: registerBtn.titleLabel!)
         registerBtn.setTitleColor(.white, for: .normal)
-        
-        seperatorLine.backgroundColor = UIColor.white.withAlphaComponent(0.5)
-        guestLoginBtn.setTitleColor(.whiteText75Alpha(), for: .normal)
-        tcLabel.textColor = .whiteText50Alpha()
     }
     
-    @IBAction func fbLoginPressed(_ sender: Any) {
-        delegate?.fbLoginPressed()
+    private func setupEmailLoginElements() {
+        //create blur effect for emailTextFieldBg
+        let containerView = UIVisualEffectView(effect: UIBlurEffect(style: .light))
+        containerView.layer.cornerRadius = GlobalCornerRadius.value
+        containerView.clipsToBounds = true
+        containerView.frame = emailTextFieldBg.bounds
+        containerView.isUserInteractionEnabled = false
+        
+        emailTextFieldBg.layer.cornerRadius = GlobalCornerRadius.value
+        emailTextFieldBg.backgroundColor = .clear
+        emailTextFieldBg.addSubview(containerView)
+        
+        emailTextField.placeholder = "admin@majorvii.com"
+        emailTextField.placeholderFont = UIFont.systemFont(ofSize: 12, weight: .regular)
+        emailTextField.title = "Email"
+        emailTextField.titleFont = UIFont.systemFont(ofSize: 12, weight: .medium)
+        emailTextField.selectedTitleColor = .lightPurple()
+        emailTextField.titleFormatter = { $0 } //disable title uppercase
+        emailTextField.textColor = .whiteText80Alpha()
+        emailTextField.lineHeight = 1
+        emailTextField.lineColor = .darkGray
+        emailTextField.selectedLineHeight = 1.5
+        emailTextField.selectedLineColor = .lightGray
+        
+        loginActionBtn.layer.cornerRadius = GlobalCornerRadius.value
+        loginActionBtn.backgroundColor = .red
+        loginActionBtn.setTitleColor(.white, for: .normal)
+        
+//        for view in emailLoginElements { //these views will be shown later
+//            view.alpha = 0
+//        }
+    }
+    
+    private func setupRegisterElements() {}
+    
+    @IBAction func didTapFbLogin(_ sender: Any) {
+        delegate?.didTapFbLogin()
     }
 
-    @IBAction func googleLoginPressed(_ sender: Any) {
-        delegate?.googleLoginPressed()
+    @IBAction func didTapGoogleLogin(_ sender: Any) {
+        delegate?.didTapGoogleLogin()
     }
+    
+    @IBAction func didTapEmailLogin(_ sender: Any) {
+        delegate?.didTapEmailLogin()
+    }
+    
 }

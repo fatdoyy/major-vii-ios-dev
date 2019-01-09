@@ -22,10 +22,11 @@
 		9620023521E4B13A0055D070 /* gif9.gif in Resources */ = {isa = PBXBuildFile; fileRef = 9620023221E4B1390055D070 /* gif9.gif */; };
 		9620023B21E4B3A80055D070 /* gif10.gif in Resources */ = {isa = PBXBuildFile; fileRef = 9620023721E4B3A70055D070 /* gif10.gif */; };
 		9620023C21E4B3A80055D070 /* gif5.gif in Resources */ = {isa = PBXBuildFile; fileRef = 9620023821E4B3A70055D070 /* gif5.gif */; };
-		9620023D21E4B3A80055D070 /* gif6.gif in Resources */ = {isa = PBXBuildFile; fileRef = 9620023921E4B3A70055D070 /* gif6.gif */; };
 		9620023E21E4B3A80055D070 /* gif7.gif in Resources */ = {isa = PBXBuildFile; fileRef = 9620023A21E4B3A80055D070 /* gif7.gif */; };
-		9620025721E4F58E0055D070 /* gif0.gif in Resources */ = {isa = PBXBuildFile; fileRef = 9620025521E4F58B0055D070 /* gif0.gif */; };
 		9620025821E4F58E0055D070 /* gif11.gif in Resources */ = {isa = PBXBuildFile; fileRef = 9620025621E4F58E0055D070 /* gif11.gif */; };
+		9620025A21E5CED10055D070 /* gif0.gif in Resources */ = {isa = PBXBuildFile; fileRef = 9620025921E5CED00055D070 /* gif0.gif */; };
+		9620025C21E5CF1B0055D070 /* gif6.gif in Resources */ = {isa = PBXBuildFile; fileRef = 9620025B21E5CF1B0055D070 /* gif6.gif */; };
+		9620025E21E5E5490055D070 /* UIView+Xib.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9620025D21E5E5480055D070 /* UIView+Xib.swift */; };
 		9639216F21ABC85500BA515A /* EventDetailsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9639216E21ABC85500BA515A /* EventDetailsView.xib */; };
 		9639217121ABCA3000BA515A /* EventDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9639217021ABCA3000BA515A /* EventDetailsView.swift */; };
 		9639217421AD1C4500BA515A /* HashtagCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9639217221AD1C4500BA515A /* HashtagCell.swift */; };
@@ -115,10 +116,11 @@
 		9620023221E4B1390055D070 /* gif9.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = gif9.gif; sourceTree = "<group>"; };
 		9620023721E4B3A70055D070 /* gif10.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = gif10.gif; sourceTree = "<group>"; };
 		9620023821E4B3A70055D070 /* gif5.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = gif5.gif; sourceTree = "<group>"; };
-		9620023921E4B3A70055D070 /* gif6.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = gif6.gif; sourceTree = "<group>"; };
 		9620023A21E4B3A80055D070 /* gif7.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = gif7.gif; sourceTree = "<group>"; };
-		9620025521E4F58B0055D070 /* gif0.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = gif0.gif; sourceTree = "<group>"; };
 		9620025621E4F58E0055D070 /* gif11.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = gif11.gif; sourceTree = "<group>"; };
+		9620025921E5CED00055D070 /* gif0.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = gif0.gif; sourceTree = "<group>"; };
+		9620025B21E5CF1B0055D070 /* gif6.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = gif6.gif; sourceTree = "<group>"; };
+		9620025D21E5E5480055D070 /* UIView+Xib.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Xib.swift"; sourceTree = "<group>"; };
 		9639216E21ABC85500BA515A /* EventDetailsView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EventDetailsView.xib; sourceTree = "<group>"; };
 		9639217021ABCA3000BA515A /* EventDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDetailsView.swift; sourceTree = "<group>"; };
 		9639217221AD1C4500BA515A /* HashtagCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HashtagCell.swift; sourceTree = "<group>"; };
@@ -236,13 +238,13 @@
 		9620022421E4AE0B0055D070 /* GIFs */ = {
 			isa = PBXGroup;
 			children = (
-				9620025521E4F58B0055D070 /* gif0.gif */,
+				9620025921E5CED00055D070 /* gif0.gif */,
 				9620022221E4ACED0055D070 /* gif1.gif */,
 				9620022721E4AEFF0055D070 /* gif2.gif */,
 				9620022521E4AEFE0055D070 /* gif3.gif */,
 				9620022821E4AEFF0055D070 /* gif4.gif */,
 				9620023821E4B3A70055D070 /* gif5.gif */,
-				9620023921E4B3A70055D070 /* gif6.gif */,
+				9620025B21E5CF1B0055D070 /* gif6.gif */,
 				9620023A21E4B3A80055D070 /* gif7.gif */,
 				9620023121E4B1380055D070 /* gif8.gif */,
 				9620023221E4B1390055D070 /* gif9.gif */,
@@ -322,6 +324,7 @@
 				96EA375521B66BBC00E9DB74 /* ImageViewerHelper.swift */,
 				9658789B21C0FC70005B491A /* FloatyBtn.swift */,
 				96625F7C21C7ABFE0086A2B2 /* GradientLayer.swift */,
+				9620025D21E5E5480055D070 /* UIView+Xib.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -529,10 +532,12 @@
 			files = (
 				96C5542B2192C2DF0065D70A /* FollowingSection.xib in Resources */,
 				CA550AB321706A66008E493D /* LaunchScreen.storyboard in Resources */,
+				9620025A21E5CED10055D070 /* gif0.gif in Resources */,
 				9620025821E4F58E0055D070 /* gif11.gif in Resources */,
 				9620022121E3B17A0055D070 /* GoogleService-Info.plist in Resources */,
 				96C5542F2192C6730065D70A /* FollowingCell.xib in Resources */,
 				965838C321831866000FE8B0 /* NewsCellType5.xib in Resources */,
+				9620025C21E5CF1B0055D070 /* gif6.gif in Resources */,
 				96C5543B2192D9980065D70A /* BookmarkCell.xib in Resources */,
 				9620022321E4ACED0055D070 /* gif1.gif in Resources */,
 				9620023E21E4B3A80055D070 /* gif7.gif in Resources */,
@@ -553,12 +558,10 @@
 				9620022E21E4AF000055D070 /* gif4.gif in Resources */,
 				96C5544D219408580065D70A /* FeaturedCell.xib in Resources */,
 				9620021A21DDFDC20055D070 /* LoginView.xib in Resources */,
-				9620023D21E4B3A80055D070 /* gif6.gif in Resources */,
 				9620023C21E4B3A80055D070 /* gif5.gif in Resources */,
 				9620023421E4B13A0055D070 /* gif8.gif in Resources */,
 				966A6CCD217DE6DD00DF872F /* EventsSection.xib in Resources */,
 				965838B72181CAE7000FE8B0 /* NewsCellType2.xib in Resources */,
-				9620025721E4F58E0055D070 /* gif0.gif in Resources */,
 				966A6CE32180C15400DF872F /* Assets.xcassets in Resources */,
 				9620023B21E4B3A80055D070 /* gif10.gif in Resources */,
 				96C5544B219408580065D70A /* FeaturedSectionHeader.xib in Resources */,
@@ -603,6 +606,7 @@
 				"${BUILT_PRODUCTS_DIR}/PromiseKit/PromiseKit.framework",
 				"${BUILT_PRODUCTS_DIR}/Reqres/Reqres.framework",
 				"${BUILT_PRODUCTS_DIR}/SkeletonView/SkeletonView.framework",
+				"${BUILT_PRODUCTS_DIR}/SkyFloatingLabelTextField/SkyFloatingLabelTextField.framework",
 				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftGifOrigin/SwiftGifOrigin.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
@@ -635,6 +639,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PromiseKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Reqres.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SkeletonView.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SkyFloatingLabelTextField.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftGifOrigin.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
@@ -701,6 +706,7 @@
 				966A6CC7217DC16500DF872F /* Colors.swift in Sources */,
 				96C5544C219408580065D70A /* FeaturedCell.swift in Sources */,
 				966A6CC3217DBDAF00DF872F /* EventsViewController.swift in Sources */,
+				9620025E21E5E5490055D070 /* UIView+Xib.swift in Sources */,
 				96625F7B21C793DA0086A2B2 /* EventsService.swift in Sources */,
 				965838BE218317CE000FE8B0 /* NewsCellType4.swift in Sources */,
 				96C5541B21918CB90065D70A /* TrendingCell.swift in Sources */,
