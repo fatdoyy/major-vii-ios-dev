@@ -9,6 +9,7 @@
 import UIKit
 import SwiftGifOrigin
 import SkyFloatingLabelTextField
+import Pastel
 import Localize_Swift
 
 protocol LoginViewDelegate{
@@ -38,9 +39,12 @@ class LoginView: UIView {
     /*MARK: Email Login Elements
       Note: all view's hierarchy is below Social Login Elements
      */
+    var loginActionBtnGradientBg = PastelView()
     @IBOutlet weak var loginActionBtn: UIButton!
     @IBOutlet weak var emailTextFieldBg: UIView!
     @IBOutlet weak var emailTextField: SkyFloatingLabelTextField!
+    @IBOutlet weak var pwTextFieldBg: UIView!
+    @IBOutlet weak var pwTextField: SkyFloatingLabelTextField!
     
     
     @IBOutlet weak var seperatorLine: UIView!
@@ -105,9 +109,13 @@ class LoginView: UIView {
         let containerView = UIVisualEffectView(effect: UIBlurEffect(style: .light))
         containerView.layer.cornerRadius = GlobalCornerRadius.value
         containerView.clipsToBounds = true
-        containerView.frame = registerBtn.bounds
         containerView.isUserInteractionEnabled = false
         
+        containerView.snp.makeConstraints { (make) -> Void in
+            make.width.equalTo(UIScreen.main.bounds.size.width - 80)
+            make.height.equalTo(registerBtn.bounds.height)
+        }
+
         registerBtn.layer.cornerRadius = GlobalCornerRadius.value
         registerBtn.backgroundColor = .clear
         registerBtn.insertSubview(containerView, belowSubview: registerBtn.titleLabel!)
@@ -119,32 +127,84 @@ class LoginView: UIView {
         let containerView = UIVisualEffectView(effect: UIBlurEffect(style: .light))
         containerView.layer.cornerRadius = GlobalCornerRadius.value
         containerView.clipsToBounds = true
-        containerView.frame = emailTextFieldBg.bounds
         containerView.isUserInteractionEnabled = false
+        
+        containerView.snp.makeConstraints { (make) -> Void in
+            make.width.equalTo(UIScreen.main.bounds.size.width - 80)
+            make.height.equalTo(registerBtn.bounds.height)
+        }
         
         emailTextFieldBg.layer.cornerRadius = GlobalCornerRadius.value
         emailTextFieldBg.backgroundColor = .clear
-        emailTextFieldBg.addSubview(containerView)
+        emailTextFieldBg.insertSubview(containerView, belowSubview: emailTextField)
         
-        emailTextField.placeholder = "admin@majorvii.com"
+        emailTextField.delegate = self
+        emailTextField.placeholder = "Email"
         emailTextField.placeholderFont = UIFont.systemFont(ofSize: 12, weight: .regular)
         emailTextField.title = "Email"
         emailTextField.titleFont = UIFont.systemFont(ofSize: 12, weight: .medium)
+        emailTextField.titleColor = .darkPurple()
         emailTextField.selectedTitleColor = .lightPurple()
         emailTextField.titleFormatter = { $0 } //disable title uppercase
         emailTextField.textColor = .whiteText80Alpha()
         emailTextField.lineHeight = 1
-        emailTextField.lineColor = .darkGray
+        emailTextField.lineColor = .white15Alpha()
         emailTextField.selectedLineHeight = 1.5
-        emailTextField.selectedLineColor = .lightGray
+        emailTextField.selectedLineColor = .white50Alpha()
         
+        //create blur effect for pwTextFieldBg
+        let containerView2 = UIVisualEffectView(effect: UIBlurEffect(style: .light))
+        containerView2.layer.cornerRadius = GlobalCornerRadius.value
+        containerView2.clipsToBounds = true
+        containerView2.isUserInteractionEnabled = false
+        
+        containerView2.snp.makeConstraints { (make) -> Void in
+            make.width.equalTo(UIScreen.main.bounds.size.width - 80)
+            make.height.equalTo(registerBtn.bounds.height)
+        }
+        
+        pwTextFieldBg.layer.cornerRadius = GlobalCornerRadius.value
+        pwTextFieldBg.backgroundColor = .clear
+        pwTextFieldBg.insertSubview(containerView2, belowSubview: pwTextField)
+        
+        pwTextField.delegate = self
+        pwTextField.placeholder = "Password"
+        pwTextField.placeholderFont = UIFont.systemFont(ofSize: 12, weight: .regular)
+        pwTextField.title = "Password"
+        pwTextField.titleFont = UIFont.systemFont(ofSize: 12, weight: .medium)
+        pwTextField.titleColor = .darkPurple()
+        pwTextField.selectedTitleColor = .lightPurple()
+        pwTextField.titleFormatter = { $0 } //disable title uppercase
+        pwTextField.textColor = .whiteText80Alpha()
+        pwTextField.lineHeight = 1
+        pwTextField.lineColor = .white15Alpha()
+        pwTextField.selectedLineHeight = 1.5
+        pwTextField.selectedLineColor = .white50Alpha()
+        
+        //gradient for loginActionBtn
+        loginActionBtnGradientBg.snp.makeConstraints { (make) -> Void in
+            make.width.equalTo(loginActionBtn.bounds.width)
+            make.height.equalTo(loginActionBtn.bounds.height)
+        }
+        loginActionBtnGradientBg.startPastelPoint = .topLeft
+        loginActionBtnGradientBg.endPastelPoint = .bottomRight
+        loginActionBtnGradientBg.animationDuration = 3
+        loginActionBtnGradientBg.setColors([
+                              UIColor(red: 32/255, green: 76/255, blue: 255/255, alpha: 1.0),
+                              UIColor(red: 32/255, green: 158/255, blue: 255/255, alpha: 1.0),
+                              UIColor(red: 90/255, green: 120/255, blue: 127/255, alpha: 1.0),
+                              UIColor(red: 58/255, green: 255/255, blue: 217/255, alpha: 1.0),
+                              UIColor(red: 123/255, green: 31/255, blue: 162/255, alpha: 1.0)])
+        
+        loginActionBtn.clipsToBounds = true
+        loginActionBtn.insertSubview(loginActionBtnGradientBg, at: 0)
         loginActionBtn.layer.cornerRadius = GlobalCornerRadius.value
-        loginActionBtn.backgroundColor = .red
         loginActionBtn.setTitleColor(.white, for: .normal)
         
-//        for view in emailLoginElements { //these views will be shown later
-//            view.alpha = 0
-//        }
+        for view in emailLoginElements { //these views will be shown later
+            view.alpha = 0
+            view.isUserInteractionEnabled = false
+        }
     }
     
     private func setupRegisterElements() {}
@@ -161,4 +221,11 @@ class LoginView: UIView {
         delegate?.didTapEmailLogin()
     }
     
+}
+
+extension LoginView: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
 }

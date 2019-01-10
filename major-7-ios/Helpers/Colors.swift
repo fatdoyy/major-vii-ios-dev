@@ -42,6 +42,14 @@ extension UIColor {
         return UIColor.white.withAlphaComponent(0.15)
     }
     
+    class func white50Alpha() -> UIColor {
+        return UIColor.white.withAlphaComponent(0.50)
+    }
+    
+    class func white75Alpha() -> UIColor {
+        return UIColor.white.withAlphaComponent(0.75)
+    }
+    
     //Text Colors
     class func whiteText() -> UIColor {
         return UIColor.white

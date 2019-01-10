@@ -63,7 +63,7 @@ extension UserService {
                     
                     //show hud
                     hud.textLabel.text = "Working Hard..."
-                    hud.detailTextLabel.text = "Stealing data from Facebook... (☞ﾟ∀ﾟ)☞"
+                    hud.detailTextLabel.text = "Calling to Facebook... (☞ﾟ∀ﾟ)☞"
                     hud.layoutMargins = UIEdgeInsets.init(top: 10.0, left: 10.0, bottom: 10.0, right: 10.0)
                     hud.show(in: fromVC.view)
                     
@@ -201,7 +201,7 @@ extension UserService: GIDSignInDelegate, GIDSignInUIDelegate {
 
     func sign(inWillDispatch signIn: GIDSignIn!, error: Error!) {
         //UserService.hud.dismiss()
-        UserService.hud.detailTextLabel.text = "Googling... (づ￣ ³￣)づ"
+        UserService.hud.textLabel.text = "Googling... (づ￣ ³￣)づ"
         delegate?.googleLoginWillDispatch()
     }
 

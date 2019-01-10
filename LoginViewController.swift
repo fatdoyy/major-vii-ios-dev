@@ -93,6 +93,21 @@ extension LoginViewController: LoginViewDelegate, UserServiceDelegate {
             }
         }
         
+        
+        for view in loginView.emailLoginElements {
+            if view.alpha != 0 {
+                UIView.animate(withDuration: 0.2) {
+                    view.alpha = 0
+                    view.isUserInteractionEnabled = false
+                }
+            } else {
+                loginView.loginActionBtnGradientBg.startAnimation()
+                UIView.animate(withDuration: 0.2) {
+                    view.alpha = 1
+                    view.isUserInteractionEnabled = true
+                }
+            }
+        }
     }
     
 }
