@@ -24,6 +24,7 @@
                 <outlet property="logo" destination="66Y-6q-Qmz" id="MWe-ZK-07o"/>
                 <outlet property="pwTextField" destination="Wf4-m9-IGA" id="yUl-bz-7Fp"/>
                 <outlet property="pwTextFieldBg" destination="pvl-KV-uGc" id="76R-4t-mp4"/>
+                <outlet property="pwTextFieldBgBottomConstraint" destination="bk5-6i-gfA" id="OVr-xJ-Hvd"/>
                 <outlet property="registerBtn" destination="3EJ-Br-OxY" id="wvr-p4-EoS"/>
                 <outlet property="seperatorLine" destination="aUA-Pq-5Vt" id="6px-3B-Yru"/>
                 <outlet property="tcLabel" destination="8KV-0b-tPw" id="zyb-Nu-kmk"/>

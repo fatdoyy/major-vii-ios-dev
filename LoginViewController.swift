@@ -34,6 +34,12 @@ class LoginViewController: UIViewController {
         }
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        NotificationCenter.default.removeObserver(self)
+        NotificationCenter.default.removeObserver(loginView) // also remove observer in LoginView.swift
+    }
+    
     private func loadGIF() {
         if let gifIndex = loginView.gifIndex {
             loginView.videoBg.loadGif(name: gifIndex)

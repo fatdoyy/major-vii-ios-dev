@@ -46,6 +46,7 @@ class LoginView: UIView {
     @IBOutlet weak var emailTextField: SkyFloatingLabelTextField!
     @IBOutlet weak var pwTextFieldBg: UIView!
     @IBOutlet weak var pwTextField: SkyFloatingLabelTextField!
+    @IBOutlet weak var pwTextFieldBgBottomConstraint: NSLayoutConstraint!
     
     
     @IBOutlet weak var seperatorLine: UIView!
@@ -75,6 +76,8 @@ class LoginView: UIView {
     }
 
     private func setupUI(){
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillDisappear), name: UIResponder.keyboardWillHideNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillAppear), name: UIResponder.keyboardWillShowNotification, object: nil)
         contentView.backgroundColor = .darkGray
         
         videoOverlay.backgroundColor = UIColor.black.withAlphaComponent(0.35)
@@ -186,7 +189,6 @@ class LoginView: UIView {
         pwTextField.selectedLineColor = .white50Alpha()
         
         //gradient for loginActionBtn
-
         loginActionBtnGradientBg.startPastelPoint = .topLeft
         loginActionBtnGradientBg.endPastelPoint = .bottomRight
         loginActionBtnGradientBg.animationDuration = 3
@@ -205,7 +207,7 @@ class LoginView: UIView {
         loginActionBtn.insertSubview(loginActionBtnGradientBg, at: 0)
         loginActionBtnGradientBg.snp.makeConstraints { (make) -> Void in
             make.center.equalTo(loginActionBtn.snp.center)
-            make.width.equalTo(loginActionBtn.bounds.width)
+            make.width.equalTo(loginActionBtn.snp.width)
             make.height.equalTo(loginActionBtn.bounds.height)
         }
         
@@ -233,9 +235,39 @@ class LoginView: UIView {
         delegate?.didTapLoginAction()
     }
     
+    @objc func keyboardWillAppear(_ notification: Notification) {
+        //Do something here
+        print("keyboard shown")
+        if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+            let keyboardRectangle = keyboardFrame.cgRectValue
+            let keyboardMinY = keyboardRectangle.minY
+            print(keyboardMinY)
+            UIView.animate(withDuration: 0.3) {
+                print(self.pwTextFieldBgBottomConstraint.constant)
+                self.pwTextFieldBgBottomConstraint.constant = 150
+                self.layoutIfNeeded()
+            }
+ 
+        }
+
+        
+    }
+    
+    @objc func keyboardWillDisappear() {
+        //Do something here
+        print("keyboard hidden")
+        UIView.animate(withDuration: 0.3) {
+            
+            self.pwTextFieldBgBottomConstraint.constant = 75
+            self.layoutIfNeeded()
+        }
+    }
+    
 }
 
 extension LoginView: UITextFieldDelegate {
+
+    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
