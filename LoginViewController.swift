@@ -66,11 +66,11 @@ extension LoginViewController: LoginViewDelegate, UserServiceDelegate {
     func googleLoginPresent(_ viewController: UIViewController) {
         self.present(viewController, animated: true, completion: nil)
     }
-
+    
     func googleLoginDismiss(_ viewController: UIViewController) {
         self.dismiss(animated: true, completion: nil)
     }
-
+    
     func googleLoginWillDispatch() {
         print("1234567")
     }
@@ -108,6 +108,12 @@ extension LoginViewController: LoginViewDelegate, UserServiceDelegate {
                 }
             }
         }
+    }
+    
+    
+    func didTapLoginAction() {
+        
+        
     }
     
 }
