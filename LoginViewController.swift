@@ -44,7 +44,7 @@ class LoginViewController: UIViewController {
         if let gifIndex = loginView.gifIndex {
             loginView.videoBg.loadGif(name: gifIndex)
         }
-    
+        
         loginView.layoutIfNeeded()
     }
     
@@ -81,44 +81,80 @@ extension LoginViewController: LoginViewDelegate, UserServiceDelegate {
         print("1234567")
     }
     
-    //email login
-    func didTapEmailLogin() {
+    //register btn, NOTE: not register action
+    func didTapRegisterBtn() {
+        //hide social login elements
         for view in loginView.socialLoginElements {
-            if view.alpha != 0 {
-                loginView.emailLoginBtn.setTitle("使用其他方法登入", for: .normal)
-                UIView.animate(withDuration: 0.2) {
-                    view.alpha = 0
-                    view.isUserInteractionEnabled = false
-                }
-            } else {
-                loginView.emailLoginBtn.setTitle("已經有Account? 立即登入！", for: .normal)
-                UIView.animate(withDuration: 0.2) {
-                    view.alpha = 1
-                    view.isUserInteractionEnabled = true
-                }
+            loginView.emailLoginBtn.setTitle("使用其他方法登入", for: .normal)
+            UIView.animate(withDuration: 0.2) {
+                view.alpha = 0
+                view.isUserInteractionEnabled = false
             }
         }
         
-        
-        for view in loginView.emailLoginElements {
-            if view.alpha != 0 {
-                UIView.animate(withDuration: 0.2) {
-                    view.alpha = 0
-                    view.isUserInteractionEnabled = false
-                }
-            } else {
-                loginView.loginActionBtnGradientBg.startAnimation()
-                UIView.animate(withDuration: 0.2) {
-                    view.alpha = 1
-                    view.isUserInteractionEnabled = true
-                }
+        //show register elements
+        for view in loginView.registerElements {
+            loginView.regActionBtnGradientBg.startAnimation()
+            UIView.animate(withDuration: 0.2) {
+                view.alpha = 1
+                view.isUserInteractionEnabled = true
             }
         }
     }
     
     
+    //email login
+    func didTapEmailLogin() {
+        if loginView.emailLoginBtn.title(for: .normal) == "已經有Account? 立即登入！" {
+            //hide social login elements
+            for view in loginView.socialLoginElements {
+                UIView.animate(withDuration: 0.2) {
+                    view.alpha = 0
+                    view.isUserInteractionEnabled = false
+                }
+            }
+            
+            //show email login elements
+            loginView.loginActionBtnGradientBg.startAnimation()
+            for view in loginView.emailLoginElements {
+                UIView.animate(withDuration: 0.2) {
+                    view.alpha = 1
+                    view.isUserInteractionEnabled = true
+                }
+            }
+            
+            loginView.emailLoginBtn.setTitle("使用其他方法登入", for: .normal)
+        } else {
+            //hide register elements
+            for view in loginView.registerElements {
+                UIView.animate(withDuration: 0.2) {
+                    view.alpha = 0
+                    view.isUserInteractionEnabled = false
+                }
+            }
+            
+            //hide email login elements
+            for view in loginView.emailLoginElements {
+                UIView.animate(withDuration: 0.2) {
+                    view.alpha = 0
+                    view.isUserInteractionEnabled = false
+                }
+            }
+            
+            //show social login elements
+            for view in loginView.socialLoginElements {
+                UIView.animate(withDuration: 0.2) {
+                    view.alpha = 1
+                    view.isUserInteractionEnabled = true
+                }
+            }
+            
+            loginView.emailLoginBtn.setTitle("已經有Account? 立即登入！", for: .normal)
+        }
+    }
+    
+    
     func didTapLoginAction() {
-        
         
     }
     
