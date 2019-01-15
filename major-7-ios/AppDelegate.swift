@@ -32,9 +32,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         GIDSignIn.sharedInstance()?.signOut()
         GIDSignIn.sharedInstance()?.disconnect()
 
-        //dark tab bar
+        //dark UI elements
         UITabBar.appearance().barTintColor = UIColor(red:0.13, green:0.13, blue:0.13, alpha:0.75)
         UITabBar.appearance().tintColor = .white
+        UITextField.appearance().keyboardAppearance = .dark
        
         return true
     }

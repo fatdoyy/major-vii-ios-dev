@@ -11,6 +11,7 @@ import SwiftGifOrigin
 import SkyFloatingLabelTextField
 import Pastel
 import Localize_Swift
+import NVActivityIndicatorView
 
 protocol LoginViewDelegate{
     func didTapFbLogin()
@@ -18,6 +19,7 @@ protocol LoginViewDelegate{
     func didTapRegisterBtn()
     func didTapEmailLogin()
     func didTapLoginAction()
+    func didTapRegAction()
 }
 
 class LoginView: UIView {
@@ -42,13 +44,14 @@ class LoginView: UIView {
     /*MARK: Email Login Elements
      Note: all view's hierarchy is below Social Login Elements
      */
-    var loginActionBtnGradientBg = PastelView()
-    @IBOutlet weak var loginActionBtn: UIButton!
     @IBOutlet weak var emailTextFieldBg: UIView!
     @IBOutlet weak var emailTextField: SkyFloatingLabelTextField!
     @IBOutlet weak var pwTextFieldBg: UIView!
     @IBOutlet weak var pwTextField: SkyFloatingLabelTextField!
     @IBOutlet weak var pwTextFieldBgBottomConstraint: NSLayoutConstraint!
+    var loginActionBtnGradientBg = PastelView()
+    @IBOutlet weak var loginActionBtn: UIButton!
+    var loginActivityIndicator = NVActivityIndicatorView(frame: CGRect(origin: CGPoint.zero, size: CGSize(width: 20, height: 20)))
     
     /*MARK: Register Elements
      Note: all view's hierarchy is below Social Login Elements
@@ -60,6 +63,8 @@ class LoginView: UIView {
     @IBOutlet weak var regPwRefillTextFieldBg: UIView!
     @IBOutlet weak var regPwRefillTextField: SkyFloatingLabelTextField!
     @IBOutlet weak var regActionBtn: UIButton!
+    var regActivityIndicator = NVActivityIndicatorView(frame: CGRect(origin: CGPoint.zero, size: CGSize(width: 20, height: 20)))
+    @IBOutlet weak var regPwRefillTextFieldBottomConstraint: NSLayoutConstraint!
     
     
     @IBOutlet weak var seperatorLine: UIView!
@@ -153,6 +158,7 @@ class LoginView: UIView {
         }
         
         emailTextField.delegate = self
+        emailTextField.returnKeyType = .next
         emailTextField.placeholder = "Email"
         emailTextField.placeholderFont = UIFont.systemFont(ofSize: 12, weight: .regular)
         emailTextField.placeholderColor = .white15Alpha()
@@ -181,6 +187,7 @@ class LoginView: UIView {
         }
         
         pwTextField.delegate = self
+        pwTextField.returnKeyType = .go
         pwTextField.isSecureTextEntry = true
         pwTextField.placeholder = "Password"
         pwTextField.placeholderFont = UIFont.systemFont(ofSize: 12, weight: .regular)
@@ -196,6 +203,15 @@ class LoginView: UIView {
         pwTextField.selectedLineHeight = 1.5
         pwTextField.selectedLineColor = .white50Alpha()
         
+        //activity indicatior
+        loginActivityIndicator.type = .lineScale
+        loginActivityIndicator.alpha = 0
+        loginActionBtn.addSubview(loginActivityIndicator)
+        loginActivityIndicator.snp.makeConstraints { (make) -> Void in
+            make.centerX.equalToSuperview()
+            make.centerY.equalToSuperview()
+        }
+
         //gradient for loginActionBtn
         loginActionBtnGradientBg.startPastelPoint = .topLeft
         loginActionBtnGradientBg.endPastelPoint = .bottomRight
@@ -240,6 +256,7 @@ class LoginView: UIView {
         }
         
         regEmailTextField.delegate = self
+        regEmailTextField.returnKeyType = .next
         regEmailTextField.placeholder = "Email"
         regEmailTextField.placeholderFont = UIFont.systemFont(ofSize: 12, weight: .regular)
         regEmailTextField.placeholderColor = .white15Alpha()
@@ -268,6 +285,7 @@ class LoginView: UIView {
         }
         
         regPwTextField.delegate = self
+        regPwTextField.returnKeyType = .next
         regPwTextField.isSecureTextEntry = true
         regPwTextField.placeholder = "Password"
         regPwTextField.placeholderFont = UIFont.systemFont(ofSize: 12, weight: .regular)
@@ -297,6 +315,7 @@ class LoginView: UIView {
         }
         
         regPwRefillTextField.delegate = self
+        regPwRefillTextField.returnKeyType = .go
         regPwRefillTextField.isSecureTextEntry = true
         regPwRefillTextField.placeholder = "Confirm Password"
         regPwRefillTextField.placeholderFont = UIFont.systemFont(ofSize: 12, weight: .regular)
@@ -311,6 +330,15 @@ class LoginView: UIView {
         regPwRefillTextField.lineColor = .white15Alpha()
         regPwRefillTextField.selectedLineHeight = 1.5
         regPwRefillTextField.selectedLineColor = .white50Alpha()
+        
+        //activity indicatior
+        regActivityIndicator.type = .lineScale
+        regActivityIndicator.alpha = 0
+        regActionBtn.addSubview(regActivityIndicator)
+        regActivityIndicator.snp.makeConstraints { (make) -> Void in
+            make.centerX.equalToSuperview()
+            make.centerY.equalToSuperview()
+        }
         
         //gradient for registerBtn
         regActionBtnGradientBg.startPastelPoint = .topLeft
@@ -361,26 +389,32 @@ class LoginView: UIView {
         delegate?.didTapLoginAction()
     }
     
+    @IBAction func didTapRegAction(_ sender: Any) {
+        delegate?.didTapRegAction()
+    }
+    
     @objc func keyboardWillAppear(_ notification: Notification) {
-        print("keyboard shown")
+        //Get keyboard height
         if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
             let keyboardRectangle = keyboardFrame.cgRectValue
             let keyboardMinY = keyboardRectangle.minY
             print(self.loginActionBtn.frame.minY)
+            
+            //animate the constraint's constant change
             UIView.animate(withDuration: 0.3) {
-                self.pwTextFieldBgBottomConstraint.constant = self.loginActionBtn.frame.minY - keyboardMinY + 40
+                let keyboardTopPlus40 = self.loginActionBtn.frame.minY - keyboardMinY + 40
+                self.pwTextFieldBgBottomConstraint.constant = keyboardTopPlus40
+                self.regPwRefillTextFieldBottomConstraint.constant = keyboardTopPlus40
                 self.layoutIfNeeded()
             }
-            
         }
-        
-        
     }
     
     @objc func keyboardWillDisappear() {
         print("keyboard hidden")
         UIView.animate(withDuration: 0.3) {
             self.pwTextFieldBgBottomConstraint.constant = 75 //default is 75
+            self.regPwRefillTextFieldBottomConstraint.constant = 75
             self.layoutIfNeeded()
         }
     }
@@ -390,7 +424,26 @@ class LoginView: UIView {
 extension LoginView: UITextFieldDelegate {
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-        return true
+        switch textField {
+        //email login section
+        case emailTextField:
+            pwTextField.becomeFirstResponder()
+        case pwTextField:
+            pwTextField.resignFirstResponder()
+            delegate?.didTapLoginAction()
+            
+        //register section
+        case regEmailTextField:
+            regPwTextField.becomeFirstResponder()
+        case regPwTextField:
+            regPwRefillTextField.becomeFirstResponder()
+        case regPwRefillTextField:
+            regPwRefillTextField.resignFirstResponder()
+            delegate?.didTapRegAction()
+            
+        default:
+            textField.resignFirstResponder()
+        }
+        return false
     }
 }

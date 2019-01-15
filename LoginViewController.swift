@@ -9,6 +9,7 @@
 import UIKit
 import Bartinter
 import GoogleSignIn
+import NVActivityIndicatorView
 
 class LoginViewController: UIViewController {
     
@@ -23,8 +24,9 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         loginView.delegate = self
-        NotificationCenter.default.addObserver(self, selector: #selector(dismissLoginVC), name: .completedLogin, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(dismissLoginVC), name: .loginCompleted, object: nil)
         updatesStatusBarAppearanceAutomatically = true
+        hideKeyboardWhenTappedAround()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -36,7 +38,7 @@ class LoginViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        NotificationCenter.default.removeObserver(self)
+        //NotificationCenter.default.removeObserver(self)
         NotificationCenter.default.removeObserver(loginView) // also remove observer in LoginView.swift
     }
     
@@ -55,6 +57,7 @@ class LoginViewController: UIViewController {
     }
 }
 
+//MARK: Login / Register Delegate
 extension LoginViewController: LoginViewDelegate, UserServiceDelegate {
     
     //fb login
@@ -102,8 +105,7 @@ extension LoginViewController: LoginViewDelegate, UserServiceDelegate {
         }
     }
     
-    
-    //email login
+    //email login, NOTE: not email action
     func didTapEmailLogin() {
         if loginView.emailLoginBtn.title(for: .normal) == "已經有Account? 立即登入！" {
             //hide social login elements
@@ -153,9 +155,84 @@ extension LoginViewController: LoginViewDelegate, UserServiceDelegate {
         }
     }
     
-    
+    //email login
     func didTapLoginAction() {
-        
+        if let email = loginView.emailTextField.text, let password = loginView.pwTextField.text{
+            if email != "" && password != "" {
+                //hide button title and show indicator
+                loginView.loginActionBtn.isUserInteractionEnabled = false
+                UIView.transition(with: loginView.loginActionBtn, duration: 0.2, options: .transitionCrossDissolve, animations: {
+                    self.loginView.loginActionBtn.setTitle("", for: .normal)
+                }, completion: nil)
+                
+                //show indicator
+                UIView.animate(withDuration: 0.2) {
+                    self.loginView.loginActivityIndicator.startAnimating()
+                    self.loginView.loginActivityIndicator.alpha = 1
+                }
+                
+                //login action
+                UserService.Email.login(email: email, password: password, loginView: loginView)
+            } else {
+                print("email / password empty?")
+                
+                loginView.loginActionBtn.isUserInteractionEnabled = false
+                //animate title change to error msg
+                UIView.transition(with: loginView.loginActionBtn, duration: 0.2, options: .transitionCrossDissolve, animations: {
+                    self.loginView.loginActionBtn.setTitle("冇入野喎", for: .normal)
+                    self.loginView.loginActionBtn.setTitleColor(.whiteText75Alpha(), for: .normal)
+                }, completion: nil)
+                
+                //reset button state
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.2) {
+                    UIView.transition(with: self.loginView.loginActionBtn, duration: 0.2, options: .transitionCrossDissolve, animations: {
+                        self.loginView.loginActionBtn.setTitle("登入", for: .normal)
+                        self.loginView.loginActionBtn.setTitleColor(.whiteText(), for: .normal)
+                    }, completion: nil)
+                    
+                    self.loginView.loginActionBtn.isUserInteractionEnabled = true
+                }
+            }
+        }
+    }
+    
+    //register section
+    func didTapRegAction() {
+        if let email = loginView.regEmailTextField.text, let password = loginView.regPwRefillTextField.text{
+            if email != "" && password != "" {
+                //hide button title and show indicator
+                loginView.regActionBtn.isUserInteractionEnabled = false
+                UIView.transition(with: loginView.regActionBtn, duration: 0.2, options: .transitionCrossDissolve, animations: {
+                    self.loginView.regActionBtn.setTitle("", for: .normal)
+                }, completion: nil)
+                
+                //show indicator
+                UIView.animate(withDuration: 0.2) {
+                    self.loginView.regActivityIndicator.startAnimating()
+                    self.loginView.regActivityIndicator.alpha = 1
+                }
+                
+                //register action
+                UserService.Email.register(email: email, password: password, loginView: loginView)
+            } else {
+                print("email / password empty?")
+                
+                loginView.regActionBtn.isUserInteractionEnabled = false
+                //animate title change
+                UIView.transition(with: loginView.regActionBtn, duration: 0.2, options: .transitionCrossDissolve, animations: {
+                    self.loginView.regActionBtn.setTitle("冇入野喎", for: .normal)
+                    self.loginView.regActionBtn.setTitleColor(.whiteText75Alpha(), for: .normal)
+                }, completion: nil)
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.2) {
+                    UIView.transition(with: self.loginView.regActionBtn, duration: 0.2, options: .transitionCrossDissolve, animations: {
+                        self.loginView.regActionBtn.setTitle("登入", for: .normal)
+                        self.loginView.regActionBtn.setTitleColor(.whiteText(), for: .normal)
+                    }, completion: nil)
+                    self.loginView.regActionBtn.isUserInteractionEnabled = true
+                }
+            }
+        }
     }
     
 }

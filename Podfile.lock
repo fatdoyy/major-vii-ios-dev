@@ -89,6 +89,9 @@ PODS:
     - nanopb/encode (= 0.3.8)
   - nanopb/decode (0.3.8)
   - nanopb/encode (0.3.8)
+  - NVActivityIndicatorView (4.4.1):
+    - NVActivityIndicatorView/Presenter (= 4.4.1)
+  - NVActivityIndicatorView/Presenter (4.4.1)
   - ObjectMapper (3.3.0)
   - Pastel (0.5.1)
   - PromiseKit/CorePromise (6.5.2)
@@ -118,6 +121,7 @@ DEPENDENCIES:
   - Kingfisher
   - Localize-Swift (~> 2.0)
   - MXParallaxHeader
+  - NVActivityIndicatorView
   - ObjectMapper
   - Pastel
   - PromiseKit/CorePromise (~> 6.0)
@@ -156,6 +160,7 @@ SPEC REPOS:
     - Localize-Swift
     - MXParallaxHeader
     - nanopb
+    - NVActivityIndicatorView
     - ObjectMapper
     - Pastel
     - PromiseKit
@@ -203,6 +208,7 @@ SPEC CHECKSUMS:
   Localize-Swift: c798ec9286494866f7068f85f7c71283ac5bdab4
   MXParallaxHeader: 858c403532ed933b381556a81ce333d7065ad182
   nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
+  NVActivityIndicatorView: f0a6b0ed2973d9544da268f4eb76696f0a9577b0
   ObjectMapper: b612bf8c8e99c4dc0bb6013a51f7c27966ed5da9
   Pastel: b3dd5b8d612dac06ae7c63c97c45c900829bc139
   PromiseKit: 27c1601bfb73405871b805bcb8cf7e55c4dad3db
@@ -212,6 +218,6 @@ SPEC CHECKSUMS:
   SnapKit: 0de968a9fec17499afa29683b05d0c775b6d1c29
   SwiftGifOrigin: d6679d3ebe9df2e049a84bc52582635107b581f6
 
-PODFILE CHECKSUM: e867f818a24cc244e67b49c1615cf8fb8a9aea02
+PODFILE CHECKSUM: b1db8fb8e16e8bdda9d76bb45252dc87f2c34679
 
 COCOAPODS: 1.5.3

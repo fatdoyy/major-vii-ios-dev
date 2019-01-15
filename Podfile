@@ -41,7 +41,9 @@ target 'major-7-ios' do
   pod 'JGProgressHUD'                           # progress hud
   pod 'SwiftGifOrigin', '~> 1.6.1'              # gif in UIImageView
   pod 'Bartinter'                               # update status bar style automatically
-  pod 'SkyFloatingLabelTextField', '~> 3.0'     # floating label above textfield 
-  pod 'ImageViewer', :inhibit_warnings => true, :git=> 'https://github.com/mezhevikin/ImageViewer'                             # as title
+  pod 'SkyFloatingLabelTextField', '~> 3.0'     # floating label above textfield
+  pod 'NVActivityIndicatorView'                 # as title
+  
+  pod 'ImageViewer', :inhibit_warnings => true, :git=> 'https://github.com/mezhevikin/ImageViewer'                  # as title
 
 end
