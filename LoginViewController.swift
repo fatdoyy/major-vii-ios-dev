@@ -10,6 +10,7 @@ import UIKit
 import Bartinter
 import GoogleSignIn
 import NVActivityIndicatorView
+import Validator
 
 class LoginViewController: UIViewController {
     
@@ -157,81 +158,194 @@ extension LoginViewController: LoginViewDelegate, UserServiceDelegate {
     
     //email login
     func didTapLoginAction() {
-        if let email = loginView.emailTextField.text, let password = loginView.pwTextField.text{
-            if email != "" && password != "" {
-                //hide button title and show indicator
-                loginView.loginActionBtn.isUserInteractionEnabled = false
-                UIView.transition(with: loginView.loginActionBtn, duration: 0.2, options: .transitionCrossDissolve, animations: {
-                    self.loginView.loginActionBtn.setTitle("", for: .normal)
-                }, completion: nil)
-                
-                //show indicator
-                UIView.animate(withDuration: 0.2) {
-                    self.loginView.loginActivityIndicator.startAnimating()
-                    self.loginView.loginActivityIndicator.alpha = 1
+        if let inputtedEmail = loginView.emailTextField.text, let inputtedPw = loginView.pwTextField.text {
+            loginView.loginActionBtn.isUserInteractionEnabled = false
+            
+            //hide button title
+            UIView.transition(with: loginView.loginActionBtn, duration: 0.2, options: .transitionCrossDissolve, animations: {
+                self.loginView.loginActionBtn.setTitle("", for: .normal)
+            }, completion: nil)
+            
+            //show indicator
+            UIView.animate(withDuration: 0.2) {
+                self.loginView.loginActivityIndicator.startAnimating()
+                self.loginView.loginActivityIndicator.alpha = 1
+            }
+            
+            //validation
+            let emailValidateResult = inputtedEmail.validate(rules: M7ValidationRule.emailRules())
+            let pwValidateResult = inputtedPw.validate(rules: M7ValidationRule.pwRules())
+            
+            switch emailValidateResult {
+            case .valid:
+                switch pwValidateResult {
+                case .valid:
+                    //login action
+                    UserService.Email.login(email: inputtedEmail, password: inputtedPw, loginView: loginView)
+                    
+                case .invalid(let failures):
+                    //hide indicator
+                    UIView.animate(withDuration: 0.2) {
+                        self.loginView.loginActivityIndicator.alpha = 0
+                        self.loginView.loginActivityIndicator.stopAnimating()
+                    }
+                    
+                    loginView.pwTextFieldBg.shake()
+                    HapticFeedback.createNotificationFeedback(style: .error)
+                    
+                    //animate title change to error msg
+                    let messages = failures.compactMap { $0 as? ValidationError }.map { $0.message }
+                    UIView.transition(with: self.loginView.loginActionBtn, duration: 0.2, options: .transitionCrossDissolve, animations: {
+                        self.loginView.loginActionBtn.setTitle("Password \(messages.joined(separator: " and "))!", for: .normal)
+                        self.loginView.loginActionBtn.setTitleColor(.whiteText75Alpha(), for: .normal)
+                    }, completion: nil)
+                    
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.1) {
+                        UIView.transition(with: self.loginView.loginActionBtn, duration: 0.2, options: .transitionCrossDissolve, animations: {
+                            self.loginView.loginActionBtn.setTitle("登入", for: .normal)
+                            self.loginView.loginActionBtn.setTitleColor(.whiteText(), for: .normal)
+                        }, completion: nil)
+                        self.loginView.loginActionBtn.isUserInteractionEnabled = true
+                    }
                 }
                 
-                //login action
-                UserService.Email.login(email: email, password: password, loginView: loginView)
-            } else {
-                print("email / password empty?")
+            case .invalid(let failures):
+                //hide indicator
+                UIView.animate(withDuration: 0.2) {
+                    self.loginView.loginActivityIndicator.alpha = 0
+                    self.loginView.loginActivityIndicator.stopAnimating()
+                }
                 
-                loginView.loginActionBtn.isUserInteractionEnabled = false
+                loginView.emailTextFieldBg.shake()
+                HapticFeedback.createNotificationFeedback(style: .error)
+                
                 //animate title change to error msg
-                UIView.transition(with: loginView.loginActionBtn, duration: 0.2, options: .transitionCrossDissolve, animations: {
-                    self.loginView.loginActionBtn.setTitle("冇入野喎", for: .normal)
+                let messages = failures.compactMap { $0 as? ValidationError }.map { $0.message }
+                UIView.transition(with: self.loginView.loginActionBtn, duration: 0.2, options: .transitionCrossDissolve, animations: {
+                    self.loginView.loginActionBtn.setTitle("Email is \(messages.joined(separator: " and "))!", for: .normal)
                     self.loginView.loginActionBtn.setTitleColor(.whiteText75Alpha(), for: .normal)
                 }, completion: nil)
                 
-                //reset button state
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1.2) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.1) {
                     UIView.transition(with: self.loginView.loginActionBtn, duration: 0.2, options: .transitionCrossDissolve, animations: {
                         self.loginView.loginActionBtn.setTitle("登入", for: .normal)
                         self.loginView.loginActionBtn.setTitleColor(.whiteText(), for: .normal)
                     }, completion: nil)
-                    
                     self.loginView.loginActionBtn.isUserInteractionEnabled = true
                 }
             }
+
         }
     }
     
     //register section
     func didTapRegAction() {
-        if let email = loginView.regEmailTextField.text, let password = loginView.regPwRefillTextField.text{
-            if email != "" && password != "" {
-                //hide button title and show indicator
-                loginView.regActionBtn.isUserInteractionEnabled = false
-                UIView.transition(with: loginView.regActionBtn, duration: 0.2, options: .transitionCrossDissolve, animations: {
-                    self.loginView.regActionBtn.setTitle("", for: .normal)
-                }, completion: nil)
-                
-                //show indicator
-                UIView.animate(withDuration: 0.2) {
-                    self.loginView.regActivityIndicator.startAnimating()
-                    self.loginView.regActivityIndicator.alpha = 1
+        if let inputtedEmail = loginView.regEmailTextField.text, let inputtedPw = loginView.regPwTextField.text, let inputtedPwRefill = loginView.regPwRefillTextField.text {
+            loginView.regActionBtn.isUserInteractionEnabled = false
+            
+            //hide button title
+            UIView.transition(with: loginView.regActionBtn, duration: 0.2, options: .transitionCrossDissolve, animations: {
+                self.loginView.regActionBtn.setTitle("", for: .normal)
+            }, completion: nil)
+            
+            //show indicator
+            UIView.animate(withDuration: 0.2) {
+                self.loginView.regActivityIndicator.startAnimating()
+                self.loginView.regActivityIndicator.alpha = 1
+            }
+            
+            //validation
+            let emailValidateResult = inputtedEmail.validate(rules: M7ValidationRule.emailRules())
+            let pwValidateResult = inputtedPw.validate(rules: M7ValidationRule.pwRules())
+            let pwRefillValidateResult = inputtedPwRefill.validate(rule: M7ValidationRule.pwCompareRule(pw: inputtedPw))
+            
+            switch emailValidateResult {
+            case .valid:
+                switch pwValidateResult {
+                case .valid:
+                    switch pwRefillValidateResult{
+                    case .valid:
+                        //register action
+                        UserService.Email.register(email: inputtedEmail, password: inputtedPwRefill, loginView: loginView)
+                        
+                    case .invalid(let failures):
+                        //hide indicator
+                        UIView.animate(withDuration: 0.2) {
+                            self.loginView.regActivityIndicator.alpha = 0
+                            self.loginView.regActivityIndicator.stopAnimating()
+                        }
+                        
+                        loginView.regPwRefillTextFieldBg.shake()
+                        HapticFeedback.createNotificationFeedback(style: .error)
+                        
+                        //animate title change to error msg
+                        let messages = failures.compactMap { $0 as? ValidationError }.map { $0.message }
+                        UIView.transition(with: self.loginView.regActionBtn, duration: 0.2, options: .transitionCrossDissolve, animations: {
+                            self.loginView.regActionBtn.setTitle("Passwords \(messages.joined(separator: " and "))!", for: .normal)
+                            self.loginView.regActionBtn.setTitleColor(.whiteText75Alpha(), for: .normal)
+                        }, completion: nil)
+                        
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.1) {
+                            UIView.transition(with: self.loginView.regActionBtn, duration: 0.2, options: .transitionCrossDissolve, animations: {
+                                self.loginView.regActionBtn.setTitle("註冊", for: .normal)
+                                self.loginView.regActionBtn.setTitleColor(.whiteText(), for: .normal)
+                            }, completion: nil)
+                            self.loginView.regActionBtn.isUserInteractionEnabled = true
+                        }
+                    }
+                    
+                case .invalid(let failures):
+                    //hide indicator
+                    UIView.animate(withDuration: 0.2) {
+                        self.loginView.regActivityIndicator.alpha = 0
+                        self.loginView.regActivityIndicator.stopAnimating()
+                    }
+                    
+                    loginView.regPwTextFieldBg.shake()
+                    HapticFeedback.createNotificationFeedback(style: .error)
+                    
+                    //animate title change to error msg
+                    let messages = failures.compactMap { $0 as? ValidationError }.map { $0.message }
+                    UIView.transition(with: self.loginView.regActionBtn, duration: 0.2, options: .transitionCrossDissolve, animations: {
+                        self.loginView.regActionBtn.setTitle("Password \(messages.joined(separator: " and "))!", for: .normal)
+                        self.loginView.regActionBtn.setTitleColor(.whiteText75Alpha(), for: .normal)
+                    }, completion: nil)
+                    
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.1) {
+                        UIView.transition(with: self.loginView.regActionBtn, duration: 0.2, options: .transitionCrossDissolve, animations: {
+                            self.loginView.regActionBtn.setTitle("註冊", for: .normal)
+                            self.loginView.regActionBtn.setTitleColor(.whiteText(), for: .normal)
+                        }, completion: nil)
+                        self.loginView.regActionBtn.isUserInteractionEnabled = true
+                    }
                 }
                 
-                //register action
-                UserService.Email.register(email: email, password: password, loginView: loginView)
-            } else {
-                print("email / password empty?")
+            case .invalid(let failures):
+                //hide indicator
+                UIView.animate(withDuration: 0.2) {
+                    self.loginView.regActivityIndicator.alpha = 0
+                    self.loginView.regActivityIndicator.stopAnimating()
+                }
                 
-                loginView.regActionBtn.isUserInteractionEnabled = false
-                //animate title change
-                UIView.transition(with: loginView.regActionBtn, duration: 0.2, options: .transitionCrossDissolve, animations: {
-                    self.loginView.regActionBtn.setTitle("冇入野喎", for: .normal)
+                loginView.regEmailTextFieldBg.shake()
+                HapticFeedback.createNotificationFeedback(style: .error)
+                
+                //animate title change to error msg
+                let messages = failures.compactMap { $0 as? ValidationError }.map { $0.message }
+                UIView.transition(with: self.loginView.regActionBtn, duration: 0.2, options: .transitionCrossDissolve, animations: {
+                    self.loginView.regActionBtn.setTitle("Email is \(messages.joined(separator: " and "))!", for: .normal)
                     self.loginView.regActionBtn.setTitleColor(.whiteText75Alpha(), for: .normal)
                 }, completion: nil)
                 
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1.2) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.1) {
                     UIView.transition(with: self.loginView.regActionBtn, duration: 0.2, options: .transitionCrossDissolve, animations: {
-                        self.loginView.regActionBtn.setTitle("登入", for: .normal)
+                        self.loginView.regActionBtn.setTitle("註冊", for: .normal)
                         self.loginView.regActionBtn.setTitleColor(.whiteText(), for: .normal)
                     }, completion: nil)
                     self.loginView.regActionBtn.isUserInteractionEnabled = true
                 }
             }
+
         }
     }
     

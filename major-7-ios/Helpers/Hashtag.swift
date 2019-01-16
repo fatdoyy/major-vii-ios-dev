@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class Hashtags {
+class Hashtag {
     
     //tag padding in BG view
     static let labelTopBottomPaddingInBgView: CGFloat = 5
@@ -17,7 +17,7 @@ class Hashtags {
     static let paddingBetweenTags: CGFloat = 10
     
     //create hashtags at cell
-    static func createAtCell(cell: UICollectionViewCell, position: Hashtags.Position, dataSource: [String], multiLines: Bool? = false, solidColor: Bool? = false){
+    static func createAtCell(cell: UICollectionViewCell, position: Hashtag.Position, dataSource: [String], multiLines: Bool? = false, solidColor: Bool? = false){
         //cell paddings
         var leftPaddingToCell: CGFloat = 20
         let rightPaddingToCell: CGFloat = 20
@@ -114,7 +114,7 @@ class TagLabel: UILabel {
 }
 
 //Hashtag positions
-extension Hashtags {
+extension Hashtag {
     enum Position {
         case cellTop
         case cellBottom

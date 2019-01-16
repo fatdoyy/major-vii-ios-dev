@@ -100,6 +100,7 @@ PODS:
   - SkyFloatingLabelTextField (3.6.0)
   - SnapKit (4.0.1)
   - SwiftGifOrigin (1.6.1)
+  - Validator (3.1.1)
 
 DEPENDENCIES:
   - Alamofire (~> 4.7)
@@ -130,6 +131,7 @@ DEPENDENCIES:
   - SkyFloatingLabelTextField (~> 3.0)
   - SnapKit (~> 4.0.0)
   - SwiftGifOrigin (~> 1.6.1)
+  - Validator (from `https://github.com/kikikiktai/Validator.git`)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
@@ -173,11 +175,16 @@ SPEC REPOS:
 EXTERNAL SOURCES:
   ImageViewer:
     :git: https://github.com/mezhevikin/ImageViewer
+  Validator:
+    :git: https://github.com/kikikiktai/Validator.git
 
 CHECKOUT OPTIONS:
   ImageViewer:
     :commit: 9ceca031cc78af6f7d80e20e29aeafda0ef41859
     :git: https://github.com/mezhevikin/ImageViewer
+  Validator:
+    :commit: be4055d26109ef048c73bf16f60e2fcbc1a26e77
+    :git: https://github.com/kikikiktai/Validator.git
 
 SPEC CHECKSUMS:
   Alamofire: c7287b6e5d7da964a70935e5db17046b7fde6568
@@ -217,7 +224,8 @@ SPEC CHECKSUMS:
   SkyFloatingLabelTextField: 38164979b79512f9ff9288ad8acfc4bbf5d843e3
   SnapKit: 0de968a9fec17499afa29683b05d0c775b6d1c29
   SwiftGifOrigin: d6679d3ebe9df2e049a84bc52582635107b581f6
+  Validator: b34ab17a8fffd0c1ffd8f9002ead4d1e02cd9e6e
 
-PODFILE CHECKSUM: b1db8fb8e16e8bdda9d76bb45252dc87f2c34679
+PODFILE CHECKSUM: b7cccdc8ad92a670441e0c55db03e3331c267569
 
 COCOAPODS: 1.5.3

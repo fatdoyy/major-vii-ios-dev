@@ -67,11 +67,12 @@
 		966A6CE121808BB100DF872F /* NewsCellType1.xib in Resources */ = {isa = PBXBuildFile; fileRef = 966A6CDF21808BB100DF872F /* NewsCellType1.xib */; };
 		966A6CE32180C15400DF872F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 966A6CE22180C15300DF872F /* Assets.xcassets */; };
 		96799FE221889D520074C828 /* Animations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96799FE121889D520074C828 /* Animations.swift */; };
-		96799FE4218AF8E70074C828 /* Hashtags.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96799FE3218AF8E60074C828 /* Hashtags.swift */; };
+		96799FE4218AF8E70074C828 /* Hashtag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96799FE3218AF8E60074C828 /* Hashtag.swift */; };
 		96799FE6218C5A280074C828 /* ImageOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96799FE5218C5A270074C828 /* ImageOverlay.swift */; };
 		96862EB9219ACE1F00F709B0 /* EventDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96862EB8219ACE1F00F709B0 /* EventDetailsViewController.swift */; };
 		96862EBB219AD8AC00F709B0 /* TabBarHiding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96862EBA219AD8AC00F709B0 /* TabBarHiding.swift */; };
 		96B0BE4021EDF452003C9BA5 /* HideKeyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B0BE3F21EDF452003C9BA5 /* HideKeyboard.swift */; };
+		96B0BE4221EF2235003C9BA5 /* ValidationRules.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B0BE4121EF2235003C9BA5 /* ValidationRules.swift */; };
 		96C55414219044D00065D70A /* EventsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96C55413219044D00065D70A /* EventsListViewController.swift */; };
 		96C5541B21918CB90065D70A /* TrendingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96C5541921918CB90065D70A /* TrendingCell.swift */; };
 		96C5541C21918CB90065D70A /* TrendingCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96C5541A21918CB90065D70A /* TrendingCell.xib */; };
@@ -163,11 +164,12 @@
 		966A6CDF21808BB100DF872F /* NewsCellType1.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewsCellType1.xib; sourceTree = "<group>"; };
 		966A6CE22180C15300DF872F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		96799FE121889D520074C828 /* Animations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Animations.swift; sourceTree = "<group>"; };
-		96799FE3218AF8E60074C828 /* Hashtags.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hashtags.swift; sourceTree = "<group>"; };
+		96799FE3218AF8E60074C828 /* Hashtag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hashtag.swift; sourceTree = "<group>"; };
 		96799FE5218C5A270074C828 /* ImageOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageOverlay.swift; sourceTree = "<group>"; };
 		96862EB8219ACE1F00F709B0 /* EventDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDetailsViewController.swift; sourceTree = "<group>"; };
 		96862EBA219AD8AC00F709B0 /* TabBarHiding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarHiding.swift; sourceTree = "<group>"; };
 		96B0BE3F21EDF452003C9BA5 /* HideKeyboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HideKeyboard.swift; sourceTree = "<group>"; };
+		96B0BE4121EF2235003C9BA5 /* ValidationRules.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidationRules.swift; sourceTree = "<group>"; };
 		96C55413219044D00065D70A /* EventsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsListViewController.swift; sourceTree = "<group>"; };
 		96C5541921918CB90065D70A /* TrendingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendingCell.swift; sourceTree = "<group>"; };
 		96C5541A21918CB90065D70A /* TrendingCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TrendingCell.xib; sourceTree = "<group>"; };
@@ -319,7 +321,8 @@
 			children = (
 				966A6CC6217DC16500DF872F /* Colors.swift */,
 				96799FE121889D520074C828 /* Animations.swift */,
-				96799FE3218AF8E60074C828 /* Hashtags.swift */,
+				96B0BE4121EF2235003C9BA5 /* ValidationRules.swift */,
+				96799FE3218AF8E60074C828 /* Hashtag.swift */,
 				96799FE5218C5A270074C828 /* ImageOverlay.swift */,
 				96C554302192CBCE0065D70A /* GlobalCornerRadius.swift */,
 				96C5544F219438F00065D70A /* PagedCollectionViewLayout.swift */,
@@ -616,6 +619,7 @@
 				"${BUILT_PRODUCTS_DIR}/SkyFloatingLabelTextField/SkyFloatingLabelTextField.framework",
 				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftGifOrigin/SwiftGifOrigin.framework",
+				"${BUILT_PRODUCTS_DIR}/Validator/Validator.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
@@ -650,6 +654,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SkyFloatingLabelTextField.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftGifOrigin.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Validator.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -746,10 +751,11 @@
 				96862EB9219ACE1F00F709B0 /* EventDetailsViewController.swift in Sources */,
 				CA550AA621706A65008E493D /* AppDelegate.swift in Sources */,
 				965838C221831866000FE8B0 /* NewsCellType5.swift in Sources */,
+				96B0BE4221EF2235003C9BA5 /* ValidationRules.swift in Sources */,
 				9620021C21DDFDED0055D070 /* LoginView.swift in Sources */,
 				96625F7F21C8C8030086A2B2 /* EventDetails.swift in Sources */,
 				966A6CC5217DBDC400DF872F /* SettingsViewController.swift in Sources */,
-				96799FE4218AF8E70074C828 /* Hashtags.swift in Sources */,
+				96799FE4218AF8E70074C828 /* Hashtag.swift in Sources */,
 				96C554312192CBCE0065D70A /* GlobalCornerRadius.swift in Sources */,
 				96C55414219044D00065D70A /* EventsListViewController.swift in Sources */,
 				966A6CDC218086BC00DF872F /* NewsSectionHeader.swift in Sources */,

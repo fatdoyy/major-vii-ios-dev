@@ -111,8 +111,10 @@ class LoginView: UIView {
         setupRegisterElements()
         
         seperatorLine.backgroundColor = UIColor.white.withAlphaComponent(0.5)
+        
         emailLoginBtn.setTitleColor(.whiteText75Alpha(), for: .normal)
         emailLoginBtn.setTitleColor(.white, for: .selected)
+        
         tcLabel.textColor = .whiteText50Alpha()
     }
     
@@ -134,12 +136,18 @@ class LoginView: UIView {
         regBtn.backgroundColor = .clear
         regBtn.clipsToBounds = true
         regBtn.setTitleColor(.white, for: .normal)
-        regBtn.insertSubview(blurView, belowSubview: regBtn.titleLabel!)
+        regBtn.titleLabel?.adjustsFontSizeToFitWidth = true
         
+        regBtn.insertSubview(blurView, belowSubview: regBtn.titleLabel!)
         blurView.snp.makeConstraints { (make) -> Void in
             make.center.equalTo(regBtn.snp.center)
             make.width.equalTo(UIScreen.main.bounds.size.width - 80)
             make.height.equalTo(regBtn.bounds.height)
+        }
+        
+        if UIScreen.main.nativeBounds.height == 1136 { //lowering this constant on iPhone SE
+            regPwRefillTextFieldBottomConstraint.constant = 45
+            layoutIfNeeded()
         }
     }
     
@@ -159,6 +167,7 @@ class LoginView: UIView {
         
         emailTextField.delegate = self
         emailTextField.returnKeyType = .next
+        emailTextField.autocorrectionType = .no
         emailTextField.placeholder = "Email"
         emailTextField.placeholderFont = UIFont.systemFont(ofSize: 12, weight: .regular)
         emailTextField.placeholderColor = .white15Alpha()
@@ -227,6 +236,7 @@ class LoginView: UIView {
         loginActionBtn.clipsToBounds = true
         loginActionBtn.layer.cornerRadius = GlobalCornerRadius.value
         loginActionBtn.setTitleColor(.white, for: .normal)
+        loginActionBtn.titleLabel?.adjustsFontSizeToFitWidth = true
         
         loginActionBtn.insertSubview(loginActionBtnGradientBg, at: 0)
         loginActionBtnGradientBg.snp.makeConstraints { (make) -> Void in
@@ -257,6 +267,7 @@ class LoginView: UIView {
         
         regEmailTextField.delegate = self
         regEmailTextField.returnKeyType = .next
+        regEmailTextField.autocorrectionType = .no
         regEmailTextField.placeholder = "Email"
         regEmailTextField.placeholderFont = UIFont.systemFont(ofSize: 12, weight: .regular)
         regEmailTextField.placeholderColor = .white15Alpha()
@@ -356,6 +367,8 @@ class LoginView: UIView {
         regActionBtn.backgroundColor = .clear
         regActionBtn.clipsToBounds = true
         regActionBtn.setTitleColor(.white, for: .normal)
+        regActionBtn.titleLabel?.adjustsFontSizeToFitWidth = true
+        
         regActionBtn.insertSubview(regActionBtnGradientBg, at: 0)
         regActionBtnGradientBg.snp.makeConstraints { (make) -> Void in
             make.center.equalTo(regBtn.snp.center)
@@ -398,13 +411,18 @@ class LoginView: UIView {
         if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
             let keyboardRectangle = keyboardFrame.cgRectValue
             let keyboardMinY = keyboardRectangle.minY
-            print(self.loginActionBtn.frame.minY)
             
             //animate the constraint's constant change
             UIView.animate(withDuration: 0.3) {
+ 
                 let keyboardTopPlus40 = self.loginActionBtn.frame.minY - keyboardMinY + 40
                 self.pwTextFieldBgBottomConstraint.constant = keyboardTopPlus40
                 self.regPwRefillTextFieldBottomConstraint.constant = keyboardTopPlus40
+                
+                if UIScreen.main.nativeBounds.height == 1136 && self.regEmailTextFieldBg.alpha != 0 { //hide descLabel on iPhone SE
+                    self.descLabel.alpha = 0
+                }
+                
                 self.layoutIfNeeded()
             }
         }
@@ -413,8 +431,13 @@ class LoginView: UIView {
     @objc func keyboardWillDisappear() {
         print("keyboard hidden")
         UIView.animate(withDuration: 0.3) {
+            if UIScreen.main.nativeBounds.height == 1136 { //show descLabel on iPhone SE
+                self.descLabel.alpha = 1
+                self.regPwRefillTextFieldBottomConstraint.constant = 45
+            } else {
+                self.regPwRefillTextFieldBottomConstraint.constant = 75
+            }
             self.pwTextFieldBgBottomConstraint.constant = 75 //default is 75
-            self.regPwRefillTextFieldBottomConstraint.constant = 75
             self.layoutIfNeeded()
         }
     }

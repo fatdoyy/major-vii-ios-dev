@@ -44,6 +44,7 @@ target 'major-7-ios' do
   pod 'SkyFloatingLabelTextField', '~> 3.0'     # floating label above textfield
   pod 'NVActivityIndicatorView'                 # as title
   
-  pod 'ImageViewer', :inhibit_warnings => true, :git=> 'https://github.com/mezhevikin/ImageViewer'                  # as title
+  pod 'Validator', :git => 'https://github.com/kikikiktai/Validator.git'                            # UITextField validation
+  pod 'ImageViewer', :inhibit_warnings => true, :git=> 'https://github.com/mezhevikin/ImageViewer'  # as title
 
 end
