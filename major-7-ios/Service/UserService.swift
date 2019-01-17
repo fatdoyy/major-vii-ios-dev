@@ -23,9 +23,9 @@ class UserService: NSObject {
     static var sharedInstance = UserService()
     
     var delegate: UserServiceDelegate?
-    
+
     static var hud = JGProgressHUD(style: .light)
-    
+
     override init() {
         super.init()
         UserService.hud.vibrancyEnabled = true
@@ -33,20 +33,44 @@ class UserService: NSObject {
         GIDSignIn.sharedInstance().uiDelegate = self
     }
     
-    class func isUserLoggedIn() -> Bool {
-        if AccessToken.current == nil || GIDSignIn.sharedInstance()?.hasAuthInKeychain() == false {
-            return false
-        } else {
-            return true
+    struct User {
+        //check current user
+        static func isLoggedIn() -> Bool {
+            let notLoggedIn = hasUserId() == false || hasAccessToken() == false || hasRefreshToken() == false
+            return true != notLoggedIn
+        }
+        
+        //logout
+        static func logOut(fromVC: UIViewController) {
+            UserDefaults.standard.removeObject(forKey: LOCAL_KEY.USER_ID)
+            UserDefaults.standard.removeObject(forKey: LOCAL_KEY.ACCESS_TOKEN)
+            UserDefaults.standard.removeObject(forKey: LOCAL_KEY.REFRESH_TOKEN)
+            
+            //Optional?
+            //FB.logOut()
+            //Google.logOut()
+        }
+        
+        //check if has user id/tokens
+        static func hasUserId() -> Bool {
+            return false != UserDefaults.standard.hasValue(LOCAL_KEY.USER_ID)
+        }
+        
+        static func hasAccessToken() -> Bool {
+            return false != UserDefaults.standard.hasValue(LOCAL_KEY.ACCESS_TOKEN)
+        }
+        
+        static func hasRefreshToken() -> Bool {
+            return false != UserDefaults.standard.hasValue(LOCAL_KEY.REFRESH_TOKEN)
         }
     }
-    
+
 }
 
 //facebook login
 extension UserService {
     struct FB{
-        static func login(fromVC: UIViewController){
+        static func logIn(fromVC: UIViewController){
             
             let loginManager = LoginManager()
             
@@ -62,6 +86,7 @@ extension UserService {
                     print("declinedPermissions - \(declinedPermissions)")
                     
                     //show hud
+                    hud.indicatorView = JGProgressHUDIndeterminateIndicatorView()
                     hud.textLabel.text = "Working Hard..."
                     hud.detailTextLabel.text = "Calling to Facebook... (☞ﾟ∀ﾟ)☞"
                     hud.layoutMargins = UIEdgeInsets.init(top: 10.0, left: 10.0, bottom: 10.0, right: 10.0)
@@ -76,46 +101,78 @@ extension UserService {
             let graphRequest: GraphRequest = GraphRequest(graphPath: "me", parameters: ["fields": "first_name, email, picture.type(large)"], accessToken: accessToken, httpMethod: .GET)
             graphRequest.start({ (response, result) in
                 switch result {
-                case .failed(let error):
-                    print(error)
                 case .success(let result):
-                    if let dict = result.dictionaryValue {
+                    if let fbResponse = result.dictionaryValue {
                         
-                        let userId  = dict["id"] as! String
-                        let email   = dict["email"] as! String
-                        let name    = dict["first_name"] as! String
+                        let userId  = fbResponse["id"] as! String
+                        let email   = fbResponse["email"] as! String
+                        let name    = fbResponse["first_name"] as! String
+                        print("Successfully fetched data from Facebook, proceeding to request JWT...")
                         
                         //After getting user details on FB, register/login to Major VII
                         loginRequest(token: accessToken.authenticationToken, userId: userId, email: email, name: name, dismissVC: vc).done { response in
-                            print(response)
-                            
-                            UIView.animate(withDuration: 0.25, animations: {
-                                hud.textLabel.text = "Hello \(name)! (ᵔᴥᵔ)"
-                                hud.detailTextLabel.text = nil
-                                hud.indicatorView = JGProgressHUDSuccessIndicatorView()
-                            })
-                            
+                            if let apiResponse = response as? [String: Any] {
+                                print(apiResponse)
+                                if apiResponse["success"] != nil { //200 OK
+                                    /* NOTE: We can't get the response's HTTPStatusCode here because of the way we handle http request (Alamofire + PromiseKit), by the way here the response must be 200 OK from Alamofire, so we need to check the content(key) of the response (i.e. success = 1; error: "message") */
+                                    print("Sucecssfully created MajorVII account")
+                                    HapticFeedback.createNotificationFeedback(style: .success)
+                                    
+                                    //animate hud change
+                                    UIView.animate(withDuration: 0.25, animations: {
+                                        hud.indicatorView = JGProgressHUDSuccessIndicatorView()
+                                        hud.textLabel.text = "Hello \(name)! (ᵔᴥᵔ)"
+                                        hud.detailTextLabel.text = nil
+                                    })
+                                    
+                                    //save tokens/user id to local
+                                    UserDefaults.standard.set(apiResponse["user_id"], forKey: LOCAL_KEY.USER_ID)
+                                    UserDefaults.standard.set(apiResponse["access_token"], forKey: LOCAL_KEY.ACCESS_TOKEN)
+                                    UserDefaults.standard.set(apiResponse["refresh_token"], forKey: LOCAL_KEY.REFRESH_TOKEN)
+                                    
+                                    NotificationCenter.default.post(name: .loginCompleted, object: nil)
+                                    
+                                } else { //api respond error
+                                    HapticFeedback.createNotificationFeedback(style: .error)
+
+                                    if let errorObj = apiResponse["error"] as? [String: Any] {
+                                        if let errorMsg = errorObj["msg"] {
+                                            UIView.animate(withDuration: 0.25, animations: {
+                                                hud.indicatorView = JGProgressHUDErrorIndicatorView()
+                                                hud.textLabel.text = "Error: \(errorMsg)"
+                                                hud.detailTextLabel.text = nil
+                                            })
+                                        }
+                                    } else {
+                                        UIView.animate(withDuration: 0.25, animations: {
+                                            hud.indicatorView = JGProgressHUDErrorIndicatorView()
+                                            hud.textLabel.text = "Unknown Error"
+                                            hud.detailTextLabel.text = nil
+                                        })
+                                    }
+                                }
+                            }
                             }.ensure  {
                                 hud.dismiss(afterDelay: 0.75)
-                                HapticFeedback.createNotificationFeedback(style: .success)
-                                NotificationCenter.default.post(name: .loginCompleted, object: nil)
                                 UIApplication.shared.isNetworkActivityIndicatorVisible = false
                             }.catch { error in }
                     }
+                case .failed(let error):
+                    print("Failed to fetch data from Facebook: \(error)")
                 }
             })
         }
         
-        //Login to Major VII using facebook
+        //Login to Major VII with facebook params
         static func loginRequest(token: String, userId: String, email: String, name: String, dismissVC: UIViewController) -> Promise<Any> {
-            var param: [String : Any] = [:]
-            param["fbAccessToken"]  = token
-            param["fbUserId"]       = userId
-            param["fbEmail"]        = email
-            param["fbName"]         = name
+            var params: [String: Any] = [:]
+            params["fbAccessToken"]  = token
+            params["fbUserId"]       = userId
+            params["fbEmail"]        = email
+            params["fbName"]         = name
             
             return Promise { resolver in
-                BaseService.request(method: .post, url: BaseService.getActionPath(.fbLogin), param: param).done { response in
+                BaseService.request(method: .post, url: BaseService.getActionPath(.fbLogin), params: params).done { response in
                     resolver.fulfill(response)
                     }.catch { error in
                         resolver.reject(error)
@@ -123,9 +180,11 @@ extension UserService {
             }
         }
         
-        //logout
+        //FB logout, NOTE: NOT Major VII Logout
         static func logOut(){
-            LoginManager().logOut()
+            if AccessToken.current == nil {
+                LoginManager().logOut()
+            }
         }
         
     }
@@ -134,13 +193,22 @@ extension UserService {
 //google login
 extension UserService: GIDSignInDelegate, GIDSignInUIDelegate {
     struct Google {
-        static func login(fromVC: UIViewController) {
+        static func logIn(fromVC: UIViewController) {
             
             GIDSignIn.sharedInstance().signIn()
             
             //hud.textLabel.text = "123..."
+            hud.indicatorView = JGProgressHUDIndeterminateIndicatorView()
             hud.layoutMargins = UIEdgeInsets.init(top: 10.0, left: 10.0, bottom: 10.0, right: 10.0)
             hud.show(in: fromVC.view)
+        }
+        
+        //Google logout, NOTE: NOT Major VII logout
+        static func logOut() {
+            if GIDSignIn.sharedInstance()?.hasAuthInKeychain() == true {
+                GIDSignIn.sharedInstance()?.signOut()
+                GIDSignIn.sharedInstance()?.disconnect()
+            }
         }
     }
     
@@ -148,27 +216,58 @@ extension UserService: GIDSignInDelegate, GIDSignInUIDelegate {
     func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
         if let error = error {
             print("\(error.localizedDescription)")
-        } else { // Perform any operations on signed in user here.
+        } else { // Perform any operations on Google signed in user here.
             //let dimension = round(100 * UIScreen.main.scale)
             //let pic = user.profile.imageURL(withDimension: UInt(dimension))
             
             if let userId = user.userID, let token = user.authentication.idToken, let name = user.profile.givenName, let email = user.profile.email {
                 
-                print("userid = \(userId), token = \(token), name = \(name), email = \(email)")
+                print("Successfully fetched data from Google\nuserid = \(userId)\ntoken = \(token)\nname = \(name)\nemail = \(email)\nProceeding to request JWT...")
                 
                 loginRequest(token: token, userId: userId, email: email, name: name).done { response in
-                    print(response)
-                    
-                    UIView.animate(withDuration: 0.25, animations: {
-                        UserService.hud.textLabel.text = "Hello \(name)! (ᵔᴥᵔ)"
-                        UserService.hud.detailTextLabel.text = nil
-                        UserService.hud.indicatorView = JGProgressHUDSuccessIndicatorView()
-                    })
-                    
+                    if let apiResponse = response as? [String: Any] {
+                        print(apiResponse)
+                        if apiResponse["success"] != nil { //200 OK
+                            /* NOTE: We can't get the response's HTTPStatusCode here because of the way we handle http request (Alamofire + PromiseKit), by the way here the response must be 200 OK from Alamofire, so we need to check the content(key) of the response (i.e. success = 1; error: "message") */
+                            print("Sucecssfully created MajorVII account")
+                            HapticFeedback.createNotificationFeedback(style: .success)
+
+                            //animate hud change
+                            UIView.animate(withDuration: 0.25, animations: {
+                                UserService.hud.indicatorView = JGProgressHUDSuccessIndicatorView()
+                                UserService.hud.textLabel.text = "Hello \(name)! (ᵔᴥᵔ)"
+                                UserService.hud.detailTextLabel.text = nil
+                            })
+                            
+                            //save tokens/user id to local
+                            UserDefaults.standard.set(apiResponse["user_id"], forKey: LOCAL_KEY.USER_ID)
+                            UserDefaults.standard.set(apiResponse["access_token"], forKey: LOCAL_KEY.ACCESS_TOKEN)
+                            UserDefaults.standard.set(apiResponse["refresh_token"], forKey: LOCAL_KEY.REFRESH_TOKEN)
+                            
+                            NotificationCenter.default.post(name: .loginCompleted, object: nil)
+
+                        } else { //api respond error
+                            HapticFeedback.createNotificationFeedback(style: .error)
+                            
+                            if let errorObj = apiResponse["error"] as? [String: Any] {
+                                if let errorMsg = errorObj["msg"] {
+                                    UIView.animate(withDuration: 0.25, animations: {
+                                        UserService.hud.indicatorView = JGProgressHUDErrorIndicatorView()
+                                        UserService.hud.textLabel.text = "Error: \(errorMsg)"
+                                        UserService.hud.detailTextLabel.text = nil
+                                    })
+                                }
+                            } else {
+                                UIView.animate(withDuration: 0.25, animations: {
+                                    UserService.hud.indicatorView = JGProgressHUDErrorIndicatorView()
+                                    UserService.hud.textLabel.text = "Unknown Error"
+                                    UserService.hud.detailTextLabel.text = nil
+                                })
+                            }
+                        }
+                    }
                     }.ensure  {
                         UserService.hud.dismiss(afterDelay: 0.75)
-                        HapticFeedback.createNotificationFeedback(style: .success)
-                        NotificationCenter.default.post(name: .loginCompleted, object: nil)
                         UIApplication.shared.isNetworkActivityIndicatorVisible = false
                     }.catch { error in }
             }
@@ -177,14 +276,14 @@ extension UserService: GIDSignInDelegate, GIDSignInUIDelegate {
     
     //Login to Major VII using google
     private func loginRequest(token: String, userId: String, email: String, name: String) -> Promise<Any> {
-        var param: [String : Any] = [:]
-        param["idToken"]    = token
-        param["email"]      = email
-        param["userId"]     = userId
-        param["userName"]   = name
+        var params: [String: Any] = [:]
+        params["idToken"]    = token
+        params["email"]      = email
+        params["userId"]     = userId
+        params["userName"]   = name
         
         return Promise { resolver in
-            BaseService.request(method: .post, url: BaseService.getActionPath(.googleLogin), param: param).done { response in
+            BaseService.request(method: .post, url: BaseService.getActionPath(.googleLogin), params: params).done { response in
                 resolver.fulfill(response)
                 }.catch { error in
                     resolver.reject(error)
@@ -215,14 +314,22 @@ extension UserService {
         static func login(email: String, password: String, loginView: LoginView) {
             loginRequest(email: email, password: password).done { response in
                 print(response)
-                if let dict = response as? [String:Any] {
-                    /* NOTE: We can't get the response's HTTPStatusCode here because of the way we handle http request (Alamofire + PromiseKit), by the way here the response must be 200 OK from Alamofire, so we need to check the content(key) of the response (i.e. success = 1; error: "message") */
-                    if dict["success"] != nil { //200 OK
+                if let apiResponse = response as? [String: Any] {
+                    if apiResponse["success"] != nil { //200 OK
+                        /* NOTE: We can't get the response's HTTPStatusCode here because of the way we handle http request (Alamofire + PromiseKit), by the way here the response must be 200 OK from Alamofire, so we need to check the content(key) of the response (i.e. success = 1; error: "message") */
+                        print("Sucecssfully logged in MajorVII account")
+                        HapticFeedback.createNotificationFeedback(style: .success)
+                        
                         //hide indicator
                         UIView.animate(withDuration: 0.2) {
                             loginView.loginActivityIndicator.alpha = 0
                             loginView.loginActivityIndicator.stopAnimating()
                         }
+                        
+                        //save tokens/user id to local
+                        UserDefaults.standard.set(apiResponse["user_id"], forKey: LOCAL_KEY.USER_ID)
+                        UserDefaults.standard.set(apiResponse["access_token"], forKey: LOCAL_KEY.ACCESS_TOKEN)
+                        UserDefaults.standard.set(apiResponse["refresh_token"], forKey: LOCAL_KEY.REFRESH_TOKEN)
                         
                         //animate title change
                         UIView.transition(with: loginView.loginActionBtn, duration: 0.2, options: .transitionCrossDissolve, animations: {
@@ -230,10 +337,9 @@ extension UserService {
                             loginView.loginActionBtn.setTitleColor(.whiteText50Alpha(), for: .normal)
                         }, completion: nil)
                         
-                        HapticFeedback.createNotificationFeedback(style: .success)
                         NotificationCenter.default.post(name: .loginCompleted, object: nil)
                         
-                    } else { //server response error
+                    } else { //api respond error
                         HapticFeedback.createNotificationFeedback(style: .error)
                         
                         //hide indicator
@@ -244,8 +350,8 @@ extension UserService {
                         
                         //animate title change to error msg
                         UIView.transition(with: loginView.loginActionBtn, duration: 0.2, options: .transitionCrossDissolve, animations: {
-                            if let errorDict = dict["error"] as? Dictionary<String, Any> {
-                                if let errorMsg = errorDict["msg"] {
+                            if let errorObj = apiResponse["error"] as? [String: Any] {
+                                if let errorMsg = errorObj["msg"] {
                                     loginView.loginActionBtn.setTitle("\(errorMsg)!", for: .normal)
                                 }
                             } else {
@@ -265,7 +371,7 @@ extension UserService {
                         }
                     }
                 } else {
-                    print("can't cast response to as [String:Any]")
+                    print("can't cast response to as [String: Any]")
                 }
                 }.ensure {
                     UIApplication.shared.isNetworkActivityIndicatorVisible = false
@@ -275,21 +381,34 @@ extension UserService {
         static func register(email: String, password: String, loginView: LoginView) {
             registerRequest(email: email, password: password).done { response in
                 print(response)
-                if let dict = response as? [String:Any] {
-                    /* NOTE: We can't get the response's HTTPStatusCode here because of the way we handle http request (Alamofire + PromiseKit), by the way here the response must be 200 OK from Alamofire, so we need to check the content(key) of the response (i.e. success = 1; error: "message") */
-                    if dict["success"] != nil { //200 OK
+                if let apiResponse = response as? [String: Any] {
+                    if apiResponse["success"] != nil { //200 OK
+                        /* NOTE: We can't get the response's HTTPStatusCode here because of the way we handle http request (Alamofire + PromiseKit), by the way here the response must be 200 OK from Alamofire, so we need to check the content(key) of the response (i.e. success = 1; error: "message") */
+                        print("Sucecssfully created MajorVII account")
+                        HapticFeedback.createNotificationFeedback(style: .success)
+                        
                         //hide indicator
                         UIView.animate(withDuration: 0.2) {
                             loginView.regActivityIndicator.alpha = 0
                             loginView.regActivityIndicator.stopAnimating()
                         }
+                        
+                        //save tokens/user id to local
+                        UserDefaults.standard.set(apiResponse["user_id"], forKey: LOCAL_KEY.USER_ID)
+                        UserDefaults.standard.set(apiResponse["access_token"], forKey: LOCAL_KEY.ACCESS_TOKEN)
+                        UserDefaults.standard.set(apiResponse["refresh_token"], forKey: LOCAL_KEY.REFRESH_TOKEN)
                         
                         //animate title change
                         UIView.transition(with: loginView.regActionBtn, duration: 0.2, options: .transitionCrossDissolve, animations: {
                             loginView.regActionBtn.setTitle("冊已註！ (づ｡◕‿‿◕｡)づ", for: .normal)
                             loginView.regActionBtn.setTitleColor(.whiteText75Alpha(), for: .normal)
                         }, completion: nil)
+                        
+                        NotificationCenter.default.post(name: .loginCompleted, object: nil)
+
                     } else {
+                        HapticFeedback.createNotificationFeedback(style: .error)
+                        
                         //hide indicator
                         UIView.animate(withDuration: 0.2) {
                             loginView.regActivityIndicator.alpha = 0
@@ -298,8 +417,8 @@ extension UserService {
                         
                         //animate title change
                         UIView.transition(with: loginView.regActionBtn, duration: 0.2, options: .transitionCrossDissolve, animations: {
-                            if let errorDict = dict["error"] as? Dictionary<String, Any> {
-                                if let errorMsg = errorDict["msg"] {
+                            if let errorObj = apiResponse["error"] as? [String: Any] {
+                                if let errorMsg = errorObj["msg"] {
                                     loginView.regActionBtn.setTitle("\(errorMsg)!", for: .normal)
                                 }
                             } else {
@@ -317,21 +436,20 @@ extension UserService {
                         }
                     }
                 } else {
-                    print("can't cast response to as [String:Any]")
+                    print("can't cast response to as [String: Any]")
                 }
                 }.ensure {
-                    NotificationCenter.default.post(name: .loginCompleted, object: nil)
                     UIApplication.shared.isNetworkActivityIndicatorVisible = false
                 }.catch { error in }
         }
         
         static func loginRequest(email: String, password: String) -> Promise<Any> {
-            var param: [String : Any] = [:]
-            param["email"]        = email
-            param["password"]     = password
+            var params: [String: Any] = [:]
+            params["email"]        = email
+            params["password"]     = password
             
             return Promise { resolver in
-                BaseService.request(method: .post, url: BaseService.getActionPath(.emailLogin), param: param).done { response in
+                BaseService.request(method: .post, url: BaseService.getActionPath(.emailLogin), params: params).done { response in
                     resolver.fulfill(response)
                     }.catch { error in
                         resolver.reject(error)
@@ -340,12 +458,12 @@ extension UserService {
         }
         
         static func registerRequest(email: String, password: String) -> Promise<Any> {
-            var param: [String : Any] = [:]
+            var param: [String: Any] = [:]
             param["email"]        = email
             param["password"]     = password
             
             return Promise { resolver in
-                BaseService.request(method: .post, url: BaseService.getActionPath(.emailReg), param: param).done { response in
+                BaseService.request(method: .post, url: BaseService.getActionPath(.emailReg), params: param).done { response in
                     resolver.fulfill(response)
                     }.catch { error in
                         resolver.reject(error)
@@ -358,3 +476,11 @@ extension UserService {
 extension Notification.Name {
     static let loginCompleted = Notification.Name("loginCompleted")
 }
+
+//check key has value
+extension UserDefaults {
+    func hasValue(_ key: String) -> Bool {
+        return nil != object(forKey: key)
+    }
+}
+

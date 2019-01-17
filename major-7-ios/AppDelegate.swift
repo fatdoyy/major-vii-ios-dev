@@ -17,6 +17,10 @@ import GoogleSignIn
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+    
+    let USER_ID = "lang"
+    let ACCESS_TOKEN = "ar_text_size"
+    let REFRESH_TOKEN = "ar_text_color"
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         //firebase
@@ -27,16 +31,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         //google login
         GIDSignIn.sharedInstance().clientID = "1044647301084-uomk81nqohoq7vv28eakhqgbvgj5pbsr.apps.googleusercontent.com"
-        
-        UserService.FB.logOut()
-        GIDSignIn.sharedInstance()?.signOut()
-        GIDSignIn.sharedInstance()?.disconnect()
 
         //dark UI elements
         UITabBar.appearance().barTintColor = UIColor(red:0.13, green:0.13, blue:0.13, alpha:0.75)
         UITabBar.appearance().tintColor = .white
         UITextField.appearance().keyboardAppearance = .dark
        
+        //UserDefaults
+        UserDefaults.standard.set("", forKey: self.USER_ID)
+        UserDefaults.standard.set("", forKey: "USER_ID")
+        UserDefaults.standard.set("", forKey: "USER_ID")
+        
         return true
     }
 

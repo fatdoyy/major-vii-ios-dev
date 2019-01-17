@@ -10,24 +10,34 @@ import UIKit
 
 class SettingsViewController: UIViewController {
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        view.backgroundColor = .darkGray()
-        // Do any additional setup after loading the view.
-    }
+    @IBOutlet weak var logInOrOutBtn: UIButton!
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        view.backgroundColor = .darkGray()
+        if UserService.User.isLoggedIn() {
+            logInOrOutBtn.setTitle("Log Out", for: .normal)
+        } else {
+            logInOrOutBtn.setTitle("Log In", for: .normal)
+        }
+        
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+        // Do any additional setup after loading the view.
     }
-    */
 
+
+    @IBAction func didTapLogInOrOutBtn(_ sender: Any) {
+        if logInOrOutBtn.title(for: .normal) == "Log In" {
+            let loginVC = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "loginVC") as! LoginViewController
+            self.present(loginVC, animated: true, completion: nil)
+            logInOrOutBtn.setTitle("Log Out", for: .normal)
+        } else {
+            UserService.User.logOut(fromVC: self)
+            logInOrOutBtn.setTitle("Log In", for: .normal)
+        }
+    }
 }

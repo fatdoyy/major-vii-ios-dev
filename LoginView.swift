@@ -14,6 +14,7 @@ import Localize_Swift
 import NVActivityIndicatorView
 
 protocol LoginViewDelegate{
+    func didTapDismissBtn()
     func didTapFbLogin()
     func didTapGoogleLogin()
     func didTapRegisterBtn()
@@ -30,6 +31,10 @@ class LoginView: UIView {
     
     @IBOutlet weak var videoBg: UIImageView!
     @IBOutlet weak var videoOverlay: UIView!
+    
+    @IBOutlet weak var dismissBtn: UIButton!
+    @IBOutlet weak var dismissBtnTopConstraint: NSLayoutConstraint!
+    @IBOutlet weak var dismissBtnLeadingConstraint: NSLayoutConstraint!
     
     @IBOutlet weak var logo: UIImageView!
     @IBOutlet weak var descLabel: UILabel!
@@ -106,6 +111,11 @@ class LoginView: UIView {
         
         descLabel.textColor = .whiteText()
         
+        if UIScreen.main.nativeBounds.height != 1792 || UIScreen.main.nativeBounds.height != 2436 || UIScreen.main.nativeBounds.height != 2688 { //if device is not iPhone X, XR, XS, XS Max
+            self.dismissBtnTopConstraint.constant = -20
+            self.dismissBtnLeadingConstraint.constant = 12.5
+        }
+        
         setupSocialLoginElements()
         setupEmailLoginElements()
         setupRegisterElements()
@@ -173,8 +183,8 @@ class LoginView: UIView {
         emailTextField.placeholderColor = .white15Alpha()
         emailTextField.title = "Email"
         emailTextField.titleFont = UIFont.systemFont(ofSize: 12, weight: .medium)
-        emailTextField.titleColor = .darkPurple()
-        emailTextField.selectedTitleColor = .lightPurple()
+        emailTextField.titleColor = .whiteText75Alpha()
+        emailTextField.selectedTitleColor = .whiteText()
         emailTextField.titleFormatter = { $0 } //disable title uppercase
         emailTextField.textColor = .whiteText80Alpha()
         emailTextField.lineHeight = 1.25
@@ -203,7 +213,7 @@ class LoginView: UIView {
         pwTextField.placeholderColor = .white15Alpha()
         pwTextField.title = "Password"
         pwTextField.titleFont = UIFont.systemFont(ofSize: 12, weight: .medium)
-        pwTextField.titleColor = .darkPurple()
+        pwTextField.titleColor = .whiteText75Alpha()
         pwTextField.selectedTitleColor = .lightPurple()
         pwTextField.titleFormatter = { $0 } //disable title uppercase
         pwTextField.textColor = .whiteText80Alpha()
@@ -273,7 +283,7 @@ class LoginView: UIView {
         regEmailTextField.placeholderColor = .white15Alpha()
         regEmailTextField.title = "Email"
         regEmailTextField.titleFont = UIFont.systemFont(ofSize: 12, weight: .medium)
-        regEmailTextField.titleColor = .darkPurple()
+        regEmailTextField.titleColor = .whiteText75Alpha()
         regEmailTextField.selectedTitleColor = .lightPurple()
         regEmailTextField.titleFormatter = { $0 } //disable title uppercase
         regEmailTextField.textColor = .whiteText80Alpha()
@@ -303,7 +313,7 @@ class LoginView: UIView {
         regPwTextField.placeholderColor = .white15Alpha()
         regPwTextField.title = "Password"
         regPwTextField.titleFont = UIFont.systemFont(ofSize: 12, weight: .medium)
-        regPwTextField.titleColor = .darkPurple()
+        regPwTextField.titleColor = .whiteText75Alpha()
         regPwTextField.selectedTitleColor = .lightPurple()
         regPwTextField.titleFormatter = { $0 } //disable title uppercase
         regPwTextField.textColor = .whiteText80Alpha()
@@ -333,7 +343,7 @@ class LoginView: UIView {
         regPwRefillTextField.placeholderColor = .white15Alpha()
         regPwRefillTextField.title = "Confirm Password"
         regPwRefillTextField.titleFont = UIFont.systemFont(ofSize: 12, weight: .medium)
-        regPwRefillTextField.titleColor = .darkPurple()
+        regPwRefillTextField.titleColor = .whiteText75Alpha()
         regPwRefillTextField.selectedTitleColor = .lightPurple()
         regPwRefillTextField.titleFormatter = { $0 } //disable title uppercase
         regPwRefillTextField.textColor = .whiteText80Alpha()
@@ -380,6 +390,10 @@ class LoginView: UIView {
             view.alpha = 0
             view.isUserInteractionEnabled = false
         }
+    }
+    
+    @IBAction func didTapDismissBtn(_ sender: Any) {
+        delegate?.didTapDismissBtn()
     }
     
     @IBAction func didTapFbLogin(_ sender: Any) {

@@ -21,13 +21,12 @@ class HomeViewController: UIViewController, UIGestureRecognizerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .darkGray()
-        
-        
-        if UserService.isUserLoggedIn() == false {
+
+        //check if we need to present loginVC
+        if UserService.User.isLoggedIn() == false {
             let loginVC = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "loginVC") as! LoginViewController
             self.present(loginVC, animated: true, completion: nil)
         }
-        
         
         self.tabBarController?.delegate = self
         

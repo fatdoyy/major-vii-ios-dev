@@ -14,7 +14,7 @@ import Validator
 
 class LoginViewController: UIViewController {
     
-    override var prefersStatusBarHidden: Bool{
+    override var prefersStatusBarHidden: Bool {
         return true
     }
     
@@ -61,16 +61,19 @@ class LoginViewController: UIViewController {
 //MARK: Login / Register Delegate
 extension LoginViewController: LoginViewDelegate, UserServiceDelegate {
     
+    func didTapDismissBtn(){
+        self.dismiss(animated: true, completion: nil)
+    }
+    
     //fb login
     func didTapFbLogin() {
-        UserService.FB.login(fromVC: self)
+        UserService.FB.logIn(fromVC: self)
     }
     
     //google login
     func didTapGoogleLogin() {
         userService.delegate = self
-        UserService.Google.login(fromVC: self)
-        //UserService.login(fromVc: self)
+        UserService.Google.logIn(fromVC: self)
     }
     
     func googleLoginPresent(_ viewController: UIViewController) {
@@ -85,7 +88,7 @@ extension LoginViewController: LoginViewDelegate, UserServiceDelegate {
         print("1234567")
     }
     
-    //register btn, NOTE: not register action
+    //register btn, NOTE: NOT register action
     func didTapRegisterBtn() {
         //hide social login elements
         for view in loginView.socialLoginElements {
@@ -106,7 +109,7 @@ extension LoginViewController: LoginViewDelegate, UserServiceDelegate {
         }
     }
     
-    //email login, NOTE: not email action
+    //email login, NOTE: NOT email login action
     func didTapEmailLogin() {
         if loginView.emailLoginBtn.title(for: .normal) == "已經有Account? 立即登入！" {
             //hide social login elements
@@ -156,7 +159,7 @@ extension LoginViewController: LoginViewDelegate, UserServiceDelegate {
         }
     }
     
-    //email login
+    //email login action
     func didTapLoginAction() {
         if let inputtedEmail = loginView.emailTextField.text, let inputtedPw = loginView.pwTextField.text {
             loginView.loginActionBtn.isUserInteractionEnabled = false
@@ -238,7 +241,7 @@ extension LoginViewController: LoginViewDelegate, UserServiceDelegate {
         }
     }
     
-    //register section
+    //register action
     func didTapRegAction() {
         if let inputtedEmail = loginView.regEmailTextField.text, let inputtedPw = loginView.regPwTextField.text, let inputtedPwRefill = loginView.regPwRefillTextField.text {
             loginView.regActionBtn.isUserInteractionEnabled = false
