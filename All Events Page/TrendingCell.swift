@@ -34,7 +34,7 @@ class TrendingCell: UICollectionViewCell {
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var imageOverlay: ImageOverlay!
     @IBOutlet weak var bookmarkBtn: UIButton!
-    var bookmarkBtnIndicator = NVActivityIndicatorView(frame: CGRect(origin: CGPoint.zero, size: CGSize(width: 12, height: 12)))
+    var bookmarkBtnIndicator = NVActivityIndicatorView(frame: CGRect(origin: CGPoint.zero, size: CGSize(width: 12, height: 12)), type: .lineScale)
     @IBOutlet weak var bookmarkCountLabel: UILabel!
     
     @IBOutlet var skeletonViews: Array<UILabel>!
@@ -60,7 +60,6 @@ class TrendingCell: UICollectionViewCell {
         //activity indicatior
         if UserService.User.isLoggedIn() {
             bookmarkBtn.setImage(nil, for: .normal)
-            bookmarkBtnIndicator.type = .lineScale
             bookmarkBtnIndicator.alpha = 1
             bookmarkBtn.addSubview(bookmarkBtnIndicator)
             bookmarkBtnIndicator.snp.makeConstraints { (make) -> Void in
@@ -98,8 +97,8 @@ class TrendingCell: UICollectionViewCell {
     
     override func prepareForReuse() {
         bookmarkBtn.backgroundColor = .clear
-        bookmarkBtnIndicator.alpha = 0
-        bookmarkBtn.setImage(UIImage(named: "bookmark"), for: .normal)
+        //bookmarkBtn.setImage(UIImage(named: "bookmark"), for: .normal)
+    
     }
     
     override var isHighlighted: Bool {

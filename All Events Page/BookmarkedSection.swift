@@ -8,6 +8,7 @@
 
 import UIKit
 import BouncyLayout
+import NVActivityIndicatorView
 
 protocol BookmarkSectionDelegate{
     func bookmarkedCellTapped()
@@ -18,15 +19,25 @@ class BookmarkedSection: UICollectionViewCell {
     static let reuseIdentifier = "bookmarkSection"
     
     var delegate: BookmarkSectionDelegate?
-    
+        
     static let height: CGFloat = 247
     
     @IBOutlet weak var bookmarkSectionTitle: UILabel!
     @IBOutlet weak var bookmarksCountLabel: UILabel!
     @IBOutlet weak var bookmarksCollectionView: UICollectionView!
     
+    var bookmarkedEvents: [BookmarkedEvent] = [] {
+        didSet {
+            bookmarksCollectionView.reloadData()
+        }
+    }
+    
+    var reloadIndicator = NVActivityIndicatorView(frame: CGRect(origin: CGPoint.zero, size: CGSize(width: 30, height: 30)), type: .lineScale)
+    
     override func awakeFromNib() {
         super.awakeFromNib()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(reloadCollectionView), name: .refreshBookmarkedSection, object: nil)
         
         bookmarkSectionTitle.textColor = .whiteText()
         bookmarkSectionTitle.text = "Your Bookmarks"
@@ -40,6 +51,10 @@ class BookmarkedSection: UICollectionViewCell {
             layout.sectionInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
         }
         
+        if !UserService.User.isLoggedIn() {
+            bookmarksCollectionView.alpha = 0
+        }
+        
         bookmarksCollectionView.dataSource = self
         bookmarksCollectionView.delegate = self
         
@@ -48,13 +63,53 @@ class BookmarkedSection: UICollectionViewCell {
         
         bookmarksCollectionView.backgroundColor = .darkGray()
         bookmarksCollectionView.register(UINib.init(nibName: "BookmarkedCell", bundle: nil), forCellWithReuseIdentifier: BookmarkedCell.reuseIdentifier)
+        
+        reloadIndicator.alpha = 0
+        addSubview(reloadIndicator)
+        reloadIndicator.snp.makeConstraints { make in
+            make.centerX.equalTo(bookmarksCollectionView.snp.centerX)
+            make.centerY.equalTo(bookmarksCollectionView.snp.centerY)
+        }
+        
+        getBookmarkedEvents()
     }
 
+    private func getBookmarkedEvents() {
+        EventService.getBookmarkedEvents().done { response in
+            self.bookmarkedEvents = response.bookmarkedEventsList
+            print("bookmarked events list count: \(response.bookmarkedEventsList.count)")
+            }.ensure {
+                if self.reloadIndicator.alpha != 0 {
+                    UIView.animate(withDuration: 0.2) {
+                        self.reloadIndicator.alpha = 0
+                        self.bookmarksCollectionView.alpha = 1
+                    }
+                    self.reloadIndicator.stopAnimating()
+                }
+                UIApplication.shared.isNetworkActivityIndicatorVisible = false
+            }.catch { error in }
+    }
+    
+    @objc private func reloadCollectionView() {
+        reloadIndicator.startAnimating()
+        UIView.animate(withDuration: 0.2) {
+            self.bookmarksCollectionView.alpha = 0
+            self.reloadIndicator.alpha = 1
+        }
+        
+        getBookmarkedEvents()
+        print("1234567")
+        bookmarksCollectionView.reloadData()
+    }
 }
 
 extension BookmarkedSection: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        if UserService.User.isLoggedIn() && !bookmarkedEvents.isEmpty {
+            return bookmarkedEvents.count
+        } else {
+            return 3
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {

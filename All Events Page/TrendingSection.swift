@@ -25,7 +25,7 @@ class TrendingSection: UICollectionViewCell {
     @IBOutlet weak var trendingSectionLabel: UILabel!
     @IBOutlet weak var trendingCollectionView: UICollectionView!
     
-    var bookmarkedEventArray: [Int] = []
+    var bookmarkedEventArray: [Int] = [] //IMPORTANT: Adding an array to local to control bookmarkBtn's state because of cell reuse issues
     
     var trendingEvents: [Event] = [] {
         didSet {
@@ -110,57 +110,72 @@ extension TrendingSection: UICollectionViewDataSource, UICollectionViewDelegate,
             
             //detemine bookmarkBtn bg color
             if UserService.User.isLoggedIn() {
-                if bookmarkedEventArray.contains(indexPath.row) {
-                    UIView.transition(with: cell.bookmarkBtn, duration: 0.2, options: .transitionCrossDissolve, animations: {
-                        cell.bookmarkBtn.setImage(UIImage(named: "bookmark"), for: .normal)
-                        cell.bookmarkBtn.backgroundColor = .mintGreen()
-                    }, completion: nil)
+                if !bookmarkedEventArray.contains(indexPath.row) {
+                    /* Check if local array is holding this bookmarked cell
+                     NOTE: This check is to prevent cell reuse issues, all bookmarked events will be saved in server */
                     
-                    UIView.animate(withDuration: 0.2, animations: {
-                        cell.bookmarkBtnIndicator.alpha = 0
-                        cell.bookmarkBtnIndicator.stopAnimating()
-                    })
-
-
-                } else {
                     EventService.getBookmarkedEvents().done { response in
-                        for event in response.bookmarkedEventsList {
-                            //check if bookmarked list contains id
-                            let isBookmarked = event.targetEvent?.id == self.trendingEvents[indexPath.row].id
-                            if isBookmarked {
-                                self.bookmarkedEventArray.append(indexPath.row)
-                                
-                                UIView.transition(with: cell.bookmarkBtn, duration: 0.2, options: .transitionCrossDissolve, animations: {
-                                    cell.bookmarkBtn.setImage(UIImage(named: "bookmark"), for: .normal)
-                                }, completion: nil)
-
-                                UIView.animate(withDuration: 0.1, animations: {
-                                    cell.bookmarkBtn.backgroundColor = .mintGreen()
-                                })
-                                
-                                UIView.animate(withDuration: 0.2, animations: {
-                                    cell.bookmarkBtnIndicator.alpha = 0
+                        if !response.bookmarkedEventsList.isEmpty {
+                            for event in response.bookmarkedEventsList {
+                                //check if bookmarked list contains id
+                                let isBookmarked = event.targetEvent?.id == self.trendingEvents[indexPath.row].id
+                                if isBookmarked {
+                                    self.bookmarkedEventArray.append(indexPath.row)
+                                    
+                                    //animate button state
+                                    UIView.transition(with: cell.bookmarkBtn, duration: 0.2, options: .transitionCrossDissolve, animations: {
+                                        cell.bookmarkBtn.setImage(UIImage(named: "bookmark"), for: .normal)
+                                    }, completion: nil)
+                                    
+                                    UIView.animate(withDuration: 0.2) {
+                                        cell.bookmarkBtnIndicator.alpha = 0
+                                        cell.bookmarkBtn.backgroundColor = .mintGreen()
+                                    }
                                     cell.bookmarkBtnIndicator.stopAnimating()
                                     
-                                })
-                            } else {
-                                UIView.animate(withDuration: 0.2, animations: {
-                                    cell.bookmarkBtnIndicator.alpha = 0
+                                } else { //not bookmarked
+                                    //animate button state to default
+                                    UIView.animate(withDuration: 0.2) {
+                                        cell.bookmarkBtnIndicator.alpha = 0
+                                    }
                                     cell.bookmarkBtnIndicator.stopAnimating()
-                                })
-                                
-                                UIView.transition(with: cell.bookmarkBtn, duration: 0.2, options: .transitionCrossDissolve, animations: {
-                                    cell.bookmarkBtn.setImage(UIImage(named: "bookmark"), for: .normal)
-                                }, completion: nil)
+                                    
+                                    UIView.transition(with: cell.bookmarkBtn, duration: 0.2, options: .transitionCrossDissolve, animations: {
+                                        cell.bookmarkBtn.setImage(UIImage(named: "bookmark"), for: .normal)
+                                    }, completion: nil)
+                                }
                             }
+                        } else { //logged in user have no bookmarked events
+                            //animate button state to default
+                            UIView.animate(withDuration: 0.2) {
+                                cell.bookmarkBtnIndicator.alpha = 0
+                            }
+                            cell.bookmarkBtnIndicator.stopAnimating()
+                            
+                            UIView.transition(with: cell.bookmarkBtn, duration: 0.2, options: .transitionCrossDissolve, animations: {
+                                cell.bookmarkBtn.setImage(UIImage(named: "bookmark"), for: .normal)
+                            }, completion: nil)
                         }
                         }.ensure {
                             UIApplication.shared.isNetworkActivityIndicatorVisible = false
                         }.catch { error in }
+                    
+                } else { //this cell is bookmarked and held by local array, will bypass check from api
+                    //animate button state
+                    UIView.animate(withDuration: 0.2) {
+                        cell.bookmarkBtn.backgroundColor = .mintGreen()
+                        cell.bookmarkBtnIndicator.alpha = 0
+                    }
+                    cell.bookmarkBtnIndicator.stopAnimating()
+                    
+                    UIView.transition(with: cell.bookmarkBtn, duration: 0.2, options: .transitionCrossDissolve, animations: {
+                        cell.bookmarkBtn.setImage(UIImage(named: "bookmark"), for: .normal)
+                    }, completion: nil)
                 }
+                
             }
         }
-    
+        
         return cell
     }
     
@@ -175,46 +190,68 @@ extension TrendingSection: TrendingCellDelegate {
     func bookmarkBtnTapped(cell: TrendingCell, tappedIndex: IndexPath) {
         if UserService.User.isLoggedIn() {
             if let eventId = trendingEvents[tappedIndex.row].id {
-                if (cell.bookmarkBtn.backgroundColor?.isEqual(UIColor.clear))! { //bookmark action
+                if (cell.bookmarkBtn.backgroundColor?.isEqual(UIColor.clear))! { //do bookmark action
                     HapticFeedback.createImpact(style: .heavy)
-                    
+                    cell.bookmarkBtn.isUserInteractionEnabled = false
+
                     //animate button state
-                    UIView.animate(withDuration: 0.2, animations: {
-                        cell.bookmarkBtn.backgroundColor = .mintGreen()
-                    })
+                    cell.bookmarkBtnIndicator.startAnimating()
+                    UIView.animate(withDuration: 0.2) {
+                        cell.bookmarkBtnIndicator.alpha = 1
+                    }
+                    
+                    UIView.transition(with: cell.bookmarkBtn, duration: 0.2, options: .transitionCrossDissolve, animations: {
+                        cell.bookmarkBtn.setImage(nil, for: .normal)
+                    }, completion: nil)
                     
                     //create bookmark action
-                    EventService.createBookmark(eventId: eventId).done { response in
-                        print("Event with ID \(eventId) bookmarked")
-                        self.bookmarkedEventArray.append(tappedIndex.row)
-                        EventService.getBookmarkedEvents().done { response in
-                            print("bookmarked events list count: \(response.bookmarkedEventsList.count)")
-                            }.ensure {
-                                UIApplication.shared.isNetworkActivityIndicatorVisible = false
-                            }.catch { error in }
-                        
+                    EventService.createBookmark(eventId: eventId).done { _ in
+                        print("Event with ID (\(eventId)) bookmarked")
                         }.ensure {
+                            self.bookmarkedEventArray.append(tappedIndex.row) //the cell is now hold by this array and will not have cell reuse issues
+                            UIView.animate(withDuration: 0.2) {
+                                cell.bookmarkBtn.backgroundColor = .mintGreen()
+                                cell.bookmarkBtnIndicator.alpha = 0
+                            }
+                            
+                            UIView.transition(with: cell.bookmarkBtn, duration: 0.2, options: .transitionCrossDissolve, animations: {
+                                cell.bookmarkBtn.setImage(UIImage(named: "bookmark"), for: .normal)
+                            }, completion: nil)
+                            
+                            cell.bookmarkBtn.isUserInteractionEnabled = true
+                            NotificationCenter.default.post(name: .refreshBookmarkedSection, object: nil) //reload collection view in BookmarkedSection
                             UIApplication.shared.isNetworkActivityIndicatorVisible = false
                         }.catch { error in }
                 } else { //remove bookmark
                     HapticFeedback.createImpact(style: .light)
+                    cell.bookmarkBtn.isUserInteractionEnabled = false
                     
                     //animate button state
-                    UIView.animate(withDuration: 0.2, animations: {
-                        cell.bookmarkBtn.backgroundColor = .clear
-                    })
+                    cell.bookmarkBtnIndicator.startAnimating()
+                    UIView.animate(withDuration: 0.2) {
+                        cell.bookmarkBtnIndicator.alpha = 1
+                    }
+                    
+                    UIView.transition(with: cell.bookmarkBtn, duration: 0.2, options: .transitionCrossDissolve, animations: {
+                        cell.bookmarkBtn.setImage(nil, for: .normal)
+                    }, completion: nil)
                     
                     //remove bookmark action
                     EventService.removeBookmark(eventId: eventId).done { response in
                         print(response)
-                        self.bookmarkedEventArray.remove(object: tappedIndex.row)
-                        EventService.getBookmarkedEvents().done { response in
-                            print("bookmarked events list count: \(response.bookmarkedEventsList.count)")
-                            }.ensure {
-                                UIApplication.shared.isNetworkActivityIndicatorVisible = false
-                            }.catch { error in }
-                        
                         }.ensure {
+                            self.bookmarkedEventArray.remove(object: tappedIndex.row) //the cell is now deleted and will not have cell reuse issues
+                            UIView.animate(withDuration: 0.2) {
+                                cell.bookmarkBtn.backgroundColor = .clear
+                                cell.bookmarkBtnIndicator.alpha = 0
+                            }
+                            
+                            UIView.transition(with: cell.bookmarkBtn, duration: 0.2, options: .transitionCrossDissolve, animations: {
+                                cell.bookmarkBtn.setImage(UIImage(named: "bookmark"), for: .normal)
+                            }, completion: nil)
+                            
+                            cell.bookmarkBtn.isUserInteractionEnabled = true
+                            NotificationCenter.default.post(name: .refreshBookmarkedSection, object: nil) //reload collection view in BookmarkedSection
                             UIApplication.shared.isNetworkActivityIndicatorVisible = false
                         }.catch { error in }
                 }
@@ -223,21 +260,11 @@ extension TrendingSection: TrendingCellDelegate {
                 print("Can't get trending section event id")
             }
             
-            
-            
         } else { // not logged in
             print("please login first")
         }
         
     }
-    
 
 }
 
-extension Array where Element: Equatable {
-    mutating func remove(object: Element) {
-        if let index = index(of: object) {
-            remove(at: index)
-        }
-    }
-}

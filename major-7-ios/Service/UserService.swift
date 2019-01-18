@@ -473,10 +473,6 @@ extension UserService {
     }
 }
 
-extension Notification.Name {
-    static let loginCompleted = Notification.Name("loginCompleted")
-}
-
 //check key has value
 extension UserDefaults {
     func hasValue(_ key: String) -> Bool {
