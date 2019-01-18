@@ -48,7 +48,7 @@ class EventDetailsViewController: UIViewController {
     
     var eventId = "" {
         didSet {
-            fetchDetails(eventId: eventId)
+            getDetails(eventId: eventId)
         }
     }
     
@@ -99,8 +99,8 @@ class EventDetailsViewController: UIViewController {
         TabBar.show(rootView: self)
     }
     
-    private func fetchDetails(eventId: String){
-        EventsService.fetchEventDetails(eventId: eventId).done{ details -> () in
+    private func getDetails(eventId: String){
+        EventService.getEventDetails(eventId: eventId).done{ details -> () in
             self.details = details
             self.loadImgIntoImgViewer()
 

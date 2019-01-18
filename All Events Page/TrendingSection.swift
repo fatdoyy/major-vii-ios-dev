@@ -25,6 +25,8 @@ class TrendingSection: UICollectionViewCell {
     @IBOutlet weak var trendingSectionLabel: UILabel!
     @IBOutlet weak var trendingCollectionView: UICollectionView!
     
+    var bookmarkedEventArray: [Int] = []
+    
     var trendingEvents: [Event] = [] {
         didSet {
             trendingCollectionView.reloadData()
@@ -55,7 +57,7 @@ class TrendingSection: UICollectionViewCell {
         trendingCollectionView.backgroundColor = .darkGray()
         trendingCollectionView.register(UINib.init(nibName: "TrendingCell", bundle: nil), forCellWithReuseIdentifier: TrendingCell.reuseIdentifier)
         
-        fetchTrendingEvents()
+        getTrendingEvents()
     }
 
     override func layoutSubviews() {
@@ -65,9 +67,9 @@ class TrendingSection: UICollectionViewCell {
     }
     
     //get trending events list
-    private func fetchTrendingEvents(){
-        EventsService.fetchTrendingEvents().done { events -> () in
-            self.trendingEvents = events.list
+    private func getTrendingEvents(){
+        EventService.getTrendingEvents().done { response in
+            self.trendingEvents = response.eventsList
             }.ensure {
                 UIApplication.shared.isNetworkActivityIndicatorVisible = false
             }.catch { error in }
@@ -86,6 +88,7 @@ extension TrendingSection: UICollectionViewDataSource, UICollectionViewDelegate,
         
         if !trendingEvents.isEmpty {
             cell.delegate = self
+            cell.myIndexPath = indexPath
             
             for view in cell.skeletonViews { //hide all skeleton views
                 view.hideSkeleton()
@@ -104,12 +107,62 @@ extension TrendingSection: UICollectionViewDataSource, UICollectionViewDelegate,
             cell.eventTitle.text = trendingEvents[indexPath.row].title
             cell.performerLabel.text = trendingEvents[indexPath.row].organizerProfile?.name
             cell.dateLabel.text = trendingEvents[indexPath.row].dateTime
+            
+            //detemine bookmarkBtn bg color
+            if UserService.User.isLoggedIn() {
+                if bookmarkedEventArray.contains(indexPath.row) {
+                    UIView.transition(with: cell.bookmarkBtn, duration: 0.2, options: .transitionCrossDissolve, animations: {
+                        cell.bookmarkBtn.setImage(UIImage(named: "bookmark"), for: .normal)
+                        cell.bookmarkBtn.backgroundColor = .mintGreen()
+                    }, completion: nil)
+                    
+                    UIView.animate(withDuration: 0.2, animations: {
+                        cell.bookmarkBtnIndicator.alpha = 0
+                        cell.bookmarkBtnIndicator.stopAnimating()
+                    })
 
+
+                } else {
+                    EventService.getBookmarkedEvents().done { response in
+                        for event in response.bookmarkedEventsList {
+                            //check if bookmarked list contains id
+                            let isBookmarked = event.targetEvent?.id == self.trendingEvents[indexPath.row].id
+                            if isBookmarked {
+                                self.bookmarkedEventArray.append(indexPath.row)
+                                
+                                UIView.transition(with: cell.bookmarkBtn, duration: 0.2, options: .transitionCrossDissolve, animations: {
+                                    cell.bookmarkBtn.setImage(UIImage(named: "bookmark"), for: .normal)
+                                }, completion: nil)
+
+                                UIView.animate(withDuration: 0.1, animations: {
+                                    cell.bookmarkBtn.backgroundColor = .mintGreen()
+                                })
+                                
+                                UIView.animate(withDuration: 0.2, animations: {
+                                    cell.bookmarkBtnIndicator.alpha = 0
+                                    cell.bookmarkBtnIndicator.stopAnimating()
+                                    
+                                })
+                            } else {
+                                UIView.animate(withDuration: 0.2, animations: {
+                                    cell.bookmarkBtnIndicator.alpha = 0
+                                    cell.bookmarkBtnIndicator.stopAnimating()
+                                })
+                                
+                                UIView.transition(with: cell.bookmarkBtn, duration: 0.2, options: .transitionCrossDissolve, animations: {
+                                    cell.bookmarkBtn.setImage(UIImage(named: "bookmark"), for: .normal)
+                                }, completion: nil)
+                            }
+                        }
+                        }.ensure {
+                            UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                        }.catch { error in }
+                }
+            }
         }
     
         return cell
     }
-    
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print(indexPath.row)
@@ -117,8 +170,74 @@ extension TrendingSection: UICollectionViewDataSource, UICollectionViewDelegate,
     }
 }
 
+//Bookmark action
 extension TrendingSection: TrendingCellDelegate {
-    func bookmarkBtnTapped() {
-        print("tapped")
+    func bookmarkBtnTapped(cell: TrendingCell, tappedIndex: IndexPath) {
+        if UserService.User.isLoggedIn() {
+            if let eventId = trendingEvents[tappedIndex.row].id {
+                if (cell.bookmarkBtn.backgroundColor?.isEqual(UIColor.clear))! { //bookmark action
+                    HapticFeedback.createImpact(style: .heavy)
+                    
+                    //animate button state
+                    UIView.animate(withDuration: 0.2, animations: {
+                        cell.bookmarkBtn.backgroundColor = .mintGreen()
+                    })
+                    
+                    //create bookmark action
+                    EventService.createBookmark(eventId: eventId).done { response in
+                        print("Event with ID \(eventId) bookmarked")
+                        self.bookmarkedEventArray.append(tappedIndex.row)
+                        EventService.getBookmarkedEvents().done { response in
+                            print("bookmarked events list count: \(response.bookmarkedEventsList.count)")
+                            }.ensure {
+                                UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                            }.catch { error in }
+                        
+                        }.ensure {
+                            UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                        }.catch { error in }
+                } else { //remove bookmark
+                    HapticFeedback.createImpact(style: .light)
+                    
+                    //animate button state
+                    UIView.animate(withDuration: 0.2, animations: {
+                        cell.bookmarkBtn.backgroundColor = .clear
+                    })
+                    
+                    //remove bookmark action
+                    EventService.removeBookmark(eventId: eventId).done { response in
+                        print(response)
+                        self.bookmarkedEventArray.remove(object: tappedIndex.row)
+                        EventService.getBookmarkedEvents().done { response in
+                            print("bookmarked events list count: \(response.bookmarkedEventsList.count)")
+                            }.ensure {
+                                UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                            }.catch { error in }
+                        
+                        }.ensure {
+                            UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                        }.catch { error in }
+                }
+
+            } else {
+                print("Can't get trending section event id")
+            }
+            
+            
+            
+        } else { // not logged in
+            print("please login first")
+        }
+        
+    }
+    
+
+}
+
+extension Array where Element: Equatable {
+    mutating func remove(object: Element) {
+        if let index = index(of: object) {
+            remove(at: index)
+        }
     }
 }

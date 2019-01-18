@@ -45,8 +45,12 @@ class BaseService: NSObject {
             actionPathStr = "events/feature"
         case .getEventDetails(let eventId):
             actionPathStr = "events/\(eventId)"
-            
+        case .bookmarkAction(let eventId):
+            actionPathStr = "events/\(eventId)/bookmarks"
+        case .getBookmarkedEvents:
+            actionPathStr = "users/me/bookmarks"
         }
+        
         return endpoint + actionPathStr
     }
     
@@ -116,6 +120,8 @@ extension BaseService {
         case getFollowingEvents
         case getFeaturedEvents
         case getEventDetails(eventId: String)
+        case bookmarkAction(eventId: String)
+        case getBookmarkedEvents
         
     }
 }

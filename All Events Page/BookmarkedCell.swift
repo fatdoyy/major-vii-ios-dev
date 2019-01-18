@@ -9,15 +9,15 @@
 import UIKit
 import SkeletonView
 
-protocol BookmarkCellDelegate {
+protocol BookmarkedCellDelegate {
     func bookmarkBtnTapped()
 }
 
-class BookmarkCell: UICollectionViewCell {
+class BookmarkedCell: UICollectionViewCell {
 
-    static let reuseIdentifier = "bookmarkCell"
+    static let reuseIdentifier = "bookmarkedCell"
     
-    var delegate: BookmarkCellDelegate?
+    var delegate: BookmarkedCellDelegate?
     
     static let width: CGFloat = 138
     static let height: CGFloat = 166

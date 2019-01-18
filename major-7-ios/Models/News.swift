@@ -11,14 +11,14 @@ import ObjectMapper
 class NewsList: Mappable {
     var skip: Int?
     var limit: Int?
-    var list = [News]()
+    var newslist = [News]()
     
     required init?(map: Map) {}
     
     func mapping(map: Map) {
         skip        <- map["skip"]
         limit       <- map["limit"]
-        list        <- map["list"]
+        newslist        <- map["list"]
     }
 }
 

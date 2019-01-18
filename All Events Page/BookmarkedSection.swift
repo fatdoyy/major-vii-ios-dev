@@ -10,10 +10,10 @@ import UIKit
 import BouncyLayout
 
 protocol BookmarkSectionDelegate{
-    func bookmarkCellTapped()
+    func bookmarkedCellTapped()
 }
 
-class BookmarkSection: UICollectionViewCell {
+class BookmarkedSection: UICollectionViewCell {
 
     static let reuseIdentifier = "bookmarkSection"
     
@@ -47,18 +47,18 @@ class BookmarkSection: UICollectionViewCell {
         bookmarksCollectionView.showsHorizontalScrollIndicator = false
         
         bookmarksCollectionView.backgroundColor = .darkGray()
-        bookmarksCollectionView.register(UINib.init(nibName: "BookmarkCell", bundle: nil), forCellWithReuseIdentifier: BookmarkCell.reuseIdentifier)
+        bookmarksCollectionView.register(UINib.init(nibName: "BookmarkedCell", bundle: nil), forCellWithReuseIdentifier: BookmarkedCell.reuseIdentifier)
     }
 
 }
 
-extension BookmarkSection: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout{
+extension BookmarkedSection: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 10
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = bookmarksCollectionView.dequeueReusableCell(withReuseIdentifier: BookmarkCell.reuseIdentifier, for: indexPath) as! BookmarkCell
+        let cell = bookmarksCollectionView.dequeueReusableCell(withReuseIdentifier: BookmarkedCell.reuseIdentifier, for: indexPath) as! BookmarkedCell
         cell.delegate = self
         cell.eventTitle.text = "天星碼頭"
         cell.dateLabel.text = "明天"
@@ -68,16 +68,16 @@ extension BookmarkSection: UICollectionViewDataSource, UICollectionViewDelegate,
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: BookmarkCell.width, height: BookmarkCell.height)
+        return CGSize(width: BookmarkedCell.width, height: BookmarkedCell.height)
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print(indexPath.row)
-        delegate?.bookmarkCellTapped()
+        delegate?.bookmarkedCellTapped()
     }
 }
 
-extension BookmarkSection: BookmarkCellDelegate {
+extension BookmarkedSection: BookmarkedCellDelegate {
     func bookmarkBtnTapped() {
         print("tapped")
     }

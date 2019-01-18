@@ -38,7 +38,7 @@ class EventsListViewController: ScrollingNavigationViewController, UIGestureReco
         
         mainCollectionView.register(UINib.init(nibName: "TrendingSection", bundle: nil), forCellWithReuseIdentifier: TrendingSection.reuseIdentifier)
         mainCollectionView.register(UINib.init(nibName: "FollowingSection", bundle: nil), forCellWithReuseIdentifier: FollowingSection.reuseIdentifier)
-        mainCollectionView.register(UINib.init(nibName: "BookmarkSection", bundle: nil), forCellWithReuseIdentifier: BookmarkSection.reuseIdentifier)
+        mainCollectionView.register(UINib.init(nibName: "BookmarkedSection", bundle: nil), forCellWithReuseIdentifier: BookmarkedSection.reuseIdentifier)
         
         mainCollectionView.register(UINib.init(nibName: "FeaturedSectionHeader", bundle: nil), forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: FeaturedSectionHeader.reuseIdentifier)
         
@@ -148,7 +148,7 @@ extension EventsListViewController: UICollectionViewDelegate, UICollectionViewDe
                 cell.delegate = self
                 return cell
             case .Bookmark:
-                let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: BookmarkSection.reuseIdentifier, for: indexPath) as! BookmarkSection
+                let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: BookmarkedSection.reuseIdentifier, for: indexPath) as! BookmarkedSection
                 cell.delegate = self
                 return cell
             case .Featured:
@@ -174,7 +174,7 @@ extension EventsListViewController: UICollectionViewDelegate, UICollectionViewDe
             let width = self.view.frame.width
             switch section{
             case .Following:    return CGSize(width: width, height: FollowingSection.height)
-            case .Bookmark:     return CGSize(width: width, height: BookmarkSection.height)
+            case .Bookmark:     return CGSize(width: width, height: BookmarkedSection.height)
             case .Featured:     return CGSize(width: FeaturedCell.width, height: FeaturedCell.height)
             default:            return CGSize(width: width, height: TrendingSection.height) //case 0, trending section
             }
@@ -240,7 +240,7 @@ extension EventsListViewController: FollowingSectionDelegate{
 
 //MARK: Bookmark Section Delegate
 extension EventsListViewController: BookmarkSectionDelegate{
-    func bookmarkCellTapped() {
+    func bookmarkedCellTapped() {
         EventDetailsViewController.push(fromView: self, eventId: "")
     }
 }

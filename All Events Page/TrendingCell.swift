@@ -8,9 +8,10 @@
 
 import UIKit
 import SkeletonView
+import NVActivityIndicatorView
 
 protocol TrendingCellDelegate {
-    func bookmarkBtnTapped()
+    func bookmarkBtnTapped(cell: TrendingCell, tappedIndex: IndexPath)
 }
 
 class TrendingCell: UICollectionViewCell {
@@ -18,6 +19,7 @@ class TrendingCell: UICollectionViewCell {
     static let reuseIdentifier = "trendingCell"
     
     var delegate: TrendingCellDelegate?
+    var myIndexPath: IndexPath!
     
     private typealias `Self` = TrendingCell
     
@@ -32,6 +34,7 @@ class TrendingCell: UICollectionViewCell {
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var imageOverlay: ImageOverlay!
     @IBOutlet weak var bookmarkBtn: UIButton!
+    var bookmarkBtnIndicator = NVActivityIndicatorView(frame: CGRect(origin: CGPoint.zero, size: CGSize(width: 12, height: 12)))
     @IBOutlet weak var bookmarkCountLabel: UILabel!
     
     @IBOutlet var skeletonViews: Array<UILabel>!
@@ -52,7 +55,21 @@ class TrendingCell: UICollectionViewCell {
         bookmarkBtn.layer.shadowOffset = CGSize(width: 0, height: 5)
         bookmarkBtn.layer.shadowRadius = 5
         bookmarkBtn.layer.shadowOpacity = 0.7
+        bookmarkBtnIndicator.alpha = 0
         
+        //activity indicatior
+        if UserService.User.isLoggedIn() {
+            bookmarkBtn.setImage(nil, for: .normal)
+            bookmarkBtnIndicator.type = .lineScale
+            bookmarkBtnIndicator.alpha = 1
+            bookmarkBtn.addSubview(bookmarkBtnIndicator)
+            bookmarkBtnIndicator.snp.makeConstraints { (make) -> Void in
+                make.centerX.equalToSuperview()
+                make.centerY.equalToSuperview()
+            }
+            bookmarkBtnIndicator.startAnimating()
+        }
+            
         SkeletonAppearance.default.multilineCornerRadius = Int(GlobalCornerRadius.value / 2)
         SkeletonAppearance.default.gradient = SkeletonGradient(baseColor: .gray)
         
@@ -79,22 +96,17 @@ class TrendingCell: UICollectionViewCell {
         dateLabel.textColor = .whiteText()
     }
     
+    override func prepareForReuse() {
+        bookmarkBtn.backgroundColor = .clear
+        bookmarkBtnIndicator.alpha = 0
+        bookmarkBtn.setImage(UIImage(named: "bookmark"), for: .normal)
+    }
+    
     override var isHighlighted: Bool {
         didSet { Animations.cellBounce(isHighlighted, view: self) }
     }
     
     @IBAction func bookmarkBtnTapped(_ sender: Any) {
-        if (self.bookmarkBtn.backgroundColor?.isEqual(UIColor.clear))! { //bookmarked
-            HapticFeedback.createImpact(style: .heavy)
-            UIView.animate(withDuration: 0.2, animations: {
-                self.bookmarkBtn.backgroundColor = .mintGreen()
-            })
-        } else { //remove bookmark
-            HapticFeedback.createImpact(style: .light)
-            UIView.animate(withDuration: 0.2, animations: {
-                self.bookmarkBtn.backgroundColor = .clear
-            })
-        }
-        delegate?.bookmarkBtnTapped()
+        delegate?.bookmarkBtnTapped(cell: self, tappedIndex: myIndexPath)
     }
 }

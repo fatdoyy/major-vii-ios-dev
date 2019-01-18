@@ -61,7 +61,7 @@ class EventsSection: UICollectionViewCell {
         eventsCollectionView.backgroundColor = .darkGray()
         eventsCollectionView.register(UINib.init(nibName: "EventsCell", bundle: nil), forCellWithReuseIdentifier: EventsCell.reuseIdentifier)
         
-        fetchUpcomingEvents()
+        getUpcomingEvents()
     }
     
     @IBAction func viewAllBtnTapped(_ sender: Any) {
@@ -69,9 +69,9 @@ class EventsSection: UICollectionViewCell {
     }
     
     //get upcoming events list
-    private func fetchUpcomingEvents(){
-        EventsService.fetchUpcomingEvents().done { events -> () in
-            self.upcomingEvents = events.list
+    private func getUpcomingEvents(){
+        EventService.getUpcomingEvents().done { response -> () in
+            self.upcomingEvents = response.eventsList
             }.ensure {
                 UIApplication.shared.isNetworkActivityIndicatorVisible = false
             }.catch { error in }

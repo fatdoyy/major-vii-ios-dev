@@ -9,12 +9,36 @@
 import ObjectMapper
 
 class EventsList: Mappable {
-    var list = [Event]()
+    var eventsList = [Event]()
     
     required init?(map: Map) {}
     
     func mapping(map: Map) {
-        list        <- map["list"]
+        eventsList        <- map["list"]
+    }
+}
+
+class BookmarkedEventsList: Mappable {
+    var bookmarkedEventsList = [BookmarkedEvent]()
+    
+    required init?(map: Map) {}
+    
+    func mapping(map: Map) {
+        bookmarkedEventsList        <- map["list"]
+    }
+}
+
+class BookmarkedEvent: Mappable {
+    var targetEvent: Event?
+    var targetType: Int?
+    var createTime: String?
+    
+    required init?(map: Map) {}
+    
+    func mapping(map: Map) {
+        targetEvent     <- map["target_event"]
+        targetType      <- map["target_type"]
+        createTime      <- map["create_time"]
     }
 }
 
@@ -40,7 +64,6 @@ class Event: Mappable {
         address             <- map["address"]
         location            <- map["location"]
     }
-    
 }
 
 class OrganizerProfile: Mappable {
@@ -61,7 +84,6 @@ class OrganizerProfile: Mappable {
         type            <- map["type"]
         verfied         <- map["verfied"]
     }
-
 }
 
 class EventLocation: Mappable {

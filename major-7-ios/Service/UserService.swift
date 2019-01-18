@@ -107,7 +107,7 @@ extension UserService {
                         let userId  = fbResponse["id"] as! String
                         let email   = fbResponse["email"] as! String
                         let name    = fbResponse["first_name"] as! String
-                        print("Successfully fetched data from Facebook, proceeding to request JWT...")
+                        print("Successfully got data from Facebook, proceeding to request JWT...")
                         
                         //After getting user details on FB, register/login to Major VII
                         loginRequest(token: accessToken.authenticationToken, userId: userId, email: email, name: name, dismissVC: vc).done { response in
@@ -158,7 +158,7 @@ extension UserService {
                             }.catch { error in }
                     }
                 case .failed(let error):
-                    print("Failed to fetch data from Facebook: \(error)")
+                    print("Failed to get data from Facebook: \(error)")
                 }
             })
         }
@@ -222,7 +222,7 @@ extension UserService: GIDSignInDelegate, GIDSignInUIDelegate {
             
             if let userId = user.userID, let token = user.authentication.idToken, let name = user.profile.givenName, let email = user.profile.email {
                 
-                print("Successfully fetched data from Google\nuserid = \(userId)\ntoken = \(token)\nname = \(name)\nemail = \(email)\nProceeding to request JWT...")
+                print("Successfully got data from Google\nuserid = \(userId)\ntoken = \(token)\nname = \(name)\nemail = \(email)\nProceeding to request JWT...")
                 
                 loginRequest(token: token, userId: userId, email: email, name: name).done { response in
                     if let apiResponse = response as? [String: Any] {

@@ -14,7 +14,7 @@ class NewsService: BaseService {}
 
 extension NewsService {
     
-    static func fetchNews() -> Promise<NewsList> {
+    static func getNews() -> Promise<NewsList> {
         return Promise { resolver in
             request(method: .get, url: getActionPath(.getNews)).done { response in
                 guard let news = Mapper<NewsList>().map(JSONObject: response) else {
