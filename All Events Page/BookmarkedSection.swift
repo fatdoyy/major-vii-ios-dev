@@ -12,6 +12,7 @@ import NVActivityIndicatorView
 
 protocol BookmarkSectionDelegate{
     func bookmarkedCellTapped()
+    //func bookmarkedCellBookmarkBtnTapped(section: BookmarkedSection, cell: BookmarkedCell, tappedIndex: IndexPath)
 }
 
 class BookmarkedSection: UICollectionViewCell {
@@ -19,7 +20,7 @@ class BookmarkedSection: UICollectionViewCell {
     static let reuseIdentifier = "bookmarkSection"
     
     var delegate: BookmarkSectionDelegate?
-        
+
     static let height: CGFloat = 247
     
     @IBOutlet weak var bookmarkSectionTitle: UILabel!
@@ -42,6 +43,7 @@ class BookmarkedSection: UICollectionViewCell {
         super.awakeFromNib()
         
         NotificationCenter.default.addObserver(self, selector: #selector(refreshBookmarkedSection(_:)), name: .refreshBookmarkedSection, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(removeAllObservers), name: .removeBookingSectionObservers, object: nil)
         
         bookmarkSectionTitle.textColor = .whiteText()
         bookmarkSectionTitle.text = "Your Bookmarks"
@@ -78,7 +80,7 @@ class BookmarkedSection: UICollectionViewCell {
         getBookmarkedEvents()
     }
 
-    private func getBookmarkedEvents() {
+    func getBookmarkedEvents() {
         EventService.getBookmarkedEvents().done { response in
             self.bookmarkedEvents = response.bookmarkedEventsList
             print("bookmarked events list count: \(response.bookmarkedEventsList.count)")
@@ -101,16 +103,20 @@ class BookmarkedSection: UICollectionViewCell {
             self.reloadIndicator.alpha = 1
         }
         getBookmarkedEvents()
-        
+
         if let data = notification.userInfo {
             if let keyToAdd = data["key_to_add"] as? Int, let id = data["id"] as? String {
                 self.tredingSectionIndexDict[keyToAdd] = id
-                print("recived keyToAdd: \(keyToAdd), tredingSectionIndexArray: \(self.tredingSectionIndexDict)")
+                print("Recieved keyToAdd: \(keyToAdd) - tredingSectionIndexDict: \(self.tredingSectionIndexDict)\n")
             } else if let keyToRemove = data["key_to_remove"] as? Int, let _ = data["id"] as? String {
                 self.tredingSectionIndexDict.removeValue(forKey: keyToRemove)
-                print("recived keyToRemove: \(keyToRemove), tredingSectionIndexArray: \(self.tredingSectionIndexDict)")
+                print("Recieved keyToRemove: \(keyToRemove) - tredingSectionIndexDict: \(self.tredingSectionIndexDict)\n")
             }
         }
+    }
+    
+    @objc private func removeAllObservers() {
+        NotificationCenter.default.removeObserver(self)
     }
 }
 
@@ -153,6 +159,9 @@ extension BookmarkedSection: UICollectionViewDataSource, UICollectionViewDelegat
 
 extension BookmarkedSection: BookmarkedCellDelegate {
     func bookmarkBtnTapped(cell: BookmarkedCell, tappedIndex: IndexPath) {
+        //delegate?.bookmarkedCellBookmarkBtnTapped(section: self, cell: cell, tappedIndex: tappedIndex)
+        
+        
         if let eventId = bookmarkedEvents[tappedIndex.row].targetEvent?.id {
             if (cell.bookmarkBtn.backgroundColor?.isEqual(UIColor.clear))! { //do bookmark action
                 HapticFeedback.createImpact(style: .heavy)
@@ -223,9 +232,12 @@ extension BookmarkedSection: BookmarkedCellDelegate {
 //
 //                        }
                         
-                        NotificationCenter.default.post(name: .refreshTrendingSectionCell, object: nil, userInfo: ["key_to_remove": Array(self.tredingSectionIndexDict)[tappedIndex.row].key, "id": eventId])
-                        print("Sending index \(Array(self.tredingSectionIndexDict)[tappedIndex.row].key) from BookmarkedSection to TrendingSection")
-                        self.tredingSectionIndexDict.removeValue(forKey: tappedIndex.row)
+                        if let key = self.tredingSectionIndexDict.uniqueKey(forValue: eventId) {
+                            print("Sending key \(key) from BookmarkedSection to TrendingSection for removal\n")
+                            NotificationCenter.default.post(name: .refreshTrendingSectionCell, object: nil, userInfo: ["key_to_remove": key, "id": eventId])
+                            self.tredingSectionIndexDict.removeValue(forKey: key)
+                            print("tredingSectionIndexDict : \(self.tredingSectionIndexDict)")
+                        }
                         
                         NotificationCenter.default.post(name: .refreshBookmarkedSection, object: nil) //reload collection view in this view
                         UIApplication.shared.isNetworkActivityIndicatorVisible = false

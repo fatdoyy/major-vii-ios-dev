@@ -10,6 +10,7 @@ import UIKit
 
 protocol TrendingSectionDelegate{
     func trendingCellTapped(eventId: String)
+    //func trendingCellBookmarkBtnTapped(section: TrendingSection, cell: TrendingCell, tappedIndex: IndexPath)
 }
 
 class TrendingSection: UICollectionViewCell {
@@ -17,7 +18,7 @@ class TrendingSection: UICollectionViewCell {
     static let reuseIdentifier = "trendingSection"
     
     var delegate: TrendingSectionDelegate?
-    
+
     static let aspectRatio: CGFloat = 335.0 / 297.0 //ratio according to zeplin
     static let width = NewsCellType1.width
     static let height: CGFloat = width / aspectRatio
@@ -41,6 +42,7 @@ class TrendingSection: UICollectionViewCell {
         super.awakeFromNib()
         
         NotificationCenter.default.addObserver(self, selector: #selector(refreshTrendingSectionCell(_:)), name: .refreshTrendingSectionCell, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(removeAllObservers), name: .removeTrendingSectionObservers, object: nil)
         
         trendingSectionLabel.textColor = .whiteText()
         trendingSectionLabel.text = "Trending"
@@ -63,7 +65,7 @@ class TrendingSection: UICollectionViewCell {
         trendingCollectionView.backgroundColor = .darkGray()
         trendingCollectionView.register(UINib.init(nibName: "TrendingCell", bundle: nil), forCellWithReuseIdentifier: TrendingCell.reuseIdentifier)
         
-        getTrendingEvents()
+        //getTrendingEvents()
     }
     
     override func layoutSubviews() {
@@ -73,7 +75,7 @@ class TrendingSection: UICollectionViewCell {
     }
     
     //get trending events list
-    private func getTrendingEvents(){
+    func getTrendingEvents(){
         EventService.getTrendingEvents().done { response in
             self.trendingEvents = response.eventsList
             }.ensure {
@@ -119,6 +121,10 @@ class TrendingSection: UICollectionViewCell {
         }
     }
     
+    //remove observers
+    @objc private func removeAllObservers() {
+        NotificationCenter.default.removeObserver(self)
+    }
 }
 
 // MARK: UICollectionView Data Source
@@ -239,7 +245,7 @@ extension TrendingSection: UICollectionViewDataSource, UICollectionViewDelegate,
 extension TrendingSection: TrendingCellDelegate {
     func bookmarkBtnTapped(cell: TrendingCell, tappedIndex: IndexPath) {
         if UserService.User.isLoggedIn() {
-            if let eventId = trendingEvents[tappedIndex.row].id {
+            if let eventId = self.trendingEvents[tappedIndex.row].id {
                 if (cell.bookmarkBtn.backgroundColor?.isEqual(UIColor.clear))! { //do bookmark action
                     HapticFeedback.createImpact(style: .heavy)
                     cell.bookmarkBtn.isUserInteractionEnabled = false
@@ -269,8 +275,8 @@ extension TrendingSection: TrendingCellDelegate {
                             
                             cell.bookmarkBtn.isUserInteractionEnabled = true
                             self.bookmarkedEventDict[tappedIndex.row] = eventId
-                            print(self.bookmarkedEventDict)
-
+                            print("Trending Section dict: \(self.bookmarkedEventDict)\n")
+                            
                             NotificationCenter.default.post(name: .refreshBookmarkedSection, object: nil, userInfo: ["key_to_add": tappedIndex.row, "id": eventId]) //reload collection view in BookmarkedSection
                             
                             UIApplication.shared.isNetworkActivityIndicatorVisible = false
@@ -305,7 +311,7 @@ extension TrendingSection: TrendingCellDelegate {
                             
                             cell.bookmarkBtn.isUserInteractionEnabled = true
                             self.bookmarkedEventDict.removeValue(forKey: tappedIndex.row) //the cell is now deleted and will not have cell reuse issues
-                            print(self.bookmarkedEventDict)
+                            print("Trending Section dict: \(self.bookmarkedEventDict)\n")
                             
                             NotificationCenter.default.post(name: .refreshBookmarkedSection, object: nil, userInfo: ["key_to_remove": tappedIndex.row, "id": eventId]) //reload collection view in BookmarkedSection
                             
@@ -324,4 +330,3 @@ extension TrendingSection: TrendingCellDelegate {
     }
     
 }
-

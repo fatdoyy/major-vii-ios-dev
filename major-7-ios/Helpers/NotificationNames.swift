@@ -14,4 +14,8 @@ extension Notification.Name {
     static let refreshBookmarkedSection = Notification.Name("refreshBookmarkedSection")
     static let refreshTrendingSectionCell = Notification.Name("refreshTrendingSectionCell")
     static let initTredingSectionIndexArray = Notification.Name("initTredingSectionIndexArray")
+    
+    static let removeTrendingSectionObservers = Notification.Name("removeTrendingSectionObservers")
+    static let removeBookingSectionObservers = Notification.Name("removeBookingSectionObservers")
+
 }

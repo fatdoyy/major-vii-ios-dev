@@ -15,3 +15,15 @@ extension Array where Element: Equatable {
         }
     }
 }
+
+extension Dictionary where Value: Equatable { //return all possible keys with same value
+    func allKeys(forValue val: Value) -> [Key] {
+        return self.filter { $1 == val }.map { $0.0 }
+    }
+}
+
+extension Dictionary where Value: Equatable { //return ONE key only, so it means the Dictionary in this case is 1:1 (i.e won't have same values for different keys)
+    func uniqueKey(forValue val: Value) -> Key? {
+        return first(where: { $1 == val })?.key
+    }
+}

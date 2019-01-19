@@ -15,7 +15,7 @@ class EventsListViewController: ScrollingNavigationViewController, UIGestureReco
     static let storyboardId = "eventsVC"
     
     @IBOutlet weak var mainCollectionView: UICollectionView!
-        
+    
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
@@ -45,7 +45,6 @@ class EventsListViewController: ScrollingNavigationViewController, UIGestureReco
         mainCollectionView.register(UINib.init(nibName: "FeaturedCell", bundle: nil), forCellWithReuseIdentifier: FeaturedCell.reuseIdentifier)
     }
 
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         //transparent navigation bar
@@ -66,6 +65,9 @@ class EventsListViewController: ScrollingNavigationViewController, UIGestureReco
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        NotificationCenter.default.post(name: .removeTrendingSectionObservers, object: nil)
+        NotificationCenter.default.post(name: .removeBookingSectionObservers, object: nil)
+        
         TabBar.show(rootView: self)
     }
     
@@ -162,6 +164,7 @@ extension EventsListViewController: UICollectionViewDelegate, UICollectionViewDe
             default: //case 0, trending section
                 let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: TrendingSection.reuseIdentifier, for: indexPath) as! TrendingSection
                 cell.delegate = self
+                cell.getTrendingEvents()
                 return cell
             }
         } else {
