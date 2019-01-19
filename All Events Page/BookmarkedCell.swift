@@ -8,9 +8,10 @@
 
 import UIKit
 import SkeletonView
+import NVActivityIndicatorView
 
 protocol BookmarkedCellDelegate {
-    func bookmarkBtnTapped()
+    func bookmarkBtnTapped(cell: BookmarkedCell, tappedIndex: IndexPath)
 }
 
 class BookmarkedCell: UICollectionViewCell {
@@ -18,6 +19,7 @@ class BookmarkedCell: UICollectionViewCell {
     static let reuseIdentifier = "bookmarkedCell"
     
     var delegate: BookmarkedCellDelegate?
+    var myIndexPath: IndexPath!
     
     static let width: CGFloat = 138
     static let height: CGFloat = 166
@@ -30,6 +32,7 @@ class BookmarkedCell: UICollectionViewCell {
     @IBOutlet weak var performerLabel: UILabel!
     @IBOutlet weak var bookmarkBtn: UIButton!
     @IBOutlet weak var bookmarkCountLabel: UILabel!
+    var bookmarkBtnIndicator = NVActivityIndicatorView(frame: CGRect(origin: CGPoint.zero, size: CGSize(width: 12, height: 12)), type: .lineScale)
     
     @IBOutlet var skeletonViews: Array<UILabel>!
     
@@ -65,6 +68,16 @@ class BookmarkedCell: UICollectionViewCell {
         //            view.showAnimatedGradientSkeleton(animation: animation)
         //        }
         
+        
+        //activity indicatior
+        bookmarkBtnIndicator.alpha = 0
+        bookmarkBtn.addSubview(bookmarkBtnIndicator)
+        bookmarkBtnIndicator.snp.makeConstraints { (make) -> Void in
+            make.centerX.equalToSuperview()
+            make.centerY.equalToSuperview()
+        }
+        
+        
         eventTitle.textColor = .whiteText()
         byLabel.textColor = .whiteText()
         performerLabel.textColor = .whiteText()
@@ -72,17 +85,6 @@ class BookmarkedCell: UICollectionViewCell {
     }
     
     @IBAction func bookmarkBtnTapped(_ sender: Any) {
-        if (self.bookmarkBtn.backgroundColor?.isEqual(UIColor.clear))! { //bookmarked
-            HapticFeedback.createImpact(style: .heavy)
-            UIView.animate(withDuration: 0.2, animations: {
-                self.bookmarkBtn.backgroundColor = .mintGreen()
-            })
-        } else { //remove bookmark
-            HapticFeedback.createImpact(style: .light)
-            UIView.animate(withDuration: 0.2, animations: {
-                self.bookmarkBtn.backgroundColor = .clear
-            })
-        }
-        delegate?.bookmarkBtnTapped()
+        delegate?.bookmarkBtnTapped(cell: self, tappedIndex: myIndexPath)
     }
 }

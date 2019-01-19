@@ -26,6 +26,10 @@ class BookmarkedSection: UICollectionViewCell {
     @IBOutlet weak var bookmarksCountLabel: UILabel!
     @IBOutlet weak var bookmarksCollectionView: UICollectionView!
     
+    var tredingSectionIndexDict: [Int: String] = [:] //to refresh TrendingCell bookmakrBtn state
+    
+    var bookmarkedEventArray: [Int] = [] //IMPORTANT: Adding an array to local to control bookmarkBtn's state because of cell reuse issues
+    
     var bookmarkedEvents: [BookmarkedEvent] = [] {
         didSet {
             bookmarksCollectionView.reloadData()
@@ -37,7 +41,7 @@ class BookmarkedSection: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        NotificationCenter.default.addObserver(self, selector: #selector(reloadCollectionView), name: .refreshBookmarkedSection, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(refreshBookmarkedSection(_:)), name: .refreshBookmarkedSection, object: nil)
         
         bookmarkSectionTitle.textColor = .whiteText()
         bookmarkSectionTitle.text = "Your Bookmarks"
@@ -90,16 +94,23 @@ class BookmarkedSection: UICollectionViewCell {
             }.catch { error in }
     }
     
-    @objc private func reloadCollectionView() {
+    @objc private func refreshBookmarkedSection(_ notification: Notification) {
         reloadIndicator.startAnimating()
         UIView.animate(withDuration: 0.2) {
             self.bookmarksCollectionView.alpha = 0
             self.reloadIndicator.alpha = 1
         }
-        
         getBookmarkedEvents()
-        print("1234567")
-        bookmarksCollectionView.reloadData()
+        
+        if let data = notification.userInfo {
+            if let keyToAdd = data["key_to_add"] as? Int, let id = data["id"] as? String {
+                self.tredingSectionIndexDict[keyToAdd] = id
+                print("recived keyToAdd: \(keyToAdd), tredingSectionIndexArray: \(self.tredingSectionIndexDict)")
+            } else if let keyToRemove = data["key_to_remove"] as? Int, let _ = data["id"] as? String {
+                self.tredingSectionIndexDict.removeValue(forKey: keyToRemove)
+                print("recived keyToRemove: \(keyToRemove), tredingSectionIndexArray: \(self.tredingSectionIndexDict)")
+            }
+        }
     }
 }
 
@@ -114,11 +125,19 @@ extension BookmarkedSection: UICollectionViewDataSource, UICollectionViewDelegat
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = bookmarksCollectionView.dequeueReusableCell(withReuseIdentifier: BookmarkedCell.reuseIdentifier, for: indexPath) as! BookmarkedCell
-        cell.delegate = self
-        cell.eventTitle.text = "天星碼頭"
-        cell.dateLabel.text = "明天"
-        cell.performerLabel.text = "Billy Fung"
-        cell.bgImgView.image = UIImage(named: "cat")
+        if !bookmarkedEvents.isEmpty {
+            if let event = bookmarkedEvents[indexPath.row].targetEvent {
+                cell.delegate = self
+                cell.myIndexPath = indexPath
+                cell.eventTitle.text = event.title
+                cell.dateLabel.text = event.dateTime
+                cell.performerLabel.text = event.organizerProfile?.name
+                cell.bookmarkBtn.backgroundColor = .mintGreen()
+                if let url = URL(string: event.images[0].secureUrl!) {
+                    cell.bgImgView.kf.setImage(with: url, options: [.transition(.fade(0.75))])
+                }
+            }
+        }
         return cell
     }
     
@@ -133,7 +152,89 @@ extension BookmarkedSection: UICollectionViewDataSource, UICollectionViewDelegat
 }
 
 extension BookmarkedSection: BookmarkedCellDelegate {
-    func bookmarkBtnTapped() {
-        print("tapped")
+    func bookmarkBtnTapped(cell: BookmarkedCell, tappedIndex: IndexPath) {
+        if let eventId = bookmarkedEvents[tappedIndex.row].targetEvent?.id {
+            if (cell.bookmarkBtn.backgroundColor?.isEqual(UIColor.clear))! { //do bookmark action
+                HapticFeedback.createImpact(style: .heavy)
+                cell.bookmarkBtn.isUserInteractionEnabled = false
+
+                //animate button state
+                cell.bookmarkBtnIndicator.startAnimating()
+                UIView.animate(withDuration: 0.2) {
+                    cell.bookmarkBtnIndicator.alpha = 1
+                }
+
+                UIView.transition(with: cell.bookmarkBtn, duration: 0.2, options: .transitionCrossDissolve, animations: {
+                    cell.bookmarkBtn.setImage(nil, for: .normal)
+                }, completion: nil)
+
+                //create bookmark action
+                EventService.createBookmark(eventId: eventId).done { _ in
+                    print("Event with ID (\(eventId)) bookmarked")
+                    }.ensure {
+                        self.bookmarkedEventArray.append(tappedIndex.row) //the cell is now hold by this array and will not have cell reuse issues
+                        UIView.animate(withDuration: 0.2) {
+                            cell.bookmarkBtn.backgroundColor = .mintGreen()
+                            cell.bookmarkBtnIndicator.alpha = 0
+                        }
+
+                        UIView.transition(with: cell.bookmarkBtn, duration: 0.2, options: .transitionCrossDissolve, animations: {
+                            cell.bookmarkBtn.setImage(UIImage(named: "bookmark"), for: .normal)
+                        }, completion: nil)
+
+                        cell.bookmarkBtn.isUserInteractionEnabled = true
+                        NotificationCenter.default.post(name: .refreshBookmarkedSection, object: nil) //reload collection view in BookmarkedSection
+                        UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                    }.catch { error in }
+                
+            } else { //remove bookmark
+                print(tappedIndex.row)
+                HapticFeedback.createImpact(style: .light)
+                cell.bookmarkBtn.isUserInteractionEnabled = false
+
+                //animate button state
+                cell.bookmarkBtnIndicator.startAnimating()
+                UIView.animate(withDuration: 0.2) {
+                    cell.bookmarkBtnIndicator.alpha = 1
+                }
+
+                UIView.transition(with: cell.bookmarkBtn, duration: 0.2, options: .transitionCrossDissolve, animations: {
+                    cell.bookmarkBtn.setImage(nil, for: .normal)
+                }, completion: nil)
+
+                //remove bookmark action
+                EventService.removeBookmark(eventId: eventId).done { response in
+                    //print(response)
+                    }.ensure {
+                        UIView.animate(withDuration: 0.2) {
+                            cell.bookmarkBtn.backgroundColor = .clear
+                            cell.bookmarkBtnIndicator.alpha = 0
+                        }
+
+                        UIView.transition(with: cell.bookmarkBtn, duration: 0.2, options: .transitionCrossDissolve, animations: {
+                            cell.bookmarkBtn.setImage(UIImage(named: "bookmark"), for: .normal)
+                        }, completion: nil)
+
+                        cell.bookmarkBtn.isUserInteractionEnabled = true
+                        
+//                        if self.tredingSectionIndexArray.isEmpty { //also reload collection view in TrendingSection if cell is visible
+//                            NotificationCenter.default.post(name: .refreshTrendingSectionCell, object: nil, userInfo: ["id": eventId])
+//                        } else {
+//
+//                        }
+                        
+                        NotificationCenter.default.post(name: .refreshTrendingSectionCell, object: nil, userInfo: ["key_to_remove": Array(self.tredingSectionIndexDict)[tappedIndex.row].key, "id": eventId])
+                        print("Sending index \(Array(self.tredingSectionIndexDict)[tappedIndex.row].key) from BookmarkedSection to TrendingSection")
+                        self.tredingSectionIndexDict.removeValue(forKey: tappedIndex.row)
+                        
+                        NotificationCenter.default.post(name: .refreshBookmarkedSection, object: nil) //reload collection view in this view
+                        UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                    }.catch { error in }
+            }
+
+        } else {
+            print("Can't get bookamrk section event id")
+        }
+        
     }
 }

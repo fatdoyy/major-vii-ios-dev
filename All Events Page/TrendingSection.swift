@@ -13,7 +13,7 @@ protocol TrendingSectionDelegate{
 }
 
 class TrendingSection: UICollectionViewCell {
-
+    
     static let reuseIdentifier = "trendingSection"
     
     var delegate: TrendingSectionDelegate?
@@ -25,7 +25,11 @@ class TrendingSection: UICollectionViewCell {
     @IBOutlet weak var trendingSectionLabel: UILabel!
     @IBOutlet weak var trendingCollectionView: UICollectionView!
     
-    var bookmarkedEventArray: [Int] = [] //IMPORTANT: Adding an array to local to control bookmarkBtn's state because of cell reuse issues
+    var bookmarkedEventDict: [Int: String] = [:] { //IMPORTANT: Adding an array to local to control bookmarkBtn's state because of cell reuse issues
+        didSet{
+            
+        }
+    }
     
     var trendingEvents: [Event] = [] {
         didSet {
@@ -35,7 +39,9 @@ class TrendingSection: UICollectionViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(refreshTrendingSectionCell(_:)), name: .refreshTrendingSectionCell, object: nil)
+        
         trendingSectionLabel.textColor = .whiteText()
         trendingSectionLabel.text = "Trending"
         
@@ -53,13 +59,13 @@ class TrendingSection: UICollectionViewCell {
         trendingCollectionView.isPagingEnabled = false
         
         trendingCollectionView.contentInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
- 
+        
         trendingCollectionView.backgroundColor = .darkGray()
         trendingCollectionView.register(UINib.init(nibName: "TrendingCell", bundle: nil), forCellWithReuseIdentifier: TrendingCell.reuseIdentifier)
         
         getTrendingEvents()
     }
-
+    
     override func layoutSubviews() {
         super.layoutSubviews()
         //fix big/small screen ratio issue
@@ -74,6 +80,45 @@ class TrendingSection: UICollectionViewCell {
                 UIApplication.shared.isNetworkActivityIndicatorVisible = false
             }.catch { error in }
     }
+    
+    //refresh bookmarkBtn state
+    @objc private func refreshTrendingSectionCell(_ notification: Notification) {
+        let visibleCells = trendingCollectionView.visibleCells as! [TrendingCell]
+        if let event = notification.userInfo {
+            if let localCellIndex = event["key_to_remove"] as? Int, let removeId = event["id"] as? String {
+                self.bookmarkedEventDict.removeValue(forKey: localCellIndex)
+                print(self.bookmarkedEventDict)
+                
+                for cell in visibleCells {
+                    if cell.eventId == removeId { //remove bookmark
+                        cell.bookmarkBtn.isUserInteractionEnabled = false
+                        
+                        //animate button state
+                        cell.bookmarkBtnIndicator.startAnimating()
+                        UIView.animate(withDuration: 0.2) {
+                            cell.bookmarkBtnIndicator.alpha = 1
+                        }
+                        
+                        UIView.transition(with: cell.bookmarkBtn, duration: 0.2, options: .transitionCrossDissolve, animations: {
+                            cell.bookmarkBtn.setImage(nil, for: .normal)
+                        }, completion: nil)
+                        
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
+                            UIView.animate(withDuration: 0.2) {
+                                cell.bookmarkBtn.backgroundColor = .clear
+                                cell.bookmarkBtnIndicator.alpha = 0
+                            }
+                            UIView.transition(with: cell.bookmarkBtn, duration: 0.2, options: .transitionCrossDissolve, animations: {
+                                cell.bookmarkBtn.setImage(UIImage(named: "bookmark"), for: .normal)
+                            }, completion: nil)
+                            cell.bookmarkBtn.isUserInteractionEnabled = true
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
 }
 
 // MARK: UICollectionView Data Source
@@ -104,13 +149,18 @@ extension TrendingSection: UICollectionViewDataSource, UICollectionViewDelegate,
                 cell.bgImgView.kf.setImage(with: imgUrl, options: [.transition(.fade(0.75))])
             }
             
+            if let id = trendingEvents[indexPath.row].id {
+                cell.eventId = id
+            }
+            
             cell.eventTitle.text = trendingEvents[indexPath.row].title
             cell.performerLabel.text = trendingEvents[indexPath.row].organizerProfile?.name
             cell.dateLabel.text = trendingEvents[indexPath.row].dateTime
+            cell.bookmarkBtn.backgroundColor = .clear
             
             //detemine bookmarkBtn bg color
             if UserService.User.isLoggedIn() {
-                if !bookmarkedEventArray.contains(indexPath.row) {
+                if !bookmarkedEventDict.keys.contains(indexPath.row) {
                     /* Check if local array is holding this bookmarked cell
                      NOTE: This check is to prevent cell reuse issues, all bookmarked events will be saved in server */
                     
@@ -120,7 +170,8 @@ extension TrendingSection: UICollectionViewDataSource, UICollectionViewDelegate,
                                 //check if bookmarked list contains id
                                 let isBookmarked = event.targetEvent?.id == self.trendingEvents[indexPath.row].id
                                 if isBookmarked {
-                                    self.bookmarkedEventArray.append(indexPath.row)
+                                    self.bookmarkedEventDict[indexPath.row] = cell.eventId
+                                    print(self.bookmarkedEventDict)
                                     
                                     //animate button state
                                     UIView.transition(with: cell.bookmarkBtn, duration: 0.2, options: .transitionCrossDissolve, animations: {
@@ -180,7 +231,6 @@ extension TrendingSection: UICollectionViewDataSource, UICollectionViewDelegate,
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print(indexPath.row)
         delegate?.trendingCellTapped(eventId: trendingEvents[indexPath.row].id ?? "")
     }
 }
@@ -193,7 +243,7 @@ extension TrendingSection: TrendingCellDelegate {
                 if (cell.bookmarkBtn.backgroundColor?.isEqual(UIColor.clear))! { //do bookmark action
                     HapticFeedback.createImpact(style: .heavy)
                     cell.bookmarkBtn.isUserInteractionEnabled = false
-
+                    
                     //animate button state
                     cell.bookmarkBtnIndicator.startAnimating()
                     UIView.animate(withDuration: 0.2) {
@@ -208,7 +258,6 @@ extension TrendingSection: TrendingCellDelegate {
                     EventService.createBookmark(eventId: eventId).done { _ in
                         print("Event with ID (\(eventId)) bookmarked")
                         }.ensure {
-                            self.bookmarkedEventArray.append(tappedIndex.row) //the cell is now hold by this array and will not have cell reuse issues
                             UIView.animate(withDuration: 0.2) {
                                 cell.bookmarkBtn.backgroundColor = .mintGreen()
                                 cell.bookmarkBtnIndicator.alpha = 0
@@ -219,7 +268,11 @@ extension TrendingSection: TrendingCellDelegate {
                             }, completion: nil)
                             
                             cell.bookmarkBtn.isUserInteractionEnabled = true
-                            NotificationCenter.default.post(name: .refreshBookmarkedSection, object: nil) //reload collection view in BookmarkedSection
+                            self.bookmarkedEventDict[tappedIndex.row] = eventId
+                            print(self.bookmarkedEventDict)
+
+                            NotificationCenter.default.post(name: .refreshBookmarkedSection, object: nil, userInfo: ["key_to_add": tappedIndex.row, "id": eventId]) //reload collection view in BookmarkedSection
+                            
                             UIApplication.shared.isNetworkActivityIndicatorVisible = false
                         }.catch { error in }
                 } else { //remove bookmark
@@ -240,7 +293,7 @@ extension TrendingSection: TrendingCellDelegate {
                     EventService.removeBookmark(eventId: eventId).done { response in
                         print(response)
                         }.ensure {
-                            self.bookmarkedEventArray.remove(object: tappedIndex.row) //the cell is now deleted and will not have cell reuse issues
+                            
                             UIView.animate(withDuration: 0.2) {
                                 cell.bookmarkBtn.backgroundColor = .clear
                                 cell.bookmarkBtnIndicator.alpha = 0
@@ -251,11 +304,15 @@ extension TrendingSection: TrendingCellDelegate {
                             }, completion: nil)
                             
                             cell.bookmarkBtn.isUserInteractionEnabled = true
-                            NotificationCenter.default.post(name: .refreshBookmarkedSection, object: nil) //reload collection view in BookmarkedSection
+                            self.bookmarkedEventDict.removeValue(forKey: tappedIndex.row) //the cell is now deleted and will not have cell reuse issues
+                            print(self.bookmarkedEventDict)
+                            
+                            NotificationCenter.default.post(name: .refreshBookmarkedSection, object: nil, userInfo: ["key_to_remove": tappedIndex.row, "id": eventId]) //reload collection view in BookmarkedSection
+                            
                             UIApplication.shared.isNetworkActivityIndicatorVisible = false
                         }.catch { error in }
                 }
-
+                
             } else {
                 print("Can't get trending section event id")
             }
@@ -265,6 +322,6 @@ extension TrendingSection: TrendingCellDelegate {
         }
         
     }
-
+    
 }
 

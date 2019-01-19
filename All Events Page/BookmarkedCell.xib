@@ -47,7 +47,7 @@
                         </constraints>
                         <state key="normal" image="bookmark"/>
                         <connections>
-                            <action selector="bookmarkBtnTapped:" destination="irB-LT-67K" eventType="touchUpInside" id="0cl-wW-IXH"/>
+                            <action selector="bookmarkBtnTapped:" destination="irB-LT-67K" eventType="touchUpInside" id="FDa-JX-cl7"/>
                         </connections>
                     </button>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2k+" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TVf-tT-eMV">

@@ -10,5 +10,8 @@ import Foundation
 
 extension Notification.Name {
     static let loginCompleted = Notification.Name("loginCompleted")
+    
     static let refreshBookmarkedSection = Notification.Name("refreshBookmarkedSection")
+    static let refreshTrendingSectionCell = Notification.Name("refreshTrendingSectionCell")
+    static let initTredingSectionIndexArray = Notification.Name("initTredingSectionIndexArray")
 }
