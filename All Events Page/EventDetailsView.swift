@@ -10,6 +10,7 @@ import UIKit
 import Localize_Swift
 import SkeletonView
 import BouncyLayout
+import NVActivityIndicatorView
 
 protocol EventsDetailsViewDelegate {
     func imageCellTapped(index: Int, displacementItem: UIImageView)
@@ -23,6 +24,7 @@ class EventDetailsView: UIView {
     @IBOutlet weak var bookmarkBtn: UIButton!
     @IBOutlet weak var bookmarkCountImg: UIImageView!
     @IBOutlet weak var bookmarkCountLabel: UILabel!
+    var loadingIndicator = NVActivityIndicatorView(frame: CGRect(origin: CGPoint.zero, size: CGSize(width: 20, height: 20)), type: .lineScale)
     
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var performerLabel: UILabel!
@@ -77,6 +79,15 @@ class EventDetailsView: UIView {
         
         contentView.backgroundColor = .darkGray()
         contentView.layer.cornerRadius = GlobalCornerRadius.value + 4
+        
+        bookmarkBtn.setImage(nil, for: .normal)
+        //loading indicatior
+        loadingIndicator.startAnimating()
+        bookmarkBtn.addSubview(loadingIndicator)
+        loadingIndicator.snp.makeConstraints { (make) -> Void in
+            make.centerX.equalToSuperview()
+            make.centerY.equalToSuperview()
+        }
         
         setupLabels()
         hideViews()

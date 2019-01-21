@@ -11,8 +11,7 @@ import BouncyLayout
 import NVActivityIndicatorView
 
 protocol BookmarkSectionDelegate{
-    func bookmarkedCellTapped()
-    //func bookmarkedCellBookmarkBtnTapped(section: BookmarkedSection, cell: BookmarkedCell, tappedIndex: IndexPath)
+    func bookmarkedCellTapped(eventId: String)
 }
 
 class BookmarkedSection: UICollectionViewCell {
@@ -27,12 +26,18 @@ class BookmarkedSection: UICollectionViewCell {
     @IBOutlet weak var bookmarksCountLabel: UILabel!
     @IBOutlet weak var bookmarksCollectionView: UICollectionView!
     
-    var tredingSectionIndexDict: [Int: String] = [:] //to refresh TrendingCell bookmakrBtn state
-    
-    var bookmarkedEventArray: [Int] = [] //IMPORTANT: Adding an array to local to control bookmarkBtn's state because of cell reuse issues
+    var bookmarkedEventIdArray: [String] = [] //to refresh TrendingCell bookmakrBtn state
     
     var bookmarkedEvents: [BookmarkedEvent] = [] {
         didSet {
+            if bookmarksCountLabel.alpha == 0 {
+                UIView.animate(withDuration: 0.2) {
+                    self.bookmarksCountLabel.alpha = 1
+                }
+            }
+            let count = bookmarkedEvents.count
+            let isCountEqualsToOne = count == 1
+            bookmarksCountLabel.text =  isCountEqualsToOne ? "1 Event" : "\(count) Events"
             bookmarksCollectionView.reloadData()
         }
     }
@@ -50,6 +55,7 @@ class BookmarkedSection: UICollectionViewCell {
         
         bookmarksCountLabel.textColor = .purpleText()
         bookmarksCountLabel.text = "4 Events"
+        bookmarksCountLabel.alpha = 0
         
         if let layout = bookmarksCollectionView.collectionViewLayout as? BouncyLayout {
             layout.scrollDirection = .horizontal
@@ -82,8 +88,18 @@ class BookmarkedSection: UICollectionViewCell {
 
     func getBookmarkedEvents() {
         EventService.getBookmarkedEvents().done { response in
-            self.bookmarkedEvents = response.bookmarkedEventsList
-            print("bookmarked events list count: \(response.bookmarkedEventsList.count)")
+            self.bookmarkedEvents = response.bookmarkedEventsList.reversed()
+            
+            for event in response.bookmarkedEventsList {
+                if let eventId = event.targetEvent!.id {
+                    if !self.bookmarkedEventIdArray.contains(eventId) {
+                        self.bookmarkedEventIdArray.append(eventId)
+                    }
+                }
+            }
+            
+            print("Bookmarked events list count: \(response.bookmarkedEventsList.count)")
+            print("Initial bookmarkedEventIdArray: \(self.bookmarkedEventIdArray)")
             }.ensure {
                 if self.reloadIndicator.alpha != 0 {
                     UIView.animate(withDuration: 0.2) {
@@ -102,17 +118,23 @@ class BookmarkedSection: UICollectionViewCell {
             self.bookmarksCollectionView.alpha = 0
             self.reloadIndicator.alpha = 1
         }
-        getBookmarkedEvents()
 
         if let data = notification.userInfo {
-            if let keyToAdd = data["key_to_add"] as? Int, let id = data["id"] as? String {
-                self.tredingSectionIndexDict[keyToAdd] = id
-                print("Recieved keyToAdd: \(keyToAdd) - tredingSectionIndexDict: \(self.tredingSectionIndexDict)\n")
-            } else if let keyToRemove = data["key_to_remove"] as? Int, let _ = data["id"] as? String {
-                self.tredingSectionIndexDict.removeValue(forKey: keyToRemove)
-                print("Recieved keyToRemove: \(keyToRemove) - tredingSectionIndexDict: \(self.tredingSectionIndexDict)\n")
+            if let eventId = data["add_id"] as? String {
+                print("Recieved event id: \(eventId), double checking BookmarkedSection's bookmarkedEventIdArray...")
+                if !self.bookmarkedEventIdArray.contains(eventId) {
+                    self.bookmarkedEventIdArray.append(eventId)
+                    print("\(eventId) is added to bookmarkedEventIdArray - bookmarkedEventIdArray: \(self.bookmarkedEventIdArray)\n")
+                }
+            } else if let eventId = data["remove_id"] as? String {
+                if self.bookmarkedEventIdArray.contains(eventId) {
+                    self.bookmarkedEventIdArray.remove(object: eventId)
+                    print("Recieved remove id: \(eventId) - bookmarkedEventIdArray: \(self.bookmarkedEventIdArray)\n")
+                }
             }
         }
+        
+        getBookmarkedEvents()
     }
     
     @objc private func removeAllObservers() {
@@ -152,16 +174,14 @@ extension BookmarkedSection: UICollectionViewDataSource, UICollectionViewDelegat
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print(indexPath.row)
-        delegate?.bookmarkedCellTapped()
+        if let eventId = bookmarkedEvents[indexPath.row].targetEvent?.id {
+            delegate?.bookmarkedCellTapped(eventId: eventId)
+        }
     }
 }
 
 extension BookmarkedSection: BookmarkedCellDelegate {
     func bookmarkBtnTapped(cell: BookmarkedCell, tappedIndex: IndexPath) {
-        //delegate?.bookmarkedCellBookmarkBtnTapped(section: self, cell: cell, tappedIndex: tappedIndex)
-        
-        
         if let eventId = bookmarkedEvents[tappedIndex.row].targetEvent?.id {
             if (cell.bookmarkBtn.backgroundColor?.isEqual(UIColor.clear))! { //do bookmark action
                 HapticFeedback.createImpact(style: .heavy)
@@ -181,7 +201,7 @@ extension BookmarkedSection: BookmarkedCellDelegate {
                 EventService.createBookmark(eventId: eventId).done { _ in
                     print("Event with ID (\(eventId)) bookmarked")
                     }.ensure {
-                        self.bookmarkedEventArray.append(tappedIndex.row) //the cell is now hold by this array and will not have cell reuse issues
+                        self.bookmarkedEventIdArray.append(eventId) //the cell is now hold by this array and will not have cell reuse issues
                         UIView.animate(withDuration: 0.2) {
                             cell.bookmarkBtn.backgroundColor = .mintGreen()
                             cell.bookmarkBtnIndicator.alpha = 0
@@ -197,7 +217,6 @@ extension BookmarkedSection: BookmarkedCellDelegate {
                     }.catch { error in }
                 
             } else { //remove bookmark
-                print(tappedIndex.row)
                 HapticFeedback.createImpact(style: .light)
                 cell.bookmarkBtn.isUserInteractionEnabled = false
 
@@ -226,17 +245,11 @@ extension BookmarkedSection: BookmarkedCellDelegate {
 
                         cell.bookmarkBtn.isUserInteractionEnabled = true
                         
-//                        if self.tredingSectionIndexArray.isEmpty { //also reload collection view in TrendingSection if cell is visible
-//                            NotificationCenter.default.post(name: .refreshTrendingSectionCell, object: nil, userInfo: ["id": eventId])
-//                        } else {
-//
-//                        }
-                        
-                        if let key = self.tredingSectionIndexDict.uniqueKey(forValue: eventId) {
-                            print("Sending key \(key) from BookmarkedSection to TrendingSection for removal\n")
-                            NotificationCenter.default.post(name: .refreshTrendingSectionCell, object: nil, userInfo: ["key_to_remove": key, "id": eventId])
-                            self.tredingSectionIndexDict.removeValue(forKey: key)
-                            print("tredingSectionIndexDict : \(self.tredingSectionIndexDict)")
+                        if let eventId = self.bookmarkedEvents[tappedIndex.row].targetEvent?.id {
+                            print("Sending id \(eventId) from BookmarkedSection to TrendingSection for removal\n")
+                            NotificationCenter.default.post(name: .refreshTrendingSectionCell, object: nil, userInfo: ["remove_id": eventId])
+                            self.bookmarkedEventIdArray.remove(object: eventId)
+                            print("bookmarkedEventIdArray : \(self.bookmarkedEventIdArray)")
                         }
                         
                         NotificationCenter.default.post(name: .refreshBookmarkedSection, object: nil) //reload collection view in this view

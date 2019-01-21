@@ -152,6 +152,14 @@ extension EventsListViewController: UICollectionViewDelegate, UICollectionViewDe
             case .Bookmark:
                 let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: BookmarkedSection.reuseIdentifier, for: indexPath) as! BookmarkedSection
                 cell.delegate = self
+                let count = cell.bookmarkedEvents.count
+                let isCountEqualsToOne = count == 1
+                
+                UIView.animate(withDuration: 0.2) {
+                    cell.bookmarksCountLabel.alpha = 1
+                }
+
+                cell.bookmarksCountLabel.text =  isCountEqualsToOne ? "1 Event" : "\(count) Events"
                 return cell
             case .Featured:
                 let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: FeaturedCell.reuseIdentifier, for: indexPath) as! FeaturedCell
@@ -243,8 +251,8 @@ extension EventsListViewController: FollowingSectionDelegate{
 
 //MARK: Bookmark Section Delegate
 extension EventsListViewController: BookmarkSectionDelegate{
-    func bookmarkedCellTapped() {
-        EventDetailsViewController.push(fromView: self, eventId: "")
+    func bookmarkedCellTapped(eventId: String) {
+        EventDetailsViewController.push(fromView: self, eventId: eventId)
     }
 }
 
