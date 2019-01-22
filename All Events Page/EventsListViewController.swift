@@ -65,24 +65,45 @@ class EventsListViewController: ScrollingNavigationViewController, UIGestureReco
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        NotificationCenter.default.post(name: .removeTrendingSectionObservers, object: nil)
-        NotificationCenter.default.post(name: .removeBookingSectionObservers, object: nil)
+        
+        if self.isMovingFromParent { //remove only when this view is popped
+            NotificationCenter.default.post(name: .removeTrendingSectionObservers, object: nil)
+            NotificationCenter.default.post(name: .removeBookmarkedSectionObservers, object: nil)
+        }
+        
+        let bookmarkedSection = mainCollectionView.visibleCells
+        for cell in bookmarkedSection {
+            if let cell = cell as? BookmarkedSection {
+                cell.alpha = 0
+            }
+        }
+        
         
         TabBar.show(rootView: self)
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        if !self.isMovingFromParent {
+
+            
+        }
+        
     }
     
     private func setupLeftBarItems(){
         let customView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: 110, height: 44.0))
         customView.backgroundColor = .clear
         
-        let menuBtn = UIButton(type: .custom)
-        menuBtn.frame = CGRect(x: 5, y: 10, width: 14.13, height: 24)
-        menuBtn.setImage(UIImage(named:"back"), for: .normal)
-        menuBtn.addTarget(self, action: #selector(popView), for: .touchUpInside)
-        customView.addSubview(menuBtn)
+        let backBtn = UIButton(type: .custom)
+        backBtn.frame = CGRect(x: 5, y: 10, width: 14.13, height: 24)
+        backBtn.setImage(UIImage(named: "back"), for: .normal)
+        backBtn.addTarget(self, action: #selector(popView), for: .touchUpInside)
+        customView.addSubview(backBtn)
         
         let titleLabel = UILabel()
-        titleLabel.frame = CGRect(x: menuBtn.frame.maxX + 20, y: 0, width: 90, height: 44)
+        titleLabel.frame = CGRect(x: backBtn.frame.maxX + 20, y: 0, width: 90, height: 44)
         titleLabel.backgroundColor = .clear
         titleLabel.textColor = .whiteText()
         titleLabel.font = UIFont.systemFont(ofSize: 24, weight: .bold)

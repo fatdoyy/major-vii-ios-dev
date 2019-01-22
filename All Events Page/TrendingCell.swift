@@ -60,6 +60,7 @@ class TrendingCell: UICollectionViewCell {
         
         //activity indicatior
         if UserService.User.isLoggedIn() {
+            bookmarkBtnIndicator.startAnimating()
             bookmarkBtn.setImage(nil, for: .normal)
             bookmarkBtnIndicator.alpha = 1
             bookmarkBtn.addSubview(bookmarkBtnIndicator)
@@ -67,7 +68,6 @@ class TrendingCell: UICollectionViewCell {
                 make.centerX.equalToSuperview()
                 make.centerY.equalToSuperview()
             }
-            bookmarkBtnIndicator.startAnimating()
         }
             
         SkeletonAppearance.default.multilineCornerRadius = Int(GlobalCornerRadius.value / 2)

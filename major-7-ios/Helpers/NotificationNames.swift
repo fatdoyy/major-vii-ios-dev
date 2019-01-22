@@ -12,10 +12,19 @@ extension Notification.Name {
     static let loginCompleted = Notification.Name("loginCompleted")
     
     static let refreshBookmarkedSection = Notification.Name("refreshBookmarkedSection")
-    static let refreshTrendingSectionCell = Notification.Name("refreshTrendingSectionCell")
-    static let initTredingSectionIndexArray = Notification.Name("initTredingSectionIndexArray")
+    static let refreshBookmarkedSectionFromDetails = Notification.Name("refreshBookmarkedSectionFromDetails")
     
+    static let refreshTrendingSectionCell = Notification.Name("refreshTrendingSectionCell")
+    
+    static let removeBookmarkedSectionObservers = Notification.Name("removeBookmarkedSectionObservers")
     static let removeTrendingSectionObservers = Notification.Name("removeTrendingSectionObservers")
-    static let removeBookingSectionObservers = Notification.Name("removeBookingSectionObservers")
+    
+    
+}
 
+extension NotificationCenter {
+    func setObserver(_ observer: AnyObject, selector: Selector, name: NSNotification.Name, object: AnyObject?) {
+        NotificationCenter.default.removeObserver(observer, name: name, object: object)
+        NotificationCenter.default.addObserver(observer, selector: selector, name: name, object: object)
+    }
 }

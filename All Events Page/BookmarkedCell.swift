@@ -71,6 +71,7 @@ class BookmarkedCell: UICollectionViewCell {
         
         //activity indicatior
         bookmarkBtnIndicator.alpha = 0
+        bookmarkBtnIndicator.startAnimating()
         bookmarkBtn.addSubview(bookmarkBtnIndicator)
         bookmarkBtnIndicator.snp.makeConstraints { (make) -> Void in
             make.centerX.equalToSuperview()

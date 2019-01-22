@@ -41,8 +41,7 @@ class TrendingSection: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        NotificationCenter.default.addObserver(self, selector: #selector(refreshTrendingSectionCell(_:)), name: .refreshTrendingSectionCell, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(removeAllObservers), name: .removeTrendingSectionObservers, object: nil)
+        NotificationCenter.default.setObserver(self, selector: #selector(refreshTrendingSectionCell(_:)), name: .refreshTrendingSectionCell, object: nil)
         
         trendingSectionLabel.textColor = .whiteText()
         trendingSectionLabel.text = "Trending"
@@ -189,14 +188,12 @@ extension TrendingSection: UICollectionViewDataSource, UICollectionViewDelegate,
                                             cell.bookmarkBtnIndicator.alpha = 0
                                             cell.bookmarkBtn.backgroundColor = .mintGreen()
                                         }
-                                        cell.bookmarkBtnIndicator.stopAnimating()
                                         
                                     } else { //not bookmarked
                                         //animate button state to default
                                         UIView.animate(withDuration: 0.2) {
                                             cell.bookmarkBtnIndicator.alpha = 0
                                         }
-                                        cell.bookmarkBtnIndicator.stopAnimating()
                                         
                                         UIView.transition(with: cell.bookmarkBtn, duration: 0.2, options: .transitionCrossDissolve, animations: {
                                             cell.bookmarkBtn.setImage(UIImage(named: "bookmark"), for: .normal)
@@ -208,7 +205,6 @@ extension TrendingSection: UICollectionViewDataSource, UICollectionViewDelegate,
                                 UIView.animate(withDuration: 0.2) {
                                     cell.bookmarkBtnIndicator.alpha = 0
                                 }
-                                cell.bookmarkBtnIndicator.stopAnimating()
                                 
                                 UIView.transition(with: cell.bookmarkBtn, duration: 0.2, options: .transitionCrossDissolve, animations: {
                                     cell.bookmarkBtn.setImage(UIImage(named: "bookmark"), for: .normal)
@@ -224,7 +220,6 @@ extension TrendingSection: UICollectionViewDataSource, UICollectionViewDelegate,
                             cell.bookmarkBtn.backgroundColor = .mintGreen()
                             cell.bookmarkBtnIndicator.alpha = 0
                         }
-                        cell.bookmarkBtnIndicator.stopAnimating()
                         
                         UIView.transition(with: cell.bookmarkBtn, duration: 0.2, options: .transitionCrossDissolve, animations: {
                             cell.bookmarkBtn.setImage(UIImage(named: "bookmark"), for: .normal)
@@ -248,11 +243,10 @@ extension TrendingSection: TrendingCellDelegate {
         if UserService.User.isLoggedIn() {
             if let eventId = self.trendingEvents[tappedIndex.row].id {
                 if (cell.bookmarkBtn.backgroundColor?.isEqual(UIColor.clear))! { //do bookmark action
-                    HapticFeedback.createImpact(style: .heavy)
+                    HapticFeedback.createImpact(style: .light)
                     cell.bookmarkBtn.isUserInteractionEnabled = false
                     
                     //animate button state
-                    cell.bookmarkBtnIndicator.startAnimating()
                     UIView.animate(withDuration: 0.2) {
                         cell.bookmarkBtnIndicator.alpha = 1
                     }
@@ -281,7 +275,9 @@ extension TrendingSection: TrendingCellDelegate {
                             NotificationCenter.default.post(name: .refreshBookmarkedSection, object: nil, userInfo: ["add_id": eventId]) //reload collection view in BookmarkedSection
                             
                             UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                            HapticFeedback.createNotificationFeedback(style: .success)
                         }.catch { error in }
+                    
                 } else { //remove bookmark
                     HapticFeedback.createImpact(style: .light)
                     cell.bookmarkBtn.isUserInteractionEnabled = false
@@ -320,6 +316,7 @@ extension TrendingSection: TrendingCellDelegate {
                             NotificationCenter.default.post(name: .refreshBookmarkedSection, object: nil, userInfo: ["remove_id": eventId]) //reload collection view in BookmarkedSection
                             
                             UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                            HapticFeedback.createNotificationFeedback(style: .success)
                         }.catch { error in }
                 }
                 

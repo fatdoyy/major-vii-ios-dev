@@ -37,8 +37,27 @@ class BookmarkedSection: UICollectionViewCell {
             }
             let count = bookmarkedEvents.count
             let isCountEqualsToOne = count == 1
-            bookmarksCountLabel.text =  isCountEqualsToOne ? "1 Event" : "\(count) Events"
-            bookmarksCollectionView.reloadData()
+            bookmarksCountLabel.text = isCountEqualsToOne ? "1 Event" : "\(count) Events"
+            
+            if oldValue.count != 0 && oldValue.count != bookmarkedEvents.count {
+                //self.reloadIndicator.startAnimating()
+                UIView.animate(withDuration: 0.2) {
+                    self.reloadIndicator.alpha = 1
+                    self.bookmarksCollectionView.alpha = 0
+                }
+                
+                self.bookmarksCollectionView.reloadData()
+                
+                //DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                    UIView.animate(withDuration: 0.2) {
+                        self.reloadIndicator.alpha = 0
+                        self.bookmarksCollectionView.alpha = 1
+                    }
+                //}
+                
+            } else {
+                bookmarksCollectionView.reloadData()
+            }
         }
     }
     
@@ -47,8 +66,9 @@ class BookmarkedSection: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        NotificationCenter.default.addObserver(self, selector: #selector(refreshBookmarkedSection(_:)), name: .refreshBookmarkedSection, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(removeAllObservers), name: .removeBookingSectionObservers, object: nil)
+        NotificationCenter.default.setObserver(self, selector: #selector(refreshBookmarkedSection(_:)), name: .refreshBookmarkedSection, object: nil)
+        NotificationCenter.default.setObserver(self, selector: #selector(refreshBookmarkedSectionFromDetails(_:)), name: .refreshBookmarkedSectionFromDetails, object: nil)
+        NotificationCenter.default.setObserver(self, selector: #selector(removeAllObservers), name: .removeBookmarkedSectionObservers, object: nil)
         
         bookmarkSectionTitle.textColor = .whiteText()
         bookmarkSectionTitle.text = "Your Bookmarks"
@@ -86,7 +106,7 @@ class BookmarkedSection: UICollectionViewCell {
         getBookmarkedEvents()
     }
 
-    func getBookmarkedEvents() {
+    func getBookmarkedEvents(completion: (() -> Void)? = nil) {
         EventService.getBookmarkedEvents().done { response in
             self.bookmarkedEvents = response.bookmarkedEventsList.reversed()
             
@@ -106,10 +126,11 @@ class BookmarkedSection: UICollectionViewCell {
                         self.reloadIndicator.alpha = 0
                         self.bookmarksCollectionView.alpha = 1
                     }
-                    self.reloadIndicator.stopAnimating()
                 }
                 UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                if let completion = completion { completion() }
             }.catch { error in }
+        
     }
     
     @objc private func refreshBookmarkedSection(_ notification: Notification) {
@@ -118,7 +139,7 @@ class BookmarkedSection: UICollectionViewCell {
             self.bookmarksCollectionView.alpha = 0
             self.reloadIndicator.alpha = 1
         }
-
+        
         if let data = notification.userInfo {
             if let eventId = data["add_id"] as? String {
                 print("Recieved event id: \(eventId), double checking BookmarkedSection's bookmarkedEventIdArray...")
@@ -137,9 +158,38 @@ class BookmarkedSection: UICollectionViewCell {
         getBookmarkedEvents()
     }
     
+    @objc private func refreshBookmarkedSectionFromDetails(_ notification: Notification) {
+//        getBookmarkedEvents {
+//            if let data = notification.userInfo {
+//                if let eventId = data["check_id"] as? String {
+//                    if !self.bookmarkedEventIdArray.contains(eventId) {
+//
+//                        self.reloadIndicator.startAnimating()
+//                        UIView.animate(withDuration: 0.2) {
+//                            self.reloadIndicator.alpha = 1
+//                            self.bookmarksCollectionView.alpha = 0
+//                        }
+//
+//                        self.bookmarksCollectionView.reloadData()
+//
+//                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+//                            UIView.animate(withDuration: 0.2) {
+//                                self.reloadIndicator.alpha = 0
+//                                self.bookmarksCollectionView.alpha = 1
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//        }
+        
+        getBookmarkedEvents()
+    }
+    
     @objc private func removeAllObservers() {
         NotificationCenter.default.removeObserver(self)
     }
+
 }
 
 extension BookmarkedSection: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout{
@@ -184,11 +234,10 @@ extension BookmarkedSection: BookmarkedCellDelegate {
     func bookmarkBtnTapped(cell: BookmarkedCell, tappedIndex: IndexPath) {
         if let eventId = bookmarkedEvents[tappedIndex.row].targetEvent?.id {
             if (cell.bookmarkBtn.backgroundColor?.isEqual(UIColor.clear))! { //do bookmark action
-                HapticFeedback.createImpact(style: .heavy)
+                HapticFeedback.createImpact(style: .light)
                 cell.bookmarkBtn.isUserInteractionEnabled = false
 
                 //animate button state
-                cell.bookmarkBtnIndicator.startAnimating()
                 UIView.animate(withDuration: 0.2) {
                     cell.bookmarkBtnIndicator.alpha = 1
                 }
@@ -214,6 +263,7 @@ extension BookmarkedSection: BookmarkedCellDelegate {
                         cell.bookmarkBtn.isUserInteractionEnabled = true
                         NotificationCenter.default.post(name: .refreshBookmarkedSection, object: nil) //reload collection view in BookmarkedSection
                         UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                        HapticFeedback.createNotificationFeedback(style: .success)
                     }.catch { error in }
                 
             } else { //remove bookmark
@@ -221,7 +271,6 @@ extension BookmarkedSection: BookmarkedCellDelegate {
                 cell.bookmarkBtn.isUserInteractionEnabled = false
 
                 //animate button state
-                cell.bookmarkBtnIndicator.startAnimating()
                 UIView.animate(withDuration: 0.2) {
                     cell.bookmarkBtnIndicator.alpha = 1
                 }
@@ -254,6 +303,7 @@ extension BookmarkedSection: BookmarkedCellDelegate {
                         
                         NotificationCenter.default.post(name: .refreshBookmarkedSection, object: nil) //reload collection view in this view
                         UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                        HapticFeedback.createNotificationFeedback(style: .success)
                     }.catch { error in }
             }
 

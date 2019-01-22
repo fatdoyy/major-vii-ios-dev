@@ -36,7 +36,6 @@ class EventDetailsViewController: UIViewController {
     
     @IBOutlet weak var roundedView: UIView!
     
-    
     //img viewer
     var imgUrlArray: [String] = []
     var imgViewerItems: [ImgViewerItem] = []
@@ -48,12 +47,16 @@ class EventDetailsViewController: UIViewController {
     //gesture for swipe-pop
     var gesture: UIGestureRecognizer?
     
+    //eventId
     var eventId = "" {
         didSet {
             getDetails(eventId: eventId)
         }
     }
     
+    var allBoomarkedEventId : [String] = []
+    
+    //event details
     var details : EventDetails? {
         didSet {
             loadDetails()
@@ -106,11 +109,15 @@ class EventDetailsViewController: UIViewController {
 
             }
         }
-        
-        NotificationCenter.default.post(name: .refreshTrendingSectionCell, object: nil)
-        NotificationCenter.default.post(name: .refreshBookmarkedSection, object: nil)
 
         TabBar.show(rootView: self)
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+
+        NotificationCenter.default.post(name: .refreshTrendingSectionCell, object: nil)
+        NotificationCenter.default.post(name: .refreshBookmarkedSectionFromDetails, object: nil, userInfo: ["check_id": eventId])
     }
     
     private func getDetails(eventId: String){
@@ -131,25 +138,40 @@ class EventDetailsViewController: UIViewController {
         
         bgView.delegate = self
         
+        //bookmarkBtn state
         EventService.getBookmarkedEvents().done { response in
-            for event in response.bookmarkedEventsList {
-                if self.eventId == event.targetEvent!.id {
-                    
+            if !response.bookmarkedEventsList.isEmpty {
+                for event in response.bookmarkedEventsList {
+                    if let targetEvent = event.targetEvent {
+                        if let eventId = targetEvent.id {
+                            self.allBoomarkedEventId.append(eventId)
+                        }
+                    }
+                }
+ 
+                if self.allBoomarkedEventId.contains(self.eventId) {
                     UIView.transition(with: self.bgView.bookmarkBtn, duration: 0.2, options: .transitionCrossDissolve, animations: {
                         self.bgView.bookmarkBtn.setImage(UIImage(named: "eventdetails_bookmarked_1"), for: .normal)
                     }, completion: nil)
                     
                     self.hideIndicator()
                 } else {
-                    
                     UIView.transition(with: self.bgView.bookmarkBtn, duration: 0.2, options: .transitionCrossDissolve, animations: {
                         self.bgView.bookmarkBtn.setImage(UIImage(named: "eventdetails_bookmarked_0"), for: .normal)
                     }, completion: nil)
                     
                     self.hideIndicator()
                 }
+                
+            } else { //bookmarkedEventsList is empty
+                UIView.transition(with: self.bgView.bookmarkBtn, duration: 0.2, options: .transitionCrossDissolve, animations: {
+                    self.bgView.bookmarkBtn.setImage(UIImage(named: "eventdetails_bookmarked_0"), for: .normal)
+                }, completion: nil)
+                
+                self.hideIndicator()
             }
             }.catch { error in }
+            
         
         bgView.titleLabel.text = details!.item?.title
         bgView.performerLabel.text = details!.item?.organizerProfile?.name
@@ -288,11 +310,13 @@ extension EventDetailsViewController: UIScrollViewDelegate{
 // MARK: Events Details View Delegate
 extension EventDetailsViewController: EventsDetailsViewDelegate{
     func bookmarkBtnTapped(sender: UIButton) {
+        sender.isUserInteractionEnabled = false
+        
         let bookmarkedImg = UIImage(named: "eventdetails_bookmarked_1")
         let notBookmarkedImg = UIImage(named: "eventdetails_bookmarked_0")
         
         if (sender.currentImage?.isEqual(notBookmarkedImg))! { //if the image is notBookmarkedImg, then do bookmark action
-            HapticFeedback.createImpact(style: .heavy)
+            HapticFeedback.createImpact(style: .light)
             
             showIndicator()
             
@@ -307,6 +331,9 @@ extension EventDetailsViewController: EventsDetailsViewDelegate{
                     sender.setImage(bookmarkedImg, for: .normal)
                 }, completion: nil)
                 print("Event(\(self.eventId)) bookmarked")
+                sender.isUserInteractionEnabled = true
+                }.ensure {
+                    HapticFeedback.createNotificationFeedback(style: .success)
                 }.catch { error in }
             
         } else {
@@ -327,6 +354,9 @@ extension EventDetailsViewController: EventsDetailsViewDelegate{
                     sender.setImage(notBookmarkedImg, for: .normal)
                 }, completion: nil)
                 print("Event(\(self.eventId)) bookmark removed")
+                sender.isUserInteractionEnabled = true
+                }.ensure {
+                    HapticFeedback.createNotificationFeedback(style: .success)
                 }.catch { error in }
         }
     }
