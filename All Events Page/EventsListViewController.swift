@@ -61,6 +61,19 @@ class EventsListViewController: ScrollingNavigationViewController, UIGestureReco
         if let navigationController = self.navigationController as? ScrollingNavigationController {
             navigationController.followScrollView(mainCollectionView, delay: 10.0)
         }
+        
+
+//        let bookmarkedSection = mainCollectionView.visibleCells //hide bookmark section when view did disappear
+//        for cell in bookmarkedSection {
+//            if let cell = cell as? BookmarkedSection {
+//                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+//                    UIView.animate(withDuration: 0.2) {
+//                        cell.bookmarksCollectionView.alpha = 1
+//                    }
+//                }
+//            }
+//        }
+
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -71,14 +84,6 @@ class EventsListViewController: ScrollingNavigationViewController, UIGestureReco
             NotificationCenter.default.post(name: .removeBookmarkedSectionObservers, object: nil)
         }
         
-        let bookmarkedSection = mainCollectionView.visibleCells
-        for cell in bookmarkedSection {
-            if let cell = cell as? BookmarkedSection {
-                cell.alpha = 0
-            }
-        }
-        
-        
         TabBar.show(rootView: self)
     }
     
@@ -86,8 +91,13 @@ class EventsListViewController: ScrollingNavigationViewController, UIGestureReco
         super.viewDidDisappear(animated)
         
         if !self.isMovingFromParent {
-
-            
+            let bookmarkedSection = mainCollectionView.visibleCells //hide bookmark section when view did disappear
+            for cell in bookmarkedSection {
+                if let cell = cell as? BookmarkedSection {
+                    cell.bookmarksCollectionView.alpha = 0
+                    cell.reloadIndicator.alpha = 1
+                }
+            }
         }
         
     }

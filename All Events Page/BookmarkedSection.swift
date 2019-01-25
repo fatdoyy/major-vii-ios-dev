@@ -9,22 +9,27 @@
 import UIKit
 import BouncyLayout
 import NVActivityIndicatorView
+import Pastel
 
 protocol BookmarkSectionDelegate{
     func bookmarkedCellTapped(eventId: String)
 }
 
 class BookmarkedSection: UICollectionViewCell {
-
+    
     static let reuseIdentifier = "bookmarkSection"
     
     var delegate: BookmarkSectionDelegate?
-
+    
     static let height: CGFloat = 247
     
     @IBOutlet weak var bookmarkSectionTitle: UILabel!
     @IBOutlet weak var bookmarksCountLabel: UILabel!
     @IBOutlet weak var bookmarksCollectionView: UICollectionView!
+    
+    var bgView = UIView()
+    var gradientBg = PastelView()
+    var emptyShadowView = UIView()
     
     var bookmarkedEventIdArray: [String] = [] //to refresh TrendingCell bookmakrBtn state
     
@@ -39,25 +44,32 @@ class BookmarkedSection: UICollectionViewCell {
             let isCountEqualsToOne = count == 1
             bookmarksCountLabel.text = isCountEqualsToOne ? "1 Event" : "\(count) Events"
             
-            if oldValue.count != 0 && oldValue.count != bookmarkedEvents.count {
-                //self.reloadIndicator.startAnimating()
+            bookmarksCollectionView.reloadData()
+            
+            if bookmarksCollectionView.alpha == 0 && bookmarkedEvents.count != 0 {
                 UIView.animate(withDuration: 0.2) {
-                    self.reloadIndicator.alpha = 1
+                    self.bookmarksCollectionView.alpha = 1
+                    self.emptyShadowView.alpha = 0
+                }
+            } else if bookmarksCollectionView.alpha == 0 && (oldValue.count == 0 || bookmarkedEvents.count == 0) { //show empty view
+                gradientBg.startAnimation()
+                UIView.animate(withDuration: 0.2) {
+                    self.emptyShadowView.alpha = 1
+                }
+            } else if bookmarksCollectionView.alpha != 0 && bookmarkedEvents.count == 0 {
+                UIView.animate(withDuration: 0.2) {
                     self.bookmarksCollectionView.alpha = 0
                 }
                 
-                self.bookmarksCollectionView.reloadData()
-                
-                //DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+                    self.gradientBg.startAnimation()
                     UIView.animate(withDuration: 0.2) {
-                        self.reloadIndicator.alpha = 0
-                        self.bookmarksCollectionView.alpha = 1
+                        self.emptyShadowView.alpha = 1
                     }
-                //}
-                
-            } else {
-                bookmarksCollectionView.reloadData()
+                }
+
             }
+            
         }
     }
     
@@ -83,10 +95,6 @@ class BookmarkedSection: UICollectionViewCell {
             layout.sectionInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
         }
         
-        if !UserService.User.isLoggedIn() {
-            bookmarksCollectionView.alpha = 0
-        }
-        
         bookmarksCollectionView.dataSource = self
         bookmarksCollectionView.delegate = self
         
@@ -103,9 +111,98 @@ class BookmarkedSection: UICollectionViewCell {
             make.centerY.equalTo(bookmarksCollectionView.snp.centerY)
         }
         
-        getBookmarkedEvents()
-    }
+        //empty view's drop shadow
+        emptyShadowView.alpha = 0
+        emptyShadowView.frame = CGRect(x: 20, y: 78, width: UIScreen.main.bounds.width - 40, height: bookmarksCollectionView.frame.height - 20)
+        emptyShadowView.clipsToBounds = false
+        emptyShadowView.layer.shadowOpacity = 0.5
+        emptyShadowView.layer.shadowOffset = CGSize(width: -1, height: -1)
+        emptyShadowView.layer.shadowRadius = GlobalCornerRadius.value
+        emptyShadowView.layer.shadowPath = UIBezierPath(roundedRect: emptyShadowView.bounds, cornerRadius: GlobalCornerRadius.value).cgPath
+        
+        //empty view
+        //bgView.alpha = 0
+        bgView.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width - 40, height: bookmarksCollectionView.frame.height - 20)
+        bgView.layer.cornerRadius = GlobalCornerRadius.value
+        bgView.clipsToBounds = true
+        bgView.backgroundColor = .darkGray
+        
+        //gradient bg
+        gradientBg.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width - 40, height: bookmarksCollectionView.frame.height - 20)
+        gradientBg.animationDuration = 2.5
+        if UserService.User.isLoggedIn() {
+            gradientBg.setColors([UIColor(hexString: "#C06C84"), UIColor(hexString: "#6C5B7B"), UIColor(hexString: "#355C7D")])
+            emptyShadowView.layer.shadowColor = UIColor(hexString: "#6C5B7B").cgColor
+        } else {
+            gradientBg.setColors([UIColor(hexString: "#FDC830"), UIColor(hexString: "#F37335")])
+            setupLoginView()
+            emptyShadowView.layer.shadowColor = UIColor(hexString: "#FDC830").cgColor
+        }
+        gradientBg.startAnimation()
+        
+        bgView.insertSubview(gradientBg, at: 0)
+        emptyShadowView.addSubview(bgView)
+        addSubview(emptyShadowView)
 
+        if UserService.User.isLoggedIn() {
+            getBookmarkedEvents()
+        } else {
+            bookmarksCollectionView.alpha = 0
+            emptyShadowView.alpha = 1
+        }
+    }
+    
+    private func setupLoginView() {
+        let loginImgView = UIImageView()
+        loginImgView.image = UIImage(named: "login")
+        bgView.addSubview(loginImgView)
+        loginImgView.snp.makeConstraints { (make) in
+            make.topMargin.equalTo(15)
+            make.leftMargin.equalTo(15)
+            make.size.equalTo(40)
+        }
+        
+        let loginTitle = UILabel()
+        loginTitle.font = UIFont.systemFont(ofSize: 22, weight: .bold)
+        loginTitle.text = "Log-in now!"
+        loginTitle.textColor = .white
+        bgView.addSubview(loginTitle)
+        loginTitle.snp.makeConstraints { (make) in
+            make.topMargin.equalTo(20)
+            make.leftMargin.equalTo(loginImgView.snp.right).offset(12)
+            make.width.equalTo(200)
+            make.height.equalTo(30)
+        }
+
+        let loginDesc = UILabel()
+        loginDesc.font = UIFont.systemFont(ofSize: 12, weight: .semibold)
+        loginDesc.text = "Enjoy full experience with your Major VII account."
+        loginDesc.textColor = .white
+        loginDesc.numberOfLines = 2
+        bgView.addSubview(loginDesc)
+        loginDesc.snp.makeConstraints { (make) in
+            make.topMargin.equalTo(loginTitle.snp.bottom).offset(10)
+            make.leftMargin.equalTo(25)
+            make.width.equalTo(200)
+            make.height.equalTo(60)
+        }
+        
+        let loginBtn = UIButton()
+        loginBtn.titleLabel?.font = UIFont.systemFont(ofSize: 12, weight: .bold)
+        loginBtn.layer.cornerRadius = GlobalCornerRadius.value / 2
+        loginBtn.setTitle("Sure!", for: .normal)
+        loginBtn.setTitleColor(UIColor(hexString: "#F37335"), for: .normal)
+        loginBtn.backgroundColor = .white
+        bgView.addSubview(loginBtn)
+        loginBtn.snp.makeConstraints { (make) in 
+            make.bottomMargin.equalTo(bgView.snp.bottom).offset(-25)
+            make.rightMargin.equalTo(bgView.snp.right).offset(-25)
+            make.width.equalTo(60)
+            make.height.equalTo(28)
+        }
+    }
+    
+    
     func getBookmarkedEvents(completion: (() -> Void)? = nil) {
         EventService.getBookmarkedEvents().done { response in
             self.bookmarkedEvents = response.bookmarkedEventsList.reversed()
@@ -124,7 +221,6 @@ class BookmarkedSection: UICollectionViewCell {
                 if self.reloadIndicator.alpha != 0 {
                     UIView.animate(withDuration: 0.2) {
                         self.reloadIndicator.alpha = 0
-                        self.bookmarksCollectionView.alpha = 1
                     }
                 }
                 UIApplication.shared.isNetworkActivityIndicatorVisible = false
@@ -136,6 +232,9 @@ class BookmarkedSection: UICollectionViewCell {
     @objc private func refreshBookmarkedSection(_ notification: Notification) {
         reloadIndicator.startAnimating()
         UIView.animate(withDuration: 0.2) {
+            if self.emptyShadowView.alpha != 0 {
+                self.emptyShadowView.alpha = 0
+            }
             self.bookmarksCollectionView.alpha = 0
             self.reloadIndicator.alpha = 1
         }
@@ -159,29 +258,29 @@ class BookmarkedSection: UICollectionViewCell {
     }
     
     @objc private func refreshBookmarkedSectionFromDetails(_ notification: Notification) {
-//        getBookmarkedEvents {
-//            if let data = notification.userInfo {
-//                if let eventId = data["check_id"] as? String {
-//                    if !self.bookmarkedEventIdArray.contains(eventId) {
-//
-//                        self.reloadIndicator.startAnimating()
-//                        UIView.animate(withDuration: 0.2) {
-//                            self.reloadIndicator.alpha = 1
-//                            self.bookmarksCollectionView.alpha = 0
-//                        }
-//
-//                        self.bookmarksCollectionView.reloadData()
-//
-//                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-//                            UIView.animate(withDuration: 0.2) {
-//                                self.reloadIndicator.alpha = 0
-//                                self.bookmarksCollectionView.alpha = 1
-//                            }
-//                        }
-//                    }
-//                }
-//            }
-//        }
+        //        getBookmarkedEvents {
+        //            if let data = notification.userInfo {
+        //                if let eventId = data["check_id"] as? String {
+        //                    if !self.bookmarkedEventIdArray.contains(eventId) {
+        //
+        //                        self.reloadIndicator.startAnimating()
+        //                        UIView.animate(withDuration: 0.2) {
+        //                            self.reloadIndicator.alpha = 1
+        //                            self.bookmarksCollectionView.alpha = 0
+        //                        }
+        //
+        //                        self.bookmarksCollectionView.reloadData()
+        //
+        //                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+        //                            UIView.animate(withDuration: 0.2) {
+        //                                self.reloadIndicator.alpha = 0
+        //                                self.bookmarksCollectionView.alpha = 1
+        //                            }
+        //                        }
+        //                    }
+        //                }
+        //            }
+        //        }
         
         getBookmarkedEvents()
     }
@@ -189,7 +288,7 @@ class BookmarkedSection: UICollectionViewCell {
     @objc private func removeAllObservers() {
         NotificationCenter.default.removeObserver(self)
     }
-
+    
 }
 
 extension BookmarkedSection: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout{
@@ -236,16 +335,16 @@ extension BookmarkedSection: BookmarkedCellDelegate {
             if (cell.bookmarkBtn.backgroundColor?.isEqual(UIColor.clear))! { //do bookmark action
                 HapticFeedback.createImpact(style: .light)
                 cell.bookmarkBtn.isUserInteractionEnabled = false
-
+                
                 //animate button state
                 UIView.animate(withDuration: 0.2) {
                     cell.bookmarkBtnIndicator.alpha = 1
                 }
-
+                
                 UIView.transition(with: cell.bookmarkBtn, duration: 0.2, options: .transitionCrossDissolve, animations: {
                     cell.bookmarkBtn.setImage(nil, for: .normal)
                 }, completion: nil)
-
+                
                 //create bookmark action
                 EventService.createBookmark(eventId: eventId).done { _ in
                     print("Event with ID (\(eventId)) bookmarked")
@@ -255,11 +354,11 @@ extension BookmarkedSection: BookmarkedCellDelegate {
                             cell.bookmarkBtn.backgroundColor = .mintGreen()
                             cell.bookmarkBtnIndicator.alpha = 0
                         }
-
+                        
                         UIView.transition(with: cell.bookmarkBtn, duration: 0.2, options: .transitionCrossDissolve, animations: {
                             cell.bookmarkBtn.setImage(UIImage(named: "bookmark"), for: .normal)
                         }, completion: nil)
-
+                        
                         cell.bookmarkBtn.isUserInteractionEnabled = true
                         NotificationCenter.default.post(name: .refreshBookmarkedSection, object: nil) //reload collection view in BookmarkedSection
                         UIApplication.shared.isNetworkActivityIndicatorVisible = false
@@ -269,16 +368,16 @@ extension BookmarkedSection: BookmarkedCellDelegate {
             } else { //remove bookmark
                 HapticFeedback.createImpact(style: .light)
                 cell.bookmarkBtn.isUserInteractionEnabled = false
-
+                
                 //animate button state
                 UIView.animate(withDuration: 0.2) {
                     cell.bookmarkBtnIndicator.alpha = 1
                 }
-
+                
                 UIView.transition(with: cell.bookmarkBtn, duration: 0.2, options: .transitionCrossDissolve, animations: {
                     cell.bookmarkBtn.setImage(nil, for: .normal)
                 }, completion: nil)
-
+                
                 //remove bookmark action
                 EventService.removeBookmark(eventId: eventId).done { response in
                     //print(response)
@@ -287,11 +386,11 @@ extension BookmarkedSection: BookmarkedCellDelegate {
                             cell.bookmarkBtn.backgroundColor = .clear
                             cell.bookmarkBtnIndicator.alpha = 0
                         }
-
+                        
                         UIView.transition(with: cell.bookmarkBtn, duration: 0.2, options: .transitionCrossDissolve, animations: {
                             cell.bookmarkBtn.setImage(UIImage(named: "bookmark"), for: .normal)
                         }, completion: nil)
-
+                        
                         cell.bookmarkBtn.isUserInteractionEnabled = true
                         
                         if let eventId = self.bookmarkedEvents[tappedIndex.row].targetEvent?.id {
@@ -306,7 +405,7 @@ extension BookmarkedSection: BookmarkedCellDelegate {
                         HapticFeedback.createNotificationFeedback(style: .success)
                     }.catch { error in }
             }
-
+            
         } else {
             print("Can't get bookamrk section event id")
         }

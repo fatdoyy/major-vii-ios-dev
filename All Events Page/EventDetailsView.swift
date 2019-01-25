@@ -80,13 +80,17 @@ class EventDetailsView: UIView {
         contentView.backgroundColor = .darkGray()
         contentView.layer.cornerRadius = GlobalCornerRadius.value + 4
         
-        bookmarkBtn.setImage(nil, for: .normal)
-        //loading indicatior
-        loadingIndicator.startAnimating()
-        bookmarkBtn.addSubview(loadingIndicator)
-        loadingIndicator.snp.makeConstraints { (make) -> Void in
-            make.centerX.equalToSuperview()
-            make.centerY.equalToSuperview()
+        if UserService.User.isLoggedIn() {
+            bookmarkBtn.setImage(nil, for: .normal)
+            //loading indicatior
+            loadingIndicator.startAnimating()
+            bookmarkBtn.addSubview(loadingIndicator)
+            loadingIndicator.snp.makeConstraints { (make) -> Void in
+                make.centerX.equalToSuperview()
+                make.centerY.equalToSuperview()
+            }
+        } else {
+            bookmarkBtn.setImage(UIImage(named: "eventdetails_bookmarked_0"), for: .normal)
         }
         
         setupLabels()

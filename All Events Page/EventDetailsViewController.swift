@@ -139,6 +139,7 @@ class EventDetailsViewController: UIViewController {
         bgView.delegate = self
         
         //bookmarkBtn state
+        if UserService.User.isLoggedIn() {
         EventService.getBookmarkedEvents().done { response in
             if !response.bookmarkedEventsList.isEmpty {
                 for event in response.bookmarkedEventsList {
@@ -171,8 +172,8 @@ class EventDetailsViewController: UIViewController {
                 self.hideIndicator()
             }
             }.catch { error in }
-            
-        
+        }
+
         bgView.titleLabel.text = details!.item?.title
         bgView.performerLabel.text = details!.item?.organizerProfile?.name
         
@@ -310,54 +311,59 @@ extension EventDetailsViewController: UIScrollViewDelegate{
 // MARK: Events Details View Delegate
 extension EventDetailsViewController: EventsDetailsViewDelegate{
     func bookmarkBtnTapped(sender: UIButton) {
-        sender.isUserInteractionEnabled = false
-        
-        let bookmarkedImg = UIImage(named: "eventdetails_bookmarked_1")
-        let notBookmarkedImg = UIImage(named: "eventdetails_bookmarked_0")
-        
-        if (sender.currentImage?.isEqual(notBookmarkedImg))! { //if the image is notBookmarkedImg, then do bookmark action
-            HapticFeedback.createImpact(style: .light)
+        if UserService.User.isLoggedIn() {
+            sender.isUserInteractionEnabled = false
             
-            showIndicator()
+            let bookmarkedImg = UIImage(named: "eventdetails_bookmarked_1")
+            let notBookmarkedImg = UIImage(named: "eventdetails_bookmarked_0")
             
-            UIView.transition(with: sender, duration: 0.2, options: .transitionCrossDissolve, animations: {
-                sender.setImage(nil, for: .normal)
-            }, completion: nil)
-            
-            EventService.createBookmark(eventId: eventId).done { _ in
-                self.hideIndicator()
+            if (sender.currentImage?.isEqual(notBookmarkedImg))! { //if the image is notBookmarkedImg, then do bookmark action
+                HapticFeedback.createImpact(style: .light)
+                
+                showIndicator()
                 
                 UIView.transition(with: sender, duration: 0.2, options: .transitionCrossDissolve, animations: {
-                    sender.setImage(bookmarkedImg, for: .normal)
+                    sender.setImage(nil, for: .normal)
                 }, completion: nil)
-                print("Event(\(self.eventId)) bookmarked")
-                sender.isUserInteractionEnabled = true
-                }.ensure {
-                    HapticFeedback.createNotificationFeedback(style: .success)
-                }.catch { error in }
-            
-        } else {
-            HapticFeedback.createImpact(style: .light)
-            
-            showIndicator()
-            
-            UIView.transition(with: sender, duration: 0.2, options: .transitionCrossDissolve, animations: {
-                sender.setImage(nil, for: .normal)
-            }, completion: nil)
-            
-            EventService.removeBookmark(eventId: eventId).done { response in
-                print(response)
                 
-                self.hideIndicator()
+                EventService.createBookmark(eventId: eventId).done { _ in
+                    self.hideIndicator()
+                    
+                    UIView.transition(with: sender, duration: 0.2, options: .transitionCrossDissolve, animations: {
+                        sender.setImage(bookmarkedImg, for: .normal)
+                    }, completion: nil)
+                    print("Event(\(self.eventId)) bookmarked")
+                    sender.isUserInteractionEnabled = true
+                    }.ensure {
+                        HapticFeedback.createNotificationFeedback(style: .success)
+                    }.catch { error in }
+                
+            } else {
+                HapticFeedback.createImpact(style: .light)
+                
+                showIndicator()
                 
                 UIView.transition(with: sender, duration: 0.2, options: .transitionCrossDissolve, animations: {
-                    sender.setImage(notBookmarkedImg, for: .normal)
+                    sender.setImage(nil, for: .normal)
                 }, completion: nil)
-                print("Event(\(self.eventId)) bookmark removed")
-                sender.isUserInteractionEnabled = true
-                }.ensure {
-                    HapticFeedback.createNotificationFeedback(style: .success)
-                }.catch { error in }
+                
+                EventService.removeBookmark(eventId: eventId).done { response in
+                    print(response)
+                    
+                    self.hideIndicator()
+                    
+                    UIView.transition(with: sender, duration: 0.2, options: .transitionCrossDissolve, animations: {
+                        sender.setImage(notBookmarkedImg, for: .normal)
+                    }, completion: nil)
+                    print("Event(\(self.eventId)) bookmark removed")
+                    sender.isUserInteractionEnabled = true
+                    }.ensure {
+                        HapticFeedback.createNotificationFeedback(style: .success)
+                    }.catch { error in }
+            }
+            
+        } else { // not logged in action
+            print("not logged in")
         }
     }
     
