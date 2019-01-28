@@ -26,6 +26,8 @@ class EventsListViewController: ScrollingNavigationViewController, UIGestureReco
         
         self.navigationController?.interactivePopGestureRecognizer?.delegate = self
         
+        NotificationCenter.default.setObserver(self, selector: #selector(refreshEventListVC), name: .refreshEventListVC, object: nil)
+        
         mainCollectionView.backgroundColor = .darkGray()
         mainCollectionView.showsVerticalScrollIndicator = false
         mainCollectionView.showsHorizontalScrollIndicator = false
@@ -59,32 +61,30 @@ class EventsListViewController: ScrollingNavigationViewController, UIGestureReco
         super.viewDidAppear(animated)
         //hide navigation bar
         if let navigationController = self.navigationController as? ScrollingNavigationController {
-            navigationController.followScrollView(mainCollectionView, delay: 10.0)
+            navigationController.followScrollView(mainCollectionView, delay: 20.0)
         }
         
-
-//        let bookmarkedSection = mainCollectionView.visibleCells //hide bookmark section when view did disappear
-//        for cell in bookmarkedSection {
-//            if let cell = cell as? BookmarkedSection {
-//                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-//                    UIView.animate(withDuration: 0.2) {
-//                        cell.bookmarksCollectionView.alpha = 1
-//                    }
-//                }
-//            }
-//        }
-
+        tabBarController?.tabBar.isHidden = true
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
-        if self.isMovingFromParent { //remove only when this view is popped
-            NotificationCenter.default.post(name: .removeTrendingSectionObservers, object: nil)
-            NotificationCenter.default.post(name: .removeBookmarkedSectionObservers, object: nil)
+        if let navigationController = self.navigationController as? ScrollingNavigationController {
+            navigationController.stopFollowingScrollView(showingNavbar: false)
         }
         
+        if self.isMovingFromParent {
+            NotificationCenter.default.post(name: .refreshEventListVC, object: nil)
+            NotificationCenter.default.post(name: .removeTrendingSectionObservers, object: nil)
+            NotificationCenter.default.post(name: .removeBookmarkedSectionObservers, object: nil)
+            tabBarController?.tabBar.isHidden = false
+        } else {
+            NotificationCenter.default.removeObserver(self)
+        }
+
         TabBar.show(rootView: self)
+
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -100,6 +100,18 @@ class EventsListViewController: ScrollingNavigationViewController, UIGestureReco
             }
         }
         
+    }
+    
+    @objc private func refreshEventListVC() {
+        print("CALLEDDDD")
+        let bookmarkedSection = mainCollectionView.visibleCells //hide bookmark section when view did disappear
+        for cell in bookmarkedSection {
+            if let cell = cell as? BookmarkedSection {
+                cell.getBookmarkedEvents()
+                cell.bookmarksCollectionView.alpha = 1
+                cell.emptyLoginShadowView.alpha = 0
+            }
+        }
     }
     
     private func setupLeftBarItems(){
@@ -189,8 +201,13 @@ extension EventsListViewController: UICollectionViewDelegate, UICollectionViewDe
                 UIView.animate(withDuration: 0.2) {
                     cell.bookmarksCountLabel.alpha = 1
                 }
-
-                cell.bookmarksCountLabel.text =  isCountEqualsToOne ? "1 Event" : "\(count) Events"
+                
+                if UserService.User.isLoggedIn() {
+                    cell.bookmarksCountLabel.text =  isCountEqualsToOne ? "1 Event" : "\(count) Events"
+                } else {
+                    cell.bookmarksCountLabel.text = "No account? It's totally free to create one!"
+                }
+                
                 return cell
             case .Featured:
                 let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: FeaturedCell.reuseIdentifier, for: indexPath) as! FeaturedCell
@@ -284,6 +301,21 @@ extension EventsListViewController: FollowingSectionDelegate{
 extension EventsListViewController: BookmarkSectionDelegate{
     func bookmarkedCellTapped(eventId: String) {
         EventDetailsViewController.push(fromView: self, eventId: eventId)
+    }
+    
+    func showLoginVC() {
+//        navigationController?.hero.navigationAnimationType = .uncover(direction: .down)
+//        navigationController?.popViewController(animated: true)
+        
+        let loginVC = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "loginVC") as! LoginViewController
+        
+        loginVC.hero.isEnabled = true
+//        loginVC.hero.modalAnimationType = .autoReverse(presenting: .zoom)
+//        self.present(loginVC, animated: true, completion: nil)
+        
+        self.navigationItem.title = ""
+        self.navigationController?.hero.navigationAnimationType = .autoReverse(presenting: .zoom)
+        self.navigationController?.pushViewController(loginVC, animated: true)
     }
 }
 

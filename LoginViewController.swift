@@ -14,9 +14,9 @@ import Validator
 
 class LoginViewController: UIViewController {
     
-    override var prefersStatusBarHidden: Bool {
-        return true
-    }
+//    override var prefersStatusBarHidden: Bool {
+//        return true
+//    }
     
     @IBOutlet weak var loginView: LoginView!
     
@@ -35,12 +35,25 @@ class LoginViewController: UIViewController {
         if UIScreen.main.nativeBounds.height != 1136 { // not loading GIFs on iPhone SE becasue of performance issue
             loadGIF()
         }
+        
+        self.navigationController?.setNavigationBarHidden(true, animated: animated)
+        
+
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         //NotificationCenter.default.removeObserver(self)
         NotificationCenter.default.removeObserver(loginView) // also remove observer in LoginView.swift
+        
+        self.navigationController?.setNavigationBarHidden(false, animated: animated)
+        
+        if !self.isModal { //send notification to refresh EventListViewController
+            if UserService.User.isLoggedIn() {
+                NotificationCenter.default.post(name: .refreshEventListVC, object: nil)
+            }
+        }
+        
     }
     
     private func loadGIF() {
@@ -53,7 +66,11 @@ class LoginViewController: UIViewController {
     
     @objc func dismissLoginVC() {
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-            self.dismiss(animated: true, completion: nil)
+            if self.isModal {
+                self.dismiss(animated: true, completion: nil)
+            } else {
+                self.navigationController?.popViewController(animated: true)
+            }
         }
     }
 }
@@ -62,7 +79,11 @@ class LoginViewController: UIViewController {
 extension LoginViewController: LoginViewDelegate, UserServiceDelegate {
     
     func didTapDismissBtn(){
-        self.dismiss(animated: true, completion: nil)
+        if self.isModal {
+            self.dismiss(animated: true, completion: nil)
+        } else {
+            navigationController?.popViewController(animated: true)
+        }
     }
     
     //fb login

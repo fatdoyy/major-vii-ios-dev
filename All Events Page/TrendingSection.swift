@@ -86,7 +86,8 @@ class TrendingSection: UICollectionViewCell {
     @objc private func refreshTrendingSectionCell(_ notification: Notification) {
         let visibleCells = trendingCollectionView.visibleCells as! [TrendingCell]
         if let event = notification.userInfo {
-            if let removeId = event["remove_id"] as? String {
+            
+            if let removeId = event["remove_id"] as? String {  //Callback from Bookmarked Section
                     self.bookmarkedEventArray.remove(object: removeId) //remove id from local array
                     print(self.bookmarkedEventArray)
                 
@@ -104,7 +105,7 @@ class TrendingSection: UICollectionViewCell {
                             cell.bookmarkBtn.setImage(nil, for: .normal)
                         }, completion: nil)
                         
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
                             UIView.animate(withDuration: 0.2) {
                                 cell.bookmarkBtn.backgroundColor = .clear
                                 cell.bookmarkBtnIndicator.alpha = 0
@@ -116,6 +117,101 @@ class TrendingSection: UICollectionViewCell {
                         }
                     }
                 }
+                
+            } else if let checkId = event["check_id"] as? String { //Callback from Event Details
+                EventService.getBookmarkedEvents().done { response in
+                    if !response.bookmarkedEventsList.isEmpty {
+                         if response.bookmarkedEventsList.contains(where: { $0.targetEvent?.id == checkId }) { //check visible cell is bookmarked or not
+                            for cell in visibleCells { //check bookmarked list contains id
+                                if cell.eventId == checkId && (cell.bookmarkBtn.backgroundColor?.isEqual(UIColor.clear))! { //add bookmark
+                                    cell.bookmarkBtn.isUserInteractionEnabled = false
+                                    if !self.bookmarkedEventArray.contains(checkId) {
+                                        self.bookmarkedEventArray.append(checkId)
+                                    }
+                                    
+                                    //animate button state
+                                    cell.bookmarkBtnIndicator.startAnimating()
+                                    UIView.animate(withDuration: 0.2) {
+                                        cell.bookmarkBtnIndicator.alpha = 1
+                                    }
+                                    
+                                    UIView.transition(with: cell.bookmarkBtn, duration: 0.2, options: .transitionCrossDissolve, animations: {
+                                        cell.bookmarkBtn.setImage(nil, for: .normal)
+                                    }, completion: nil)
+                                    
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+                                        UIView.animate(withDuration: 0.2) {
+                                            cell.bookmarkBtn.backgroundColor = .mintGreen()
+                                            cell.bookmarkBtnIndicator.alpha = 0
+                                        }
+                                        UIView.transition(with: cell.bookmarkBtn, duration: 0.2, options: .transitionCrossDissolve, animations: {
+                                            cell.bookmarkBtn.setImage(UIImage(named: "bookmark"), for: .normal)
+                                        }, completion: nil)
+                                        cell.bookmarkBtn.isUserInteractionEnabled = true
+                                    }
+                                } else if (cell.bookmarkBtn.backgroundColor?.isEqual(UIColor.mintGreen()))! {
+                                    cell.bookmarkBtn.isUserInteractionEnabled = false
+                                    if !self.bookmarkedEventArray.contains(checkId) {
+                                        self.bookmarkedEventArray.append(checkId)
+                                    }
+                                    
+                                    //animate button state
+                                    cell.bookmarkBtnIndicator.startAnimating()
+                                    UIView.animate(withDuration: 0.2) {
+                                        cell.bookmarkBtnIndicator.alpha = 1
+                                    }
+                                    
+                                    UIView.transition(with: cell.bookmarkBtn, duration: 0.2, options: .transitionCrossDissolve, animations: {
+                                        cell.bookmarkBtn.setImage(nil, for: .normal)
+                                    }, completion: nil)
+                                    
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+                                        UIView.animate(withDuration: 0.2) {
+                                            cell.bookmarkBtn.backgroundColor = .clear
+                                            cell.bookmarkBtnIndicator.alpha = 0
+                                        }
+                                        UIView.transition(with: cell.bookmarkBtn, duration: 0.2, options: .transitionCrossDissolve, animations: {
+                                            cell.bookmarkBtn.setImage(UIImage(named: "bookmark"), for: .normal)
+                                        }, completion: nil)
+                                        cell.bookmarkBtn.isUserInteractionEnabled = true
+                                    }
+                                }
+                                
+                            }
+                            
+                        } 
+
+                    } else { //bookmarked list is empty
+                        for cell in visibleCells {
+                            cell.bookmarkBtn.isUserInteractionEnabled = false
+                            if !self.bookmarkedEventArray.contains(checkId) {
+                                self.bookmarkedEventArray.append(checkId)
+                            }
+                            
+                            //animate button state
+                            cell.bookmarkBtnIndicator.startAnimating()
+                            UIView.animate(withDuration: 0.2) {
+                                cell.bookmarkBtnIndicator.alpha = 1
+                            }
+                            
+                            UIView.transition(with: cell.bookmarkBtn, duration: 0.2, options: .transitionCrossDissolve, animations: {
+                                cell.bookmarkBtn.setImage(nil, for: .normal)
+                            }, completion: nil)
+                            
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+                                UIView.animate(withDuration: 0.2) {
+                                    cell.bookmarkBtn.backgroundColor = .clear
+                                    cell.bookmarkBtnIndicator.alpha = 0
+                                }
+                                UIView.transition(with: cell.bookmarkBtn, duration: 0.2, options: .transitionCrossDissolve, animations: {
+                                    cell.bookmarkBtn.setImage(UIImage(named: "bookmark"), for: .normal)
+                                }, completion: nil)
+                                cell.bookmarkBtn.isUserInteractionEnabled = true
+                            }
+                        }
+                    }
+                    }.ensure { UIApplication.shared.isNetworkActivityIndicatorVisible = false }.catch { error in }
+                
             }
         }
     }
@@ -269,8 +365,10 @@ extension TrendingSection: TrendingCellDelegate {
                             }, completion: nil)
                             
                             cell.bookmarkBtn.isUserInteractionEnabled = true
-                            self.bookmarkedEventArray.append(eventId)
-                            print("Trending Section array: \(self.bookmarkedEventArray)\n")
+                            if !self.bookmarkedEventArray.contains(eventId) {
+                                self.bookmarkedEventArray.append(eventId)
+                                print("Trending Section array: \(self.bookmarkedEventArray)\n")
+                            }
                             
                             NotificationCenter.default.post(name: .refreshBookmarkedSection, object: nil, userInfo: ["add_id": eventId]) //reload collection view in BookmarkedSection
                             

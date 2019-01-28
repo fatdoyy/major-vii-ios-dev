@@ -11,6 +11,8 @@ import Foundation
 extension Notification.Name {
     static let loginCompleted = Notification.Name("loginCompleted")
     
+    static let refreshEventListVC = Notification.Name("refreshEventListVC")
+    
     static let refreshBookmarkedSection = Notification.Name("refreshBookmarkedSection")
     static let refreshBookmarkedSectionFromDetails = Notification.Name("refreshBookmarkedSectionFromDetails")
     

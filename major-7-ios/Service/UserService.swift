@@ -361,7 +361,7 @@ extension UserService {
                         }, completion: nil)
                         
                         //reset button state
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.1) {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                             UIView.transition(with: loginView.loginActionBtn, duration: 0.2, options: .transitionCrossDissolve, animations: {
                                 loginView.loginActionBtn.setTitle("登入", for: .normal)
                                 loginView.loginActionBtn.setTitleColor(.whiteText(), for: .normal)
@@ -427,7 +427,7 @@ extension UserService {
                             loginView.regActionBtn.setTitleColor(.whiteText75Alpha(), for: .normal)
                         }, completion: nil)
                         
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.1) {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                             UIView.transition(with: loginView.regActionBtn, duration: 0.2, options: .transitionCrossDissolve, animations: {
                                 loginView.regActionBtn.setTitle("註冊", for: .normal)
                                 loginView.regActionBtn.setTitleColor(.whiteText(), for: .normal)

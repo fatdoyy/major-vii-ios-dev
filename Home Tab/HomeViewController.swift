@@ -25,6 +25,8 @@ class HomeViewController: UIViewController, UIGestureRecognizerDelegate {
         //check if we need to present loginVC
         if UserService.User.isLoggedIn() == false {
             let loginVC = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "loginVC") as! LoginViewController
+            loginVC.hero.isEnabled = true
+            loginVC.hero.modalAnimationType = .selectBy(presenting: .zoom, dismissing: .zoomOut)
             self.present(loginVC, animated: true, completion: nil)
         }
         

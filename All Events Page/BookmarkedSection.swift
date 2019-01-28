@@ -13,6 +13,7 @@ import Pastel
 
 protocol BookmarkSectionDelegate{
     func bookmarkedCellTapped(eventId: String)
+    func showLoginVC()
 }
 
 class BookmarkedSection: UICollectionViewCell {
@@ -27,11 +28,17 @@ class BookmarkedSection: UICollectionViewCell {
     @IBOutlet weak var bookmarksCountLabel: UILabel!
     @IBOutlet weak var bookmarksCollectionView: UICollectionView!
     
-    var bgView = UIView()
-    var gradientBg = PastelView()
-    var emptyShadowView = UIView()
+    var emptyLoginBgView = UIView()
+    var emptyLoginGradientBg = PastelView()
+    var emptyLoginShadowView = UIView()
+    
+    var emptyBookmarkBgView = UIView()
+    var emptyBookmarkGradientBg = PastelView()
+    var emptyBookmarkShadowView = UIView()
     
     var bookmarkedEventIdArray: [String] = [] //to refresh TrendingCell bookmakrBtn state
+    
+    var reloadIndicator = NVActivityIndicatorView(frame: CGRect(origin: CGPoint.zero, size: CGSize(width: 30, height: 30)), type: .lineScale)
     
     var bookmarkedEvents: [BookmarkedEvent] = [] {
         didSet {
@@ -49,31 +56,28 @@ class BookmarkedSection: UICollectionViewCell {
             if bookmarksCollectionView.alpha == 0 && bookmarkedEvents.count != 0 {
                 UIView.animate(withDuration: 0.2) {
                     self.bookmarksCollectionView.alpha = 1
-                    self.emptyShadowView.alpha = 0
+                    self.emptyBookmarkShadowView.alpha = 0
                 }
             } else if bookmarksCollectionView.alpha == 0 && (oldValue.count == 0 || bookmarkedEvents.count == 0) { //show empty view
-                gradientBg.startAnimation()
+                emptyLoginGradientBg.startAnimation()
                 UIView.animate(withDuration: 0.2) {
-                    self.emptyShadowView.alpha = 1
+                    self.emptyBookmarkShadowView.alpha = 1
                 }
             } else if bookmarksCollectionView.alpha != 0 && bookmarkedEvents.count == 0 {
                 UIView.animate(withDuration: 0.2) {
                     self.bookmarksCollectionView.alpha = 0
                 }
                 
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
-                    self.gradientBg.startAnimation()
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                    self.emptyBookmarkGradientBg.startAnimation()
                     UIView.animate(withDuration: 0.2) {
-                        self.emptyShadowView.alpha = 1
+                        self.emptyBookmarkShadowView.alpha = 1
                     }
                 }
-
             }
             
         }
     }
-    
-    var reloadIndicator = NVActivityIndicatorView(frame: CGRect(origin: CGPoint.zero, size: CGSize(width: 30, height: 30)), type: .lineScale)
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -111,51 +115,46 @@ class BookmarkedSection: UICollectionViewCell {
             make.centerY.equalTo(bookmarksCollectionView.snp.centerY)
         }
         
-        //empty view's drop shadow
-        emptyShadowView.alpha = 0
-        emptyShadowView.frame = CGRect(x: 20, y: 78, width: UIScreen.main.bounds.width - 40, height: bookmarksCollectionView.frame.height - 20)
-        emptyShadowView.clipsToBounds = false
-        emptyShadowView.layer.shadowOpacity = 0.5
-        emptyShadowView.layer.shadowOffset = CGSize(width: -1, height: -1)
-        emptyShadowView.layer.shadowRadius = GlobalCornerRadius.value
-        emptyShadowView.layer.shadowPath = UIBezierPath(roundedRect: emptyShadowView.bounds, cornerRadius: GlobalCornerRadius.value).cgPath
+        setupEmptyBookmarkView()
         
-        //empty view
-        //bgView.alpha = 0
-        bgView.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width - 40, height: bookmarksCollectionView.frame.height - 20)
-        bgView.layer.cornerRadius = GlobalCornerRadius.value
-        bgView.clipsToBounds = true
-        bgView.backgroundColor = .darkGray
-        
-        //gradient bg
-        gradientBg.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width - 40, height: bookmarksCollectionView.frame.height - 20)
-        gradientBg.animationDuration = 2.5
-        if UserService.User.isLoggedIn() {
-            gradientBg.setColors([UIColor(hexString: "#C06C84"), UIColor(hexString: "#6C5B7B"), UIColor(hexString: "#355C7D")])
-            emptyShadowView.layer.shadowColor = UIColor(hexString: "#6C5B7B").cgColor
-        } else {
-            gradientBg.setColors([UIColor(hexString: "#FDC830"), UIColor(hexString: "#F37335")])
-            setupLoginView()
-            emptyShadowView.layer.shadowColor = UIColor(hexString: "#FDC830").cgColor
-        }
-        gradientBg.startAnimation()
-        
-        bgView.insertSubview(gradientBg, at: 0)
-        emptyShadowView.addSubview(bgView)
-        addSubview(emptyShadowView)
-
         if UserService.User.isLoggedIn() {
             getBookmarkedEvents()
         } else {
             bookmarksCollectionView.alpha = 0
-            emptyShadowView.alpha = 1
+            setupEmptyLoginView()
         }
     }
     
-    private func setupLoginView() {
+    private func setupEmptyLoginView() {
+        //empty view's drop shadow
+        emptyLoginShadowView.frame = CGRect(x: 20, y: 78, width: UIScreen.main.bounds.width - 40, height: bookmarksCollectionView.frame.height - 20)
+        emptyLoginShadowView.clipsToBounds = false
+        emptyLoginShadowView.layer.shadowOpacity = 0.5
+        emptyLoginShadowView.layer.shadowOffset = CGSize(width: -1, height: -1)
+        emptyLoginShadowView.layer.shadowRadius = GlobalCornerRadius.value
+        emptyLoginShadowView.layer.shadowPath = UIBezierPath(roundedRect: emptyLoginShadowView.bounds, cornerRadius: GlobalCornerRadius.value).cgPath
+        
+        //empty view
+        //bgView.alpha = 0
+        emptyLoginBgView.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width - 40, height: bookmarksCollectionView.frame.height - 20)
+        emptyLoginBgView.layer.cornerRadius = GlobalCornerRadius.value
+        emptyLoginBgView.clipsToBounds = true
+        emptyLoginBgView.backgroundColor = .darkGray
+        
+        //gradient bg
+        emptyLoginGradientBg.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width - 40, height: bookmarksCollectionView.frame.height - 20)
+        emptyLoginGradientBg.animationDuration = 2.5
+        emptyLoginGradientBg.setColors([UIColor(hexString: "#FDC830"), UIColor(hexString: "#F37335")])
+        emptyLoginShadowView.layer.shadowColor = UIColor(hexString: "#FDC830").cgColor
+        
+        emptyLoginGradientBg.startAnimation()
+        
+        emptyLoginBgView.insertSubview(emptyLoginGradientBg, at: 0)
+        emptyLoginShadowView.addSubview(emptyLoginBgView)
+        
         let loginImgView = UIImageView()
-        loginImgView.image = UIImage(named: "login")
-        bgView.addSubview(loginImgView)
+        loginImgView.image = UIImage(named: "icon_login")
+        emptyLoginBgView.addSubview(loginImgView)
         loginImgView.snp.makeConstraints { (make) in
             make.topMargin.equalTo(15)
             make.leftMargin.equalTo(15)
@@ -166,7 +165,7 @@ class BookmarkedSection: UICollectionViewCell {
         loginTitle.font = UIFont.systemFont(ofSize: 22, weight: .bold)
         loginTitle.text = "Log-in now!"
         loginTitle.textColor = .white
-        bgView.addSubview(loginTitle)
+        emptyLoginBgView.addSubview(loginTitle)
         loginTitle.snp.makeConstraints { (make) in
             make.topMargin.equalTo(20)
             make.leftMargin.equalTo(loginImgView.snp.right).offset(12)
@@ -175,15 +174,15 @@ class BookmarkedSection: UICollectionViewCell {
         }
 
         let loginDesc = UILabel()
-        loginDesc.font = UIFont.systemFont(ofSize: 12, weight: .semibold)
+        loginDesc.font = UIFont.systemFont(ofSize: 12, weight: .medium)
         loginDesc.text = "Enjoy full experience with your Major VII account."
         loginDesc.textColor = .white
         loginDesc.numberOfLines = 2
-        bgView.addSubview(loginDesc)
+        emptyLoginBgView.addSubview(loginDesc)
         loginDesc.snp.makeConstraints { (make) in
             make.topMargin.equalTo(loginTitle.snp.bottom).offset(10)
             make.leftMargin.equalTo(25)
-            make.width.equalTo(200)
+            make.width.equalTo(230)
             make.height.equalTo(60)
         }
         
@@ -193,15 +192,104 @@ class BookmarkedSection: UICollectionViewCell {
         loginBtn.setTitle("Sure!", for: .normal)
         loginBtn.setTitleColor(UIColor(hexString: "#F37335"), for: .normal)
         loginBtn.backgroundColor = .white
-        bgView.addSubview(loginBtn)
+        emptyLoginBgView.addSubview(loginBtn)
         loginBtn.snp.makeConstraints { (make) in 
-            make.bottomMargin.equalTo(bgView.snp.bottom).offset(-25)
-            make.rightMargin.equalTo(bgView.snp.right).offset(-25)
+            make.bottomMargin.equalTo(emptyLoginBgView.snp.bottom).offset(-25)
+            make.rightMargin.equalTo(emptyLoginBgView.snp.right).offset(-25)
             make.width.equalTo(60)
             make.height.equalTo(28)
         }
+        
+        loginBtn.addTarget(self, action: #selector(showLoginVC), for: .touchUpInside)
+        addSubview(emptyLoginShadowView)
+
     }
     
+    private func setupEmptyBookmarkView() {
+        //empty view's drop shadow
+        emptyBookmarkShadowView.alpha = 0
+        emptyBookmarkShadowView.frame = CGRect(x: 20, y: 78, width: UIScreen.main.bounds.width - 40, height: bookmarksCollectionView.frame.height - 20)
+        emptyBookmarkShadowView.clipsToBounds = false
+        emptyBookmarkShadowView.layer.shadowOpacity = 0.5
+        emptyBookmarkShadowView.layer.shadowOffset = CGSize(width: -1, height: -1)
+        emptyBookmarkShadowView.layer.shadowRadius = GlobalCornerRadius.value
+        emptyBookmarkShadowView.layer.shadowPath = UIBezierPath(roundedRect: emptyBookmarkShadowView.bounds, cornerRadius: GlobalCornerRadius.value).cgPath
+        
+        //empty view
+        //bgView.alpha = 0
+        emptyBookmarkBgView.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width - 40, height: bookmarksCollectionView.frame.height - 20)
+        emptyBookmarkBgView.layer.cornerRadius = GlobalCornerRadius.value
+        emptyBookmarkBgView.clipsToBounds = true
+        emptyBookmarkBgView.backgroundColor = .darkGray
+        
+        //gradient bg
+        emptyBookmarkGradientBg.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width - 40, height: bookmarksCollectionView.frame.height - 20)
+        emptyBookmarkGradientBg.animationDuration = 2.5
+        emptyBookmarkGradientBg.setColors([UIColor(hexString: "#C06C84"), UIColor(hexString: "#6C5B7B"), UIColor(hexString: "#355C7D")])
+        emptyBookmarkShadowView.layer.shadowColor = UIColor(hexString: "#6C5B7B").cgColor
+
+        emptyBookmarkGradientBg.startAnimation()
+        
+        emptyBookmarkBgView.insertSubview(emptyBookmarkGradientBg, at: 0)
+        emptyBookmarkShadowView.addSubview(emptyBookmarkBgView)
+        
+        let emptyBookmarkImgView = UIImageView()
+        emptyBookmarkImgView.image = UIImage(named: "icon_confused")
+        emptyBookmarkBgView.addSubview(emptyBookmarkImgView)
+        emptyBookmarkImgView.snp.makeConstraints { (make) in
+            make.topMargin.equalTo(15)
+            make.leftMargin.equalTo(15)
+            make.size.equalTo(40)
+        }
+        
+        let emptyBookmarkTitle = UILabel()
+        emptyBookmarkTitle.font = UIFont.systemFont(ofSize: 22, weight: .bold)
+        emptyBookmarkTitle.text = "Who to follow?"
+        emptyBookmarkTitle.textColor = .white
+        emptyBookmarkBgView.addSubview(emptyBookmarkTitle)
+        emptyBookmarkTitle.snp.makeConstraints { (make) in
+            make.topMargin.equalTo(20)
+            make.leftMargin.equalTo(emptyBookmarkImgView.snp.right).offset(12)
+            make.width.equalTo(200)
+            make.height.equalTo(30)
+        }
+        
+        let emptyBookmarkDesc = UILabel()
+        emptyBookmarkDesc.font = UIFont.systemFont(ofSize: 12, weight: .medium)
+        emptyBookmarkDesc.text = "Click the button to know all the benefits of becoming a Major VII member!"
+        emptyBookmarkDesc.textColor = .white
+        emptyBookmarkDesc.numberOfLines = 2
+        emptyBookmarkBgView.addSubview(emptyBookmarkDesc)
+        emptyBookmarkDesc.snp.makeConstraints { (make) in
+            make.topMargin.equalTo(emptyBookmarkTitle.snp.bottom).offset(10)
+            make.leftMargin.equalTo(25)
+            make.width.equalTo(230)
+            make.height.equalTo(60)
+        }
+        
+        let learnMoreBtn = UIButton()
+        learnMoreBtn.titleLabel?.font = UIFont.systemFont(ofSize: 12, weight: .bold)
+        learnMoreBtn.layer.cornerRadius = GlobalCornerRadius.value / 2
+        learnMoreBtn.setTitle("Learn More", for: .normal)
+        learnMoreBtn.setTitleColor(.darkPurple(), for: .normal)
+        learnMoreBtn.backgroundColor = .white
+        emptyBookmarkBgView.addSubview(learnMoreBtn)
+        learnMoreBtn.snp.makeConstraints { (make) in
+            make.bottomMargin.equalTo(emptyBookmarkBgView.snp.bottom).offset(-25)
+            make.rightMargin.equalTo(emptyBookmarkBgView.snp.right).offset(-25)
+            make.width.equalTo(120)
+            make.height.equalTo(28)
+        }
+        
+        learnMoreBtn.addTarget(self, action: #selector(showLoginVC), for: .touchUpInside)
+        addSubview(emptyBookmarkShadowView)
+
+    }
+    
+      @objc private func showLoginVC(_ sender: UIButton) {
+        Animations.btnBounce(sender: sender)
+        delegate?.showLoginVC()
+    }
     
     func getBookmarkedEvents(completion: (() -> Void)? = nil) {
         EventService.getBookmarkedEvents().done { response in
@@ -232,8 +320,8 @@ class BookmarkedSection: UICollectionViewCell {
     @objc private func refreshBookmarkedSection(_ notification: Notification) {
         reloadIndicator.startAnimating()
         UIView.animate(withDuration: 0.2) {
-            if self.emptyShadowView.alpha != 0 {
-                self.emptyShadowView.alpha = 0
+            if self.emptyBookmarkShadowView.alpha != 0 {
+                self.emptyBookmarkShadowView.alpha = 0
             }
             self.bookmarksCollectionView.alpha = 0
             self.reloadIndicator.alpha = 1
@@ -258,29 +346,28 @@ class BookmarkedSection: UICollectionViewCell {
     }
     
     @objc private func refreshBookmarkedSectionFromDetails(_ notification: Notification) {
-        //        getBookmarkedEvents {
-        //            if let data = notification.userInfo {
-        //                if let eventId = data["check_id"] as? String {
-        //                    if !self.bookmarkedEventIdArray.contains(eventId) {
-        //
-        //                        self.reloadIndicator.startAnimating()
-        //                        UIView.animate(withDuration: 0.2) {
-        //                            self.reloadIndicator.alpha = 1
-        //                            self.bookmarksCollectionView.alpha = 0
-        //                        }
-        //
-        //                        self.bookmarksCollectionView.reloadData()
-        //
-        //                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-        //                            UIView.animate(withDuration: 0.2) {
-        //                                self.reloadIndicator.alpha = 0
-        //                                self.bookmarksCollectionView.alpha = 1
-        //                            }
-        //                        }
-        //                    }
-        //                }
-        //            }
-        //        }
+//        if let data = notification.userInfo {
+//            if let eventId = data["check_id"] as? String {
+//                if !self.bookmarkedEventIdArray.contains(eventId) {
+//
+//                    self.reloadIndicator.startAnimating()
+//                    UIView.animate(withDuration: 0.2) {
+//                        self.reloadIndicator.alpha = 1
+//                        self.bookmarksCollectionView.alpha = 0
+//                    }
+//
+//                    self.bookmarksCollectionView.reloadData()
+//
+//                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+//                        UIView.animate(withDuration: 0.2) {
+//                            self.reloadIndicator.alpha = 0
+//                            self.bookmarksCollectionView.alpha = 1
+//                        }
+//                    }
+//                }
+//            }
+//        }
+        
         
         getBookmarkedEvents()
     }

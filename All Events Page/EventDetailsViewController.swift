@@ -95,7 +95,6 @@ class EventDetailsViewController: UIViewController {
         navigationController?.navigationBar.shadowImage = UIImage()
         //navigationController?.navigationBar.barTintColor = .darkGray()
         navigationController?.navigationBar.isTranslucent = true
-        
         TabBar.hide(rootView: self)
     }
     
@@ -110,14 +109,12 @@ class EventDetailsViewController: UIViewController {
             }
         }
 
+        if UserService.User.isLoggedIn(){
+            NotificationCenter.default.post(name: .refreshTrendingSectionCell, object: nil, userInfo: ["check_id": eventId])
+            NotificationCenter.default.post(name: .refreshBookmarkedSectionFromDetails, object: nil, userInfo: ["check_id": eventId])
+        }
+            
         TabBar.show(rootView: self)
-    }
-    
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-
-        NotificationCenter.default.post(name: .refreshTrendingSectionCell, object: nil)
-        NotificationCenter.default.post(name: .refreshBookmarkedSectionFromDetails, object: nil, userInfo: ["check_id": eventId])
     }
     
     private func getDetails(eventId: String){
