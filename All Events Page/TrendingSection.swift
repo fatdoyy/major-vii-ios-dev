@@ -127,6 +127,7 @@ class TrendingSection: UICollectionViewCell {
                                     cell.bookmarkBtn.isUserInteractionEnabled = false
                                     if !self.bookmarkedEventArray.contains(checkId) {
                                         self.bookmarkedEventArray.append(checkId)
+                                        print("Callback from details array \(self.bookmarkedEventArray)")
                                     }
                                     
                                     //animate button state
@@ -149,10 +150,15 @@ class TrendingSection: UICollectionViewCell {
                                         }, completion: nil)
                                         cell.bookmarkBtn.isUserInteractionEnabled = true
                                     }
-                                } else if (cell.bookmarkBtn.backgroundColor?.isEqual(UIColor.mintGreen()))! {
+                                }
+                            }
+                            
+                         } else { //checkId is not in bookmarked list
+                            for cell in visibleCells {
+                                if cell.eventId == checkId && (cell.bookmarkBtn.backgroundColor?.isEqual(UIColor.mintGreen()))! {
                                     cell.bookmarkBtn.isUserInteractionEnabled = false
-                                    if !self.bookmarkedEventArray.contains(checkId) {
-                                        self.bookmarkedEventArray.append(checkId)
+                                    if self.bookmarkedEventArray.contains(checkId) {
+                                        self.bookmarkedEventArray.remove(object: checkId)
                                     }
                                     
                                     //animate button state
@@ -176,16 +182,14 @@ class TrendingSection: UICollectionViewCell {
                                         cell.bookmarkBtn.isUserInteractionEnabled = true
                                     }
                                 }
-                                
                             }
-                            
-                        } 
+                        }
 
-                    } else { //bookmarked list is empty
+                    } else { //bookmarked list is empty, remove id from array
                         for cell in visibleCells {
                             cell.bookmarkBtn.isUserInteractionEnabled = false
-                            if !self.bookmarkedEventArray.contains(checkId) {
-                                self.bookmarkedEventArray.append(checkId)
+                            if self.bookmarkedEventArray.contains(checkId) {
+                                self.bookmarkedEventArray.remove(object: checkId)
                             }
                             
                             //animate button state
