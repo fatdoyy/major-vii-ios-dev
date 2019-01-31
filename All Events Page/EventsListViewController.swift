@@ -14,6 +14,8 @@ class EventsListViewController: ScrollingNavigationViewController, UIGestureReco
     
     static let storyboardId = "eventsVC"
     
+    var isFromLoginView: Bool?
+    
     @IBOutlet weak var mainCollectionView: UICollectionView!
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -24,9 +26,9 @@ class EventsListViewController: ScrollingNavigationViewController, UIGestureReco
         super.viewDidLoad()
         view.backgroundColor = .darkGray()
         
-        self.navigationController?.interactivePopGestureRecognizer?.delegate = self
+        isFromLoginView = false
         
-        NotificationCenter.default.setObserver(self, selector: #selector(refreshEventListVC), name: .refreshEventListVC, object: nil)
+        self.navigationController?.interactivePopGestureRecognizer?.delegate = self
         
         mainCollectionView.backgroundColor = .darkGray()
         mainCollectionView.showsVerticalScrollIndicator = false
@@ -55,6 +57,29 @@ class EventsListViewController: ScrollingNavigationViewController, UIGestureReco
         navigationController?.navigationBar.barTintColor = .darkGray()
         navigationController?.navigationBar.isTranslucent = false
         TabBar.hide(rootView: self)
+        
+        NotificationCenter.default.setObserver(self, selector: #selector(refreshEventListVC), name: .refreshEventListVC, object: nil)
+        
+        if UserService.User.isLoggedIn() && isFromLoginView == true {
+            print("popped from loginView")
+            
+            //refresh mainCollectionView
+            let allSections = mainCollectionView.visibleCells
+            for section in allSections {
+                if let cell = section as? TrendingSection { //bookmark section
+                    cell.trendingCollectionView.reloadData()
+                }
+                
+                if let cell = section as? BookmarkedSection { //bookmark section
+                    cell.emptyLoginShadowView.alpha = 0
+                    cell.getBookmarkedEvents()
+                    cell.bookmarksCollectionView.alpha = 1
+                }
+            }
+            
+            mainCollectionView.reloadData()
+            isFromLoginView = false
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -63,7 +88,7 @@ class EventsListViewController: ScrollingNavigationViewController, UIGestureReco
         if let navigationController = self.navigationController as? ScrollingNavigationController {
             navigationController.followScrollView(mainCollectionView, delay: 20.0)
         }
-        
+
         tabBarController?.tabBar.isHidden = true
     }
     
@@ -75,16 +100,14 @@ class EventsListViewController: ScrollingNavigationViewController, UIGestureReco
         }
         
         if self.isMovingFromParent {
-            NotificationCenter.default.post(name: .refreshEventListVC, object: nil)
             NotificationCenter.default.post(name: .removeTrendingSectionObservers, object: nil)
             NotificationCenter.default.post(name: .removeBookmarkedSectionObservers, object: nil)
-            tabBarController?.tabBar.isHidden = false
-        } else {
             NotificationCenter.default.removeObserver(self)
+
+            tabBarController?.tabBar.isHidden = false
         }
 
         TabBar.show(rootView: self)
-
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -103,15 +126,8 @@ class EventsListViewController: ScrollingNavigationViewController, UIGestureReco
     }
     
     @objc private func refreshEventListVC() {
-        print("CALLEDDDD")
-        let bookmarkedSection = mainCollectionView.visibleCells //hide bookmark section when view did disappear
-        for cell in bookmarkedSection {
-            if let cell = cell as? BookmarkedSection {
-                cell.getBookmarkedEvents()
-                cell.bookmarksCollectionView.alpha = 1
-                cell.emptyLoginShadowView.alpha = 0
-            }
-        }
+        print("CALLED")
+        isFromLoginView = true
     }
     
     private func setupLeftBarItems(){

@@ -83,8 +83,6 @@ class EventDetailsViewController: UIViewController {
         floatyBtn.fabDelegate = self
         
         mainScrollView.contentInset = UIEdgeInsets(top: 300, left: 0, bottom: 0, right: 0)
-
-
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -109,7 +107,7 @@ class EventDetailsViewController: UIViewController {
             }
         }
 
-        if UserService.User.isLoggedIn(){
+        if UserService.User.isLoggedIn() {
             NotificationCenter.default.post(name: .refreshTrendingSectionCell, object: nil, userInfo: ["check_id": eventId])
             NotificationCenter.default.post(name: .refreshBookmarkedSectionFromDetails, object: nil, userInfo: ["check_id": eventId])
         }
@@ -128,7 +126,6 @@ class EventDetailsViewController: UIViewController {
     }
     
     private func loadDetails(){
-        
         if let url = URL(string: (details!.item?.images.first?.secureUrl)!) {
             headerImg.kf.setImage(with: url, options: [.transition(.fade(0.75))])
         }

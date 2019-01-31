@@ -25,7 +25,6 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         loginView.delegate = self
-        NotificationCenter.default.setObserver(self, selector: #selector(dismissLoginVC), name: .loginCompleted, object: nil)
         updatesStatusBarAppearanceAutomatically = true
         hideKeyboardWhenTappedAround()
     }
@@ -36,9 +35,9 @@ class LoginViewController: UIViewController {
             loadGIF()
         }
         
-        self.navigationController?.setNavigationBarHidden(true, animated: animated)
+        NotificationCenter.default.setObserver(self, selector: #selector(dismissLoginVC), name: .loginCompleted, object: nil)
         
-
+        self.navigationController?.setNavigationBarHidden(true, animated: animated)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -53,7 +52,6 @@ class LoginViewController: UIViewController {
                 NotificationCenter.default.post(name: .refreshEventListVC, object: nil)
             }
         }
-        
     }
     
     private func loadGIF() {

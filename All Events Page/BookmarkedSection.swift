@@ -42,6 +42,12 @@ class BookmarkedSection: UICollectionViewCell {
     
     var bookmarkedEvents: [BookmarkedEvent] = [] {
         didSet {
+            if emptyLoginShadowView.alpha == 1 { //ensure empty login view is hidden
+                UIView.animate(withDuration: 0.2) {
+                    self.emptyLoginShadowView.alpha = 0
+                }
+            }
+            
             if bookmarksCountLabel.alpha == 0 {
                 UIView.animate(withDuration: 0.2) {
                     self.bookmarksCountLabel.alpha = 1
@@ -108,6 +114,7 @@ class BookmarkedSection: UICollectionViewCell {
         bookmarksCollectionView.backgroundColor = .darkGray()
         bookmarksCollectionView.register(UINib.init(nibName: "BookmarkedCell", bundle: nil), forCellWithReuseIdentifier: BookmarkedCell.reuseIdentifier)
         
+        reloadIndicator.startAnimating()
         reloadIndicator.alpha = 0
         addSubview(reloadIndicator)
         reloadIndicator.snp.makeConstraints { make in
@@ -122,11 +129,13 @@ class BookmarkedSection: UICollectionViewCell {
         } else {
             bookmarksCollectionView.alpha = 0
             setupEmptyLoginView()
+            emptyLoginShadowView.alpha = 1
         }
     }
     
     private func setupEmptyLoginView() {
         //empty view's drop shadow
+        emptyLoginShadowView.alpha = 0
         emptyLoginShadowView.frame = CGRect(x: 20, y: 78, width: UIScreen.main.bounds.width - 40, height: bookmarksCollectionView.frame.height - 20)
         emptyLoginShadowView.clipsToBounds = false
         emptyLoginShadowView.layer.shadowOpacity = 0.5
@@ -318,7 +327,6 @@ class BookmarkedSection: UICollectionViewCell {
     }
     
     @objc private func refreshBookmarkedSection(_ notification: Notification) {
-        reloadIndicator.startAnimating()
         UIView.animate(withDuration: 0.2) {
             if self.emptyBookmarkShadowView.alpha != 0 {
                 self.emptyBookmarkShadowView.alpha = 0
@@ -346,29 +354,6 @@ class BookmarkedSection: UICollectionViewCell {
     }
     
     @objc private func refreshBookmarkedSectionFromDetails(_ notification: Notification) {
-//        if let data = notification.userInfo {
-//            if let eventId = data["check_id"] as? String {
-//                if !self.bookmarkedEventIdArray.contains(eventId) {
-//
-//                    self.reloadIndicator.startAnimating()
-//                    UIView.animate(withDuration: 0.2) {
-//                        self.reloadIndicator.alpha = 1
-//                        self.bookmarksCollectionView.alpha = 0
-//                    }
-//
-//                    self.bookmarksCollectionView.reloadData()
-//
-//                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-//                        UIView.animate(withDuration: 0.2) {
-//                            self.reloadIndicator.alpha = 0
-//                            self.bookmarksCollectionView.alpha = 1
-//                        }
-//                    }
-//                }
-//            }
-//        }
-        
-        
         getBookmarkedEvents()
     }
     

@@ -56,19 +56,15 @@ class TrendingCell: UICollectionViewCell {
         bookmarkBtn.layer.shadowOffset = CGSize(width: 0, height: 5)
         bookmarkBtn.layer.shadowRadius = 5
         bookmarkBtn.layer.shadowOpacity = 0.7
-        bookmarkBtnIndicator.alpha = 0
         
         //activity indicatior
-        if UserService.User.isLoggedIn() {
-            bookmarkBtnIndicator.startAnimating()
-            bookmarkBtn.setImage(nil, for: .normal)
-            bookmarkBtnIndicator.alpha = 1
-            bookmarkBtn.addSubview(bookmarkBtnIndicator)
-            bookmarkBtnIndicator.snp.makeConstraints { (make) -> Void in
-                make.centerX.equalToSuperview()
-                make.centerY.equalToSuperview()
-            }
+        bookmarkBtnIndicator.startAnimating()
+        bookmarkBtn.addSubview(bookmarkBtnIndicator)
+        bookmarkBtnIndicator.snp.makeConstraints { (make) -> Void in
+            make.centerX.equalToSuperview()
+            make.centerY.equalToSuperview()
         }
+        checkShouldDisplayIndicator()
             
         SkeletonAppearance.default.multilineCornerRadius = Int(GlobalCornerRadius.value / 2)
         SkeletonAppearance.default.gradient = SkeletonGradient(baseColor: .gray)
@@ -94,6 +90,15 @@ class TrendingCell: UICollectionViewCell {
         eventTitle.textColor = .whiteText()
         performerLabel.textColor = .whiteText()
         dateLabel.textColor = .whiteText()
+    }
+    
+    func checkShouldDisplayIndicator() {
+        if UserService.User.isLoggedIn() {
+            bookmarkBtn.setImage(nil, for: .normal)
+            bookmarkBtnIndicator.alpha = 1
+        } else {
+            bookmarkBtnIndicator.alpha = 0
+        }
     }
     
     override func prepareForReuse() {
