@@ -449,7 +449,7 @@ extension EventDetailsViewController{
         detailsVC.eventId = eventId
         
         fromView.navigationItem.title = ""
-        fromView.navigationController?.hero.navigationAnimationType = .zoom
+        fromView.navigationController?.hero.navigationAnimationType = .autoReverse(presenting: .zoom)
         fromView.navigationController?.pushViewController(detailsVC, animated: true)
     }
 }

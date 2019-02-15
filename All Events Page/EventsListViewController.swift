@@ -183,6 +183,16 @@ class EventsListViewController: ScrollingNavigationViewController, UIGestureReco
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return true
     }
+    
+    func showLoginVC() {
+        let loginVC = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "loginVC") as! LoginViewController
+        
+        loginVC.hero.isEnabled = true
+        
+        self.navigationItem.title = ""
+        self.navigationController?.hero.navigationAnimationType = .autoReverse(presenting: .zoom)
+        self.navigationController?.pushViewController(loginVC, animated: true)
+    }
 }
 
 extension EventsListViewController: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource{
@@ -304,6 +314,7 @@ extension EventsListViewController: TrendingSectionDelegate{
     func trendingCellTapped(eventId: String) {
         EventDetailsViewController.push(fromView: self, eventId: eventId)
     }
+
 }
 
 //MARK: Following Section Delegate
@@ -317,21 +328,6 @@ extension EventsListViewController: FollowingSectionDelegate{
 extension EventsListViewController: BookmarkSectionDelegate{
     func bookmarkedCellTapped(eventId: String) {
         EventDetailsViewController.push(fromView: self, eventId: eventId)
-    }
-    
-    func showLoginVC() {
-//        navigationController?.hero.navigationAnimationType = .uncover(direction: .down)
-//        navigationController?.popViewController(animated: true)
-        
-        let loginVC = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "loginVC") as! LoginViewController
-        
-        loginVC.hero.isEnabled = true
-//        loginVC.hero.modalAnimationType = .autoReverse(presenting: .zoom)
-//        self.present(loginVC, animated: true, completion: nil)
-        
-        self.navigationItem.title = ""
-        self.navigationController?.hero.navigationAnimationType = .autoReverse(presenting: .zoom)
-        self.navigationController?.pushViewController(loginVC, animated: true)
     }
 }
 

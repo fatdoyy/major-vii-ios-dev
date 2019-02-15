@@ -7,10 +7,11 @@
 //
 
 import UIKit
+import SwiftMessages
 
 protocol TrendingSectionDelegate{
     func trendingCellTapped(eventId: String)
-    //func trendingCellBookmarkBtnTapped(section: TrendingSection, cell: TrendingCell, tappedIndex: IndexPath)
+    func showLoginVC()
 }
 
 class TrendingSection: UICollectionViewCell {
@@ -25,6 +26,8 @@ class TrendingSection: UICollectionViewCell {
     
     @IBOutlet weak var trendingSectionLabel: UILabel!
     @IBOutlet weak var trendingCollectionView: UICollectionView!
+    
+    var loginMsgView = MessageView.viewFromNib(layout: .cardView)
     
     var bookmarkedEventArray: [String] = [] //IMPORTANT: Adding an array to local to control bookmarkBtn's state because of cell reuse issues
     
@@ -61,12 +64,38 @@ class TrendingSection: UICollectionViewCell {
         trendingCollectionView.register(UINib.init(nibName: "TrendingCell", bundle: nil), forCellWithReuseIdentifier: TrendingCell.reuseIdentifier)
         
         //getTrendingEvents()
+        setupLoginWarning()
     }
     
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        //fix big/small screen ratio issue
-        //trendingCollectionView.frame.size.height = TrendingCell.height
+    private func setupLoginWarning() {
+
+        // Theme message elements with the warning style.
+        loginMsgView.configureTheme(.warning)
+        
+        // Add a drop shadow.
+        loginMsgView.configureDropShadow()
+        
+        // Set message title, body, and icon. Here, we're overriding the default warning
+        // image with an emoji character.
+        let iconText = ["🤔", "😳", "🙄", "😶"].sm_random()!
+        loginMsgView.configureContent(title: "Oh-no!", body: "Please login first", iconText: iconText)
+        
+        loginMsgView.titleLabel?.font = UIFont.systemFont(ofSize: 12, weight: .bold)
+        loginMsgView.button?.setTitle("Login", for: .normal)
+        loginMsgView.button?.addTarget(self, action: #selector(showLoginVC), for: .touchUpInside)
+        
+        // Increase the external margin around the card. In general, the effect of this setting
+        // depends on how the given layout is constrained to the layout margins.
+        loginMsgView.layoutMarginAdditions = UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20)
+        
+        // Reduce the corner radius (applicable to layouts featuring rounded corners).
+        (loginMsgView.backgroundView as? CornerRoundingView)?.cornerRadius = GlobalCornerRadius.value
+    }
+    
+    
+    @objc private func showLoginVC(_ sender: UIButton) {
+        Animations.btnBounce(sender: sender)
+        delegate?.showLoginVC()
     }
     
     //get trending events list
@@ -157,7 +186,6 @@ class TrendingSection: UICollectionViewCell {
         }
     }
     
-    
     private func removeBookmarkAnimation(cell: TrendingCell) {
         cell.bookmarkBtn.isUserInteractionEnabled = false
         
@@ -186,6 +214,7 @@ class TrendingSection: UICollectionViewCell {
     @objc private func removeAllObservers() {
         NotificationCenter.default.removeObserver(self)
     }
+    
 }
 
 // MARK: UICollectionView Data Source
@@ -390,7 +419,7 @@ extension TrendingSection: TrendingCellDelegate {
             }
             
         } else { // not logged in
-            print("please login first")
+            SwiftMessages.show(view: loginMsgView)
         }
         
     }

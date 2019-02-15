@@ -132,20 +132,34 @@
             </objects>
             <point key="canvasLocation" x="-1178.4000000000001" y="-690.14778325123154"/>
         </scene>
-        <!--View Controller-->
+        <!--News Detail View Controller-->
         <scene sceneID="Zgg-XU-nzV">
             <objects>
-                <viewController id="Ngs-yU-oTq" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="newsDetailVC" id="Ngs-yU-oTq" customClass="NewsDetailViewController" customModule="major_7_ios" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="xyu-Bk-P6u">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KQt-A7-Gby">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                            </scrollView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="KQt-A7-Gby" firstAttribute="top" secondItem="xyu-Bk-P6u" secondAttribute="top" id="LFR-kE-AX4"/>
+                            <constraint firstItem="KQt-A7-Gby" firstAttribute="trailing" secondItem="0Zc-8u-rMo" secondAttribute="trailing" id="WfH-Mo-i58"/>
+                            <constraint firstAttribute="bottom" secondItem="KQt-A7-Gby" secondAttribute="bottom" id="dU6-kw-bUU"/>
+                            <constraint firstItem="KQt-A7-Gby" firstAttribute="leading" secondItem="0Zc-8u-rMo" secondAttribute="leading" id="lQQ-GM-ndl"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="0Zc-8u-rMo"/>
                     </view>
+                    <connections>
+                        <outlet property="scrollView" destination="KQt-A7-Gby" id="ZcY-sh-TLY"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HYE-0M-TUf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-375" y="-687"/>
+            <point key="canvasLocation" x="82.400000000000006" y="-1675.1231527093596"/>
         </scene>
         <!--Tab Bar View Controller-->
         <scene sceneID="DMq-wy-dzv">
