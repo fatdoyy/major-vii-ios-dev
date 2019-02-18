@@ -13,8 +13,18 @@ class ImageOverlay: UIView { //Black at bottom
         return CAGradientLayer.classForCoder()
     }
     
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        commonInit()
+    }
+    
+    
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+        commonInit()
+    }
+    
+    private func commonInit() {
         let gradientLayer = self.layer as! CAGradientLayer
         gradientLayer.colors = [
             UIColor.clear.cgColor,
@@ -29,14 +39,23 @@ class ImageOverlayRevert: UIView { //Black at top
         return CAGradientLayer.classForCoder()
     }
     
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        commonInit()
+    }
+    
+    
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+        commonInit()
+    }
+    
+    private func commonInit() {
         let gradientLayer = self.layer as! CAGradientLayer
         gradientLayer.colors = [
             UIColor.black.withAlphaComponent(0.65).cgColor,
             UIColor.clear.cgColor
         ]
-        
         backgroundColor = UIColor.clear
     }
 }

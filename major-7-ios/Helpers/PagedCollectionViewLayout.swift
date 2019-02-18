@@ -8,10 +8,10 @@
 
 import UIKit
 
-class PagedCollectionViewLayout : UICollectionViewFlowLayout {
+class PagedCollectionViewLayout: UICollectionViewFlowLayout {
     
-    var previousOffset : CGFloat = 0
-    var currentPage : CGFloat = 0
+    var previousOffset: CGFloat = 0
+    var currentPage: CGFloat = 0
     
     override func targetContentOffset(forProposedContentOffset proposedContentOffset: CGPoint, withScrollingVelocity velocity: CGPoint) -> CGPoint {
         
@@ -34,7 +34,7 @@ class PagedCollectionViewLayout : UICollectionViewFlowLayout {
         }
         
         // Update offset by using item size + spacing
-        let itemEdgeOffset:CGFloat = (validCollection.frame.width - itemSize.width -  minimumLineSpacing * 2) / 2
+        let itemEdgeOffset: CGFloat = (validCollection.frame.width - itemSize.width -  minimumLineSpacing * 2) / 2
         let updatedOffset = ((itemSize.width + minimumLineSpacing) * currentPage) - (itemEdgeOffset + minimumLineSpacing)
         self.previousOffset = updatedOffset
         

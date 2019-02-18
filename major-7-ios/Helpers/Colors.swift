@@ -79,6 +79,10 @@ extension UIColor {
         return UIColor(hexString: "16ccbd")
     }
     
+    class func lightGrayText() -> UIColor {
+        return UIColor(hexString: "#afafaf")
+    }
+    
     class func darkGrayText() -> UIColor {
         return UIColor(hexString: "#797979")
     }

@@ -7,16 +7,28 @@
 //
 
 import UIKit
+import CHIPageControl
 
 class NewsDetailViewController: UIViewController {
 
     static let storyboardId = "newsDetailVC"
+
+    let upperView = UIView()
+    let pageControl = CHIPageControlAleppo(frame: CGRect(x: 0, y:0, width: 100, height: 20))
+    let imgOverlay = ImageOverlay()
+    var titleLabel = UILabel()
+    var descLabel = UILabel()
+    var viewsLabel = UILabel()
+
+    let lowerView = UIView()
+
     
     @IBOutlet weak var scrollView: UIScrollView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        updatesStatusBarAppearanceAutomatically = true
         view.backgroundColor = .darkGray()
         scrollView.delegate = self
         scrollView.showsVerticalScrollIndicator = false
@@ -29,26 +41,28 @@ class NewsDetailViewController: UIViewController {
         
         let pageSize = view.bounds.size
         
-        createUpperView()
         
-        let upperView = UIView()
         upperView.backgroundColor = .darkGray()
         
         //image collection view
-        let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
+        let layout: UICollectionViewFlowLayout = PagedCollectionViewLayout()
         layout.itemSize = pageSize
         layout.scrollDirection = .horizontal
+        layout.minimumLineSpacing = 0
+        layout.minimumInteritemSpacing = 0
         
         let collectionView = UICollectionView(frame: self.view.frame, collectionViewLayout: layout)
+        collectionView.frame = self.view.frame
         collectionView.backgroundColor = .mintGreen()
+        collectionView.collectionViewLayout = layout
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.register(UINib.init(nibName: "NewsDetailImageCell", bundle: nil), forCellWithReuseIdentifier: NewsDetailImageCell.reuseIdentifier)
 
         upperView.addSubview(collectionView)
+        setupUpperViewUI()
         
-        let lowerView = UIView()
         lowerView.backgroundColor = .blue
         
         let pagesViews = [upperView, lowerView]
@@ -78,16 +92,81 @@ class NewsDetailViewController: UIViewController {
         super.viewWillDisappear(animated)
         TabBar.show(rootView: self)
     }
-    
-    private func createUpperView() {
+
+    private func setupUpperViewUI() {
+        setupOverlay()
+        setupLabels()
+        setupPageControl()
+    }
+
+    private func setupLabels() {
+        viewsLabel.textAlignment = .left
+        viewsLabel.numberOfLines = 1
+        viewsLabel.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
+        viewsLabel.textColor = .topazText()
+        viewsLabel.text = "Today | 1,234 views"
+        self.upperView.insertSubview(viewsLabel, aboveSubview: imgOverlay)
+        viewsLabel.snp.makeConstraints { (make) -> Void in
+            make.centerX.equalToSuperview()
+            make.bottom.equalTo(upperView.snp.bottom).offset(-60)
+            make.width.equalTo(upperView.snp.width).inset(UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20))
+            //make.height.equalTo(16)
+        }
         
+        descLabel.textAlignment = .left
+        descLabel.numberOfLines = 2
+        descLabel.font = UIFont.systemFont(ofSize: 14, weight: .medium)
+        descLabel.textColor = .lightGrayText()
+        descLabel.text = "Pimp up your home with latest design classics and smart helpers."
+        self.upperView.insertSubview(descLabel, aboveSubview: imgOverlay)
+        descLabel.snp.makeConstraints { (make) -> Void in
+            make.centerX.equalToSuperview()
+            make.bottom.equalTo(viewsLabel.snp.top).offset(-20)
+            make.width.equalTo(upperView.snp.width).inset(UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20))
+        }
+
+        titleLabel.textAlignment = .left
+        titleLabel.numberOfLines = 2
+        titleLabel.font = UIFont.systemFont(ofSize: 24, weight: .semibold)
+        titleLabel.textColor = .white
+        titleLabel.text = "JL is releasing an brand new album."
+        self.upperView.insertSubview(titleLabel, aboveSubview: imgOverlay)
+        titleLabel.snp.makeConstraints { (make) -> Void in
+            make.centerX.equalToSuperview()
+            make.bottom.equalTo(descLabel.snp.top).offset(-10)
+            make.width.equalTo(upperView.snp.width).inset(UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20))
+        }
+
     }
     
+    private func setupOverlay() {
+        imgOverlay.isUserInteractionEnabled = false
+        self.upperView.addSubview(imgOverlay)
+        imgOverlay.snp.makeConstraints { (make) -> Void in
+            make.bottom.equalTo(upperView.snp.bottom)
+            make.width.equalTo(upperView.snp.width)
+            make.height.equalTo(UIScreen.main.bounds.height / 2)
+        }
+    }
+
+    private func setupPageControl() {
+        pageControl.numberOfPages = 4 //number of images
+        pageControl.radius = 5
+        pageControl.tintColor = .white
+        pageControl.currentPageTintColor = .white
+        pageControl.padding = 8
+        self.upperView.addSubview(pageControl)
+        pageControl.snp.makeConstraints { (make) -> Void in
+            make.centerX.equalToSuperview()
+            make.centerY.equalTo(444)
+            make.bottom.equalTo(titleLabel.snp.top).offset(-15)
+        }
+    }
 }
 
 extension NewsDetailViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 2
+        return 4
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -101,6 +180,10 @@ extension NewsDetailViewController: UICollectionViewDelegateFlowLayout, UICollec
 extension NewsDetailViewController: UIScrollViewDelegate {
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         HapticFeedback.createImpact(style: .medium)
+    }
+    
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        pageControl.set(progress: Int(scrollView.contentOffset.x) / Int(scrollView.frame.width), animated: true)
     }
 }
 
