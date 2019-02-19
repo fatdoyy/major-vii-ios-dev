@@ -46,4 +46,12 @@ extension UIView {
             self.transform = CGAffineTransform.identity
         }, completion: nil)
     }
+    
+    func bounceRepeat() {
+        UIView.animate(withDuration: 0.8, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.5, options: [.autoreverse, .repeat], animations: {
+            var frame = self.frame
+            frame.origin.y += 5
+            self.frame = frame
+        }, completion: nil)
+    }
 }

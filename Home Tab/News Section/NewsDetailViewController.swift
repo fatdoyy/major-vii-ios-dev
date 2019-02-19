@@ -14,14 +14,14 @@ class NewsDetailViewController: UIViewController {
     static let storyboardId = "newsDetailVC"
 
     let upperView = UIView()
-    let pageControl = CHIPageControlAleppo(frame: CGRect(x: 0, y:0, width: 100, height: 20))
+    let pageControl = CHIPageControlJalapeno(frame: CGRect(x: 0, y:0, width: 100, height: 20))
     let imgOverlay = ImageOverlay()
     var titleLabel = UILabel()
     var descLabel = UILabel()
     var viewsLabel = UILabel()
+    var swipeUpImg = UIImageView()
 
     let lowerView = UIView()
-
     
     @IBOutlet weak var scrollView: UIScrollView!
     
@@ -100,6 +100,16 @@ class NewsDetailViewController: UIViewController {
     }
 
     private func setupLabels() {
+        swipeUpImg.image = UIImage(named: "icon_swipe_up")
+        self.upperView.insertSubview(swipeUpImg, aboveSubview: imgOverlay)
+        swipeUpImg.snp.makeConstraints { (make) -> Void in
+            make.centerX.equalToSuperview()
+            make.size.equalTo(25)
+            make.bottom.equalTo(upperView.snp.bottom).offset(-40)
+        }
+        
+        swipeUpImg.bounceRepeat()
+        
         viewsLabel.textAlignment = .left
         viewsLabel.numberOfLines = 1
         viewsLabel.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
@@ -108,7 +118,7 @@ class NewsDetailViewController: UIViewController {
         self.upperView.insertSubview(viewsLabel, aboveSubview: imgOverlay)
         viewsLabel.snp.makeConstraints { (make) -> Void in
             make.centerX.equalToSuperview()
-            make.bottom.equalTo(upperView.snp.bottom).offset(-60)
+            make.bottom.equalTo(swipeUpImg.snp.top).offset(-20)
             make.width.equalTo(upperView.snp.width).inset(UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20))
             //make.height.equalTo(16)
         }
@@ -139,15 +149,6 @@ class NewsDetailViewController: UIViewController {
 
     }
     
-    private func setupOverlay() {
-        imgOverlay.isUserInteractionEnabled = false
-        self.upperView.addSubview(imgOverlay)
-        imgOverlay.snp.makeConstraints { (make) -> Void in
-            make.bottom.equalTo(upperView.snp.bottom)
-            make.width.equalTo(upperView.snp.width)
-            make.height.equalTo(UIScreen.main.bounds.height / 2)
-        }
-    }
 
     private func setupPageControl() {
         pageControl.numberOfPages = 4 //number of images
@@ -158,15 +159,25 @@ class NewsDetailViewController: UIViewController {
         self.upperView.addSubview(pageControl)
         pageControl.snp.makeConstraints { (make) -> Void in
             make.centerX.equalToSuperview()
-            make.centerY.equalTo(444)
             make.bottom.equalTo(titleLabel.snp.top).offset(-15)
         }
     }
+    
+    private func setupOverlay() {
+        imgOverlay.isUserInteractionEnabled = false
+        self.upperView.addSubview(imgOverlay)
+        imgOverlay.snp.makeConstraints { (make) -> Void in
+            make.bottom.equalTo(upperView.snp.bottom)
+            make.width.equalTo(upperView.snp.width)
+            make.height.equalTo(UIScreen.main.bounds.height / 2)
+        }
+    }
+
 }
 
 extension NewsDetailViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 4
+        return 4 //number of images
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
