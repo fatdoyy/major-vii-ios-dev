@@ -54,6 +54,6 @@ class EventsCell: UICollectionViewCell {
         eventLabel.textColor = .whiteText()
         performerLabel.textColor = .whiteText()
         //bgImgView.image = UIImage(named: "cat")
-        imgOverlay.layer.insertSublayer(GradientLayer.create(frame: imgOverlay!.bounds, colors: [.white, UIColor.white.withAlphaComponent(0)]), at: 0)
+        imgOverlay.layer.insertSublayer(GradientLayer.create(frame: imgOverlay!.bounds, colors: [.white, UIColor.white.withAlphaComponent(0)], startPoint: CGPoint(x: 0, y: 0.5), endPoint: CGPoint(x: 1, y: 0.5)), at: 0)
     }
 }

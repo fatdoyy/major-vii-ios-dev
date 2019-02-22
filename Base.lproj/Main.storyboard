@@ -154,7 +154,7 @@
                         <viewLayoutGuide key="safeArea" id="0Zc-8u-rMo"/>
                     </view>
                     <connections>
-                        <outlet property="scrollView" destination="KQt-A7-Gby" id="ZcY-sh-TLY"/>
+                        <outlet property="mainScrollView" destination="KQt-A7-Gby" id="ZcY-sh-TLY"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HYE-0M-TUf" userLabel="First Responder" sceneMemberID="firstResponder"/>

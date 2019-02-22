@@ -95,7 +95,7 @@ extension EventsSection: UICollectionViewDataSource, UICollectionViewDelegate, U
             }
             
             cell.backgroundColor = .white
-            cell.bgView.layer.insertSublayer(GradientLayer.create(frame: cell.bgView!.bounds, colors: [.lightPurple(), .darkPurple()], cornerRadius: true), at: 0)
+            cell.bgView.layer.insertSublayer(GradientLayer.create(frame: cell.bgView!.bounds, colors: [.lightPurple(), .darkPurple()], startPoint: CGPoint(x: 0, y: 0.5), endPoint: CGPoint(x: 1, y: 0.5), cornerRadius: true), at: 0)
             cell.bgView.alpha = 0.7
             cell.imgOverlay.isHidden = false
             

@@ -10,7 +10,7 @@ import UIKit
 
 class GradientLayer {
     
-    static func create(frame: CGRect, colors: [UIColor], locations: [NSNumber]? = nil, cornerRadius: Bool? = nil) -> CAGradientLayer {
+    static func create(frame: CGRect, colors: [UIColor], startPoint: CGPoint, endPoint: CGPoint, locations: [NSNumber]? = nil, cornerRadius: Bool? = nil) -> CAGradientLayer {
         let gradientBg = CAGradientLayer()
         gradientBg.frame = frame
         gradientBg.colors = colors.cgColors()
@@ -23,8 +23,8 @@ class GradientLayer {
             gradientBg.cornerRadius = GlobalCornerRadius.value
         }
        
-        gradientBg.startPoint = CGPoint(x: 0, y: 0.5)
-        gradientBg.endPoint = CGPoint(x: 1, y: 0.5)
+        gradientBg.startPoint = startPoint
+        gradientBg.endPoint = endPoint
 
         return gradientBg
     }
