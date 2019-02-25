@@ -18,7 +18,17 @@ class NewsList: Mappable {
     func mapping(map: Map) {
         skip        <- map["skip"]
         limit       <- map["limit"]
-        newslist        <- map["list"]
+        newslist    <- map["list"]
+    }
+}
+
+class NewsDetails: Mappable {
+    var item: News?
+    
+    required init?(map: Map) {}
+    
+    func mapping(map: Map) {
+        item     <- map["item"]
     }
 }
 

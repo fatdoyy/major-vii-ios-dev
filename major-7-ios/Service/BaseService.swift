@@ -33,6 +33,8 @@ class BaseService: NSObject {
         //News
         case .getNews:
             actionPathStr = "news"
+        case .getNewsDetails(let newsId):
+            actionPathStr = "news/\(newsId)"
             
         //Events
         case .getUpcomingEvents:
@@ -113,6 +115,7 @@ extension BaseService {
         
         //News
         case getNews
+        case getNewsDetails(newsId: String)
         
         //Events
         case getUpcomingEvents

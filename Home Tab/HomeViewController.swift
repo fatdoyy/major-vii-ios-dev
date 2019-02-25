@@ -79,7 +79,7 @@ class HomeViewController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     private func getNews(){
-        NewsService.getNews().done{ response -> () in
+        NewsService.getList().done{ response -> () in
             self.newsList = response.newslist
 
             //            for news in self.news{
@@ -202,8 +202,7 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if indexPath.section == 1 { //news section
             print("News cell index: \(indexPath.row)")
-            
-            NewsDetailViewController.push(fromView: self, eventId: "")
+            NewsDetailViewController.push(fromView: self, newsId: newsList[indexPath.row].id!)
             
         }
     }

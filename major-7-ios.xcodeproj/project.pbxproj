@@ -282,8 +282,8 @@
 				96B0BE4921F056B4003C9BA5 /* LocalKeys.swift */,
 				965838B22181C5A4000FE8B0 /* News.swift */,
 				96625F7821C7859E0086A2B2 /* Event.swift */,
-				96625F7621C785670086A2B2 /* Image.swift */,
 				96625F7E21C8C8030086A2B2 /* EventDetails.swift */,
+				96625F7621C785670086A2B2 /* Image.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
