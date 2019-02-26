@@ -50,6 +50,8 @@ class NewsDetailViewController: UIViewController {
     var descString = ""
     let contentLabel = UILabel()
     var contentLabelHeight : CGFloat = 0.0
+    var sepLine = UIView()
+    var copyrightLabel = UILabel()
     
     //let detailViews = [detailUpperView, detailLowerView]
     var detailViews = [UIView]() //upper + lower view
@@ -318,6 +320,7 @@ extension NewsDetailViewController {
         detailLowerView.backgroundColor = .darkGray()
 
 
+
     }
     
     private func loadLowerDetails() {
@@ -331,6 +334,36 @@ extension NewsDetailViewController {
             self.swipeUpLabel.text = "Swipe Up For More Details"
         }
 
+        copyrightLabel.textAlignment = .center
+        copyrightLabel.numberOfLines = 1
+        copyrightLabel.font = UIFont.systemFont(ofSize: 10, weight: .medium)
+        copyrightLabel.textColor = .lightGrayText()
+        copyrightLabel.text = "Copyright © 2019 | Major VII | ALL RIGHTS RESERVED"
+        detailLowerView.addSubview(copyrightLabel)
+        copyrightLabel.snp.makeConstraints { (make) -> Void in
+            if UIDevice().userInterfaceIdiom == .phone {
+                switch UIScreen.main.nativeBounds.height {
+                case 1136, 1334:
+                    make.bottom.equalToSuperview().offset(-20)
+                case 1920, 2208, 2436, 2688, 1792:
+                    make.bottom.equalToSuperview().offset(-40)
+                default:
+                    print("unknown")
+                }
+            }
+            make.centerX.equalTo(detailLowerView)
+            make.width.equalTo(detailLowerView.snp.width).inset(UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20))
+        }
+        
+        sepLine.backgroundColor = UIColor.white.withAlphaComponent(0.1)
+        sepLine.layer.cornerRadius = 0.2
+        detailLowerView.addSubview(sepLine)
+        sepLine.snp.makeConstraints { (make) -> Void in
+            make.centerX.equalTo(detailLowerView)
+            make.bottom.equalTo(copyrightLabel.snp.top).offset(-20)
+            make.width.equalTo(detailLowerView.snp.width).inset(UIEdgeInsets(top: 0, left: 40, bottom: 0, right: 40))
+            make.height.equalTo(2)
+        }
         
         if let newsDetails = details?.item {
             descString = newsDetails.content!
@@ -352,7 +385,7 @@ extension NewsDetailViewController {
         contentLabel.sizeToFit()
         //contentLabel.textColor = .white
         //contentLabel.text =
-        contentLabel.font = UIFont.systemFont(ofSize: 14, weight: .regular)
+        contentLabel.font = UIFont.systemFont(ofSize: 15, weight: .regular)
         contentLabel.numberOfLines = 0
         contentLabel.lineBreakMode = .byWordWrapping
         detailLowerView.addSubview(contentLabel)
@@ -363,18 +396,18 @@ extension NewsDetailViewController {
                     make.top.equalToSuperview().offset(80)
                     make.leftMargin.equalTo(20)
                     make.rightMargin.equalTo(-20)
-                //make.edges.equalToSuperview().inset(UIEdgeInsets(top: 80, left: 20, bottom: 40, right: 20))
+                    //make.bottom.equalTo(sepLine.snp.top).offset(-30)
                 case 1920, 2208, 2436, 2688, 1792:
                     make.top.equalToSuperview().offset(100)
                     make.leftMargin.equalTo(20)
                     make.rightMargin.equalTo(-20)
-                //make.edges.equalToSuperview().inset(UIEdgeInsets(top: 100, left: 20, bottom: 40, right: 20))
+                    //make.bottom.equalTo(sepLine.snp.top).offset(-30)
                 default:
                     print("unknown")
                 }
             }
         }
-
+        
         detailViews.append(detailLowerView)
         
         //assign contentLabelHeight
@@ -382,10 +415,10 @@ extension NewsDetailViewController {
             switch UIScreen.main.nativeBounds.height {
             case 1136, 1334:
                 /* contentLabelHeight + bottomPadding + topPadding */
-                let labelHeight = contentLabel.attributedTextHeight(withWidth: UIScreen.main.bounds.width - 40) + 40 + 80
+                let labelHeight = contentLabel.attributedTextHeight(withWidth: UIScreen.main.bounds.width - 40) + 120 + 80
                 contentLabelHeight = labelHeight > UIScreen.main.bounds.height ? labelHeight : UIScreen.main.bounds.height
             case 1920, 2208, 2436, 2688, 1792:
-                let labelHeight = contentLabel.attributedTextHeight(withWidth: UIScreen.main.bounds.width - 40) + 40 + 100
+                let labelHeight = contentLabel.attributedTextHeight(withWidth: UIScreen.main.bounds.width - 40) + 120 + 100
                 contentLabelHeight = labelHeight > UIScreen.main.bounds.height ? labelHeight : UIScreen.main.bounds.height
             default:
                 print("unknown")

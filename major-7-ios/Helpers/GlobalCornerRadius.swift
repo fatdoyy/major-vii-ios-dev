@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 class GlobalCornerRadius {
-    static let value: CGFloat = 12
+    static let value: CGFloat = 16
 }
 
 //round specific corners
