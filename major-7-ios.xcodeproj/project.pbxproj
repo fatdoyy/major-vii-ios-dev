@@ -33,6 +33,9 @@
 		9639217521AD1C4500BA515A /* HashtagCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9639217321AD1C4500BA515A /* HashtagCell.xib */; };
 		964761ED2186FAAD0004F58C /* BaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 964761EC2186FAAD0004F58C /* BaseService.swift */; };
 		964761EF21870EE60004F58C /* NewsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 964761EE21870EE60004F58C /* NewsService.swift */; };
+		965798B222266BC500A03BE9 /* BuskerProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 965798B122266BC500A03BE9 /* BuskerProfileViewController.swift */; };
+		965798B52226706C00A03BE9 /* BuskerProfileImgCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 965798B32226706C00A03BE9 /* BuskerProfileImgCell.swift */; };
+		965798B62226706C00A03BE9 /* BuskerProfileImgCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 965798B42226706C00A03BE9 /* BuskerProfileImgCell.xib */; };
 		965838B32181C5A4000FE8B0 /* News.swift in Sources */ = {isa = PBXBuildFile; fileRef = 965838B22181C5A4000FE8B0 /* News.swift */; };
 		965838B62181CAE7000FE8B0 /* NewsCellType2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 965838B42181CAE7000FE8B0 /* NewsCellType2.swift */; };
 		965838B72181CAE7000FE8B0 /* NewsCellType2.xib in Resources */ = {isa = PBXBuildFile; fileRef = 965838B52181CAE7000FE8B0 /* NewsCellType2.xib */; };
@@ -138,6 +141,9 @@
 		9639217321AD1C4500BA515A /* HashtagCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HashtagCell.xib; sourceTree = "<group>"; };
 		964761EC2186FAAD0004F58C /* BaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseService.swift; sourceTree = "<group>"; };
 		964761EE21870EE60004F58C /* NewsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsService.swift; sourceTree = "<group>"; };
+		965798B122266BC500A03BE9 /* BuskerProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuskerProfileViewController.swift; sourceTree = "<group>"; };
+		965798B32226706C00A03BE9 /* BuskerProfileImgCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuskerProfileImgCell.swift; sourceTree = "<group>"; };
+		965798B42226706C00A03BE9 /* BuskerProfileImgCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BuskerProfileImgCell.xib; sourceTree = "<group>"; };
 		965838B22181C5A4000FE8B0 /* News.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = News.swift; sourceTree = "<group>"; };
 		965838B42181CAE7000FE8B0 /* NewsCellType2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsCellType2.swift; sourceTree = "<group>"; };
 		965838B52181CAE7000FE8B0 /* NewsCellType2.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewsCellType2.xib; sourceTree = "<group>"; };
@@ -299,6 +305,17 @@
 			path = Service;
 			sourceTree = "<group>";
 		};
+		965798B022266B0700A03BE9 /* Buskers Tab */ = {
+			isa = PBXGroup;
+			children = (
+				966A6CBE217DBD7F00DF872F /* BuskersViewController.swift */,
+				965798B122266BC500A03BE9 /* BuskerProfileViewController.swift */,
+				965798B32226706C00A03BE9 /* BuskerProfileImgCell.swift */,
+				965798B42226706C00A03BE9 /* BuskerProfileImgCell.xib */,
+			);
+			path = "Buskers Tab";
+			sourceTree = "<group>";
+		};
 		965838B12181C4B9000FE8B0 /* Cell Types */ = {
 			isa = PBXGroup;
 			children = (
@@ -322,8 +339,8 @@
 				9620021621DDF1640055D070 /* Login */,
 				966A6CB7217DB5F500DF872F /* TabBarViewController.swift */,
 				966A6CC9217DE6AC00DF872F /* Home Tab */,
+				965798B022266B0700A03BE9 /* Buskers Tab */,
 				96C55412219044710065D70A /* All Events Page */,
-				966A6CBE217DBD7F00DF872F /* BuskersViewController.swift */,
 				966A6CC0217DBD9F00DF872F /* AgentsViewController.swift */,
 				966A6CC2217DBDAF00DF872F /* EventsViewController.swift */,
 				966A6CC4217DBDC400DF872F /* SettingsViewController.swift */,
@@ -586,6 +603,7 @@
 				9639216F21ABC85500BA515A /* EventDetailsView.xib in Resources */,
 				966A6CD52180492F00DF872F /* EventsCell.xib in Resources */,
 				965838BF218317CE000FE8B0 /* NewsCellType4.xib in Resources */,
+				965798B62226706C00A03BE9 /* BuskerProfileImgCell.xib in Resources */,
 				96EA375421B528E900E9DB74 /* DetailsImageCell.xib in Resources */,
 				965838BB2181CAFE000FE8B0 /* NewsCellType3.xib in Resources */,
 				966A6CE121808BB100DF872F /* NewsCellType1.xib in Resources */,
@@ -749,9 +767,11 @@
 				964761EF21870EE60004F58C /* NewsService.swift in Sources */,
 				966A6CC7217DC16500DF872F /* Colors.swift in Sources */,
 				96C5544C219408580065D70A /* FeaturedCell.swift in Sources */,
+				965798B222266BC500A03BE9 /* BuskerProfileViewController.swift in Sources */,
 				966A6CC3217DBDAF00DF872F /* EventsViewController.swift in Sources */,
 				9620025E21E5E5490055D070 /* UIView+Xib.swift in Sources */,
 				96625F7B21C793DA0086A2B2 /* EventService.swift in Sources */,
+				965798B52226706C00A03BE9 /* BuskerProfileImgCell.swift in Sources */,
 				965838BE218317CE000FE8B0 /* NewsCellType4.swift in Sources */,
 				96C5541B21918CB90065D70A /* TrendingCell.swift in Sources */,
 				96862EBB219AD8AC00F709B0 /* TabBarHiding.swift in Sources */,

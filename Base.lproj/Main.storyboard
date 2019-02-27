@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="nPd-NX-Cc6">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="9Ok-EZ-1sD">
     <device id="retina5_9" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -264,6 +264,35 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qoJ-B8-Y4x" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2644" y="-1675"/>
+        </scene>
+        <!--Busker Profile View Controller-->
+        <scene sceneID="QE1-hP-28t">
+            <objects>
+                <viewController storyboardIdentifier="buskerProfileVC" id="9Ok-EZ-1sD" customClass="BuskerProfileViewController" customModule="major_7_ios" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="vv2-xP-mlS">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WUR-8Q-DKa">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                            </scrollView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="WUR-8Q-DKa" firstAttribute="trailing" secondItem="Vle-xd-ms8" secondAttribute="trailing" id="9En-dy-aTo"/>
+                            <constraint firstItem="WUR-8Q-DKa" firstAttribute="top" secondItem="vv2-xP-mlS" secondAttribute="top" id="9eS-UY-KvH"/>
+                            <constraint firstItem="WUR-8Q-DKa" firstAttribute="leading" secondItem="Vle-xd-ms8" secondAttribute="leading" id="Dl4-LL-Fxb"/>
+                            <constraint firstAttribute="bottom" secondItem="WUR-8Q-DKa" secondAttribute="bottom" id="nVw-BZ-hjK"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="Vle-xd-ms8"/>
+                    </view>
+                    <connections>
+                        <outlet property="mainScrollView" destination="WUR-8Q-DKa" id="eue-co-TbE"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="SId-EQ-EOF" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2644" y="-986.45320197044339"/>
         </scene>
         <!--Event Details View Controller-->
         <scene sceneID="5GU-zy-LRZ">

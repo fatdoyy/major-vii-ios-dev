@@ -37,7 +37,7 @@ class NewsDetailViewController: UIViewController {
     
     let detailUpperView = UIView()
     var imgCollectionView: UICollectionView!
-    let pageControl = CHIPageControlJalapeno(frame: CGRect(x: 0, y:0, width: 100, height: 20))
+    let pageControl = CHIPageControlJalapeno(frame: CGRect(x: 0, y: 0, width: 100, height: 20))
     let imgOverlay = UIView()
     var titleLabel = UILabel()
     var descLabel = UILabel()
@@ -471,7 +471,7 @@ extension NewsDetailViewController: UIScrollViewDelegate {
                 self.mainScrollView.setContentOffset(.zero, animated: true)
             }
             
-            mainScrollView.isPagingEnabled = mainScrollView.currentVerticalPage == 1 ? false : true
+            mainScrollView.isPagingEnabled = mainScrollView.currentVerticalPage != 0 ? false : true
         }
     }
 
@@ -481,7 +481,7 @@ extension NewsDetailViewController: UIScrollViewDelegate {
         } else {
             HapticFeedback.createImpact(style: .medium)
         }
-        mainScrollView.isPagingEnabled = mainScrollView.currentVerticalPage == 1 ? false : true
+        mainScrollView.isPagingEnabled = mainScrollView.currentVerticalPage != 0 ? false : true
     }
 }
 
