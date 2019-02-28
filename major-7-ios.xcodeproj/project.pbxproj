@@ -36,6 +36,9 @@
 		965798B222266BC500A03BE9 /* BuskerProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 965798B122266BC500A03BE9 /* BuskerProfileViewController.swift */; };
 		965798B52226706C00A03BE9 /* BuskerProfileImgCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 965798B32226706C00A03BE9 /* BuskerProfileImgCell.swift */; };
 		965798B62226706C00A03BE9 /* BuskerProfileImgCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 965798B42226706C00A03BE9 /* BuskerProfileImgCell.xib */; };
+		965798B92227B3A500A03BE9 /* ProfileDescView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 965798B82227B3A500A03BE9 /* ProfileDescView.swift */; };
+		965798BB2227B46E00A03BE9 /* ProfileEventsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 965798BA2227B46E00A03BE9 /* ProfileEventsView.swift */; };
+		965798BD2227B49900A03BE9 /* ProfilePostsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 965798BC2227B49900A03BE9 /* ProfilePostsView.swift */; };
 		965838B32181C5A4000FE8B0 /* News.swift in Sources */ = {isa = PBXBuildFile; fileRef = 965838B22181C5A4000FE8B0 /* News.swift */; };
 		965838B62181CAE7000FE8B0 /* NewsCellType2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 965838B42181CAE7000FE8B0 /* NewsCellType2.swift */; };
 		965838B72181CAE7000FE8B0 /* NewsCellType2.xib in Resources */ = {isa = PBXBuildFile; fileRef = 965838B52181CAE7000FE8B0 /* NewsCellType2.xib */; };
@@ -144,6 +147,9 @@
 		965798B122266BC500A03BE9 /* BuskerProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuskerProfileViewController.swift; sourceTree = "<group>"; };
 		965798B32226706C00A03BE9 /* BuskerProfileImgCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuskerProfileImgCell.swift; sourceTree = "<group>"; };
 		965798B42226706C00A03BE9 /* BuskerProfileImgCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BuskerProfileImgCell.xib; sourceTree = "<group>"; };
+		965798B82227B3A500A03BE9 /* ProfileDescView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDescView.swift; sourceTree = "<group>"; };
+		965798BA2227B46E00A03BE9 /* ProfileEventsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileEventsView.swift; sourceTree = "<group>"; };
+		965798BC2227B49900A03BE9 /* ProfilePostsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePostsView.swift; sourceTree = "<group>"; };
 		965838B22181C5A4000FE8B0 /* News.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = News.swift; sourceTree = "<group>"; };
 		965838B42181CAE7000FE8B0 /* NewsCellType2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsCellType2.swift; sourceTree = "<group>"; };
 		965838B52181CAE7000FE8B0 /* NewsCellType2.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewsCellType2.xib; sourceTree = "<group>"; };
@@ -309,11 +315,22 @@
 			isa = PBXGroup;
 			children = (
 				966A6CBE217DBD7F00DF872F /* BuskersViewController.swift */,
+				965798B72227B20300A03BE9 /* Busker Profile View */,
+			);
+			path = "Buskers Tab";
+			sourceTree = "<group>";
+		};
+		965798B72227B20300A03BE9 /* Busker Profile View */ = {
+			isa = PBXGroup;
+			children = (
 				965798B122266BC500A03BE9 /* BuskerProfileViewController.swift */,
 				965798B32226706C00A03BE9 /* BuskerProfileImgCell.swift */,
 				965798B42226706C00A03BE9 /* BuskerProfileImgCell.xib */,
+				965798B82227B3A500A03BE9 /* ProfileDescView.swift */,
+				965798BA2227B46E00A03BE9 /* ProfileEventsView.swift */,
+				965798BC2227B49900A03BE9 /* ProfilePostsView.swift */,
 			);
-			path = "Buskers Tab";
+			name = "Busker Profile View";
 			sourceTree = "<group>";
 		};
 		965838B12181C4B9000FE8B0 /* Cell Types */ = {
@@ -656,6 +673,7 @@
 				"${BUILT_PRODUCTS_DIR}/MXParallaxHeader/MXParallaxHeader.framework",
 				"${BUILT_PRODUCTS_DIR}/NVActivityIndicatorView/NVActivityIndicatorView.framework",
 				"${BUILT_PRODUCTS_DIR}/ObjectMapper/ObjectMapper.framework",
+				"${BUILT_PRODUCTS_DIR}/Parchment/Parchment.framework",
 				"${BUILT_PRODUCTS_DIR}/Pastel/Pastel.framework",
 				"${BUILT_PRODUCTS_DIR}/PromiseKit/PromiseKit.framework",
 				"${BUILT_PRODUCTS_DIR}/Reqres/Reqres.framework",
@@ -693,6 +711,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MXParallaxHeader.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/NVActivityIndicatorView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ObjectMapper.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Parchment.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Pastel.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PromiseKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Reqres.framework",
@@ -770,11 +789,13 @@
 				965798B222266BC500A03BE9 /* BuskerProfileViewController.swift in Sources */,
 				966A6CC3217DBDAF00DF872F /* EventsViewController.swift in Sources */,
 				9620025E21E5E5490055D070 /* UIView+Xib.swift in Sources */,
+				965798BD2227B49900A03BE9 /* ProfilePostsView.swift in Sources */,
 				96625F7B21C793DA0086A2B2 /* EventService.swift in Sources */,
 				965798B52226706C00A03BE9 /* BuskerProfileImgCell.swift in Sources */,
 				965838BE218317CE000FE8B0 /* NewsCellType4.swift in Sources */,
 				96C5541B21918CB90065D70A /* TrendingCell.swift in Sources */,
 				96862EBB219AD8AC00F709B0 /* TabBarHiding.swift in Sources */,
+				965798BB2227B46E00A03BE9 /* ProfileEventsView.swift in Sources */,
 				9620021821DDFC320055D070 /* LoginViewController.swift in Sources */,
 				96C9899522169CEB00170609 /* NewsDetailViewController.swift in Sources */,
 				966A6CCC217DE6DD00DF872F /* EventsSection.swift in Sources */,
@@ -783,6 +804,7 @@
 				966A6CB8217DB5F500DF872F /* TabBarViewController.swift in Sources */,
 				964761ED2186FAAD0004F58C /* BaseService.swift in Sources */,
 				96799FE6218C5A280074C828 /* ImageOverlay.swift in Sources */,
+				965798B92227B3A500A03BE9 /* ProfileDescView.swift in Sources */,
 				96EA375621B66BBC00E9DB74 /* ImageViewerHelper.swift in Sources */,
 				96EA375321B528E900E9DB74 /* DetailsImageCell.swift in Sources */,
 				96C5542A2192C2DF0065D70A /* FollowingSection.swift in Sources */,

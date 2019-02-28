@@ -45,7 +45,8 @@ target 'major-7-ios' do
   pod 'NVActivityIndicatorView'                 # as title
   pod 'SwiftMessages'                           # in-app notifications/empty states of tableview/collectionview etc...
   pod 'CHIPageControl', '~> 0.1.3'              # UIPageControl
-
+  pod 'Parchment'                               # Paging menu
+  
   pod 'Validator', :git => 'https://github.com/kikikiktai/Validator.git'                            # UITextField validation
   pod 'ImageViewer', :inhibit_warnings => true, :git=> 'https://github.com/mezhevikin/ImageViewer'  # as title
 

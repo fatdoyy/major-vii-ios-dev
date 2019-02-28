@@ -113,6 +113,7 @@ PODS:
     - NVActivityIndicatorView/Presenter (= 4.4.1)
   - NVActivityIndicatorView/Presenter (4.4.1)
   - ObjectMapper (3.4.1)
+  - Parchment (1.5.0)
   - Pastel (0.5.1)
   - PromiseKit/CorePromise (6.7.0)
   - Reqres (3.0.0)
@@ -148,6 +149,7 @@ DEPENDENCIES:
   - MXParallaxHeader
   - NVActivityIndicatorView
   - ObjectMapper
+  - Parchment
   - Pastel
   - PromiseKit/CorePromise (~> 6.0)
   - Reqres
@@ -190,6 +192,7 @@ SPEC REPOS:
     - nanopb
     - NVActivityIndicatorView
     - ObjectMapper
+    - Parchment
     - Pastel
     - PromiseKit
     - Reqres
@@ -245,6 +248,7 @@ SPEC CHECKSUMS:
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
   NVActivityIndicatorView: f0a6b0ed2973d9544da268f4eb76696f0a9577b0
   ObjectMapper: 5311bd50ca732930959e7ca1a2de43ab823a5ced
+  Parchment: 5a8c9c73549a6d73a7c1b606c27246910d2e5720
   Pastel: b3dd5b8d612dac06ae7c63c97c45c900829bc139
   PromiseKit: 453ddcc947fe7b302f3ef41882b81d31c554df7f
   Reqres: fb0714daf1b13dbafca25dd293d583cb4f73e420
@@ -255,6 +259,6 @@ SPEC CHECKSUMS:
   SwiftMessages: 42ed7b6e1f2f1ead9ee667dc61a0ae87e4f49570
   Validator: b34ab17a8fffd0c1ffd8f9002ead4d1e02cd9e6e
 
-PODFILE CHECKSUM: cb0c14b3c9e322517102d9da1122641aee3e6d3a
+PODFILE CHECKSUM: 21e5c590de5dc9c4c571264ab3103e3077111782
 
 COCOAPODS: 1.5.3

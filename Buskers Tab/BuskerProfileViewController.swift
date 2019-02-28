@@ -8,6 +8,7 @@
 
 import UIKit
 import CHIPageControl
+import Parchment
 
 class BuskerProfileViewController: UIViewController {
     static let storyboardId = "buskerProfileVC"
@@ -24,7 +25,6 @@ class BuskerProfileViewController: UIViewController {
     var buskerTaglineLabel = UILabel()
     let pageControl = CHIPageControlJaloro(frame: CGRect(x: 0, y: 0, width: 100, height: 10))
 
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         updatesStatusBarAppearanceAutomatically = true
@@ -36,6 +36,16 @@ class BuskerProfileViewController: UIViewController {
         setupPageControl()
         setupActionBtn()
         
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let aViewController = storyboard.instantiateViewController(withIdentifier: "A") as! ProfileDescView
+        let bViewController = storyboard.instantiateViewController(withIdentifier: "B") as! ProfileEventsView
+        let cViewController = storyboard.instantiateViewController(withIdentifier: "C") as! ProfilePostsView
+        
+        setupSegmentedControl()
+        
+        if #available(iOS 11.0, *) {
+            mainScrollView.contentInsetAdjustmentBehavior = .never
+        }
         mainScrollView.contentSize = CGSize(width: screenWidth, height: UIScreen.main.bounds.height)
     }
    
@@ -137,7 +147,29 @@ extension BuskerProfileViewController {
     }
 }
 
-
+//MARK: Segmented Control
+extension BuskerProfileViewController {
+    private func setupSegmentedControl() {
+        let descVC = ProfileDescView()
+        let eventsVC = ProfileEventsView()
+        let postsVC = ProfilePostsView()
+        
+        let pagingViewController = FixedPagingViewController(viewControllers: [descVC, eventsVC, postsVC])
+        
+        //2  addChild(pagingViewController)
+        mainScrollView.addSubview(pagingViewController.view)
+        pagingViewController.didMove(toParent: self)
+        pagingViewController.view.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            pagingViewController.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            pagingViewController.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            pagingViewController.view.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            pagingViewController.view.topAnchor.constraint(equalTo: view.topAnchor, constant: imgCollectionViewHeight)
+            ])
+    }
+    
+}
 
 //MARK: Collection View Delegate
 extension BuskerProfileViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource, UICollectionViewDelegate {
