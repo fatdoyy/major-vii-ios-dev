@@ -36,9 +36,12 @@
 		965798B222266BC500A03BE9 /* BuskerProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 965798B122266BC500A03BE9 /* BuskerProfileViewController.swift */; };
 		965798B52226706C00A03BE9 /* BuskerProfileImgCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 965798B32226706C00A03BE9 /* BuskerProfileImgCell.swift */; };
 		965798B62226706C00A03BE9 /* BuskerProfileImgCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 965798B42226706C00A03BE9 /* BuskerProfileImgCell.xib */; };
-		965798B92227B3A500A03BE9 /* ProfileDescView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 965798B82227B3A500A03BE9 /* ProfileDescView.swift */; };
-		965798BB2227B46E00A03BE9 /* ProfileEventsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 965798BA2227B46E00A03BE9 /* ProfileEventsView.swift */; };
-		965798BD2227B49900A03BE9 /* ProfilePostsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 965798BC2227B49900A03BE9 /* ProfilePostsView.swift */; };
+		965798C5222D2B5000A03BE9 /* ProfileDescView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 965798C3222D2B5000A03BE9 /* ProfileDescView.swift */; };
+		965798C6222D2B5000A03BE9 /* ProfileDescView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 965798C4222D2B5000A03BE9 /* ProfileDescView.xib */; };
+		965798C9222D2BD800A03BE9 /* ProfileEventsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 965798C7222D2BD800A03BE9 /* ProfileEventsView.swift */; };
+		965798CA222D2BD800A03BE9 /* ProfileEventsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 965798C8222D2BD800A03BE9 /* ProfileEventsView.xib */; };
+		965798CD222D2F9800A03BE9 /* ProfilePostsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 965798CB222D2F9800A03BE9 /* ProfilePostsView.swift */; };
+		965798CE222D2F9800A03BE9 /* ProfilePostsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 965798CC222D2F9800A03BE9 /* ProfilePostsView.xib */; };
 		965838B32181C5A4000FE8B0 /* News.swift in Sources */ = {isa = PBXBuildFile; fileRef = 965838B22181C5A4000FE8B0 /* News.swift */; };
 		965838B62181CAE7000FE8B0 /* NewsCellType2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 965838B42181CAE7000FE8B0 /* NewsCellType2.swift */; };
 		965838B72181CAE7000FE8B0 /* NewsCellType2.xib in Resources */ = {isa = PBXBuildFile; fileRef = 965838B52181CAE7000FE8B0 /* NewsCellType2.xib */; };
@@ -147,9 +150,12 @@
 		965798B122266BC500A03BE9 /* BuskerProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuskerProfileViewController.swift; sourceTree = "<group>"; };
 		965798B32226706C00A03BE9 /* BuskerProfileImgCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuskerProfileImgCell.swift; sourceTree = "<group>"; };
 		965798B42226706C00A03BE9 /* BuskerProfileImgCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BuskerProfileImgCell.xib; sourceTree = "<group>"; };
-		965798B82227B3A500A03BE9 /* ProfileDescView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDescView.swift; sourceTree = "<group>"; };
-		965798BA2227B46E00A03BE9 /* ProfileEventsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileEventsView.swift; sourceTree = "<group>"; };
-		965798BC2227B49900A03BE9 /* ProfilePostsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePostsView.swift; sourceTree = "<group>"; };
+		965798C3222D2B5000A03BE9 /* ProfileDescView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDescView.swift; sourceTree = "<group>"; };
+		965798C4222D2B5000A03BE9 /* ProfileDescView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProfileDescView.xib; sourceTree = "<group>"; };
+		965798C7222D2BD800A03BE9 /* ProfileEventsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileEventsView.swift; sourceTree = "<group>"; };
+		965798C8222D2BD800A03BE9 /* ProfileEventsView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProfileEventsView.xib; sourceTree = "<group>"; };
+		965798CB222D2F9800A03BE9 /* ProfilePostsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePostsView.swift; sourceTree = "<group>"; };
+		965798CC222D2F9800A03BE9 /* ProfilePostsView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProfilePostsView.xib; sourceTree = "<group>"; };
 		965838B22181C5A4000FE8B0 /* News.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = News.swift; sourceTree = "<group>"; };
 		965838B42181CAE7000FE8B0 /* NewsCellType2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsCellType2.swift; sourceTree = "<group>"; };
 		965838B52181CAE7000FE8B0 /* NewsCellType2.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewsCellType2.xib; sourceTree = "<group>"; };
@@ -326,9 +332,12 @@
 				965798B122266BC500A03BE9 /* BuskerProfileViewController.swift */,
 				965798B32226706C00A03BE9 /* BuskerProfileImgCell.swift */,
 				965798B42226706C00A03BE9 /* BuskerProfileImgCell.xib */,
-				965798B82227B3A500A03BE9 /* ProfileDescView.swift */,
-				965798BA2227B46E00A03BE9 /* ProfileEventsView.swift */,
-				965798BC2227B49900A03BE9 /* ProfilePostsView.swift */,
+				965798C3222D2B5000A03BE9 /* ProfileDescView.swift */,
+				965798C4222D2B5000A03BE9 /* ProfileDescView.xib */,
+				965798C7222D2BD800A03BE9 /* ProfileEventsView.swift */,
+				965798C8222D2BD800A03BE9 /* ProfileEventsView.xib */,
+				965798CB222D2F9800A03BE9 /* ProfilePostsView.swift */,
+				965798CC222D2F9800A03BE9 /* ProfilePostsView.xib */,
 			);
 			name = "Busker Profile View";
 			sourceTree = "<group>";
@@ -597,11 +606,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				965798CA222D2BD800A03BE9 /* ProfileEventsView.xib in Resources */,
 				96C5542B2192C2DF0065D70A /* FollowingSection.xib in Resources */,
 				CA550AB321706A66008E493D /* LaunchScreen.storyboard in Resources */,
 				9620025A21E5CED10055D070 /* gif0.gif in Resources */,
 				9620025821E4F58E0055D070 /* gif11.gif in Resources */,
 				9620022121E3B17A0055D070 /* GoogleService-Info.plist in Resources */,
+				965798CE222D2F9800A03BE9 /* ProfilePostsView.xib in Resources */,
 				96C5542F2192C6730065D70A /* FollowingCell.xib in Resources */,
 				965838C321831866000FE8B0 /* NewsCellType5.xib in Resources */,
 				9620025C21E5CF1B0055D070 /* gif6.gif in Resources */,
@@ -628,6 +639,7 @@
 				96C5544D219408580065D70A /* FeaturedCell.xib in Resources */,
 				9620021A21DDFDC20055D070 /* LoginView.xib in Resources */,
 				9620023C21E4B3A80055D070 /* gif5.gif in Resources */,
+				965798C6222D2B5000A03BE9 /* ProfileDescView.xib in Resources */,
 				9620023421E4B13A0055D070 /* gif8.gif in Resources */,
 				966A6CCD217DE6DD00DF872F /* EventsSection.xib in Resources */,
 				965838B72181CAE7000FE8B0 /* NewsCellType2.xib in Resources */,
@@ -789,14 +801,14 @@
 				965798B222266BC500A03BE9 /* BuskerProfileViewController.swift in Sources */,
 				966A6CC3217DBDAF00DF872F /* EventsViewController.swift in Sources */,
 				9620025E21E5E5490055D070 /* UIView+Xib.swift in Sources */,
-				965798BD2227B49900A03BE9 /* ProfilePostsView.swift in Sources */,
+				965798CD222D2F9800A03BE9 /* ProfilePostsView.swift in Sources */,
 				96625F7B21C793DA0086A2B2 /* EventService.swift in Sources */,
 				965798B52226706C00A03BE9 /* BuskerProfileImgCell.swift in Sources */,
 				965838BE218317CE000FE8B0 /* NewsCellType4.swift in Sources */,
 				96C5541B21918CB90065D70A /* TrendingCell.swift in Sources */,
 				96862EBB219AD8AC00F709B0 /* TabBarHiding.swift in Sources */,
-				965798BB2227B46E00A03BE9 /* ProfileEventsView.swift in Sources */,
 				9620021821DDFC320055D070 /* LoginViewController.swift in Sources */,
+				965798C5222D2B5000A03BE9 /* ProfileDescView.swift in Sources */,
 				96C9899522169CEB00170609 /* NewsDetailViewController.swift in Sources */,
 				966A6CCC217DE6DD00DF872F /* EventsSection.swift in Sources */,
 				96C989992216C98C00170609 /* NewsDetailImageCell.swift in Sources */,
@@ -804,7 +816,6 @@
 				966A6CB8217DB5F500DF872F /* TabBarViewController.swift in Sources */,
 				964761ED2186FAAD0004F58C /* BaseService.swift in Sources */,
 				96799FE6218C5A280074C828 /* ImageOverlay.swift in Sources */,
-				965798B92227B3A500A03BE9 /* ProfileDescView.swift in Sources */,
 				96EA375621B66BBC00E9DB74 /* ImageViewerHelper.swift in Sources */,
 				96EA375321B528E900E9DB74 /* DetailsImageCell.swift in Sources */,
 				96C5542A2192C2DF0065D70A /* FollowingSection.swift in Sources */,
@@ -828,6 +839,7 @@
 				96862EB9219ACE1F00F709B0 /* EventDetailsViewController.swift in Sources */,
 				CA550AA621706A65008E493D /* AppDelegate.swift in Sources */,
 				965838C221831866000FE8B0 /* NewsCellType5.swift in Sources */,
+				965798C9222D2BD800A03BE9 /* ProfileEventsView.swift in Sources */,
 				96B0BE4221EF2235003C9BA5 /* ValidationRules.swift in Sources */,
 				9620021C21DDFDED0055D070 /* LoginView.swift in Sources */,
 				96625F7F21C8C8030086A2B2 /* EventDetails.swift in Sources */,

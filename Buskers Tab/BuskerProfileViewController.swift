@@ -9,6 +9,7 @@
 import UIKit
 import CHIPageControl
 import Parchment
+import Pastel
 
 class BuskerProfileViewController: UIViewController {
     static let storyboardId = "buskerProfileVC"
@@ -20,11 +21,21 @@ class BuskerProfileViewController: UIViewController {
     let screenWidth: CGFloat = UIScreen.main.bounds.width
     let imgCollectionViewHeight: CGFloat = (UIScreen.main.bounds.height / 5) * 2
     let imgOverlay = UIView()
-    var buskerLabel = UILabel()
-    var actionBtn = UIButton()
-    var buskerTaglineLabel = UILabel()
+    
     let pageControl = CHIPageControlJaloro(frame: CGRect(x: 0, y: 0, width: 100, height: 10))
-
+    var buskerLabel = UILabel()
+    var buskerTaglineLabel = UILabel()
+    
+    var hashtagsCollectionView: UICollectionView!
+    let hashtagsArray = ["123", "456", "789", "asdfgghh", "hkbusking", "guitarbusking", "cajon123", "abc555", "00000000", "#1452fa", "1234567890"]
+    
+    var actionBtn = UIButton()
+    var statsBgView = UIView()
+    var statsGradientBg = PastelView()
+    var followersCount = UILabel()
+    var followersLabel = UILabel()
+    var postsCount = UILabel()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         updatesStatusBarAppearanceAutomatically = true
@@ -34,14 +45,14 @@ class BuskerProfileViewController: UIViewController {
         setupOverlay()
         setupLabels()
         setupPageControl()
+        setupHashtagsCollectionView()
         setupActionBtn()
+        setupStatsView()
         
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let aViewController = storyboard.instantiateViewController(withIdentifier: "A") as! ProfileDescView
-        let bViewController = storyboard.instantiateViewController(withIdentifier: "B") as! ProfileEventsView
-        let cViewController = storyboard.instantiateViewController(withIdentifier: "C") as! ProfilePostsView
-        
-        setupSegmentedControl()
+//        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+//        let aViewController = storyboard.instantiateViewController(withIdentifier: "A") as! ProfileDescView
+//        let bViewController = storyboard.instantiateViewController(withIdentifier: "B") as! ProfileEventsView
+//        let cViewController = storyboard.instantiateViewController(withIdentifier: "C") as! ProfilePostsView
         
         if #available(iOS 11.0, *) {
             mainScrollView.contentInsetAdjustmentBehavior = .never
@@ -124,6 +135,27 @@ extension BuskerProfileViewController {
         }
     }
     
+    private func setupHashtagsCollectionView() {
+        let layout: UICollectionViewFlowLayout = HashtagsFlowLayout()
+        layout.scrollDirection = .horizontal
+        
+        hashtagsCollectionView = UICollectionView(frame: CGRect(origin: CGPoint.zero, size: CGSize(width: screenWidth, height: 28)), collectionViewLayout: layout)
+        hashtagsCollectionView.backgroundColor = .darkGray()
+        hashtagsCollectionView.collectionViewLayout = layout
+        hashtagsCollectionView.dataSource = self
+        hashtagsCollectionView.delegate = self
+        hashtagsCollectionView.showsHorizontalScrollIndicator = false
+        hashtagsCollectionView.register(UINib.init(nibName: "HashtagCell", bundle: nil), forCellWithReuseIdentifier: HashtagCell.reuseIdentifier)
+        mainScrollView.addSubview(hashtagsCollectionView)
+        hashtagsCollectionView.snp.makeConstraints { (make) -> Void in
+            make.top.equalTo(buskerLabel.snp.bottom).offset(15)
+            make.width.equalTo(screenWidth)
+            make.height.equalTo(28)
+            make.leftMargin.equalTo(0)
+            make.rightMargin.equalTo(0)
+        }
+    }
+    
     private func setupActionBtn() {
         //pageControl.alpha = 0
         actionBtn.backgroundColor = .darkGray
@@ -137,7 +169,7 @@ extension BuskerProfileViewController {
             make.centerX.equalToSuperview()
             make.width.equalTo(screenWidth - 40)
             make.height.equalTo(40)
-            make.top.equalTo(buskerLabel.snp.bottom).offset(15)
+            make.top.equalTo(hashtagsCollectionView.snp.bottom).offset(20)
         }
     }
     
@@ -145,53 +177,86 @@ extension BuskerProfileViewController {
         Animations.btnBounce(sender: sender)
         print("action btn tapped")
     }
-}
-
-//MARK: Segmented Control
-extension BuskerProfileViewController {
-    private func setupSegmentedControl() {
-        let descVC = ProfileDescView()
-        let eventsVC = ProfileEventsView()
-        let postsVC = ProfilePostsView()
+    
+    private func setupStatsView() {
+        statsBgView.frame = CGRect(x: 0, y: 0, width: screenWidth - 40, height: 80)
+        statsBgView.layer.cornerRadius = GlobalCornerRadius.value
+        statsBgView.clipsToBounds = true
+        statsBgView.backgroundColor = .darkGray
         
-        let pagingViewController = FixedPagingViewController(viewControllers: [descVC, eventsVC, postsVC])
+        statsGradientBg.frame = CGRect(x: 0, y: 0, width: screenWidth - 40, height: 80)
+        statsGradientBg.animationDuration = 2.5
+        //statsGradientBg.setColors([UIColor(hexString: "#FF5F6D"), UIColor(hexString: "#FFC371")])
+        statsGradientBg.setColors([UIColor(red: 156/255, green: 39/255, blue: 176/255, alpha: 1.0),
+                              UIColor(red: 255/255, green: 64/255, blue: 129/255, alpha: 1.0),
+                              UIColor(red: 123/255, green: 31/255, blue: 162/255, alpha: 1.0),
+                              UIColor(red: 32/255, green: 76/255, blue: 255/255, alpha: 1.0),
+                              UIColor(red: 32/255, green: 158/255, blue: 255/255, alpha: 1.0),
+                              UIColor(red: 90/255, green: 120/255, blue: 127/255, alpha: 1.0),
+                              UIColor(red: 58/255, green: 255/255, blue: 217/255, alpha: 1.0)])
+        //statsGradientBg.layer.shadowColor = UIColor(hexString: "#FDC830").cgColor
         
-        //2  addChild(pagingViewController)
-        mainScrollView.addSubview(pagingViewController.view)
-        pagingViewController.didMove(toParent: self)
-        pagingViewController.view.translatesAutoresizingMaskIntoConstraints = false
+        statsGradientBg.startAnimation()
         
-        NSLayoutConstraint.activate([
-            pagingViewController.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            pagingViewController.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            pagingViewController.view.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            pagingViewController.view.topAnchor.constraint(equalTo: view.topAnchor, constant: imgCollectionViewHeight)
-            ])
+        statsBgView.insertSubview(statsGradientBg, at: 0)
+        mainScrollView.addSubview(statsBgView)
+        statsBgView.snp.makeConstraints { (make) -> Void in
+            make.top.equalTo(actionBtn.snp.bottom).offset(20)
+            make.centerX.equalToSuperview()
+            make.width.equalTo(screenWidth - 40)
+            make.height.equalTo(80)
+        }
+        
+        
     }
     
+}
+
+//MARK: Profile section
+extension BuskerProfileViewController {
+
+
 }
 
 //MARK: Collection View Delegate
 extension BuskerProfileViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        if collectionView == imgCollectionView {
         //        let count = (details != nil) ? (details?.item?.coverImages.count)! : 3
         //        return count //number of images
-        return 4
+            return 4
+        } else { //hashtagsCollectionView
+            return hashtagsArray.count
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BuskerProfileImgCell.reuseIdentifier, for: indexPath) as! BuskerProfileImgCell
-        
-        //        if let newsDetails = self.details?.item {
-        //            if let url = URL(string: newsDetails.coverImages[indexPath.row].secureUrl!) {
-        //                cell.imgView.kf.setImage(with: url, options: [.transition(.fade(0.75))])
-        //            }
-        //        }
-        cell.imgView.image = UIImage(named: "cat")
-        
-        return cell
+        if collectionView == imgCollectionView {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BuskerProfileImgCell.reuseIdentifier, for: indexPath) as! BuskerProfileImgCell
+            
+            //        if let newsDetails = self.details?.item {
+            //            if let url = URL(string: newsDetails.coverImages[indexPath.row].secureUrl!) {
+            //                cell.imgView.kf.setImage(with: url, options: [.transition(.fade(0.75))])
+            //            }
+            //        }
+            cell.imgView.image = UIImage(named: "cat")
+            
+            return cell
+        } else {
+            let cell = hashtagsCollectionView.dequeueReusableCell(withReuseIdentifier: HashtagCell.reuseIdentifier, for: indexPath) as! HashtagCell
+            cell.hashtag.text = "#\(hashtagsArray[indexPath.row])"
+            return cell
+        }
     }
     
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        if collectionView == imgCollectionView {
+            return CGSize(width: screenWidth, height: imgCollectionViewHeight)
+        } else {
+            let size = (hashtagsArray[indexPath.row] as NSString).size(withAttributes: nil)
+            return CGSize(width: size.width + 32, height: HashtagCell.height)
+        }
+    }
 }
 
 //MARK: UIScrollView Delegate
@@ -199,12 +264,15 @@ extension BuskerProfileViewController: UIScrollViewDelegate {
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         if (!decelerate) {
         }
-        HapticFeedback.createImpact(style: .medium)
+        
+        if scrollView == imgCollectionView {
+            HapticFeedback.createImpact(style: .medium)
+        }
 
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        if scrollView != mainScrollView { //UICollectionView
+        if scrollView == imgCollectionView { //UICollectionView
             pageControl.set(progress: Int(scrollView.contentOffset.x) / Int(scrollView.frame.width), animated: true)
         }
     }
