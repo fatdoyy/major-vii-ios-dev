@@ -35,6 +35,9 @@ class BuskerProfileViewController: UIViewController {
     var followersCount = UILabel()
     var followersLabel = UILabel()
     var postsCount = UILabel()
+    var postsLabel = UILabel()
+    var eventsCount = UILabel()
+    var eventsLabel = UILabel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -207,9 +210,80 @@ extension BuskerProfileViewController {
             make.height.equalTo(80)
         }
         
+        followersCount.textColor = .white
+        followersCount.text = "12k+"
+        followersCount.textAlignment = .center
+        followersCount.font = UIFont.systemFont(ofSize: 21, weight: .semibold)
+        statsBgView.addSubview(followersCount)
+        followersCount.snp.makeConstraints { (make) -> Void in
+            make.leftMargin.equalTo(10)
+            make.centerY.equalToSuperview().offset(-10)
+            make.width.equalTo((screenWidth - 40) / 3)
+            make.height.equalTo(24)
+        }
+        
+        followersLabel.textColor = .lightGray
+        followersLabel.text = "Followers"
+        followersLabel.textAlignment = .center
+        followersLabel.font = UIFont.systemFont(ofSize: 11, weight: .light)
+        statsBgView.addSubview(followersLabel)
+        followersLabel.snp.makeConstraints { (make) -> Void in
+            make.leftMargin.equalTo(10)
+            make.centerY.equalToSuperview().offset(10)
+            make.width.equalTo((screenWidth - 40) / 3)
+            make.height.equalTo(12)
+        }
+        
+        postsCount.textColor = .white
+        postsCount.text = "65"
+        postsCount.textAlignment = .center
+        postsCount.font = UIFont.systemFont(ofSize: 21, weight: .semibold)
+        statsBgView.addSubview(postsCount)
+        postsCount.snp.makeConstraints { (make) -> Void in
+            make.width.equalTo((screenWidth - 40) / 3)
+            make.centerY.equalToSuperview().offset(-10)
+            make.centerX.equalToSuperview()
+            make.height.equalTo(24)
+        }
+        
+        postsLabel.textColor = .lightGray
+        postsLabel.text = "Posts"
+        postsLabel.textAlignment = .center
+        postsLabel.font = UIFont.systemFont(ofSize: 11, weight: .light)
+        statsBgView.addSubview(postsLabel)
+        postsLabel.snp.makeConstraints { (make) -> Void in
+            make.width.equalTo((screenWidth - 40) / 3)
+            make.centerY.equalToSuperview().offset(10)
+            make.centerX.equalToSuperview()
+            make.height.equalTo(12)
+        }
+        
+        eventsCount.textColor = .white
+        eventsCount.text = "10"
+        eventsCount.textAlignment = .center
+        eventsCount.font = UIFont.systemFont(ofSize: 21, weight: .semibold)
+        statsBgView.addSubview(eventsCount)
+        eventsCount.snp.makeConstraints { (make) -> Void in
+            make.rightMargin.equalTo(-10)
+            make.width.equalTo((screenWidth - 40) / 3)
+            make.centerY.equalToSuperview().offset(-10)
+            make.height.equalTo(24)
+        }
+        
+        eventsLabel.textColor = .lightGray
+        eventsLabel.text = "Events"
+        eventsLabel.textAlignment = .center
+        eventsLabel.font = UIFont.systemFont(ofSize: 11, weight: .light)
+        statsBgView.addSubview(eventsLabel)
+        eventsLabel.snp.makeConstraints { (make) -> Void in
+            make.rightMargin.equalTo(-10)
+            make.width.equalTo((screenWidth - 40) / 3)
+            make.centerY.equalToSuperview().offset(10)
+            make.height.equalTo(12)
+        }
+        
         
     }
-    
 }
 
 //MARK: Profile section
