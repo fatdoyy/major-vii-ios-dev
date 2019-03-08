@@ -39,6 +39,19 @@ class BuskerProfileViewController: UIViewController {
     var eventsCount = UILabel()
     var eventsLabel = UILabel()
     
+    //profile section
+    var profileBgView = UIView()
+    var profileLabel = UILabel()
+    var profileLineView = UIView()
+    var profileDesc = UILabel()
+    var descString = ""
+
+    //members section
+    var membersBgView = UIView()
+    var membersLabel = UILabel()
+    var membersLineView = UIView()
+    var membersCollectionView: UICollectionView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         updatesStatusBarAppearanceAutomatically = true
@@ -49,20 +62,27 @@ class BuskerProfileViewController: UIViewController {
         setupLabels()
         setupPageControl()
         setupHashtagsCollectionView()
+        
         setupActionBtn()
+        
         setupStatsView()
         
-//        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-//        let aViewController = storyboard.instantiateViewController(withIdentifier: "A") as! ProfileDescView
-//        let bViewController = storyboard.instantiateViewController(withIdentifier: "B") as! ProfileEventsView
-//        let cViewController = storyboard.instantiateViewController(withIdentifier: "C") as! ProfilePostsView
+        setupProfileSection()
         
+        setupMembersSection()
+        setupMembersCollectionView()
+
         if #available(iOS 11.0, *) {
             mainScrollView.contentInsetAdjustmentBehavior = .never
         }
-        mainScrollView.contentSize = CGSize(width: screenWidth, height: UIScreen.main.bounds.height)
     }
-   
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        loadProfileDetails()
+        mainScrollView.contentSize = CGSize(width: screenWidth, height: UIScreen.main.bounds.height + 500)
+    }
+    
 }
 
 
@@ -160,8 +180,7 @@ extension BuskerProfileViewController {
     }
     
     private func setupActionBtn() {
-        //pageControl.alpha = 0
-        actionBtn.backgroundColor = .darkGray
+        actionBtn.backgroundColor = UIColor.white.withAlphaComponent(0.05)
         actionBtn.setTitle("Follow", for: .normal)
         actionBtn.setTitleColor(.white, for: .normal)
         actionBtn.titleLabel?.font = UIFont.systemFont(ofSize: 12, weight: .semibold)
@@ -182,7 +201,6 @@ extension BuskerProfileViewController {
     }
     
     private func setupStatsView() {
-        statsBgView.frame = CGRect(x: 0, y: 0, width: screenWidth - 40, height: 80)
         statsBgView.layer.cornerRadius = GlobalCornerRadius.value
         statsBgView.clipsToBounds = true
         statsBgView.backgroundColor = .darkGray
@@ -281,52 +299,212 @@ extension BuskerProfileViewController {
             make.centerY.equalToSuperview().offset(10)
             make.height.equalTo(12)
         }
-        
+
         
     }
 }
 
 //MARK: Profile section
 extension BuskerProfileViewController {
+    private func setupProfileSection() {
+        profileBgView.layer.cornerRadius = GlobalCornerRadius.value
+        profileBgView.clipsToBounds = true
+        profileBgView.backgroundColor = UIColor.white.withAlphaComponent(0.05)
+        mainScrollView.addSubview(profileBgView)
+        profileBgView.snp.makeConstraints { (make) -> Void in
+            make.top.equalTo(statsBgView.snp.bottom).offset(20)
+            make.centerX.equalToSuperview()
+            make.width.equalTo(screenWidth - 40)
+            make.height.equalTo(100)
+        }
+        
+        profileLineView.backgroundColor = .mintGreen()
+        profileLineView.layer.cornerRadius = 2
+        profileBgView.addSubview(profileLineView)
+        profileLineView.snp.makeConstraints { (make) -> Void in
+            make.topMargin.equalTo(14)
+            make.leftMargin.equalTo(16)
+            make.width.equalTo(4)
+            make.height.equalTo(24)
+        }
+        
+        profileLabel.textColor = .white
+        profileLabel.font = UIFont.systemFont(ofSize: 20, weight: .semibold)
+        profileLabel.text = "Profile"
+        profileBgView.addSubview(profileLabel)
+        profileLabel.snp.makeConstraints { (make) -> Void in
+            make.topMargin.equalTo(14)
+            make.left.equalTo(profileLineView.snp.right).offset(10)
+            make.width.equalTo(100)
+            make.height.equalTo(25)
+        }
+        
+    }
+    
+    private func loadProfileDetails() {
+        descString = "RubberBand is a Cantopop band formed in Hong Kong in 2004. They signed with Gold Typhoon label in 2006. They started as a 5-man band but after keyboard player Ngai Sum's departure in October 2010, comprise 4 members. In 2013 they switched to ASIA LP (zh), signing with them in February that year."
+        
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineSpacing = 8
+        paragraphStyle.lineBreakMode = .byTruncatingTail
+        
+        let myAttribute = [NSAttributedString.Key.foregroundColor: UIColor.whiteText(), NSAttributedString.Key.paragraphStyle: paragraphStyle]
+        
+        // create attributed string
+        let descAttrString = NSAttributedString(string: descString, attributes: myAttribute)
+        
+        // set attributed text on a UILabel
+        profileDesc.attributedText = descAttrString
+        profileDesc.sizeToFit()
+        profileDesc.font = UIFont.systemFont(ofSize: 14, weight: .regular)
+        profileDesc.numberOfLines = 0
+        profileDesc.lineBreakMode = .byWordWrapping
+        profileBgView.addSubview(profileDesc)
+        profileDesc.snp.makeConstraints { (make) -> Void in
+            make.top.equalTo(profileLineView.snp.bottom).offset(16)
+            make.leftMargin.equalToSuperview().offset(20)
+            make.rightMargin.equalToSuperview().offset(-20)
+        }
 
+        print(profileDesc.attributedTextHeight(withWidth: screenWidth - 40))
+        print(profileDesc.textHeight(withWidth: screenWidth - 40))
+        
+        let bgViewHeight = profileDesc.attributedTextHeight(withWidth: screenWidth - 80) + 54 + 20 //textHeight + topPadding(including "Profile" label) + bottomPadding
+        
+        profileBgView.snp.remakeConstraints { (make) -> Void in
+            make.top.equalTo(statsBgView.snp.bottom).offset(20)
+            make.centerX.equalToSuperview()
+            make.width.equalTo(screenWidth - 40)
+            make.height.equalTo(bgViewHeight)
+        }
+    }
+    
+}
 
+//Members Section
+extension BuskerProfileViewController {
+    private func setupMembersSection() {
+        membersBgView.layer.cornerRadius = GlobalCornerRadius.value
+        membersBgView.clipsToBounds = true
+        membersBgView.backgroundColor = UIColor.white.withAlphaComponent(0.05)
+        mainScrollView.addSubview(membersBgView)
+        membersBgView.snp.makeConstraints { (make) -> Void in
+            make.top.equalTo(profileBgView.snp.bottom).offset(20)
+            make.centerX.equalToSuperview()
+            make.width.equalTo(screenWidth - 40)
+            make.height.equalTo(193)
+        }
+        
+        membersLineView.backgroundColor = .mintGreen()
+        membersLineView.layer.cornerRadius = 2
+        membersBgView.addSubview(membersLineView)
+        membersLineView.snp.makeConstraints { (make) -> Void in
+            make.topMargin.equalTo(14)
+            make.leftMargin.equalTo(16)
+            make.width.equalTo(4)
+            make.height.equalTo(24)
+        }
+        
+        membersLabel.textColor = .white
+        membersLabel.font = UIFont.systemFont(ofSize: 20, weight: .semibold)
+        membersLabel.text = "Members (6)"
+        membersBgView.addSubview(membersLabel)
+        membersLabel.snp.makeConstraints { (make) -> Void in
+            make.topMargin.equalTo(14)
+            make.left.equalTo(membersLineView.snp.right).offset(10)
+            make.width.equalTo(300)
+            make.height.equalTo(25)
+        }
+    }
+    
+    
+    private func setupMembersCollectionView() {
+        let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        
+        membersCollectionView = UICollectionView(frame: CGRect(origin: CGPoint.zero, size: CGSize(width: screenWidth - 40, height: 120)), collectionViewLayout: layout)
+        membersCollectionView.backgroundColor = UIColor.white.withAlphaComponent(0.05)
+        membersCollectionView.dataSource = self
+        membersCollectionView.delegate = self
+        membersCollectionView.showsHorizontalScrollIndicator = false
+        membersCollectionView.register(UINib.init(nibName: "MemberCell", bundle: nil), forCellWithReuseIdentifier: MemberCell.reuseIdentifier)
+        membersBgView.addSubview(membersCollectionView)
+        membersCollectionView.snp.makeConstraints { (make) -> Void in
+            make.top.equalTo(membersLineView.snp.bottom).offset(16)
+            make.width.equalTo(screenWidth - 40)
+            make.height.equalTo(120)
+            make.leftMargin.equalTo(0)
+            make.rightMargin.equalTo(0)
+        }
+    }
 }
 
 //MARK: Collection View Delegate
 extension BuskerProfileViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if collectionView == imgCollectionView {
-        //        let count = (details != nil) ? (details?.item?.coverImages.count)! : 3
-        //        return count //number of images
+        switch collectionView {
+        case imgCollectionView:
+            //        let count = (details != nil) ? (details?.item?.coverImages.count)! : 3
+            //        return count //number of images
             return 4
-        } else { //hashtagsCollectionView
+            
+        case hashtagsCollectionView:
             return hashtagsArray.count
+            
+        case membersCollectionView:
+            return 6 //members.count
+            
+        default:
+            return 4
         }
+
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        if collectionView == imgCollectionView {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BuskerProfileImgCell.reuseIdentifier, for: indexPath) as! BuskerProfileImgCell
-            
+        switch collectionView {
+        case imgCollectionView:
+            let cell = imgCollectionView.dequeueReusableCell(withReuseIdentifier: BuskerProfileImgCell.reuseIdentifier, for: indexPath) as! BuskerProfileImgCell
             //        if let newsDetails = self.details?.item {
             //            if let url = URL(string: newsDetails.coverImages[indexPath.row].secureUrl!) {
             //                cell.imgView.kf.setImage(with: url, options: [.transition(.fade(0.75))])
             //            }
             //        }
             cell.imgView.image = UIImage(named: "cat")
-            
             return cell
-        } else {
+            
+        case hashtagsCollectionView:
+            let cell = hashtagsCollectionView.dequeueReusableCell(withReuseIdentifier: HashtagCell.reuseIdentifier, for: indexPath) as! HashtagCell
+            cell.hashtag.text = "#\(hashtagsArray[indexPath.row])"
+            return cell
+            
+        case membersCollectionView:
+            let cell = membersCollectionView.dequeueReusableCell(withReuseIdentifier: MemberCell.reuseIdentifier, for: indexPath) as! MemberCell
+            cell.icon.image = UIImage(named: "cat")
+            cell.nameLabel.text = "Alex"
+            cell.roleLabel.text = "Vocal"
+            return cell
+            
+        default:
             let cell = hashtagsCollectionView.dequeueReusableCell(withReuseIdentifier: HashtagCell.reuseIdentifier, for: indexPath) as! HashtagCell
             cell.hashtag.text = "#\(hashtagsArray[indexPath.row])"
             return cell
         }
+
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        if collectionView == imgCollectionView {
+        switch collectionView {
+        case imgCollectionView:
             return CGSize(width: screenWidth, height: imgCollectionViewHeight)
-        } else {
+            
+        case hashtagsCollectionView:
+            let size = (hashtagsArray[indexPath.row] as NSString).size(withAttributes: nil)
+            return CGSize(width: size.width + 32, height: HashtagCell.height)
+            
+        case membersCollectionView:
+            return CGSize(width: MemberCell.width, height: MemberCell.height)
+            
+        default:
             let size = (hashtagsArray[indexPath.row] as NSString).size(withAttributes: nil)
             return CGSize(width: size.width + 32, height: HashtagCell.height)
         }
@@ -342,7 +520,6 @@ extension BuskerProfileViewController: UIScrollViewDelegate {
         if scrollView == imgCollectionView {
             HapticFeedback.createImpact(style: .medium)
         }
-
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
