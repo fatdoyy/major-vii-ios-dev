@@ -11,7 +11,7 @@ import UIKit
 class MemberCell: UICollectionViewCell {
 
     static let reuseIdentifier = "profileMemberCell"
-    static let width: CGFloat = 96
+    static let width: CGFloat = 112
     static let height: CGFloat = 120
     
     @IBOutlet weak var icon: UIImageView!
@@ -21,7 +21,7 @@ class MemberCell: UICollectionViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        backgroundColor = UIColor.white.withAlphaComponent(0.05)
+        backgroundColor = .clear
         
         icon.layer.cornerRadius = 36 //height is 72
         

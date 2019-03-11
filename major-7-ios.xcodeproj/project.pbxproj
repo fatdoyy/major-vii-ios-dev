@@ -105,6 +105,7 @@
 		96C9899A2216C98C00170609 /* NewsDetailImageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96C989982216C98C00170609 /* NewsDetailImageCell.xib */; };
 		96C9899C221FFA4100170609 /* UIScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96C9899B221FFA4100170609 /* UIScrollView.swift */; };
 		96C9899E2220307600170609 /* UILabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96C9899D2220307600170609 /* UILabel.swift */; };
+		96DEB1EA2236471E005F87F4 /* VideoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96DEB1E92236471E005F87F4 /* VideoView.swift */; };
 		96EA375321B528E900E9DB74 /* DetailsImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96EA375121B528E900E9DB74 /* DetailsImageCell.swift */; };
 		96EA375421B528E900E9DB74 /* DetailsImageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96EA375221B528E900E9DB74 /* DetailsImageCell.xib */; };
 		96EA375621B66BBC00E9DB74 /* ImageViewerHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96EA375521B66BBC00E9DB74 /* ImageViewerHelper.swift */; };
@@ -215,6 +216,7 @@
 		96C989982216C98C00170609 /* NewsDetailImageCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewsDetailImageCell.xib; sourceTree = "<group>"; };
 		96C9899B221FFA4100170609 /* UIScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIScrollView.swift; sourceTree = "<group>"; };
 		96C9899D2220307600170609 /* UILabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UILabel.swift; sourceTree = "<group>"; };
+		96DEB1E92236471E005F87F4 /* VideoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoView.swift; sourceTree = "<group>"; };
 		96EA375121B528E900E9DB74 /* DetailsImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsImageCell.swift; sourceTree = "<group>"; };
 		96EA375221B528E900E9DB74 /* DetailsImageCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DetailsImageCell.xib; sourceTree = "<group>"; };
 		96EA375521B66BBC00E9DB74 /* ImageViewerHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewerHelper.swift; sourceTree = "<group>"; };
@@ -326,6 +328,7 @@
 				965798B42226706C00A03BE9 /* BuskerProfileImgCell.xib */,
 				96AC42F022327F9600F9D62C /* MemberCell.swift */,
 				96AC42F122327F9600F9D62C /* MemberCell.xib */,
+				96DEB1E92236471E005F87F4 /* VideoView.swift */,
 			);
 			name = "Busker Profile View";
 			sourceTree = "<group>";
@@ -568,6 +571,11 @@
 				TargetAttributes = {
 					CA550AA121706A65008E493D = {
 						CreatedOnToolsVersion = 10.0;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -671,6 +679,7 @@
 				"${BUILT_PRODUCTS_DIR}/MXParallaxHeader/MXParallaxHeader.framework",
 				"${BUILT_PRODUCTS_DIR}/NVActivityIndicatorView/NVActivityIndicatorView.framework",
 				"${BUILT_PRODUCTS_DIR}/ObjectMapper/ObjectMapper.framework",
+				"${BUILT_PRODUCTS_DIR}/PIPKit/PIPKit.framework",
 				"${BUILT_PRODUCTS_DIR}/Parchment/Parchment.framework",
 				"${BUILT_PRODUCTS_DIR}/Pastel/Pastel.framework",
 				"${BUILT_PRODUCTS_DIR}/PromiseKit/PromiseKit.framework",
@@ -681,6 +690,7 @@
 				"${BUILT_PRODUCTS_DIR}/SwiftGifOrigin/SwiftGifOrigin.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftMessages/SwiftMessages.framework",
 				"${BUILT_PRODUCTS_DIR}/Validator/Validator.framework",
+				"${BUILT_PRODUCTS_DIR}/XCDYouTubeKit/XCDYouTubeKit.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
@@ -709,6 +719,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MXParallaxHeader.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/NVActivityIndicatorView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ObjectMapper.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PIPKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Parchment.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Pastel.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PromiseKit.framework",
@@ -719,6 +730,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftGifOrigin.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftMessages.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Validator.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/XCDYouTubeKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -815,6 +827,7 @@
 				966A6CD0217F096700DF872F /* HeaderView.swift in Sources */,
 				965838B32181C5A4000FE8B0 /* News.swift in Sources */,
 				96B0BE4021EDF452003C9BA5 /* HideKeyboard.swift in Sources */,
+				96DEB1EA2236471E005F87F4 /* VideoView.swift in Sources */,
 				966A6CBF217DBD7F00DF872F /* BuskersViewController.swift in Sources */,
 				9662425621F25F1900EF7695 /* NotificationNames.swift in Sources */,
 				966A6CE021808BB100DF872F /* NewsCellType1.swift in Sources */,

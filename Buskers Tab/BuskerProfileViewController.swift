@@ -7,6 +7,9 @@
 //
 
 import UIKit
+import AVKit
+import PIPKit
+import XCDYouTubeKit
 import CHIPageControl
 import Parchment
 import Pastel
@@ -51,6 +54,12 @@ class BuskerProfileViewController: UIViewController {
     var membersLabel = UILabel()
     var membersLineView = UIView()
     var membersCollectionView: UICollectionView!
+   
+    //live/works section
+    var liveBgView = UIView()
+    var liveLabel = UILabel()
+    var liveLineView = UIView()
+    var liveCollectionView: UICollectionView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -70,7 +79,8 @@ class BuskerProfileViewController: UIViewController {
         setupProfileSection()
         
         setupMembersSection()
-        setupMembersCollectionView()
+        
+        setupPerformancesSection()
 
         if #available(iOS 11.0, *) {
             mainScrollView.contentInsetAdjustmentBehavior = .never
@@ -80,7 +90,7 @@ class BuskerProfileViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         loadProfileDetails()
-        mainScrollView.contentSize = CGSize(width: screenWidth, height: UIScreen.main.bounds.height + 500)
+        mainScrollView.contentSize = CGSize(width: screenWidth, height: UIScreen.main.bounds.height + 1000)
     }
     
 }
@@ -318,11 +328,12 @@ extension BuskerProfileViewController {
             make.height.equalTo(100)
         }
         
+        profileLineView.isUserInteractionEnabled = false
         profileLineView.backgroundColor = .mintGreen()
         profileLineView.layer.cornerRadius = 2
         profileBgView.addSubview(profileLineView)
         profileLineView.snp.makeConstraints { (make) -> Void in
-            make.topMargin.equalTo(14)
+            make.top.equalTo(14)
             make.leftMargin.equalTo(16)
             make.width.equalTo(4)
             make.height.equalTo(24)
@@ -333,7 +344,7 @@ extension BuskerProfileViewController {
         profileLabel.text = "Profile"
         profileBgView.addSubview(profileLabel)
         profileLabel.snp.makeConstraints { (make) -> Void in
-            make.topMargin.equalTo(14)
+            make.top.equalTo(14)
             make.left.equalTo(profileLineView.snp.right).offset(10)
             make.width.equalTo(100)
             make.height.equalTo(25)
@@ -342,7 +353,7 @@ extension BuskerProfileViewController {
     }
     
     private func loadProfileDetails() {
-        descString = "RubberBand is a Cantopop band formed in Hong Kong in 2004. They signed with Gold Typhoon label in 2006. They started as a 5-man band but after keyboard player Ngai Sum's departure in October 2010, comprise 4 members. In 2013 they switched to ASIA LP (zh), signing with them in February that year."
+        descString = "RubberBand is a Cantopop band formed in Hong Kong in 2004. They signed with Gold Typhoon label in 2006. They started as a 5-man band but after keyboard player Ngai Sum's departure in October 2010, comprise 4 members."
         
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = 8
@@ -381,7 +392,7 @@ extension BuskerProfileViewController {
     
 }
 
-//Members Section
+//MARK: Members Section
 extension BuskerProfileViewController {
     private func setupMembersSection() {
         membersBgView.layer.cornerRadius = GlobalCornerRadius.value
@@ -395,11 +406,11 @@ extension BuskerProfileViewController {
             make.height.equalTo(193)
         }
         
-        membersLineView.backgroundColor = .mintGreen()
+        membersLineView.backgroundColor = .orange
         membersLineView.layer.cornerRadius = 2
         membersBgView.addSubview(membersLineView)
         membersLineView.snp.makeConstraints { (make) -> Void in
-            make.topMargin.equalTo(14)
+            make.top.equalTo(14)
             make.leftMargin.equalTo(16)
             make.width.equalTo(4)
             make.height.equalTo(24)
@@ -410,11 +421,13 @@ extension BuskerProfileViewController {
         membersLabel.text = "Members (6)"
         membersBgView.addSubview(membersLabel)
         membersLabel.snp.makeConstraints { (make) -> Void in
-            make.topMargin.equalTo(14)
+            make.top.equalTo(14)
             make.left.equalTo(membersLineView.snp.right).offset(10)
             make.width.equalTo(300)
             make.height.equalTo(25)
         }
+        
+        setupMembersCollectionView()
     }
     
     
@@ -423,7 +436,7 @@ extension BuskerProfileViewController {
         layout.scrollDirection = .horizontal
         
         membersCollectionView = UICollectionView(frame: CGRect(origin: CGPoint.zero, size: CGSize(width: screenWidth - 40, height: 120)), collectionViewLayout: layout)
-        membersCollectionView.backgroundColor = UIColor.white.withAlphaComponent(0.05)
+        membersCollectionView.backgroundColor = .clear
         membersCollectionView.dataSource = self
         membersCollectionView.delegate = self
         membersCollectionView.showsHorizontalScrollIndicator = false
@@ -438,6 +451,87 @@ extension BuskerProfileViewController {
         }
     }
 }
+
+//MARK: Perfomrnace/Songs section
+extension BuskerProfileViewController {
+    private func setupPerformancesSection() {
+        liveBgView.layer.cornerRadius = GlobalCornerRadius.value
+        liveBgView.clipsToBounds = true
+        liveBgView.backgroundColor = UIColor.white.withAlphaComponent(0.05)
+        mainScrollView.addSubview(liveBgView)
+        liveBgView.snp.makeConstraints { (make) -> Void in
+            make.top.equalTo(membersBgView.snp.bottom).offset(20)
+            make.centerX.equalToSuperview()
+            make.width.equalTo(screenWidth - 40)
+            make.height.equalTo(150)
+        }
+        
+        liveLineView.backgroundColor = .yellow
+        liveLineView.layer.cornerRadius = 2
+        liveBgView.addSubview(liveLineView)
+        liveLineView.snp.makeConstraints { (make) -> Void in
+            make.top.equalTo(14)
+            make.leftMargin.equalTo(16)
+            make.width.equalTo(4)
+            make.height.equalTo(24)
+        }
+        
+        liveLabel.textColor = .white
+        liveLabel.font = UIFont.systemFont(ofSize: 20, weight: .semibold)
+        liveLabel.text = "Live Performances"
+        liveBgView.addSubview(liveLabel)
+        liveLabel.snp.makeConstraints { (make) -> Void in
+            make.top.equalTo(14)
+            make.left.equalTo(liveLineView.snp.right).offset(10)
+            make.width.equalTo(300)
+            make.height.equalTo(25)
+        }
+        
+        let btn = VidButton()
+        btn.backgroundColor = UIColor.white.withAlphaComponent(0.05)
+        btn.setTitle("TEST", for: .normal)
+        btn.setTitleColor(.white, for: .normal)
+        btn.titleLabel?.font = UIFont.systemFont(ofSize: 12, weight: .semibold)
+        btn.layer.cornerRadius = GlobalCornerRadius.value
+        btn.videoIdentifier = "NdLZ76bYNy8"
+        btn.addTarget(self, action: #selector(playVideo), for: .touchUpInside)
+        liveBgView.addSubview(btn)
+        btn.snp.makeConstraints { (make) -> Void in
+            make.center.equalToSuperview()
+            make.width.equalTo(screenWidth - 80)
+            make.height.equalTo(40)
+            //make.top.equalTo(hashtagsCollectionView.snp.bottom).offset(20)
+        }
+        
+    }
+    
+    struct YouTubeVideoQuality {
+        static let hd720 = NSNumber(value: XCDYouTubeVideoQuality.HD720.rawValue)
+        static let medium360 = NSNumber(value: XCDYouTubeVideoQuality.medium360.rawValue)
+        static let small240 = NSNumber(value: XCDYouTubeVideoQuality.small240.rawValue)
+    }
+    
+    @objc func playVideo(_ sender: VidButton) {
+        let playerViewController = VideoView()
+        PIPKit.show(with: playerViewController)
+
+        //self.present(playerViewController, animated: true, completion: nil)
+        
+        XCDYouTubeClient.default().getVideoWithIdentifier(sender.videoIdentifier) { [weak playerViewController] (video: XCDYouTubeVideo?, error: Error?) in
+            if let streamURLs = video?.streamURLs, let streamURL = (streamURLs[XCDYouTubeVideoQualityHTTPLiveStreaming] ?? streamURLs[YouTubeVideoQuality.hd720] ?? streamURLs[YouTubeVideoQuality.medium360] ?? streamURLs[YouTubeVideoQuality.small240]) {
+                playerViewController?.player = AVPlayer(url: streamURL)
+                playerViewController?.player?.play()
+            } else {
+                PIPKit.dismiss(animated: true)
+            }
+        }
+    }
+    
+}
+
+//MARK: Events Section
+//extension 
+
 
 //MARK: Collection View Delegate
 extension BuskerProfileViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource, UICollectionViewDelegate {
@@ -527,4 +621,8 @@ extension BuskerProfileViewController: UIScrollViewDelegate {
             pageControl.set(progress: Int(scrollView.contentOffset.x) / Int(scrollView.frame.width), animated: true)
         }
     }
+}
+
+class VidButton: UIButton {
+    var videoIdentifier: String?
 }
