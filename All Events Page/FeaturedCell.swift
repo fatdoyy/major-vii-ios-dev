@@ -44,9 +44,7 @@ class FeaturedCell: UICollectionViewCell {
         bookmarkBtn.layer.shadowRadius = 5
         bookmarkBtn.layer.shadowOpacity = 0.7
         
-        let path = UIBezierPath(roundedRect:bgImgView.bounds,
-                                byRoundingCorners:[.topLeft, .bottomLeft],
-                                cornerRadii: CGSize(width: GlobalCornerRadius.value, height:  GlobalCornerRadius.value))
+        let path = UIBezierPath(roundedRect: bgImgView.bounds, byRoundingCorners: [.topLeft, .bottomLeft], cornerRadii: CGSize(width: GlobalCornerRadius.value, height: GlobalCornerRadius.value))
 
         let maskLayer = CAShapeLayer()
 

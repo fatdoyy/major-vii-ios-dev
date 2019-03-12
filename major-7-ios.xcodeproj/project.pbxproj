@@ -76,8 +76,8 @@
 		96799FE6218C5A280074C828 /* ImageOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96799FE5218C5A270074C828 /* ImageOverlay.swift */; };
 		96862EB9219ACE1F00F709B0 /* EventDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96862EB8219ACE1F00F709B0 /* EventDetailsViewController.swift */; };
 		96862EBB219AD8AC00F709B0 /* TabBarHiding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96862EBA219AD8AC00F709B0 /* TabBarHiding.swift */; };
-		96AC42F222327F9600F9D62C /* MemberCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96AC42F022327F9600F9D62C /* MemberCell.swift */; };
-		96AC42F322327F9600F9D62C /* MemberCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96AC42F122327F9600F9D62C /* MemberCell.xib */; };
+		96AC42F222327F9600F9D62C /* BuskerProfileMemberCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96AC42F022327F9600F9D62C /* BuskerProfileMemberCell.swift */; };
+		96AC42F322327F9600F9D62C /* BuskerProfileMemberCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96AC42F122327F9600F9D62C /* BuskerProfileMemberCell.xib */; };
 		96B0BE4021EDF452003C9BA5 /* HideKeyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B0BE3F21EDF452003C9BA5 /* HideKeyboard.swift */; };
 		96B0BE4221EF2235003C9BA5 /* ValidationRules.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B0BE4121EF2235003C9BA5 /* ValidationRules.swift */; };
 		96B0BE4A21F056B4003C9BA5 /* LocalKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B0BE4921F056B4003C9BA5 /* LocalKeys.swift */; };
@@ -106,6 +106,10 @@
 		96C9899C221FFA4100170609 /* UIScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96C9899B221FFA4100170609 /* UIScrollView.swift */; };
 		96C9899E2220307600170609 /* UILabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96C9899D2220307600170609 /* UILabel.swift */; };
 		96DEB1EA2236471E005F87F4 /* VideoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96DEB1E92236471E005F87F4 /* VideoView.swift */; };
+		96DEB1ED22378446005F87F4 /* BuskerProfileEventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96DEB1EB22378446005F87F4 /* BuskerProfileEventCell.swift */; };
+		96DEB1EE22378446005F87F4 /* BuskerProfileEventCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96DEB1EC22378446005F87F4 /* BuskerProfileEventCell.xib */; };
+		96DEB1F12237B08B005F87F4 /* BuskerProfilePostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96DEB1EF2237B08A005F87F4 /* BuskerProfilePostCell.swift */; };
+		96DEB1F22237B08B005F87F4 /* BuskerProfilePostCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96DEB1F02237B08B005F87F4 /* BuskerProfilePostCell.xib */; };
 		96EA375321B528E900E9DB74 /* DetailsImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96EA375121B528E900E9DB74 /* DetailsImageCell.swift */; };
 		96EA375421B528E900E9DB74 /* DetailsImageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96EA375221B528E900E9DB74 /* DetailsImageCell.xib */; };
 		96EA375621B66BBC00E9DB74 /* ImageViewerHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96EA375521B66BBC00E9DB74 /* ImageViewerHelper.swift */; };
@@ -187,8 +191,8 @@
 		96799FE5218C5A270074C828 /* ImageOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageOverlay.swift; sourceTree = "<group>"; };
 		96862EB8219ACE1F00F709B0 /* EventDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDetailsViewController.swift; sourceTree = "<group>"; };
 		96862EBA219AD8AC00F709B0 /* TabBarHiding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarHiding.swift; sourceTree = "<group>"; };
-		96AC42F022327F9600F9D62C /* MemberCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberCell.swift; sourceTree = "<group>"; };
-		96AC42F122327F9600F9D62C /* MemberCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MemberCell.xib; sourceTree = "<group>"; };
+		96AC42F022327F9600F9D62C /* BuskerProfileMemberCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuskerProfileMemberCell.swift; sourceTree = "<group>"; };
+		96AC42F122327F9600F9D62C /* BuskerProfileMemberCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BuskerProfileMemberCell.xib; sourceTree = "<group>"; };
 		96B0BE3F21EDF452003C9BA5 /* HideKeyboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HideKeyboard.swift; sourceTree = "<group>"; };
 		96B0BE4121EF2235003C9BA5 /* ValidationRules.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidationRules.swift; sourceTree = "<group>"; };
 		96B0BE4921F056B4003C9BA5 /* LocalKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalKeys.swift; sourceTree = "<group>"; };
@@ -217,6 +221,10 @@
 		96C9899B221FFA4100170609 /* UIScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIScrollView.swift; sourceTree = "<group>"; };
 		96C9899D2220307600170609 /* UILabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UILabel.swift; sourceTree = "<group>"; };
 		96DEB1E92236471E005F87F4 /* VideoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoView.swift; sourceTree = "<group>"; };
+		96DEB1EB22378446005F87F4 /* BuskerProfileEventCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuskerProfileEventCell.swift; sourceTree = "<group>"; };
+		96DEB1EC22378446005F87F4 /* BuskerProfileEventCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BuskerProfileEventCell.xib; sourceTree = "<group>"; };
+		96DEB1EF2237B08A005F87F4 /* BuskerProfilePostCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuskerProfilePostCell.swift; sourceTree = "<group>"; };
+		96DEB1F02237B08B005F87F4 /* BuskerProfilePostCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BuskerProfilePostCell.xib; sourceTree = "<group>"; };
 		96EA375121B528E900E9DB74 /* DetailsImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsImageCell.swift; sourceTree = "<group>"; };
 		96EA375221B528E900E9DB74 /* DetailsImageCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DetailsImageCell.xib; sourceTree = "<group>"; };
 		96EA375521B66BBC00E9DB74 /* ImageViewerHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewerHelper.swift; sourceTree = "<group>"; };
@@ -326,9 +334,13 @@
 				965798B122266BC500A03BE9 /* BuskerProfileViewController.swift */,
 				965798B32226706C00A03BE9 /* BuskerProfileImgCell.swift */,
 				965798B42226706C00A03BE9 /* BuskerProfileImgCell.xib */,
-				96AC42F022327F9600F9D62C /* MemberCell.swift */,
-				96AC42F122327F9600F9D62C /* MemberCell.xib */,
+				96AC42F022327F9600F9D62C /* BuskerProfileMemberCell.swift */,
+				96AC42F122327F9600F9D62C /* BuskerProfileMemberCell.xib */,
 				96DEB1E92236471E005F87F4 /* VideoView.swift */,
+				96DEB1EB22378446005F87F4 /* BuskerProfileEventCell.swift */,
+				96DEB1EC22378446005F87F4 /* BuskerProfileEventCell.xib */,
+				96DEB1EF2237B08A005F87F4 /* BuskerProfilePostCell.swift */,
+				96DEB1F02237B08B005F87F4 /* BuskerProfilePostCell.xib */,
 			);
 			name = "Busker Profile View";
 			sourceTree = "<group>";
@@ -608,8 +620,9 @@
 				9620025821E4F58E0055D070 /* gif11.gif in Resources */,
 				9620022121E3B17A0055D070 /* GoogleService-Info.plist in Resources */,
 				96C5542F2192C6730065D70A /* FollowingCell.xib in Resources */,
+				96DEB1EE22378446005F87F4 /* BuskerProfileEventCell.xib in Resources */,
 				965838C321831866000FE8B0 /* NewsCellType5.xib in Resources */,
-				96AC42F322327F9600F9D62C /* MemberCell.xib in Resources */,
+				96AC42F322327F9600F9D62C /* BuskerProfileMemberCell.xib in Resources */,
 				9620025C21E5CF1B0055D070 /* gif6.gif in Resources */,
 				96C5543B2192D9980065D70A /* BookmarkedCell.xib in Resources */,
 				9620022321E4ACED0055D070 /* gif1.gif in Resources */,
@@ -632,6 +645,7 @@
 				966A6CE121808BB100DF872F /* NewsCellType1.xib in Resources */,
 				9620022E21E4AF000055D070 /* gif4.gif in Resources */,
 				96C5544D219408580065D70A /* FeaturedCell.xib in Resources */,
+				96DEB1F22237B08B005F87F4 /* BuskerProfilePostCell.xib in Resources */,
 				9620021A21DDFDC20055D070 /* LoginView.xib in Resources */,
 				9620023C21E4B3A80055D070 /* gif5.gif in Resources */,
 				9620023421E4B13A0055D070 /* gif8.gif in Resources */,
@@ -817,6 +831,7 @@
 				96C5542A2192C2DF0065D70A /* FollowingSection.swift in Sources */,
 				966A6CC1217DBD9F00DF872F /* AgentsViewController.swift in Sources */,
 				96C55450219438F10065D70A /* PagedCollectionViewLayout.swift in Sources */,
+				96DEB1ED22378446005F87F4 /* BuskerProfileEventCell.swift in Sources */,
 				96C5542E2192C6730065D70A /* FollowingCell.swift in Sources */,
 				96C55447219408410065D70A /* FeaturedSectionHeader.swift in Sources */,
 				96625F7921C7859E0086A2B2 /* Event.swift in Sources */,
@@ -837,6 +852,7 @@
 				CA550AA621706A65008E493D /* AppDelegate.swift in Sources */,
 				965838C221831866000FE8B0 /* NewsCellType5.swift in Sources */,
 				96B0BE4221EF2235003C9BA5 /* ValidationRules.swift in Sources */,
+				96DEB1F12237B08B005F87F4 /* BuskerProfilePostCell.swift in Sources */,
 				9620021C21DDFDED0055D070 /* LoginView.swift in Sources */,
 				96625F7F21C8C8030086A2B2 /* EventDetails.swift in Sources */,
 				966A6CC5217DBDC400DF872F /* SettingsViewController.swift in Sources */,
@@ -846,7 +862,7 @@
 				96B0BE4A21F056B4003C9BA5 /* LocalKeys.swift in Sources */,
 				966A6CDC218086BC00DF872F /* NewsSectionHeader.swift in Sources */,
 				9639217421AD1C4500BA515A /* HashtagCell.swift in Sources */,
-				96AC42F222327F9600F9D62C /* MemberCell.swift in Sources */,
+				96AC42F222327F9600F9D62C /* BuskerProfileMemberCell.swift in Sources */,
 				96799FE221889D520074C828 /* Animations.swift in Sources */,
 				9639217121ABCA3000BA515A /* EventDetailsView.swift in Sources */,
 				965838B62181CAE7000FE8B0 /* NewsCellType2.swift in Sources */,

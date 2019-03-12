@@ -1,5 +1,5 @@
 //
-//  MemberCell.swift
+//  BuskerProfileMemberCell.swift
 //  major-7-ios
 //
 //  Created by jason on 8/3/2019.
@@ -8,9 +8,9 @@
 
 import UIKit
 
-class MemberCell: UICollectionViewCell {
+class BuskerProfileMemberCell: UICollectionViewCell {
 
-    static let reuseIdentifier = "profileMemberCell"
+    static let reuseIdentifier = "buskerProfileMemberCell"
     static let width: CGFloat = 112
     static let height: CGFloat = 120
     

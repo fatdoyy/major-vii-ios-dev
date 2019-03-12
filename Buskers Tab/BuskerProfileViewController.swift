@@ -11,7 +11,7 @@ import AVKit
 import PIPKit
 import XCDYouTubeKit
 import CHIPageControl
-import Parchment
+import BouncyLayout
 import Pastel
 
 class BuskerProfileViewController: UIViewController {
@@ -35,12 +35,12 @@ class BuskerProfileViewController: UIViewController {
     var actionBtn = UIButton()
     var statsBgView = UIView()
     var statsGradientBg = PastelView()
-    var followersCount = UILabel()
-    var followersLabel = UILabel()
-    var postsCount = UILabel()
-    var postsLabel = UILabel()
-    var eventsCount = UILabel()
-    var eventsLabel = UILabel()
+    var statsFollowersCount = UILabel()
+    var statsFollowersLabel = UILabel()
+    var statsPostsCount = UILabel()
+    var statsPostsLabel = UILabel()
+    var statsEventsCount = UILabel()
+    var statsEventsLabel = UILabel()
     
     //profile section
     var profileBgView = UIView()
@@ -61,6 +61,18 @@ class BuskerProfileViewController: UIViewController {
     var liveLineView = UIView()
     var liveCollectionView: UICollectionView!
     
+    //events section
+    var eventsBgView = UIView()
+    var eventsLabel = UILabel()
+    var eventsLineView = UIView()
+    var eventsCollectionView: UICollectionView!
+    
+    //posts section
+    var postsBgView = UIView()
+    var postsLabel = UILabel()
+    var postsLineView = UIView()
+    var postsCollectionView: UICollectionView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         updatesStatusBarAppearanceAutomatically = true
@@ -75,12 +87,11 @@ class BuskerProfileViewController: UIViewController {
         setupActionBtn()
         
         setupStatsView()
-        
         setupProfileSection()
-        
         setupMembersSection()
-        
         setupPerformancesSection()
+        setupEventsSection()
+        setupPostSection()
 
         if #available(iOS 11.0, *) {
             mainScrollView.contentInsetAdjustmentBehavior = .never
@@ -90,7 +101,7 @@ class BuskerProfileViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         loadProfileDetails()
-        mainScrollView.contentSize = CGSize(width: screenWidth, height: UIScreen.main.bounds.height + 1000)
+        mainScrollView.contentSize = CGSize(width: screenWidth, height: UIScreen.main.bounds.height + 1600)
     }
     
 }
@@ -238,72 +249,72 @@ extension BuskerProfileViewController {
             make.height.equalTo(80)
         }
         
-        followersCount.textColor = .white
-        followersCount.text = "12k+"
-        followersCount.textAlignment = .center
-        followersCount.font = UIFont.systemFont(ofSize: 21, weight: .semibold)
-        statsBgView.addSubview(followersCount)
-        followersCount.snp.makeConstraints { (make) -> Void in
+        statsFollowersCount.textColor = .white
+        statsFollowersCount.text = "12k+"
+        statsFollowersCount.textAlignment = .center
+        statsFollowersCount.font = UIFont.systemFont(ofSize: 21, weight: .semibold)
+        statsBgView.addSubview(statsFollowersCount)
+        statsFollowersCount.snp.makeConstraints { (make) -> Void in
             make.leftMargin.equalTo(10)
             make.centerY.equalToSuperview().offset(-10)
             make.width.equalTo((screenWidth - 40) / 3)
             make.height.equalTo(24)
         }
         
-        followersLabel.textColor = .lightGray
-        followersLabel.text = "Followers"
-        followersLabel.textAlignment = .center
-        followersLabel.font = UIFont.systemFont(ofSize: 11, weight: .light)
-        statsBgView.addSubview(followersLabel)
-        followersLabel.snp.makeConstraints { (make) -> Void in
+        statsFollowersLabel.textColor = .lightGray
+        statsFollowersLabel.text = "Followers"
+        statsFollowersLabel.textAlignment = .center
+        statsFollowersLabel.font = UIFont.systemFont(ofSize: 11, weight: .light)
+        statsBgView.addSubview(statsFollowersLabel)
+        statsFollowersLabel.snp.makeConstraints { (make) -> Void in
             make.leftMargin.equalTo(10)
             make.centerY.equalToSuperview().offset(10)
             make.width.equalTo((screenWidth - 40) / 3)
             make.height.equalTo(12)
         }
         
-        postsCount.textColor = .white
-        postsCount.text = "65"
-        postsCount.textAlignment = .center
-        postsCount.font = UIFont.systemFont(ofSize: 21, weight: .semibold)
-        statsBgView.addSubview(postsCount)
-        postsCount.snp.makeConstraints { (make) -> Void in
+        statsPostsCount.textColor = .white
+        statsPostsCount.text = "65"
+        statsPostsCount.textAlignment = .center
+        statsPostsCount.font = UIFont.systemFont(ofSize: 21, weight: .semibold)
+        statsBgView.addSubview(statsPostsCount)
+        statsPostsCount.snp.makeConstraints { (make) -> Void in
             make.width.equalTo((screenWidth - 40) / 3)
             make.centerY.equalToSuperview().offset(-10)
             make.centerX.equalToSuperview()
             make.height.equalTo(24)
         }
         
-        postsLabel.textColor = .lightGray
-        postsLabel.text = "Posts"
-        postsLabel.textAlignment = .center
-        postsLabel.font = UIFont.systemFont(ofSize: 11, weight: .light)
-        statsBgView.addSubview(postsLabel)
-        postsLabel.snp.makeConstraints { (make) -> Void in
+        statsPostsLabel.textColor = .lightGray
+        statsPostsLabel.text = "Posts"
+        statsPostsLabel.textAlignment = .center
+        statsPostsLabel.font = UIFont.systemFont(ofSize: 11, weight: .light)
+        statsBgView.addSubview(statsPostsLabel)
+        statsPostsLabel.snp.makeConstraints { (make) -> Void in
             make.width.equalTo((screenWidth - 40) / 3)
             make.centerY.equalToSuperview().offset(10)
             make.centerX.equalToSuperview()
             make.height.equalTo(12)
         }
         
-        eventsCount.textColor = .white
-        eventsCount.text = "10"
-        eventsCount.textAlignment = .center
-        eventsCount.font = UIFont.systemFont(ofSize: 21, weight: .semibold)
-        statsBgView.addSubview(eventsCount)
-        eventsCount.snp.makeConstraints { (make) -> Void in
+        statsEventsCount.textColor = .white
+        statsEventsCount.text = "10"
+        statsEventsCount.textAlignment = .center
+        statsEventsCount.font = UIFont.systemFont(ofSize: 21, weight: .semibold)
+        statsBgView.addSubview(statsEventsCount)
+        statsEventsCount.snp.makeConstraints { (make) -> Void in
             make.rightMargin.equalTo(-10)
             make.width.equalTo((screenWidth - 40) / 3)
             make.centerY.equalToSuperview().offset(-10)
             make.height.equalTo(24)
         }
         
-        eventsLabel.textColor = .lightGray
-        eventsLabel.text = "Events"
-        eventsLabel.textAlignment = .center
-        eventsLabel.font = UIFont.systemFont(ofSize: 11, weight: .light)
-        statsBgView.addSubview(eventsLabel)
-        eventsLabel.snp.makeConstraints { (make) -> Void in
+        statsEventsLabel.textColor = .lightGray
+        statsEventsLabel.text = "Events"
+        statsEventsLabel.textAlignment = .center
+        statsEventsLabel.font = UIFont.systemFont(ofSize: 11, weight: .light)
+        statsBgView.addSubview(statsEventsLabel)
+        statsEventsLabel.snp.makeConstraints { (make) -> Void in
             make.rightMargin.equalTo(-10)
             make.width.equalTo((screenWidth - 40) / 3)
             make.centerY.equalToSuperview().offset(10)
@@ -432,15 +443,16 @@ extension BuskerProfileViewController {
     
     
     private func setupMembersCollectionView() {
-        let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
+        let layout: UICollectionViewFlowLayout = BouncyLayout()
         layout.scrollDirection = .horizontal
+        layout.minimumLineSpacing = 15
         
         membersCollectionView = UICollectionView(frame: CGRect(origin: CGPoint.zero, size: CGSize(width: screenWidth - 40, height: 120)), collectionViewLayout: layout)
         membersCollectionView.backgroundColor = .clear
         membersCollectionView.dataSource = self
         membersCollectionView.delegate = self
         membersCollectionView.showsHorizontalScrollIndicator = false
-        membersCollectionView.register(UINib.init(nibName: "MemberCell", bundle: nil), forCellWithReuseIdentifier: MemberCell.reuseIdentifier)
+        membersCollectionView.register(UINib.init(nibName: "BuskerProfileMemberCell", bundle: nil), forCellWithReuseIdentifier: BuskerProfileMemberCell.reuseIdentifier)
         membersBgView.addSubview(membersCollectionView)
         membersCollectionView.snp.makeConstraints { (make) -> Void in
             make.top.equalTo(membersLineView.snp.bottom).offset(16)
@@ -463,7 +475,7 @@ extension BuskerProfileViewController {
             make.top.equalTo(membersBgView.snp.bottom).offset(20)
             make.centerX.equalToSuperview()
             make.width.equalTo(screenWidth - 40)
-            make.height.equalTo(150)
+            make.height.equalTo(120)
         }
         
         liveLineView.backgroundColor = .yellow
@@ -492,15 +504,15 @@ extension BuskerProfileViewController {
         btn.setTitle("TEST", for: .normal)
         btn.setTitleColor(.white, for: .normal)
         btn.titleLabel?.font = UIFont.systemFont(ofSize: 12, weight: .semibold)
-        btn.layer.cornerRadius = GlobalCornerRadius.value
+        btn.layer.cornerRadius = GlobalCornerRadius.value / 2
         btn.videoIdentifier = "NdLZ76bYNy8"
         btn.addTarget(self, action: #selector(playVideo), for: .touchUpInside)
         liveBgView.addSubview(btn)
         btn.snp.makeConstraints { (make) -> Void in
-            make.center.equalToSuperview()
+            make.bottom.equalToSuperview().offset(-20)
             make.width.equalTo(screenWidth - 80)
             make.height.equalTo(40)
-            //make.top.equalTo(hashtagsCollectionView.snp.bottom).offset(20)
+            make.centerX.equalToSuperview()
         }
         
     }
@@ -530,8 +542,129 @@ extension BuskerProfileViewController {
 }
 
 //MARK: Events Section
-//extension 
+extension BuskerProfileViewController {
+    private func setupEventsSection() {
+        eventsBgView.layer.cornerRadius = GlobalCornerRadius.value
+        eventsBgView.clipsToBounds = true
+        eventsBgView.backgroundColor = UIColor.white.withAlphaComponent(0.05)
+        mainScrollView.addSubview(eventsBgView)
+        eventsBgView.snp.makeConstraints { (make) -> Void in
+            make.top.equalTo(liveBgView.snp.bottom).offset(20)
+            make.centerX.equalToSuperview()
+            make.width.equalTo(screenWidth - 40)
+            make.height.equalTo(274)
+        }
+        
+        eventsLineView.backgroundColor = .purple
+        eventsLineView.layer.cornerRadius = 2
+        eventsBgView.addSubview(eventsLineView)
+        eventsLineView.snp.makeConstraints { (make) -> Void in
+            make.top.equalTo(14)
+            make.leftMargin.equalTo(16)
+            make.width.equalTo(4)
+            make.height.equalTo(24)
+        }
+        
+        eventsLabel.textColor = .white
+        eventsLabel.font = UIFont.systemFont(ofSize: 20, weight: .semibold)
+        eventsLabel.text = "Events"
+        eventsBgView.addSubview(eventsLabel)
+        eventsLabel.snp.makeConstraints { (make) -> Void in
+            make.top.equalTo(14)
+            make.left.equalTo(eventsLineView.snp.right).offset(10)
+            make.width.equalTo(300)
+            make.height.equalTo(25)
+        }
+        
+        setupEventsCollectionView()
+    }
+    
+    private func setupEventsCollectionView() {
+        let layout: UICollectionViewFlowLayout = PagedCollectionViewLayout()
+        layout.scrollDirection = .horizontal
+        layout.itemSize = CGSize(width: BuskerProfileEventCell.width, height: BuskerProfileEventCell.height)
+        layout.minimumLineSpacing = 10
+        
+        eventsCollectionView = UICollectionView(frame: CGRect(origin: CGPoint.zero, size: CGSize(width: screenWidth - 40, height: BuskerProfileEventCell.height)), collectionViewLayout: layout)
+        eventsCollectionView.backgroundColor = .clear
+        eventsCollectionView.contentInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
+        eventsCollectionView.dataSource = self
+        eventsCollectionView.delegate = self
+        eventsCollectionView.showsHorizontalScrollIndicator = false
+        eventsCollectionView.register(UINib.init(nibName: "BuskerProfileEventCell", bundle: nil), forCellWithReuseIdentifier: BuskerProfileEventCell.reuseIdentifier)
+        eventsBgView.addSubview(eventsCollectionView)
+        eventsCollectionView.snp.makeConstraints { (make) -> Void in
+            make.top.equalTo(eventsLineView.snp.bottom).offset(16)
+            make.width.equalTo(screenWidth - 40)
+            make.height.equalTo(BuskerProfileEventCell.height)
+            make.leftMargin.equalTo(0)
+            make.rightMargin.equalTo(0)
+        }
+    }
+    
+}
 
+//MARK: Posts Section
+extension BuskerProfileViewController {
+    private func setupPostSection() {
+        postsBgView.layer.cornerRadius = GlobalCornerRadius.value
+        postsBgView.clipsToBounds = true
+        postsBgView.backgroundColor = UIColor.white.withAlphaComponent(0.05)
+        mainScrollView.addSubview(postsBgView)
+        postsBgView.snp.makeConstraints { (make) -> Void in
+            make.top.equalTo(eventsBgView.snp.bottom).offset(20)
+            make.centerX.equalToSuperview()
+            make.width.equalTo(screenWidth - 40)
+            make.height.equalTo(600)
+        }
+        
+        postsLineView.backgroundColor = .blue
+        postsLineView.layer.cornerRadius = 2
+        postsBgView.addSubview(postsLineView)
+        postsLineView.snp.makeConstraints { (make) -> Void in
+            make.top.equalTo(14)
+            make.leftMargin.equalTo(16)
+            make.width.equalTo(4)
+            make.height.equalTo(24)
+        }
+        
+        postsLabel.textColor = .white
+        postsLabel.font = UIFont.systemFont(ofSize: 20, weight: .semibold)
+        postsLabel.text = "Posts"
+        postsBgView.addSubview(postsLabel)
+        postsLabel.snp.makeConstraints { (make) -> Void in
+            make.top.equalTo(14)
+            make.left.equalTo(postsLineView.snp.right).offset(10)
+            make.width.equalTo(500)
+            make.height.equalTo(25)
+        }
+        
+        setupPostsCollectionView()
+    }
+    
+    private func setupPostsCollectionView() {
+        let layout: UICollectionViewFlowLayout = PagedCollectionViewLayout()
+        layout.scrollDirection = .horizontal
+        layout.itemSize = CGSize(width: BuskerProfilePostCell.width, height: BuskerProfilePostCell.height)
+        layout.minimumLineSpacing = 10
+        
+        postsCollectionView = UICollectionView(frame: CGRect(origin: CGPoint.zero, size: CGSize(width: screenWidth - 40, height: BuskerProfilePostCell.height)), collectionViewLayout: layout)
+        postsCollectionView.backgroundColor = .clear
+        postsCollectionView.contentInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
+        postsCollectionView.dataSource = self
+        postsCollectionView.delegate = self
+        postsCollectionView.showsHorizontalScrollIndicator = false
+        postsCollectionView.register(UINib.init(nibName: "BuskerProfilePostCell", bundle: nil), forCellWithReuseIdentifier: BuskerProfilePostCell.reuseIdentifier)
+        postsBgView.addSubview(postsCollectionView)
+        postsCollectionView.snp.makeConstraints { (make) -> Void in
+            make.top.equalTo(postsLineView.snp.bottom).offset(16)
+            make.width.equalTo(screenWidth - 40)
+            make.height.equalTo(BuskerProfilePostCell.height)
+            make.leftMargin.equalTo(0)
+            make.rightMargin.equalTo(0)
+        }
+    }
+}
 
 //MARK: Collection View Delegate
 extension BuskerProfileViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource, UICollectionViewDelegate {
@@ -547,6 +680,12 @@ extension BuskerProfileViewController: UICollectionViewDelegateFlowLayout, UICol
             
         case membersCollectionView:
             return 6 //members.count
+            
+        case eventsCollectionView:
+            return 3
+            
+        case postsCollectionView:
+            return 3
             
         default:
             return 4
@@ -572,10 +711,27 @@ extension BuskerProfileViewController: UICollectionViewDelegateFlowLayout, UICol
             return cell
             
         case membersCollectionView:
-            let cell = membersCollectionView.dequeueReusableCell(withReuseIdentifier: MemberCell.reuseIdentifier, for: indexPath) as! MemberCell
+            let cell = membersCollectionView.dequeueReusableCell(withReuseIdentifier: BuskerProfileMemberCell.reuseIdentifier, for: indexPath) as! BuskerProfileMemberCell
             cell.icon.image = UIImage(named: "cat")
             cell.nameLabel.text = "Alex"
             cell.roleLabel.text = "Vocal"
+            return cell
+            
+        case eventsCollectionView:
+            let cell = eventsCollectionView.dequeueReusableCell(withReuseIdentifier: BuskerProfileEventCell.reuseIdentifier, for: indexPath) as! BuskerProfileEventCell
+            cell.eventImg.image = UIImage(named: "cat")
+            cell.eventLabel.text = "維港夜景Live"
+            cell.locationLabel.text = "尖沙咀"
+            cell.bookmarkCount.text = "32"
+            cell.timeLabel.text = "3日後"
+            return cell
+            
+        case postsCollectionView:
+            let cell = postsCollectionView.dequeueReusableCell(withReuseIdentifier: BuskerProfilePostCell.reuseIdentifier, for: indexPath) as! BuskerProfilePostCell
+            cell.buskerIcon.image = UIImage(named: "cat")
+            cell.buskerLabel.text = "RubberBand"
+            cell.timeLabel.text = "10 min"
+            cell.contentLabel.text = "黎緊嘅星期日，下午6點，記得準時黎到我地係西九搞嘅露天音樂會！盡情hi爆！！"
             return cell
             
         default:
@@ -596,7 +752,13 @@ extension BuskerProfileViewController: UICollectionViewDelegateFlowLayout, UICol
             return CGSize(width: size.width + 32, height: HashtagCell.height)
             
         case membersCollectionView:
-            return CGSize(width: MemberCell.width, height: MemberCell.height)
+            return CGSize(width: BuskerProfileMemberCell.width, height: BuskerProfileMemberCell.height)
+            
+        case eventsCollectionView:
+            return CGSize(width: BuskerProfileEventCell.width, height: BuskerProfileEventCell.height)
+            
+        case postsCollectionView:
+            return CGSize(width: BuskerProfilePostCell.width, height: BuskerProfilePostCell.height)
             
         default:
             let size = (hashtagsArray[indexPath.row] as NSString).size(withAttributes: nil)
