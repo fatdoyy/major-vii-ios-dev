@@ -15,6 +15,7 @@ import NVActivityIndicatorView
 protocol EventsDetailsViewDelegate {
     func imageCellTapped(index: Int, displacementItem: UIImageView)
     func bookmarkBtnTapped(sender: UIButton)
+    func performerLabelTapped(sender: Any)
 }
 
 class EventDetailsView: UIView {
@@ -196,6 +197,12 @@ class EventDetailsView: UIView {
             view.alpha = 0
         }
     }
+    
+    @IBAction func performerLabelTapped(_ sender: Any) {
+        delegate?.performerLabelTapped(sender: sender)
+    }
+    
+    
 }
 
 extension EventDetailsView: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout{

@@ -228,7 +228,7 @@ class EventDetailsViewController: UIViewController {
         }
     }
     
-    private func createHeroTransitions(){
+    private func createHeroTransitions() {
         bgView.hero.modifiers = [.delay(0.1), .translate(y: 500)]
         bgView.bookmarkBtn.hero.modifiers = [.delay(0.3), .translate(y: 500)]
         bgView.bookmarkCountImg.hero.modifiers = [.delay(0.35), .translate(y: 500)]
@@ -236,13 +236,13 @@ class EventDetailsViewController: UIViewController {
         self.floatyBtn.hero.modifiers = [.fade]
     }
     
-    private func setupLeftBarItems(){
+    private func setupLeftBarItems() {
         let customView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: 20, height: 44.0))
         customView.backgroundColor = .clear
         
         let menuBtn = UIButton(type: .custom)
         menuBtn.frame = CGRect(x: 5, y: 10, width: 14.13, height: 24)
-        menuBtn.setImage(UIImage(named:"back"), for: .normal)
+        menuBtn.setImage(UIImage(named: "back"), for: .normal)
         menuBtn.addTarget(self, action: #selector(popView), for: .touchUpInside)
         customView.addSubview(menuBtn)
         
@@ -254,7 +254,7 @@ class EventDetailsViewController: UIViewController {
         self.navigationItem.leftBarButtonItem = menuBarItem
     }
     
-    private func loadImgIntoImgViewer(){
+    private func loadImgIntoImgViewer() {
         
         if imgUrlArray.count != 0 {
             
@@ -364,6 +364,11 @@ extension EventDetailsViewController: EventsDetailsViewDelegate{
     func imageCellTapped(index: Int, displacementItem: UIImageView) {
         showImageViewer(atIndex: index)
         displaceableImgView = displacementItem
+    }
+    
+    func performerLabelTapped(sender: Any) {
+        print(details!.item?.organizerProfile?.id as Any)
+        BuskerProfileViewController.push(fromView: self, buskerId: "")
     }
 }
 

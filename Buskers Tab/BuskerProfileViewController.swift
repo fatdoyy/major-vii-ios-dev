@@ -17,9 +17,18 @@ import Pastel
 class BuskerProfileViewController: UIViewController {
     static let storyboardId = "buskerProfileVC"
     
+    var buskerId = "" {
+        didSet {
+            //getDetails(eventId: eventId)
+        }
+    }
+    
+    //gesture for swipe-pop
+    var gesture: UIGestureRecognizer?
+    
     @IBOutlet weak var mainScrollView: UIScrollView!
     
-    var contentView = UIView()
+    var imgContainerView = UIView()
     var imgCollectionView: UICollectionView!
     let screenWidth: CGFloat = UIScreen.main.bounds.width
     let imgCollectionViewHeight: CGFloat = (UIScreen.main.bounds.height / 5) * 2
@@ -47,6 +56,7 @@ class BuskerProfileViewController: UIViewController {
     var profileLabel = UILabel()
     var profileLineView = UIView()
     var profileDesc = UILabel()
+    var profileBgViewHeight: CGFloat = 0
     var descString = ""
 
     //members section
@@ -73,8 +83,33 @@ class BuskerProfileViewController: UIViewController {
     var postsLineView = UIView()
     var postsCollectionView: UICollectionView!
     
+    //footer section
+    var copyrightLabel = UILabel()
+    var sepLine = UIView()
+    
+    //MARK: — Status Bar Appearance
+    private var previousStatusBarHidden = false
+    override var preferredStatusBarUpdateAnimation: UIStatusBarAnimation {
+        //** We use the slide animation because it works well with scrolling
+        return .slide
+    }
+    
+    override var prefersStatusBarHidden: Bool {
+        return shouldHideStatusBar
+    }
+    
+    private var shouldHideStatusBar: Bool {
+        //** Here’s where we calculate if our text container
+        // is going to hit the top safe area
+        //let frame = buskerTaglineLabel.convert(buskerTaglineLabel.bounds, to: nil)
+        return imgCollectionViewHeight / 2 < view.safeAreaInsets.top
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        gesture?.delegate = self
+        
+        setupLeftBarItems()
         updatesStatusBarAppearanceAutomatically = true
         view.backgroundColor = .darkGray()
         
@@ -93,16 +128,55 @@ class BuskerProfileViewController: UIViewController {
         setupEventsSection()
         setupPostSection()
 
-        if #available(iOS 11.0, *) {
-            mainScrollView.contentInsetAdjustmentBehavior = .never
-        }
+        setupFooter()
+        
+        print(imgCollectionViewHeight)
+        print(imgCollectionViewHeight / 2)
+
+        mainScrollView.contentInsetAdjustmentBehavior = .never
+        mainScrollView.showsVerticalScrollIndicator = false
+        mainScrollView.delegate = self
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        TabBar.hide(rootView: self)
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         loadProfileDetails()
-        mainScrollView.contentSize = CGSize(width: screenWidth, height: UIScreen.main.bounds.height + 1600)
+        
+        if UIDevice().userInterfaceIdiom == .phone {
+            switch UIScreen.main.nativeBounds.height {
+                
+                /*
+                 height =   imgCollectionViewHeight + hashtagsCollecitonViewHeight (with top padding) +
+                            actionBtnHeight (with top padding) + statsHeight (with top padding) +
+                            profileHeight (with top padding) + membersSectionHeight (with top padding) +
+                            liveHeight (with top padding) + eventsHeight (with top padding) +
+                            postsHeight (with top padding) + footerHeight (with top padding) + bottom padding
+                 */
+                
+            case 1136, 1334:
+                let height = imgCollectionViewHeight + 43 + 60 + 100 + (profileBgViewHeight + 20) + 213 + 140 + 294 + 520 + 86
+                mainScrollView.contentSize = CGSize(width: screenWidth, height: height)
+            case 1920, 2208, 2436, 2688, 1792:
+                let height = imgCollectionViewHeight + 43 + 60 + 100 + (profileBgViewHeight + 20) + 213 + 140 + 294 + 520 + 106
+                mainScrollView.contentSize = CGSize(width: screenWidth, height: height)
+
+            default:
+                print("unknown")
+            }
+        }
     }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        TabBar.show(rootView: self)
+    }
+    
+    
     
 }
 
@@ -110,6 +184,7 @@ class BuskerProfileViewController: UIViewController {
 //MARK: UI functions
 extension BuskerProfileViewController {
     private func setupImgCollectionView() {
+
         //image collection view
         let layout: UICollectionViewFlowLayout = PagedCollectionViewLayout()
         layout.itemSize = CGSize(width: screenWidth, height: imgCollectionViewHeight)
@@ -124,7 +199,24 @@ extension BuskerProfileViewController {
         imgCollectionView.delegate = self
         imgCollectionView.showsHorizontalScrollIndicator = false
         imgCollectionView.register(UINib.init(nibName: "BuskerProfileImgCell", bundle: nil), forCellWithReuseIdentifier: BuskerProfileImgCell.reuseIdentifier)
+        
+//        imgContainerView.backgroundColor = .darkGray
+//        mainScrollView.addSubview(imgContainerView)
+//        imgContainerView.snp.makeConstraints { (make) -> Void in
+//            make.top.equalToSuperview()
+//            make.width.equalTo(screenWidth)
+//            make.height.equalTo(imgCollectionViewHeight)
+//        }
+        
         mainScrollView.addSubview(imgCollectionView)
+//        imgCollectionView.snp.makeConstraints { (make) -> Void in
+//            make.top.equalTo(view)
+//            make.width.equalTo(screenWidth)
+//            make.height.equalTo(imgCollectionViewHeight)
+//            make.bottom.equalTo(imgContainerView.snp.bottom)
+//        }
+
+        
     }
     
     private func setupOverlay() {
@@ -137,6 +229,29 @@ extension BuskerProfileViewController {
             make.top.equalTo(imgCollectionView.snp.top).offset(imgCollectionViewHeight / 3)
             //make.size.equalTo(imgCollectionView)
         }
+    }
+    
+    private func setupLeftBarItems() {
+        let customView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: 20, height: 44.0))
+        customView.backgroundColor = .clear
+        
+        let menuBtn = UIButton(type: .custom)
+        menuBtn.frame = CGRect(x: 5, y: 10, width: 14.13, height: 24)
+        menuBtn.setImage(UIImage(named: "back"), for: .normal)
+        menuBtn.addTarget(self, action: #selector(popView), for: .touchUpInside)
+        customView.addSubview(menuBtn)
+        
+        let menuBarItem = UIBarButtonItem(customView: customView)
+        let currWidth = menuBarItem.customView?.widthAnchor.constraint(equalToConstant: 20)
+        currWidth?.isActive = true
+        let currHeight = menuBarItem.customView?.heightAnchor.constraint(equalToConstant: 44)
+        currHeight?.isActive = true
+        self.navigationItem.leftBarButtonItem = menuBarItem
+    }
+    
+    @objc private func popView(){
+        navigationController?.hero.navigationAnimationType = .zoomOut
+        navigationController?.popViewController(animated: true)
     }
     
     private func setupLabels() {
@@ -364,7 +479,7 @@ extension BuskerProfileViewController {
     }
     
     private func loadProfileDetails() {
-        descString = "RubberBand is a Cantopop band formed in Hong Kong in 2004. They signed with Gold Typhoon label in 2006. They started as a 5-man band but after keyboard player Ngai Sum's departure in October 2010, comprise 4 members."
+        descString = "RubberBand is a Cantopop band formed in Hong Kong in 2004."
         
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = 8
@@ -391,13 +506,13 @@ extension BuskerProfileViewController {
         print(profileDesc.attributedTextHeight(withWidth: screenWidth - 40))
         print(profileDesc.textHeight(withWidth: screenWidth - 40))
         
-        let bgViewHeight = profileDesc.attributedTextHeight(withWidth: screenWidth - 80) + 54 + 20 //textHeight + topPadding(including "Profile" label) + bottomPadding
+        profileBgViewHeight = profileDesc.attributedTextHeight(withWidth: screenWidth - 80) + 54 + 20 //textHeight + topPadding(including "Profile" label) + bottomPadding
         
         profileBgView.snp.remakeConstraints { (make) -> Void in
             make.top.equalTo(statsBgView.snp.bottom).offset(20)
             make.centerX.equalToSuperview()
             make.width.equalTo(screenWidth - 40)
-            make.height.equalTo(bgViewHeight)
+            make.height.equalTo(profileBgViewHeight)
         }
     }
     
@@ -615,7 +730,7 @@ extension BuskerProfileViewController {
             make.top.equalTo(eventsBgView.snp.bottom).offset(20)
             make.centerX.equalToSuperview()
             make.width.equalTo(screenWidth - 40)
-            make.height.equalTo(600)
+            make.height.equalTo(500)
         }
         
         postsLineView.backgroundColor = .blue
@@ -663,6 +778,35 @@ extension BuskerProfileViewController {
             make.leftMargin.equalTo(0)
             make.rightMargin.equalTo(0)
         }
+    }
+}
+
+//MARK: Footer Section
+extension BuskerProfileViewController {
+    private func setupFooter(){
+        sepLine.backgroundColor = UIColor.white.withAlphaComponent(0.1)
+        sepLine.layer.cornerRadius = 0.2
+        mainScrollView.addSubview(sepLine)
+        sepLine.snp.makeConstraints { (make) -> Void in
+            make.centerX.equalToSuperview()
+            make.top.equalTo(postsBgView.snp.bottom).offset(20)
+            make.width.equalTo(screenWidth - 80)
+            make.height.equalTo(2)
+        }
+        
+        copyrightLabel.textAlignment = .center
+        copyrightLabel.numberOfLines = 1
+        copyrightLabel.font = UIFont.systemFont(ofSize: 10, weight: .medium)
+        copyrightLabel.textColor = .lightGrayText()
+        copyrightLabel.text = "Copyright © 2019 | Major VII | ALL RIGHTS RESERVED"
+        mainScrollView.addSubview(copyrightLabel)
+        copyrightLabel.snp.makeConstraints { (make) -> Void in
+            make.height.equalTo(14)
+            make.top.equalTo(sepLine.snp.bottom).offset(20)
+            make.centerX.equalToSuperview()
+            make.width.equalTo(screenWidth - 40)
+        }
+        
     }
 }
 
@@ -731,7 +875,22 @@ extension BuskerProfileViewController: UICollectionViewDelegateFlowLayout, UICol
             cell.buskerIcon.image = UIImage(named: "cat")
             cell.buskerLabel.text = "RubberBand"
             cell.timeLabel.text = "10 min"
-            cell.contentLabel.text = "黎緊嘅星期日，下午6點，記得準時黎到我地係西九搞嘅露天音樂會！盡情hi爆！！"
+            
+            let content = "黎緊嘅星期日，下午6點，記得準時黎到我地係西九搞嘅露天音樂會！盡情hi爆！！"
+            if !content.isEmpty {
+                cell.contentLabel.text = content
+            } else {
+                cell.contentLabel.text = content
+                cell.contentLabel.snp.remakeConstraints { (make) -> Void in
+                    make.top.equalTo(cell.buskerLabel.snp.bottom)
+                    make.width.equalTo(UIScreen.main.bounds.width - 120)
+                    make.height.lessThanOrEqualTo(100)
+                    make.centerX.equalToSuperview()
+                }
+            }
+            
+            cell.statsLabel.text = "200個拍手 · 10個留言"
+            
             return cell
             
         default:
@@ -776,6 +935,7 @@ extension BuskerProfileViewController: UIScrollViewDelegate {
         if scrollView == imgCollectionView {
             HapticFeedback.createImpact(style: .medium)
         }
+        
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
@@ -783,8 +943,47 @@ extension BuskerProfileViewController: UIScrollViewDelegate {
             pageControl.set(progress: Int(scrollView.contentOffset.x) / Int(scrollView.frame.width), animated: true)
         }
     }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        //** We keep the previous status bar hidden state so that
+        // we’re not triggering an implicit animation block for every frame
+        // in which the scroll view scrolls
+        
+        let frame = pageControl.convert(pageControl.bounds, to: view)
+        print(frame.minY)
+        print(view.safeAreaInsets.top)
+        
+        if previousStatusBarHidden != shouldHideStatusBar {
+            UIView.animate(withDuration: 0.2, animations: {
+                self.setNeedsStatusBarAppearanceUpdate()
+            })
+            previousStatusBarHidden = shouldHideStatusBar
+        }
+    }
 }
 
+// MARK: function to push this view controller
+extension BuskerProfileViewController {
+    static func push(fromView: UIViewController, buskerId: String){
+        let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+        let profileVC = storyboard.instantiateViewController(withIdentifier: BuskerProfileViewController.storyboardId) as! BuskerProfileViewController
+        
+        profileVC.buskerId = buskerId
+        
+        fromView.navigationItem.title = ""
+        fromView.navigationController?.hero.navigationAnimationType = .autoReverse(presenting: .zoom)
+        fromView.navigationController?.pushViewController(profileVC, animated: true)
+    }
+}
+
+// MARK: swipe pop gesture
+extension BuskerProfileViewController: UIGestureRecognizerDelegate{
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
+    }
+}
+
+//uibutton subclass to get youtube id
 class VidButton: UIButton {
     var videoIdentifier: String?
 }

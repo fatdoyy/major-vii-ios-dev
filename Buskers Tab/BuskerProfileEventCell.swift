@@ -11,7 +11,7 @@ import UIKit
 class BuskerProfileEventCell: UICollectionViewCell {
 
     static let reuseIdentifier = "buskerProfileEventCell"
-    static let width: CGFloat = 295
+    static let width: CGFloat = UIScreen.main.bounds.width - 80
     static let height: CGFloat = 200
     
     @IBOutlet weak var eventImg: UIImageView!
