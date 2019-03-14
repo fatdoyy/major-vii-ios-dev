@@ -367,8 +367,8 @@ extension EventDetailsViewController: EventsDetailsViewDelegate{
     }
     
     func performerLabelTapped(sender: Any) {
-        print(eventDetails!.item?.organizerProfile?.id as Any)
-        BuskerProfileViewController.push(fromView: self, buskerId: "")
+        print(eventDetails!.item?.organizerProfile?.name as Any)
+        BuskerProfileViewController.push(fromView: self, buskerName: eventDetails!.item?.organizerProfile?.name ?? "123", buskerId: eventDetails!.item?.organizerProfile?.id ?? "")
     }
 }
 

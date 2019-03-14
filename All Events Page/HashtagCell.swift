@@ -23,6 +23,7 @@ class HashtagCell: UICollectionViewCell {
         bgView.backgroundColor = .white15Alpha()
         bgView.layer.cornerRadius = GlobalCornerRadius.value - 4
         
+        hashtag.alpha = 0
         hashtag.textColor = .lightGray
     }
 }

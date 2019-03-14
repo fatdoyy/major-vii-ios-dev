@@ -18,6 +18,12 @@ import SkeletonView
 class BuskerProfileViewController: UIViewController {
     static let storyboardId = "buskerProfileVC"
     
+    var buskerName = "" {
+        didSet {
+            print("buskerName is set! \(buskerName)")
+        }
+    }
+    
     var buskerId = "" {
         didSet {
             getProfileDetails(buskerId: buskerId)
@@ -318,14 +324,16 @@ extension BuskerProfileViewController {
         buskerLabel.numberOfLines = 1
         buskerLabel.font = UIFont.systemFont(ofSize: 28, weight: .bold)
         buskerLabel.textColor = .white
-        buskerLabel.text = "jamistry"
+        buskerLabel.text = buskerName.isEmpty ? "(Error)" : buskerName
+        //buskerLabel.frame = CGRect
         mainScrollView.insertSubview(buskerLabel, aboveSubview: imgOverlay)
         buskerLabel.snp.makeConstraints { (make) -> Void in
             //make.width.equalToSuperview().inset(UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20))
-            make.leftMargin.equalTo(20)
+            make.left.equalToSuperview().offset(20)
             make.bottom.equalTo(imgCollectionView.snp.bottom)
         }
-        buskerLabel.showSkeleton()
+        buskerLabel.lastLineFillPercent = 70
+        //buskerLabel.showAnimatedGradientSkeleton(animation: animation)
         print(buskerLabel.skeletonDescription)
         
         buskerTaglineLabel.textAlignment = .left
@@ -336,7 +344,7 @@ extension BuskerProfileViewController {
         mainScrollView.insertSubview(buskerTaglineLabel, aboveSubview: imgOverlay)
         buskerTaglineLabel.snp.makeConstraints { (make) -> Void in
             //make.width.equalToSuperview().inset(UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20))
-            make.leftMargin.equalTo(20)
+            make.left.equalToSuperview().offset(20)
             make.bottom.equalTo(buskerLabel.snp.top).offset(-5)
         }
     }
@@ -350,7 +358,7 @@ extension BuskerProfileViewController {
         pageControl.padding = 6
         mainScrollView.addSubview(pageControl)
         pageControl.snp.makeConstraints { (make) -> Void in
-            make.leftMargin.equalTo(20)
+            make.left.equalToSuperview().offset(20)
             make.bottom.equalTo(buskerTaglineLabel.snp.top).offset(-12)
         }
     }
@@ -874,6 +882,7 @@ extension BuskerProfileViewController: UICollectionViewDelegateFlowLayout, UICol
             
         case hashtagsCollectionView:
             let cell = hashtagsCollectionView.dequeueReusableCell(withReuseIdentifier: HashtagCell.reuseIdentifier, for: indexPath) as! HashtagCell
+            cell.hashtag.alpha = 1
             cell.hashtag.text = "#\(hashtagsArray[indexPath.row])"
             return cell
             
@@ -987,11 +996,12 @@ extension BuskerProfileViewController: UIScrollViewDelegate {
 
 // MARK: function to push this view controller
 extension BuskerProfileViewController {
-    static func push(fromView: UIViewController, buskerId: String){
+    static func push(fromView: UIViewController, buskerName: String, buskerId: String){
         let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
         let profileVC = storyboard.instantiateViewController(withIdentifier: BuskerProfileViewController.storyboardId) as! BuskerProfileViewController
         
         profileVC.buskerId = buskerId
+        profileVC.buskerName = buskerName
         
         fromView.navigationItem.title = ""
         fromView.navigationController?.hero.navigationAnimationType = .autoReverse(presenting: .zoom)

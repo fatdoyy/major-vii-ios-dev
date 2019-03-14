@@ -214,6 +214,7 @@ extension EventDetailsView: UICollectionViewDelegate, UICollectionViewDataSource
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if collectionView == hashtagsCollectionView {
             let cell = hashtagsCollectionView.dequeueReusableCell(withReuseIdentifier: HashtagCell.reuseIdentifier, for: indexPath) as! HashtagCell
+            cell.hashtag.alpha = 1
             cell.hashtag.text = "#\(hashtagsArray[indexPath.row])"
             return cell
         } else { //imgCollectionView
