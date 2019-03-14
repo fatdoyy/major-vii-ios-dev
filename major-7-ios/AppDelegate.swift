@@ -12,6 +12,7 @@ import Firebase
 import FBSDKLoginKit
 import FBSDKCoreKit
 import GoogleSignIn
+import SkeletonView
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -32,6 +33,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UITabBar.appearance().barTintColor = UIColor(red:0.13, green:0.13, blue:0.13, alpha:0.75)
         UITabBar.appearance().tintColor = .white
         UITextField.appearance().keyboardAppearance = .dark
+        
+        //Skeleton View Appearance
+        SkeletonAppearance.default.multilineCornerRadius = Int(GlobalCornerRadius.value / 2.75)
+        SkeletonAppearance.default.gradient = SkeletonGradient(baseColor: .gray)
         
         return true
     }

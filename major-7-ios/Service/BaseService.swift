@@ -51,6 +51,18 @@ class BaseService: NSObject {
             actionPathStr = "events/\(eventId)/bookmarks"
         case .getBookmarkedEvents:
             actionPathStr = "users/me/bookmarks"
+            
+        //Busker
+        case .buskerRanking:
+            actionPathStr = "profiles/trendRanking"
+        case .buskerProfile(let buskerId):
+            actionPathStr = "profiles/\(buskerId)"
+        case .buskerEvents(let buskerId):
+            actionPathStr = "profiles/\(buskerId)/events"
+        case .buskerPosts(let buskerId):
+            actionPathStr = "profiles/\(buskerId)/posts"
+        case .buskerFollowers(let buskerId):
+            actionPathStr = "profiles/\(buskerId)/followings"
         }
         
         return endpoint + actionPathStr
@@ -126,5 +138,11 @@ extension BaseService {
         case bookmarkAction(eventId: String)
         case getBookmarkedEvents
         
+        //Busker
+        case buskerRanking
+        case buskerProfile(buskerId: String)
+        case buskerEvents(buskerId: String)
+        case buskerPosts(buskerId: String)
+        case buskerFollowers(buskerId: String)
     }
 }

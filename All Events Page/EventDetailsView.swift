@@ -141,9 +141,6 @@ class EventDetailsView: UIView {
             }
         }
         
-        SkeletonAppearance.default.multilineCornerRadius = Int(GlobalCornerRadius.value / 2)
-        SkeletonAppearance.default.gradient = SkeletonGradient(baseColor: .gray)
-        
         let animation = SkeletonAnimationBuilder().makeSlidingAnimation(withDirection: .leftRight, duration: 2)
         titleLabel.tag = 1
         dummyTagLabel.tag = 2

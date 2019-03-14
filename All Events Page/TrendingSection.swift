@@ -250,7 +250,7 @@ extension TrendingSection: UICollectionViewDataSource, UICollectionViewDelegate,
             }
             
             cell.eventTitle.text = trendingEvents[indexPath.row].title
-            cell.performerLabel.text = trendingEvents[indexPath.row].organizerProfile?.name
+            cell.performerTitle.text = trendingEvents[indexPath.row].organizerProfile?.name
             cell.dateLabel.text = trendingEvents[indexPath.row].dateTime
             cell.bookmarkBtn.backgroundColor = .clear
             

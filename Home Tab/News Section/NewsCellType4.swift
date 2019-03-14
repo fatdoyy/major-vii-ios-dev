@@ -54,9 +54,6 @@ class NewsCellType4: UICollectionViewCell {
         }
         //gradientBg.isHidden = true
         
-        SkeletonAppearance.default.multilineCornerRadius = Int(GlobalCornerRadius.value / 2)
-        SkeletonAppearance.default.gradient = SkeletonGradient(baseColor: .gray)
-        
         if UIDevice().userInterfaceIdiom == .phone {
             switch UIScreen.main.nativeBounds.height {
             case 1136: //iPhone SE

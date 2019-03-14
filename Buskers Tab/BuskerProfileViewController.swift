@@ -13,13 +13,20 @@ import XCDYouTubeKit
 import CHIPageControl
 import BouncyLayout
 import Pastel
+import SkeletonView
 
 class BuskerProfileViewController: UIViewController {
     static let storyboardId = "buskerProfileVC"
     
     var buskerId = "" {
         didSet {
-            //getDetails(eventId: eventId)
+            getProfileDetails(buskerId: buskerId)
+        }
+    }
+    
+    var buskerDetails: BuskerProfile? {
+        didSet {
+            //loadProfileDetails
         }
     }
     
@@ -86,6 +93,8 @@ class BuskerProfileViewController: UIViewController {
     //footer section
     var copyrightLabel = UILabel()
     var sepLine = UIView()
+    
+    let animation = SkeletonAnimationBuilder().makeSlidingAnimation(withDirection: .leftRight, duration: 2)
     
     //MARK: — Status Bar Appearance
     private var previousStatusBarHidden = false
@@ -180,6 +189,55 @@ class BuskerProfileViewController: UIViewController {
     
 }
 
+//MARK: API Calling
+extension BuskerProfileViewController {
+    private func getProfileDetails(buskerId: String) {
+        BuskerService.getProfileDetails(buskerId: buskerId).done{ details -> () in
+            self.buskerDetails = details
+            
+            }.ensure {
+                UIApplication.shared.isNetworkActivityIndicatorVisible = false
+            }.catch { error in }
+    }
+    
+    private func loadProfileDetails() {
+        descString = "RubberBand is a Cantopop band formed in Hong Kong in 2004."
+        
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineSpacing = 8
+        paragraphStyle.lineBreakMode = .byTruncatingTail
+        
+        let myAttribute = [NSAttributedString.Key.foregroundColor: UIColor.whiteText(), NSAttributedString.Key.paragraphStyle: paragraphStyle]
+        
+        // create attributed string
+        let descAttrString = NSAttributedString(string: descString, attributes: myAttribute)
+        
+        // set attributed text on a UILabel
+        profileDesc.attributedText = descAttrString
+        profileDesc.sizeToFit()
+        profileDesc.font = UIFont.systemFont(ofSize: 14, weight: .regular)
+        profileDesc.numberOfLines = 0
+        profileDesc.lineBreakMode = .byWordWrapping
+        profileBgView.addSubview(profileDesc)
+        profileDesc.snp.makeConstraints { (make) -> Void in
+            make.top.equalTo(profileLineView.snp.bottom).offset(16)
+            make.leftMargin.equalToSuperview().offset(20)
+            make.rightMargin.equalToSuperview().offset(-20)
+        }
+        
+        print(profileDesc.attributedTextHeight(withWidth: screenWidth - 40))
+        print(profileDesc.textHeight(withWidth: screenWidth - 40))
+        
+        profileBgViewHeight = profileDesc.attributedTextHeight(withWidth: screenWidth - 80) + 54 + 20 //textHeight + topPadding(including "Profile" label) + bottomPadding
+        
+        profileBgView.snp.remakeConstraints { (make) -> Void in
+            make.top.equalTo(statsBgView.snp.bottom).offset(20)
+            make.centerX.equalToSuperview()
+            make.width.equalTo(screenWidth - 40)
+            make.height.equalTo(profileBgViewHeight)
+        }
+    }
+}
 
 //MARK: UI functions
 extension BuskerProfileViewController {
@@ -255,6 +313,7 @@ extension BuskerProfileViewController {
     }
     
     private func setupLabels() {
+        buskerLabel.isSkeletonable = true
         buskerLabel.textAlignment = .left
         buskerLabel.numberOfLines = 1
         buskerLabel.font = UIFont.systemFont(ofSize: 28, weight: .bold)
@@ -266,6 +325,8 @@ extension BuskerProfileViewController {
             make.leftMargin.equalTo(20)
             make.bottom.equalTo(imgCollectionView.snp.bottom)
         }
+        buskerLabel.showSkeleton()
+        print(buskerLabel.skeletonDescription)
         
         buskerTaglineLabel.textAlignment = .left
         buskerTaglineLabel.numberOfLines = 1
@@ -477,45 +538,7 @@ extension BuskerProfileViewController {
         }
         
     }
-    
-    private func loadProfileDetails() {
-        descString = "RubberBand is a Cantopop band formed in Hong Kong in 2004."
-        
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineSpacing = 8
-        paragraphStyle.lineBreakMode = .byTruncatingTail
-        
-        let myAttribute = [NSAttributedString.Key.foregroundColor: UIColor.whiteText(), NSAttributedString.Key.paragraphStyle: paragraphStyle]
-        
-        // create attributed string
-        let descAttrString = NSAttributedString(string: descString, attributes: myAttribute)
-        
-        // set attributed text on a UILabel
-        profileDesc.attributedText = descAttrString
-        profileDesc.sizeToFit()
-        profileDesc.font = UIFont.systemFont(ofSize: 14, weight: .regular)
-        profileDesc.numberOfLines = 0
-        profileDesc.lineBreakMode = .byWordWrapping
-        profileBgView.addSubview(profileDesc)
-        profileDesc.snp.makeConstraints { (make) -> Void in
-            make.top.equalTo(profileLineView.snp.bottom).offset(16)
-            make.leftMargin.equalToSuperview().offset(20)
-            make.rightMargin.equalToSuperview().offset(-20)
-        }
-
-        print(profileDesc.attributedTextHeight(withWidth: screenWidth - 40))
-        print(profileDesc.textHeight(withWidth: screenWidth - 40))
-        
-        profileBgViewHeight = profileDesc.attributedTextHeight(withWidth: screenWidth - 80) + 54 + 20 //textHeight + topPadding(including "Profile" label) + bottomPadding
-        
-        profileBgView.snp.remakeConstraints { (make) -> Void in
-            make.top.equalTo(statsBgView.snp.bottom).offset(20)
-            make.centerX.equalToSuperview()
-            make.width.equalTo(screenWidth - 40)
-            make.height.equalTo(profileBgViewHeight)
-        }
-    }
-    
+ 
 }
 
 //MARK: Members Section

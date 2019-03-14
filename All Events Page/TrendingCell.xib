@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina4_7" orientation="portrait">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -33,15 +33,18 @@
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="RubberBand" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5m2-Hj-vPs">
-                        <rect key="frame" x="21" y="186" width="59.5" height="12"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="drF-P2-f2Q">
+                        <rect key="frame" x="284" y="183" width="31" height="15"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="drF-P2-f2Q">
-                        <rect key="frame" x="284" y="183" width="31" height="15"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1234567" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SXq-rG-gIC">
+                        <rect key="frame" x="19.999999999999996" y="185" width="43.666666666666657" height="12"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="12" id="khc-iA-GrQ"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="10"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
@@ -58,7 +61,7 @@
                         </connections>
                     </button>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2k+" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3nZ-qi-Tls">
-                        <rect key="frame" x="310.5" y="39" width="19.5" height="12"/>
+                        <rect key="frame" x="310.66666666666669" y="39" width="19.333333333333314" height="12"/>
                         <fontDescription key="fontDescription" type="boldSystem" pointSize="10"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
@@ -68,14 +71,14 @@
             <constraints>
                 <constraint firstAttribute="bottom" secondItem="n3B-l6-b2t" secondAttribute="bottom" id="9ax-g6-2zR"/>
                 <constraint firstAttribute="trailing" secondItem="dmZ-an-gda" secondAttribute="trailing" id="ALp-8q-Q0M"/>
-                <constraint firstItem="5m2-Hj-vPs" firstAttribute="top" secondItem="Qhg-RU-2Ym" secondAttribute="bottom" constant="6" id="Ckg-Ft-9rv"/>
                 <constraint firstItem="3nZ-qi-Tls" firstAttribute="top" secondItem="dmZ-an-gda" secondAttribute="bottom" constant="3" id="DNE-Vv-glD"/>
                 <constraint firstItem="dmZ-an-gda" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="DQ5-0l-8W2"/>
                 <constraint firstAttribute="trailing" secondItem="drF-P2-f2Q" secondAttribute="trailing" constant="20" id="DbR-Za-FRK"/>
                 <constraint firstAttribute="trailing" secondItem="3nZ-qi-Tls" secondAttribute="trailing" constant="5" id="Gp6-FW-GOG"/>
+                <constraint firstAttribute="bottom" secondItem="SXq-rG-gIC" secondAttribute="bottom" constant="16" id="Ifk-2C-vTV"/>
+                <constraint firstItem="SXq-rG-gIC" firstAttribute="top" secondItem="Qhg-RU-2Ym" secondAttribute="bottom" constant="5" id="K6X-JS-a7a"/>
                 <constraint firstAttribute="trailing" secondItem="n3B-l6-b2t" secondAttribute="trailing" id="LeI-mf-Xxe"/>
-                <constraint firstItem="5m2-Hj-vPs" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="21" id="WLG-QA-clY"/>
-                <constraint firstAttribute="bottom" secondItem="5m2-Hj-vPs" secondAttribute="bottom" constant="15" id="aBV-2L-hK6"/>
+                <constraint firstItem="SXq-rG-gIC" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="20" id="NFy-vi-hoU"/>
                 <constraint firstItem="fCN-bM-XLd" firstAttribute="centerX" secondItem="Qhg-RU-2Ym" secondAttribute="centerX" id="hSN-jY-nNv"/>
                 <constraint firstItem="fCN-bM-XLd" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="jBm-XZ-dQa"/>
                 <constraint firstAttribute="bottom" secondItem="drF-P2-f2Q" secondAttribute="bottom" constant="15" id="kxW-HK-vd5"/>
@@ -94,11 +97,12 @@
                 <outlet property="dateLabel" destination="drF-P2-f2Q" id="Fwn-4N-Kb1"/>
                 <outlet property="eventTitle" destination="Qhg-RU-2Ym" id="jXA-YA-Fdg"/>
                 <outlet property="imageOverlay" destination="fCN-bM-XLd" id="LQx-TF-3KC"/>
-                <outlet property="performerLabel" destination="5m2-Hj-vPs" id="L61-a2-BFO"/>
-                <outletCollection property="skeletonViews" destination="Qhg-RU-2Ym" collectionClass="NSMutableArray" id="bJ5-yM-xGu"/>
-                <outletCollection property="skeletonViews" destination="5m2-Hj-vPs" collectionClass="NSMutableArray" id="xRp-DG-T7Z"/>
+                <outlet property="performerTitle" destination="SXq-rG-gIC" id="Min-lP-ItA"/>
                 <outletCollection property="viewsToShowLater" destination="3nZ-qi-Tls" collectionClass="NSMutableArray" id="wIT-DZ-7vB"/>
                 <outletCollection property="viewsToShowLater" destination="drF-P2-f2Q" collectionClass="NSMutableArray" id="jHt-kU-2v6"/>
+                <outletCollection property="viewsToShowLater" destination="drF-P2-f2Q" collectionClass="NSMutableArray" id="NCc-eD-dvY"/>
+                <outletCollection property="skeletonViews" destination="Qhg-RU-2Ym" collectionClass="NSMutableArray" id="tX6-Ek-RFY"/>
+                <outletCollection property="skeletonViews" destination="SXq-rG-gIC" collectionClass="NSMutableArray" id="G2e-MN-vFx"/>
             </connections>
             <point key="canvasLocation" x="40.799999999999997" y="46.326836581709152"/>
         </collectionViewCell>

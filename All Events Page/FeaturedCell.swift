@@ -51,9 +51,6 @@ class FeaturedCell: UICollectionViewCell {
         maskLayer.path = path.cgPath
         bgImgView.layer.mask = maskLayer
         
-        SkeletonAppearance.default.multilineCornerRadius = Int(GlobalCornerRadius.value / 2)
-        SkeletonAppearance.default.gradient = SkeletonGradient(baseColor: .gray)
-        
         //        let animation = SkeletonAnimationBuilder().makeSlidingAnimation(withDirection: .leftRight, duration: 2)
         //        eventTitle.tag = 1
         //        for view in skeletonViews{

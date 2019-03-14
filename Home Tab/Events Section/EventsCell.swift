@@ -32,9 +32,6 @@ class EventsCell: UICollectionViewCell {
         
         setupViews()
         
-        SkeletonAppearance.default.multilineCornerRadius = Int(GlobalCornerRadius.value / 2)
-        SkeletonAppearance.default.gradient = SkeletonGradient(baseColor: .gray)
-        
         let animation = SkeletonAnimationBuilder().makeSlidingAnimation(withDirection: .leftRight, duration: 2)
         dateLabel.tag = 1
         for view in skeletonViews{

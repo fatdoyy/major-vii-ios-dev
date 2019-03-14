@@ -57,7 +57,7 @@ class EventDetailsViewController: UIViewController {
     var allBoomarkedEventId : [String] = []
     
     //event details
-    var details : EventDetails? {
+    var eventDetails: EventDetails? {
         didSet {
             loadDetails()
         }
@@ -117,7 +117,7 @@ class EventDetailsViewController: UIViewController {
     
     private func getDetails(eventId: String){
         EventService.getEventDetails(eventId: eventId).done{ details -> () in
-            self.details = details
+            self.eventDetails = details
             self.loadImgIntoImgViewer()
 
             }.ensure {
@@ -126,7 +126,7 @@ class EventDetailsViewController: UIViewController {
     }
     
     private func loadDetails(){
-        if let url = URL(string: (details!.item?.images.first?.secureUrl)!) {
+        if let url = URL(string: (eventDetails!.item?.images.first?.secureUrl)!) {
             headerImg.kf.setImage(with: url, options: [.transition(.fade(0.75))])
         }
         
@@ -168,17 +168,17 @@ class EventDetailsViewController: UIViewController {
             }.catch { error in }
         }
 
-        bgView.titleLabel.text = details!.item?.title
-        bgView.performerLabel.text = details!.item?.organizerProfile?.name
+        bgView.titleLabel.text = eventDetails!.item?.title
+        bgView.performerLabel.text = eventDetails!.item?.organizerProfile?.name
         
-        bgView.hashtagsArray = (details?.item?.hashtags)!
+        bgView.hashtagsArray = (eventDetails?.item?.hashtags)!
         bgView.hashtagsCollectionView.reloadData()
         
-        bgView.dateLabel.text = details?.item?.dateTime
-        bgView.venueLabel.text = details?.item?.venue
+        bgView.dateLabel.text = eventDetails?.item?.dateTime
+        bgView.venueLabel.text = eventDetails?.item?.venue
         
         // setup attributes for string
-        let descString = details!.item?.desc
+        let descString = eventDetails!.item?.desc
         
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = 8
@@ -196,7 +196,7 @@ class EventDetailsViewController: UIViewController {
         if UIDevice().userInterfaceIdiom == .phone {
             if UIScreen.main.nativeBounds.height != 1136 {
                 
-                for img in (details?.item?.images)! {
+                for img in (eventDetails?.item?.images)! {
                     imgUrlArray.append(img.secureUrl ?? "")
                 }
             
@@ -205,8 +205,8 @@ class EventDetailsViewController: UIViewController {
             }
         }
         
-        bgView.remarksLabel.text = details?.item?.remarks
-        bgView.webLabel.text = details?.item?.webUrl
+        bgView.remarksLabel.text = eventDetails?.item?.remarks
+        bgView.webLabel.text = eventDetails?.item?.webUrl
         
         bgView.layoutIfNeeded()
         
@@ -367,7 +367,7 @@ extension EventDetailsViewController: EventsDetailsViewDelegate{
     }
     
     func performerLabelTapped(sender: Any) {
-        print(details!.item?.organizerProfile?.id as Any)
+        print(eventDetails!.item?.organizerProfile?.id as Any)
         BuskerProfileViewController.push(fromView: self, buskerId: "")
     }
 }
