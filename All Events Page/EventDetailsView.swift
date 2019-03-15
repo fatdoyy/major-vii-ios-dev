@@ -87,8 +87,7 @@ class EventDetailsView: UIView {
             loadingIndicator.startAnimating()
             bookmarkBtn.addSubview(loadingIndicator)
             loadingIndicator.snp.makeConstraints { (make) -> Void in
-                make.centerX.equalToSuperview()
-                make.centerY.equalToSuperview()
+                make.center.equalToSuperview()
             }
         } else {
             bookmarkBtn.setImage(UIImage(named: "eventdetails_bookmarked_0"), for: .normal)

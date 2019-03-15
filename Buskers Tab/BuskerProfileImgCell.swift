@@ -16,7 +16,7 @@ class BuskerProfileImgCell: UICollectionViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        imgView.backgroundColor = .darkGray
     }
 
 }

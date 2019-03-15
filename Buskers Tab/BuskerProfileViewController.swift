@@ -14,6 +14,7 @@ import CHIPageControl
 import BouncyLayout
 import Pastel
 import SkeletonView
+import NVActivityIndicatorView
 
 class BuskerProfileViewController: UIViewController {
     static let storyboardId = "buskerProfileVC"
@@ -32,12 +33,17 @@ class BuskerProfileViewController: UIViewController {
     
     var buskerDetails: BuskerProfile? {
         didSet {
-            //loadProfileDetails
+            print("Details arrived!!!\n\(String(describing: buskerDetails?.item?.name))")
+            loadProfileDetails()
         }
     }
     
+    var hashtagsArray = ["123", "456", "789", "asdfgghh", "hkbusking", "guitarbusking", "cajon123", "abc555", "00000000", "#1452fa", "1234567890"]
+    
     //gesture for swipe-pop
     var gesture: UIGestureRecognizer?
+    
+    var loadingIndicator = NVActivityIndicatorView(frame: CGRect(origin: CGPoint.zero, size: CGSize(width: 20, height: 20)), type: .lineScale)
     
     @IBOutlet weak var mainScrollView: UIScrollView!
     
@@ -52,7 +58,6 @@ class BuskerProfileViewController: UIViewController {
     var buskerTaglineLabel = UILabel()
     
     var hashtagsCollectionView: UICollectionView!
-    let hashtagsArray = ["123", "456", "789", "asdfgghh", "hkbusking", "guitarbusking", "cajon123", "abc555", "00000000", "#1452fa", "1234567890"]
     
     var actionBtn = UIButton()
     var statsBgView = UIView()
@@ -99,6 +104,9 @@ class BuskerProfileViewController: UIViewController {
     //footer section
     var copyrightLabel = UILabel()
     var sepLine = UIView()
+    
+    //views to show later array
+    var viewsToShowLater = [UIView]()
     
     let animation = SkeletonAnimationBuilder().makeSlidingAnimation(withDirection: .leftRight, duration: 2)
     
@@ -160,7 +168,6 @@ class BuskerProfileViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        loadProfileDetails()
         
         if UIDevice().userInterfaceIdiom == .phone {
             switch UIScreen.main.nativeBounds.height {
@@ -191,8 +198,6 @@ class BuskerProfileViewController: UIViewController {
         TabBar.show(rootView: self)
     }
     
-    
-    
 }
 
 //MARK: API Calling
@@ -207,40 +212,72 @@ extension BuskerProfileViewController {
     }
     
     private func loadProfileDetails() {
-        descString = "RubberBand is a Cantopop band formed in Hong Kong in 2004."
-        
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineSpacing = 8
-        paragraphStyle.lineBreakMode = .byTruncatingTail
-        
-        let myAttribute = [NSAttributedString.Key.foregroundColor: UIColor.whiteText(), NSAttributedString.Key.paragraphStyle: paragraphStyle]
-        
-        // create attributed string
-        let descAttrString = NSAttributedString(string: descString, attributes: myAttribute)
-        
-        // set attributed text on a UILabel
-        profileDesc.attributedText = descAttrString
-        profileDesc.sizeToFit()
-        profileDesc.font = UIFont.systemFont(ofSize: 14, weight: .regular)
-        profileDesc.numberOfLines = 0
-        profileDesc.lineBreakMode = .byWordWrapping
-        profileBgView.addSubview(profileDesc)
-        profileDesc.snp.makeConstraints { (make) -> Void in
-            make.top.equalTo(profileLineView.snp.bottom).offset(16)
-            make.leftMargin.equalToSuperview().offset(20)
-            make.rightMargin.equalToSuperview().offset(-20)
-        }
-        
-        print(profileDesc.attributedTextHeight(withWidth: screenWidth - 40))
-        print(profileDesc.textHeight(withWidth: screenWidth - 40))
-        
-        profileBgViewHeight = profileDesc.attributedTextHeight(withWidth: screenWidth - 80) + 54 + 20 //textHeight + topPadding(including "Profile" label) + bottomPadding
-        
-        profileBgView.snp.remakeConstraints { (make) -> Void in
-            make.top.equalTo(statsBgView.snp.bottom).offset(20)
-            make.centerX.equalToSuperview()
-            make.width.equalTo(screenWidth - 40)
-            make.height.equalTo(profileBgViewHeight)
+        if let details = buskerDetails {
+            if let profile = details.item {
+                imgCollectionView.reloadData()
+                
+                pageControl.numberOfPages = profile.coverImages.count
+                
+                self.hashtagsCollectionView.snp.updateConstraints { (make) -> Void in
+                    make.height.equalTo(28)
+                }
+                
+                UIView.animate(withDuration: 0.2) {
+                    self.view.layoutIfNeeded()
+                }
+                
+                for hashtag in profile.hashtags {
+                    print(hashtag)
+                }
+                
+                hashtagsCollectionView.reloadData()
+                
+                descString = profile.desc!
+                
+                let paragraphStyle = NSMutableParagraphStyle()
+                paragraphStyle.lineSpacing = 8
+                paragraphStyle.lineBreakMode = .byTruncatingTail
+                
+                let myAttribute = [NSAttributedString.Key.foregroundColor: UIColor.whiteText(), NSAttributedString.Key.paragraphStyle: paragraphStyle]
+                
+                // create attributed string
+                let descAttrString = NSAttributedString(string: descString, attributes: myAttribute)
+                
+                // set attributed text on a UILabel
+                profileDesc.alpha = 0
+                profileDesc.attributedText = descAttrString
+                profileDesc.sizeToFit()
+                profileDesc.font = UIFont.systemFont(ofSize: 14, weight: .regular)
+                profileDesc.numberOfLines = 0
+                profileDesc.lineBreakMode = .byWordWrapping
+                profileBgView.addSubview(profileDesc)
+                profileDesc.snp.makeConstraints { (make) -> Void in
+                    make.top.equalTo(profileLineView.snp.bottom).offset(16)
+                    make.leftMargin.equalToSuperview().offset(20)
+                    make.rightMargin.equalToSuperview().offset(-20)
+                }
+                viewsToShowLater.append(profileDesc)
+                
+                
+                profileBgViewHeight = profileDesc.attributedTextHeight(withWidth: screenWidth - 80) + 54 + 20 //textHeight + topPadding(including "Profile" label) + bottomPadding
+                
+                profileBgView.snp.updateConstraints { (make) -> Void in
+                    make.height.equalTo(profileBgViewHeight)
+                }
+                
+                
+                UIView.animate(withDuration: 0.4) {
+                    self.view.layoutIfNeeded()
+                }
+                
+                for view in viewsToShowLater {
+                    UIView.animate(withDuration: 0.5) {
+                        self.loadingIndicator.alpha = 0
+                        view.alpha = 1
+                    }
+                }
+                
+            }
         }
     }
 }
@@ -319,23 +356,19 @@ extension BuskerProfileViewController {
     }
     
     private func setupLabels() {
-        buskerLabel.isSkeletonable = true
         buskerLabel.textAlignment = .left
         buskerLabel.numberOfLines = 1
         buskerLabel.font = UIFont.systemFont(ofSize: 28, weight: .bold)
         buskerLabel.textColor = .white
         buskerLabel.text = buskerName.isEmpty ? "(Error)" : buskerName
-        //buskerLabel.frame = CGRect
         mainScrollView.insertSubview(buskerLabel, aboveSubview: imgOverlay)
         buskerLabel.snp.makeConstraints { (make) -> Void in
             //make.width.equalToSuperview().inset(UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20))
             make.left.equalToSuperview().offset(20)
             make.bottom.equalTo(imgCollectionView.snp.bottom)
         }
-        buskerLabel.lastLineFillPercent = 70
-        //buskerLabel.showAnimatedGradientSkeleton(animation: animation)
-        print(buskerLabel.skeletonDescription)
         
+        buskerTaglineLabel.alpha = 0
         buskerTaglineLabel.textAlignment = .left
         buskerTaglineLabel.numberOfLines = 1
         buskerTaglineLabel.font = UIFont.systemFont(ofSize: 16, weight: .light)
@@ -347,10 +380,11 @@ extension BuskerProfileViewController {
             make.left.equalToSuperview().offset(20)
             make.bottom.equalTo(buskerLabel.snp.top).offset(-5)
         }
+        viewsToShowLater.append(buskerTaglineLabel)
     }
     
     private func setupPageControl() {
-        //pageControl.alpha = 0
+        pageControl.alpha = 0
         pageControl.numberOfPages = 4
         pageControl.radius = 2
         pageControl.tintColor = .lightGrayText()
@@ -361,6 +395,7 @@ extension BuskerProfileViewController {
             make.left.equalToSuperview().offset(20)
             make.bottom.equalTo(buskerTaglineLabel.snp.top).offset(-12)
         }
+        viewsToShowLater.append(pageControl)
     }
     
     private func setupHashtagsCollectionView() {
@@ -378,7 +413,7 @@ extension BuskerProfileViewController {
         hashtagsCollectionView.snp.makeConstraints { (make) -> Void in
             make.top.equalTo(buskerLabel.snp.bottom).offset(15)
             make.width.equalTo(screenWidth)
-            make.height.equalTo(28)
+            make.height.equalTo(0)
             make.leftMargin.equalTo(0)
             make.rightMargin.equalTo(0)
         }
@@ -412,7 +447,6 @@ extension BuskerProfileViewController {
         
         statsGradientBg.frame = CGRect(x: 0, y: 0, width: screenWidth - 40, height: 80)
         statsGradientBg.animationDuration = 2.5
-        //statsGradientBg.setColors([UIColor(hexString: "#FF5F6D"), UIColor(hexString: "#FFC371")])
         statsGradientBg.setColors([UIColor(red: 156/255, green: 39/255, blue: 176/255, alpha: 1.0),
                               UIColor(red: 255/255, green: 64/255, blue: 129/255, alpha: 1.0),
                               UIColor(red: 123/255, green: 31/255, blue: 162/255, alpha: 1.0),
@@ -420,11 +454,15 @@ extension BuskerProfileViewController {
                               UIColor(red: 32/255, green: 158/255, blue: 255/255, alpha: 1.0),
                               UIColor(red: 90/255, green: 120/255, blue: 127/255, alpha: 1.0),
                               UIColor(red: 58/255, green: 255/255, blue: 217/255, alpha: 1.0)])
-        //statsGradientBg.layer.shadowColor = UIColor(hexString: "#FDC830").cgColor
         
         statsGradientBg.startAnimation()
         
         statsBgView.insertSubview(statsGradientBg, at: 0)
+        loadingIndicator.startAnimating()
+        statsBgView.addSubview(loadingIndicator)
+        loadingIndicator.snp.makeConstraints { make in
+            make.center.equalToSuperview()
+        }
         mainScrollView.addSubview(statsBgView)
         statsBgView.snp.makeConstraints { (make) -> Void in
             make.top.equalTo(actionBtn.snp.bottom).offset(20)
@@ -433,6 +471,7 @@ extension BuskerProfileViewController {
             make.height.equalTo(80)
         }
         
+        statsFollowersCount.alpha = 0
         statsFollowersCount.textColor = .white
         statsFollowersCount.text = "12k+"
         statsFollowersCount.textAlignment = .center
@@ -444,7 +483,9 @@ extension BuskerProfileViewController {
             make.width.equalTo((screenWidth - 40) / 3)
             make.height.equalTo(24)
         }
+        viewsToShowLater.append(statsFollowersCount)
         
+        statsFollowersLabel.alpha = 0
         statsFollowersLabel.textColor = .lightGray
         statsFollowersLabel.text = "Followers"
         statsFollowersLabel.textAlignment = .center
@@ -456,7 +497,9 @@ extension BuskerProfileViewController {
             make.width.equalTo((screenWidth - 40) / 3)
             make.height.equalTo(12)
         }
+        viewsToShowLater.append(statsFollowersLabel)
         
+        statsPostsCount.alpha = 0
         statsPostsCount.textColor = .white
         statsPostsCount.text = "65"
         statsPostsCount.textAlignment = .center
@@ -468,7 +511,9 @@ extension BuskerProfileViewController {
             make.centerX.equalToSuperview()
             make.height.equalTo(24)
         }
-        
+        viewsToShowLater.append(statsPostsCount)
+
+        statsPostsLabel.alpha = 0
         statsPostsLabel.textColor = .lightGray
         statsPostsLabel.text = "Posts"
         statsPostsLabel.textAlignment = .center
@@ -480,7 +525,9 @@ extension BuskerProfileViewController {
             make.centerX.equalToSuperview()
             make.height.equalTo(12)
         }
-        
+        viewsToShowLater.append(statsPostsLabel)
+
+        statsEventsCount.alpha = 0
         statsEventsCount.textColor = .white
         statsEventsCount.text = "10"
         statsEventsCount.textAlignment = .center
@@ -492,7 +539,9 @@ extension BuskerProfileViewController {
             make.centerY.equalToSuperview().offset(-10)
             make.height.equalTo(24)
         }
-        
+        viewsToShowLater.append(statsEventsCount)
+
+        statsEventsLabel.alpha = 0
         statsEventsLabel.textColor = .lightGray
         statsEventsLabel.text = "Events"
         statsEventsLabel.textAlignment = .center
@@ -504,7 +553,7 @@ extension BuskerProfileViewController {
             make.centerY.equalToSuperview().offset(10)
             make.height.equalTo(12)
         }
-
+        viewsToShowLater.append(statsEventsLabel)
         
     }
 }
@@ -520,7 +569,7 @@ extension BuskerProfileViewController {
             make.top.equalTo(statsBgView.snp.bottom).offset(20)
             make.centerX.equalToSuperview()
             make.width.equalTo(screenWidth - 40)
-            make.height.equalTo(100)
+            make.height.equalTo(90)
         }
         
         profileLineView.isUserInteractionEnabled = false
@@ -846,12 +895,12 @@ extension BuskerProfileViewController: UICollectionViewDelegateFlowLayout, UICol
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         switch collectionView {
         case imgCollectionView:
-            //        let count = (details != nil) ? (details?.item?.coverImages.count)! : 3
-            //        return count //number of images
-            return 4
+            let count = (buskerDetails != nil) ? (buskerDetails?.item?.coverImages.count)! : 3
+            return count
             
         case hashtagsCollectionView:
-            return hashtagsArray.count
+            let count = (buskerDetails != nil) ? (buskerDetails?.item?.hashtags.count)! : 10
+            return count
             
         case membersCollectionView:
             return 6 //members.count
@@ -872,18 +921,24 @@ extension BuskerProfileViewController: UICollectionViewDelegateFlowLayout, UICol
         switch collectionView {
         case imgCollectionView:
             let cell = imgCollectionView.dequeueReusableCell(withReuseIdentifier: BuskerProfileImgCell.reuseIdentifier, for: indexPath) as! BuskerProfileImgCell
-            //        if let newsDetails = self.details?.item {
-            //            if let url = URL(string: newsDetails.coverImages[indexPath.row].secureUrl!) {
-            //                cell.imgView.kf.setImage(with: url, options: [.transition(.fade(0.75))])
-            //            }
-            //        }
-            cell.imgView.image = UIImage(named: "cat")
+            if let profile = buskerDetails?.item {
+                if let url = URL(string: profile.coverImages[indexPath.row].secureUrl!) {
+                    cell.imgView.kf.setImage(with: url, options: [.transition(.fade(0.75))])
+                }
+            }
             return cell
             
         case hashtagsCollectionView:
             let cell = hashtagsCollectionView.dequeueReusableCell(withReuseIdentifier: HashtagCell.reuseIdentifier, for: indexPath) as! HashtagCell
             cell.hashtag.alpha = 1
-            cell.hashtag.text = "#\(hashtagsArray[indexPath.row])"
+            if let profile = buskerDetails?.item {
+                for hashtag in profile.hashtags {
+                    print("cellforitemat \(hashtag)")
+                }
+                cell.hashtag.text = "#\(profile.hashtags[1])"
+            } else {
+                cell.hashtag.text = "#\(hashtagsArray[indexPath.row])"
+            }
             return cell
             
         case membersCollectionView:
@@ -939,8 +994,13 @@ extension BuskerProfileViewController: UICollectionViewDelegateFlowLayout, UICol
             return CGSize(width: screenWidth, height: imgCollectionViewHeight)
             
         case hashtagsCollectionView:
-            let size = (hashtagsArray[indexPath.row] as NSString).size(withAttributes: nil)
-            return CGSize(width: size.width + 32, height: HashtagCell.height)
+            if let profile = buskerDetails?.item {
+                let size = (profile.hashtags[1] as NSString).size(withAttributes: nil)
+                return CGSize(width: size.width + 32, height: HashtagCell.height)
+            } else {
+                let size = (hashtagsArray[indexPath.row] as NSString).size(withAttributes: nil)
+                return CGSize(width: size.width + 32, height: HashtagCell.height)
+            }
             
         case membersCollectionView:
             return CGSize(width: BuskerProfileMemberCell.width, height: BuskerProfileMemberCell.height)
