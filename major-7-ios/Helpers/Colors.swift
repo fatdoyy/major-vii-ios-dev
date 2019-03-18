@@ -15,7 +15,7 @@ extension UIColor {
     
     //General UI Colors
     class func darkGray() -> UIColor {
-        return UIColor(red:0.12, green:0.12, blue:0.14, alpha:1.0)
+        return UIColor(hexString: "#1E1E24")
     }
     
     class func charcoal() -> UIColor {

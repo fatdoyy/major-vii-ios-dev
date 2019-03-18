@@ -28,6 +28,8 @@ class BuskerProfileViewController: UIViewController {
     var buskerId = "" {
         didSet {
             getProfileDetails(buskerId: buskerId)
+            getBuskerEvents(buskerId: buskerId)
+            getBuskerPosts(buskerId: buskerId)
         }
     }
     
@@ -38,7 +40,19 @@ class BuskerProfileViewController: UIViewController {
         }
     }
     
-    var hashtagsArray = ["123", "456", "789", "asdfgghh", "hkbusking", "guitarbusking", "cajon123", "abc555", "00000000", "#1452fa", "1234567890"]
+    var hashtagsArray = [String]()
+    
+    var buskerEvents: BuskerEventsList? {
+        didSet {
+            eventsCollectionView.reloadData()
+        }
+    }
+    
+    var buskerPosts: BuskerPostsList?  {
+        didSet {
+            postsCollectionView.reloadData()
+        }
+    }
     
     //gesture for swipe-pop
     var gesture: UIGestureRecognizer?
@@ -107,6 +121,7 @@ class BuskerProfileViewController: UIViewController {
     
     //views to show later array
     var viewsToShowLater = [UIView]()
+    var delayedViewsToShowLater = [UIView]()
     
     let animation = SkeletonAnimationBuilder().makeSlidingAnimation(withDirection: .leftRight, duration: 2)
     
@@ -168,29 +183,7 @@ class BuskerProfileViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
-        if UIDevice().userInterfaceIdiom == .phone {
-            switch UIScreen.main.nativeBounds.height {
-                
-                /*
-                 height =   imgCollectionViewHeight + hashtagsCollecitonViewHeight (with top padding) +
-                            actionBtnHeight (with top padding) + statsHeight (with top padding) +
-                            profileHeight (with top padding) + membersSectionHeight (with top padding) +
-                            liveHeight (with top padding) + eventsHeight (with top padding) +
-                            postsHeight (with top padding) + footerHeight (with top padding) + bottom padding
-                 */
-                
-            case 1136, 1334:
-                let height = imgCollectionViewHeight + 43 + 60 + 100 + (profileBgViewHeight + 20) + 213 + 140 + 294 + 520 + 86
-                mainScrollView.contentSize = CGSize(width: screenWidth, height: height)
-            case 1920, 2208, 2436, 2688, 1792:
-                let height = imgCollectionViewHeight + 43 + 60 + 100 + (profileBgViewHeight + 20) + 213 + 140 + 294 + 520 + 106
-                mainScrollView.contentSize = CGSize(width: screenWidth, height: height)
 
-            default:
-                print("unknown")
-            }
-        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -203,8 +196,26 @@ class BuskerProfileViewController: UIViewController {
 //MARK: API Calling
 extension BuskerProfileViewController {
     private func getProfileDetails(buskerId: String) {
-        BuskerService.getProfileDetails(buskerId: buskerId).done{ details -> () in
+        BuskerService.getProfileDetails(buskerId: buskerId).done { details -> () in
             self.buskerDetails = details
+            
+            }.ensure {
+                UIApplication.shared.isNetworkActivityIndicatorVisible = false
+            }.catch { error in }
+    }
+    
+    private func getBuskerEvents(buskerId: String) {
+        BuskerService.getBuskerEvents(buskerId: buskerId).done { events -> () in
+            self.buskerEvents = events
+            
+            }.ensure {
+                UIApplication.shared.isNetworkActivityIndicatorVisible = false
+            }.catch { error in }
+    }
+    
+    private func getBuskerPosts(buskerId: String) {
+        BuskerService.getBuskerPosts(buskerId: buskerId).done{ posts -> () in
+            self.buskerPosts = posts
             
             }.ensure {
                 UIApplication.shared.isNetworkActivityIndicatorVisible = false
@@ -221,15 +232,10 @@ extension BuskerProfileViewController {
                 self.hashtagsCollectionView.snp.updateConstraints { (make) -> Void in
                     make.height.equalTo(28)
                 }
-                
-                UIView.animate(withDuration: 0.2) {
-                    self.view.layoutIfNeeded()
-                }
-                
+
                 for hashtag in profile.hashtags {
-                    print(hashtag)
+                    hashtagsArray.append(hashtag)
                 }
-                
                 hashtagsCollectionView.reloadData()
                 
                 descString = profile.desc!
@@ -258,22 +264,79 @@ extension BuskerProfileViewController {
                 }
                 viewsToShowLater.append(profileDesc)
                 
-                
                 profileBgViewHeight = profileDesc.attributedTextHeight(withWidth: screenWidth - 80) + 54 + 20 //textHeight + topPadding(including "Profile" label) + bottomPadding
                 
                 profileBgView.snp.updateConstraints { (make) -> Void in
                     make.height.equalTo(profileBgViewHeight)
                 }
                 
+                if !profile.members.isEmpty {
+                    membersLabel.text = "Members (\(profile.members.count))"
+                    membersCollectionView.reloadData()
+                } else {
+                    membersBgView.removeFromSuperview()
+                    membersLabel.removeFromSuperview()
+                    membersLineView.removeFromSuperview()
+                    membersCollectionView.removeFromSuperview()
+                    liveBgView.snp.remakeConstraints { make in
+                        make.top.equalTo(profileBgView.snp.bottom).offset(20)
+                        make.centerX.equalToSuperview()
+                        make.width.equalTo(screenWidth - 40)
+                        make.height.equalTo(120)
+                    }
+                }
                 
-                UIView.animate(withDuration: 0.4) {
+                UIView.animate(withDuration: 0.3) {
                     self.view.layoutIfNeeded()
                 }
                 
                 for view in viewsToShowLater {
-                    UIView.animate(withDuration: 0.5) {
-                        self.loadingIndicator.alpha = 0
+                    UIView.animate(withDuration: 0.3) {
                         view.alpha = 1
+                    }
+                }
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                    for view in self.delayedViewsToShowLater {
+                        UIView.animate(withDuration: 0.3) {
+                            self.loadingIndicator.alpha = 0
+                            view.alpha = 1
+                        }
+                    }
+                }
+                
+                
+                //adjust mainScrollView height
+                if UIDevice().userInterfaceIdiom == .phone {
+                    switch UIScreen.main.nativeBounds.height {
+                        
+                        /*
+                         height =   imgCollectionViewHeight + hashtagsCollecitonViewHeight (with top padding) +
+                         actionBtnHeight (with top padding) + statsHeight (with top padding) +
+                         profileHeight (with top padding) + membersSectionHeight (with top padding) +
+                         liveHeight (with top padding) + eventsHeight (with top padding) +
+                         postsHeight (with top padding) + footerHeight (with top padding) + bottom padding
+                         */
+                        
+                    case 1136, 1334:
+                        if profile.members.isEmpty {
+                            let height = imgCollectionViewHeight + 43 + 60 + 100 + (profileBgViewHeight + 20) + 140 + 294 + 520 + 86
+                            mainScrollView.contentSize = CGSize(width: screenWidth, height: height)
+                        } else {
+                            let height = imgCollectionViewHeight + 43 + 60 + 100 + (profileBgViewHeight + 20) + 213 + 140 + 294 + 520 + 86
+                            mainScrollView.contentSize = CGSize(width: screenWidth, height: height)
+                        }
+                    case 1920, 2208, 2436, 2688, 1792:
+                        if profile.members.isEmpty {
+                            let height = imgCollectionViewHeight + 43 + 60 + 100 + (profileBgViewHeight + 20) + 140 + 294 + 520 + 106
+                            mainScrollView.contentSize = CGSize(width: screenWidth, height: height)
+                        } else {
+                            let height = imgCollectionViewHeight + 43 + 60 + 100 + (profileBgViewHeight + 20) + 213 + 140 + 294 + 520 + 106
+                            mainScrollView.contentSize = CGSize(width: screenWidth, height: height)
+                        }
+                        
+                    default:
+                        print("unknown")
                     }
                 }
                 
@@ -483,7 +546,7 @@ extension BuskerProfileViewController {
             make.width.equalTo((screenWidth - 40) / 3)
             make.height.equalTo(24)
         }
-        viewsToShowLater.append(statsFollowersCount)
+        delayedViewsToShowLater.append(statsFollowersCount)
         
         statsFollowersLabel.alpha = 0
         statsFollowersLabel.textColor = .lightGray
@@ -497,7 +560,7 @@ extension BuskerProfileViewController {
             make.width.equalTo((screenWidth - 40) / 3)
             make.height.equalTo(12)
         }
-        viewsToShowLater.append(statsFollowersLabel)
+        delayedViewsToShowLater.append(statsFollowersLabel)
         
         statsPostsCount.alpha = 0
         statsPostsCount.textColor = .white
@@ -511,7 +574,7 @@ extension BuskerProfileViewController {
             make.centerX.equalToSuperview()
             make.height.equalTo(24)
         }
-        viewsToShowLater.append(statsPostsCount)
+        delayedViewsToShowLater.append(statsPostsCount)
 
         statsPostsLabel.alpha = 0
         statsPostsLabel.textColor = .lightGray
@@ -525,7 +588,7 @@ extension BuskerProfileViewController {
             make.centerX.equalToSuperview()
             make.height.equalTo(12)
         }
-        viewsToShowLater.append(statsPostsLabel)
+        delayedViewsToShowLater.append(statsPostsLabel)
 
         statsEventsCount.alpha = 0
         statsEventsCount.textColor = .white
@@ -539,7 +602,7 @@ extension BuskerProfileViewController {
             make.centerY.equalToSuperview().offset(-10)
             make.height.equalTo(24)
         }
-        viewsToShowLater.append(statsEventsCount)
+        delayedViewsToShowLater.append(statsEventsCount)
 
         statsEventsLabel.alpha = 0
         statsEventsLabel.textColor = .lightGray
@@ -553,7 +616,7 @@ extension BuskerProfileViewController {
             make.centerY.equalToSuperview().offset(10)
             make.height.equalTo(12)
         }
-        viewsToShowLater.append(statsEventsLabel)
+        delayedViewsToShowLater.append(statsEventsLabel)
         
     }
 }
@@ -899,17 +962,20 @@ extension BuskerProfileViewController: UICollectionViewDelegateFlowLayout, UICol
             return count
             
         case hashtagsCollectionView:
-            let count = (buskerDetails != nil) ? (buskerDetails?.item?.hashtags.count)! : 10
-            return count
+            //let count = (buskerDetails != nil) ? (buskerDetails?.item?.hashtags.count)! : hashtagsArray.count
+            return hashtagsArray.count
             
         case membersCollectionView:
-            return 6 //members.count
+            let count = (buskerDetails != nil) ? (buskerDetails?.item?.members.count)! : 3
+            return count
             
         case eventsCollectionView:
-            return 3
+            let count = (buskerEvents != nil) ? (buskerEvents?.list.count)! : 3
+            return count
             
         case postsCollectionView:
-            return 3
+            let count = (buskerPosts != nil) ? (buskerPosts?.list.count)! : 3
+            return count
             
         default:
             return 4
@@ -935,49 +1001,66 @@ extension BuskerProfileViewController: UICollectionViewDelegateFlowLayout, UICol
                 for hashtag in profile.hashtags {
                     print("cellforitemat \(hashtag)")
                 }
-                cell.hashtag.text = "#\(profile.hashtags[1])"
-            } else {
+                //cell.hashtag.text = "#\(profile.hashtags[indexPath.row])"
                 cell.hashtag.text = "#\(hashtagsArray[indexPath.row])"
+
+            } else {
+                cell.hashtag.text = "(error))"
             }
             return cell
             
         case membersCollectionView:
             let cell = membersCollectionView.dequeueReusableCell(withReuseIdentifier: BuskerProfileMemberCell.reuseIdentifier, for: indexPath) as! BuskerProfileMemberCell
-            cell.icon.image = UIImage(named: "cat")
-            cell.nameLabel.text = "Alex"
-            cell.roleLabel.text = "Vocal"
+            if let profile = buskerDetails?.item {
+                if let url = URL(string: profile.members[indexPath.row].icon!.secureUrl!) {
+                    cell.icon.kf.setImage(with: url, options: [.transition(.fade(0.75))])
+                }
+                cell.nameLabel.text = profile.members[indexPath.row].name
+                cell.roleLabel.text = profile.members[indexPath.row].role
+            }
+
             return cell
             
         case eventsCollectionView:
             let cell = eventsCollectionView.dequeueReusableCell(withReuseIdentifier: BuskerProfileEventCell.reuseIdentifier, for: indexPath) as! BuskerProfileEventCell
-            cell.eventImg.image = UIImage(named: "cat")
-            cell.eventLabel.text = "維港夜景Live"
-            cell.locationLabel.text = "尖沙咀"
-            cell.bookmarkCount.text = "32"
-            cell.timeLabel.text = "3日後"
+            if let events = buskerEvents?.list {
+                if let url = URL(string: events[indexPath.row].images[0].secureUrl!) {
+                    cell.eventImg.kf.setImage(with: url, options: [.transition(.fade(0.75))])
+                }
+                cell.eventLabel.text = events[indexPath.row].title
+                cell.locationLabel.text = events[indexPath.row].address
+                cell.bookmarkCount.text = "123"
+                cell.timeLabel.text = events[indexPath.row].dateTime
+            }
+            
             return cell
             
         case postsCollectionView:
             let cell = postsCollectionView.dequeueReusableCell(withReuseIdentifier: BuskerProfilePostCell.reuseIdentifier, for: indexPath) as! BuskerProfilePostCell
-            cell.buskerIcon.image = UIImage(named: "cat")
-            cell.buskerLabel.text = "RubberBand"
-            cell.timeLabel.text = "10 min"
             
-            let content = "黎緊嘅星期日，下午6點，記得準時黎到我地係西九搞嘅露天音樂會！盡情hi爆！！"
-            if !content.isEmpty {
-                cell.contentLabel.text = content
-            } else {
-                cell.contentLabel.text = content
-                cell.contentLabel.snp.remakeConstraints { (make) -> Void in
-                    make.top.equalTo(cell.buskerLabel.snp.bottom)
-                    make.width.equalTo(UIScreen.main.bounds.width - 120)
-                    make.height.lessThanOrEqualTo(100)
-                    make.centerX.equalToSuperview()
+            if let posts = buskerPosts?.list {
+//                if let url = URL(string: posts[indexPath.row].images[0].secureUrl!) {
+//                    cell.buskerIcon.kf.setImage(with: url, options: [.transition(.fade(0.75))])
+//                }
+                cell.buskerIcon.image = UIImage(named: "cat")
+                cell.buskerLabel.text = posts[indexPath.row].createrProfile?.name
+                cell.timeLabel.text = posts[indexPath.row].publishTime
+                
+                if let content = posts[indexPath.row].content {
+                    cell.contentLabel.text = content
+                } else {
+                    cell.contentLabel.text = ""
+                    cell.contentLabel.snp.remakeConstraints { (make) -> Void in
+                        make.top.equalTo(cell.buskerLabel.snp.bottom)
+                        make.width.equalTo(UIScreen.main.bounds.width - 120)
+                        make.height.lessThanOrEqualTo(100)
+                        make.centerX.equalToSuperview()
+                    }
                 }
+                
+                cell.statsLabel.text = "200個拍手 · 10個留言"
             }
-            
-            cell.statsLabel.text = "200個拍手 · 10個留言"
-            
+
             return cell
             
         default:
@@ -995,7 +1078,8 @@ extension BuskerProfileViewController: UICollectionViewDelegateFlowLayout, UICol
             
         case hashtagsCollectionView:
             if let profile = buskerDetails?.item {
-                let size = (profile.hashtags[1] as NSString).size(withAttributes: nil)
+                //let size = (profile.hashtags[indexPath.row] as NSString).size(withAttributes: nil)
+                let size = (hashtagsArray[indexPath.row] as NSString).size(withAttributes: nil)
                 return CGSize(width: size.width + 32, height: HashtagCell.height)
             } else {
                 let size = (hashtagsArray[indexPath.row] as NSString).size(withAttributes: nil)
@@ -1041,9 +1125,9 @@ extension BuskerProfileViewController: UIScrollViewDelegate {
         // we’re not triggering an implicit animation block for every frame
         // in which the scroll view scrolls
         
-        let frame = pageControl.convert(pageControl.bounds, to: view)
-        print(frame.minY)
-        print(view.safeAreaInsets.top)
+//        let frame = pageControl.convert(pageControl.bounds, to: view)
+//        print(frame.minY)
+//        print(view.safeAreaInsets.top)
         
         if previousStatusBarHidden != shouldHideStatusBar {
             UIView.animate(withDuration: 0.2, animations: {

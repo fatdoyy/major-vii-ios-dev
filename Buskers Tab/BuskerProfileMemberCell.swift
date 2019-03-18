@@ -24,6 +24,7 @@ class BuskerProfileMemberCell: UICollectionViewCell {
         backgroundColor = .clear
         
         icon.layer.cornerRadius = 36 //height is 72
+        icon.backgroundColor = .darkGray
         
         nameLabel.textColor = .white
         nameLabel.text = "Default"

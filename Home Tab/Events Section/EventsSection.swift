@@ -45,6 +45,8 @@ class EventsSection: UICollectionViewCell {
         
         viewAllBtn.setTitle("VIEW ALL", for: .normal)
         viewAllBtn.setTitleColor(.whiteText75Alpha(), for: .normal)
+        viewAllBtn.backgroundColor = UIColor.darkGray
+        viewAllBtn.layer.cornerRadius = 13.5
         
         if let layout = eventsCollectionView.collectionViewLayout as? BouncyLayout {
             layout.scrollDirection = .horizontal
@@ -132,9 +134,6 @@ extension EventsSection: UICollectionViewDataSource, UICollectionViewDelegate, U
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//        let detailsVc = EventDetailsViewController()
-//        detailsVc.eventsId = upcomingEvents[indexPath.row].id ?? ""
-        //print(upcomingEvents[indexPath.row].id ?? "")
         delegate?.cellTapped(eventId: upcomingEvents[indexPath.row].id ?? "")
     }
 }
