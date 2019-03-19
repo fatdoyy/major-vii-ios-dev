@@ -1071,20 +1071,37 @@ extension BuskerProfileViewController: UICollectionViewDelegateFlowLayout, UICol
 
     }
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        switch collectionView {
+        case imgCollectionView:
+            print("Img \(indexPath.row) tapped")
+            
+        case hashtagsCollectionView:
+            print("Hashtag \(indexPath.row) tapped")
+            
+        case membersCollectionView:
+            print("Member \(indexPath.row) tapped")
+
+        case eventsCollectionView:
+            EventDetailsViewController.push(fromView: self, eventId: (buskerEvents?.list[indexPath.row].id)!)
+            
+        case postsCollectionView:
+            print("Post \(indexPath.row) tapped")
+
+        default:
+            print("not collection view")
+
+        }
+    }
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         switch collectionView {
         case imgCollectionView:
             return CGSize(width: screenWidth, height: imgCollectionViewHeight)
             
         case hashtagsCollectionView:
-            if let profile = buskerDetails?.item {
-                //let size = (profile.hashtags[indexPath.row] as NSString).size(withAttributes: nil)
-                let size = (hashtagsArray[indexPath.row] as NSString).size(withAttributes: nil)
-                return CGSize(width: size.width + 32, height: HashtagCell.height)
-            } else {
-                let size = (hashtagsArray[indexPath.row] as NSString).size(withAttributes: nil)
-                return CGSize(width: size.width + 32, height: HashtagCell.height)
-            }
+            let size = (hashtagsArray[indexPath.row] as NSString).size(withAttributes: nil)
+            return CGSize(width: size.width + 32, height: HashtagCell.height)
             
         case membersCollectionView:
             return CGSize(width: BuskerProfileMemberCell.width, height: BuskerProfileMemberCell.height)
@@ -1138,7 +1155,7 @@ extension BuskerProfileViewController: UIScrollViewDelegate {
     }
 }
 
-// MARK: function to push this view controller
+//MARK: Function to push this view controller
 extension BuskerProfileViewController {
     static func push(fromView: UIViewController, buskerName: String, buskerId: String){
         let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
@@ -1153,14 +1170,14 @@ extension BuskerProfileViewController {
     }
 }
 
-// MARK: swipe pop gesture
+//MARK: Swipe pop gesture
 extension BuskerProfileViewController: UIGestureRecognizerDelegate{
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return true
     }
 }
 
-//uibutton subclass to get youtube id
+//UIButton subclass to get youtube id
 class VidButton: UIButton {
     var videoIdentifier: String?
 }

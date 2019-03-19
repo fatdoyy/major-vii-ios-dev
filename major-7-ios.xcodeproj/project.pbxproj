@@ -75,6 +75,9 @@
 		96799FE4218AF8E70074C828 /* Hashtag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96799FE3218AF8E60074C828 /* Hashtag.swift */; };
 		96799FE6218C5A280074C828 /* ImageOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96799FE5218C5A270074C828 /* ImageOverlay.swift */; };
 		967BD33D223F800000469CF9 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 967BD33C223F800000469CF9 /* Post.swift */; };
+		967BD33F2240C00300469CF9 /* PinterestLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 967BD33E2240C00300469CF9 /* PinterestLayout.swift */; };
+		967BD3422240E60200469CF9 /* BuskerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 967BD3402240E60200469CF9 /* BuskerCell.swift */; };
+		967BD3432240E60200469CF9 /* BuskerCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 967BD3412240E60200469CF9 /* BuskerCell.xib */; };
 		96862EB9219ACE1F00F709B0 /* EventDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96862EB8219ACE1F00F709B0 /* EventDetailsViewController.swift */; };
 		96862EBB219AD8AC00F709B0 /* TabBarHiding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96862EBA219AD8AC00F709B0 /* TabBarHiding.swift */; };
 		96AC42F222327F9600F9D62C /* BuskerProfileMemberCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96AC42F022327F9600F9D62C /* BuskerProfileMemberCell.swift */; };
@@ -193,6 +196,9 @@
 		96799FE3218AF8E60074C828 /* Hashtag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hashtag.swift; sourceTree = "<group>"; };
 		96799FE5218C5A270074C828 /* ImageOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageOverlay.swift; sourceTree = "<group>"; };
 		967BD33C223F800000469CF9 /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
+		967BD33E2240C00300469CF9 /* PinterestLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinterestLayout.swift; sourceTree = "<group>"; };
+		967BD3402240E60200469CF9 /* BuskerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuskerCell.swift; sourceTree = "<group>"; };
+		967BD3412240E60200469CF9 /* BuskerCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BuskerCell.xib; sourceTree = "<group>"; };
 		96862EB8219ACE1F00F709B0 /* EventDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDetailsViewController.swift; sourceTree = "<group>"; };
 		96862EBA219AD8AC00F709B0 /* TabBarHiding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarHiding.swift; sourceTree = "<group>"; };
 		96AC42F022327F9600F9D62C /* BuskerProfileMemberCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuskerProfileMemberCell.swift; sourceTree = "<group>"; };
@@ -332,6 +338,8 @@
 			isa = PBXGroup;
 			children = (
 				966A6CBE217DBD7F00DF872F /* BuskersViewController.swift */,
+				967BD3402240E60200469CF9 /* BuskerCell.swift */,
+				967BD3412240E60200469CF9 /* BuskerCell.xib */,
 				965798B72227B20300A03BE9 /* Busker Profile View */,
 			);
 			path = "Buskers Tab";
@@ -410,6 +418,7 @@
 				9662425521F25F1900EF7695 /* NotificationNames.swift */,
 				96C9899B221FFA4100170609 /* UIScrollView.swift */,
 				96C9899D2220307600170609 /* UILabel.swift */,
+				967BD33E2240C00300469CF9 /* PinterestLayout.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -628,6 +637,7 @@
 				9620025A21E5CED10055D070 /* gif0.gif in Resources */,
 				9620025821E4F58E0055D070 /* gif11.gif in Resources */,
 				9620022121E3B17A0055D070 /* GoogleService-Info.plist in Resources */,
+				967BD3432240E60200469CF9 /* BuskerCell.xib in Resources */,
 				96C5542F2192C6730065D70A /* FollowingCell.xib in Resources */,
 				96DEB1EE22378446005F87F4 /* BuskerProfileEventCell.xib in Resources */,
 				965838C321831866000FE8B0 /* NewsCellType5.xib in Resources */,
@@ -828,6 +838,7 @@
 				96FAF247223A1D7300DF23B9 /* BuskerService.swift in Sources */,
 				96C5541B21918CB90065D70A /* TrendingCell.swift in Sources */,
 				96862EBB219AD8AC00F709B0 /* TabBarHiding.swift in Sources */,
+				967BD3422240E60200469CF9 /* BuskerCell.swift in Sources */,
 				9620021821DDFC320055D070 /* LoginViewController.swift in Sources */,
 				96C9899522169CEB00170609 /* NewsDetailViewController.swift in Sources */,
 				966A6CCC217DE6DD00DF872F /* EventsSection.swift in Sources */,
@@ -868,6 +879,7 @@
 				96625F7F21C8C8030086A2B2 /* EventDetails.swift in Sources */,
 				966A6CC5217DBDC400DF872F /* SettingsViewController.swift in Sources */,
 				96799FE4218AF8E70074C828 /* Hashtag.swift in Sources */,
+				967BD33F2240C00300469CF9 /* PinterestLayout.swift in Sources */,
 				96C554312192CBCE0065D70A /* GlobalCornerRadius.swift in Sources */,
 				96C55414219044D00065D70A /* EventsListViewController.swift in Sources */,
 				96B0BE4A21F056B4003C9BA5 /* LocalKeys.swift in Sources */,

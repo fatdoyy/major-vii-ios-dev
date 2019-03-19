@@ -70,19 +70,17 @@
             <objects>
                 <viewController id="ISg-XY-dAr" customClass="BuskersViewController" customModule="major_7_ios" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="lhR-5D-GAr">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="724"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="3Xa-nK-xVa"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="" image="tabbar_buskers" id="Wfs-Ce-3lu">
-                        <inset key="imageInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="-10"/>
-                    </tabBarItem>
+                    <navigationItem key="navigationItem" id="qV0-jt-4Ei"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JZZ-Dv-j0t" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="937" y="-986"/>
+            <point key="canvasLocation" x="1879.2" y="-986.45320197044339"/>
         </scene>
         <!--Agents View Controller-->
         <scene sceneID="apQ-qF-xM3">
@@ -172,7 +170,7 @@
                     </tabBar>
                     <connections>
                         <segue destination="24W-mU-zt7" kind="relationship" relationship="viewControllers" id="mEj-n3-OD1"/>
-                        <segue destination="ISg-XY-dAr" kind="relationship" relationship="viewControllers" id="5Gy-VL-jnl"/>
+                        <segue destination="Tg2-OL-Zj8" kind="relationship" relationship="viewControllers" id="5Gy-VL-jnl"/>
                         <segue destination="JNt-6k-y41" kind="relationship" relationship="viewControllers" id="zI7-hD-bDb"/>
                         <segue destination="wTP-qq-E8x" kind="relationship" relationship="viewControllers" id="AZQ-vC-L3I"/>
                         <segue destination="BYZ-38-t0r" kind="relationship" relationship="viewControllers" id="a8o-sS-84h"/>
@@ -292,7 +290,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SId-EQ-EOF" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2644" y="-986.45320197044339"/>
+            <point key="canvasLocation" x="3586.4000000000001" y="-986.45320197044339"/>
         </scene>
         <!--Event Details View Controller-->
         <scene sceneID="5GU-zy-LRZ">
@@ -389,6 +387,27 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6Jk-na-5c4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="919.20000000000005" y="-1675.1231527093596"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="hfL-WE-b47">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Tg2-OL-Zj8" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="" image="tabbar_buskers" id="Wfs-Ce-3lu">
+                        <inset key="imageInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="-10"/>
+                    </tabBarItem>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translucent="NO" id="bf9-3X-Fm3">
+                        <rect key="frame" x="0.0" y="44" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="ISg-XY-dAr" kind="relationship" relationship="rootViewController" id="ahv-qq-6qR"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="DcE-3S-lSV" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="936.79999999999995" y="-986.45320197044339"/>
         </scene>
     </scenes>
     <resources>
