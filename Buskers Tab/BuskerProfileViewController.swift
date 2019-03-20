@@ -233,9 +233,14 @@ extension BuskerProfileViewController {
                     make.height.equalTo(28)
                 }
 
+                for genre in profile.genres {
+                    hashtagsArray.append(genre)
+                }
+                
                 for hashtag in profile.hashtags {
                     hashtagsArray.append(hashtag)
                 }
+                
                 hashtagsCollectionView.reloadData()
                 
                 descString = profile.desc!
@@ -1164,7 +1169,6 @@ extension BuskerProfileViewController {
         profileVC.buskerId = buskerId
         profileVC.buskerName = buskerName
         
-        fromView.navigationItem.title = ""
         fromView.navigationController?.hero.navigationAnimationType = .autoReverse(presenting: .zoom)
         fromView.navigationController?.pushViewController(profileVC, animated: true)
     }

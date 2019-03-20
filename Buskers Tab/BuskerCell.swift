@@ -12,8 +12,8 @@ class BuskerCell: UICollectionViewCell {
 
     static let reuseIdentifier = "buskerCell"
     
+    @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var imgView: UIImageView!
-    @IBOutlet weak var labelBgView: UIView!
     @IBOutlet weak var buskerName: UILabel!
     @IBOutlet weak var genre: UILabel!
     
@@ -21,14 +21,17 @@ class BuskerCell: UICollectionViewCell {
         super.awakeFromNib()
         layer.cornerRadius = GlobalCornerRadius.value
         
+        containerView.backgroundColor = .darkGray()
+        
         imgView.backgroundColor = .darkGray
         imgView.contentMode = .scaleAspectFill
         imgView.layer.cornerRadius = GlobalCornerRadius.value
         imgView.clipsToBounds = true
         
-        labelBgView.backgroundColor = .orange
-        
+        buskerName.numberOfLines = 0
         buskerName.textColor = .white
+        
+        genre.numberOfLines = 1
         genre.textColor = .white
     }
 

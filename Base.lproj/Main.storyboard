@@ -19,7 +19,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="x31-Mb-qyp">
-                                <rect key="frame" x="164" y="391" width="46" height="30"/>
+                                <rect key="frame" x="0.0" y="391" width="375" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="LP8-Q6-BEG"/>
+                                </constraints>
                                 <state key="normal" title="Button"/>
                                 <connections>
                                     <action selector="didTapLogInOrOutBtn:" destination="BYZ-38-t0r" eventType="touchUpInside" id="qya-HM-itc"/>
@@ -28,10 +31,10 @@
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="x31-Mb-qyp" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="164" id="IZg-hj-n7e"/>
-                            <constraint firstItem="x31-Mb-qyp" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="347" id="Lr4-1R-Kes"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="x31-Mb-qyp" secondAttribute="bottom" constant="308" id="ftj-1w-lzL"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="x31-Mb-qyp" secondAttribute="trailing" constant="165" id="njj-Ck-96t"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="x31-Mb-qyp" secondAttribute="bottom" constant="308" id="S1O-Vc-xXr"/>
+                            <constraint firstItem="x31-Mb-qyp" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="347" id="Zet-ZF-69U"/>
+                            <constraint firstItem="x31-Mb-qyp" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="imh-iw-AZK"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="x31-Mb-qyp" secondAttribute="trailing" id="khY-xW-NoK"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
@@ -77,6 +80,9 @@
                     </view>
                     <navigationItem key="navigationItem" id="qV0-jt-4Ei"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="isHeroEnabled" value="YES"/>
+                    </userDefinedRuntimeAttributes>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JZZ-Dv-j0t" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -401,6 +407,9 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="isHeroEnabled" value="YES"/>
+                    </userDefinedRuntimeAttributes>
                     <connections>
                         <segue destination="ISg-XY-dAr" kind="relationship" relationship="rootViewController" id="ahv-qq-6qR"/>
                     </connections>

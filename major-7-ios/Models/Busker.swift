@@ -26,7 +26,7 @@ class BuskerProfileDetails: Mappable {
     var hashtags = [String]()
     var verified: Bool?
     var desc: String?
-    var musicTypes = [String]()
+    var genres = [String]()
     var coverImages = [Image]()
     var members = [BuskerMember]()
     var igId: String?
@@ -40,7 +40,7 @@ class BuskerProfileDetails: Mappable {
         hashtags    <- map["hashtags"]
         verified    <- map["verified"]
         desc        <- map["desc"]
-        musicTypes  <- map["music_types"]
+        genres  <- map["music_types"]
         coverImages <- map["cover_images"]
         members     <- map["members"]
         igId        <- map["instagram_id"]

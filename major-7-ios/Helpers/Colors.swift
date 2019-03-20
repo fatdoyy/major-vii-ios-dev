@@ -10,7 +10,6 @@ import UIKit
 import DynamicColor
 
 // MARK: UIColor extension
-
 extension UIColor {
     
     //General UI Colors
@@ -98,5 +97,15 @@ extension Array where Element == UIColor {
         }
         
         return cgColorArray
+    }
+}
+
+//random UIColor
+extension UIColor {
+    static var random: UIColor {
+        return UIColor(red: .random(in: 0...1),
+                       green: .random(in: 0...1),
+                       blue: .random(in: 0...1),
+                       alpha: 1.0)
     }
 }
