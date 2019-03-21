@@ -67,6 +67,8 @@ class TrendingCell: UICollectionViewCell {
         checkShouldDisplayIndicator()
         
         let animation = SkeletonAnimationBuilder().makeSlidingAnimation(withDirection: .leftRight, duration: 2)
+
+        SkeletonAppearance.default.multilineHeight = 15
         
         for view in skeletonViews{
             view.isSkeletonable = true

@@ -71,7 +71,7 @@
         <!--Buskers View Controller-->
         <scene sceneID="82B-WS-XpR">
             <objects>
-                <viewController id="ISg-XY-dAr" customClass="BuskersViewController" customModule="major_7_ios" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="buskersViewVC" id="ISg-XY-dAr" customClass="BuskersViewController" customModule="major_7_ios" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="lhR-5D-GAr">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="724"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -87,6 +87,21 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JZZ-Dv-j0t" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1879.2" y="-986.45320197044339"/>
+        </scene>
+        <!--Buskers Search View Controller-->
+        <scene sceneID="TZW-Ic-l0U">
+            <objects>
+                <viewController storyboardIdentifier="buskersSearchVC" id="nw1-Ry-a7I" customClass="BuskersSearchViewController" customModule="major_7_ios" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="tRc-Rs-LQI">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="ptp-5u-YEE"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Nqf-V7-biu" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2649" y="-989"/>
         </scene>
         <!--Agents View Controller-->
         <scene sceneID="apQ-qF-xM3">
@@ -296,7 +311,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SId-EQ-EOF" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3586.4000000000001" y="-986.45320197044339"/>
+            <point key="canvasLocation" x="3430" y="-989"/>
         </scene>
         <!--Event Details View Controller-->
         <scene sceneID="5GU-zy-LRZ">

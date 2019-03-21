@@ -38,4 +38,16 @@ class TabBar {
             print("frame resetted")
         }
     }
+    
+    static func toggle(from: UIViewController, hidden: Bool, animated: Bool) {
+        let tabBar = from.tabBarController?.tabBar
+        let offset = (hidden ? UIScreen.main.bounds.size.height : UIScreen.main.bounds.size.height - (tabBar?.frame.size.height)! )
+        if offset == tabBar?.frame.origin.y { return }
+        //print("Changing tab bar origin y position...")
+        
+        let duration: TimeInterval = (animated ? 0.4 : 0.0)
+        UIView.animate(withDuration: duration,
+                       animations: {tabBar!.frame.origin.y = offset},
+                       completion:nil)
+    }
 }

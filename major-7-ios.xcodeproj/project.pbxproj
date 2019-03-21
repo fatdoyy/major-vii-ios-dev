@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		20A96B2F0DADE6B405F6D3CE /* Pods_major_7_ios.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 72E5F17BF3B3C6876EB735D2 /* Pods_major_7_ios.framework */; };
 		960A4760219AA8FE00780AD4 /* HapticFeedback.swift in Sources */ = {isa = PBXBuildFile; fileRef = 960A475F219AA8FE00780AD4 /* HapticFeedback.swift */; };
+		960B54BE22437C0700FEA079 /* BuskersSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 960B54BD22437C0700FEA079 /* BuskersSearchViewController.swift */; };
 		9620021821DDFC320055D070 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9620021721DDFC320055D070 /* LoginViewController.swift */; };
 		9620021A21DDFDC20055D070 /* LoginView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9620021921DDFDC20055D070 /* LoginView.xib */; };
 		9620021C21DDFDED0055D070 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9620021B21DDFDED0055D070 /* LoginView.swift */; };
@@ -79,7 +80,7 @@
 		967BD3422240E60200469CF9 /* BuskerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 967BD3402240E60200469CF9 /* BuskerCell.swift */; };
 		967BD3432240E60200469CF9 /* BuskerCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 967BD3412240E60200469CF9 /* BuskerCell.xib */; };
 		96862EB9219ACE1F00F709B0 /* EventDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96862EB8219ACE1F00F709B0 /* EventDetailsViewController.swift */; };
-		96862EBB219AD8AC00F709B0 /* TabBarHiding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96862EBA219AD8AC00F709B0 /* TabBarHiding.swift */; };
+		96862EBB219AD8AC00F709B0 /* TabBarToggle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96862EBA219AD8AC00F709B0 /* TabBarToggle.swift */; };
 		96AC42F222327F9600F9D62C /* BuskerProfileMemberCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96AC42F022327F9600F9D62C /* BuskerProfileMemberCell.swift */; };
 		96AC42F322327F9600F9D62C /* BuskerProfileMemberCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96AC42F122327F9600F9D62C /* BuskerProfileMemberCell.xib */; };
 		96B0BE4021EDF452003C9BA5 /* HideKeyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B0BE3F21EDF452003C9BA5 /* HideKeyboard.swift */; };
@@ -130,6 +131,7 @@
 		72E5F17BF3B3C6876EB735D2 /* Pods_major_7_ios.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_major_7_ios.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		85E2A7C70D0DC04C0984E968 /* Pods-major-7-ios.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-major-7-ios.debug.xcconfig"; path = "Pods/Target Support Files/Pods-major-7-ios/Pods-major-7-ios.debug.xcconfig"; sourceTree = "<group>"; };
 		960A475F219AA8FE00780AD4 /* HapticFeedback.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticFeedback.swift; sourceTree = "<group>"; };
+		960B54BD22437C0700FEA079 /* BuskersSearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuskersSearchViewController.swift; sourceTree = "<group>"; };
 		9620021721DDFC320055D070 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		9620021921DDFDC20055D070 /* LoginView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LoginView.xib; sourceTree = "<group>"; };
 		9620021B21DDFDED0055D070 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
@@ -200,7 +202,7 @@
 		967BD3402240E60200469CF9 /* BuskerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuskerCell.swift; sourceTree = "<group>"; };
 		967BD3412240E60200469CF9 /* BuskerCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BuskerCell.xib; sourceTree = "<group>"; };
 		96862EB8219ACE1F00F709B0 /* EventDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDetailsViewController.swift; sourceTree = "<group>"; };
-		96862EBA219AD8AC00F709B0 /* TabBarHiding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarHiding.swift; sourceTree = "<group>"; };
+		96862EBA219AD8AC00F709B0 /* TabBarToggle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarToggle.swift; sourceTree = "<group>"; };
 		96AC42F022327F9600F9D62C /* BuskerProfileMemberCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuskerProfileMemberCell.swift; sourceTree = "<group>"; };
 		96AC42F122327F9600F9D62C /* BuskerProfileMemberCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BuskerProfileMemberCell.xib; sourceTree = "<group>"; };
 		96B0BE3F21EDF452003C9BA5 /* HideKeyboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HideKeyboard.swift; sourceTree = "<group>"; };
@@ -340,6 +342,7 @@
 				966A6CBE217DBD7F00DF872F /* BuskersViewController.swift */,
 				967BD3402240E60200469CF9 /* BuskerCell.swift */,
 				967BD3412240E60200469CF9 /* BuskerCell.xib */,
+				960B54BD22437C0700FEA079 /* BuskersSearchViewController.swift */,
 				965798B72227B20300A03BE9 /* Busker Profile View */,
 			);
 			path = "Buskers Tab";
@@ -407,7 +410,7 @@
 				96C554302192CBCE0065D70A /* GlobalCornerRadius.swift */,
 				96C5544F219438F00065D70A /* PagedCollectionViewLayout.swift */,
 				960A475F219AA8FE00780AD4 /* HapticFeedback.swift */,
-				96862EBA219AD8AC00F709B0 /* TabBarHiding.swift */,
+				96862EBA219AD8AC00F709B0 /* TabBarToggle.swift */,
 				96EA375521B66BBC00E9DB74 /* ImageViewerHelper.swift */,
 				9658789B21C0FC70005B491A /* FloatyBtn.swift */,
 				96625F7C21C7ABFE0086A2B2 /* GradientLayer.swift */,
@@ -834,10 +837,11 @@
 				9620025E21E5E5490055D070 /* UIView+Xib.swift in Sources */,
 				96625F7B21C793DA0086A2B2 /* EventService.swift in Sources */,
 				965798B52226706C00A03BE9 /* BuskerProfileImgCell.swift in Sources */,
+				960B54BE22437C0700FEA079 /* BuskersSearchViewController.swift in Sources */,
 				965838BE218317CE000FE8B0 /* NewsCellType4.swift in Sources */,
 				96FAF247223A1D7300DF23B9 /* BuskerService.swift in Sources */,
 				96C5541B21918CB90065D70A /* TrendingCell.swift in Sources */,
-				96862EBB219AD8AC00F709B0 /* TabBarHiding.swift in Sources */,
+				96862EBB219AD8AC00F709B0 /* TabBarToggle.swift in Sources */,
 				967BD3422240E60200469CF9 /* BuskerCell.swift in Sources */,
 				9620021821DDFC320055D070 /* LoginViewController.swift in Sources */,
 				96C9899522169CEB00170609 /* NewsDetailViewController.swift in Sources */,

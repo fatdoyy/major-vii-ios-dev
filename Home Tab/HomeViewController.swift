@@ -97,7 +97,7 @@ class HomeViewController: UIViewController, UIGestureRecognizerDelegate {
 
 }
 
-// MARK: UICollectionView Data Source
+// MARK: UICollectionView Delegate
 extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource, UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -259,7 +259,19 @@ extension HomeViewController: EventsSectionDelegate {
     }
 }
 
-//Scroll to top when tabbar icon is tapped
+//MARK: UIScrollView Delegate {
+extension HomeViewController: UIScrollViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        //toggle tab bar
+        if scrollView.panGestureRecognizer.translation(in: scrollView).y < 0 {
+            TabBar.toggle(from: self, hidden: true, animated: true)
+        } else {
+            TabBar.toggle(from: self, hidden: false, animated: true)
+        }
+    }
+}
+
+//MARK: Scroll to top when tabbar icon is tapped
 extension HomeViewController: UITabBarControllerDelegate {
     func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
         let tabBarIndex = tabBarController.selectedIndex
@@ -271,6 +283,7 @@ extension HomeViewController: UITabBarControllerDelegate {
         }
     }
 }
+
 
 //avoid preferredStatusBarStyle not being called
 extension UINavigationController {
