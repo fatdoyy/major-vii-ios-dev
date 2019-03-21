@@ -13,6 +13,8 @@ class BuskersViewController: UIViewController {
     var screenWidth: CGFloat = UIScreen.main.bounds.width
     var screenHeight: CGFloat = UIScreen.main.bounds.height
     var mainCollectionView: UICollectionView!
+
+    let searchController = UISearchController(searchResultsController: UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "buskersSearchVC") as! BuskersSearchViewController)
     
     let img: [UIImage] = [UIImage(named: "gif9_thumbnail")!, UIImage(named: "gif10_thumbnail")!, UIImage(named: "gif11_thumbnail")!, UIImage(named: "cat")!, UIImage(named: "gif0_thumbnail")!, UIImage(named: "gif1_thumbnail")!, UIImage(named: "gif2_thumbnail")!, UIImage(named: "gif3_thumbnail")!, UIImage(named: "gif4_thumbnail")!, UIImage(named: "gif5_thumbnail")!, UIImage(named: "gif6_thumbnail")!, UIImage(named: "gif7_thumbnail")!, UIImage(named: "gif8_thumbnail")!]
     
@@ -83,9 +85,6 @@ extension BuskersViewController {
                 print("Can't get status bar?")
             }
         }
-
-        let searchVC = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "buskersSearchVC") as! BuskersSearchViewController
-        let searchController = UISearchController(searchResultsController: searchVC)
         
         searchController.searchResultsUpdater = self
         searchController.searchBar.tintColor = .white
@@ -93,6 +92,8 @@ extension BuskersViewController {
         searchController.searchBar.isTranslucent = true
         searchController.searchBar.backgroundImage = UIImage()
         searchController.searchBar.backgroundColor = UIColor.darkGray().withAlphaComponent(0.8)
+        searchController.searchResultsController?.view.addObserver(self, forKeyPath: "hidden", options: [], context: nil)
+        
         
         UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).defaultTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
         
@@ -109,6 +110,16 @@ extension BuskersViewController {
 
     }
 
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        
+        if let someView: UIView = object as! UIView? {
+            if (someView == self.searchController.searchResultsController?.view && (keyPath == "hidden") && (searchController.searchResultsController?.view.isHidden)! && searchController.searchBar.isFirstResponder) {
+                searchController.searchResultsController?.view.isHidden = false
+            }
+            
+        }
+    }
+    
 }
 
 //MARK: UI setup
@@ -159,11 +170,32 @@ extension BuskersViewController: UICollectionViewDelegate, UICollectionViewDataS
 }
 
 //MARK: UISearchResultsUpdating Delegate
-extension BuskersViewController: UISearchResultsUpdating {
+extension BuskersViewController: UISearchResultsUpdating, UISearchControllerDelegate, UISearchBarDelegate {
     func updateSearchResults(for searchController: UISearchController) {
         searchController.searchResultsController?.view.isHidden = false
     }
+    
+    func willPresentSearchController(_ searchController: UISearchController) {
+        searchController.searchResultsController?.view.isHidden = false
+    }
+    
+    func didPresentSearchController(_ searchController: UISearchController) {
+        TabBar.hide(from: self)
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if (searchText.count == 0) {
+            searchController.searchResultsController?.view.isHidden = false
+        }
+    }
 
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+        searchController.searchResultsController?.view.isHidden = false
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        TabBar.show(from: self)
+    }
 }
 
 //MARK: UIScrollView Delegate

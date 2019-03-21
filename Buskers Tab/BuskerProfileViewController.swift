@@ -178,7 +178,7 @@ class BuskerProfileViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        TabBar.hide(rootView: self)
+        TabBar.hide(from: self)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -188,7 +188,7 @@ class BuskerProfileViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        TabBar.show(rootView: self)
+        TabBar.show(from: self)
     }
     
 }

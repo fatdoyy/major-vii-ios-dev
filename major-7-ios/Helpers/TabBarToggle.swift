@@ -10,26 +10,26 @@ import UIKit
 
 class TabBar {
     
-    static func hide(rootView: UIViewController){
-        var frame = rootView.tabBarController?.tabBar.frame
-        if frame?.minY != rootView.view.frame.maxY {
+    static func hide(from: UIViewController){
+        var frame = from.tabBarController?.tabBar.frame
+        if frame?.minY != from.view.frame.maxY {
             let newY = UIScreen.main.bounds.height + (frame?.size.height)!
             frame?.origin.y = newY
             UIView.animate(withDuration: 0.5, animations: {
-                rootView.tabBarController?.tabBar.frame = frame!
+                from.tabBarController?.tabBar.frame = frame!
             })
         }
     }
     
-    static func show(rootView: UIViewController){
-        var frame = rootView.tabBarController?.tabBar.frame
+    static func show(from: UIViewController){
+        var frame = from.tabBarController?.tabBar.frame
         let newY = UIScreen.main.bounds.height - (frame?.size.height)!
         let originY = (frame?.minY)! - (frame?.height)!
-        if frame?.minY != rootView.view.frame.maxY {
+        if frame?.minY != from.view.frame.maxY {
             
             frame?.origin.y = newY
             UIView.animate(withDuration: 0.5, animations: {
-                rootView.tabBarController?.tabBar.frame = frame!
+                from.tabBarController?.tabBar.frame = frame!
             })
             
         } else{

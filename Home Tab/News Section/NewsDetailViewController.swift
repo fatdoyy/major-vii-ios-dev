@@ -102,14 +102,14 @@ class NewsDetailViewController: UIViewController {
         navigationController?.navigationBar.shadowImage = UIImage()
         //navigationController?.navigationBar.barTintColor = .darkGray()
         navigationController?.navigationBar.isTranslucent = true
-        TabBar.hide(rootView: self)
+        TabBar.hide(from: self)
         
         loadingIndicator.startAnimating()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        TabBar.show(rootView: self)
+        TabBar.show(from: self)
     }
 
     private func setupLeftBarItems(){

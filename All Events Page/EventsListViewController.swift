@@ -56,7 +56,7 @@ class EventsListViewController: ScrollingNavigationViewController, UIGestureReco
         navigationController?.navigationBar.shadowImage = UIImage()
         navigationController?.navigationBar.barTintColor = .darkGray()
         navigationController?.navigationBar.isTranslucent = false
-        TabBar.hide(rootView: self)
+        TabBar.hide(from: self)
         
         NotificationCenter.default.setObserver(self, selector: #selector(refreshEventListVC), name: .refreshEventListVC, object: nil)
         
@@ -107,7 +107,7 @@ class EventsListViewController: ScrollingNavigationViewController, UIGestureReco
             tabBarController?.tabBar.isHidden = false
         }
 
-        TabBar.show(rootView: self)
+        TabBar.show(from: self)
     }
     
     override func viewDidDisappear(_ animated: Bool) {

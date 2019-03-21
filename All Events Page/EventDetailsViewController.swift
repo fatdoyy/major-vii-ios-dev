@@ -93,7 +93,7 @@ class EventDetailsViewController: UIViewController {
         navigationController?.navigationBar.shadowImage = UIImage()
         //navigationController?.navigationBar.barTintColor = .darkGray()
         navigationController?.navigationBar.isTranslucent = true
-        TabBar.hide(rootView: self)
+        TabBar.hide(from: self)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -112,7 +112,7 @@ class EventDetailsViewController: UIViewController {
             NotificationCenter.default.post(name: .refreshBookmarkedSectionFromDetails, object: nil, userInfo: ["check_id": eventId])
         }
             
-        TabBar.show(rootView: self)
+        TabBar.show(from: self)
     }
     
     private func getDetails(eventId: String){
