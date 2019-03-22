@@ -21,6 +21,9 @@ extension Notification.Name {
     static let removeBookmarkedSectionObservers = Notification.Name("removeBookmarkedSectionObservers")
     static let removeTrendingSectionObservers = Notification.Name("removeTrendingSectionObservers")
     
+    //Search controller notifications
+    static let showSCViews = Notification.Name("showSCViews")
+    static let hideSCViews = Notification.Name("hideSCViews")
     
 }
 

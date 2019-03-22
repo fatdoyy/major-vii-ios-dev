@@ -9,6 +9,8 @@
 import UIKit
 
 class BuskersViewController: UIViewController {
+    //gesture for swipe-pop
+    var gesture: UIGestureRecognizer?
     
     var screenWidth: CGFloat = UIScreen.main.bounds.width
     var screenHeight: CGFloat = UIScreen.main.bounds.height
@@ -30,10 +32,11 @@ class BuskersViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        gesture?.delegate = self
         view.backgroundColor = .darkGray()
         
         for image in img {
-            scaledImgArray.append(scaleImage(image: image, maxWidth: 220))
+            scaledImgArray.append(image.scaleImage(maxWidth: 220))
             randomColor.append(UIColor.random)
         }
         
@@ -56,6 +59,8 @@ class BuskersViewController: UIViewController {
             }
         }
     }
+    
+
     
 }
 
@@ -87,6 +92,7 @@ extension BuskersViewController {
         }
         
         searchController.searchResultsUpdater = self
+        searchController.searchBar.delegate = self
         searchController.searchBar.tintColor = .white
         searchController.searchBar.barTintColor = .white
         searchController.searchBar.isTranslucent = true
@@ -186,9 +192,14 @@ extension BuskersViewController: UISearchResultsUpdating, UISearchControllerDele
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         if (searchText.count == 0) {
             searchController.searchResultsController?.view.isHidden = false
+            NotificationCenter.default.post(name: .showSCViews, object: nil)
+        } else {
+            NotificationCenter.default.post(name: .hideSCViews, object: nil)
         }
+        
     }
 
+    
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
         searchController.searchResultsController?.view.isHidden = false
     }
@@ -211,13 +222,9 @@ extension BuskersViewController: UIScrollViewDelegate {
     
 }
 
-//MARK: Scale image for UICollectionView
-extension BuskersViewController {
-    func scaleImage(image: UIImage, maxWidth: CGFloat) -> UIImage {
-        let rect: CGRect = CGRect(x: 0, y: 0, width: image.size.width, height: image.size.height)
-        let cgImage: CGImage = image.cgImage!.cropping(to: rect)!
-        
-        return UIImage(cgImage: cgImage, scale: image.size.width / maxWidth, orientation: image.imageOrientation)
+//MARK: Swipe pop gesture
+extension BuskersViewController: UIGestureRecognizerDelegate{
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
     }
 }
-
