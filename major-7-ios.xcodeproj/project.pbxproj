@@ -78,6 +78,10 @@
 		967B562C2244B68D006F0AF9 /* GenreCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 967B562A2244B68D006F0AF9 /* GenreCell.xib */; };
 		967B562E2244D42E006F0AF9 /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 967B562D2244D42E006F0AF9 /* UIImage.swift */; };
 		967B56302244E80C006F0AF9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 967B562F2244E80A006F0AF9 /* Assets.xcassets */; };
+		967B5633224898A2006F0AF9 /* SearchHistoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 967B5631224898A2006F0AF9 /* SearchHistoryCell.swift */; };
+		967B5634224898A2006F0AF9 /* SearchHistoryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 967B5632224898A2006F0AF9 /* SearchHistoryCell.xib */; };
+		967B56372248C2E3006F0AF9 /* SearchResultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 967B56352248C2E2006F0AF9 /* SearchResultCell.swift */; };
+		967B56382248C2E3006F0AF9 /* SearchResultCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 967B56362248C2E2006F0AF9 /* SearchResultCell.xib */; };
 		967BD33D223F800000469CF9 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 967BD33C223F800000469CF9 /* Post.swift */; };
 		967BD33F2240C00300469CF9 /* PinterestLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 967BD33E2240C00300469CF9 /* PinterestLayout.swift */; };
 		967BD3422240E60200469CF9 /* BuskerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 967BD3402240E60200469CF9 /* BuskerCell.swift */; };
@@ -203,6 +207,10 @@
 		967B562A2244B68D006F0AF9 /* GenreCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GenreCell.xib; sourceTree = "<group>"; };
 		967B562D2244D42E006F0AF9 /* UIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImage.swift; sourceTree = "<group>"; };
 		967B562F2244E80A006F0AF9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		967B5631224898A2006F0AF9 /* SearchHistoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchHistoryCell.swift; sourceTree = "<group>"; };
+		967B5632224898A2006F0AF9 /* SearchHistoryCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SearchHistoryCell.xib; sourceTree = "<group>"; };
+		967B56352248C2E2006F0AF9 /* SearchResultCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultCell.swift; sourceTree = "<group>"; };
+		967B56362248C2E2006F0AF9 /* SearchResultCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SearchResultCell.xib; sourceTree = "<group>"; };
 		967BD33C223F800000469CF9 /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		967BD33E2240C00300469CF9 /* PinterestLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinterestLayout.swift; sourceTree = "<group>"; };
 		967BD3402240E60200469CF9 /* BuskerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuskerCell.swift; sourceTree = "<group>"; };
@@ -351,7 +359,10 @@
 				960B54BD22437C0700FEA079 /* BuskersSearchViewController.swift */,
 				967B56292244B68D006F0AF9 /* GenreCell.swift */,
 				967B562A2244B68D006F0AF9 /* GenreCell.xib */,
-				965798B72227B20300A03BE9 /* Busker Profile View */,
+				967B5631224898A2006F0AF9 /* SearchHistoryCell.swift */,
+				967B5632224898A2006F0AF9 /* SearchHistoryCell.xib */,
+				967B56352248C2E2006F0AF9 /* SearchResultCell.swift */,
+				967B56362248C2E2006F0AF9 /* SearchResultCell.xib */,
 			);
 			path = "Buskers Tab";
 			sourceTree = "<group>";
@@ -371,6 +382,7 @@
 				96DEB1F02237B08B005F87F4 /* BuskerProfilePostCell.xib */,
 			);
 			name = "Busker Profile View";
+			path = "Buskers Tab";
 			sourceTree = "<group>";
 		};
 		965838B12181C4B9000FE8B0 /* Cell Types */ = {
@@ -397,6 +409,7 @@
 				966A6CB7217DB5F500DF872F /* TabBarViewController.swift */,
 				966A6CC9217DE6AC00DF872F /* Home Tab */,
 				965798B022266B0700A03BE9 /* Buskers Tab */,
+				965798B72227B20300A03BE9 /* Busker Profile View */,
 				96C55412219044710065D70A /* All Events Page */,
 				966A6CC0217DBD9F00DF872F /* AgentsViewController.swift */,
 				966A6CC2217DBDAF00DF872F /* EventsViewController.swift */,
@@ -649,6 +662,7 @@
 				967B56302244E80C006F0AF9 /* Assets.xcassets in Resources */,
 				9620025A21E5CED10055D070 /* gif0.gif in Resources */,
 				967B562C2244B68D006F0AF9 /* GenreCell.xib in Resources */,
+				967B5634224898A2006F0AF9 /* SearchHistoryCell.xib in Resources */,
 				9620025821E4F58E0055D070 /* gif11.gif in Resources */,
 				9620022121E3B17A0055D070 /* GoogleService-Info.plist in Resources */,
 				967BD3432240E60200469CF9 /* BuskerCell.xib in Resources */,
@@ -685,6 +699,7 @@
 				966A6CCD217DE6DD00DF872F /* EventsSection.xib in Resources */,
 				965838B72181CAE7000FE8B0 /* NewsCellType2.xib in Resources */,
 				9620023B21E4B3A80055D070 /* gif10.gif in Resources */,
+				967B56382248C2E3006F0AF9 /* SearchResultCell.xib in Resources */,
 				96C5544B219408580065D70A /* FeaturedSectionHeader.xib in Resources */,
 				CA550AAB21706A65008E493D /* Main.storyboard in Resources */,
 				96C554262192C2AC0065D70A /* BookmarkedSection.xib in Resources */,
@@ -835,6 +850,7 @@
 				965838BA2181CAFE000FE8B0 /* NewsCellType3.swift in Sources */,
 				966A6CD42180492F00DF872F /* EventsCell.swift in Sources */,
 				966A6CBC217DB86D00DF872F /* HomeViewController.swift in Sources */,
+				967B56372248C2E3006F0AF9 /* SearchResultCell.swift in Sources */,
 				96C5543A2192D9980065D70A /* BookmarkedCell.swift in Sources */,
 				96C5541F219199700065D70A /* TrendingSection.swift in Sources */,
 				960A4760219AA8FE00780AD4 /* HapticFeedback.swift in Sources */,
@@ -906,6 +922,7 @@
 				9639217121ABCA3000BA515A /* EventDetailsView.swift in Sources */,
 				967B562E2244D42E006F0AF9 /* UIImage.swift in Sources */,
 				965838B62181CAE7000FE8B0 /* NewsCellType2.swift in Sources */,
+				967B5633224898A2006F0AF9 /* SearchHistoryCell.swift in Sources */,
 				9658789C21C0FC70005B491A /* FloatyBtn.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
