@@ -51,8 +51,8 @@
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tabbar_more" translatesAutoresizingMaskIntoConstraints="NO" id="2eD-9j-Dys">
                         <rect key="frame" x="301" y="42" width="24" height="24"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="24" id="IMe-L5-crT"/>
-                            <constraint firstAttribute="height" constant="24" id="r9r-FN-mjc"/>
+                            <constraint firstAttribute="height" constant="24" id="VTa-bD-Nbb"/>
+                            <constraint firstAttribute="width" constant="24" id="hGv-Fl-BoK"/>
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="l7X-2b-Cs0">
@@ -67,18 +67,18 @@
                 <constraint firstAttribute="bottom" secondItem="5Rp-tb-29u" secondAttribute="bottom" id="2FL-ke-Ze0"/>
                 <constraint firstItem="l7X-2b-Cs0" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="20" id="9EK-zr-LDE"/>
                 <constraint firstAttribute="trailing" secondItem="l7X-2b-Cs0" secondAttribute="trailing" constant="20" id="BLp-3z-hQI"/>
-                <constraint firstItem="2eD-9j-Dys" firstAttribute="leading" secondItem="3Rc-Un-Sg0" secondAttribute="trailing" constant="2" id="Bro-lC-Ph0"/>
-                <constraint firstItem="l7X-2b-Cs0" firstAttribute="top" secondItem="2eD-9j-Dys" secondAttribute="bottom" constant="18" id="CHd-7N-1uA"/>
                 <constraint firstItem="Shw-9q-tde" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="43" id="Lnt-35-GWi"/>
+                <constraint firstItem="2eD-9j-Dys" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="42" id="QGl-Rv-lG3"/>
+                <constraint firstItem="2eD-9j-Dys" firstAttribute="leading" secondItem="3Rc-Un-Sg0" secondAttribute="trailing" constant="2" id="SOK-F2-3H1"/>
+                <constraint firstItem="l7X-2b-Cs0" firstAttribute="top" secondItem="Shw-9q-tde" secondAttribute="bottom" constant="19" id="TLa-LG-55w"/>
                 <constraint firstItem="5Rp-tb-29u" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="32" id="Tge-J9-Qwb"/>
                 <constraint firstAttribute="trailing" secondItem="5Rp-tb-29u" secondAttribute="trailing" id="Uwk-dl-0Az"/>
                 <constraint firstItem="cPY-ll-H8K" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="20" id="ZlF-Xc-Fm6"/>
                 <constraint firstItem="Shw-9q-tde" firstAttribute="leading" secondItem="cPY-ll-H8K" secondAttribute="trailing" constant="12" id="cvH-Yc-o5h"/>
                 <constraint firstItem="cPY-ll-H8K" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="dU5-ej-df5"/>
-                <constraint firstItem="2eD-9j-Dys" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="42" id="lhV-VR-c11"/>
+                <constraint firstAttribute="trailing" secondItem="2eD-9j-Dys" secondAttribute="trailing" constant="10" id="es6-1y-OT8"/>
                 <constraint firstItem="3Rc-Un-Sg0" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="47" id="sIO-jf-CNl"/>
                 <constraint firstItem="5Rp-tb-29u" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="w7S-XX-A8X"/>
-                <constraint firstAttribute="trailing" secondItem="2eD-9j-Dys" secondAttribute="trailing" constant="10" id="yFW-Vu-Fzz"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
             <connections>

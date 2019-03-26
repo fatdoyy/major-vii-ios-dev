@@ -11,7 +11,6 @@ import BouncyLayout
 import NVActivityIndicatorView
 
 class BuskersSearchViewController: UIViewController {
-    
     var loadingIndicator = NVActivityIndicatorView(frame: CGRect(origin: CGPoint.zero, size: CGSize(width: 20, height: 20)), type: .lineScale)
     
     let screenWidth: CGFloat = UIScreen.main.bounds.width
@@ -41,6 +40,7 @@ class BuskersSearchViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        definesPresentationContext = true
         view.backgroundColor = .darkGray()
         
         for img in imgArray {
@@ -48,7 +48,7 @@ class BuskersSearchViewController: UIViewController {
             boolArr.append(Int.random(in: 0 ... 1))
             boolArr2.append(Int.random(in: 0 ... 1))
         }
-
+        
         setupGenreSection()
         setupHistorySection()
         setupResultsSection()
@@ -194,7 +194,7 @@ extension BuskersSearchViewController {
         resultsCollectionView = UICollectionView(frame: CGRect(origin: CGPoint.zero, size: CGSize(width: screenWidth, height: GenreCell.height)), collectionViewLayout: layout)
         resultsCollectionView.alpha = 0
         resultsCollectionView.showsVerticalScrollIndicator = false
-        resultsCollectionView.contentInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
+        resultsCollectionView.contentInset = UIEdgeInsets(top: 0, left: 10, bottom: 20, right: 10)
         resultsCollectionView.backgroundColor = .darkGray()
         resultsCollectionView.dataSource = self
         resultsCollectionView.delegate = self
@@ -271,7 +271,6 @@ extension BuskersSearchViewController: UICollectionViewDelegate, UICollectionVie
             
             cell.verifiedBg.alpha = boolArr[indexPath.row] == 1 ? 1 : 0
             cell.premiumBadge.alpha = boolArr2[indexPath.row] == 1 ? 1 : 0
-
             
             return cell
             
@@ -291,7 +290,14 @@ extension BuskersSearchViewController: UICollectionViewDelegate, UICollectionVie
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        //to do
+        switch collectionView {
+        case genreCollectionView:
+            print("tapped genre cell")
+        case resultsCollectionView:
+            BuskerProfileViewController.present(fromView: self, buskerName: perfomers[indexPath.row], buskerId: "5be7f512d92f1257fd2a530e")
+        default:
+            print("error")
+        }
     }
     
 }
@@ -320,5 +326,12 @@ extension BuskersSearchViewController: UITableViewDelegate, UITableViewDataSourc
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         //to do
+    }
+}
+
+//MARK: UISearchResultsUpdating Delegate
+extension BuskersSearchViewController: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        searchController.searchResultsController?.view.isHidden = false
     }
 }

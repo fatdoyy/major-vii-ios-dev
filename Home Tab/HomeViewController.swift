@@ -268,6 +268,10 @@ extension HomeViewController: UIScrollViewDelegate {
         } else {
             TabBar.toggle(from: self, hidden: false, animated: true)
         }
+        
+        if scrollView.contentOffset.y <= 100 {
+            TabBar.toggle(from: self, hidden: false, animated: true)
+        }
     }
 }
 

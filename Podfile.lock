@@ -61,6 +61,7 @@ PODS:
     - GoogleUtilities/Environment (~> 5.3)
     - GoogleUtilities/UserDefaults (~> 5.3)
   - Floaty (4.1.0)
+  - GlitchLabel (2.0.0)
   - GoogleAppMeasurement (5.4.0):
     - GoogleUtilities/AppDelegateSwizzler (~> 5.2)
     - GoogleUtilities/MethodSwizzler (~> 5.2)
@@ -142,6 +143,7 @@ DEPENDENCIES:
   - FBSDKLoginKit (~> 4.38.0)
   - Firebase/Core
   - Floaty (~> 4.1.0)
+  - GlitchLabel (from `https://github.com/kikikiktai/GlitchLabel.git`)
   - GoogleSignIn
   - Hero
   - ImageViewer (from `https://github.com/mezhevikin/ImageViewer`)
@@ -209,12 +211,17 @@ SPEC REPOS:
     - XCDYouTubeKit
 
 EXTERNAL SOURCES:
+  GlitchLabel:
+    :git: https://github.com/kikikiktai/GlitchLabel.git
   ImageViewer:
     :git: https://github.com/mezhevikin/ImageViewer
   Validator:
     :git: https://github.com/kikikiktai/Validator.git
 
 CHECKOUT OPTIONS:
+  GlitchLabel:
+    :commit: 3eef1aa36f2c5962c11ea5c7ba53bb768207f41d
+    :git: https://github.com/kikikiktai/GlitchLabel.git
   ImageViewer:
     :commit: 9ceca031cc78af6f7d80e20e29aeafda0ef41859
     :git: https://github.com/mezhevikin/ImageViewer
@@ -240,6 +247,7 @@ SPEC CHECKSUMS:
   FirebaseCore: 35747502d9e8c6ee217385ad04446c7c2aaf9c5c
   FirebaseInstanceID: e2fa4cb35ef5558c200f7f0ad8a53e212215f93e
   Floaty: 1a4e213f3512cf3045ef9cb0c1ff456226d1f66a
+  GlitchLabel: 65773d1df358ef66c8daa40428eb79bd04e7a976
   GoogleAppMeasurement: 98b71f5e04142793729a5ef23e5b96651ff4b70f
   GoogleSignIn: 7ff245e1a7b26d379099d3243a562f5747e23d39
   GoogleToolboxForMac: ff31605b7d66400dcec09bed5861689aebadda4d
@@ -267,6 +275,6 @@ SPEC CHECKSUMS:
   Validator: b34ab17a8fffd0c1ffd8f9002ead4d1e02cd9e6e
   XCDYouTubeKit: 3f4fd3eb3ed494a46a8f007b91315eed6dd6df1f
 
-PODFILE CHECKSUM: 2e3ed25eb089587dd712ba327d618c7cd6f932a7
+PODFILE CHECKSUM: bbce8d2e9888b99e4da98f1a758364f451011343
 
 COCOAPODS: 1.5.3

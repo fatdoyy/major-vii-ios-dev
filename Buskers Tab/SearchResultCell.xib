@@ -30,18 +30,8 @@
                                 <color key="backgroundColor" red="0.36470588240000001" green="0.2901960784" blue="0.59999999999999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DTK-8C-DS1">
-                                <rect key="frame" x="5" y="5" width="90" height="28"/>
+                                <rect key="frame" x="5" y="5" width="86" height="28"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="verified™" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iJX-R4-g0c">
-                                        <rect key="frame" x="28" y="6" width="57" height="15"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="57" id="Ejo-xc-Oqd"/>
-                                            <constraint firstAttribute="height" constant="15" id="ckA-7J-sMW"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="12"/>
-                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_verified" translatesAutoresizingMaskIntoConstraints="NO" id="YUU-qy-MEN">
                                         <rect key="frame" x="5" y="5" width="18" height="18"/>
                                         <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -50,24 +40,27 @@
                                             <constraint firstAttribute="width" constant="18" id="oHR-Dy-D8t"/>
                                         </constraints>
                                     </imageView>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_verified_text" translatesAutoresizingMaskIntoConstraints="NO" id="Z3O-lw-IPC">
+                                        <rect key="frame" x="29" y="9" width="51" height="11"/>
+                                    </imageView>
                                 </subviews>
                                 <color key="backgroundColor" red="0.41593305790666341" green="0.67203642783431228" blue="0.22280263691403698" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="Z3O-lw-IPC" secondAttribute="trailing" constant="6" id="3Bb-x6-a6z"/>
+                                    <constraint firstAttribute="bottom" secondItem="Z3O-lw-IPC" secondAttribute="bottom" constant="8" id="9zt-nq-tW4"/>
                                     <constraint firstAttribute="height" constant="28" id="ELq-ub-XCj"/>
                                     <constraint firstItem="YUU-qy-MEN" firstAttribute="leading" secondItem="DTK-8C-DS1" secondAttribute="leading" constant="5" id="Evp-zu-EIF"/>
                                     <constraint firstItem="YUU-qy-MEN" firstAttribute="top" secondItem="DTK-8C-DS1" secondAttribute="top" constant="5" id="GSC-4O-QLa"/>
-                                    <constraint firstItem="iJX-R4-g0c" firstAttribute="leading" secondItem="YUU-qy-MEN" secondAttribute="trailing" constant="5" id="Hd4-BA-cad"/>
                                     <constraint firstAttribute="bottom" secondItem="YUU-qy-MEN" secondAttribute="bottom" constant="5" id="OMI-Dg-Fhv"/>
-                                    <constraint firstItem="iJX-R4-g0c" firstAttribute="top" secondItem="DTK-8C-DS1" secondAttribute="top" constant="6" id="VfQ-Yh-2Fh"/>
-                                    <constraint firstAttribute="width" constant="90" id="ViV-ty-Hff"/>
-                                    <constraint firstAttribute="trailing" secondItem="iJX-R4-g0c" secondAttribute="trailing" constant="5" id="jJX-0h-RIO"/>
-                                    <constraint firstAttribute="bottom" secondItem="iJX-R4-g0c" secondAttribute="bottom" constant="7" id="mUN-6W-gim"/>
+                                    <constraint firstAttribute="width" constant="86" id="ViV-ty-Hff"/>
+                                    <constraint firstItem="Z3O-lw-IPC" firstAttribute="top" secondItem="DTK-8C-DS1" secondAttribute="top" constant="9" id="W7H-yN-vu5"/>
+                                    <constraint firstItem="Z3O-lw-IPC" firstAttribute="leading" secondItem="YUU-qy-MEN" secondAttribute="trailing" constant="6" id="ivs-XT-Xu2"/>
                                 </constraints>
                             </view>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_premium" translatesAutoresizingMaskIntoConstraints="NO" id="Bag-lU-eXL">
-                                <rect key="frame" x="309" y="168" width="61" height="22"/>
+                                <rect key="frame" x="304" y="163" width="71" height="32"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="Bag-lU-eXL" secondAttribute="height" multiplier="61:22" id="JT1-LA-n5H"/>
+                                    <constraint firstAttribute="width" secondItem="Bag-lU-eXL" secondAttribute="height" multiplier="71:32" id="yh2-Ct-IPZ"/>
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="34" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3sj-Um-6IR">
@@ -104,14 +97,15 @@
                         <constraints>
                             <constraint firstItem="fCY-NL-HDQ" firstAttribute="top" secondItem="Dsp-bM-ADW" secondAttribute="top" constant="81" id="0yO-U7-8K6"/>
                             <constraint firstItem="GQB-L2-I4T" firstAttribute="top" secondItem="Dsp-bM-ADW" secondAttribute="top" id="1Jy-wk-Hbm"/>
-                            <constraint firstAttribute="trailing" secondItem="Bag-lU-eXL" secondAttribute="trailing" constant="10" id="1y1-MW-vkk"/>
                             <constraint firstItem="GQB-L2-I4T" firstAttribute="leading" secondItem="Dsp-bM-ADW" secondAttribute="leading" id="95Q-Vu-C8z"/>
+                            <constraint firstAttribute="trailing" secondItem="Bag-lU-eXL" secondAttribute="trailing" constant="5" id="Bd9-G3-EVE"/>
                             <constraint firstItem="DTK-8C-DS1" firstAttribute="top" secondItem="Dsp-bM-ADW" secondAttribute="top" constant="5" id="Dsh-Mr-3s3"/>
                             <constraint firstItem="TdY-AL-pAU" firstAttribute="leading" secondItem="Dsp-bM-ADW" secondAttribute="leading" id="JBo-v0-SsS"/>
                             <constraint firstItem="TdY-AL-pAU" firstAttribute="top" secondItem="Dsp-bM-ADW" secondAttribute="top" id="JcJ-qe-U4B"/>
                             <constraint firstAttribute="trailing" secondItem="GQB-L2-I4T" secondAttribute="trailing" id="KWw-g6-mYR"/>
                             <constraint firstAttribute="trailing" secondItem="TdY-AL-pAU" secondAttribute="trailing" id="Q0Q-Ke-ya0"/>
                             <constraint firstItem="ylh-La-upU" firstAttribute="leading" secondItem="Dsp-bM-ADW" secondAttribute="leading" id="TD6-MR-pIn"/>
+                            <constraint firstAttribute="bottom" secondItem="Bag-lU-eXL" secondAttribute="bottom" constant="5" id="YnU-Kc-Jag"/>
                             <constraint firstItem="DTK-8C-DS1" firstAttribute="leading" secondItem="Dsp-bM-ADW" secondAttribute="leading" constant="5" id="dy4-oe-B3B"/>
                             <constraint firstItem="YJq-vd-utM" firstAttribute="top" secondItem="Dsp-bM-ADW" secondAttribute="top" constant="10" id="fDD-eN-Xzg"/>
                             <constraint firstItem="YJq-vd-utM" firstAttribute="leading" secondItem="3sj-Um-6IR" secondAttribute="trailing" constant="5" id="i1e-8P-GSl"/>
@@ -122,7 +116,6 @@
                             <constraint firstAttribute="trailing" secondItem="YJq-vd-utM" secondAttribute="trailing" constant="10" id="pyh-ZV-lAE"/>
                             <constraint firstAttribute="trailing" secondItem="ylh-La-upU" secondAttribute="trailing" id="rjv-gf-vkr"/>
                             <constraint firstItem="3sj-Um-6IR" firstAttribute="top" secondItem="Dsp-bM-ADW" secondAttribute="top" constant="11" id="sFd-Qr-Yv1"/>
-                            <constraint firstAttribute="bottom" secondItem="Bag-lU-eXL" secondAttribute="bottom" constant="10" id="tKI-YW-Hd4"/>
                             <constraint firstItem="fCY-NL-HDQ" firstAttribute="leading" secondItem="Dsp-bM-ADW" secondAttribute="leading" id="wRY-4n-hRl"/>
                         </constraints>
                     </view>
@@ -146,14 +139,14 @@
                 <outlet property="premiumBadge" destination="Bag-lU-eXL" id="OR2-dw-DUC"/>
                 <outlet property="verifiedBg" destination="DTK-8C-DS1" id="cKD-pk-Nt5"/>
                 <outlet property="verifiedIcon" destination="YUU-qy-MEN" id="yVF-ty-4Rf"/>
-                <outlet property="verifiedLabel" destination="iJX-R4-g0c" id="wnV-4b-saQ"/>
             </connections>
             <point key="canvasLocation" x="132.80000000000001" y="154.72263868065968"/>
         </collectionViewCell>
     </objects>
     <resources>
         <image name="icon_follower" width="18" height="18"/>
-        <image name="icon_premium" width="61" height="22"/>
+        <image name="icon_premium" width="71" height="32"/>
         <image name="icon_verified" width="18" height="18"/>
+        <image name="icon_verified_text" width="51" height="11"/>
     </resources>
 </document>

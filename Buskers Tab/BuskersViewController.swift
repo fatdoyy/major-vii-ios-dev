@@ -16,7 +16,8 @@ class BuskersViewController: UIViewController {
     var screenHeight: CGFloat = UIScreen.main.bounds.height
     var mainCollectionView: UICollectionView!
 
-    let searchController = UISearchController(searchResultsController: UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "buskersSearchVC") as! BuskersSearchViewController)
+    let searchResultsVC = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "buskersSearchVC") as! BuskersSearchViewController
+    var searchController: UISearchController!
     
     let img: [UIImage] = [UIImage(named: "gif9_thumbnail")!, UIImage(named: "gif10_thumbnail")!, UIImage(named: "gif11_thumbnail")!, UIImage(named: "cat")!, UIImage(named: "gif0_thumbnail")!, UIImage(named: "gif1_thumbnail")!, UIImage(named: "gif2_thumbnail")!, UIImage(named: "gif3_thumbnail")!, UIImage(named: "gif4_thumbnail")!, UIImage(named: "gif5_thumbnail")!, UIImage(named: "gif6_thumbnail")!, UIImage(named: "gif7_thumbnail")!, UIImage(named: "gif8_thumbnail")!]
     
@@ -34,6 +35,7 @@ class BuskersViewController: UIViewController {
         super.viewDidLoad()
         gesture?.delegate = self
         view.backgroundColor = .darkGray()
+        hideKeyboardWhenTappedAround()
         
         for image in img {
             scaledImgArray.append(image.scaleImage(maxWidth: 220))
@@ -91,7 +93,9 @@ extension BuskersViewController {
             }
         }
         
-        searchController.searchResultsUpdater = self
+        
+        searchController = UISearchController(searchResultsController: searchResultsVC)
+        searchController.searchResultsUpdater = searchResultsVC
         searchController.searchBar.delegate = self
         searchController.searchBar.tintColor = .white
         searchController.searchBar.barTintColor = .white
@@ -117,12 +121,10 @@ extension BuskersViewController {
     }
 
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-        
         if let someView: UIView = object as! UIView? {
             if (someView == self.searchController.searchResultsController?.view && (keyPath == "hidden") && (searchController.searchResultsController?.view.isHidden)! && searchController.searchBar.isFirstResponder) {
                 searchController.searchResultsController?.view.isHidden = false
             }
-            
         }
     }
     
@@ -176,11 +178,7 @@ extension BuskersViewController: UICollectionViewDelegate, UICollectionViewDataS
 }
 
 //MARK: UISearchResultsUpdating Delegate
-extension BuskersViewController: UISearchResultsUpdating, UISearchControllerDelegate, UISearchBarDelegate {
-    func updateSearchResults(for searchController: UISearchController) {
-        searchController.searchResultsController?.view.isHidden = false
-    }
-    
+extension BuskersViewController: UISearchControllerDelegate, UISearchBarDelegate {
     func willPresentSearchController(_ searchController: UISearchController) {
         searchController.searchResultsController?.view.isHidden = false
     }
@@ -199,7 +197,6 @@ extension BuskersViewController: UISearchResultsUpdating, UISearchControllerDele
         
     }
 
-    
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
         searchController.searchResultsController?.view.isHidden = false
     }
@@ -218,8 +215,11 @@ extension BuskersViewController: UIScrollViewDelegate {
         } else {
             TabBar.toggle(from: self, hidden: false, animated: true)
         }
+        
+        if scrollView.contentOffset.y <= 0 {
+            TabBar.toggle(from: self, hidden: false, animated: true)
+        }
     }
-    
 }
 
 //MARK: Swipe pop gesture

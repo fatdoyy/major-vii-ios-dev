@@ -44,9 +44,10 @@ target 'major-7-ios' do
   pod 'SwiftMessages'                           # in-app notifications/empty states of tableview/collectionview etc...
   pod 'CHIPageControl', '~> 0.1.3'              # UIPageControl
   pod 'Parchment'                               # Paging menu
-  pod 'XCDYouTubeKit', '~> 2.7.3'                 # Youtube AVPlayer
+  pod 'XCDYouTubeKit', '~> 2.7.3'               # Youtube AVPlayer
   pod 'PIPKit'                                  # picture in picture mode
   
+  pod 'GlitchLabel', :git => 'https://github.com/kikikiktai/GlitchLabel.git'                        # as title
   pod 'Validator', :git => 'https://github.com/kikikiktai/Validator.git'                            # UITextField validation
   pod 'ImageViewer', :inhibit_warnings => true, :git=> 'https://github.com/mezhevikin/ImageViewer'  # as title
 

@@ -77,6 +77,9 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="3Xa-nK-xVa"/>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="boolean" keyPath="isHeroEnabled" value="YES"/>
+                        </userDefinedRuntimeAttributes>
                     </view>
                     <navigationItem key="navigationItem" id="qV0-jt-4Ei"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
@@ -86,7 +89,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JZZ-Dv-j0t" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1879.2" y="-986.45320197044339"/>
+            <point key="canvasLocation" x="1862" y="-986"/>
         </scene>
         <!--Buskers Search View Controller-->
         <scene sceneID="TZW-Ic-l0U">
@@ -97,7 +100,11 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="ptp-5u-YEE"/>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="boolean" keyPath="isHeroEnabled" value="YES"/>
+                        </userDefinedRuntimeAttributes>
                     </view>
+                    <navigationItem key="navigationItem" id="pMU-RL-8GU"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Nqf-V7-biu" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -110,6 +117,31 @@
                     <view key="view" contentMode="scaleToFill" id="3xs-7Q-aci">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Coming Soon..." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="smY-2t-Ye2" customClass="GlitchLabel" customModule="GlitchLabel">
+                                <rect key="frame" x="76" y="394" width="336" height="62"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="27"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="glitchEnabled" value="YES"/>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="drawScanline" value="YES"/>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="glitchAmplitude">
+                                        <real key="value" value="2"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="glitchThreshold">
+                                        <real key="value" value="2"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="amplitudeBase">
+                                        <real key="value" value="3"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="amplitudeRange">
+                                        <real key="value" value="3"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </label>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="a9I-E6-5Cq"/>
                     </view>
@@ -119,7 +151,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="enw-Kl-JBh" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="938" y="-278"/>
+            <point key="canvasLocation" x="936.79999999999995" y="-278.57142857142856"/>
         </scene>
         <!--Login View Controller-->
         <scene sceneID="XPO-q8-cDK">
@@ -261,6 +293,9 @@
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="isHeroEnabled" value="YES"/>
+                                </userDefinedRuntimeAttributes>
                             </collectionView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -426,7 +461,7 @@
                         <userDefinedRuntimeAttribute type="boolean" keyPath="isHeroEnabled" value="YES"/>
                     </userDefinedRuntimeAttributes>
                     <connections>
-                        <segue destination="ISg-XY-dAr" kind="relationship" relationship="rootViewController" id="ahv-qq-6qR"/>
+                        <segue destination="ISg-XY-dAr" kind="relationship" relationship="rootViewController" id="Idu-GN-ndG"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DcE-3S-lSV" userLabel="First Responder" sceneMemberID="firstResponder"/>

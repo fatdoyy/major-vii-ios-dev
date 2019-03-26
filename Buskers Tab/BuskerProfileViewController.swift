@@ -145,9 +145,14 @@ class BuskerProfileViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         gesture?.delegate = self
         
-        setupLeftBarItems()
+        
         updatesStatusBarAppearanceAutomatically = true
         view.backgroundColor = .darkGray()
         
@@ -165,20 +170,21 @@ class BuskerProfileViewController: UIViewController {
         setupPerformancesSection()
         setupEventsSection()
         setupPostSection()
-
+        
         setupFooter()
         
-        print(imgCollectionViewHeight)
-        print(imgCollectionViewHeight / 2)
-
+        if !isModal {
+            setupLeftBarItems()
+            TabBar.hide(from: self)
+        } else {
+            setupCloseBtn()
+            print("is modal!!!")
+        }
+        
         mainScrollView.contentInsetAdjustmentBehavior = .never
         mainScrollView.showsVerticalScrollIndicator = false
         mainScrollView.delegate = self
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        TabBar.hide(from: self)
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -188,7 +194,7 @@ class BuskerProfileViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        TabBar.show(from: self)
+        if !isModal { TabBar.show(from: self) }
     }
     
 }
@@ -421,6 +427,24 @@ extension BuskerProfileViewController {
     @objc private func popView(){
         navigationController?.hero.navigationAnimationType = .zoomOut
         navigationController?.popViewController(animated: true)
+    }
+    
+    private func setupCloseBtn() {
+        let closeBtn = UIButton()
+        closeBtn.setImage(UIImage(named: "icon_close"), for: .normal)
+        closeBtn.setTitle("", for: .normal)
+        closeBtn.addTarget(self, action: #selector(dismissView), for: .touchUpInside)
+        mainScrollView.addSubview(closeBtn)
+        mainScrollView.bringSubviewToFront(closeBtn)
+        closeBtn.snp.makeConstraints { (make) -> Void in
+            make.size.equalTo(32)
+            make.left.equalTo(20)
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
+        }
+    }
+    
+    @objc private func dismissView(){
+        dismiss(animated: true, completion: nil)
     }
     
     private func setupLabels() {
@@ -1002,16 +1026,8 @@ extension BuskerProfileViewController: UICollectionViewDelegateFlowLayout, UICol
         case hashtagsCollectionView:
             let cell = hashtagsCollectionView.dequeueReusableCell(withReuseIdentifier: HashtagCell.reuseIdentifier, for: indexPath) as! HashtagCell
             cell.hashtag.alpha = 1
-            if let profile = buskerDetails?.item {
-                for hashtag in profile.hashtags {
-                    print("cellforitemat \(hashtag)")
-                }
-                //cell.hashtag.text = "#\(profile.hashtags[indexPath.row])"
-                cell.hashtag.text = "#\(hashtagsArray[indexPath.row])"
-
-            } else {
-                cell.hashtag.text = "(error))"
-            }
+            cell.hashtag.text = "#\(hashtagsArray[indexPath.row])"
+    
             return cell
             
         case membersCollectionView:
@@ -1160,9 +1176,9 @@ extension BuskerProfileViewController: UIScrollViewDelegate {
     }
 }
 
-//MARK: Function to push this view controller
+//MARK: Function to push/present this view controller
 extension BuskerProfileViewController {
-    static func push(fromView: UIViewController, buskerName: String, buskerId: String){
+    static func push(fromView: UIViewController, buskerName: String, buskerId: String) {
         let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
         let profileVC = storyboard.instantiateViewController(withIdentifier: BuskerProfileViewController.storyboardId) as! BuskerProfileViewController
         
@@ -1171,6 +1187,18 @@ extension BuskerProfileViewController {
         
         fromView.navigationController?.hero.navigationAnimationType = .autoReverse(presenting: .zoom)
         fromView.navigationController?.pushViewController(profileVC, animated: true)
+    }
+    
+    static func present(fromView: UIViewController, buskerName: String, buskerId: String) {
+        let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+        let profileVC = storyboard.instantiateViewController(withIdentifier: BuskerProfileViewController.storyboardId) as! BuskerProfileViewController
+        
+        profileVC.buskerId = buskerId
+        profileVC.buskerName = buskerName
+        
+        profileVC.hero.isEnabled = true
+        profileVC.hero.modalAnimationType = .autoReverse(presenting: .zoom)
+        fromView.present(profileVC, animated: true, completion: nil)
     }
 }
 

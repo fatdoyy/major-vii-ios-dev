@@ -14,7 +14,7 @@ class SearchResultCell: UICollectionViewCell {
     
     static let reuseIdentifier = "searchResultCell"
     static let width: CGFloat = UIScreen.main.bounds.width - 40
-    static let aspectRatio: CGFloat = width / 180
+    static let aspectRatio: CGFloat = width / 200
     static let height: CGFloat = width / aspectRatio
     
     @IBOutlet weak var containerView: UIView!
@@ -22,7 +22,6 @@ class SearchResultCell: UICollectionViewCell {
     @IBOutlet weak var gradientBg: UIView!
     
     @IBOutlet weak var verifiedBg: UIView!
-    @IBOutlet weak var verifiedLabel: UILabel!
     @IBOutlet weak var verifiedIcon: UIImageView!
     
     @IBOutlet weak var followerCount: UILabel!
@@ -47,8 +46,6 @@ class SearchResultCell: UICollectionViewCell {
         bgImgView.layer.cornerRadius = GlobalCornerRadius.value
         bgImgView.contentMode = .scaleAspectFill
         bgImgView.clipsToBounds = true
-        
-        
         
         verifiedBg.alpha = 0
         verifiedBg.layer.cornerRadius = 14
