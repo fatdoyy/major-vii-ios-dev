@@ -125,6 +125,8 @@
 		96EA375321B528E900E9DB74 /* DetailsImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96EA375121B528E900E9DB74 /* DetailsImageCell.swift */; };
 		96EA375421B528E900E9DB74 /* DetailsImageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96EA375221B528E900E9DB74 /* DetailsImageCell.xib */; };
 		96EA375621B66BBC00E9DB74 /* ImageViewerHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96EA375521B66BBC00E9DB74 /* ImageViewerHelper.swift */; };
+		96F37324224B96AC0088E142 /* BookmarkedEventsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96F37323224B96AC0088E142 /* BookmarkedEventsViewController.swift */; };
+		96F37326224BA1610088E142 /* FloatingPanelSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96F37325224BA1610088E142 /* FloatingPanelSettings.swift */; };
 		96F5308521EC68FD007BCCB0 /* UIVisualEffectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96F5308421EC68FD007BCCB0 /* UIVisualEffectView.swift */; };
 		96FAF247223A1D7300DF23B9 /* BuskerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96FAF246223A1D7300DF23B9 /* BuskerService.swift */; };
 		96FAF249223A287C00DF23B9 /* Busker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96FAF248223A287C00DF23B9 /* Busker.swift */; };
@@ -254,6 +256,8 @@
 		96EA375121B528E900E9DB74 /* DetailsImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsImageCell.swift; sourceTree = "<group>"; };
 		96EA375221B528E900E9DB74 /* DetailsImageCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DetailsImageCell.xib; sourceTree = "<group>"; };
 		96EA375521B66BBC00E9DB74 /* ImageViewerHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewerHelper.swift; sourceTree = "<group>"; };
+		96F37323224B96AC0088E142 /* BookmarkedEventsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkedEventsViewController.swift; sourceTree = "<group>"; };
+		96F37325224BA1610088E142 /* FloatingPanelSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingPanelSettings.swift; sourceTree = "<group>"; };
 		96F5308421EC68FD007BCCB0 /* UIVisualEffectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIVisualEffectView.swift; sourceTree = "<group>"; };
 		96FAF246223A1D7300DF23B9 /* BuskerService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuskerService.swift; sourceTree = "<group>"; };
 		96FAF248223A287C00DF23B9 /* Busker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Busker.swift; sourceTree = "<group>"; };
@@ -412,7 +416,7 @@
 				965798B72227B20300A03BE9 /* Busker Profile View */,
 				96C55412219044710065D70A /* All Events Page */,
 				966A6CC0217DBD9F00DF872F /* AgentsViewController.swift */,
-				966A6CC2217DBDAF00DF872F /* EventsViewController.swift */,
+				96F37322224B95850088E142 /* Events Tab */,
 				966A6CC4217DBDC400DF872F /* SettingsViewController.swift */,
 				CA550AA921706A65008E493D /* Main.storyboard */,
 			);
@@ -444,6 +448,7 @@
 				96C9899D2220307600170609 /* UILabel.swift */,
 				967BD33E2240C00300469CF9 /* PinterestLayout.swift */,
 				967B562D2244D42E006F0AF9 /* UIImage.swift */,
+				96F37325224BA1610088E142 /* FloatingPanelSettings.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -553,6 +558,15 @@
 				96EA375221B528E900E9DB74 /* DetailsImageCell.xib */,
 			);
 			name = "Event Details Page";
+			sourceTree = "<group>";
+		};
+		96F37322224B95850088E142 /* Events Tab */ = {
+			isa = PBXGroup;
+			children = (
+				966A6CC2217DBDAF00DF872F /* EventsViewController.swift */,
+				96F37323224B96AC0088E142 /* BookmarkedEventsViewController.swift */,
+			);
+			path = "Events Tab";
 			sourceTree = "<group>";
 		};
 		CA550A9921706A65008E493D = {
@@ -728,6 +742,7 @@
 				"${BUILT_PRODUCTS_DIR}/FBSDKLoginKit/FBSDKLoginKit.framework",
 				"${BUILT_PRODUCTS_DIR}/FacebookCore/FacebookCore.framework",
 				"${BUILT_PRODUCTS_DIR}/FacebookLogin/FacebookLogin.framework",
+				"${BUILT_PRODUCTS_DIR}/FloatingPanel/FloatingPanel.framework",
 				"${BUILT_PRODUCTS_DIR}/Floaty/Floaty.framework",
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
 				"${BUILT_PRODUCTS_DIR}/GlitchLabel/GlitchLabel.framework",
@@ -769,6 +784,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKLoginKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FacebookCore.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FacebookLogin.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FloatingPanel.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Floaty.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GlitchLabel.framework",
@@ -855,6 +871,7 @@
 				966A6CD42180492F00DF872F /* EventsCell.swift in Sources */,
 				966A6CBC217DB86D00DF872F /* HomeViewController.swift in Sources */,
 				967B56372248C2E3006F0AF9 /* SearchResultCell.swift in Sources */,
+				96F37326224BA1610088E142 /* FloatingPanelSettings.swift in Sources */,
 				96C5543A2192D9980065D70A /* BookmarkedCell.swift in Sources */,
 				96C5541F219199700065D70A /* TrendingSection.swift in Sources */,
 				960A4760219AA8FE00780AD4 /* HapticFeedback.swift in Sources */,
@@ -872,6 +889,7 @@
 				96FAF247223A1D7300DF23B9 /* BuskerService.swift in Sources */,
 				96C5541B21918CB90065D70A /* TrendingCell.swift in Sources */,
 				96862EBB219AD8AC00F709B0 /* TabBarToggle.swift in Sources */,
+				96F37324224B96AC0088E142 /* BookmarkedEventsViewController.swift in Sources */,
 				967BD3422240E60200469CF9 /* BuskerCell.swift in Sources */,
 				9620021821DDFC320055D070 /* LoginViewController.swift in Sources */,
 				96C9899522169CEB00170609 /* NewsDetailViewController.swift in Sources */,

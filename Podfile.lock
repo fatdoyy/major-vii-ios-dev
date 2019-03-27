@@ -60,6 +60,7 @@ PODS:
     - FirebaseCore (~> 5.1)
     - GoogleUtilities/Environment (~> 5.3)
     - GoogleUtilities/UserDefaults (~> 5.3)
+  - FloatingPanel (1.4.0)
   - Floaty (4.1.0)
   - GlitchLabel (2.0.0)
   - GoogleAppMeasurement (5.4.0):
@@ -147,6 +148,7 @@ DEPENDENCIES:
   - FBSDKCoreKit (~> 4.38.0)
   - FBSDKLoginKit (~> 4.38.0)
   - Firebase/Core
+  - FloatingPanel
   - Floaty (~> 4.1.0)
   - GlitchLabel (from `https://github.com/kikikiktai/GlitchLabel.git`)
   - GoogleMaps
@@ -190,6 +192,7 @@ SPEC REPOS:
     - FirebaseAnalytics
     - FirebaseCore
     - FirebaseInstanceID
+    - FloatingPanel
     - Floaty
     - GoogleAppMeasurement
     - GoogleMaps
@@ -253,6 +256,7 @@ SPEC CHECKSUMS:
   FirebaseAnalytics: c06f9d70577d79074214700a71fd5d39de5550fb
   FirebaseCore: 35747502d9e8c6ee217385ad04446c7c2aaf9c5c
   FirebaseInstanceID: e2fa4cb35ef5558c200f7f0ad8a53e212215f93e
+  FloatingPanel: 1449e7c4b9994e394f2de685b2ad6dd93da06333
   Floaty: 1a4e213f3512cf3045ef9cb0c1ff456226d1f66a
   GlitchLabel: 65773d1df358ef66c8daa40428eb79bd04e7a976
   GoogleAppMeasurement: 98b71f5e04142793729a5ef23e5b96651ff4b70f
@@ -283,6 +287,6 @@ SPEC CHECKSUMS:
   Validator: b34ab17a8fffd0c1ffd8f9002ead4d1e02cd9e6e
   XCDYouTubeKit: 3f4fd3eb3ed494a46a8f007b91315eed6dd6df1f
 
-PODFILE CHECKSUM: bcbf4d9145da3db961645178bdfd7f4e1cc85e97
+PODFILE CHECKSUM: 8ceb9e62e8451ff54233792e96bad22aec011ccc
 
 COCOAPODS: 1.5.3

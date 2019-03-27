@@ -44,7 +44,7 @@
                                         <rect key="frame" x="29" y="9" width="51" height="11"/>
                                     </imageView>
                                 </subviews>
-                                <color key="backgroundColor" red="0.41593305790666341" green="0.67203642783431228" blue="0.22280263691403698" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" red="0.41568627450980389" green="0.6705882352941176" blue="0.22352941176470587" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="Z3O-lw-IPC" secondAttribute="trailing" constant="6" id="3Bb-x6-a6z"/>
                                     <constraint firstAttribute="bottom" secondItem="Z3O-lw-IPC" secondAttribute="bottom" constant="8" id="9zt-nq-tW4"/>

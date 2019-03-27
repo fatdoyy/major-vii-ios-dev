@@ -47,6 +47,7 @@ target 'major-7-ios' do
   pod 'Parchment'                               # Paging menu
   pod 'XCDYouTubeKit', '~> 2.7.3'               # Youtube AVPlayer
   pod 'PIPKit'                                  # picture in picture mode
+  pod 'FloatingPanel'                           # as title
   
   pod 'GlitchLabel', :git => 'https://github.com/kikikiktai/GlitchLabel.git'                        # as title
   pod 'Validator', :git => 'https://github.com/kikikiktai/Validator.git'                            # UITextField validation
