@@ -46,7 +46,6 @@ class BuskersViewController: UIViewController {
     }
 
     override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
         setupNavBar()
     }
     
@@ -92,9 +91,17 @@ extension BuskersViewController {
                 print("Can't get status bar?")
             }
         }
-        
-        
+
+    }
+
+}
+
+//MARK: Search Controller setup
+extension BuskersViewController {
+    private func setupSearchController() {
+        searchResultsVC.delegate = self
         searchController = UISearchController(searchResultsController: searchResultsVC)
+        searchController.delegate = self
         searchController.searchResultsUpdater = searchResultsVC
         searchController.searchBar.delegate = self
         searchController.searchBar.tintColor = .white
@@ -114,12 +121,11 @@ extension BuskersViewController {
                 backgroundview.clipsToBounds = true
             }
         }
-
+        
         navigationItem.searchController = searchController
         navigationItem.hidesSearchBarWhenScrolling = false
-
     }
-
+    
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if let someView: UIView = object as! UIView? {
             if (someView == self.searchController.searchResultsController?.view && (keyPath == "hidden") && (searchController.searchResultsController?.view.isHidden)! && searchController.searchBar.isFirstResponder) {
@@ -133,6 +139,8 @@ extension BuskersViewController {
 //MARK: UI setup
 extension BuskersViewController {
     private func setupUI() {
+        setupSearchController()
+        
         let layout = PinterestLayout()
         layout.delegate = self
         
@@ -178,13 +186,27 @@ extension BuskersViewController: UICollectionViewDelegate, UICollectionViewDataS
 }
 
 //MARK: UISearchResultsUpdating Delegate
-extension BuskersViewController: UISearchControllerDelegate, UISearchBarDelegate {
+extension BuskersViewController: UISearchControllerDelegate, UISearchBarDelegate, BuskersSearchViewControllerDelegate {
+    func reassureShowingVC() {
+        searchController.searchResultsController?.view.isHidden = false
+    }
+    
     func willPresentSearchController(_ searchController: UISearchController) {
         searchController.searchResultsController?.view.isHidden = false
     }
     
     func didPresentSearchController(_ searchController: UISearchController) {
-        TabBar.hide(from: self)
+        //TabBar.hide(from: self)
+    }
+    
+    func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
+        print("Tapped search bar")
+        return true
+    }
+    
+    func searchBarShouldEndEditing(_ searchBar: UISearchBar) -> Bool {
+        print("Ended search?")
+        return true
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
@@ -198,11 +220,13 @@ extension BuskersViewController: UISearchControllerDelegate, UISearchBarDelegate
     }
 
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
-        searchController.searchResultsController?.view.isHidden = false
+        //searchBar.text = ""
+        //searchController.searchResultsController?.view.isHidden = true
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        TabBar.show(from: self)
+        NotificationCenter.default.post(name: .showSCViews, object: nil)
+
     }
 }
 

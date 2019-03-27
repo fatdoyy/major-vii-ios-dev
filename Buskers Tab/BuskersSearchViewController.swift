@@ -10,7 +10,13 @@ import UIKit
 import BouncyLayout
 import NVActivityIndicatorView
 
+protocol BuskersSearchViewControllerDelegate {
+    func reassureShowingVC()
+}
+
 class BuskersSearchViewController: UIViewController {
+    var delegate: BuskersSearchViewControllerDelegate?
+    
     var loadingIndicator = NVActivityIndicatorView(frame: CGRect(origin: CGPoint.zero, size: CGSize(width: 20, height: 20)), type: .lineScale)
     
     let screenWidth: CGFloat = UIScreen.main.bounds.width
@@ -150,7 +156,8 @@ extension BuskersSearchViewController {
     
     private func setupHistoryTableView() {
         historyTableView = UITableView(frame: CGRect(origin: CGPoint.zero, size: CGSize(width: screenWidth, height: GenreCell.height)))
-        historyTableView.showsHorizontalScrollIndicator = false
+        historyTableView.showsVerticalScrollIndicator = false
+        historyTableView.alwaysBounceVertical = false
         historyTableView.rowHeight = 46
         historyTableView.backgroundColor = .darkGray()
         historyTableView.separatorColor = .darkGray
@@ -332,6 +339,9 @@ extension BuskersSearchViewController: UITableViewDelegate, UITableViewDataSourc
 //MARK: UISearchResultsUpdating Delegate
 extension BuskersSearchViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
-        searchController.searchResultsController?.view.isHidden = false
+        let query = searchController.searchBar.text
+        if query == nil || query!.isEmpty {
+            self.delegate?.reassureShowingVC()
+        }
     }
 }

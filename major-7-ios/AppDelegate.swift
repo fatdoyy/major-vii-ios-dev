@@ -12,6 +12,7 @@ import Firebase
 import FBSDKLoginKit
 import FBSDKCoreKit
 import GoogleSignIn
+import GoogleMaps
 import SkeletonView
 
 @UIApplicationMain
@@ -26,9 +27,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //facebook
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
         
-        //google login
+        //google login/maps
         GIDSignIn.sharedInstance().clientID = "1044647301084-uomk81nqohoq7vv28eakhqgbvgj5pbsr.apps.googleusercontent.com"
-
+        GMSServices.provideAPIKey("AIzaSyCAa_jFyV8aWPkTJeslEuDhGHFjFRJzhvI")
+        
         //dark UI elements
         UITabBar.appearance().barTintColor = UIColor(red:0.13, green:0.13, blue:0.13, alpha:0.75)
         UITabBar.appearance().tintColor = .white

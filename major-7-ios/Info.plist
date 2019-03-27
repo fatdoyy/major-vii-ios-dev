@@ -65,6 +65,8 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>By accessing your location, this app can show you nearby events.</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>audio</string>

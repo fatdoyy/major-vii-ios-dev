@@ -11,9 +11,14 @@ import GlitchLabel
 
 class AgentsViewController: UIViewController {
 
+    @IBOutlet weak var label: GlitchLabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .darkGray()
+
+        label.lineBreakMode = .byCharWrapping
+        label.text = "coming soon... coming soon... coming soon... coming soon..."
         
     }
     

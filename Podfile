@@ -18,6 +18,7 @@ target 'major-7-ios' do
   
   #Google
   pod 'GoogleSignIn'
+  pod 'GoogleMaps'
   
   #General Pods
   pod 'Localize-Swift', '~> 2.0'                # localization

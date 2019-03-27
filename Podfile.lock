@@ -68,6 +68,11 @@ PODS:
     - GoogleUtilities/Network (~> 5.2)
     - "GoogleUtilities/NSData+zlib (~> 5.2)"
     - nanopb (~> 0.3)
+  - GoogleMaps (3.0.3):
+    - GoogleMaps/Maps (= 3.0.3)
+  - GoogleMaps/Base (3.0.3)
+  - GoogleMaps/Maps (3.0.3):
+    - GoogleMaps/Base
   - GoogleSignIn (4.4.0):
     - "GoogleToolboxForMac/NSDictionary+URLArguments (~> 2.1)"
     - "GoogleToolboxForMac/NSString+URLArguments (~> 2.1)"
@@ -144,6 +149,7 @@ DEPENDENCIES:
   - Firebase/Core
   - Floaty (~> 4.1.0)
   - GlitchLabel (from `https://github.com/kikikiktai/GlitchLabel.git`)
+  - GoogleMaps
   - GoogleSignIn
   - Hero
   - ImageViewer (from `https://github.com/mezhevikin/ImageViewer`)
@@ -186,6 +192,7 @@ SPEC REPOS:
     - FirebaseInstanceID
     - Floaty
     - GoogleAppMeasurement
+    - GoogleMaps
     - GoogleSignIn
     - GoogleToolboxForMac
     - GoogleUtilities
@@ -249,6 +256,7 @@ SPEC CHECKSUMS:
   Floaty: 1a4e213f3512cf3045ef9cb0c1ff456226d1f66a
   GlitchLabel: 65773d1df358ef66c8daa40428eb79bd04e7a976
   GoogleAppMeasurement: 98b71f5e04142793729a5ef23e5b96651ff4b70f
+  GoogleMaps: fd5c9fa58871781b9fb94d4936f19c69fe60ce32
   GoogleSignIn: 7ff245e1a7b26d379099d3243a562f5747e23d39
   GoogleToolboxForMac: ff31605b7d66400dcec09bed5861689aebadda4d
   GoogleUtilities: 95996bea7c7d9b8fb811b7507669a4a8762f80c7
@@ -275,6 +283,6 @@ SPEC CHECKSUMS:
   Validator: b34ab17a8fffd0c1ffd8f9002ead4d1e02cd9e6e
   XCDYouTubeKit: 3f4fd3eb3ed494a46a8f007b91315eed6dd6df1f
 
-PODFILE CHECKSUM: bbce8d2e9888b99e4da98f1a758364f451011343
+PODFILE CHECKSUM: bcbf4d9145da3db961645178bdfd7f4e1cc85e97
 
 COCOAPODS: 1.5.3
