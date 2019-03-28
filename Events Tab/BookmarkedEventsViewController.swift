@@ -60,6 +60,7 @@ extension BookmarkedEventsViewController {
         eventsCollectionView.dataSource = self
         eventsCollectionView.delegate = self
         eventsCollectionView.register(UINib.init(nibName: "BookmarkedEventCollectionHeaderView", bundle: nil), forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: BookmarkedEventCollectionHeaderView.reuseIdentifier)
+        eventsCollectionView.register(UINib.init(nibName: "BookmarkedEventCollectionFooterView", bundle: nil), forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: BookmarkedEventCollectionFooterView.reuseIdentifier)
         eventsCollectionView.register(UINib.init(nibName: "BookmarkedEventCell", bundle: nil), forCellWithReuseIdentifier: BookmarkedEventCell.reuseIdentifier)
         view.addSubview(eventsCollectionView)
         eventsCollectionView.snp.makeConstraints { (make) -> Void in
@@ -70,9 +71,13 @@ extension BookmarkedEventsViewController {
 
 //MARK: Collection
 extension BookmarkedEventsViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-    //Header View
+    //Header/Footer View
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         return CGSize(width: UIScreen.main.bounds.width, height: BookmarkedEventCollectionHeaderView.height)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
+        return CGSize(width: UIScreen.main.bounds.width, height: BookmarkedEventCollectionFooterView.height)
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
@@ -81,11 +86,23 @@ extension BookmarkedEventsViewController: UICollectionViewDelegate, UICollection
             let section = indexPath.section
             if section == 0 {
                 let reusableView = eventsCollectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: BookmarkedEventCollectionHeaderView.reuseIdentifier, for: indexPath) as! BookmarkedEventCollectionHeaderView
-                reusableView.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: BookmarkedEventCollectionHeaderView.height)
+                reusableView.eventCount.text = bookmarkedEvents.count == 1 ? "1 Event" : "\(bookmarkedEvents.count) Events"
+                
                 return reusableView
             } else {
                 return UICollectionReusableView()
             }
+            
+        case UICollectionView.elementKindSectionFooter:
+            let section = indexPath.section
+            if section == 0 {
+                let reusableView = eventsCollectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: BookmarkedEventCollectionFooterView.reuseIdentifier, for: indexPath) as! BookmarkedEventCollectionFooterView
+                
+                return reusableView
+            } else {
+                return UICollectionReusableView()
+            }
+            
         default:  fatalError("Unexpected element kind")
         }
     }

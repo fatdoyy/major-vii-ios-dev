@@ -236,7 +236,6 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
                 return reusableView
             default: //case 0 i.e. App Title
                 let reusableView = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HeaderView.reuseIdentifier, for: indexPath) as! HeaderView
-                reusableView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: HeaderView.height)
                 return reusableView
             }
         default:  fatalError("Unexpected element kind")

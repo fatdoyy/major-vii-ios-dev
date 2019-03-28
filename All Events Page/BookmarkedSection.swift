@@ -53,9 +53,7 @@ class BookmarkedSection: UICollectionViewCell {
                     self.bookmarksCountLabel.alpha = 1
                 }
             }
-            let count = bookmarkedEvents.count
-            let isCountEqualsToOne = count == 1
-            bookmarksCountLabel.text = isCountEqualsToOne ? "1 Event" : "\(count) Events"
+            bookmarksCountLabel.text = bookmarkedEvents.count == 1 ? "1 Event" : "\(bookmarkedEvents.count) Events"
             
             bookmarksCollectionView.reloadData()
             

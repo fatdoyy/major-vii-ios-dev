@@ -131,6 +131,8 @@
 		96F3732A224C9B280088E142 /* BookmarkedEventCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96F37328224C9B280088E142 /* BookmarkedEventCell.xib */; };
 		96F3732D224CBD850088E142 /* BookmarkedEventCollectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96F3732B224CBD850088E142 /* BookmarkedEventCollectionHeaderView.swift */; };
 		96F3732E224CBD850088E142 /* BookmarkedEventCollectionHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96F3732C224CBD850088E142 /* BookmarkedEventCollectionHeaderView.xib */; };
+		96F37331224CF2630088E142 /* BookmarkedEventCollectionFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96F3732F224CF2630088E142 /* BookmarkedEventCollectionFooterView.swift */; };
+		96F37332224CF2630088E142 /* BookmarkedEventCollectionFooterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96F37330224CF2630088E142 /* BookmarkedEventCollectionFooterView.xib */; };
 		96F5308521EC68FD007BCCB0 /* UIVisualEffectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96F5308421EC68FD007BCCB0 /* UIVisualEffectView.swift */; };
 		96FAF247223A1D7300DF23B9 /* BuskerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96FAF246223A1D7300DF23B9 /* BuskerService.swift */; };
 		96FAF249223A287C00DF23B9 /* Busker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96FAF248223A287C00DF23B9 /* Busker.swift */; };
@@ -266,6 +268,8 @@
 		96F37328224C9B280088E142 /* BookmarkedEventCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BookmarkedEventCell.xib; sourceTree = "<group>"; };
 		96F3732B224CBD850088E142 /* BookmarkedEventCollectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkedEventCollectionHeaderView.swift; sourceTree = "<group>"; };
 		96F3732C224CBD850088E142 /* BookmarkedEventCollectionHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BookmarkedEventCollectionHeaderView.xib; sourceTree = "<group>"; };
+		96F3732F224CF2630088E142 /* BookmarkedEventCollectionFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkedEventCollectionFooterView.swift; sourceTree = "<group>"; };
+		96F37330224CF2630088E142 /* BookmarkedEventCollectionFooterView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BookmarkedEventCollectionFooterView.xib; sourceTree = "<group>"; };
 		96F5308421EC68FD007BCCB0 /* UIVisualEffectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIVisualEffectView.swift; sourceTree = "<group>"; };
 		96FAF246223A1D7300DF23B9 /* BuskerService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuskerService.swift; sourceTree = "<group>"; };
 		96FAF248223A287C00DF23B9 /* Busker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Busker.swift; sourceTree = "<group>"; };
@@ -577,6 +581,8 @@
 				96F37328224C9B280088E142 /* BookmarkedEventCell.xib */,
 				96F3732B224CBD850088E142 /* BookmarkedEventCollectionHeaderView.swift */,
 				96F3732C224CBD850088E142 /* BookmarkedEventCollectionHeaderView.xib */,
+				96F3732F224CF2630088E142 /* BookmarkedEventCollectionFooterView.swift */,
+				96F37330224CF2630088E142 /* BookmarkedEventCollectionFooterView.xib */,
 			);
 			path = "Events Tab";
 			sourceTree = "<group>";
@@ -726,6 +732,7 @@
 				9620023421E4B13A0055D070 /* gif8.gif in Resources */,
 				966A6CCD217DE6DD00DF872F /* EventsSection.xib in Resources */,
 				965838B72181CAE7000FE8B0 /* NewsCellType2.xib in Resources */,
+				96F37332224CF2630088E142 /* BookmarkedEventCollectionFooterView.xib in Resources */,
 				9620023B21E4B3A80055D070 /* gif10.gif in Resources */,
 				967B56382248C2E3006F0AF9 /* SearchResultCell.xib in Resources */,
 				96C5544B219408580065D70A /* FeaturedSectionHeader.xib in Resources */,
@@ -953,6 +960,7 @@
 				96C55414219044D00065D70A /* EventsListViewController.swift in Sources */,
 				96B0BE4A21F056B4003C9BA5 /* LocalKeys.swift in Sources */,
 				966A6CDC218086BC00DF872F /* NewsSectionHeader.swift in Sources */,
+				96F37331224CF2630088E142 /* BookmarkedEventCollectionFooterView.swift in Sources */,
 				9639217421AD1C4500BA515A /* HashtagCell.swift in Sources */,
 				96AC42F222327F9600F9D62C /* BuskerProfileMemberCell.swift in Sources */,
 				96799FE221889D520074C828 /* Animations.swift in Sources */,
