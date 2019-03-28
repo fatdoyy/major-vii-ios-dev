@@ -127,7 +127,7 @@ class EventDetailsViewController: UIViewController {
     
     private func loadDetails(){
         if let url = URL(string: (eventDetails!.item?.images.first?.secureUrl)!) {
-            headerImg.kf.setImage(with: url, options: [.transition(.fade(0.75))])
+            headerImg.kf.setImage(with: url, options: [.transition(.fade(0.4))])
         }
         
         bgView.delegate = self

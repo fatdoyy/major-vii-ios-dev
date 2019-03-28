@@ -32,3 +32,9 @@ extension UIViewController { //check if VC is presented modally or pushed
         return presentingIsModal || presentingIsNavigation || presentingIsTabBar || false
     }
 }
+
+extension UIView {
+    func clone<T: UIView>() -> T {
+        return NSKeyedUnarchiver.unarchiveObject(with: NSKeyedArchiver.archivedData(withRootObject: self)) as! T
+    }
+}

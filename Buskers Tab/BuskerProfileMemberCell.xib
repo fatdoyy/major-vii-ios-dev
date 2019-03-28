@@ -20,7 +20,7 @@
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LnR-N5-pAf">
-                        <rect key="frame" x="0.0" y="79" width="112" height="17"/>
+                        <rect key="frame" x="15" y="79" width="82" height="17"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="17" id="s5b-9y-a7t"/>
                         </constraints>
@@ -60,9 +60,9 @@
                 </subviews>
             </view>
             <constraints>
-                <constraint firstItem="LnR-N5-pAf" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="3sB-Wz-SNc"/>
+                <constraint firstItem="LnR-N5-pAf" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="15" id="3sB-Wz-SNc"/>
                 <constraint firstAttribute="trailing" secondItem="tyU-rO-emp" secondAttribute="trailing" constant="20" id="9jo-ei-GIS"/>
-                <constraint firstAttribute="trailing" secondItem="LnR-N5-pAf" secondAttribute="trailing" id="K6w-V4-WZu"/>
+                <constraint firstAttribute="trailing" secondItem="LnR-N5-pAf" secondAttribute="trailing" constant="15" id="K6w-V4-WZu"/>
                 <constraint firstItem="zyW-cx-BrT" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="18" id="LQ4-gc-s2L"/>
                 <constraint firstItem="LnR-N5-pAf" firstAttribute="top" secondItem="tyU-rO-emp" secondAttribute="bottom" constant="7" id="M02-YZ-Iu4"/>
                 <constraint firstAttribute="bottom" secondItem="zyW-cx-BrT" secondAttribute="bottom" id="Tr6-Uy-0Gh"/>

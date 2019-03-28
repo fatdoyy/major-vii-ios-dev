@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SkeletonView
 
 class BuskerProfileMemberCell: UICollectionViewCell {
 
@@ -18,20 +19,27 @@ class BuskerProfileMemberCell: UICollectionViewCell {
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var roleBg: UIView!
     @IBOutlet weak var roleLabel: UILabel!
-    
+
     override func awakeFromNib() {
         super.awakeFromNib()
         backgroundColor = .clear
         
+        let animation = SkeletonAnimationBuilder().makeSlidingAnimation(withDirection: .leftRight, duration: 2)
+        
+        SkeletonAppearance.default.multilineHeight = 14
+
         icon.layer.cornerRadius = 36 //height is 72
         icon.backgroundColor = .darkGray
         
         nameLabel.textColor = .white
         nameLabel.text = "Default"
+        nameLabel.isSkeletonable = true
+        nameLabel.showAnimatedGradientSkeleton(animation: animation)
         
         roleBg.layer.cornerRadius = 8
         roleBg.backgroundColor = UIColor.white.withAlphaComponent(0.3)
         
+        roleLabel.alpha = 0
         roleLabel.textColor = .white
         roleLabel.text = "Default"
     }

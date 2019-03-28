@@ -13,12 +13,12 @@ class MyFloatingPanelLayout: FloatingPanelLayout {
         return .tip
     }
     var supportedPositions: Set<FloatingPanelPosition> {
-        return [.tip, .half]
+        return [.tip, .full]
     }
     
     func insetFor(position: FloatingPanelPosition) -> CGFloat? {
         switch position {
-        case .half: return UIScreen.main.bounds.height / 3 * 2
+        case .full: return 60
         case .tip:  return 40.0
         default:    return nil
         }
@@ -26,7 +26,7 @@ class MyFloatingPanelLayout: FloatingPanelLayout {
     
     func backdropAlphaFor(position: FloatingPanelPosition) -> CGFloat {
         switch position {
-        case .half: return 0.3
+        case .full: return 0.45
         case .tip:  return 0
         default:    return 0
         }

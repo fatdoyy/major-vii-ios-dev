@@ -127,6 +127,10 @@
 		96EA375621B66BBC00E9DB74 /* ImageViewerHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96EA375521B66BBC00E9DB74 /* ImageViewerHelper.swift */; };
 		96F37324224B96AC0088E142 /* BookmarkedEventsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96F37323224B96AC0088E142 /* BookmarkedEventsViewController.swift */; };
 		96F37326224BA1610088E142 /* FloatingPanelSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96F37325224BA1610088E142 /* FloatingPanelSettings.swift */; };
+		96F37329224C9B280088E142 /* BookmarkedEventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96F37327224C9B280088E142 /* BookmarkedEventCell.swift */; };
+		96F3732A224C9B280088E142 /* BookmarkedEventCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96F37328224C9B280088E142 /* BookmarkedEventCell.xib */; };
+		96F3732D224CBD850088E142 /* BookmarkedEventCollectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96F3732B224CBD850088E142 /* BookmarkedEventCollectionHeaderView.swift */; };
+		96F3732E224CBD850088E142 /* BookmarkedEventCollectionHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96F3732C224CBD850088E142 /* BookmarkedEventCollectionHeaderView.xib */; };
 		96F5308521EC68FD007BCCB0 /* UIVisualEffectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96F5308421EC68FD007BCCB0 /* UIVisualEffectView.swift */; };
 		96FAF247223A1D7300DF23B9 /* BuskerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96FAF246223A1D7300DF23B9 /* BuskerService.swift */; };
 		96FAF249223A287C00DF23B9 /* Busker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96FAF248223A287C00DF23B9 /* Busker.swift */; };
@@ -258,6 +262,10 @@
 		96EA375521B66BBC00E9DB74 /* ImageViewerHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewerHelper.swift; sourceTree = "<group>"; };
 		96F37323224B96AC0088E142 /* BookmarkedEventsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkedEventsViewController.swift; sourceTree = "<group>"; };
 		96F37325224BA1610088E142 /* FloatingPanelSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingPanelSettings.swift; sourceTree = "<group>"; };
+		96F37327224C9B280088E142 /* BookmarkedEventCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkedEventCell.swift; sourceTree = "<group>"; };
+		96F37328224C9B280088E142 /* BookmarkedEventCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BookmarkedEventCell.xib; sourceTree = "<group>"; };
+		96F3732B224CBD850088E142 /* BookmarkedEventCollectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkedEventCollectionHeaderView.swift; sourceTree = "<group>"; };
+		96F3732C224CBD850088E142 /* BookmarkedEventCollectionHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BookmarkedEventCollectionHeaderView.xib; sourceTree = "<group>"; };
 		96F5308421EC68FD007BCCB0 /* UIVisualEffectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIVisualEffectView.swift; sourceTree = "<group>"; };
 		96FAF246223A1D7300DF23B9 /* BuskerService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuskerService.swift; sourceTree = "<group>"; };
 		96FAF248223A287C00DF23B9 /* Busker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Busker.swift; sourceTree = "<group>"; };
@@ -565,6 +573,10 @@
 			children = (
 				966A6CC2217DBDAF00DF872F /* EventsViewController.swift */,
 				96F37323224B96AC0088E142 /* BookmarkedEventsViewController.swift */,
+				96F37327224C9B280088E142 /* BookmarkedEventCell.swift */,
+				96F37328224C9B280088E142 /* BookmarkedEventCell.xib */,
+				96F3732B224CBD850088E142 /* BookmarkedEventCollectionHeaderView.swift */,
+				96F3732C224CBD850088E142 /* BookmarkedEventCollectionHeaderView.xib */,
 			);
 			path = "Events Tab";
 			sourceTree = "<group>";
@@ -680,9 +692,11 @@
 				9620025821E4F58E0055D070 /* gif11.gif in Resources */,
 				9620022121E3B17A0055D070 /* GoogleService-Info.plist in Resources */,
 				967BD3432240E60200469CF9 /* BuskerCell.xib in Resources */,
+				96F3732E224CBD850088E142 /* BookmarkedEventCollectionHeaderView.xib in Resources */,
 				96C5542F2192C6730065D70A /* FollowingCell.xib in Resources */,
 				96DEB1EE22378446005F87F4 /* BuskerProfileEventCell.xib in Resources */,
 				965838C321831866000FE8B0 /* NewsCellType5.xib in Resources */,
+				96F3732A224C9B280088E142 /* BookmarkedEventCell.xib in Resources */,
 				96AC42F322327F9600F9D62C /* BuskerProfileMemberCell.xib in Resources */,
 				9620025C21E5CF1B0055D070 /* gif6.gif in Resources */,
 				96C5543B2192D9980065D70A /* BookmarkedCell.xib in Resources */,
@@ -874,6 +888,7 @@
 				96F37326224BA1610088E142 /* FloatingPanelSettings.swift in Sources */,
 				96C5543A2192D9980065D70A /* BookmarkedCell.swift in Sources */,
 				96C5541F219199700065D70A /* TrendingSection.swift in Sources */,
+				96F37329224C9B280088E142 /* BookmarkedEventCell.swift in Sources */,
 				960A4760219AA8FE00780AD4 /* HapticFeedback.swift in Sources */,
 				96C9899C221FFA4100170609 /* UIScrollView.swift in Sources */,
 				964761EF21870EE60004F58C /* NewsService.swift in Sources */,
@@ -934,6 +949,7 @@
 				96799FE4218AF8E70074C828 /* Hashtag.swift in Sources */,
 				967BD33F2240C00300469CF9 /* PinterestLayout.swift in Sources */,
 				96C554312192CBCE0065D70A /* GlobalCornerRadius.swift in Sources */,
+				96F3732D224CBD850088E142 /* BookmarkedEventCollectionHeaderView.swift in Sources */,
 				96C55414219044D00065D70A /* EventsListViewController.swift in Sources */,
 				96B0BE4A21F056B4003C9BA5 /* LocalKeys.swift in Sources */,
 				966A6CDC218086BC00DF872F /* NewsSectionHeader.swift in Sources */,

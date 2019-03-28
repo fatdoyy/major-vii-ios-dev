@@ -101,7 +101,7 @@ class TrendingSection: UICollectionViewCell {
     //get trending events list
     func getTrendingEvents(){
         EventService.getTrendingEvents().done { response in
-            self.trendingEvents = response.eventsList
+            self.trendingEvents = response.eventsList.reversed()
             }.ensure {
                 UIApplication.shared.isNetworkActivityIndicatorVisible = false
             }.catch { error in }
@@ -242,7 +242,7 @@ extension TrendingSection: UICollectionViewDataSource, UICollectionViewDelegate,
             }
             
             if let imgUrl = URL(string: (trendingEvents[indexPath.row].images.first?.secureUrl)!) {
-                cell.bgImgView.kf.setImage(with: imgUrl, options: [.transition(.fade(0.75))])
+                cell.bgImgView.kf.setImage(with: imgUrl, options: [.transition(.fade(0.4))])
             }
             
             if let id = trendingEvents[indexPath.row].id {

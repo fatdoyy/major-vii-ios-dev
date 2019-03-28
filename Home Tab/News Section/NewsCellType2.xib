@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -22,6 +22,13 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GU8-bt-JU9" customClass="ImageOverlayRevert" customModule="major_7_ios" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="0.0" width="335" height="129"/>
                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </view>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="F7X-17-81M" customClass="ImageOverlay" customModule="major_7_ios" customModuleProvider="target">
+                        <rect key="frame" x="0.0" y="129" width="335" height="129"/>
+                        <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="129" id="G5z-e8-0BL"/>
+                        </constraints>
                     </view>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fIk-t3-ANW">
                         <rect key="frame" x="20" y="20.5" width="295" height="31.5"/>
@@ -52,11 +59,14 @@
             <constraints>
                 <constraint firstItem="tHM-AS-WXU" firstAttribute="leading" secondItem="ot6-Hj-gnC" secondAttribute="leading" constant="20" id="0ME-la-otA"/>
                 <constraint firstItem="GU8-bt-JU9" firstAttribute="top" secondItem="nvi-Jr-JHf" secondAttribute="top" id="3bx-zh-SiH"/>
+                <constraint firstItem="F7X-17-81M" firstAttribute="leading" secondItem="nvi-Jr-JHf" secondAttribute="leading" id="789-DF-AGg"/>
                 <constraint firstItem="tHM-AS-WXU" firstAttribute="top" secondItem="GU8-bt-JU9" secondAttribute="bottom" constant="97" id="A5n-qT-GDc"/>
                 <constraint firstItem="ot6-Hj-gnC" firstAttribute="bottom" secondItem="8eQ-Zt-0hd" secondAttribute="bottom" constant="15" id="Cqz-qS-8mF"/>
                 <constraint firstItem="I4Y-e3-On3" firstAttribute="leading" secondItem="8eQ-Zt-0hd" secondAttribute="trailing" constant="4" id="Gws-Cb-Twf"/>
                 <constraint firstItem="fIk-t3-ANW" firstAttribute="leading" secondItem="ot6-Hj-gnC" secondAttribute="leading" constant="20" id="Ioc-aq-ie6"/>
+                <constraint firstAttribute="trailing" secondItem="F7X-17-81M" secondAttribute="trailing" id="KHx-ha-7bm"/>
                 <constraint firstItem="GU8-bt-JU9" firstAttribute="leading" secondItem="nvi-Jr-JHf" secondAttribute="leading" id="Mbo-Wy-EQi"/>
+                <constraint firstAttribute="bottom" secondItem="F7X-17-81M" secondAttribute="bottom" id="RNG-w4-93O"/>
                 <constraint firstItem="ot6-Hj-gnC" firstAttribute="trailing" secondItem="I4Y-e3-On3" secondAttribute="trailing" constant="20" id="b5g-X2-vw4"/>
                 <constraint firstItem="ot6-Hj-gnC" firstAttribute="bottom" secondItem="I4Y-e3-On3" secondAttribute="bottom" constant="16" id="jBf-m2-Scc"/>
                 <constraint firstItem="fIk-t3-ANW" firstAttribute="top" secondItem="ot6-Hj-gnC" secondAttribute="top" constant="20.5" id="rO3-L3-cXW"/>
@@ -68,7 +78,8 @@
             <size key="customSize" width="191" height="123"/>
             <connections>
                 <outlet property="countLabel" destination="8eQ-Zt-0hd" id="mf8-LD-Vf0"/>
-                <outlet property="imageOverlay" destination="GU8-bt-JU9" id="bd9-ph-uM8"/>
+                <outlet property="imgOverlayBottom" destination="F7X-17-81M" id="EKO-ZA-ycy"/>
+                <outlet property="imgOverlayTop" destination="GU8-bt-JU9" id="bd9-ph-uM8"/>
                 <outlet property="newsTitle" destination="fIk-t3-ANW" id="01X-yH-ldC"/>
                 <outlet property="timeLabel" destination="tHM-AS-WXU" id="JCP-HG-51s"/>
                 <outlet property="viewsLabel" destination="I4Y-e3-On3" id="Gdx-My-yn1"/>

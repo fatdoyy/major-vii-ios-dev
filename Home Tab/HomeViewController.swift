@@ -32,6 +32,7 @@ class HomeViewController: UIViewController, UIGestureRecognizerDelegate {
         
         self.tabBarController?.delegate = self
         
+        mainCollectionView.isUserInteractionEnabled = false
         mainCollectionView.dataSource = self
         mainCollectionView.delegate = self
         
@@ -91,6 +92,7 @@ class HomeViewController: UIViewController, UIGestureRecognizerDelegate {
             
             self.mainCollectionView.reloadData()
             }.ensure {
+                self.mainCollectionView.isUserInteractionEnabled = true
                 UIApplication.shared.isNetworkActivityIndicatorVisible = false
             }.catch { error in }
     }
@@ -128,7 +130,7 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
                 cell.newsTitle.text = newsList[indexPath.row].title
                 //cell.bgImgView.sd_imageTransition = .fade
                 if let url = URL(string: newsList[indexPath.row].coverImages[0].secureUrl!){
-                    cell.bgImgView.kf.setImage(with: url, options: [.transition(.fade(0.75))])
+                    cell.bgImgView.kf.setImage(with: url, options: [.transition(.fade(0.4))])
                 }
                 
                 return cell
@@ -138,7 +140,7 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
                 Hashtag.createAtCell(cell: cell, position: .cellBottom, dataSource: newsList[indexPath.row].hashtags, solidColor: true)
                 cell.newsTitle.text = newsList[indexPath.row].title
                 if let url = URL(string: newsList[indexPath.row].coverImages[0].secureUrl!){
-                    cell.bgImgView.kf.setImage(with: url, options: [.transition(.fade(0.75))])
+                    cell.bgImgView.kf.setImage(with: url, options: [.transition(.fade(0.4))])
                 }
                 
                 return cell
@@ -150,7 +152,7 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
                 cell.subTitle.text = newsList[indexPath.row].subTitle
                 
                 if let url = URL(string: newsList[indexPath.row].coverImages[0].secureUrl!){
-                    cell.bgImgView.kf.setImage(with: url, options: [.transition(.fade(0.75))])
+                    cell.bgImgView.kf.setImage(with: url, options: [.transition(.fade(0.4))])
                 }
                 
                 return cell
@@ -232,7 +234,7 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
             case 1:
                 let reusableView = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: NewsSectionHeader.reuseIdentifier, for: indexPath) as! NewsSectionHeader
                 return reusableView
-            default: //case 0
+            default: //case 0 i.e. App Title
                 let reusableView = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HeaderView.reuseIdentifier, for: indexPath) as! HeaderView
                 reusableView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: HeaderView.height)
                 return reusableView

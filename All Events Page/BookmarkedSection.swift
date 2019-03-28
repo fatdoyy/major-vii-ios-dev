@@ -376,6 +376,7 @@ extension BookmarkedSection: UICollectionViewDataSource, UICollectionViewDelegat
         let cell = bookmarksCollectionView.dequeueReusableCell(withReuseIdentifier: BookmarkedCell.reuseIdentifier, for: indexPath) as! BookmarkedCell
         if !bookmarkedEvents.isEmpty {
             if let event = bookmarkedEvents[indexPath.row].targetEvent {
+   
                 cell.delegate = self
                 cell.myIndexPath = indexPath
                 cell.eventTitle.text = event.title
@@ -383,7 +384,17 @@ extension BookmarkedSection: UICollectionViewDataSource, UICollectionViewDelegat
                 cell.performerLabel.text = event.organizerProfile?.name
                 cell.bookmarkBtn.backgroundColor = .mintGreen()
                 if let url = URL(string: event.images[0].secureUrl!) {
-                    cell.bgImgView.kf.setImage(with: url, options: [.transition(.fade(0.75))])
+                    cell.bgImgView.kf.setImage(with: url, options: [.transition(.fade(0.4))])
+                }
+                
+                for view in cell.skeletonViews { //hide all skeleton views
+                    view.hideSkeleton()
+                }
+                
+                for view in cell.viewsToShowLater {
+                    UIView.animate(withDuration: 0.3) {
+                        view.alpha = 1
+                    }
                 }
             }
         }

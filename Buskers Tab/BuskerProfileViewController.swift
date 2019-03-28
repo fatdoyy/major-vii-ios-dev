@@ -58,6 +58,7 @@ class BuskerProfileViewController: UIViewController {
     var gesture: UIGestureRecognizer?
     
     var loadingIndicator = NVActivityIndicatorView(frame: CGRect(origin: CGPoint.zero, size: CGSize(width: 20, height: 20)), type: .lineScale)
+    var loadingIndicator2 = NVActivityIndicatorView(frame: CGRect(origin: CGPoint.zero, size: CGSize(width: 20, height: 20)), type: .lineScale)
     
     @IBOutlet weak var mainScrollView: UIScrollView!
     
@@ -151,7 +152,8 @@ class BuskerProfileViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         gesture?.delegate = self
-        
+        loadingIndicator.startAnimating()
+        loadingIndicator2.startAnimating()
         
         updatesStatusBarAppearanceAutomatically = true
         view.backgroundColor = .darkGray()
@@ -307,10 +309,12 @@ extension BuskerProfileViewController {
                     }
                 }
                 
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                loadingIndicator2.alpha = 0
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                     for view in self.delayedViewsToShowLater {
                         UIView.animate(withDuration: 0.3) {
                             self.loadingIndicator.alpha = 0
+
                             view.alpha = 1
                         }
                     }
@@ -374,6 +378,14 @@ extension BuskerProfileViewController {
         imgCollectionView.delegate = self
         imgCollectionView.showsHorizontalScrollIndicator = false
         imgCollectionView.register(UINib.init(nibName: "BuskerProfileImgCell", bundle: nil), forCellWithReuseIdentifier: BuskerProfileImgCell.reuseIdentifier)
+        
+        let imgOverlay = ImageOverlayRevert()
+        imgCollectionView.addSubview(imgOverlay)
+        imgOverlay.snp.makeConstraints { make in
+            make.top.left.right.equalTo(0)
+            make.width.equalTo(screenWidth)
+            make.height.equalTo(100)
+        }
         
 //        imgContainerView.backgroundColor = .darkGray
 //        mainScrollView.addSubview(imgContainerView)
@@ -550,7 +562,6 @@ extension BuskerProfileViewController {
         statsGradientBg.startAnimation()
         
         statsBgView.insertSubview(statsGradientBg, at: 0)
-        loadingIndicator.startAnimating()
         statsBgView.addSubview(loadingIndicator)
         loadingIndicator.snp.makeConstraints { make in
             make.center.equalToSuperview()
@@ -661,7 +672,13 @@ extension BuskerProfileViewController {
             make.top.equalTo(statsBgView.snp.bottom).offset(20)
             make.centerX.equalToSuperview()
             make.width.equalTo(screenWidth - 40)
-            make.height.equalTo(90)
+            make.height.equalTo(110)
+        }
+        
+        profileBgView.addSubview(loadingIndicator2)
+        loadingIndicator2.snp.makeConstraints { make in
+            make.centerY.equalToSuperview().offset(10)
+            make.centerX.equalToSuperview()
         }
         
         profileLineView.isUserInteractionEnabled = false
@@ -1018,7 +1035,7 @@ extension BuskerProfileViewController: UICollectionViewDelegateFlowLayout, UICol
             let cell = imgCollectionView.dequeueReusableCell(withReuseIdentifier: BuskerProfileImgCell.reuseIdentifier, for: indexPath) as! BuskerProfileImgCell
             if let profile = buskerDetails?.item {
                 if let url = URL(string: profile.coverImages[indexPath.row].secureUrl!) {
-                    cell.imgView.kf.setImage(with: url, options: [.transition(.fade(0.75))])
+                    cell.imgView.kf.setImage(with: url, options: [.transition(.fade(0.4))])
                 }
             }
             return cell
@@ -1034,10 +1051,15 @@ extension BuskerProfileViewController: UICollectionViewDelegateFlowLayout, UICol
             let cell = membersCollectionView.dequeueReusableCell(withReuseIdentifier: BuskerProfileMemberCell.reuseIdentifier, for: indexPath) as! BuskerProfileMemberCell
             if let profile = buskerDetails?.item {
                 if let url = URL(string: profile.members[indexPath.row].icon!.secureUrl!) {
-                    cell.icon.kf.setImage(with: url, options: [.transition(.fade(0.75))])
+                    cell.icon.kf.setImage(with: url, options: [.transition(.fade(0.4))])
                 }
                 cell.nameLabel.text = profile.members[indexPath.row].name
                 cell.roleLabel.text = profile.members[indexPath.row].role
+                
+                cell.nameLabel.hideSkeleton()
+                UIView.animate(withDuration: 0.2) {
+                    cell.roleLabel  .alpha = 1
+                }
             }
 
             return cell
@@ -1046,7 +1068,7 @@ extension BuskerProfileViewController: UICollectionViewDelegateFlowLayout, UICol
             let cell = eventsCollectionView.dequeueReusableCell(withReuseIdentifier: BuskerProfileEventCell.reuseIdentifier, for: indexPath) as! BuskerProfileEventCell
             if let events = buskerEvents?.list {
                 if let url = URL(string: events[indexPath.row].images[0].secureUrl!) {
-                    cell.eventImg.kf.setImage(with: url, options: [.transition(.fade(0.75))])
+                    cell.eventImg.kf.setImage(with: url, options: [.transition(.fade(0.4))])
                 }
                 cell.eventLabel.text = events[indexPath.row].title
                 cell.locationLabel.text = events[indexPath.row].address
@@ -1061,7 +1083,7 @@ extension BuskerProfileViewController: UICollectionViewDelegateFlowLayout, UICol
             
             if let posts = buskerPosts?.list {
 //                if let url = URL(string: posts[indexPath.row].images[0].secureUrl!) {
-//                    cell.buskerIcon.kf.setImage(with: url, options: [.transition(.fade(0.75))])
+//                    cell.buskerIcon.kf.setImage(with: url, options: [.transition(.fade(0.4))])
 //                }
                 cell.buskerIcon.image = UIImage(named: "cat")
                 cell.buskerLabel.text = posts[indexPath.row].createrProfile?.name

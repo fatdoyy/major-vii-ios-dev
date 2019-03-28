@@ -29,8 +29,16 @@ class EventsSection: UICollectionViewCell {
     @IBOutlet weak var eventsLabel: UILabel!
     @IBOutlet weak var viewAllBtn: UIButton!
     
+    var randomImgUrl: [URL] = []
     var upcomingEvents: [Event] = [] {
         didSet {
+            for event in upcomingEvents {
+                if let url = event.images.randomElement()?.secureUrl {
+                    randomImgUrl.append(URL(string: url)!)
+                }
+            }
+            
+            eventsCollectionView.isUserInteractionEnabled = true
             eventsCollectionView.reloadData()
         }
     }
@@ -54,6 +62,7 @@ class EventsSection: UICollectionViewCell {
             layout.sectionInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
         }
         
+        eventsCollectionView.isUserInteractionEnabled = false
         eventsCollectionView.dataSource = self
         eventsCollectionView.delegate = self
         
@@ -73,7 +82,7 @@ class EventsSection: UICollectionViewCell {
     //get upcoming events list
     private func getUpcomingEvents(){
         EventService.getUpcomingEvents().done { response -> () in
-            self.upcomingEvents = response.eventsList
+            self.upcomingEvents = response.eventsList.reversed()
             }.ensure {
                 UIApplication.shared.isNetworkActivityIndicatorVisible = false
             }.catch { error in }
@@ -103,10 +112,8 @@ extension EventsSection: UICollectionViewDataSource, UICollectionViewDelegate, U
 
             cell.bgView.alpha = 0.7
             cell.imgOverlay.isHidden = false
-            
-            if let imgUrl = URL(string: (upcomingEvents[indexPath.row].images.first?.secureUrl)!) {
-                cell.bgImgView.kf.setImage(with: imgUrl, options: [.transition(.fade(0.75))])
-            }
+
+            cell.bgImgView.kf.setImage(with: randomImgUrl[indexPath.row], options: [.transition(.fade(0.4))])
             
             //decoding the date to "dd MMM"
             let dateResponse = upcomingEvents[indexPath.row].dateTime

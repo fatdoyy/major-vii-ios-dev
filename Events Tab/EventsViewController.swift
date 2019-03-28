@@ -17,6 +17,15 @@ class EventsViewController: UIViewController {
     
     var fpc: FloatingPanelController!
     var eventsVC: BookmarkedEventsViewController!
+    
+    var swipeUpImg = UIImageView()
+    var swipeDownImg = UIImageView()
+    
+    var bookmarkedEvents: [BookmarkedEvent] = [] {
+        didSet {
+            eventsVC.bookmarkedEvents = bookmarkedEvents
+        }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,34 +38,7 @@ class EventsViewController: UIViewController {
         mapView.isMyLocationEnabled = true
         mapView.settings.myLocationButton = true
         
-        // Initialize FloatingPanelController
-        fpc = FloatingPanelController()
-        fpc.delegate = self
-        
-        let swipeUpImg = UIImageView()
-        swipeUpImg.image = UIImage(named: "icon_swipe_up")
-        swipeUpImg.bounceRepeat()
-        
-        // Initialize FloatingPanelController and add the view
-        fpc.surfaceView.grabberHandle.isHidden = true
-        fpc.surfaceView.addSubview(swipeUpImg)
-        swipeUpImg.snp.makeConstraints { make in
-            make.size.equalTo(20)
-            make.top.equalToSuperview().offset(10)
-            make.centerX.equalToSuperview()
-        }
-        fpc.surfaceView.cornerRadius = 30
-        fpc.surfaceView.shadowHidden = false
-        
-        // Set a content view controller and track the scroll view
-        let eventsVC = storyboard?.instantiateViewController(withIdentifier: "bookmarkedEventsVC") as! BookmarkedEventsViewController
-        fpc.set(contentViewController: eventsVC)
-//        eventsVC.textView.delegate = self // MUST call it before fpc.track(scrollView:)
-//        fpc.track(scrollView: eventsVC.textView)
-        self.eventsVC = eventsVC
-        
-        //  Add FloatingPanel to self.view
-        fpc.addPanel(toParent: self)
+        setupFPC()
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -68,6 +50,18 @@ class EventsViewController: UIViewController {
         setupNavBar()
     }
     
+}
+
+//MARK: Network calls
+extension EventsViewController {
+    private func getBookmarkedEvents() {
+        EventService.getBookmarkedEvents().done { response in
+            self.bookmarkedEvents = response.bookmarkedEventsList.reversed()
+            }.ensure {
+                UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                //if let completion = completion { completion() }
+            }.catch { error in }
+    }
 }
 
 //MARK: UISetup
@@ -92,6 +86,67 @@ extension EventsViewController {
 
 //MARK: Floating Panel
 extension EventsViewController: FloatingPanelControllerDelegate {
+    private func setupFPC() {
+        // Initialize FloatingPanelController
+        fpc = FloatingPanelController()
+        fpc.delegate = self
+        
+        swipeUpImg.image = UIImage(named: "icon_swipe_up")
+        swipeUpImg.bounceUpRepeat()
+        
+        swipeDownImg.image = swipeUpImg.image?.rotate(radians: .pi) //rotate 180 degrees
+        swipeDownImg.bounceDownRepeat()
+        
+        // Initialize FloatingPanelController and add the view
+        fpc.surfaceView.grabberHandle.isHidden = true
+        fpc.surfaceView.addSubview(swipeUpImg)
+        swipeUpImg.snp.makeConstraints { make in
+            make.size.equalTo(20)
+            make.top.equalToSuperview().offset(10)
+            make.centerX.equalToSuperview()
+        }
+        swipeDownImg.alpha = 0
+        fpc.surfaceView.addSubview(swipeDownImg)
+        swipeDownImg.snp.makeConstraints { make in
+            make.size.equalTo(20)
+            make.top.equalToSuperview().offset(10)
+            make.centerX.equalToSuperview()
+        }
+        
+        fpc.surfaceView.cornerRadius = 30
+        fpc.surfaceView.shadowHidden = false
+        
+        // Set a content view controller and track the scroll view
+        let eventsVC = storyboard?.instantiateViewController(withIdentifier: "bookmarkedEventsVC") as! BookmarkedEventsViewController
+        fpc.set(contentViewController: eventsVC)
+        //        eventsVC.textView.delegate = self // MUST call it before fpc.track(scrollView:)
+        fpc.track(scrollView: eventsVC.eventsCollectionView)
+        self.eventsVC = eventsVC
+        
+        //  Add FloatingPanel to self.view
+        fpc.addPanel(toParent: self)
+    }
+    
+    func floatingPanelWillBeginDragging(_ vc: FloatingPanelController) {
+        print("dragging panel!")
+    }
+
+    func floatingPanelDidChangePosition(_ vc: FloatingPanelController) {
+        swipeUpImg.alpha = vc.position == .full ? 0 : 1
+        swipeDownImg.alpha = vc.position == .full ? 1 : 0
+        
+        switch vc.position {
+        case .full:
+            print("full now!")
+            if bookmarkedEvents.isEmpty { getBookmarkedEvents() }
+        case .tip:
+            print("tip now!")
+        default:
+            print("unknown position?")
+        }
+    }
+    
+    
     func floatingPanel(_ vc: FloatingPanelController, layoutFor newCollection: UITraitCollection) -> FloatingPanelLayout? {
         return MyFloatingPanelLayout()
     }
@@ -106,15 +161,11 @@ extension EventsViewController: FloatingPanelControllerDelegate {
 //MARK: CLLocationManager Delegate
 extension EventsViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-        guard status == .authorizedWhenInUse else {
-            return
-        }
+        guard status == .authorizedWhenInUse else { return }
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        guard let location = locations.first else {
-            return
-        }
+        guard let location = locations.first else { return }
         
         mapView.camera = GMSCameraPosition(target: location.coordinate, zoom: 15, bearing: 0, viewingAngle: 0)
         

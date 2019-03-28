@@ -223,7 +223,7 @@ extension NewsDetailViewController {
             make.size.equalTo(25)
             make.bottom.equalTo(swipeUpLabel.snp.top).offset(-10)
         }
-        swipeUpImg.bounceRepeat()
+        swipeUpImg.bounceUpRepeat()
         
         viewsLabel.alpha = 0
         viewsLabel.textAlignment = .left
@@ -450,7 +450,7 @@ extension NewsDetailViewController: UICollectionViewDelegateFlowLayout, UICollec
 
         if let newsDetails = self.details?.item {
             if let url = URL(string: newsDetails.coverImages[indexPath.row].secureUrl!) {
-                cell.imgView.kf.setImage(with: url, options: [.transition(.fade(0.75))])
+                cell.imgView.kf.setImage(with: url, options: [.transition(.fade(0.4))])
             }
         }
 

@@ -65,7 +65,7 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ttx-KY-p21">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ttx-KY-p21">
                                 <rect key="frame" x="12" y="30" width="118" height="17"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="14"/>
                                 <nil key="textColor"/>
@@ -113,9 +113,11 @@
                 <outlet property="eventTitle" destination="Ttx-KY-p21" id="enO-FI-BQi"/>
                 <outlet property="imageOverlay" destination="KNL-AN-zjZ" id="27v-Mi-DgD"/>
                 <outlet property="performerLabel" destination="cEZ-ps-dQ4" id="wdC-lI-CrK"/>
-                <outletCollection property="skeletonViews" destination="cEZ-ps-dQ4" collectionClass="NSMutableArray" id="rgD-us-HtV"/>
-                <outletCollection property="skeletonViews" destination="whp-9w-mTg" collectionClass="NSMutableArray" id="Ydf-Rl-iXW"/>
-                <outletCollection property="skeletonViews" destination="TVf-tT-eMV" collectionClass="NSMutableArray" id="jH1-hc-G1V"/>
+                <outletCollection property="skeletonViews" destination="Ttx-KY-p21" collectionClass="NSMutableArray" id="TtX-pT-9N6"/>
+                <outletCollection property="skeletonViews" destination="F7H-Dg-W4S" collectionClass="NSMutableArray" id="rX6-Az-xip"/>
+                <outletCollection property="viewsToShowLater" destination="TVf-tT-eMV" collectionClass="NSMutableArray" id="ewj-cL-bVi"/>
+                <outletCollection property="viewsToShowLater" destination="whp-9w-mTg" collectionClass="NSMutableArray" id="RAc-Jn-nRe"/>
+                <outletCollection property="viewsToShowLater" destination="cEZ-ps-dQ4" collectionClass="NSMutableArray" id="e1O-KQ-mVb"/>
             </connections>
             <point key="canvasLocation" x="131.19999999999999" y="153.82308845577214"/>
         </collectionViewCell>

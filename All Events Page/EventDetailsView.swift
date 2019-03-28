@@ -218,7 +218,7 @@ extension EventDetailsView: UICollectionViewDelegate, UICollectionViewDataSource
             return cell
         } else { //imgCollectionView
             let cell = imgCollectionView.dequeueReusableCell(withReuseIdentifier: DetailsImageCell.reuseIdentifier, for: indexPath) as! DetailsImageCell
-            cell.imgView.kf.setImage(with: URL(string: imgUrlArray[indexPath.row]), options: [.transition(.fade(0.75))])
+            cell.imgView.kf.setImage(with: URL(string: imgUrlArray[indexPath.row]), options: [.transition(.fade(0.4))])
             return cell
         }
     }

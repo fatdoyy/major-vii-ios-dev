@@ -17,8 +17,8 @@ class NewsCellType2: UICollectionViewCell {
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var viewsLabel: UILabel!
     @IBOutlet weak var countLabel: UILabel!
-    @IBOutlet weak var imageOverlay: ImageOverlayRevert!
-    
+    @IBOutlet weak var imgOverlayTop: ImageOverlayRevert!
+    @IBOutlet weak var imgOverlayBottom: ImageOverlay!
     
     var bgImgView = UIImageView()
     
@@ -26,8 +26,11 @@ class NewsCellType2: UICollectionViewCell {
         super.awakeFromNib()
         backgroundColor = .darkGray()
         
-        imageOverlay.clipsToBounds = true
-        imageOverlay.layer.cornerRadius = GlobalCornerRadius.value
+        imgOverlayTop.clipsToBounds = true
+        imgOverlayTop.layer.cornerRadius = GlobalCornerRadius.value
+        
+        imgOverlayBottom.clipsToBounds = true
+        imgOverlayBottom.layer.cornerRadius = GlobalCornerRadius.value
         
         //newsTitle.lineBreakMode = .byWordWrapping
         newsTitle.numberOfLines = 0

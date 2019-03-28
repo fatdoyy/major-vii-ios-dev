@@ -34,7 +34,8 @@ class BookmarkedCell: UICollectionViewCell {
     @IBOutlet weak var bookmarkCountLabel: UILabel!
     var bookmarkBtnIndicator = NVActivityIndicatorView(frame: CGRect(origin: CGPoint.zero, size: CGSize(width: 12, height: 12)), type: .lineScale)
     
-    @IBOutlet var skeletonViews: Array<UILabel>!
+    @IBOutlet var skeletonViews: Array<UIView>!
+    @IBOutlet var viewsToShowLater: Array<UIView>!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -53,18 +54,21 @@ class BookmarkedCell: UICollectionViewCell {
         
         bookmarkCountLabel.textColor = .whiteText()
                 
-        //        let animation = SkeletonAnimationBuilder().makeSlidingAnimation(withDirection: .leftRight, duration: 2)
-        //        eventTitle.tag = 1
-        //        for view in skeletonViews{
-        //            if view.tag == 1 {
-        //                SkeletonAppearance.default.multilineHeight = 20
-        //            } else {
-        //                SkeletonAppearance.default.multilineHeight = 15
-        //            }
-        //            view.isSkeletonable = true
-        //            view.showAnimatedGradientSkeleton(animation: animation)
-        //        }
+        let animation = SkeletonAnimationBuilder().makeSlidingAnimation(withDirection: .leftRight, duration: 2)
+        eventTitle.tag = 1
+        for view in skeletonViews{
+            if view.tag == 1 {
+                SkeletonAppearance.default.multilineHeight = 15
+            } else {
+                SkeletonAppearance.default.multilineHeight = 12
+            }
+            view.isSkeletonable = true
+            view.showAnimatedGradientSkeleton(animation: animation)
+        }
         
+        for view in viewsToShowLater {
+            view.alpha = 0
+        }
         
         //activity indicatior
         bookmarkBtnIndicator.alpha = 0
@@ -74,7 +78,6 @@ class BookmarkedCell: UICollectionViewCell {
             make.centerX.equalToSuperview()
             make.centerY.equalToSuperview()
         }
-        
         
         eventTitle.textColor = .whiteText()
         byLabel.textColor = .whiteText()

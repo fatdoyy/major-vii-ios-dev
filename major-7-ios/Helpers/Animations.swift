@@ -40,6 +40,7 @@ class Animations {
 }
 
 extension UIView {
+    //shake animation
     func shake() {
         self.transform = CGAffineTransform(translationX: 20, y: 0)
         UIView.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 0.2, initialSpringVelocity: 1, options: .curveEaseInOut, animations: {
@@ -47,16 +48,25 @@ extension UIView {
         }, completion: nil)
     }
     
-    func bounceRepeat() {
+    //bounce up animation
+    func bounceUpRepeat() {
         UIView.animate(withDuration: 0.8, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.5, options: [.autoreverse, .repeat], animations: {
             var frame = self.frame
             frame.origin.y += 5
             self.frame = frame
         }, completion: nil)
     }
-}
-
-extension UIView { //uilabel text transition
+    
+    //bounce down animation
+    func bounceDownRepeat() {
+        UIView.animate(withDuration: 0.8, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.5, options: [.autoreverse, .repeat], animations: {
+            var frame = self.frame
+            frame.origin.y -= 5
+            self.frame = frame
+        }, completion: nil)
+    }
+    
+    //uilabel text transition
     func fadeTransition(_ duration:CFTimeInterval) {
         let animation = CATransition()
         animation.timingFunction = CAMediaTimingFunction(name:

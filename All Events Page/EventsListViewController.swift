@@ -218,6 +218,7 @@ extension EventsListViewController: UICollectionViewDelegate, UICollectionViewDe
                 let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: FollowingSection.reuseIdentifier, for: indexPath) as! FollowingSection
                 cell.delegate = self
                 return cell
+                
             case .Bookmark:
                 let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: BookmarkedSection.reuseIdentifier, for: indexPath) as! BookmarkedSection
                 cell.delegate = self
@@ -235,6 +236,7 @@ extension EventsListViewController: UICollectionViewDelegate, UICollectionViewDe
                 }
                 
                 return cell
+                
             case .Featured:
                 let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: FeaturedCell.reuseIdentifier, for: indexPath) as! FeaturedCell
                 cell.delegate = self
@@ -243,6 +245,7 @@ extension EventsListViewController: UICollectionViewDelegate, UICollectionViewDe
                 cell.bookmarkCountLabel.text = "201"
                 cell.bgImgView.image = UIImage(named: "cat")
                 return cell
+                
             default: //case 0, trending section
                 let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: TrendingSection.reuseIdentifier, for: indexPath) as! TrendingSection
                 cell.delegate = self
