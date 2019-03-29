@@ -45,6 +45,8 @@ class BaseService: NSObject {
             actionPathStr = "events/userFollowing"
         case .getFeaturedEvents:
             actionPathStr = "events/feature"
+        case .getNearbyEvents:
+            actionPathStr = "events/nearby"
         case .getEventDetails(let eventId):
             actionPathStr = "events/\(eventId)"
         case .bookmarkAction(let eventId):
@@ -104,7 +106,7 @@ class BaseService: NSObject {
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
         
         return Promise { resolver in
-            manager.request(url, method: method, parameters: params, encoding: URLEncoding.httpBody, headers: sharedHeaders()).responseJSON { response in
+            manager.request(url, method: method, parameters: params, encoding: URLEncoding.methodDependent, headers: sharedHeaders()).responseJSON { response in
                 switch response.result {
                 case .success(let value):
                     resolver.fulfill(value)
@@ -134,6 +136,7 @@ extension BaseService {
         case getTrendingEvents
         case getFollowingEvents
         case getFeaturedEvents
+        case getNearbyEvents
         case getEventDetails(eventId: String)
         case bookmarkAction(eventId: String)
         case getBookmarkedEvents

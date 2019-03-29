@@ -125,7 +125,7 @@ extension BookmarkedEventsViewController: UICollectionViewDelegate, UICollection
 //                    cell.bgImgView.kf.setImage(with: self.randomImgUrl[indexPath.row], options: [.transition(.fade(0.4)), .processor(tonalFilter())])
 //                }
                 cell.eventTitle.text = event.title
-                cell.perfomerName.text = event.organizerProfile?.name
+                cell.performerName.text = event.organizerProfile?.name
                 cell.bookmarkCount.text = "468" //bookmark.count
                 
                 for view in cell.viewsToShowLater {

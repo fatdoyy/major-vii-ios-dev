@@ -16,7 +16,7 @@ class MapMarker: GMSMarker {
     var markerImg = UIImageView()
     var performerIcon = UIImageView()
     
-    init(name: String, icon: UIImage) {
+    init(name: String) {
         super.init()
         
         let iconView = UIView(frame: CGRect(origin: .zero, size: CGSize(width: 80, height: 80)))
@@ -35,9 +35,9 @@ class MapMarker: GMSMarker {
         performerName.text = name
         performerName.font = UIFont.systemFont(ofSize: 11, weight: .medium)
         performerName.textColor = .white
-        performerName.numberOfLines = 0
+        performerName.numberOfLines = 1
         performerName.adjustsFontSizeToFitWidth = true
-        performerName.minimumScaleFactor = 0.5
+        performerName.minimumScaleFactor = 0.6
         performerName.textAlignment = .center
         nameBg.addSubview(performerName)
         performerName.snp.makeConstraints { (make) in
@@ -58,7 +58,7 @@ class MapMarker: GMSMarker {
         performerIcon.contentMode = .scaleAspectFill
         performerIcon.clipsToBounds = true
         performerIcon.layer.cornerRadius = 18
-        performerIcon.image = icon
+        performerIcon.backgroundColor = .darkGray
         iconView.addSubview(performerIcon)
         performerIcon.snp.makeConstraints { (make) in
             make.size.equalTo(36)

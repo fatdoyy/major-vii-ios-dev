@@ -15,10 +15,10 @@ class EventService: BaseService {}
 extension EventService {
     
     //upcoming events
-    static func getUpcomingEvents() -> Promise<EventsList> {
+    static func getUpcomingEvents() -> Promise<Events> {
         return Promise { resolver in
             request(method: .get, url: getActionPath(.getUpcomingEvents)).done { response in
-                guard let upcomingEvent = Mapper<EventsList>().map(JSONObject: response) else {
+                guard let upcomingEvent = Mapper<Events>().map(JSONObject: response) else {
                     resolver.reject(PMKError.cancelled)
                     return
                 }
@@ -31,10 +31,10 @@ extension EventService {
     }
     
     //trending events
-    static func getTrendingEvents() -> Promise<EventsList> {
+    static func getTrendingEvents() -> Promise<Events> {
         return Promise { resolver in
             request(method: .get, url: getActionPath(.getTrendingEvents)).done { response in
-                guard let upcomingEvent = Mapper<EventsList>().map(JSONObject: response) else {
+                guard let upcomingEvent = Mapper<Events>().map(JSONObject: response) else {
                     resolver.reject(PMKError.cancelled)
                     return
                 }
@@ -45,6 +45,39 @@ extension EventService {
             }
         }
     }
+    
+    //nearby events
+    static func getNearbyEvents(lat: Double, long: Double, radius: Int? = nil, skip: Int? = nil, limit: Int? = nil) -> Promise<NearbyEvents> {
+        var params: [String: Any] = [:]
+        params["lat"] = lat
+        params["lng"] = long
+        
+        if let radius = radius {
+            params["radius"] = radius
+        }
+        
+        if let skip = skip {
+            params["skip"] = skip
+        }
+        
+        if let limit = limit {
+            params["limit"] = limit
+        }
+        
+        return Promise { resolver in
+            request(method: .get, url: getActionPath(.getNearbyEvents), params: params).done { response in
+                guard let nearbyEvents = Mapper<NearbyEvents>().map(JSONObject: response) else {
+                    resolver.reject(PMKError.cancelled)
+                    return
+                }
+                
+                resolver.fulfill(nearbyEvents)
+                }.catch { error in
+                    resolver.reject(error)
+            }
+        }
+    }
+    
     
     //event details
     static func getEventDetails(eventId: String) -> Promise<EventDetails> {
@@ -85,10 +118,10 @@ extension EventService {
     }
     
     //get bookmarked events
-    static func getBookmarkedEvents() -> Promise<BookmarkedEventsList> {
+    static func getBookmarkedEvents() -> Promise<BookmarkedEvents> {
         return Promise { resolver in
             request(method: .get, url: getActionPath(.getBookmarkedEvents)).done { response in
-                guard let details = Mapper<BookmarkedEventsList>().map(JSONObject: response) else {
+                guard let details = Mapper<BookmarkedEvents>().map(JSONObject: response) else {
                     resolver.reject(PMKError.cancelled)
                     return
                 }
@@ -99,7 +132,5 @@ extension EventService {
             }
         }
     }
-    
-
-    
+        
 }

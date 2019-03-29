@@ -82,7 +82,7 @@ class EventsSection: UICollectionViewCell {
     //get upcoming events list
     private func getUpcomingEvents(){
         EventService.getUpcomingEvents().done { response -> () in
-            self.upcomingEvents = response.eventsList.reversed()
+            self.upcomingEvents = response.list.reversed()
             }.ensure {
                 UIApplication.shared.isNetworkActivityIndicatorVisible = false
             }.catch { error in }

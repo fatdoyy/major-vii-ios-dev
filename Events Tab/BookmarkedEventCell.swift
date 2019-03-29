@@ -26,8 +26,8 @@ class BookmarkedEventCell: UICollectionViewCell {
     @IBOutlet weak var gradientBg: UIView!
     @IBOutlet weak var bookmarkCount: UILabel!
     @IBOutlet weak var bookmarkIcon: UIImageView!
-    @IBOutlet weak var eventTitle: UILabel!
-    @IBOutlet weak var perfomerName: UILabel!
+    var eventTitle = UILabel()
+    var performerName = UILabel()
     
     @IBOutlet var viewsToShowLater: Array<UIView>!
     
@@ -51,11 +51,33 @@ class BookmarkedEventCell: UICollectionViewCell {
         gradientBg.layer.cornerRadius = GlobalCornerRadius.value
         gradientBg.layer.insertSublayer(GradientLayer.create(frame: CGRect(x: 0, y: 0, width: Self.width, height: Self.height), colors: [.random, .random], startPoint: CGPoint(x: 0, y: 0.5), endPoint: CGPoint(x: 1, y: 0.5), cornerRadius: true), at: 0)
         gradientBg.backgroundColor = .clear
-        gradientBg.alpha = 0.55
+        gradientBg.alpha = 0.575
         
         bgImgView.layer.cornerRadius = GlobalCornerRadius.value
         bgImgView.contentMode = .scaleAspectFill
         bgImgView.clipsToBounds = true
+        
+        eventTitle.textColor = .white
+        eventTitle.font = UIFont.systemFont(ofSize: 20, weight: .medium)
+        eventTitle.numberOfLines = 0
+        eventTitle.textAlignment = .center
+        addSubview(eventTitle)
+        eventTitle.snp.makeConstraints { (make) in
+            make.centerY.equalToSuperview().offset(5)
+            make.width.equalTo(UIScreen.main.bounds.width - 80)
+            make.centerX.equalToSuperview()
+        }
+        
+        performerName.textColor = UIColor(hexString: "#e7e7e7")
+        performerName.font = UIFont.systemFont(ofSize: 12, weight: .semibold)
+        performerName.numberOfLines = 1
+        performerName.textAlignment = .center
+        addSubview(performerName)
+        performerName.snp.makeConstraints { (make) in
+            make.top.equalTo(eventTitle.snp.bottom)
+            make.width.equalToSuperview()
+            make.left.right.equalTo(0)
+        }
     }
 
 }

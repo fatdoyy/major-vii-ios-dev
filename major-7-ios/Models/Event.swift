@@ -8,23 +8,23 @@
 
 import ObjectMapper
 
-class EventsList: Mappable {
-    var eventsList = [Event]()
+class Events: Mappable {
+    var list = [Event]()
     
     required init?(map: Map) {}
     
     func mapping(map: Map) {
-        eventsList        <- map["list"]
+        list        <- map["list"]
     }
 }
 
-class BookmarkedEventsList: Mappable {
-    var bookmarkedEventsList = [BookmarkedEvent]()
+class BookmarkedEvents: Mappable {
+    var list = [BookmarkedEvent]()
     
     required init?(map: Map) {}
     
     func mapping(map: Map) {
-        bookmarkedEventsList        <- map["list"]
+        list        <- map["list"]
     }
 }
 
@@ -39,6 +39,22 @@ class BookmarkedEvent: Mappable {
         targetEvent     <- map["target_event"]
         targetType      <- map["target_type"]
         createTime      <- map["create_time"]
+    }
+}
+
+class NearbyEvents: Mappable {
+    var lat: CGFloat?
+    var long: CGFloat?
+    var radius: Int?
+    var list = [NearbyEvent]()
+    
+    required init?(map: Map) {}
+    
+    func mapping(map: Map) {
+        lat     <- map["latitude"]
+        long    <- map["longitude"]
+        radius  <- map["radius"]
+        list    <- map["list"]
     }
 }
 
@@ -87,7 +103,7 @@ class OrganizerProfile: Mappable {
 }
 
 class EventLocation: Mappable {
-    var coordinates = [Float]()
+    var coordinates = [Double]()
     var type: String?
     
     required init?(map: Map) {}
@@ -95,5 +111,39 @@ class EventLocation: Mappable {
     func mapping(map: Map) {
         coordinates     <- map["coordinates"]
         type            <- map["type"]
+    }
+}
+
+//class NearbyEvent: Event {
+//    var distance: Double?
+//
+//    override func mapping(map: Map) {
+//        distance    <- map["distance"]
+//    }
+//}
+
+class NearbyEvent: Mappable {
+    var hashtags = [String]()
+    var images = [Image]()
+    var id: String?
+    var title: String?
+    var organizerProfile: OrganizerProfile?
+    var dateTime: String?
+    var address: String?
+    var location: EventLocation?
+    var distance: Double?
+    
+    required init?(map: Map) {}
+    
+    func mapping(map: Map) {
+        hashtags            <- map["hashtags"]
+        images              <- map["images"]
+        id                  <- map["_id"]
+        title               <- map["title"]
+        organizerProfile    <- map["organizer_profile"]
+        dateTime            <- map["datetime"]
+        address             <- map["address"]
+        location            <- map["location"]
+        distance            <- map["distance"]
     }
 }

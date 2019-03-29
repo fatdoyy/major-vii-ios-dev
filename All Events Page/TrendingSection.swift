@@ -101,7 +101,7 @@ class TrendingSection: UICollectionViewCell {
     //get trending events list
     func getTrendingEvents(){
         EventService.getTrendingEvents().done { response in
-            self.trendingEvents = response.eventsList.reversed()
+            self.trendingEvents = response.list.reversed()
             }.ensure {
                 UIApplication.shared.isNetworkActivityIndicatorVisible = false
             }.catch { error in }
@@ -123,8 +123,8 @@ class TrendingSection: UICollectionViewCell {
                 
             } else if let checkId = event["check_id"] as? String { //Callback from Event Details
                 EventService.getBookmarkedEvents().done { response in
-                    if !response.bookmarkedEventsList.isEmpty {
-                        if response.bookmarkedEventsList.contains(where: { $0.targetEvent?.id == checkId }) { //check visible cell is bookmarked or not
+                    if !response.list.isEmpty {
+                        if response.list.contains(where: { $0.targetEvent?.id == checkId }) { //check visible cell is bookmarked or not
                             for cell in visibleCells { //check bookmarked list contains id
                                 if cell.eventId == checkId && (cell.bookmarkBtn.backgroundColor?.isEqual(UIColor.clear))! { //add bookmark
                                     if !self.bookmarkedEventArray.contains(checkId) {
@@ -262,8 +262,8 @@ extension TrendingSection: UICollectionViewDataSource, UICollectionViewDelegate,
                          NOTE: This check is to prevent cell reuse issues, all bookmarked events will be saved in server */
                         
                         EventService.getBookmarkedEvents().done { response in
-                            if !response.bookmarkedEventsList.isEmpty {
-                                for event in response.bookmarkedEventsList {
+                            if !response.list.isEmpty {
+                                for event in response.list {
                                     //check if bookmarked list contains id
                                     let isBookmarked = event.targetEvent?.id == self.trendingEvents[indexPath.row].id
                                     if isBookmarked {

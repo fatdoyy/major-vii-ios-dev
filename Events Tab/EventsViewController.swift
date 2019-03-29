@@ -14,6 +14,17 @@ class EventsViewController: UIViewController {
     
     @IBOutlet weak var mapView: GMSMapView!
     private let locationManager = CLLocationManager()
+    var currentLocation: CLLocationCoordinate2D! {
+        didSet {
+            let lat = currentLocation.latitude
+            let long = currentLocation.longitude
+            let radius = 7000 //meters
+
+            if !lat.isNaN && !long.isNaN {
+                getNearbyEvents(lat: lat, long: long, radius: radius)
+            }
+        }
+    }
     
     var fpc: FloatingPanelController!
     var eventsVC: BookmarkedEventsViewController!
@@ -24,6 +35,32 @@ class EventsViewController: UIViewController {
     var bookmarkedEvents: [BookmarkedEvent] = [] {
         didSet {
             eventsVC.bookmarkedEvents = bookmarkedEvents
+        }
+    }
+    
+    var nearbyEvents: [NearbyEvent] = [] {
+        didSet {
+            print("Got \(nearbyEvents.count) nearbyEvents!!")
+            
+            //print(nearbyEvents[0].title as Any)
+            //load markers
+            if !nearbyEvents.isEmpty {
+                for event in nearbyEvents {
+                    infoWindow = InfoWindow(eventTitle: event.title!, date: event.dateTime!, bookmarkCount: "123")
+
+                    DispatchQueue.main.async {
+                        let lat = event.location?.coordinates[1]
+                        let long = event.location?.coordinates[0]
+                        let position = CLLocationCoordinate2DMake(lat!, long!)
+                        let marker = MapMarker(name: (event.organizerProfile?.name)!)
+                        marker.performerIcon.kf.setImage(with: URL(string: (event.organizerProfile?.coverImages.randomElement()?.secureUrl)!))
+                        //let marker = GMSMarker()
+                        marker.position = position
+                        marker.tracksViewChanges = false
+                        marker.map = self.mapView
+                    }
+                }
+            }
         }
     }
 
@@ -44,18 +81,7 @@ class EventsViewController: UIViewController {
         
         setupFPC()
         
-        infoWindow = InfoWindow(eventTitle: "123", date: "123", bookmarkCount: "123")
-        
-        DispatchQueue.main.async {
-            let position = CLLocationCoordinate2DMake(22.301603, 114.182119)
-            let marker = MapMarker(name: "1234567890", icon: UIImage(named: "gif6_thumbnail")!)
-            //let marker = GMSMarker()
-            marker.position = position
-            marker.tracksViewChanges = false
-            marker.title = "Hello World"
-            marker.snippet = "DLLMCH"
-            marker.map = self.mapView
-        }
+
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -74,10 +100,18 @@ class EventsViewController: UIViewController {
 extension EventsViewController {
     private func getBookmarkedEvents() {
         EventService.getBookmarkedEvents().done { response in
-            self.bookmarkedEvents = response.bookmarkedEventsList.reversed()
+            self.bookmarkedEvents = response.list.reversed()
             }.ensure {
                 UIApplication.shared.isNetworkActivityIndicatorVisible = false
                 //if let completion = completion { completion() }
+            }.catch { error in }
+    }
+    
+    private func getNearbyEvents(lat: Double, long: Double, radius: Int) {
+        EventService.getNearbyEvents(lat: lat, long: long, radius: radius).done { response in
+            self.nearbyEvents = response.list
+            }.ensure {
+                UIApplication.shared.isNetworkActivityIndicatorVisible = false
             }.catch { error in }
     }
 }
@@ -98,7 +132,6 @@ extension EventsViewController {
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         navigationController?.navigationBar.shadowImage = UIImage()
         navigationController?.navigationBar.isTranslucent = true
-        //navigationController?.navigationBar.barTintColor = .darkGray()
     }
 }
 
@@ -161,10 +194,7 @@ extension EventsViewController: FloatingPanelControllerDelegate {
         fpc.delegate = self
         
         swipeUpImg.image = UIImage(named: "icon_swipe_up")
-        swipeUpImg.bounceUpRepeat()
-        
-        swipeDownImg.image = swipeUpImg.image?.rotate(radians: .pi) //rotate 180 degrees
-        swipeDownImg.bounceDownRepeat()
+        swipeDownImg.image = UIImage(named: "icon_swipe_down")
         
         // Initialize FloatingPanelController and add the view
         fpc.surfaceView.grabberHandle.isHidden = true
@@ -207,9 +237,10 @@ extension EventsViewController: FloatingPanelControllerDelegate {
         switch vc.position {
         case .full:
             print("full now!")
-                if self.bookmarkedEvents.isEmpty {
-                    DispatchQueue.main.async { self.getBookmarkedEvents() }
+            if self.bookmarkedEvents.isEmpty {
+                DispatchQueue.main.async { self.getBookmarkedEvents() }
             }
+            
             
             eventsVC.eventsCollectionView.alpha = 1
             
@@ -239,7 +270,7 @@ extension EventsViewController: CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location = locations.first else { return }
-        
+        currentLocation = location.coordinate
         mapView.camera = GMSCameraPosition(target: location.coordinate, zoom: 13, bearing: 0, viewingAngle: 0)
         
         locationManager.stopUpdatingLocation()

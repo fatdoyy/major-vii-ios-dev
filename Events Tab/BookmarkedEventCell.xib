@@ -45,18 +45,6 @@
                                     <constraint firstAttribute="width" secondItem="H8l-d1-YLf" secondAttribute="height" multiplier="1:1" id="Bfy-vi-9oG"/>
                                 </constraints>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AKQ-ju-peg">
-                                <rect key="frame" x="40" y="81" width="255" height="24"/>
-                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="20"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qgS-io-0Kb">
-                                <rect key="frame" x="0.0" y="106" width="335" height="15"/>
-                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="12"/>
-                                <color key="textColor" red="0.82390149109999999" green="0.82390149109999999" blue="0.82390149109999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -65,20 +53,13 @@
                             <constraint firstAttribute="bottom" secondItem="6Xh-BA-obd" secondAttribute="bottom" id="3Jf-jL-NFv"/>
                             <constraint firstAttribute="trailing" secondItem="H8l-d1-YLf" secondAttribute="trailing" constant="10" id="7ri-ir-j9o"/>
                             <constraint firstAttribute="bottom" secondItem="PuS-V0-kw2" secondAttribute="bottom" id="Ecv-RQ-gOT"/>
-                            <constraint firstAttribute="trailing" secondItem="qgS-io-0Kb" secondAttribute="trailing" id="Htx-hd-j5R"/>
                             <constraint firstAttribute="trailing" secondItem="6Xh-BA-obd" secondAttribute="trailing" id="RqP-I2-8iC"/>
-                            <constraint firstAttribute="trailing" secondItem="AKQ-ju-peg" secondAttribute="trailing" constant="40" id="U3R-0c-gnm"/>
                             <constraint firstItem="PuS-V0-kw2" firstAttribute="leading" secondItem="TpH-NM-8H3" secondAttribute="leading" id="Vkz-mO-pPB"/>
                             <constraint firstItem="FY3-10-Ifb" firstAttribute="top" secondItem="TpH-NM-8H3" secondAttribute="top" constant="12" id="ag2-kd-VdG"/>
-                            <constraint firstItem="qgS-io-0Kb" firstAttribute="top" secondItem="6Xh-BA-obd" secondAttribute="bottom" constant="-82" id="bFZ-gP-imw"/>
                             <constraint firstItem="6Xh-BA-obd" firstAttribute="top" secondItem="TpH-NM-8H3" secondAttribute="top" id="fo4-eF-PN5"/>
-                            <constraint firstItem="qgS-io-0Kb" firstAttribute="top" secondItem="AKQ-ju-peg" secondAttribute="bottom" constant="1" id="hpu-EE-qsp"/>
-                            <constraint firstItem="6Xh-BA-obd" firstAttribute="top" secondItem="AKQ-ju-peg" secondAttribute="bottom" constant="-105" id="iQ1-jv-7xc"/>
-                            <constraint firstItem="qgS-io-0Kb" firstAttribute="leading" secondItem="TpH-NM-8H3" secondAttribute="leading" id="n7o-eN-j6m"/>
                             <constraint firstItem="6Xh-BA-obd" firstAttribute="top" secondItem="H8l-d1-YLf" secondAttribute="bottom" constant="-28" id="p5d-on-poz"/>
                             <constraint firstAttribute="trailing" secondItem="PuS-V0-kw2" secondAttribute="trailing" id="sgg-nO-jxc"/>
                             <constraint firstItem="H8l-d1-YLf" firstAttribute="leading" secondItem="FY3-10-Ifb" secondAttribute="trailing" constant="2" id="w7u-vu-J9X"/>
-                            <constraint firstItem="AKQ-ju-peg" firstAttribute="leading" secondItem="TpH-NM-8H3" secondAttribute="leading" constant="40" id="z2F-r1-5DL"/>
                         </constraints>
                     </view>
                 </subviews>
@@ -95,13 +76,9 @@
                 <outlet property="bookmarkCount" destination="FY3-10-Ifb" id="OwN-QY-qnp"/>
                 <outlet property="bookmarkIcon" destination="H8l-d1-YLf" id="BH7-ok-00N"/>
                 <outlet property="containerView" destination="TpH-NM-8H3" id="Z3x-MI-nna"/>
-                <outlet property="eventTitle" destination="AKQ-ju-peg" id="0Os-4G-Sts"/>
                 <outlet property="gradientBg" destination="6Xh-BA-obd" id="Top-Hq-PJz"/>
-                <outlet property="perfomerName" destination="qgS-io-0Kb" id="89m-Pb-c8h"/>
                 <outletCollection property="viewsToShowLater" destination="H8l-d1-YLf" collectionClass="NSMutableArray" id="GFD-tn-ULI"/>
                 <outletCollection property="viewsToShowLater" destination="FY3-10-Ifb" collectionClass="NSMutableArray" id="Xw4-C5-y7h"/>
-                <outletCollection property="viewsToShowLater" destination="AKQ-ju-peg" collectionClass="NSMutableArray" id="eyN-6x-wqd"/>
-                <outletCollection property="viewsToShowLater" destination="qgS-io-0Kb" collectionClass="NSMutableArray" id="1FV-8w-mgw"/>
             </connections>
             <point key="canvasLocation" x="132" y="154.72263868065968"/>
         </collectionViewCell>

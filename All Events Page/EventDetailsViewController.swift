@@ -135,8 +135,8 @@ class EventDetailsViewController: UIViewController {
         //bookmarkBtn state
         if UserService.User.isLoggedIn() {
         EventService.getBookmarkedEvents().done { response in
-            if !response.bookmarkedEventsList.isEmpty {
-                for event in response.bookmarkedEventsList {
+            if !response.list.isEmpty {
+                for event in response.list {
                     if let targetEvent = event.targetEvent {
                         if let eventId = targetEvent.id {
                             self.allBoomarkedEventId.append(eventId)
@@ -158,7 +158,7 @@ class EventDetailsViewController: UIViewController {
                     self.hideIndicator()
                 }
                 
-            } else { //bookmarkedEventsList is empty
+            } else { //list is empty
                 UIView.transition(with: self.bgView.bookmarkBtn, duration: 0.2, options: .transitionCrossDissolve, animations: {
                     self.bgView.bookmarkBtn.setImage(UIImage(named: "eventdetails_bookmarked_0"), for: .normal)
                 }, completion: nil)

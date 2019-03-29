@@ -300,9 +300,9 @@ class BookmarkedSection: UICollectionViewCell {
     
     func getBookmarkedEvents(completion: (() -> Void)? = nil) {
         EventService.getBookmarkedEvents().done { response in
-            self.bookmarkedEvents = response.bookmarkedEventsList.reversed()
+            self.bookmarkedEvents = response.list.reversed()
             
-            for event in response.bookmarkedEventsList {
+            for event in response.list {
                 if let eventId = event.targetEvent!.id {
                     if !self.bookmarkedEventIdArray.contains(eventId) {
                         self.bookmarkedEventIdArray.append(eventId)
@@ -310,7 +310,7 @@ class BookmarkedSection: UICollectionViewCell {
                 }
             }
             
-            print("Bookmarked events list count: \(response.bookmarkedEventsList.count)")
+            print("Bookmarked events list count: \(response.list.count)")
             print("Initial bookmarkedEventIdArray: \(self.bookmarkedEventIdArray)")
             }.ensure {
                 if self.reloadIndicator.alpha != 0 {
