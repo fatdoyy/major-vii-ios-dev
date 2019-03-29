@@ -53,6 +53,7 @@ extension BookmarkedEventsViewController {
         layout.itemSize = CGSize(width: BookmarkedEventCell.width, height: BookmarkedEventCell.height)
         
         eventsCollectionView = UICollectionView(frame: CGRect(origin: CGPoint.zero, size: CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)), collectionViewLayout: layout)
+        eventsCollectionView.alpha = 0
         eventsCollectionView.isUserInteractionEnabled = false
         eventsCollectionView.showsVerticalScrollIndicator = false
         eventsCollectionView.contentInset = UIEdgeInsets(top: 0, left: 10, bottom: 20, right: 10)
@@ -118,7 +119,11 @@ extension BookmarkedEventsViewController: UICollectionViewDelegate, UICollection
         if !bookmarkedEvents.isEmpty {
             if let event = bookmarkedEvents[indexPath.row].targetEvent {
                 
-                cell.bgImgView.kf.setImage(with: randomImgUrl[indexPath.row], options: [.transition(.fade(0.4)), .processor(tonalFilter())])
+                
+                cell.bgImgView.kf.setImage(with: randomImgUrl[indexPath.row], options: [.transition(.fade(0.4))])
+//                DispatchQueue.main.async {
+//                    cell.bgImgView.kf.setImage(with: self.randomImgUrl[indexPath.row], options: [.transition(.fade(0.4)), .processor(tonalFilter())])
+//                }
                 cell.eventTitle.text = event.title
                 cell.perfomerName.text = event.organizerProfile?.name
                 cell.bookmarkCount.text = "468" //bookmark.count

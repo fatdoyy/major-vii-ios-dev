@@ -27,6 +27,9 @@ class EventsViewController: UIViewController {
         }
     }
 
+    var tappedMarker: GMSMarker?
+    var infoWindow: InfoWindow?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .darkGray()
@@ -35,10 +38,24 @@ class EventsViewController: UIViewController {
         locationManager.requestWhenInUseAuthorization()
         locationManager.startUpdatingLocation()
 
+        mapView.delegate = self
         mapView.isMyLocationEnabled = true
         mapView.settings.myLocationButton = true
         
         setupFPC()
+        
+        infoWindow = InfoWindow(eventTitle: "123", date: "123", bookmarkCount: "123")
+        
+        DispatchQueue.main.async {
+            let position = CLLocationCoordinate2DMake(22.301603, 114.182119)
+            let marker = MapMarker(name: "1234567890", icon: UIImage(named: "gif6_thumbnail")!)
+            //let marker = GMSMarker()
+            marker.position = position
+            marker.tracksViewChanges = false
+            marker.title = "Hello World"
+            marker.snippet = "DLLMCH"
+            marker.map = self.mapView
+        }
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -51,6 +68,7 @@ class EventsViewController: UIViewController {
     }
     
 }
+
 
 //MARK: Network calls
 extension EventsViewController {
@@ -81,6 +99,57 @@ extension EventsViewController {
         navigationController?.navigationBar.shadowImage = UIImage()
         navigationController?.navigationBar.isTranslucent = true
         //navigationController?.navigationBar.barTintColor = .darkGray()
+    }
+}
+
+//MARK: Google Maps
+extension EventsViewController: GMSMapViewDelegate {
+    func mapView(_ mapView: GMSMapView, markerInfoWindow marker: GMSMarker) -> UIView? {
+        return UIView()
+    }
+    
+    func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
+        tappedMarker = marker
+        
+        let pos = marker.position
+        CATransaction.begin()
+        CATransaction.setAnimationDuration(0.75)
+        CATransaction.setAnimationTimingFunction(CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut))
+        mapView.animate(toLocation: pos)
+        CATransaction.commit()
+        
+//        let point = mapView.projection.point(for: pos)
+//        let newPoint = mapView.projection.coordinate(for: point)
+//        let camera = GMSCameraUpdate.setTarget(newPoint)
+        
+//        CATransaction.begin()
+//        CATransaction.setAnimationDuration(0.7)
+//        CATransaction.setAnimationTimingFunction(CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut))
+//        mapView.animate(with: camera)
+//        CATransaction.commit()
+        
+        infoWindow?.center = mapView.projection.point(for: pos)
+        infoWindow?.center.y -= 170
+        mapView.addSubview(infoWindow!)
+        UIView.animate(withDuration: 0.2) {
+            self.infoWindow?.alpha = 1
+        }
+        
+        return false
+    }
+    
+    func mapView(_ mapView: GMSMapView, didTapAt coordinate: CLLocationCoordinate2D) {
+        UIView.animate(withDuration: 0.2, animations: { self.infoWindow?.alpha = 0 }) { _ in
+            self.infoWindow?.removeFromSuperview()
+        }
+    }
+    
+    func mapView(_ mapView: GMSMapView, didChange position: GMSCameraPosition) {
+        if let tappedMarker = tappedMarker {
+            let pos = tappedMarker.position
+            infoWindow?.center = mapView.projection.point(for: pos)
+            infoWindow?.center.y -= 170
+        }
     }
 }
 
@@ -138,9 +207,15 @@ extension EventsViewController: FloatingPanelControllerDelegate {
         switch vc.position {
         case .full:
             print("full now!")
-            if bookmarkedEvents.isEmpty { getBookmarkedEvents() }
+                if self.bookmarkedEvents.isEmpty {
+                    DispatchQueue.main.async { self.getBookmarkedEvents() }
+            }
+            
+            eventsVC.eventsCollectionView.alpha = 1
+            
         case .tip:
             print("tip now!")
+            eventsVC.eventsCollectionView.alpha = 0
         default:
             print("unknown position?")
         }
@@ -156,8 +231,6 @@ extension EventsViewController: FloatingPanelControllerDelegate {
     }
 }
 
-
-
 //MARK: CLLocationManager Delegate
 extension EventsViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
@@ -167,7 +240,7 @@ extension EventsViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location = locations.first else { return }
         
-        mapView.camera = GMSCameraPosition(target: location.coordinate, zoom: 15, bearing: 0, viewingAngle: 0)
+        mapView.camera = GMSCameraPosition(target: location.coordinate, zoom: 13, bearing: 0, viewingAngle: 0)
         
         locationManager.stopUpdatingLocation()
     }

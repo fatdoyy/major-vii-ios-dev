@@ -51,7 +51,7 @@ class BookmarkedEventCell: UICollectionViewCell {
         gradientBg.layer.cornerRadius = GlobalCornerRadius.value
         gradientBg.layer.insertSublayer(GradientLayer.create(frame: CGRect(x: 0, y: 0, width: Self.width, height: Self.height), colors: [.random, .random], startPoint: CGPoint(x: 0, y: 0.5), endPoint: CGPoint(x: 1, y: 0.5), cornerRadius: true), at: 0)
         gradientBg.backgroundColor = .clear
-        gradientBg.alpha = 0.5
+        gradientBg.alpha = 0.55
         
         bgImgView.layer.cornerRadius = GlobalCornerRadius.value
         bgImgView.contentMode = .scaleAspectFill

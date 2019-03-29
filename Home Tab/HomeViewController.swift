@@ -234,6 +234,7 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
             case 1:
                 let reusableView = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: NewsSectionHeader.reuseIdentifier, for: indexPath) as! NewsSectionHeader
                 return reusableView
+                
             default: //case 0 i.e. App Title
                 let reusableView = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HeaderView.reuseIdentifier, for: indexPath) as! HeaderView
                 return reusableView
