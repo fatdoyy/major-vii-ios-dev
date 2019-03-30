@@ -155,7 +155,7 @@ class LoginView: UIView {
             make.height.equalTo(regBtn.bounds.height)
         }
         
-        if UIScreen.main.nativeBounds.height == 1136 { //lowering this constant on iPhone SE
+        if UIDevice.current.type == .iPhone_5_5S_5C_SE{ //lowering this constant on iPhone SE
             regPwRefillTextFieldBottomConstraint.constant = 45
             layoutIfNeeded()
         }
@@ -433,7 +433,7 @@ class LoginView: UIView {
                 self.pwTextFieldBgBottomConstraint.constant = keyboardTopPlus40
                 self.regPwRefillTextFieldBottomConstraint.constant = keyboardTopPlus40
                 
-                if UIScreen.main.nativeBounds.height == 1136 && self.regEmailTextFieldBg.alpha != 0 { //hide descLabel on iPhone SE
+                if UIDevice.current.type == .iPhone_5_5S_5C_SE && self.regEmailTextFieldBg.alpha != 0 { //hide descLabel on iPhone SE
                     self.descLabel.alpha = 0
                 }
                 
@@ -445,7 +445,7 @@ class LoginView: UIView {
     @objc func keyboardWillDisappear() {
         print("keyboard hidden")
         UIView.animate(withDuration: 0.3) {
-            if UIScreen.main.nativeBounds.height == 1136 { //show descLabel on iPhone SE
+            if UIDevice.current.type == .iPhone_5_5S_5C_SE { //show descLabel on iPhone SE
                 self.descLabel.alpha = 1
                 self.regPwRefillTextFieldBottomConstraint.constant = 45
             } else {

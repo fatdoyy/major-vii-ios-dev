@@ -121,22 +121,16 @@ class EventDetailsView: UIView {
         imgCollectionView.backgroundColor = .darkGray()
         imgCollectionView.register(UINib.init(nibName: "DetailsImageCell", bundle: nil), forCellWithReuseIdentifier: DetailsImageCell.reuseIdentifier)
         
-        if UIDevice().userInterfaceIdiom == .phone {
-            switch UIScreen.main.nativeBounds.height {
-            case 1136: //hiding imgCollectionView on iPhone SE
-                imgCollectionView.removeFromSuperview()
-                remarksTitleLabel.translatesAutoresizingMaskIntoConstraints = false
-                
-                let verticalSpace = NSLayoutConstraint(item: remarksTitleLabel, attribute: .top, relatedBy: .equal, toItem: descLabel, attribute: .bottom, multiplier: 1, constant: 20)
-                
-                NSLayoutConstraint.activate([verticalSpace])
-            case 1334: // iPhone 6/6S/7/8
-                print("iPhone 6/6S/7/8")
-            case 1920, 2208, 2436, 2688, 1792:
-                descLabel.numberOfLines = 4
-            default:
-                print("unknown")
-            }
+        //hiding imgCollectionView on iPhone SE
+        if UIDevice.current.type == .iPhone_5_5S_5C_SE {
+            imgCollectionView.removeFromSuperview()
+            remarksTitleLabel.translatesAutoresizingMaskIntoConstraints = false
+            
+            let verticalSpace = NSLayoutConstraint(item: remarksTitleLabel, attribute: .top, relatedBy: .equal, toItem: descLabel, attribute: .bottom, multiplier: 1, constant: 20)
+            
+            NSLayoutConstraint.activate([verticalSpace])
+        } else if UIDevice.current.type == .iPhone_6_6S_7_8_PLUS || (!UIDevice.current.hasHomeButton && UIDevice.current.type != .iPhone_6_6S_7_8) {
+            descLabel.numberOfLines = 4
         }
         
         let animation = SkeletonAnimationBuilder().makeSlidingAnimation(withDirection: .leftRight, duration: 2)

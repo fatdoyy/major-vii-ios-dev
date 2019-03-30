@@ -41,29 +41,16 @@ class EventsViewController: UIViewController {
     var nearbyEvents: [NearbyEvent] = [] {
         didSet {
             print("Got \(nearbyEvents.count) nearbyEvents!!")
-            
-            //print(nearbyEvents[0].title as Any)
-            //load markers
-            if !nearbyEvents.isEmpty {
-                for event in nearbyEvents {
-                    infoWindow = InfoWindow(eventTitle: event.title!, date: event.dateTime!, bookmarkCount: "123")
-
-                    DispatchQueue.main.async {
-                        let lat = event.location?.coordinates[1]
-                        let long = event.location?.coordinates[0]
-                        let position = CLLocationCoordinate2DMake(lat!, long!)
-                        let marker = MapMarker(name: (event.organizerProfile?.name)!)
-                        marker.performerIcon.kf.setImage(with: URL(string: (event.organizerProfile?.coverImages.randomElement()?.secureUrl)!))
-                        //let marker = GMSMarker()
-                        marker.position = position
-                        marker.tracksViewChanges = false
-                        marker.map = self.mapView
-                    }
-                }
-            }
+            loadMarkers()
         }
     }
 
+    var eventDetails: EventDetails? {
+        didSet {
+            showInfoWindow()
+        }
+    }
+    
     var tappedMarker: GMSMarker?
     var infoWindow: InfoWindow?
     
@@ -80,8 +67,6 @@ class EventsViewController: UIViewController {
         mapView.settings.myLocationButton = true
         
         setupFPC()
-        
-
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -91,6 +76,11 @@ class EventsViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setupNavBar()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.navigationBar.layer.removeAllAnimations()
     }
     
 }
@@ -114,6 +104,14 @@ extension EventsViewController {
                 UIApplication.shared.isNetworkActivityIndicatorVisible = false
             }.catch { error in }
     }
+    
+    private func getEventDetails(eventId: String) {
+        EventService.getEventDetails(eventId: eventId).done { response in
+            self.eventDetails = response
+            }.ensure {
+                UIApplication.shared.isNetworkActivityIndicatorVisible = false
+            }.catch { error in }
+    }
 }
 
 //MARK: UISetup
@@ -123,6 +121,7 @@ extension EventsViewController {
     
     private func setupNavBar() {
         navigationItem.title = "Events"
+        
         let textAttributes = [NSAttributedString.Key.foregroundColor: UIColor.darkGray()]
         navigationController?.navigationBar.titleTextAttributes = textAttributes
         navigationController?.navigationBar.largeTitleTextAttributes = textAttributes
@@ -136,42 +135,104 @@ extension EventsViewController {
 }
 
 //MARK: Google Maps
-extension EventsViewController: GMSMapViewDelegate {
+extension EventsViewController: GMSMapViewDelegate, InfoWindowDelegate {
+    private func loadMarkers() {
+        if !nearbyEvents.isEmpty {
+            for event in nearbyEvents {
+                DispatchQueue.main.async {
+                    let lat = event.location?.coordinates[1]
+                    let long = event.location?.coordinates[0]
+                    let position = CLLocationCoordinate2DMake(lat!, long!)
+                    let marker = MapMarker(name: (event.organizerProfile?.name)!)
+                    marker.performerIcon.kf.setImage(with: URL(string: (event.organizerProfile?.coverImages.randomElement()?.secureUrl)!))
+                    marker.title = event.id //set id as title for tapped action
+                    marker.position = position
+                    marker.tracksViewChanges = false
+                    marker.map = self.mapView
+                }
+            }
+        }
+    }
+    
+    private func showInfoWindow() {
+        if let event = eventDetails?.item {
+            let venue: String
+            if (event.venue?.isEmpty)! {
+                let lat = String(format: "%.5f", (event.location?.coordinates[1])!)
+                let long = String(format: "%.5f", (event.location?.coordinates[0])!)
+                venue = "\(lat) \(long)"
+            } else {
+                venue = event.venue!
+            }
+            infoWindow = InfoWindow(eventTitle: event.title!, date: event.dateTime!, desc: event.desc!, venue: venue, bookmarkCount: "123")
+            infoWindow?.delegate = self
+            infoWindow?.center = mapView.projection.point(for: (tappedMarker?.position)!)
+            infoWindow?.center.y -= 190
+            mapView.addSubview(infoWindow!)
+            UIView.animate(withDuration: 0.2) {
+                self.infoWindow?.alpha = 1
+            }
+        }
+    }
+    
+    func infoWindowMoreBtnTapped() {
+        if let id = tappedMarker?.title {
+            EventDetailsViewController.push(fromView: self, eventId: id)
+        }
+    }
+    
     func mapView(_ mapView: GMSMapView, markerInfoWindow marker: GMSMarker) -> UIView? {
         return UIView()
     }
     
     func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
-        tappedMarker = marker
-        
-        let pos = marker.position
-        CATransaction.begin()
-        CATransaction.setAnimationDuration(0.75)
-        CATransaction.setAnimationTimingFunction(CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut))
-        mapView.animate(toLocation: pos)
-        CATransaction.commit()
-        
-//        let point = mapView.projection.point(for: pos)
-//        let newPoint = mapView.projection.coordinate(for: point)
-//        let camera = GMSCameraUpdate.setTarget(newPoint)
-        
-//        CATransaction.begin()
-//        CATransaction.setAnimationDuration(0.7)
-//        CATransaction.setAnimationTimingFunction(CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut))
-//        mapView.animate(with: camera)
-//        CATransaction.commit()
-        
-        infoWindow?.center = mapView.projection.point(for: pos)
-        infoWindow?.center.y -= 170
-        mapView.addSubview(infoWindow!)
-        UIView.animate(withDuration: 0.2) {
-            self.infoWindow?.alpha = 1
+        if marker != tappedMarker { //prevent the same marker is tapped
+            tappedMarker = marker
+            
+            let pos = marker.position
+            
+            //        var point = mapView.projection.point(for: pos)
+            //        point.y = point.y - 200
+            //        let newPoint = mapView.projection.coordinate(for: point)
+            //        let camera = GMSCameraUpdate.setTarget(newPoint)
+            
+            CATransaction.begin()
+            CATransaction.setAnimationDuration(0.75)
+            CATransaction.setAnimationTimingFunction(CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut))
+            mapView.animate(toLocation: pos)
+            CATransaction.commit()
+            
+            //hide nav bar title on smaller devices
+            if UIDevice.current.type == .iPhone_5_5S_5C_SE || UIDevice.current.type == .iPhone_6_6S_7_8 {
+                let fadeTextAnimation = CATransition()
+                fadeTextAnimation.duration = 0.2
+                fadeTextAnimation.type = CATransitionType.fade
+                navigationController?.navigationBar.layer.add(fadeTextAnimation, forKey: "fadeText")
+                navigationItem.title = ""
+            }
+            
+            //first remove existing infoWindow
+            UIView.animate(withDuration: 0.2, animations: { self.infoWindow?.alpha = 0 }) { _ in
+                self.infoWindow?.removeFromSuperview()
+            }
+            if let id = marker.title {
+                getEventDetails(eventId: id)
+            }
         }
-        
+
         return false
     }
     
     func mapView(_ mapView: GMSMapView, didTapAt coordinate: CLLocationCoordinate2D) {
+        //revert change of nav bar title on smaller devices
+        if UIDevice.current.type == .iPhone_5_5S_5C_SE || UIDevice.current.type == .iPhone_6_6S_7_8 {
+            let fadeTextAnimation = CATransition()
+            fadeTextAnimation.duration = 0.2
+            fadeTextAnimation.type = CATransitionType.fade
+            navigationController?.navigationBar.layer.add(fadeTextAnimation, forKey: "fadeText")
+            navigationItem.title = "Events"
+        }
+        
         UIView.animate(withDuration: 0.2, animations: { self.infoWindow?.alpha = 0 }) { _ in
             self.infoWindow?.removeFromSuperview()
         }
@@ -181,7 +242,7 @@ extension EventsViewController: GMSMapViewDelegate {
         if let tappedMarker = tappedMarker {
             let pos = tappedMarker.position
             infoWindow?.center = mapView.projection.point(for: pos)
-            infoWindow?.center.y -= 170
+            infoWindow?.center.y -= 190
         }
     }
 }
@@ -271,7 +332,7 @@ extension EventsViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location = locations.first else { return }
         currentLocation = location.coordinate
-        mapView.camera = GMSCameraPosition(target: location.coordinate, zoom: 13, bearing: 0, viewingAngle: 0)
+        mapView.camera = GMSCameraPosition(target: location.coordinate, zoom: 14, bearing: 0, viewingAngle: 0)
         
         locationManager.stopUpdatingLocation()
     }

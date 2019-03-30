@@ -320,41 +320,29 @@ extension BuskerProfileViewController {
                     }
                 }
                 
-                
-                //adjust mainScrollView height
-                if UIDevice().userInterfaceIdiom == .phone {
-                    switch UIScreen.main.nativeBounds.height {
-                        
-                        /*
-                         height =   imgCollectionViewHeight + hashtagsCollecitonViewHeight (with top padding) +
-                         actionBtnHeight (with top padding) + statsHeight (with top padding) +
-                         profileHeight (with top padding) + membersSectionHeight (with top padding) +
-                         liveHeight (with top padding) + eventsHeight (with top padding) +
-                         postsHeight (with top padding) + footerHeight (with top padding) + bottom padding
-                         */
-                        
-                    case 1136, 1334:
-                        if profile.members.isEmpty {
-                            let height = imgCollectionViewHeight + 43 + 60 + 100 + (profileBgViewHeight + 20) + 140 + 294 + 520 + 86
-                            mainScrollView.contentSize = CGSize(width: screenWidth, height: height)
-                        } else {
-                            let height = imgCollectionViewHeight + 43 + 60 + 100 + (profileBgViewHeight + 20) + 213 + 140 + 294 + 520 + 86
-                            mainScrollView.contentSize = CGSize(width: screenWidth, height: height)
-                        }
-                    case 1920, 2208, 2436, 2688, 1792:
-                        if profile.members.isEmpty {
-                            let height = imgCollectionViewHeight + 43 + 60 + 100 + (profileBgViewHeight + 20) + 140 + 294 + 520 + 106
-                            mainScrollView.contentSize = CGSize(width: screenWidth, height: height)
-                        } else {
-                            let height = imgCollectionViewHeight + 43 + 60 + 100 + (profileBgViewHeight + 20) + 213 + 140 + 294 + 520 + 106
-                            mainScrollView.contentSize = CGSize(width: screenWidth, height: height)
-                        }
-                        
-                    default:
-                        print("unknown")
+                //adjust mainScrollView height on different screen size
+                /*  height =   imgCollectionViewHeight + hashtagsCollecitonViewHeight (with top padding) +
+                    actionBtnHeight (with top padding) + statsHeight (with top padding) +
+                    profileHeight (with top padding) + membersSectionHeight (with top padding) +
+                    liveHeight (with top padding) + eventsHeight (with top padding) +
+                    postsHeight (with top padding) + footerHeight (with top padding) + bottom padding   */
+                if UIDevice.current.hasHomeButton {
+                    if profile.members.isEmpty {
+                        let height = imgCollectionViewHeight + 43 + 60 + 100 + (profileBgViewHeight + 20) + 140 + 294 + 520 + 86
+                        mainScrollView.contentSize = CGSize(width: screenWidth, height: height)
+                    } else {
+                        let height = imgCollectionViewHeight + 43 + 60 + 100 + (profileBgViewHeight + 20) + 213 + 140 + 294 + 520 + 86
+                        mainScrollView.contentSize = CGSize(width: screenWidth, height: height)
+                    }
+                } else {
+                    if profile.members.isEmpty {
+                        let height = imgCollectionViewHeight + 43 + 60 + 100 + (profileBgViewHeight + 20) + 140 + 294 + 520 + 106
+                        mainScrollView.contentSize = CGSize(width: screenWidth, height: height)
+                    } else {
+                        let height = imgCollectionViewHeight + 43 + 60 + 100 + (profileBgViewHeight + 20) + 213 + 140 + 294 + 520 + 106
+                        mainScrollView.contentSize = CGSize(width: screenWidth, height: height)
                     }
                 }
-                
             }
         }
     }

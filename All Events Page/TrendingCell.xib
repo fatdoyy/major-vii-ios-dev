@@ -27,8 +27,8 @@
                         <rect key="frame" x="0.0" y="105" width="335" height="108"/>
                         <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </view>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qhg-RU-2Ym">
-                        <rect key="frame" x="20" y="158" width="295" height="22"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qhg-RU-2Ym">
+                        <rect key="frame" x="20" y="156.33333333333334" width="295" height="21.666666666666657"/>
                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
@@ -40,7 +40,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1234567" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SXq-rG-gIC">
-                        <rect key="frame" x="20" y="183" width="43.666666666666657" height="15"/>
+                        <rect key="frame" x="19.999999999999996" y="183" width="43.666666666666657" height="15"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="15" id="khc-iA-GrQ"/>
                         </constraints>
@@ -76,7 +76,7 @@
                 <constraint firstAttribute="trailing" secondItem="drF-P2-f2Q" secondAttribute="trailing" constant="20" id="DbR-Za-FRK"/>
                 <constraint firstAttribute="trailing" secondItem="3nZ-qi-Tls" secondAttribute="trailing" constant="5" id="Gp6-FW-GOG"/>
                 <constraint firstAttribute="bottom" secondItem="SXq-rG-gIC" secondAttribute="bottom" constant="15" id="Ifk-2C-vTV"/>
-                <constraint firstItem="SXq-rG-gIC" firstAttribute="top" secondItem="Qhg-RU-2Ym" secondAttribute="bottom" constant="3" id="K6X-JS-a7a"/>
+                <constraint firstItem="SXq-rG-gIC" firstAttribute="top" secondItem="Qhg-RU-2Ym" secondAttribute="bottom" constant="5" id="K6X-JS-a7a"/>
                 <constraint firstAttribute="trailing" secondItem="n3B-l6-b2t" secondAttribute="trailing" id="LeI-mf-Xxe"/>
                 <constraint firstItem="SXq-rG-gIC" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="20" id="NFy-vi-hoU"/>
                 <constraint firstItem="fCN-bM-XLd" firstAttribute="centerX" secondItem="Qhg-RU-2Ym" secondAttribute="centerX" id="hSN-jY-nNv"/>

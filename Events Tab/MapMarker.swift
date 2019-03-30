@@ -23,11 +23,11 @@ class MapMarker: GMSMarker {
         iconView.backgroundColor = .clear
         
         nameBg.backgroundColor = .darkGray()
-        nameBg.layer.cornerRadius = 3
+        nameBg.layer.cornerRadius = 5
         iconView.addSubview(nameBg)
         nameBg.snp.makeConstraints { (make) in
             make.top.equalToSuperview()
-            make.height.equalTo(18)
+            make.height.equalTo(19)
             make.width.equalTo(80)
             make.left.right.equalTo(0)
         }
@@ -37,7 +37,7 @@ class MapMarker: GMSMarker {
         performerName.textColor = .white
         performerName.numberOfLines = 1
         performerName.adjustsFontSizeToFitWidth = true
-        performerName.minimumScaleFactor = 0.6
+        performerName.minimumScaleFactor = 0.5
         performerName.textAlignment = .center
         nameBg.addSubview(performerName)
         performerName.snp.makeConstraints { (make) in
@@ -51,7 +51,7 @@ class MapMarker: GMSMarker {
         iconView.addSubview(markerImg)
         markerImg.snp.makeConstraints { (make) in
             make.size.equalTo(60)
-            make.top.equalTo(nameBg.snp.bottom).offset(3)
+            make.top.equalTo(nameBg.snp.bottom).offset(2)
             make.centerX.equalToSuperview()
         }
         
@@ -62,7 +62,7 @@ class MapMarker: GMSMarker {
         iconView.addSubview(performerIcon)
         performerIcon.snp.makeConstraints { (make) in
             make.size.equalTo(36)
-            make.top.equalTo(markerImg.snp.top).offset(4)
+            make.top.equalTo(markerImg.snp.top).offset(5)
             make.centerX.equalToSuperview()
         }
         

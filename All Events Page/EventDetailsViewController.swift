@@ -193,16 +193,13 @@ class EventDetailsViewController: UIViewController {
         bgView.descLabel.attributedText = descAttrString
         
         //only load imgCollectionView if device is not iPhone SE
-        if UIDevice().userInterfaceIdiom == .phone {
-            if UIScreen.main.nativeBounds.height != 1136 {
-                
-                for img in (eventDetails?.item?.images)! {
-                    imgUrlArray.append(img.secureUrl ?? "")
-                }
-            
-                bgView.imgUrlArray = self.imgUrlArray
-                bgView.imgCollectionView.reloadData()
+        if UIDevice.current.type != .iPhone_5_5S_5C_SE {
+            for img in (eventDetails?.item?.images)! {
+                imgUrlArray.append(img.secureUrl ?? "")
             }
+            
+            bgView.imgUrlArray = self.imgUrlArray
+            bgView.imgCollectionView.reloadData()
         }
         
         bgView.remarksLabel.text = eventDetails?.item?.remarks

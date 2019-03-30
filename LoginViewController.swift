@@ -31,7 +31,7 @@ class LoginViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        if UIScreen.main.nativeBounds.height != 1136 { // not loading GIFs on iPhone SE becasue of performance issue
+        if UIDevice.current.type != .iPhone_5_5S_5C_SE { // not loading GIFs on iPhone SE becasue of performance issue
             loadGIF()
         }
         

@@ -51,14 +51,8 @@ class NewsCellType5: UICollectionViewCell {
         
         newsTitle.lineBreakMode = .byTruncatingTail
         
-        if UIDevice().userInterfaceIdiom == .phone {
-            switch UIScreen.main.nativeBounds.height {
-            case 1136: //iPhone SE
-                newsTitle.numberOfLines = 1 //limiting the number of lines on iPhone SE because the screen is too small and will cause layout problems
-            default:
-                newsTitle.numberOfLines = 2
-            }
-        }
+        //limiting the number of lines on iPhone SE because the screen is too small and will cause layout problems
+        newsTitle.numberOfLines = UIDevice.current.type == .iPhone_5_5S_5C_SE ? 1 : 2
         
         newsTitle.text = "Clockenflap 2018"
         newsTitle.textColor = .whiteText()

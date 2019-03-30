@@ -195,16 +195,7 @@ extension NewsDetailViewController {
         self.detailUpperView.insertSubview(swipeUpLabel, aboveSubview: imgOverlay)
         swipeUpLabel.snp.makeConstraints { (make) -> Void in
             make.centerX.equalToSuperview()
-            if UIDevice().userInterfaceIdiom == .phone {
-                switch UIScreen.main.nativeBounds.height {
-                case 1136, 1334:
-                    make.bottom.equalTo(detailUpperView.snp.bottom).offset(-20)
-                case 1920, 2208, 2436, 2688, 1792:
-                    make.bottom.equalTo(detailUpperView.snp.bottom).offset(-40)
-                default:
-                    print("unknown")
-                }
-            }
+            make.bottom.equalTo(detailUpperView.snp.bottom).offset(UIDevice.current.hasHomeButton ? -20 : -40)
             make.width.equalTo(detailUpperView.snp.width).inset(UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20))
         }
         
@@ -341,16 +332,7 @@ extension NewsDetailViewController {
         copyrightLabel.text = "Copyright © 2019 | Major VII | ALL RIGHTS RESERVED"
         detailLowerView.addSubview(copyrightLabel)
         copyrightLabel.snp.makeConstraints { (make) -> Void in
-            if UIDevice().userInterfaceIdiom == .phone {
-                switch UIScreen.main.nativeBounds.height {
-                case 1136, 1334:
-                    make.bottom.equalToSuperview().offset(-20)
-                case 1920, 2208, 2436, 2688, 1792:
-                    make.bottom.equalToSuperview().offset(-40)
-                default:
-                    print("unknown")
-                }
-            }
+            make.bottom.equalToSuperview().offset(UIDevice.current.hasHomeButton ? -20 : -40)
             make.centerX.equalTo(detailLowerView)
             make.width.equalTo(detailLowerView.snp.width).inset(UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20))
         }
@@ -390,40 +372,23 @@ extension NewsDetailViewController {
         contentLabel.lineBreakMode = .byWordWrapping
         detailLowerView.addSubview(contentLabel)
         contentLabel.snp.makeConstraints { (make) -> Void in
-            if UIDevice().userInterfaceIdiom == .phone {
-                switch UIScreen.main.nativeBounds.height {
-                case 1136, 1334:
-                    make.top.equalToSuperview().offset(80)
-                    make.leftMargin.equalTo(20)
-                    make.rightMargin.equalTo(-20)
-                    //make.bottom.equalTo(sepLine.snp.top).offset(-30)
-                case 1920, 2208, 2436, 2688, 1792:
-                    make.top.equalToSuperview().offset(100)
-                    make.leftMargin.equalTo(20)
-                    make.rightMargin.equalTo(-20)
-                    //make.bottom.equalTo(sepLine.snp.top).offset(-30)
-                default:
-                    print("unknown")
-                }
-            }
+            make.top.equalToSuperview().offset(UIDevice.current.hasHomeButton ? 80 : 100)
+            make.leftMargin.equalTo(20)
+            make.rightMargin.equalTo(-20)
         }
         
         detailViews.append(detailLowerView)
         
         //assign contentLabelHeight
-        if UIDevice().userInterfaceIdiom == .phone {
-            switch UIScreen.main.nativeBounds.height {
-            case 1136, 1334:
-                /* contentLabelHeight + bottomPadding + topPadding */
-                let labelHeight = contentLabel.attributedTextHeight(withWidth: UIScreen.main.bounds.width - 40) + 120 + 80
-                contentLabelHeight = labelHeight > UIScreen.main.bounds.height ? labelHeight : UIScreen.main.bounds.height
-            case 1920, 2208, 2436, 2688, 1792:
-                let labelHeight = contentLabel.attributedTextHeight(withWidth: UIScreen.main.bounds.width - 40) + 120 + 100
-                contentLabelHeight = labelHeight > UIScreen.main.bounds.height ? labelHeight : UIScreen.main.bounds.height
-            default:
-                print("unknown")
-            }
+        if UIDevice.current.hasHomeButton {
+            /* contentLabelHeight + bottomPadding + topPadding */
+            let labelHeight = contentLabel.attributedTextHeight(withWidth: UIScreen.main.bounds.width - 40) + 120 + 80
+            contentLabelHeight = labelHeight > UIScreen.main.bounds.height ? labelHeight : UIScreen.main.bounds.height
+        } else {
+            let labelHeight = contentLabel.attributedTextHeight(withWidth: UIScreen.main.bounds.width - 40) + 120 + 100
+            contentLabelHeight = labelHeight > UIScreen.main.bounds.height ? labelHeight : UIScreen.main.bounds.height
         }
+
         
         for (pageIndex, page) in detailViews.enumerated() {
             if pageIndex == 0 {
