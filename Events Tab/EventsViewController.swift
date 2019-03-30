@@ -14,13 +14,15 @@ class EventsViewController: UIViewController {
     
     @IBOutlet weak var mapView: GMSMapView!
     private let locationManager = CLLocationManager()
+    
     var currentLocation: CLLocationCoordinate2D! {
         didSet {
             let lat = currentLocation.latitude
             let long = currentLocation.longitude
-            let radius = 7000 //meters
+            let radius = 10000 //meters
 
-            if !lat.isNaN && !long.isNaN {
+            //prevent duplicate calls
+            if oldValue == nil || (lat != oldValue.latitude && long != oldValue.longitude) {
                 getNearbyEvents(lat: lat, long: long, radius: radius)
             }
         }
@@ -37,21 +39,22 @@ class EventsViewController: UIViewController {
             eventsVC.bookmarkedEvents = bookmarkedEvents
         }
     }
-    
+
     var nearbyEvents: [NearbyEvent] = [] {
         didSet {
-            print("Got \(nearbyEvents.count) nearbyEvents!!")
-            loadMarkers()
+            loadNearbyMarkers()
         }
     }
+    
 
     var eventDetails: EventDetails? {
         didSet {
-            showInfoWindow()
+            
         }
     }
     
-    var tappedMarker: GMSMarker?
+    var currentMarker: GMSMarker?
+    var currentVisibleMarkersEventId = [String]()
     var infoWindow: InfoWindow?
     
     override func viewDidLoad() {
@@ -112,6 +115,39 @@ extension EventsViewController {
                 UIApplication.shared.isNetworkActivityIndicatorVisible = false
             }.catch { error in }
     }
+    
+    private func showInfoWindow(withId id: String, position: CLLocationCoordinate2D) {
+        if infoWindow != nil {
+            if (infoWindow?.isDescendant(of: view))! { //infoWindow is visible
+                UIView.animate(withDuration: 0.2, animations: { self.infoWindow?.alpha = 0 }) { _ in
+                    self.infoWindow?.removeFromSuperview()
+                }
+            }
+        }
+
+        let lat = position.latitude
+        let long = position.longitude
+        
+        EventService.getEventDetails(eventId: id).done { event in
+            if let event = event.item {
+                let venue: String
+                venue = (event.venue?.isEmpty)! ? "\(String(format: "%.5f", lat)) \(String(format: "%.5f", long))" : event.venue!
+                
+                self.infoWindow = InfoWindow(eventTitle: event.title!, date: event.dateTime!, desc: event.desc!, venue: venue, bookmarkCount: "123")
+                self.infoWindow?.delegate = self
+                //self.infoWindow?.center = self.mapView.projection.point(for: (self.tappedMarker?.position)!)
+                self.infoWindow?.center = self.mapView.projection.point(for: position)
+                self.infoWindow?.center.y -= 190
+                self.mapView.addSubview(self.infoWindow!)
+                UIView.animate(withDuration: 0.2) {
+                    self.infoWindow?.alpha = 1
+                }
+            }
+            
+            }.ensure {
+                UIApplication.shared.isNetworkActivityIndicatorVisible = false
+            }.catch { error in }
+    }
 }
 
 //MARK: UISetup
@@ -135,48 +171,74 @@ extension EventsViewController {
 }
 
 //MARK: Google Maps
-extension EventsViewController: GMSMapViewDelegate, InfoWindowDelegate {
-    private func loadMarkers() {
-        if !nearbyEvents.isEmpty {
-            for event in nearbyEvents {
-                DispatchQueue.main.async {
-                    let lat = event.location?.coordinates[1]
-                    let long = event.location?.coordinates[0]
-                    let position = CLLocationCoordinate2DMake(lat!, long!)
-                    let marker = MapMarker(name: (event.organizerProfile?.name)!)
-                    marker.performerIcon.kf.setImage(with: URL(string: (event.organizerProfile?.coverImages.randomElement()?.secureUrl)!))
-                    marker.title = event.id //set id as title for tapped action
+extension EventsViewController: GMSMapViewDelegate, InfoWindowDelegate, BookmarkedEventsViewControllerDelegate {
+    private func addMarker(id: String, lat: Double, long: Double, performerName: String, iconUrl: String) {
+        DispatchQueue.main.async {
+            print("Creating \(id) marker...")
+            let position = CLLocationCoordinate2DMake(lat, long)
+            let marker = MapMarker(name: performerName)
+            marker.opacity = 0
+            marker.performerIcon.kf.setImage(with: URL(string: iconUrl)) { result in
+                switch result {
+                case .success(_):
+                    marker.title = id //set id as title for tapped action
                     marker.position = position
                     marker.tracksViewChanges = false
                     marker.map = self.mapView
+                    
+                    self.currentVisibleMarkersEventId.append(id)
+                    UIView.animate(withDuration: 0.2, animations: { marker.opacity = 1 })
+                    
+                case .failure(let error):
+                    print(error)
                 }
             }
         }
     }
     
-    private func showInfoWindow() {
-        if let event = eventDetails?.item {
-            let venue: String
-            if (event.venue?.isEmpty)! {
-                let lat = String(format: "%.5f", (event.location?.coordinates[1])!)
-                let long = String(format: "%.5f", (event.location?.coordinates[0])!)
-                venue = "\(lat) \(long)"
-            } else {
-                venue = event.venue!
-            }
-            infoWindow = InfoWindow(eventTitle: event.title!, date: event.dateTime!, desc: event.desc!, venue: venue, bookmarkCount: "123")
-            infoWindow?.delegate = self
-            infoWindow?.center = mapView.projection.point(for: (tappedMarker?.position)!)
-            infoWindow?.center.y -= 190
-            mapView.addSubview(infoWindow!)
-            UIView.animate(withDuration: 0.2) {
-                self.infoWindow?.alpha = 1
+    private func loadNearbyMarkers() {
+        if !nearbyEvents.isEmpty {
+            for event in nearbyEvents {
+                if let id = event.id {
+                    if !currentVisibleMarkersEventId.contains(id) { //check if marker was already added
+                        let lat = event.location?.coordinates[1]
+                        let long = event.location?.coordinates[0]
+                        let name = event.organizerProfile?.name
+                        let url = event.organizerProfile?.coverImages.randomElement()?.secureUrl
+                        
+                        addMarker(id: id, lat: lat!, long: long!, performerName: name!, iconUrl: url!)
+                    } else {
+                        print("Marker is already visible on map")
+                    }
+                }
             }
         }
     }
     
+    func cellTapped(lat: Double, long: Double, iconUrl: String, name: String, id: String) {
+        //create a marker
+        let position = CLLocationCoordinate2DMake(lat, long)
+        currentMarker?.position = position
+        
+        CATransaction.begin()
+        CATransaction.setAnimationDuration(0.75)
+        CATransaction.setAnimationTimingFunction(CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut))
+        mapView.animate(toLocation: position)
+        CATransaction.commit()
+
+        if !currentVisibleMarkersEventId.contains(id) {
+            addMarker(id: id, lat: lat, long: long, performerName: name, iconUrl: iconUrl)
+        } else {
+            print("Marker is already visible on map")
+        }
+        
+        showInfoWindow(withId: id, position: position)
+        
+        fpc.move(to: .half, animated: true)
+    }
+    
     func infoWindowMoreBtnTapped() {
-        if let id = tappedMarker?.title {
+        if let id = currentMarker?.title {
             EventDetailsViewController.push(fromView: self, eventId: id)
         }
     }
@@ -186,8 +248,8 @@ extension EventsViewController: GMSMapViewDelegate, InfoWindowDelegate {
     }
     
     func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
-        if marker != tappedMarker { //prevent the same marker is tapped
-            tappedMarker = marker
+        if marker != currentMarker || infoWindow?.alpha == 0 { //prevent the same marker is tapped
+            currentMarker = marker
             
             let pos = marker.position
             
@@ -215,8 +277,10 @@ extension EventsViewController: GMSMapViewDelegate, InfoWindowDelegate {
             UIView.animate(withDuration: 0.2, animations: { self.infoWindow?.alpha = 0 }) { _ in
                 self.infoWindow?.removeFromSuperview()
             }
+            
             if let id = marker.title {
-                getEventDetails(eventId: id)
+                //getEventDetails(eventId: id)
+                showInfoWindow(withId: id, position: pos)
             }
         }
 
@@ -233,13 +297,22 @@ extension EventsViewController: GMSMapViewDelegate, InfoWindowDelegate {
             navigationItem.title = "Events"
         }
         
-        UIView.animate(withDuration: 0.2, animations: { self.infoWindow?.alpha = 0 }) { _ in
-            self.infoWindow?.removeFromSuperview()
+        if infoWindow != nil {
+            if !(infoWindow?.isDescendant(of: view))! { //infoWindow not visible
+                if fpc.position != .tip {
+                    fpc.move(to: .tip, animated: true)
+                }
+            } else { //infoWindow is visible
+                UIView.animate(withDuration: 0.2, animations: { self.infoWindow?.alpha = 0 }) { _ in
+                    self.infoWindow?.removeFromSuperview()
+                }
+            }
         }
+
     }
     
     func mapView(_ mapView: GMSMapView, didChange position: GMSCameraPosition) {
-        if let tappedMarker = tappedMarker {
+        if let tappedMarker = currentMarker {
             let pos = tappedMarker.position
             infoWindow?.center = mapView.projection.point(for: pos)
             infoWindow?.center.y -= 190
@@ -278,6 +351,7 @@ extension EventsViewController: FloatingPanelControllerDelegate {
         
         // Set a content view controller and track the scroll view
         let eventsVC = storyboard?.instantiateViewController(withIdentifier: "bookmarkedEventsVC") as! BookmarkedEventsViewController
+        eventsVC.delegate = self
         fpc.set(contentViewController: eventsVC)
         //        eventsVC.textView.delegate = self // MUST call it before fpc.track(scrollView:)
         fpc.track(scrollView: eventsVC.eventsCollectionView)
@@ -301,8 +375,12 @@ extension EventsViewController: FloatingPanelControllerDelegate {
             if self.bookmarkedEvents.isEmpty {
                 DispatchQueue.main.async { self.getBookmarkedEvents() }
             }
+            eventsVC.eventsCollectionView.alpha = 1
             
-            
+        case .half:
+            if self.bookmarkedEvents.isEmpty {
+                DispatchQueue.main.async { self.getBookmarkedEvents() }
+            }
             eventsVC.eventsCollectionView.alpha = 1
             
         case .tip:

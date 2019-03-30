@@ -74,7 +74,7 @@ class BookmarkedEventCell: UICollectionViewCell {
         performerName.textAlignment = .center
         addSubview(performerName)
         performerName.snp.makeConstraints { (make) in
-            make.top.equalTo(eventTitle.snp.bottom)
+            make.top.equalTo(eventTitle.snp.bottom).offset(3)
             make.width.equalToSuperview()
             make.left.right.equalTo(0)
         }

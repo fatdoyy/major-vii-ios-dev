@@ -27,3 +27,10 @@ extension Dictionary where Value: Equatable { //return ONE key only, so it means
         return first(where: { $1 == val })?.key
     }
 }
+
+//check if array is identical
+extension Array where Element: Comparable {
+    func isIdentical(to other: [Element]) -> Bool {
+        return self.count == other.count && self.sorted() == other.sorted()
+    }
+}
