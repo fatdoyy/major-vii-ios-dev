@@ -19,6 +19,7 @@ class InfoWindow: UIView {
     static var aspectRatio: CGFloat = width / 190
     static var height: CGFloat = width / aspectRatio
     
+    var eventId: String?
     var titleLabel = UILabel()
     var dateTimeLabel = UILabel()
     var detailsLabel = UILabel()
@@ -100,7 +101,6 @@ class InfoWindow: UIView {
     }
     
     @objc func moreBtnTapped() {
-        print("tapped")
         delegate?.infoWindowMoreBtnTapped()
     }
     
