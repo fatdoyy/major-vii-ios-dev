@@ -171,23 +171,12 @@ class BuskerProfileViewController: UIViewController {
         
         setupFooter()
         
-
         setupLeftBarItems()
         TabBar.hide(from: self)
 
-        
         mainScrollView.contentInsetAdjustmentBehavior = .never
         mainScrollView.showsVerticalScrollIndicator = false
         mainScrollView.delegate = self
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-
     }
     
     override func viewWillDisappear(_ animated: Bool) {

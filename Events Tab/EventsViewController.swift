@@ -15,15 +15,15 @@ class EventsViewController: UIViewController {
     @IBOutlet weak var mapView: GMSMapView!
     private let locationManager = CLLocationManager()
     
+    var searchRadius = 2000 //meters
     var currentLocation: CLLocationCoordinate2D! {
         didSet {
             let lat = currentLocation.latitude
             let long = currentLocation.longitude
-            let radius = 2000 //meters
 
             //prevent duplicate calls
             if oldValue == nil || (lat != oldValue.latitude && long != oldValue.longitude) {
-                getNearbyEvents(lat: lat, long: long, radius: radius)
+                getNearbyEvents(lat: lat, long: long, radius: searchRadius)
             }
         }
     }
@@ -134,7 +134,27 @@ extension EventsViewController {
                 let venue: String
                 venue = (event.venue?.isEmpty)! ? "\(String(format: "%.5f", lat)) \(String(format: "%.5f", long))" : event.venue!
                 
-                self.infoWindow = InfoWindow(eventTitle: event.title!, date: event.dateTime!, desc: event.desc!, venue: venue, bookmarkCount: "123")
+                //Calculate distance
+                var distance: Double = 0
+                if !self.nearbyEvents.isEmpty {
+                    for event in self.nearbyEvents { //get distance in nearbyEvents because eventDetails didn't provide distance
+                        if let nearById = event.id {
+                            if id == nearById {
+                                if let eventDistance = event.distance { distance = eventDistance }
+                            }
+                        }
+                    }
+                }
+                let distanceStr: String?
+                if distance <= 999 && distance != 0 { //calculate meters
+                    distanceStr = "\(Int(distance))M"
+                } else if distance == 0 || Int(distance) > self.searchRadius { //location is empty OR distance is bigger than searchRadius
+                    distanceStr = ">\(self.searchRadius / 1000)KM"
+                } else { //calculate kilometers
+                    distanceStr = "\(String(format: "%.1f", distance / 1000))KM"
+                }
+
+                self.infoWindow = InfoWindow(eventTitle: event.title!, date: event.dateTime!, desc: event.desc!, venue: venue, distance: distanceStr ?? "0")
                 self.infoWindow?.delegate = self
                 //self.infoWindow?.center = self.mapView.projection.point(for: (self.tappedMarker?.position)!)
                 self.infoWindow?.eventId = id
