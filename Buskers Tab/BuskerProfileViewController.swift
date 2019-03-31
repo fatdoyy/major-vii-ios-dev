@@ -146,11 +146,7 @@ class BuskerProfileViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
+        
         gesture?.delegate = self
         loadingIndicator.startAnimating()
         loadingIndicator2.startAnimating()
@@ -175,18 +171,18 @@ class BuskerProfileViewController: UIViewController {
         
         setupFooter()
         
-        if !isModal {
-            setupLeftBarItems()
-            TabBar.hide(from: self)
-        } else {
-            setupCloseBtn()
-            print("is modal!!!")
-        }
+
+        setupLeftBarItems()
+        TabBar.hide(from: self)
+
         
         mainScrollView.contentInsetAdjustmentBehavior = .never
         mainScrollView.showsVerticalScrollIndicator = false
         mainScrollView.delegate = self
-        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -196,7 +192,8 @@ class BuskerProfileViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        if !isModal { TabBar.show(from: self) }
+        //if !isModal { TabBar.show(from: self) }
+        TabBar.show(from: self)
     }
     
 }
