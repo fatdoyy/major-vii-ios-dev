@@ -104,7 +104,7 @@ class InfoWindow: UIView {
         addSubview(dateTimeIcon)
         dateTimeIcon.snp.makeConstraints { (make) in
             make.size.equalTo(12)
-            make.bottom.equalTo(venueLabel.snp.top).offset(-5)
+            make.bottom.equalTo(venueLabel.snp.top).offset(-6)
             make.left.equalToSuperview().offset(15)
         }
         

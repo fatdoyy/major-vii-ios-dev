@@ -15,6 +15,7 @@ class EventsViewController: UIViewController {
     @IBOutlet weak var mapView: GMSMapView!
     private let locationManager = CLLocationManager()
     
+    
     var searchRadius = 2000 //meters
     var currentLocation: CLLocationCoordinate2D! {
         didSet {
@@ -40,18 +41,17 @@ class EventsViewController: UIViewController {
         }
     }
 
+    var nearbyEventsCountLabel: UILabel!
     var nearbyEvents: [NearbyEvent] = [] {
         didSet {
+            UIView.transition(with: nearbyEventsCountLabel, duration: 0.3, options: .transitionCrossDissolve, animations: {
+                self.nearbyEventsCountLabel.text = "\(self.nearbyEvents.count) nearby events"
+            }, completion: nil)
             loadNearbyMarkers()
         }
     }
-    
 
-    var eventDetails: EventDetails? {
-        didSet {
-            
-        }
-    }
+    var eventDetails: EventDetails?
     
     var tappedMarker: GMSMarker?
     var currentMarkerPosition: CLLocationCoordinate2D?
@@ -70,6 +70,7 @@ class EventsViewController: UIViewController {
         mapView.isMyLocationEnabled = true
         mapView.settings.myLocationButton = true
         
+        setupUI()
         setupFPC()
     }
     
@@ -175,6 +176,25 @@ extension EventsViewController {
 //MARK: UISetup
 extension EventsViewController {
     private func setupUI() {
+        nearbyEventsCountLabel = UILabel()
+        nearbyEventsCountLabel.textColor = UIColor(hexString: "#6F7179")
+        nearbyEventsCountLabel.font = UIFont.systemFont(ofSize: 24, weight: .bold)
+        nearbyEventsCountLabel.text = "Loading..."
+        view.addSubview(nearbyEventsCountLabel)
+        nearbyEventsCountLabel.snp.makeConstraints { (make) in
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(-14)
+            make.height.equalTo(29)
+            //make.width.equalTo(nearbyEventsCountLabel.intrinsicContentSize.width)
+            make.width.equalTo(200)
+            
+            switch UIDevice.current.type { //This is a very dumb method... please replace this if there are better soultions...
+            case .iPhone_5_5S_5C_SE, .iPhone_6_6S_7_8, .iPhone_X_Xs:
+                make.left.equalToSuperview().offset(17)
+            case .iPhone_6_6S_7_8_PLUS, .iPhone_Xr, .iPhone_Xs_Max:
+                make.left.equalToSuperview().offset(21)
+            default: print("cannot create nearbyEventsCountLabel")
+            }
+        }
     }
     
     private func setupNavBar() {
@@ -291,12 +311,14 @@ extension EventsViewController: GMSMapViewDelegate, InfoWindowDelegate, Bookmark
             CATransaction.commit()
             
             //hide nav bar title on smaller devices
-            if UIDevice.current.type == .iPhone_5_5S_5C_SE || UIDevice.current.type == .iPhone_6_6S_7_8 {
+            if UIDevice.current.type == .iPhone_5_5S_5C_SE || UIDevice.current.type == .iPhone_6_6S_7_8 || UIDevice.current.type == .iPhone_X_Xs {
                 let fadeTextAnimation = CATransition()
                 fadeTextAnimation.duration = 0.2
                 fadeTextAnimation.type = CATransitionType.fade
                 navigationController?.navigationBar.layer.add(fadeTextAnimation, forKey: "fadeText")
                 navigationItem.title = ""
+                
+                UIView.animate(withDuration: 0.2) { self.nearbyEventsCountLabel.alpha = 0 }
             }
             
             //first remove existing infoWindow
@@ -315,12 +337,14 @@ extension EventsViewController: GMSMapViewDelegate, InfoWindowDelegate, Bookmark
     
     func mapView(_ mapView: GMSMapView, didTapAt coordinate: CLLocationCoordinate2D) {
         //revert change of nav bar title on smaller devices
-        if UIDevice.current.type == .iPhone_5_5S_5C_SE || UIDevice.current.type == .iPhone_6_6S_7_8 {
+        if UIDevice.current.type == .iPhone_5_5S_5C_SE || UIDevice.current.type == .iPhone_6_6S_7_8 || UIDevice.current.type == .iPhone_X_Xs {
             let fadeTextAnimation = CATransition()
             fadeTextAnimation.duration = 0.2
             fadeTextAnimation.type = CATransitionType.fade
             navigationController?.navigationBar.layer.add(fadeTextAnimation, forKey: "fadeText")
             navigationItem.title = "Events"
+            
+            UIView.animate(withDuration: 0.2) { self.nearbyEventsCountLabel.alpha = 1 }
         }
         
         if infoWindow != nil {
