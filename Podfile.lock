@@ -62,6 +62,8 @@ PODS:
     - GoogleUtilities/UserDefaults (~> 5.3)
   - FloatingPanel (1.4.0)
   - Floaty (4.1.0)
+  - fluid-slider (1.0.1):
+    - pop
   - GlitchLabel (2.0.0)
   - GoogleAppMeasurement (5.4.0):
     - GoogleUtilities/AppDelegateSwizzler (~> 5.2)
@@ -123,6 +125,7 @@ PODS:
   - Parchment (1.5.0)
   - Pastel (0.5.1)
   - PIPKit (0.0.2)
+  - pop (1.0.12)
   - PromiseKit/CorePromise (6.7.0)
   - Reqres (3.0.0)
   - SkeletonView (1.4.1)
@@ -150,6 +153,7 @@ DEPENDENCIES:
   - Firebase/Core
   - FloatingPanel
   - Floaty (~> 4.1.0)
+  - fluid-slider
   - GlitchLabel (from `https://github.com/kikikiktai/GlitchLabel.git`)
   - GoogleMaps
   - GoogleSignIn
@@ -194,6 +198,7 @@ SPEC REPOS:
     - FirebaseInstanceID
     - FloatingPanel
     - Floaty
+    - fluid-slider
     - GoogleAppMeasurement
     - GoogleMaps
     - GoogleSignIn
@@ -211,6 +216,7 @@ SPEC REPOS:
     - Parchment
     - Pastel
     - PIPKit
+    - pop
     - PromiseKit
     - Reqres
     - SkeletonView
@@ -258,6 +264,7 @@ SPEC CHECKSUMS:
   FirebaseInstanceID: e2fa4cb35ef5558c200f7f0ad8a53e212215f93e
   FloatingPanel: 1449e7c4b9994e394f2de685b2ad6dd93da06333
   Floaty: 1a4e213f3512cf3045ef9cb0c1ff456226d1f66a
+  fluid-slider: a66a35daa20ca1f22c532daa703b9935818b0422
   GlitchLabel: 65773d1df358ef66c8daa40428eb79bd04e7a976
   GoogleAppMeasurement: 98b71f5e04142793729a5ef23e5b96651ff4b70f
   GoogleMaps: fd5c9fa58871781b9fb94d4936f19c69fe60ce32
@@ -277,6 +284,7 @@ SPEC CHECKSUMS:
   Parchment: 5a8c9c73549a6d73a7c1b606c27246910d2e5720
   Pastel: b3dd5b8d612dac06ae7c63c97c45c900829bc139
   PIPKit: 43ce5374c48bd16bde238618f0899af2b114948a
+  pop: d582054913807fd11fd50bfe6a539d91c7e1a55a
   PromiseKit: 453ddcc947fe7b302f3ef41882b81d31c554df7f
   Reqres: fb0714daf1b13dbafca25dd293d583cb4f73e420
   SkeletonView: 60d6ce7edb0cb4c7758db33c74add50392b3c475
@@ -287,6 +295,6 @@ SPEC CHECKSUMS:
   Validator: b34ab17a8fffd0c1ffd8f9002ead4d1e02cd9e6e
   XCDYouTubeKit: 3f4fd3eb3ed494a46a8f007b91315eed6dd6df1f
 
-PODFILE CHECKSUM: 8ceb9e62e8451ff54233792e96bad22aec011ccc
+PODFILE CHECKSUM: 1d498d14ced7051b8db2c21d03249a4a98d3adf8
 
 COCOAPODS: 1.5.3

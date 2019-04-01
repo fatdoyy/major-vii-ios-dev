@@ -38,7 +38,7 @@ class InfoWindow: UIView {
     init(eventTitle: String, date: String, desc: String, venue: String, distance: String) {
         super.init(frame: CGRect(x: 0, y: 0, width: InfoWindow.width, height: InfoWindow.height))
         alpha = 0
-        dropShadow(color: .black, opacity: 0.7, offSet: CGSize(width: -1, height: 1), radius: GlobalCornerRadius.value, scale: true)
+        dropShadow(color: .black, opacity: 0.65, offSet: CGSize(width: -1, height: 1), radius: GlobalCornerRadius.value, scale: true)
         backgroundColor = UIColor(hexString: "#11998E")
         layer.cornerRadius = GlobalCornerRadius.value
 
