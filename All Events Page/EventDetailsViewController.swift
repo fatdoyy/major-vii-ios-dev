@@ -93,7 +93,12 @@ class EventDetailsViewController: UIViewController {
         navigationController?.navigationBar.shadowImage = UIImage()
         //navigationController?.navigationBar.barTintColor = .darkGray()
         navigationController?.navigationBar.isTranslucent = true
-        TabBar.hide(from: self)
+        
+        if !isModal {
+            TabBar.hide(from: self)
+        } else {
+            setupCloseBtn()
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -112,7 +117,7 @@ class EventDetailsViewController: UIViewController {
             NotificationCenter.default.post(name: .refreshBookmarkedSectionFromDetails, object: nil, userInfo: ["check_id": eventId])
         }
             
-        TabBar.show(from: self)
+        if !isModal { TabBar.show(from: self) }
     }
     
     private func getDetails(eventId: String){
@@ -251,6 +256,24 @@ class EventDetailsViewController: UIViewController {
         self.navigationItem.leftBarButtonItem = menuBarItem
     }
     
+    private func setupCloseBtn() {
+        let closeBtn = UIButton()
+        closeBtn.setImage(UIImage(named: "icon_close"), for: .normal)
+        closeBtn.setTitle("", for: .normal)
+        closeBtn.addTarget(self, action: #selector(dismissView), for: .touchUpInside)
+        mainScrollView.addSubview(closeBtn)
+        mainScrollView.bringSubviewToFront(closeBtn)
+        closeBtn.snp.makeConstraints { (make) -> Void in
+            make.size.equalTo(32)
+            make.left.equalTo(20)
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
+        }
+    }
+    
+    @objc private func dismissView(){
+        dismiss(animated: true, completion: nil)
+    }
+    
     private func loadImgIntoImgViewer() {
         
         if imgUrlArray.count != 0 {
@@ -364,7 +387,11 @@ extension EventDetailsViewController: EventsDetailsViewDelegate{
     }
     
     func performerLabelTapped(sender: Any) {
-        BuskerProfileViewController.push(fromView: self, buskerName: eventDetails!.item?.organizerProfile?.name ?? "", buskerId: eventDetails!.item?.organizerProfile?.id ?? "")
+        if !isModal {
+            BuskerProfileViewController.push(from: self, buskerName: eventDetails!.item?.organizerProfile?.name ?? "", buskerId: eventDetails!.item?.organizerProfile?.id ?? "")
+        } else {
+            BuskerProfileViewController.present(from: self, buskerName: eventDetails!.item?.organizerProfile?.name ?? "", buskerId: eventDetails!.item?.organizerProfile?.id ?? "")
+        }
     }
 }
 
@@ -443,14 +470,25 @@ extension EventDetailsViewController: UIGestureRecognizerDelegate{
 
 // MARK: function to push this view controller
 extension EventDetailsViewController{
-    static func push(fromView: UIViewController, eventId: String){
+    static func push(from view: UIViewController, eventId: String){
         let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
         let detailsVC = storyboard.instantiateViewController(withIdentifier: EventDetailsViewController.storyboardId) as! EventDetailsViewController
         
         detailsVC.eventId = eventId
         
-        fromView.navigationItem.title = ""
-        fromView.navigationController?.hero.navigationAnimationType = .autoReverse(presenting: .zoom)
-        fromView.navigationController?.pushViewController(detailsVC, animated: true)
+        view.navigationItem.title = ""
+        view.navigationController?.hero.navigationAnimationType = .autoReverse(presenting: .zoom)
+        view.navigationController?.pushViewController(detailsVC, animated: true)
+    }
+    
+    static func present(from view: UIViewController, eventId: String) {
+        let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+        let detailsVC = storyboard.instantiateViewController(withIdentifier: EventDetailsViewController.storyboardId) as! EventDetailsViewController
+        
+        detailsVC.eventId = eventId
+        
+        detailsVC.hero.isEnabled = true
+        detailsVC.hero.modalAnimationType = .autoReverse(presenting: .zoom)
+        view.present(detailsVC, animated: true, completion: nil)
     }
 }

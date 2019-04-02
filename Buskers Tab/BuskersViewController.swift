@@ -175,7 +175,7 @@ extension BuskersViewController: UICollectionViewDelegate, UICollectionViewDataS
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        BuskerProfileViewController.push(fromView: self, buskerName: names[indexPath.row], buskerId: "5be7f512d92f1257fd2a530e")
+        BuskerProfileViewController.push(from: self, buskerName: names[indexPath.row], buskerId: "5be7f512d92f1257fd2a530e")
     }
     
     //PinterestLayout delegate

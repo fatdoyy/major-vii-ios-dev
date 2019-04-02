@@ -10,18 +10,22 @@ import UIKit
 import GoogleMaps
 import FloatingPanel
 import fluid_slider
+import NVActivityIndicatorView
 
 class EventsViewController: UIViewController {
     
     @IBOutlet weak var mapView: GMSMapView!
     private let locationManager = CLLocationManager()
     
+    var eventsTitle: UILabel!
+    var nearbyEventsCountLabel: UILabel!
+    
     var searchRadius = 2000 //meters
     var currentLocation: CLLocationCoordinate2D! {
         didSet {
             let lat = currentLocation.latitude
             let long = currentLocation.longitude
-
+            
             //prevent duplicate calls
             if oldValue == nil || (lat != oldValue.latitude && long != oldValue.longitude) {
                 getNearbyEvents(lat: lat, long: long, radius: searchRadius)
@@ -31,7 +35,10 @@ class EventsViewController: UIViewController {
     
     var filterBtn: UIButton!
     var filterMenuView: UIView!
+    var loadingIndicator: NVActivityIndicatorView!
     var radiusSlider = Slider()
+    
+    var myLocationBtn: UIButton!
     
     var fpc: FloatingPanelController!
     var eventsVC: BookmarkedEventsViewController!
@@ -44,26 +51,26 @@ class EventsViewController: UIViewController {
             eventsVC.bookmarkedEvents = bookmarkedEvents
         }
     }
-
-    var nearbyEventsCountLabel: UILabel!
+    
     var nearbyEvents: [NearbyEvent] = [] {
         didSet {
             UIView.transition(with: nearbyEventsCountLabel, duration: 0.3, options: .transitionFlipFromLeft, animations: {
-                self.nearbyEventsCountLabel.text = "\(self.nearbyEvents.count) nearby events"
+                self.nearbyEventsCountLabel.text = self.nearbyEvents.count == 1 ? "1 nearby event" : "\(self.nearbyEvents.count) nearby events"
                 self.nearbyEventsCountLabel.snp.updateConstraints({ (make) in
                     make.width.equalTo(self.nearbyEventsCountLabel.intrinsicContentSize.width)
                 })
             }, completion: { _ in
-                if self.filterBtn == nil && self.filterMenuView == nil {
-                    self.setupFilterBtn()
+                if self.filterBtn == nil && self.filterMenuView == nil && self.myLocationBtn == nil {
                     self.setupFilterMenu()
+                    self.setupFilterBtn()
+                    self.setupMyLocationBtn()
                 }
             })
             
             loadNearbyMarkers()
         }
     }
-
+    
     var eventDetails: EventDetails?
     
     var tappedMarker: GMSMarker?
@@ -78,19 +85,18 @@ class EventsViewController: UIViewController {
         locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
         locationManager.startUpdatingLocation()
-
+        
         mapView.delegate = self
         mapView.isMyLocationEnabled = true
-        mapView.settings.myLocationButton = true
         
         setupUI()
         setupFPC()
     }
-  
-    override var preferredStatusBarStyle: UIStatusBarStyle {
-        return .lightContent
-    }
-
+    
+//    override var preferredStatusBarStyle: UIStatusBarStyle {
+//        return .lightContent
+//    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setupNavBar()
@@ -154,7 +160,7 @@ extension EventsViewController {
                     let distanceStr: String?
                     if distance <= 999 && distance != 0 { //calculate meters
                         distanceStr = "\(Int(distance))M"
-                    } else if distance == 0 || Int(distance) > self.searchRadius { //location is empty OR distance is bigger than searchRadius
+                    } else if distance == 0 || Int(distance) > self.searchRadius { //location is empty OR distance is larger than searchRadius
                         distanceStr = ">\(self.searchRadius / 1000)KM"
                     } else { //calculate kilometers
                         distanceStr = "\(String(format: "%.1f", distance / 1000))KM"
@@ -166,7 +172,10 @@ extension EventsViewController {
                     self.infoWindow?.eventId = id
                     self.infoWindow?.center = self.mapView.projection.point(for: position)
                     self.infoWindow?.center.y -= 190
-                    self.mapView.addSubview(self.infoWindow!)
+                    
+                    self.view.insertSubview(self.infoWindow!, aboveSubview: self.nearbyEventsCountLabel)
+                    //self.view.addSubview(self.infoWindow!)
+                    //self.mapView.addSubview(self.infoWindow!)
                     UIView.animate(withDuration: 0.2) {
                         self.infoWindow?.alpha = 1
                     }
@@ -186,7 +195,7 @@ extension EventsViewController {
         nearbyEventsCountLabel.textColor = UIColor(hexString: "#6F7179")
         nearbyEventsCountLabel.font = UIFont.systemFont(ofSize: 24, weight: .bold)
         nearbyEventsCountLabel.text = "Loading..."
-        view.addSubview(nearbyEventsCountLabel)
+        view.insertSubview(nearbyEventsCountLabel, aboveSubview: mapView)
         nearbyEventsCountLabel.snp.makeConstraints { (make) in
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(-12)
             make.height.equalTo(29)
@@ -201,17 +210,28 @@ extension EventsViewController {
             default: print("cannot create nearbyEventsCountLabel")
             }
         }
+        
+        eventsTitle = UILabel()
+        eventsTitle.textColor = .darkGray()
+        eventsTitle.font = UIFont.systemFont(ofSize: 30, weight: .bold)
+        eventsTitle.text = "Events"
+        view.insertSubview(eventsTitle, aboveSubview: mapView)
+        eventsTitle.snp.makeConstraints { (make) in
+            make.bottom.equalTo(nearbyEventsCountLabel.snp.top).offset(4)
+            make.left.equalTo(nearbyEventsCountLabel.snp.left)
+        }
+        
     }
     
     private func setupFilterBtn() {
         filterBtn = UIButton()
-        let swipeDownImg = UIImage(named: "icon_swipe_down")
-        let tintedImg = swipeDownImg!.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+        let moreImg = UIImage(named: "icon_more")
+        let tintedImg = moreImg!.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
         filterBtn.setImage(tintedImg, for: .normal)
         filterBtn.tintColor = UIColor(hexString: "#6F7179")
         filterBtn.setTitle("", for: .normal)
         filterBtn.addTarget(self, action: #selector(filterBtnTapped), for: .touchUpInside)
-        view.addSubview(filterBtn)
+        view.insertSubview(filterBtn, aboveSubview: mapView)
         filterBtn.snp.makeConstraints { (make) in
             make.bottom.equalTo(nearbyEventsCountLabel.snp.bottom).offset(1)
             make.size.equalTo(27)
@@ -226,8 +246,46 @@ extension EventsViewController {
         }
     }
     
+    private func setupMyLocationBtn() {
+        myLocationBtn = UIButton()
+        let locationIcon = UIImage(named: "icon_locationBtn")
+        let tintedImg = locationIcon!.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+        myLocationBtn.setImage(tintedImg, for: .normal)
+        myLocationBtn.tintColor = UIColor(hexString: "#6F7179")
+        myLocationBtn.setTitle("", for: .normal)
+        myLocationBtn.addTarget(self, action: #selector(myLocationBtnTapped), for: .touchUpInside)
+        view.insertSubview(myLocationBtn, aboveSubview: mapView)
+        myLocationBtn.snp.makeConstraints { (make) in
+            make.bottom.equalTo(nearbyEventsCountLabel.snp.bottom).offset(1)
+            make.size.equalTo(27)
+            make.left.equalTo(filterBtn.snp.right).offset(4)
+        }
+        
+    }
+    
+    @objc func myLocationBtnTapped() {
+        guard let lat = self.mapView.myLocation?.coordinate.latitude,
+            let lng = self.mapView.myLocation?.coordinate.longitude else { return }
+        
+        if fpc.position != .tip { fpc.move(to: .tip, animated: true) }
+        if infoWindow != nil {
+            if infoWindow?.alpha != 0 {
+                UIView.animate(withDuration: 0.2) {
+                    self.infoWindow?.alpha = 0
+                }
+            }
+        }
+        
+        let camera = GMSCameraPosition.camera(withLatitude: lat ,longitude: lng , zoom: 14)
+        CATransaction.begin()
+        CATransaction.setAnimationDuration(0.75)
+        CATransaction.setAnimationTimingFunction(CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut))
+        mapView.animate(to: camera)
+        CATransaction.commit()
+    }
+    
     private func setupNavBar() {
-        navigationItem.title = "Events"
+        navigationItem.title = ""
         
         let textAttributes = [NSAttributedString.Key.foregroundColor: UIColor.darkGray()]
         navigationController?.navigationBar.titleTextAttributes = textAttributes
@@ -257,12 +315,12 @@ extension EventsViewController {
             make.height.equalTo(100)
             make.width.equalTo(width)
         }
-
+        
         let radiusImgView = UIImageView()
         radiusImgView.image = UIImage(named: "icon_radar")
         filterMenuView.addSubview(radiusImgView)
         radiusImgView.snp.makeConstraints { (make) in
-            make.top.left.equalTo(10)
+            make.top.left.equalTo(11)
             make.size.equalTo(20)
         }
         
@@ -274,6 +332,16 @@ extension EventsViewController {
         radiusLabel.snp.makeConstraints { (make) in
             make.left.equalTo(radiusImgView.snp.right).offset(4)
             make.centerY.equalTo(radiusImgView.snp.centerY)
+        }
+        
+        loadingIndicator = NVActivityIndicatorView(frame: CGRect(origin: CGPoint.zero, size: CGSize(width: 14, height: 14)), type: .lineScale)
+        loadingIndicator.startAnimating()
+        loadingIndicator.alpha = 0
+        filterMenuView.addSubview(loadingIndicator)
+        loadingIndicator.snp.makeConstraints { (make) in
+            make.top.equalToSuperview().offset(14)
+            make.right.equalToSuperview().offset(-15)
+            make.size.equalTo(14)
         }
         
         let labelTextAttributes: [NSAttributedString.Key : Any] = [.font: UIFont.systemFont(ofSize: 12, weight: .bold), .foregroundColor: UIColor.white]
@@ -292,7 +360,7 @@ extension EventsViewController {
         filterMenuView.addSubview(radiusSlider)
         radiusSlider.snp.makeConstraints { (make) in
             make.width.equalTo(width - 20)
-            make.top.equalTo(radiusImgView.snp.bottom).offset(18)
+            make.top.equalTo(radiusImgView.snp.bottom).offset(17)
             make.height.equalTo(40)
             make.left.equalTo(10)
         }
@@ -303,6 +371,10 @@ extension EventsViewController {
     //Update nearby events with new radius
     private func updateNearbyEvents() {
         radiusSlider.didEndTracking = { [weak self] _ in
+            UIView.animate(withDuration: 0.2, animations: {
+                self?.loadingIndicator.alpha = 1
+            })
+            
             let value = String(format: "%.2f", (self?.radiusSlider.fraction)!)
             let meter = Int(Float(value)! * 10000)
             print(meter)
@@ -321,7 +393,7 @@ extension EventsViewController {
                             }
                         }
                     }
-
+                    
                     //update with new radius
                     self?.getNearbyEvents(lat: lat, long: long, radius: meter)
                 }
@@ -372,11 +444,19 @@ extension EventsViewController: GMSMapViewDelegate, InfoWindowDelegate, Bookmark
                     }
                 }
             }
+            
+            if loadingIndicator != nil && loadingIndicator.alpha == 1 {
+                UIView.animate(withDuration: 0.2) {
+                    self.loadingIndicator.alpha = 0
+                }
+            }
+
         }
     }
     
     func cellTapped(lat: Double, long: Double, iconUrl: String, name: String, id: String) {
         let position = CLLocationCoordinate2DMake(lat, long)
+        let camera = GMSCameraPosition.camera(withTarget: position, zoom: 15.5, bearing: 0, viewingAngle: 60)
         
         currentMarkerPosition = position
         tappedMarker = nil
@@ -384,7 +464,7 @@ extension EventsViewController: GMSMapViewDelegate, InfoWindowDelegate, Bookmark
         CATransaction.begin()
         CATransaction.setAnimationDuration(0.75)
         CATransaction.setAnimationTimingFunction(CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut))
-        mapView.animate(toLocation: position)
+        mapView.animate(to: camera)
         CATransaction.commit()
         
         if !currentVisibleMarkersEventId.contains(id) {
@@ -407,8 +487,8 @@ extension EventsViewController: GMSMapViewDelegate, InfoWindowDelegate, Bookmark
     }
     
     func infoWindowMoreBtnTapped() {
-        if let id = tappedMarker?.title {
-            EventDetailsViewController.push(fromView: self, eventId: id)
+        if let id = self.infoWindow?.eventId {
+            EventDetailsViewController.push(from: self, eventId: id)
         }
     }
     
@@ -427,55 +507,30 @@ extension EventsViewController: GMSMapViewDelegate, InfoWindowDelegate, Bookmark
             tappedMarker = marker
             currentMarkerPosition = nil
             
-            let pos = marker.position
-            
-            //        var point = mapView.projection.point(for: pos)
-            //        point.y = point.y - 200
-            //        let newPoint = mapView.projection.coordinate(for: point)
-            //        let camera = GMSCameraUpdate.setTarget(newPoint)
-            
-            CATransaction.begin()
-            CATransaction.setAnimationDuration(0.75)
-            CATransaction.setAnimationTimingFunction(CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut))
-            mapView.animate(toLocation: pos)
-            CATransaction.commit()
-            
-            //hide nav bar title on smaller devices
-            if UIDevice.current.type == .iPhone_5_5S_5C_SE || UIDevice.current.type == .iPhone_6_6S_7_8 || UIDevice.current.type == .iPhone_X_Xs {
-                let fadeTextAnimation = CATransition()
-                fadeTextAnimation.duration = 0.2
-                fadeTextAnimation.type = CATransitionType.fade
-                navigationController?.navigationBar.layer.add(fadeTextAnimation, forKey: "fadeText")
-                navigationItem.title = ""
-                
-                UIView.animate(withDuration: 0.2) { self.nearbyEventsCountLabel.alpha = 0 }
-            }
-            
             //first remove existing infoWindow
             UIView.animate(withDuration: 0.2, animations: { self.infoWindow?.alpha = 0 }) { _ in
                 self.infoWindow?.removeFromSuperview()
             }
             
+            let pos = marker.position
+            let camera = GMSCameraPosition.camera(withTarget: pos, zoom: 15.5, bearing: 0, viewingAngle: 60)
+
+            CATransaction.begin()
+            CATransaction.setAnimationDuration(0.75)
+            CATransaction.setAnimationTimingFunction(CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut))
+            mapView.animate(to: camera)
+            CATransaction.commit()
+
+            
             if let id = marker.title {
                 showInfoWindow(withId: id, position: pos)
             }
         }
-
+        
         return false
     }
     
     func mapView(_ mapView: GMSMapView, didTapAt coordinate: CLLocationCoordinate2D) {
-        //revert change of nav bar title on smaller devices
-        if UIDevice.current.type == .iPhone_5_5S_5C_SE || UIDevice.current.type == .iPhone_6_6S_7_8 || UIDevice.current.type == .iPhone_X_Xs {
-            let fadeTextAnimation = CATransition()
-            fadeTextAnimation.duration = 0.2
-            fadeTextAnimation.type = CATransitionType.fade
-            navigationController?.navigationBar.layer.add(fadeTextAnimation, forKey: "fadeText")
-            navigationItem.title = "Events"
-            
-            UIView.animate(withDuration: 0.2) { self.nearbyEventsCountLabel.alpha = 1 }
-        }
-        
         if filterMenuView.alpha != 0 { //first hide filter menu if its not hidden
             UIView.animate(withDuration: 0.2) {
                 self.filterMenuView.alpha = 0
@@ -541,7 +596,6 @@ extension EventsViewController: FloatingPanelControllerDelegate {
         let eventsVC = storyboard?.instantiateViewController(withIdentifier: "bookmarkedEventsVC") as! BookmarkedEventsViewController
         eventsVC.delegate = self
         fpc.set(contentViewController: eventsVC)
-        //        eventsVC.textView.delegate = self // MUST call it before fpc.track(scrollView:)
         fpc.track(scrollView: eventsVC.eventsCollectionView)
         self.eventsVC = eventsVC
         
@@ -550,9 +604,9 @@ extension EventsViewController: FloatingPanelControllerDelegate {
     }
     
     func floatingPanelWillBeginDragging(_ vc: FloatingPanelController) {
-        print("dragging panel!")
+        //print("dragging panel!")
     }
-
+    
     func floatingPanelDidChangePosition(_ vc: FloatingPanelController) {
         swipeUpImg.alpha = vc.position == .full ? 0 : 1
         swipeDownImg.alpha = vc.position == .full ? 1 : 0
@@ -598,7 +652,7 @@ extension EventsViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location = locations.first else { return }
         currentLocation = location.coordinate
-        mapView.camera = GMSCameraPosition(target: location.coordinate, zoom: 14, bearing: 0, viewingAngle: 0)
+        mapView.camera = GMSCameraPosition(target: location.coordinate, zoom: 13, bearing: 0, viewingAngle: 0)
         
         locationManager.stopUpdatingLocation()
     }

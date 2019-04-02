@@ -172,17 +172,26 @@ class BuskerProfileViewController: UIViewController {
         setupFooter()
         
         setupLeftBarItems()
-        TabBar.hide(from: self)
-
+        
         mainScrollView.contentInsetAdjustmentBehavior = .never
         mainScrollView.showsVerticalScrollIndicator = false
         mainScrollView.delegate = self
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if !isModal {
+            TabBar.hide(from: self)
+        } else {
+            setupCloseBtn()
+        }
+        //TabBar.hide(from: self)
+    }
+    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        //if !isModal { TabBar.show(from: self) }
-        TabBar.show(from: self)
+        if !isModal { TabBar.show(from: self) }
+        //TabBar.show(from: self)
     }
     
 }
@@ -1100,7 +1109,13 @@ extension BuskerProfileViewController: UICollectionViewDelegateFlowLayout, UICol
             print("Member \(indexPath.row) tapped")
 
         case eventsCollectionView:
-            EventDetailsViewController.push(fromView: self, eventId: (buskerEvents?.list[indexPath.row].id)!)
+            //EventDetailsViewController.push(from: self, eventId: (buskerEvents?.list[indexPath.row].id)!)
+
+            if !isModal {
+                EventDetailsViewController.push(from: self, eventId: (buskerEvents?.list[indexPath.row].id)!)
+            } else {
+                EventDetailsViewController.present(from: self, eventId: (buskerEvents?.list[indexPath.row].id)!)
+            }
             
         case postsCollectionView:
             print("Post \(indexPath.row) tapped")
@@ -1174,18 +1189,18 @@ extension BuskerProfileViewController: UIScrollViewDelegate {
 
 //MARK: Function to push/present this view controller
 extension BuskerProfileViewController {
-    static func push(fromView: UIViewController, buskerName: String, buskerId: String) {
+    static func push(from view: UIViewController, buskerName: String, buskerId: String) {
         let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
         let profileVC = storyboard.instantiateViewController(withIdentifier: BuskerProfileViewController.storyboardId) as! BuskerProfileViewController
         
         profileVC.buskerId = buskerId
         profileVC.buskerName = buskerName
         
-        fromView.navigationController?.hero.navigationAnimationType = .autoReverse(presenting: .zoom)
-        fromView.navigationController?.pushViewController(profileVC, animated: true)
+        view.navigationController?.hero.navigationAnimationType = .autoReverse(presenting: .zoom)
+        view.navigationController?.pushViewController(profileVC, animated: true)
     }
     
-    static func present(fromView: UIViewController, buskerName: String, buskerId: String) {
+    static func present(from view: UIViewController, buskerName: String, buskerId: String) {
         let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
         let profileVC = storyboard.instantiateViewController(withIdentifier: BuskerProfileViewController.storyboardId) as! BuskerProfileViewController
         
@@ -1194,7 +1209,7 @@ extension BuskerProfileViewController {
         
         profileVC.hero.isEnabled = true
         profileVC.hero.modalAnimationType = .autoReverse(presenting: .zoom)
-        fromView.present(profileVC, animated: true, completion: nil)
+        view.present(profileVC, animated: true, completion: nil)
     }
 }
 

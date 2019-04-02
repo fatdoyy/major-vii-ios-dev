@@ -257,7 +257,7 @@ extension HomeViewController: EventsSectionDelegate {
     }
     
     func cellTapped(eventId: String) {
-        EventDetailsViewController.push(fromView: self, eventId: eventId)
+        EventDetailsViewController.push(from: self, eventId: eventId)
     }
 }
 
