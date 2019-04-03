@@ -20,7 +20,7 @@ class EventsViewController: UIViewController {
     var eventsTitle: UILabel!
     var nearbyEventsCountLabel: UILabel!
     
-    var searchRadius = 2000 //meters
+    var searchRadius = 6000 //meters
     var currentLocation: CLLocationCoordinate2D! {
         didSet {
             let lat = currentLocation.latitude
@@ -650,7 +650,7 @@ extension EventsViewController: CLLocationManagerDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        guard let location = locations.first else { return }
+        guard let location = manager.location else { return }
         currentLocation = location.coordinate
         mapView.camera = GMSCameraPosition(target: location.coordinate, zoom: 13, bearing: 0, viewingAngle: 0)
         
