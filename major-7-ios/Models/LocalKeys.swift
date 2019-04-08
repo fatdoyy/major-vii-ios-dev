@@ -12,4 +12,5 @@ struct LOCAL_KEY {
     static var USER_ID = "user_id"
     static var ACCESS_TOKEN = "access_token"
     static var REFRESH_TOKEN = "refresh_token"
+    static var USERNAME = "username"
 }

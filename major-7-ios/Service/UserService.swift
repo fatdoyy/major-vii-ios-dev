@@ -36,7 +36,7 @@ class UserService: NSObject {
     struct User {
         //check current user
         static func isLoggedIn() -> Bool {
-            let notLoggedIn = hasUserId() == false || hasAccessToken() == false || hasRefreshToken() == false
+            let notLoggedIn = hasUserId() == false || hasAccessToken() == false || hasRefreshToken() == false || hasUsername() == false
             return true != notLoggedIn
         }
         
@@ -45,6 +45,7 @@ class UserService: NSObject {
             UserDefaults.standard.removeObject(forKey: LOCAL_KEY.USER_ID)
             UserDefaults.standard.removeObject(forKey: LOCAL_KEY.ACCESS_TOKEN)
             UserDefaults.standard.removeObject(forKey: LOCAL_KEY.REFRESH_TOKEN)
+            UserDefaults.standard.removeObject(forKey: LOCAL_KEY.USERNAME)
             
             //Optional?
             //FB.logOut()
@@ -62,6 +63,10 @@ class UserService: NSObject {
         
         static func hasRefreshToken() -> Bool {
             return false != UserDefaults.standard.hasValue(LOCAL_KEY.REFRESH_TOKEN)
+        }
+        
+        static func hasUsername() -> Bool {
+            return false != UserDefaults.standard.hasValue(LOCAL_KEY.USERNAME)
         }
     }
 
@@ -129,6 +134,7 @@ extension UserService {
                                     UserDefaults.standard.set(apiResponse["user_id"], forKey: LOCAL_KEY.USER_ID)
                                     UserDefaults.standard.set(apiResponse["access_token"], forKey: LOCAL_KEY.ACCESS_TOKEN)
                                     UserDefaults.standard.set(apiResponse["refresh_token"], forKey: LOCAL_KEY.REFRESH_TOKEN)
+                                    UserDefaults.standard.set(name, forKey: LOCAL_KEY.USERNAME)
                                     
                                     NotificationCenter.default.post(name: .loginCompleted, object: nil)
                                     
@@ -243,6 +249,7 @@ extension UserService: GIDSignInDelegate, GIDSignInUIDelegate {
                             UserDefaults.standard.set(apiResponse["user_id"], forKey: LOCAL_KEY.USER_ID)
                             UserDefaults.standard.set(apiResponse["access_token"], forKey: LOCAL_KEY.ACCESS_TOKEN)
                             UserDefaults.standard.set(apiResponse["refresh_token"], forKey: LOCAL_KEY.REFRESH_TOKEN)
+                            UserDefaults.standard.set(name, forKey: LOCAL_KEY.USERNAME)
                             
                             NotificationCenter.default.post(name: .loginCompleted, object: nil)
 
@@ -330,6 +337,7 @@ extension UserService {
                         UserDefaults.standard.set(apiResponse["user_id"], forKey: LOCAL_KEY.USER_ID)
                         UserDefaults.standard.set(apiResponse["access_token"], forKey: LOCAL_KEY.ACCESS_TOKEN)
                         UserDefaults.standard.set(apiResponse["refresh_token"], forKey: LOCAL_KEY.REFRESH_TOKEN)
+                        UserDefaults.standard.set(email, forKey: LOCAL_KEY.USERNAME)
                         
                         //animate title change
                         UIView.transition(with: loginView.loginActionBtn, duration: 0.2, options: .transitionCrossDissolve, animations: {
@@ -397,6 +405,7 @@ extension UserService {
                         UserDefaults.standard.set(apiResponse["user_id"], forKey: LOCAL_KEY.USER_ID)
                         UserDefaults.standard.set(apiResponse["access_token"], forKey: LOCAL_KEY.ACCESS_TOKEN)
                         UserDefaults.standard.set(apiResponse["refresh_token"], forKey: LOCAL_KEY.REFRESH_TOKEN)
+                        UserDefaults.standard.set(email, forKey: LOCAL_KEY.USERNAME)
                         
                         //animate title change
                         UIView.transition(with: loginView.regActionBtn, duration: 0.2, options: .transitionCrossDissolve, animations: {

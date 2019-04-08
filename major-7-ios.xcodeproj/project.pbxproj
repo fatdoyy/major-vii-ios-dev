@@ -228,7 +228,7 @@
 		967BD33E2240C00300469CF9 /* PinterestLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinterestLayout.swift; sourceTree = "<group>"; };
 		967BD3402240E60200469CF9 /* BuskerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuskerCell.swift; sourceTree = "<group>"; };
 		967BD3412240E60200469CF9 /* BuskerCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BuskerCell.xib; sourceTree = "<group>"; };
-		9680373522509E8700A9C65F /* CREDC___.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = CREDC___.ttf; sourceTree = "<group>"; };
+		9680373522509E8700A9C65F /* CREDC___.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "CREDC___.ttf"; sourceTree = "<group>"; };
 		96862EB8219ACE1F00F709B0 /* EventDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDetailsViewController.swift; sourceTree = "<group>"; };
 		96862EBA219AD8AC00F709B0 /* TabBarToggle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarToggle.swift; sourceTree = "<group>"; };
 		96AC42F022327F9600F9D62C /* BuskerProfileMemberCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuskerProfileMemberCell.swift; sourceTree = "<group>"; };
@@ -317,6 +317,14 @@
 				72E5F17BF3B3C6876EB735D2 /* Pods_major_7_ios.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		9611CD76225B226A00ACA937 /* Settings Tab */ = {
+			isa = PBXGroup;
+			children = (
+				966A6CC4217DBDC400DF872F /* SettingsViewController.swift */,
+			);
+			path = "Settings Tab";
 			sourceTree = "<group>";
 		};
 		9620021621DDF1640055D070 /* Login */ = {
@@ -437,7 +445,7 @@
 				96C55412219044710065D70A /* All Events Page */,
 				966A6CC0217DBD9F00DF872F /* AgentsViewController.swift */,
 				96F37322224B95850088E142 /* Events Tab */,
-				966A6CC4217DBDC400DF872F /* SettingsViewController.swift */,
+				9611CD76225B226A00ACA937 /* Settings Tab */,
 				CA550AA921706A65008E493D /* Main.storyboard */,
 			);
 			name = UI;

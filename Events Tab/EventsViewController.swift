@@ -199,7 +199,6 @@ extension EventsViewController {
         nearbyEventsCountLabel.snp.makeConstraints { (make) in
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(-12)
             make.height.equalTo(29)
-            //make.width.equalTo(nearbyEventsCountLabel.intrinsicContentSize.width)
             make.width.equalTo(200)
             
             switch UIDevice.current.type { //This is a very dumb method... please replace this if there are better soultions...

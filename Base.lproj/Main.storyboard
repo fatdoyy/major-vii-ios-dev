@@ -19,7 +19,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="x31-Mb-qyp">
-                                <rect key="frame" x="0.0" y="391" width="375" height="30"/>
+                                <rect key="frame" x="0.0" y="435" width="375" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="LP8-Q6-BEG"/>
                                 </constraints>
@@ -28,27 +28,32 @@
                                     <action selector="didTapLogInOrOutBtn:" destination="BYZ-38-t0r" eventType="touchUpInside" id="qya-HM-itc"/>
                                 </connections>
                             </button>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FhS-wg-xKJ">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                            </scrollView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="x31-Mb-qyp" secondAttribute="bottom" constant="308" id="S1O-Vc-xXr"/>
-                            <constraint firstItem="x31-Mb-qyp" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="347" id="Zet-ZF-69U"/>
+                            <constraint firstAttribute="bottom" secondItem="FhS-wg-xKJ" secondAttribute="bottom" id="8Kg-5J-Y0J"/>
+                            <constraint firstItem="FhS-wg-xKJ" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="EUo-Px-1me"/>
+                            <constraint firstItem="FhS-wg-xKJ" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="Y8S-u0-Zck"/>
+                            <constraint firstItem="x31-Mb-qyp" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="347" id="cnX-DA-HBt"/>
                             <constraint firstItem="x31-Mb-qyp" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="imh-iw-AZK"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="x31-Mb-qyp" secondAttribute="trailing" id="khY-xW-NoK"/>
+                            <constraint firstItem="FhS-wg-xKJ" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="zV6-Ja-2cH"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="" image="tabbar_more" id="skP-eK-JY3">
-                        <inset key="imageInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="-10"/>
-                    </tabBarItem>
+                    <navigationItem key="navigationItem" id="w7q-Dt-Kuu"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="logInOrOutBtn" destination="x31-Mb-qyp" id="CBG-ia-Wbb"/>
+                        <outlet property="mainScrollView" destination="FhS-wg-xKJ" id="FT6-KY-FTi"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="937" y="1074"/>
+            <point key="canvasLocation" x="1879.2" y="1117.2413793103449"/>
         </scene>
         <!--Events View Controller-->
         <scene sceneID="4j0-ao-38G">
@@ -267,7 +272,7 @@
                         <segue destination="Tg2-OL-Zj8" kind="relationship" relationship="viewControllers" id="5Gy-VL-jnl"/>
                         <segue destination="JNt-6k-y41" kind="relationship" relationship="viewControllers" id="zI7-hD-bDb"/>
                         <segue destination="09e-1x-hXU" kind="relationship" relationship="viewControllers" id="AZQ-vC-L3I"/>
-                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="viewControllers" id="a8o-sS-84h"/>
+                        <segue destination="fVK-ET-OZc" kind="relationship" relationship="viewControllers" id="a8o-sS-84h"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0bE-mM-5vO" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -532,6 +537,27 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Xzv-4x-bRV" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="936.79999999999995" y="386.45320197044339"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="Fjj-3o-bZR">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="fVK-ET-OZc" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="" image="tabbar_more" id="skP-eK-JY3">
+                        <inset key="imageInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="-10"/>
+                    </tabBarItem>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="itc-25-OGn">
+                        <rect key="frame" x="0.0" y="44" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="29H-Yl-Kso"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="UBa-oA-fSE" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="936.79999999999995" y="1116.5024630541873"/>
         </scene>
     </scenes>
     <resources>
