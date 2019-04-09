@@ -62,7 +62,6 @@ class BuskersViewController: UIViewController {
     }
     
 
-    
 }
 
 //MARK: UINavigation Bar setup

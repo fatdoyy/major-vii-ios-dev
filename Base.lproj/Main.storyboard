@@ -13,43 +13,15 @@
         <!--Settings View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="SettingsViewController" customModule="major_7_ios" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController automaticallyAdjustsScrollViewInsets="NO" id="BYZ-38-t0r" customClass="SettingsViewController" customModule="major_7_ios" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="x31-Mb-qyp">
-                                <rect key="frame" x="0.0" y="435" width="375" height="30"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="30" id="LP8-Q6-BEG"/>
-                                </constraints>
-                                <state key="normal" title="Button"/>
-                                <connections>
-                                    <action selector="didTapLogInOrOutBtn:" destination="BYZ-38-t0r" eventType="touchUpInside" id="qya-HM-itc"/>
-                                </connections>
-                            </button>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FhS-wg-xKJ">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
-                            </scrollView>
-                        </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <constraints>
-                            <constraint firstAttribute="bottom" secondItem="FhS-wg-xKJ" secondAttribute="bottom" id="8Kg-5J-Y0J"/>
-                            <constraint firstItem="FhS-wg-xKJ" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="EUo-Px-1me"/>
-                            <constraint firstItem="FhS-wg-xKJ" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="Y8S-u0-Zck"/>
-                            <constraint firstItem="x31-Mb-qyp" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="347" id="cnX-DA-HBt"/>
-                            <constraint firstItem="x31-Mb-qyp" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="imh-iw-AZK"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="x31-Mb-qyp" secondAttribute="trailing" id="khY-xW-NoK"/>
-                            <constraint firstItem="FhS-wg-xKJ" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="zV6-Ja-2cH"/>
-                        </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <navigationItem key="navigationItem" id="w7q-Dt-Kuu"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
-                    <connections>
-                        <outlet property="logInOrOutBtn" destination="x31-Mb-qyp" id="CBG-ia-Wbb"/>
-                        <outlet property="mainScrollView" destination="FhS-wg-xKJ" id="FT6-KY-FTi"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
