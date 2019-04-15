@@ -100,6 +100,7 @@ class EventsViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setupNavBar()
+        fpc.view.alpha = UserService.User.isLoggedIn() ? 1 : 0
     }
     
     override func viewWillDisappear(_ animated: Bool) {
