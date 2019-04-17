@@ -125,6 +125,12 @@ extension EventsViewController {
         EventService.getNearbyEvents(lat: lat, long: long, radius: radius).done { response in
             self.nearbyEvents = response.list
             }.ensure {
+                
+                if self.loadingIndicator != nil {
+                    UIView.animate(withDuration: 0.2) {
+                        self.loadingIndicator.alpha = 0
+                    }
+                }
                 UIApplication.shared.isNetworkActivityIndicatorVisible = false
             }.catch { error in }
     }

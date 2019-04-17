@@ -244,51 +244,49 @@ class BookmarkedSection: UICollectionViewCell {
         emptyBookmarkImgView.image = UIImage(named: "icon_confused")
         emptyBookmarkBgView.addSubview(emptyBookmarkImgView)
         emptyBookmarkImgView.snp.makeConstraints { (make) in
-            make.topMargin.equalTo(15)
-            make.leftMargin.equalTo(15)
-            make.size.equalTo(40)
+            make.top.equalTo(15)
+            make.left.equalTo(15)
+            make.size.equalTo(64)
         }
         
         let emptyBookmarkTitle = UILabel()
-        emptyBookmarkTitle.font = UIFont.systemFont(ofSize: 22, weight: .bold)
-        emptyBookmarkTitle.text = "Who to follow?"
+        emptyBookmarkTitle.font = UIFont.systemFont(ofSize: 20, weight: .semibold)
+        emptyBookmarkTitle.text = "What? Empty???"
         emptyBookmarkTitle.textColor = .white
         emptyBookmarkBgView.addSubview(emptyBookmarkTitle)
         emptyBookmarkTitle.snp.makeConstraints { (make) in
-            make.topMargin.equalTo(20)
-            make.leftMargin.equalTo(emptyBookmarkImgView.snp.right).offset(12)
+            make.top.equalTo(emptyBookmarkImgView.snp.bottom).offset(10)
+            make.left.equalTo(25)
             make.width.equalTo(200)
-            make.height.equalTo(30)
         }
         
         let emptyBookmarkDesc = UILabel()
-        emptyBookmarkDesc.font = UIFont.systemFont(ofSize: 12, weight: .medium)
-        emptyBookmarkDesc.text = "Click the button to know all the benefits of becoming a Major VII member!"
+        emptyBookmarkDesc.font = UIFont.systemFont(ofSize: 12, weight: .regular)
+        emptyBookmarkDesc.text = "Bookmark your instersted events now!"
         emptyBookmarkDesc.textColor = .white
         emptyBookmarkDesc.numberOfLines = 2
         emptyBookmarkBgView.addSubview(emptyBookmarkDesc)
         emptyBookmarkDesc.snp.makeConstraints { (make) in
-            make.topMargin.equalTo(emptyBookmarkTitle.snp.bottom).offset(10)
+            make.topMargin.equalTo(emptyBookmarkTitle.snp.bottom).offset(12)
             make.leftMargin.equalTo(25)
             make.width.equalTo(230)
-            make.height.equalTo(60)
         }
         
-        let learnMoreBtn = UIButton()
-        learnMoreBtn.titleLabel?.font = UIFont.systemFont(ofSize: 12, weight: .bold)
-        learnMoreBtn.layer.cornerRadius = GlobalCornerRadius.value / 2
-        learnMoreBtn.setTitle("Learn More", for: .normal)
-        learnMoreBtn.setTitleColor(.darkPurple(), for: .normal)
-        learnMoreBtn.backgroundColor = .white
-        emptyBookmarkBgView.addSubview(learnMoreBtn)
-        learnMoreBtn.snp.makeConstraints { (make) in
-            make.bottomMargin.equalTo(emptyBookmarkBgView.snp.bottom).offset(-25)
-            make.rightMargin.equalTo(emptyBookmarkBgView.snp.right).offset(-25)
-            make.width.equalTo(120)
-            make.height.equalTo(28)
-        }
-        
-        learnMoreBtn.addTarget(self, action: #selector(showLoginVC), for: .touchUpInside)
+//        let learnMoreBtn = UIButton()
+//        learnMoreBtn.titleLabel?.font = UIFont.systemFont(ofSize: 12, weight: .bold)
+//        learnMoreBtn.layer.cornerRadius = GlobalCornerRadius.value / 2
+//        learnMoreBtn.setTitle("Learn More", for: .normal)
+//        learnMoreBtn.setTitleColor(.darkPurple(), for: .normal)
+//        learnMoreBtn.backgroundColor = .white
+//        emptyBookmarkBgView.addSubview(learnMoreBtn)
+//        learnMoreBtn.snp.makeConstraints { (make) in
+//            make.bottomMargin.equalTo(emptyBookmarkBgView.snp.bottom).offset(-25)
+//            make.rightMargin.equalTo(emptyBookmarkBgView.snp.right).offset(-25)
+//            make.width.equalTo(120)
+//            make.height.equalTo(28)
+//        }
+//
+//        learnMoreBtn.addTarget(self, action: #selector(showLoginVC), for: .touchUpInside)
         addSubview(emptyBookmarkShadowView)
 
     }

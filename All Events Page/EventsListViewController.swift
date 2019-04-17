@@ -187,11 +187,13 @@ class EventsListViewController: ScrollingNavigationViewController, UIGestureReco
     func showLoginVC() {
         let loginVC = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "loginVC") as! LoginViewController
         
-        loginVC.hero.isEnabled = true
+//        loginVC.hero.isEnabled = true
+//        
+//        self.navigationItem.title = ""
+//        self.navigationController?.hero.navigationAnimationType = .autoReverse(presenting: .zoom)
+//        self.navigationController?.pushViewController(loginVC, animated: true)
         
-        self.navigationItem.title = ""
-        self.navigationController?.hero.navigationAnimationType = .autoReverse(presenting: .zoom)
-        self.navigationController?.pushViewController(loginVC, animated: true)
+        self.present(loginVC, animated: true, completion: nil)
     }
 }
 

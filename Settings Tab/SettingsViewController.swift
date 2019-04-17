@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Pastel
 
 class SettingsViewController: UIViewController {
     
@@ -20,6 +21,12 @@ class SettingsViewController: UIViewController {
     var accountTypeLabel: UILabel!
     var logoutBtn: UIButton!
     var buskerIcon: UIImageView!
+    var loggedInHeaderViews = [UIView]()
+    
+    var emptyLoginBgView: UIView!
+    var emptyLoginGradientBg: PastelView!
+    var emptyLoginShadowView: UIView!
+    var loginBtn: UIButton!
     
     //Genereal Section
     var generalSectionTitle: UILabel!
@@ -109,6 +116,13 @@ class SettingsViewController: UIViewController {
         } else {
             print("Can't get status bar?")
         }
+        
+        //show OR hide header
+        for view in loggedInHeaderViews {
+            view.alpha = UserService.User.isLoggedIn() ? 1 : 0
+        }
+        emptyLoginShadowView.alpha = UserService.User.isLoggedIn() ? 0 : 1
+        loginBtn.alpha = UserService.User.isLoggedIn() ? 0 : 1
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -147,69 +161,166 @@ class SettingsViewController: UIViewController {
 //MARK: Header Section
 extension SettingsViewController {
     private func setupHeaderSection() {
-        if UserService.User.isLoggedIn() {
-            buskerNameLabel = UILabel()
-            buskerNameLabel.textColor = .white
-            buskerNameLabel.font = UIFont.systemFont(ofSize: 30, weight: .bold)
-            buskerNameLabel.text = "Hello, \(UserDefaults.standard.string(forKey: LOCAL_KEY.USERNAME) ?? "")!"
-            mainScrollView.addSubview(buskerNameLabel)
-            buskerNameLabel.snp.makeConstraints { (make) in
-                //make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(-42)
-                make.top.equalToSuperview().offset(98)
-                make.left.equalToSuperview().offset(20)
-                make.width.equalTo(screenWidth - 40)
-            }
-            
-            accountTypeLabel = UILabel()
-            accountTypeLabel.textColor = .purpleText()
-            accountTypeLabel.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
-            accountTypeLabel.text = "(Busker)"
-            mainScrollView.addSubview(accountTypeLabel)
-            accountTypeLabel.snp.makeConstraints { (make) in
-                make.top.equalTo(buskerNameLabel.snp.bottom)
-                make.left.equalTo(buskerNameLabel.snp.left)
-            }
-            
-            logoutBtn = UIButton()
-            logoutBtn.setTitle("Logout", for: .normal)
-            logoutBtn.titleLabel?.font = UIFont.systemFont(ofSize: 12, weight: .medium)
-            logoutBtn.backgroundColor = UIColor.white.withAlphaComponent(0.3)
-            logoutBtn.layer.cornerRadius = 3
-            logoutBtn.addTarget(self, action: #selector(logoutBtnTapped), for: .touchUpInside)
-            mainScrollView.addSubview(logoutBtn)
-            logoutBtn.snp.makeConstraints { (make) in
-                make.top.equalTo(accountTypeLabel.snp.bottom).offset(10)
-                make.width.equalTo(100)
-                make.height.equalTo(28)
-                make.left.equalTo(accountTypeLabel.snp.left)
-            }
-            
-            buskerIcon = UIImageView()
-            buskerIcon.layer.cornerRadius = 48
-            buskerIcon.backgroundColor = .darkGray
-            //buskerIcon.kf.setImage(with: url)
-            mainScrollView.addSubview(buskerIcon)
-            buskerIcon.snp.makeConstraints { (make) in
-                make.top.equalTo(buskerNameLabel.snp.top)
-                make.size.equalTo(96)
-                make.right.equalTo(buskerNameLabel.snp.right)
-            }
-            
-            
-        } else {
-            //create login view, height 96
+        setupLoggedInHeader()
+        setupLoginHeader()
+        
+        for view in loggedInHeaderViews {
+            view.alpha = UserService.User.isLoggedIn() ? 1 : 0
+        }
+        emptyLoginShadowView.alpha = UserService.User.isLoggedIn() ? 0 : 1
+        loginBtn.alpha = UserService.User.isLoggedIn() ? 0 : 1
+    }
+    
+    private func setupLoggedInHeader() {
+        buskerNameLabel = UILabel()
+        buskerNameLabel.textColor = .white
+        buskerNameLabel.font = UIFont.systemFont(ofSize: 30, weight: .bold)
+        buskerNameLabel.text = "Hello, \(UserDefaults.standard.string(forKey: LOCAL_KEY.USERNAME) ?? "")!"
+        mainScrollView.addSubview(buskerNameLabel)
+        buskerNameLabel.snp.makeConstraints { (make) in
+            //make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(-42)
+            make.top.equalToSuperview().offset(98)
+            make.left.equalToSuperview().offset(20)
+            make.width.equalTo(screenWidth - 40)
+        }
+        loggedInHeaderViews.append(buskerNameLabel)
+        
+        accountTypeLabel = UILabel()
+        accountTypeLabel.textColor = .purpleText()
+        accountTypeLabel.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
+        accountTypeLabel.text = "(Busker)"
+        mainScrollView.addSubview(accountTypeLabel)
+        accountTypeLabel.snp.makeConstraints { (make) in
+            make.top.equalTo(buskerNameLabel.snp.bottom)
+            make.left.equalTo(buskerNameLabel.snp.left)
+        }
+        loggedInHeaderViews.append(accountTypeLabel)
+        
+        logoutBtn = UIButton()
+        logoutBtn.setTitle("Logout", for: .normal)
+        logoutBtn.titleLabel?.font = UIFont.systemFont(ofSize: 12, weight: .medium)
+        logoutBtn.backgroundColor = UIColor.white.withAlphaComponent(0.3)
+        logoutBtn.layer.cornerRadius = 3
+        logoutBtn.addTarget(self, action: #selector(logoutBtnTapped), for: .touchUpInside)
+        mainScrollView.addSubview(logoutBtn)
+        logoutBtn.snp.makeConstraints { (make) in
+            make.top.equalTo(accountTypeLabel.snp.bottom).offset(10)
+            make.width.equalTo(100)
+            make.height.equalTo(28)
+            make.left.equalTo(accountTypeLabel.snp.left)
+        }
+        loggedInHeaderViews.append(logoutBtn)
+        
+        buskerIcon = UIImageView()
+        buskerIcon.layer.cornerRadius = 48
+        buskerIcon.backgroundColor = .darkGray
+        //buskerIcon.kf.setImage(with: url)
+        mainScrollView.addSubview(buskerIcon)
+        buskerIcon.snp.makeConstraints { (make) in
+            make.top.equalTo(buskerNameLabel.snp.top)
+            make.size.equalTo(96)
+            make.right.equalTo(buskerNameLabel.snp.right)
+        }
+        loggedInHeaderViews.append(buskerIcon)
+        
+    }
+    
+    private func setupLoginHeader() {
+        //empty view's drop shadow
+        emptyLoginShadowView = UIView()
+        emptyLoginShadowView.alpha = 1
+        emptyLoginShadowView.frame = CGRect(x: 20, y: 78, width: UIScreen.main.bounds.width - 40, height: 106)
+        emptyLoginShadowView.clipsToBounds = false
+        emptyLoginShadowView.layer.shadowOpacity = 0.5
+        emptyLoginShadowView.layer.shadowOffset = CGSize(width: -1, height: -1)
+        emptyLoginShadowView.layer.shadowRadius = GlobalCornerRadius.value
+        emptyLoginShadowView.layer.shadowPath = UIBezierPath(roundedRect: emptyLoginShadowView.bounds, cornerRadius: GlobalCornerRadius.value).cgPath
+        
+        //empty view
+        //bgView.alpha = 0
+        emptyLoginBgView = UIView()
+        emptyLoginBgView.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width - 40, height: 106)
+        emptyLoginBgView.layer.cornerRadius = GlobalCornerRadius.value
+        emptyLoginBgView.clipsToBounds = true
+        emptyLoginBgView.backgroundColor = .darkGray
+        
+        //gradient bg
+        emptyLoginGradientBg = PastelView()
+        emptyLoginGradientBg.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width - 40, height: 106)
+        emptyLoginGradientBg.animationDuration = 2.5
+        emptyLoginGradientBg.setColors([UIColor(hexString: "#FDC830"), UIColor(hexString: "#F37335")])
+        emptyLoginShadowView.layer.shadowColor = UIColor(hexString: "#FDC830").cgColor
+        
+        emptyLoginGradientBg.startAnimation()
+        
+        emptyLoginBgView.insertSubview(emptyLoginGradientBg, at: 0)
+        emptyLoginShadowView.addSubview(emptyLoginBgView)
+        
+        let loginImgView = UIImageView()
+        loginImgView.image = UIImage(named: "icon_login")
+        emptyLoginBgView.addSubview(loginImgView)
+        loginImgView.snp.makeConstraints { (make) in
+            make.top.equalTo(15)
+            make.left.equalTo(15)
+            make.size.equalTo(40)
+        }
+
+        let loginTitle = UILabel()
+        loginTitle.font = UIFont.systemFont(ofSize: 22, weight: .bold)
+        loginTitle.text = "Log-in now!"
+        loginTitle.textColor = .white
+        emptyLoginBgView.addSubview(loginTitle)
+        loginTitle.snp.makeConstraints { (make) in
+            make.top.equalTo(20)
+            make.left.equalTo(loginImgView.snp.right).offset(5)
+        }
+
+        let loginDesc = UILabel()
+        loginDesc.font = UIFont.systemFont(ofSize: 12, weight: .medium)
+        loginDesc.text = "Enjoy full experience with your Major VII account."
+        loginDesc.textColor = .white
+        loginDesc.numberOfLines = 2
+        emptyLoginBgView.addSubview(loginDesc)
+        loginDesc.snp.makeConstraints { (make) in
+            make.top.equalTo(loginTitle.snp.bottom).offset(10)
+            make.left.equalTo(25)
+            make.width.equalTo(220)
+        }
+        
+        loginBtn = UIButton()
+        loginBtn.titleLabel?.font = UIFont.systemFont(ofSize: 12, weight: .bold)
+        loginBtn.layer.cornerRadius = GlobalCornerRadius.value / 2
+        loginBtn.setTitle("Sure!", for: .normal)
+        loginBtn.setTitleColor(UIColor(hexString: "#F37335"), for: .normal)
+        loginBtn.backgroundColor = .white
+        loginBtn.addTarget(self, action: #selector(showLoginVC), for: .touchUpInside)
+        mainScrollView.addSubview(loginBtn)
+        loginBtn.snp.makeConstraints { (make) in
+            make.top.equalTo(logoutBtn.snp.top)
+            make.right.equalTo(buskerNameLabel.snp.right).offset(-15)
+            make.width.equalTo(60)
+            make.height.equalTo(28)
+        }
+        
+        mainScrollView.addSubview(emptyLoginShadowView)
+        mainScrollView.bringSubviewToFront(loginBtn)
+        emptyLoginShadowView.snp.makeConstraints { (make) in
+            make.top.equalToSuperview().offset(98)
+            make.left.equalToSuperview().offset(20)
+            make.width.equalTo(screenWidth - 40)
         }
     }
     
+    @objc func showLoginVC(_ sender: Any) {
+        let loginVC = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "loginVC") as! LoginViewController
+        print("tapped")
+        self.present(loginVC, animated: true, completion: nil)
+    }
     
     @objc func logoutBtnTapped(_ sender: Any) {
-        if logoutBtn.title(for: .normal) == "Login" {
-            let loginVC = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "loginVC") as! LoginViewController
-            self.present(loginVC, animated: true, completion: nil)
-            logoutBtn.setTitle("Logout", for: .normal)
-        } else {
-            UserService.User.logOut(fromVC: self)
-            logoutBtn.setTitle("Login", for: .normal)
+        UserService.User.logOut(fromVC: self)
+        UIView.animate(withDuration: 0.2) {
+            self.emptyLoginShadowView.alpha = 1
         }
     }
 }
@@ -225,10 +336,9 @@ extension SettingsViewController {
         let generalSectionTitleHeight = 21
         generalSectionTitle.snp.makeConstraints { (make) in
             make.top.equalTo(logoutBtn.snp.bottom).offset(44)
-            make.left.equalTo(buskerNameLabel)
+            make.left.equalToSuperview().offset(20)
             make.height.equalTo(generalSectionTitleHeight)
         }
-        print("settings title height: \(generalSectionTitle.bounds.height)")
         
         generalSettingsDesc = UILabel()
         generalSettingsDesc.text = "Configure your personal settings"
@@ -238,7 +348,7 @@ extension SettingsViewController {
         let generalSettingsDescHeight = 14
         generalSettingsDesc.snp.makeConstraints { (make) in
             make.top.equalTo(generalSectionTitle.snp.bottom).offset(4)
-            make.left.equalTo(buskerNameLabel)
+            make.left.equalToSuperview().offset(20)
             make.height.equalTo(generalSettingsDescHeight)
         }
         
@@ -262,15 +372,16 @@ extension SettingsViewController {
         generalSectionNotiBtn.setTitleColor(.white, for: .normal)
         generalSectionNotiBtn.titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
         generalSectionNotiBtn.titleEdgeInsets = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 0)
+        generalSectionNotiBtn.addTarget(self, action: #selector(notiBtnTapped), for: .touchUpInside)
         generalSectionBg.addSubview(generalSectionNotiBtn)
         generalSectionNotiBtn.snp.makeConstraints { (make) in
             make.height.equalTo(64)
             make.width.equalToSuperview()
             make.top.left.equalToSuperview()
         }
-        
+
         generalSectionNotiIcon = UIImageView()
-        generalSectionNotiIcon.image = UIImage(named: "icon_apple_wallet")
+        generalSectionNotiIcon.image = UIImage(named: "settings_icon_noti")
         generalSectionBg.addSubview(generalSectionNotiIcon)
         generalSectionNotiIcon.snp.makeConstraints { (make) in
             make.centerY.equalTo(generalSectionNotiBtn)
@@ -305,7 +416,7 @@ extension SettingsViewController {
         }
         
         generalSectionRegIcon = UIImageView()
-        generalSectionRegIcon.image = UIImage(named: "icon_confused")
+        generalSectionRegIcon.image = UIImage(named: "settings_icon_performer")
         generalSectionBg.addSubview(generalSectionRegIcon)
         generalSectionRegIcon.snp.makeConstraints { (make) in
             make.centerY.equalTo(generalSectionBuskerRegBtn)
@@ -340,13 +451,17 @@ extension SettingsViewController {
         }
         
         generalSectionSettingsIcon = UIImageView()
-        generalSectionSettingsIcon.image = UIImage(named: "icon_google")
+        generalSectionSettingsIcon.image = UIImage(named: "settings_icon_settings")
         generalSectionBg.addSubview(generalSectionSettingsIcon)
         generalSectionSettingsIcon.snp.makeConstraints { (make) in
             make.centerY.equalTo(generalSectionSettingsBtn)
             make.size.equalTo(24)
             make.right.equalTo(-20)
         }
+    }
+    
+    @objc func notiBtnTapped() {
+        print("notiBtnTapped")
     }
 }
 
@@ -361,7 +476,7 @@ extension SettingsViewController {
         let buskerSectionTitleHeight = 21
         buskerSectionTitle.snp.makeConstraints { (make) in
             make.top.equalTo(generalSectionBg.snp.bottom).offset(30)
-            make.left.equalTo(buskerNameLabel)
+            make.left.equalToSuperview().offset(20)
             make.height.equalTo(buskerSectionTitleHeight)
         }
         
@@ -373,7 +488,7 @@ extension SettingsViewController {
         let buskerSectionDescHeight = 14
         buskerSectionDesc.snp.makeConstraints { (make) in
             make.top.equalTo(buskerSectionTitle.snp.bottom).offset(4)
-            make.left.equalTo(buskerNameLabel)
+            make.left.equalToSuperview().offset(20)
             make.height.equalTo(buskerSectionDescHeight)
         }
         
@@ -405,7 +520,7 @@ extension SettingsViewController {
         }
         
         buskerSectionProfileIcon = UIImageView()
-        buskerSectionProfileIcon.image = UIImage(named: "icon_apple_wallet")
+        buskerSectionProfileIcon.image = UIImage(named: "settings_icon_profile")
         buskerSectionBg.addSubview(buskerSectionProfileIcon)
         buskerSectionProfileIcon.snp.makeConstraints { (make) in
             make.centerY.equalTo(buskerSectionProfileBtn)
@@ -440,7 +555,7 @@ extension SettingsViewController {
         }
         
         buskerSectionEventIcon = UIImageView()
-        buskerSectionEventIcon.image = UIImage(named: "icon_confused")
+        buskerSectionEventIcon.image = UIImage(named: "settings_icon_events")
         buskerSectionBg.addSubview(buskerSectionEventIcon)
         buskerSectionEventIcon.snp.makeConstraints { (make) in
             make.centerY.equalTo(buskerSectionEventBtn)
@@ -475,7 +590,7 @@ extension SettingsViewController {
         }
         
         buskerSectionPostIcon = UIImageView()
-        buskerSectionPostIcon.image = UIImage(named: "icon_google")
+        buskerSectionPostIcon.image = UIImage(named: "settings_icon_posts")
         buskerSectionBg.addSubview(buskerSectionPostIcon)
         buskerSectionPostIcon.snp.makeConstraints { (make) in
             make.centerY.equalTo(buskerSectionPostBtn)
@@ -496,7 +611,7 @@ extension SettingsViewController {
         let othersSectionTitleHeight = 21
         othersSectionTitle.snp.makeConstraints { (make) in
             make.top.equalTo(buskerSectionBg.snp.bottom).offset(30)
-            make.left.equalTo(buskerNameLabel)
+            make.left.equalToSuperview().offset(20)
             make.height.equalTo(othersSectionTitleHeight)
         }
         
@@ -508,7 +623,7 @@ extension SettingsViewController {
         let othersSectionDescHeight = 14
         othersSectionDesc.snp.makeConstraints { (make) in
             make.top.equalTo(othersSectionTitle.snp.bottom).offset(4)
-            make.left.equalTo(buskerNameLabel)
+            make.left.equalToSuperview().offset(20)
             make.height.equalTo(othersSectionDescHeight)
         }
         
@@ -540,7 +655,7 @@ extension SettingsViewController {
         }
         
         othersSectionTermsIcon = UIImageView()
-        othersSectionTermsIcon.image = UIImage(named: "icon_apple_wallet")
+        othersSectionTermsIcon.image = UIImage(named: "settings_icon_terms")
         othersSectionBg.addSubview(othersSectionTermsIcon)
         othersSectionTermsIcon.snp.makeConstraints { (make) in
             make.centerY.equalTo(othersSectionTermsBtn)
@@ -575,7 +690,7 @@ extension SettingsViewController {
         }
         
         othersSectionPrivacyIcon = UIImageView()
-        othersSectionPrivacyIcon.image = UIImage(named: "icon_confused")
+        othersSectionPrivacyIcon.image = UIImage(named: "settings_icon_privacy")
         othersSectionBg.addSubview(othersSectionPrivacyIcon)
         othersSectionPrivacyIcon.snp.makeConstraints { (make) in
             make.centerY.equalTo(othersSectionPrivacyBtn)
@@ -610,7 +725,7 @@ extension SettingsViewController {
         }
         
         othersSectionFeedbackIcon = UIImageView()
-        othersSectionFeedbackIcon.image = UIImage(named: "icon_google")
+        othersSectionFeedbackIcon.image = UIImage(named: "settings_icon_feedback")
         othersSectionBg.addSubview(othersSectionFeedbackIcon)
         othersSectionFeedbackIcon.snp.makeConstraints { (make) in
             make.centerY.equalTo(othersSectionFeedbackBtn)
@@ -645,7 +760,7 @@ extension SettingsViewController {
         }
         
         othersSectionRateIcon = UIImageView()
-        othersSectionRateIcon.image = UIImage(named: "icon_google")
+        othersSectionRateIcon.image = UIImage(named: "settings_icon_rate")
         othersSectionBg.addSubview(othersSectionRateIcon)
         othersSectionRateIcon.snp.makeConstraints { (make) in
             make.centerY.equalTo(othersSectionRateBtn)
@@ -680,7 +795,7 @@ extension SettingsViewController {
         }
 
         othersSectionAboutIcon = UIImageView()
-        othersSectionAboutIcon.image = UIImage(named: "icon_google")
+        othersSectionAboutIcon.image = UIImage(named: "settings_icon_about")
         othersSectionBg.addSubview(othersSectionAboutIcon)
         othersSectionAboutIcon.snp.makeConstraints { (make) in
             make.centerY.equalTo(othersSectionAboutBtn)
