@@ -10,6 +10,7 @@ import UIKit
 import CHIPageControl
 import SkeletonView
 import NVActivityIndicatorView
+import InfiniteLayout
 
 class NewsDetailViewController: UIViewController {
 
@@ -25,8 +26,6 @@ class NewsDetailViewController: UIViewController {
     //news details
     var details : NewsDetails? {
         didSet {
-            print("details are: \(String(describing: details?.item!.title))")
-            print("details img count: \(String(describing: details?.item?.coverImages[0].secureUrl))")
             imgCollectionView.reloadData()
             loadUpperDetails()
             loadLowerDetails()
@@ -36,7 +35,7 @@ class NewsDetailViewController: UIViewController {
     var loadingIndicator = NVActivityIndicatorView(frame: CGRect(origin: CGPoint.zero, size: CGSize(width: 15, height: 15)), type: .lineScale)
     
     let detailUpperView = UIView()
-    var imgCollectionView: UICollectionView!
+    var imgCollectionView: InfiniteCollectionView!
     let pageControl = CHIPageControlJalapeno(frame: CGRect(x: 0, y: 0, width: 100, height: 20))
     let imgOverlay = UIView()
     var titleLabel = UILabel()
@@ -58,10 +57,9 @@ class NewsDetailViewController: UIViewController {
     
     @IBOutlet weak var mainScrollView: UIScrollView!
     
-    private func getDetails(newsId: String){
-        NewsService.getDetails(newsId: newsId).done{ details -> () in
+    private func getDetails(newsId: String) {
+        NewsService.getDetails(newsId: newsId).done { details -> () in
             self.details = details
-            //self.loadImgIntoImgViewer()
             
             }.ensure {
                 UIApplication.shared.isNetworkActivityIndicatorVisible = false
@@ -170,15 +168,17 @@ extension NewsDetailViewController {
     
     private func setupImgCollectionView() {
         //image collection view
-        let layout: UICollectionViewFlowLayout = PagedCollectionViewLayout()
+        //let layout: UICollectionViewFlowLayout = PagedCollectionViewLayout()
+        let layout: UICollectionViewFlowLayout = InfiniteLayout()
         layout.itemSize = pageSize
         layout.scrollDirection = .horizontal
         layout.minimumLineSpacing = 0
         layout.minimumInteritemSpacing = 0
         
-        imgCollectionView = UICollectionView(frame: self.view.frame, collectionViewLayout: layout)
+        imgCollectionView = InfiniteCollectionView(frame: self.view.frame, collectionViewLayout: layout)
         imgCollectionView.backgroundColor = .darkGray()
-        imgCollectionView.collectionViewLayout = layout
+        imgCollectionView.isItemPagingEnabled = true
+        imgCollectionView.preferredCenteredIndexPath = nil
         imgCollectionView.dataSource = self
         imgCollectionView.delegate = self
         imgCollectionView.showsHorizontalScrollIndicator = false
@@ -287,6 +287,7 @@ extension NewsDetailViewController {
     private func loadUpperDetails() {
         if details != nil {
             if let newsDetails = self.details?.item {
+                imgCollectionView.infiniteLayout.isEnabled = newsDetails.coverImages.count > 1
                 pageControl.numberOfPages = newsDetails.coverImages.count
                 titleLabel.text = newsDetails.title
                 descLabel.text = newsDetails.subTitle
@@ -309,9 +310,6 @@ extension NewsDetailViewController {
 
     private func setupLowerViewUI() {
         detailLowerView.backgroundColor = .darkGray()
-
-
-
     }
     
     private func loadLowerDetails() {
@@ -414,7 +412,10 @@ extension NewsDetailViewController: UICollectionViewDelegateFlowLayout, UICollec
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NewsDetailImageCell.reuseIdentifier, for: indexPath) as! NewsDetailImageCell
 
         if let newsDetails = self.details?.item {
-            if let url = URL(string: newsDetails.coverImages[indexPath.row].secureUrl!) {
+            let realIndexPath = self.imgCollectionView.indexPath(from: indexPath) //InfiniteLayout indexPath
+            print(realIndexPath)
+            print(indexPath)
+            if let url = URL(string: newsDetails.coverImages[realIndexPath.row].secureUrl!) {
                 cell.imgView.kf.setImage(with: url, options: [.transition(.fade(0.4))])
             }
         }
@@ -441,8 +442,10 @@ extension NewsDetailViewController: UIScrollViewDelegate {
     }
 
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        if scrollView != mainScrollView { //UICollectionView
-            pageControl.set(progress: Int(scrollView.contentOffset.x) / Int(scrollView.frame.width), animated: true)
+        if scrollView == imgCollectionView {
+            let indexPath = imgCollectionView.indexPath(from: imgCollectionView.indexPathsForVisibleItems.first!)
+            pageControl.set(progress: indexPath.row, animated: true)
+            //pageControl.set(progress: Int(scrollView.contentOffset.x) / Int(scrollView.frame.width), animated: true)
         } else {
             HapticFeedback.createImpact(style: .medium)
         }

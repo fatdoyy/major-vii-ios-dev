@@ -217,7 +217,7 @@ extension BuskerProfileViewController {
     }
     
     private func getBuskerPosts(buskerId: String) {
-        BuskerService.getBuskerPosts(buskerId: buskerId).done{ posts -> () in
+        BuskerService.getBuskerPosts(buskerId: buskerId).done { posts -> () in
             self.buskerPosts = posts
             
             }.ensure {

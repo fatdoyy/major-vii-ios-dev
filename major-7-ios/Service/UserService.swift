@@ -337,7 +337,7 @@ extension UserService {
                         UserDefaults.standard.set(apiResponse["user_id"], forKey: LOCAL_KEY.USER_ID)
                         UserDefaults.standard.set(apiResponse["access_token"], forKey: LOCAL_KEY.ACCESS_TOKEN)
                         UserDefaults.standard.set(apiResponse["refresh_token"], forKey: LOCAL_KEY.REFRESH_TOKEN)
-                        UserDefaults.standard.set(email, forKey: LOCAL_KEY.USERNAME)
+                        UserDefaults.standard.set(email.components(separatedBy: "@").first, forKey: LOCAL_KEY.USERNAME)
                         
                         //animate title change
                         UIView.transition(with: loginView.loginActionBtn, duration: 0.2, options: .transitionCrossDissolve, animations: {
@@ -405,8 +405,8 @@ extension UserService {
                         UserDefaults.standard.set(apiResponse["user_id"], forKey: LOCAL_KEY.USER_ID)
                         UserDefaults.standard.set(apiResponse["access_token"], forKey: LOCAL_KEY.ACCESS_TOKEN)
                         UserDefaults.standard.set(apiResponse["refresh_token"], forKey: LOCAL_KEY.REFRESH_TOKEN)
-                        UserDefaults.standard.set(email, forKey: LOCAL_KEY.USERNAME)
-                        
+                        UserDefaults.standard.set(email.components(separatedBy: "@").first, forKey: LOCAL_KEY.USERNAME)
+
                         //animate title change
                         UIView.transition(with: loginView.regActionBtn, duration: 0.2, options: .transitionCrossDissolve, animations: {
                             loginView.regActionBtn.setTitle("冊已註！ (づ｡◕‿‿◕｡)づ", for: .normal)

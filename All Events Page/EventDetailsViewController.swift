@@ -121,7 +121,7 @@ class EventDetailsViewController: UIViewController {
     }
     
     private func getDetails(eventId: String){
-        EventService.getEventDetails(eventId: eventId).done{ details -> () in
+        EventService.getEventDetails(eventId: eventId).done { details -> () in
             self.eventDetails = details
             self.loadImgIntoImgViewer()
 

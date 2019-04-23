@@ -33,7 +33,6 @@ target 'major-7-ios' do
   pod 'AMScrollingNavbar'                       # UINavigationBar hiding
   pod 'Hero'                                    # transitions
   pod 'MXParallaxHeader'                        # parallax header
-  pod 'CircleMenu'                              # floating menu
   pod 'Floaty', '~> 4.1.0'                      # floating button
   pod 'Kingfisher'                              # image downloading
   pod 'Reqres'                                  # network activity logger
@@ -49,7 +48,8 @@ target 'major-7-ios' do
   pod 'PIPKit'                                  # picture in picture mode
   pod 'FloatingPanel'                           # as title
   pod 'fluid-slider'                            # custom ui slider
-  
+  pod 'InfiniteLayout'                          # infinite scrolling uicollectionview
+ 
   pod 'GlitchLabel', :git => 'https://github.com/kikikiktai/GlitchLabel.git'                        # as title
   pod 'Validator', :git => 'https://github.com/kikikiktai/Validator.git'                            # UITextField validation
   pod 'ImageViewer', :inhibit_warnings => true, :git=> 'https://github.com/mezhevikin/ImageViewer'  # as title

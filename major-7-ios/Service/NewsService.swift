@@ -14,9 +14,18 @@ class NewsService: BaseService {}
 
 extension NewsService {
     
-    static func getList() -> Promise<NewsList> {
+    static func getList(skip: Int? = nil, limit: Int? = nil) -> Promise<NewsList> {
+        var params: [String: Any] = [:]
+        if let skip = skip {
+            params["skip"] = skip
+        }
+        
+        if let limit = limit {
+            params["limit"] = limit
+        }
+        
         return Promise { resolver in
-            request(method: .get, url: getActionPath(.getNews)).done { response in
+            request(method: .get, url: getActionPath(.getNews), params: params).done { response in
                 guard let news = Mapper<NewsList>().map(JSONObject: response) else {
                     resolver.reject(PMKError.cancelled)
                     return

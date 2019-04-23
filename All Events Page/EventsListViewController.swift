@@ -175,7 +175,7 @@ class EventsListViewController: ScrollingNavigationViewController, UIGestureReco
     }
     
     @objc private func popView(){
-        navigationController?.hero.navigationAnimationType = .uncover(direction: .down)
+        //navigationController?.hero.navigationAnimationType = .uncover(direction: .down)
         navigationController?.popViewController(animated: true)
     }
     
@@ -187,13 +187,13 @@ class EventsListViewController: ScrollingNavigationViewController, UIGestureReco
     func showLoginVC() {
         let loginVC = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "loginVC") as! LoginViewController
         
-//        loginVC.hero.isEnabled = true
-//        
-//        self.navigationItem.title = ""
-//        self.navigationController?.hero.navigationAnimationType = .autoReverse(presenting: .zoom)
-//        self.navigationController?.pushViewController(loginVC, animated: true)
+        loginVC.hero.isEnabled = true
+
+        self.navigationItem.title = ""
+        self.navigationController?.hero.navigationAnimationType = .autoReverse(presenting: .cover(direction: .up))
+        self.navigationController?.pushViewController(loginVC, animated: true)
         
-        self.present(loginVC, animated: true, completion: nil)
+        //self.present(loginVC, animated: true, completion: nil)
     }
 }
 

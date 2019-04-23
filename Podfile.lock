@@ -26,7 +26,7 @@ PODS:
   - CHIPageControl/Jaloro (0.1.7)
   - CHIPageControl/Paprika (0.1.7)
   - CHIPageControl/Puya (0.1.7)
-  - CircleMenu (4.0.1)
+  - CocoaProxy (0.1.1)
   - DynamicColor (4.0.3)
   - FacebookCore (0.5.0):
     - Bolts (~> 1.9)
@@ -109,6 +109,11 @@ PODS:
   - GTMSessionFetcher/Core (1.2.1)
   - Hero (1.4.0)
   - ImageViewer (5.0.0)
+  - InfiniteLayout (0.3):
+    - CocoaProxy (~> 0)
+    - InfiniteLayout/Core (= 0.3)
+  - InfiniteLayout/Core (0.3):
+    - CocoaProxy (~> 0)
   - JGProgressHUD (2.0.3)
   - Kingfisher (5.0.1)
   - Localize-Swift (2.0.0)
@@ -144,7 +149,6 @@ DEPENDENCIES:
   - Bartinter
   - BouncyLayout
   - CHIPageControl (~> 0.1.3)
-  - CircleMenu
   - DynamicColor (~> 4.0.2)
   - FacebookCore
   - FacebookLogin
@@ -159,6 +163,7 @@ DEPENDENCIES:
   - GoogleSignIn
   - Hero
   - ImageViewer (from `https://github.com/mezhevikin/ImageViewer`)
+  - InfiniteLayout
   - JGProgressHUD
   - Kingfisher
   - Localize-Swift (~> 2.0)
@@ -186,7 +191,7 @@ SPEC REPOS:
     - Bolts
     - BouncyLayout
     - CHIPageControl
-    - CircleMenu
+    - CocoaProxy
     - DynamicColor
     - FacebookCore
     - FacebookLogin
@@ -206,6 +211,7 @@ SPEC REPOS:
     - GoogleUtilities
     - GTMSessionFetcher
     - Hero
+    - InfiniteLayout
     - JGProgressHUD
     - Kingfisher
     - Localize-Swift
@@ -252,7 +258,7 @@ SPEC CHECKSUMS:
   Bolts: ac6567323eac61e203f6a9763667d0f711be34c8
   BouncyLayout: a7955879861375cc4e88bb64d42bcf622cd2694c
   CHIPageControl: bbe1ddd0c688c02ec65b7f7e7d34551a3d16f37c
-  CircleMenu: d846569acbe805b75cef5793056707224240db64
+  CocoaProxy: 35ab81e24325b33834cffe45a3d1fd48ca67ef3a
   DynamicColor: bf19b33fe404c59a68e64af95cc6b017346e7e75
   FacebookCore: 74288d0add931d361b1596beae787ab72c438249
   FacebookLogin: ebcf34714a1cb9f0759d9f071cfb01ed500996cf
@@ -274,6 +280,7 @@ SPEC CHECKSUMS:
   GTMSessionFetcher: 32aeca0aa144acea523e1c8e053089dec2cb98ca
   Hero: bac92350d7201a1a940003e0767c7b52ce7c99a1
   ImageViewer: 997018c2f4f7f9830602349bbcc3b2b776424942
+  InfiniteLayout: 24d5e5ea1528bb86ee00a4e3c02f93fdb38e3f68
   JGProgressHUD: 12b20a8f4ffe05258f8635c1ab92816e451f904d
   Kingfisher: 4f771421b9208185217550528a06fd48756cb7c2
   Localize-Swift: c798ec9286494866f7068f85f7c71283ac5bdab4
@@ -295,6 +302,6 @@ SPEC CHECKSUMS:
   Validator: b34ab17a8fffd0c1ffd8f9002ead4d1e02cd9e6e
   XCDYouTubeKit: 3f4fd3eb3ed494a46a8f007b91315eed6dd6df1f
 
-PODFILE CHECKSUM: 1d498d14ced7051b8db2c21d03249a4a98d3adf8
+PODFILE CHECKSUM: 8c78e16a71c8f5a6f1d237842b67b8fde24c9256
 
 COCOAPODS: 1.5.3

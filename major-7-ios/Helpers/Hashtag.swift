@@ -97,7 +97,7 @@ class Hashtag {
                 print("Hashtag array is empty")
             }
         } else {
-            print("Hashtags already created!")
+            //print("Hashtags already created!")
         }
     }
 }

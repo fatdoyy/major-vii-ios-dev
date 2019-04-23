@@ -14,6 +14,8 @@ class HomeViewController: UIViewController, UIGestureRecognizerDelegate {
     
     var coverImagesUrl: [String] = []
     var newsList: [News] = []
+    var numberOfNews = 8 //news limit per request
+    var hasMoreNews = true
     var cellType: Int?
     
     @IBOutlet weak var mainCollectionView: UICollectionView!
@@ -52,7 +54,7 @@ class HomeViewController: UIViewController, UIGestureRecognizerDelegate {
         mainCollectionView.register(UINib.init(nibName: "NewsCellType4", bundle: nil), forCellWithReuseIdentifier: NewsCellType4.reuseIdentifier)
         mainCollectionView.register(UINib.init(nibName: "NewsCellType5", bundle: nil), forCellWithReuseIdentifier: NewsCellType5.reuseIdentifier)
         
-        getNews()
+        getNews(limit: numberOfNews)
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -79,10 +81,14 @@ class HomeViewController: UIViewController, UIGestureRecognizerDelegate {
         super.viewDidAppear(animated)
     }
     
-    private func getNews(){
-        NewsService.getList().done{ response -> () in
-            self.newsList = response.newslist
-
+    private func getNews(skip: Int? = nil, limit: Int? = nil){
+        NewsService.getList(skip: skip, limit: limit).done { response -> () in
+            //self.newsList = response.list
+            self.newsList.append(contentsOf: response.list)
+            if response.list.count < self.numberOfNews || response.list.count == 0 {
+                self.hasMoreNews = false
+            }
+            
             //            for news in self.news{
             //                for tag in news.hashtags{
             //                    self.coverImagesUrl.append(tag)
@@ -160,7 +166,7 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
                 let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: NewsCellType4.reuseIdentifier, for: indexPath) as! NewsCellType4
                 
                 for view in cell.skeletonViews{ //hide all skeleton views because template 4 is the default template
-                    if view.tag == 2{ //remove dummyTagLabel
+                    if view.tag == 2 { //remove dummyTagLabel
                         view.removeFromSuperview()
                     }
                     view.hideSkeleton()
@@ -185,6 +191,14 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
                 let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: NewsCellType4.reuseIdentifier, for: indexPath) as! NewsCellType4
                 return cell
             }
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if (indexPath.row == newsList.count - 2 ) {
+            print("need to fetch!")
+            hasMoreNews ? getNews(skip: self.newsList.count, limit: numberOfNews) : print("fetched all news!")
+            //if hasMoreNews { getNews(skip: self.newsList.count, limit: numberOfNews) } else { print("fetched all news!") }
         }
     }
     

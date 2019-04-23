@@ -118,6 +118,9 @@ class SettingsViewController: UIViewController {
         }
         
         //show OR hide header
+        if UserService.User.isLoggedIn() { //update username
+            buskerNameLabel.text = "Hello, \(UserDefaults.standard.string(forKey: LOCAL_KEY.USERNAME) ?? "")!"
+        }
         for view in loggedInHeaderViews {
             view.alpha = UserService.User.isLoggedIn() ? 1 : 0
         }
@@ -136,7 +139,7 @@ class SettingsViewController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        mainScrollView.contentSize = CGSize(width: screenWidth, height: UIScreen.main.bounds.height + 500)
+        mainScrollView.contentSize = CGSize(width: screenWidth, height: UIScreen.main.bounds.height + 400)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -321,6 +324,7 @@ extension SettingsViewController {
         UserService.User.logOut(fromVC: self)
         UIView.animate(withDuration: 0.2) {
             self.emptyLoginShadowView.alpha = 1
+            self.loginBtn.alpha = 1
         }
     }
 }
@@ -643,7 +647,7 @@ extension SettingsViewController {
         othersSectionTermsBtn = UIButton()
         othersSectionTermsBtn.backgroundColor = UIColor.white.withAlphaComponent(0.05)
         othersSectionTermsBtn.contentHorizontalAlignment = .left
-        othersSectionTermsBtn.setTitle("Edit your profile", for: .normal)
+        othersSectionTermsBtn.setTitle("Terms & Conditions", for: .normal)
         othersSectionTermsBtn.setTitleColor(.white, for: .normal)
         othersSectionTermsBtn.titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
         othersSectionTermsBtn.titleEdgeInsets = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 0)
@@ -677,7 +681,7 @@ extension SettingsViewController {
         othersSectionPrivacyBtn = UIButton()
         othersSectionPrivacyBtn.backgroundColor = UIColor.white.withAlphaComponent(0.05)
         othersSectionPrivacyBtn.contentHorizontalAlignment = .left
-        othersSectionPrivacyBtn.setTitle("Edit your events?", for: .normal)
+        othersSectionPrivacyBtn.setTitle("Privacy Policy", for: .normal)
         othersSectionPrivacyBtn.setTitleColor(.white, for: .normal)
         othersSectionPrivacyBtn.titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
         othersSectionPrivacyBtn.titleEdgeInsets = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 0)
@@ -712,7 +716,7 @@ extension SettingsViewController {
         othersSectionFeedbackBtn = UIButton()
         othersSectionFeedbackBtn.backgroundColor = UIColor.white.withAlphaComponent(0.05)
         othersSectionFeedbackBtn.contentHorizontalAlignment = .left
-        othersSectionFeedbackBtn.setTitle("Edit your posts", for: .normal)
+        othersSectionFeedbackBtn.setTitle("Send Feedback", for: .normal)
         othersSectionFeedbackBtn.setTitleColor(.white, for: .normal)
         othersSectionFeedbackBtn.titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
         othersSectionFeedbackBtn.titleEdgeInsets = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 0)
@@ -747,7 +751,7 @@ extension SettingsViewController {
         othersSectionRateBtn = UIButton()
         othersSectionRateBtn.backgroundColor = UIColor.white.withAlphaComponent(0.05)
         othersSectionRateBtn.contentHorizontalAlignment = .left
-        othersSectionRateBtn.setTitle("Edit your posts", for: .normal)
+        othersSectionRateBtn.setTitle("Rate us on App Store!", for: .normal)
         othersSectionRateBtn.setTitleColor(.white, for: .normal)
         othersSectionRateBtn.titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
         othersSectionRateBtn.titleEdgeInsets = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 0)
@@ -782,7 +786,7 @@ extension SettingsViewController {
         othersSectionAboutBtn = UIButton()
         othersSectionAboutBtn.backgroundColor = UIColor.white.withAlphaComponent(0.05)
         othersSectionAboutBtn.contentHorizontalAlignment = .left
-        othersSectionAboutBtn.setTitle("Edit your posts", for: .normal)
+        othersSectionAboutBtn.setTitle("About", for: .normal)
         othersSectionAboutBtn.setTitleColor(.white, for: .normal)
         othersSectionAboutBtn.titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
         othersSectionAboutBtn.titleEdgeInsets = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 0)
