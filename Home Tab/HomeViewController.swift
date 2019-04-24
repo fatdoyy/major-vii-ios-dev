@@ -42,7 +42,7 @@ class HomeViewController: UIViewController, UIGestureRecognizerDelegate {
         mainCollectionView.showsVerticalScrollIndicator = false
         mainCollectionView.showsHorizontalScrollIndicator = false
         
-        mainCollectionView.register(UINib.init(nibName: "HeaderView", bundle: nil), forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HeaderView.reuseIdentifier)
+        mainCollectionView.register(UINib.init(nibName: "HomeHeaderView", bundle: nil), forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HomeHeaderView.reuseIdentifier)
         
         mainCollectionView.register(UINib.init(nibName: "EventsSection", bundle: nil), forCellWithReuseIdentifier: EventsSection.reuseIdentifier)
         
@@ -53,6 +53,8 @@ class HomeViewController: UIViewController, UIGestureRecognizerDelegate {
         mainCollectionView.register(UINib.init(nibName: "NewsCellType3", bundle: nil), forCellWithReuseIdentifier: NewsCellType3.reuseIdentifier)
         mainCollectionView.register(UINib.init(nibName: "NewsCellType4", bundle: nil), forCellWithReuseIdentifier: NewsCellType4.reuseIdentifier)
         mainCollectionView.register(UINib.init(nibName: "NewsCellType5", bundle: nil), forCellWithReuseIdentifier: NewsCellType5.reuseIdentifier)
+        
+        mainCollectionView.register(UINib.init(nibName: "NewsSectionFooter", bundle: nil), forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: NewsSectionFooter.reuseIdentifier)
         
         getNews(limit: numberOfNews)
     }
@@ -195,9 +197,13 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        if (indexPath.row == newsList.count - 2 ) {
+        if (indexPath.row == newsList.count - 1 ) {
             print("need to fetch!")
+
             hasMoreNews ? getNews(skip: self.newsList.count, limit: numberOfNews) : print("fetched all news!")
+
+            
+            
             //if hasMoreNews { getNews(skip: self.newsList.count, limit: numberOfNews) } else { print("fetched all news!") }
         }
     }
@@ -231,29 +237,52 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
         }
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        if section == 0 {
-            return CGSize(width: mainCollectionView.bounds.width, height: HeaderView.height)
-        } else {
-            return CGSize(width: mainCollectionView.bounds.width, height: NewsSectionHeader.height)
-        }
-    }
-    
-    //Header view
+    //Header/footer view
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         switch kind {
         case UICollectionView.elementKindSectionHeader:
             let section = indexPath.section
             switch section {
-            case 1:
+            case 1: //News/Post Section
                 let reusableView = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: NewsSectionHeader.reuseIdentifier, for: indexPath) as! NewsSectionHeader
                 return reusableView
                 
             default: //case 0 i.e. App Title
-                let reusableView = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HeaderView.reuseIdentifier, for: indexPath) as! HeaderView
+                let reusableView = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HomeHeaderView.reuseIdentifier, for: indexPath) as! HomeHeaderView
                 return reusableView
             }
+            
+        case UICollectionView.elementKindSectionFooter:
+            let section = indexPath.section
+            switch section {
+            case 1: //News/Post Section
+                let footer = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: NewsSectionFooter.reuseIdentifier, for: indexPath) as! NewsSectionFooter
+    
+                footer.sepLine.alpha = hasMoreNews ? 0 : 1
+                footer.copyrightLabel.alpha = hasMoreNews ? 0 : 1
+                footer.loadingIndicator.alpha = hasMoreNews ? 1 : 0
+                
+                return footer
+                
+            default: return UICollectionReusableView()
+            }
         default:  fatalError("Unexpected element kind")
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        switch section {
+        case 0:  return CGSize(width: mainCollectionView.bounds.width, height: HomeHeaderView.height)
+        case 1:  return CGSize(width: mainCollectionView.bounds.width, height: NewsSectionHeader.height)
+        default: return CGSize.zero
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
+        switch section {
+        case 0:  return CGSize.zero
+        case 1:  return CGSize(width: UIScreen.main.bounds.width, height: NewsSectionFooter.height)
+        default: return CGSize.zero
         }
     }
 }

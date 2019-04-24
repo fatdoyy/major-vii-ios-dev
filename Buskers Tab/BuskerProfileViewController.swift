@@ -15,6 +15,7 @@ import BouncyLayout
 import Pastel
 import SkeletonView
 import NVActivityIndicatorView
+import InfiniteLayout
 
 class BuskerProfileViewController: UIViewController {
     static let storyboardId = "buskerProfileVC"
@@ -36,6 +37,7 @@ class BuskerProfileViewController: UIViewController {
     var buskerDetails: BuskerProfile? {
         didSet {
             print("Details arrived!!!\n\(String(describing: buskerDetails?.item?.name))")
+            imgCollectionView.infiniteLayout.isEnabled = (buskerDetails?.item?.coverImages.count)! > 1
             loadProfileDetails()
         }
     }
@@ -63,7 +65,7 @@ class BuskerProfileViewController: UIViewController {
     @IBOutlet weak var mainScrollView: UIScrollView!
     
     var imgContainerView = UIView()
-    var imgCollectionView: UICollectionView!
+    var imgCollectionView: InfiniteCollectionView!
     let screenWidth: CGFloat = UIScreen.main.bounds.width
     let imgCollectionViewHeight: CGFloat = (UIScreen.main.bounds.height / 5) * 2
     let imgOverlay = UIView()
@@ -354,9 +356,9 @@ extension BuskerProfileViewController {
         layout.minimumLineSpacing = 0
         layout.minimumInteritemSpacing = 0
         
-        imgCollectionView = UICollectionView(frame: CGRect(origin: CGPoint.zero, size: CGSize(width: screenWidth, height: imgCollectionViewHeight)), collectionViewLayout: layout)
+        imgCollectionView = InfiniteCollectionView(frame: CGRect(origin: CGPoint.zero, size: CGSize(width: screenWidth, height: imgCollectionViewHeight)), collectionViewLayout: layout)
         imgCollectionView.backgroundColor = .darkGray()
-        imgCollectionView.collectionViewLayout = layout
+        imgCollectionView.isItemPagingEnabled = true
         imgCollectionView.dataSource = self
         imgCollectionView.delegate = self
         imgCollectionView.showsHorizontalScrollIndicator = false
@@ -1017,7 +1019,8 @@ extension BuskerProfileViewController: UICollectionViewDelegateFlowLayout, UICol
         case imgCollectionView:
             let cell = imgCollectionView.dequeueReusableCell(withReuseIdentifier: BuskerProfileImgCell.reuseIdentifier, for: indexPath) as! BuskerProfileImgCell
             if let profile = buskerDetails?.item {
-                if let url = URL(string: profile.coverImages[indexPath.row].secureUrl!) {
+                let realIndexPath = self.imgCollectionView.indexPath(from: indexPath) //InfiniteLayout indexPath
+                if let url = URL(string: profile.coverImages[realIndexPath.row].secureUrl!) {
                     cell.imgView.kf.setImage(with: url, options: [.transition(.fade(0.4))])
                 }
             }
@@ -1165,7 +1168,9 @@ extension BuskerProfileViewController: UIScrollViewDelegate {
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         if scrollView == imgCollectionView { //UICollectionView
-            pageControl.set(progress: Int(scrollView.contentOffset.x) / Int(scrollView.frame.width), animated: true)
+            let indexPath = imgCollectionView.indexPath(from: imgCollectionView.indexPathsForVisibleItems.first!)
+            pageControl.set(progress: indexPath.row, animated: true)
+            //pageControl.set(progress: Int(scrollView.contentOffset.x) / Int(scrollView.frame.width), animated: true)
         }
     }
     

@@ -9,9 +9,9 @@
 import UIKit
 import Localize_Swift
 
-class HeaderView: UICollectionReusableView {
+class HomeHeaderView: UICollectionReusableView {
 
-    static let reuseIdentifier: String = "headerView"
+    static let reuseIdentifier: String = "homeHeaderView"
 
     internal static let height: CGFloat = 87
     

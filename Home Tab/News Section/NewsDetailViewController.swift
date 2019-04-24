@@ -178,7 +178,7 @@ extension NewsDetailViewController {
         imgCollectionView = InfiniteCollectionView(frame: self.view.frame, collectionViewLayout: layout)
         imgCollectionView.backgroundColor = .darkGray()
         imgCollectionView.isItemPagingEnabled = true
-        imgCollectionView.preferredCenteredIndexPath = nil
+        //imgCollectionView.preferredCenteredIndexPath = nil
         imgCollectionView.dataSource = self
         imgCollectionView.delegate = self
         imgCollectionView.showsHorizontalScrollIndicator = false
@@ -413,8 +413,6 @@ extension NewsDetailViewController: UICollectionViewDelegateFlowLayout, UICollec
 
         if let newsDetails = self.details?.item {
             let realIndexPath = self.imgCollectionView.indexPath(from: indexPath) //InfiniteLayout indexPath
-            print(realIndexPath)
-            print(indexPath)
             if let url = URL(string: newsDetails.coverImages[realIndexPath.row].secureUrl!) {
                 cell.imgView.kf.setImage(with: url, options: [.transition(.fade(0.4))])
             }
