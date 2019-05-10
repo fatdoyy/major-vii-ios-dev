@@ -14,6 +14,7 @@ class HomeViewController: UIViewController, UIGestureRecognizerDelegate {
     
     var coverImagesUrl: [String] = []
     var newsList: [News] = []
+    var posts: [Post] = []
     var numberOfNews = 8 //news limit per request
     var hasMoreNews = true
     var cellType: Int?
@@ -57,6 +58,7 @@ class HomeViewController: UIViewController, UIGestureRecognizerDelegate {
         mainCollectionView.register(UINib.init(nibName: "NewsSectionFooter", bundle: nil), forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: NewsSectionFooter.reuseIdentifier)
         
         getNews(limit: numberOfNews)
+        getPosts()
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -105,6 +107,20 @@ class HomeViewController: UIViewController, UIGestureRecognizerDelegate {
             }.catch { error in }
     }
 
+    private func getPosts(skip: Int? = nil, limit: Int? = nil){
+        PostService.getList(skip: skip, limit: limit).done { response -> () in
+            //self.newsList = response.list
+            self.posts.append(contentsOf: response.list)
+
+            print(self.posts[0].content!)
+            
+            //self.mainCollectionView.reloadData()
+            }.ensure {
+                //self.mainCollectionView.isUserInteractionEnabled = true
+                UIApplication.shared.isNetworkActivityIndicatorVisible = false
+            }.catch { error in }
+    }
+    
 }
 
 // MARK: UICollectionView Delegate
@@ -245,6 +261,7 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
             switch section {
             case 1: //News/Post Section
                 let reusableView = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: NewsSectionHeader.reuseIdentifier, for: indexPath) as! NewsSectionHeader
+                reusableView.delegate = self
                 return reusableView
                 
             default: //case 0 i.e. App Title
@@ -301,6 +318,17 @@ extension HomeViewController: EventsSectionDelegate {
     
     func cellTapped(eventId: String) {
         EventDetailsViewController.push(from: self, eventId: eventId)
+    }
+}
+
+//NewsHeaderSection delegate
+extension HomeViewController: NewsSectionHeaderDelegate {
+    func newsBtnTapped() {
+        print("news btn tapped")
+    }
+    
+    func postsBtnTapped() {
+        print("post btn tapped")
     }
 }
 

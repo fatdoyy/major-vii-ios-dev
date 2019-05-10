@@ -8,6 +8,20 @@
 
 import ObjectMapper
 
+class Posts: Mappable {
+    var skip: Int?
+    var limit: Int?
+    var list = [Post]()
+    
+    required init?(map: Map) {}
+    
+    func mapping(map: Map) {
+        skip        <- map["skip"]
+        limit       <- map["limit"]
+        list        <- map["list"]
+    }
+}
+
 class Post: Mappable {
     var images = [Image]()
     var id: String?

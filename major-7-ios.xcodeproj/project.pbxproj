@@ -90,6 +90,7 @@
 		9680373622509EA300A9C65F /* CREDC___.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9680373522509E8700A9C65F /* CREDC___.ttf */; };
 		96862EB9219ACE1F00F709B0 /* EventDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96862EB8219ACE1F00F709B0 /* EventDetailsViewController.swift */; };
 		96862EBB219AD8AC00F709B0 /* TabBarToggle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96862EBA219AD8AC00F709B0 /* TabBarToggle.swift */; };
+		9688DA8F22859D0100CCE925 /* PostService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9688DA8E22859D0100CCE925 /* PostService.swift */; };
 		96AC42F222327F9600F9D62C /* BuskerProfileMemberCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96AC42F022327F9600F9D62C /* BuskerProfileMemberCell.swift */; };
 		96AC42F322327F9600F9D62C /* BuskerProfileMemberCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96AC42F122327F9600F9D62C /* BuskerProfileMemberCell.xib */; };
 		96B0BE4021EDF452003C9BA5 /* HideKeyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B0BE3F21EDF452003C9BA5 /* HideKeyboard.swift */; };
@@ -233,6 +234,7 @@
 		9680373522509E8700A9C65F /* CREDC___.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "CREDC___.ttf"; sourceTree = "<group>"; };
 		96862EB8219ACE1F00F709B0 /* EventDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDetailsViewController.swift; sourceTree = "<group>"; };
 		96862EBA219AD8AC00F709B0 /* TabBarToggle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarToggle.swift; sourceTree = "<group>"; };
+		9688DA8E22859D0100CCE925 /* PostService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostService.swift; sourceTree = "<group>"; };
 		96AC42F022327F9600F9D62C /* BuskerProfileMemberCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuskerProfileMemberCell.swift; sourceTree = "<group>"; };
 		96AC42F122327F9600F9D62C /* BuskerProfileMemberCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BuskerProfileMemberCell.xib; sourceTree = "<group>"; };
 		96B0BE3F21EDF452003C9BA5 /* HideKeyboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HideKeyboard.swift; sourceTree = "<group>"; };
@@ -378,8 +380,9 @@
 			isa = PBXGroup;
 			children = (
 				964761EC2186FAAD0004F58C /* BaseService.swift */,
-				9620021D21DF34B90055D070 /* UserService.swift */,
+				9688DA8E22859D0100CCE925 /* PostService.swift */,
 				964761EE21870EE60004F58C /* NewsService.swift */,
+				9620021D21DF34B90055D070 /* UserService.swift */,
 				96625F7A21C793DA0086A2B2 /* EventService.swift */,
 				96FAF246223A1D7300DF23B9 /* BuskerService.swift */,
 			);
@@ -692,6 +695,7 @@
 				TargetAttributes = {
 					CA550AA121706A65008E493D = {
 						CreatedOnToolsVersion = 10.0;
+						LastSwiftMigration = 1020;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
@@ -956,6 +960,7 @@
 				96C5541B21918CB90065D70A /* TrendingCell.swift in Sources */,
 				96862EBB219AD8AC00F709B0 /* TabBarToggle.swift in Sources */,
 				96F37324224B96AC0088E142 /* BookmarkedEventsViewController.swift in Sources */,
+				9688DA8F22859D0100CCE925 /* PostService.swift in Sources */,
 				967BD3422240E60200469CF9 /* BuskerCell.swift in Sources */,
 				9620021821DDFC320055D070 /* LoginViewController.swift in Sources */,
 				96C9899522169CEB00170609 /* NewsDetailViewController.swift in Sources */,

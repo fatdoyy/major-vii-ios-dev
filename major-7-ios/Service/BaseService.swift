@@ -36,6 +36,14 @@ class BaseService: NSObject {
         case .getNewsDetails(let newsId):
             actionPathStr = "news/\(newsId)"
             
+        //Posts
+        case .getPosts:
+            actionPathStr = "posts"
+        case .getPostDetails(let postId):
+            actionPathStr = "posts/\(postId)"
+        case .commentAction(let postId):
+            actionPathStr = "posts/\(postId)/comments"
+            
         //Events
         case .getUpcomingEvents:
             actionPathStr = "events/upcoming"
@@ -130,6 +138,11 @@ extension BaseService {
         //News
         case getNews
         case getNewsDetails(newsId: String)
+        
+        //Posts
+        case getPosts
+        case getPostDetails(postId: String)
+        case commentAction(postId: String)
         
         //Events
         case getUpcomingEvents
