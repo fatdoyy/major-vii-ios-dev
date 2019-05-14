@@ -8,9 +8,10 @@
 
 import UIKit
 
+
 protocol NewsSectionHeaderDelegate {
-    func newsBtnTapped()
-    func postsBtnTapped()
+    func newsBtnTapped(sender: UIButton)
+    func postsBtnTapped(sender: UIButton)
 }
 
 class NewsSectionHeader: UICollectionReusableView {
@@ -27,20 +28,59 @@ class NewsSectionHeader: UICollectionReusableView {
     override func awakeFromNib() {
         super.awakeFromNib()
 
+        let radius: CGFloat = 41 / 2
+        
         newsBtn.setTitle("News", for: .normal)
         newsBtn.setTitleColor(.white, for: .normal)
-        newsBtn.backgroundColor = UIColor(hexString: "#348ac7")
-        newsBtn.layer.cornerRadius = 41 / 2
+        newsBtn.backgroundColor = .random
+        newsBtn.layer.cornerRadius = radius
         
         postsBtn.setTitle("Posts", for: .normal)
         postsBtn.setTitleColor(.whiteText25Alpha(), for: .normal)
+        postsBtn.layer.cornerRadius = radius
     }
     
-    @IBAction func newsBtnTapped(_ sender: Any) {
-        delegate?.newsBtnTapped()
+    @IBAction func newsBtnTapped(_ sender: UIButton) {
+        delegate?.newsBtnTapped(sender: sender)
+        
+        //postsBtn animation
+        UIView.transition(with: postsBtn, duration: 0.2, options: .transitionCrossDissolve, animations: {
+            self.postsBtn.setTitleColor(.whiteText25Alpha(), for: .normal)
+        }, completion: nil)
+        
+        UIView.animate(withDuration: 0.2) {
+            self.postsBtn.backgroundColor = .clear
+        }
+        
+        //newsBtn animation
+        UIView.transition(with: newsBtn, duration: 0.2, options: .transitionCrossDissolve, animations: {
+            self.newsBtn.setTitleColor(.white, for: .normal)
+        }, completion: nil)
+        
+        UIView.animate(withDuration: 0.2) {
+            self.newsBtn.backgroundColor = .random
+        }
     }
     
-    @IBAction func postsBtnTapped(_ sender: Any) {
-        delegate?.postsBtnTapped()
+    @IBAction func postsBtnTapped(_ sender: UIButton) {
+        delegate?.postsBtnTapped(sender: sender)
+        
+        //postsBtn animation
+        UIView.transition(with: postsBtn, duration: 0.2, options: .transitionCrossDissolve, animations: {
+            self.postsBtn.setTitleColor(.white, for: .normal)
+        }, completion: nil)
+        
+        UIView.animate(withDuration: 0.2) {
+            self.postsBtn.backgroundColor = .random
+        }
+        
+        //newsBtn animation
+        UIView.transition(with: newsBtn, duration: 0.2, options: .transitionCrossDissolve, animations: {
+            self.newsBtn.setTitleColor(.whiteText25Alpha(), for: .normal)
+        }, completion: nil)
+        
+        UIView.animate(withDuration: 0.2) {
+            self.newsBtn.backgroundColor = .clear
+        }
     }
 }

@@ -85,7 +85,7 @@ class HomeViewController: UIViewController, UIGestureRecognizerDelegate {
         super.viewDidAppear(animated)
     }
     
-    private func getNews(skip: Int? = nil, limit: Int? = nil){
+    private func getNews(skip: Int? = nil, limit: Int? = nil) {
         NewsService.getList(skip: skip, limit: limit).done { response -> () in
             //self.newsList = response.list
             self.newsList.append(contentsOf: response.list)
@@ -107,7 +107,7 @@ class HomeViewController: UIViewController, UIGestureRecognizerDelegate {
             }.catch { error in }
     }
 
-    private func getPosts(skip: Int? = nil, limit: Int? = nil){
+    private func getPosts(skip: Int? = nil, limit: Int? = nil) {
         PostService.getList(skip: skip, limit: limit).done { response -> () in
             //self.newsList = response.list
             self.posts.append(contentsOf: response.list)
@@ -150,8 +150,9 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
             case 1:
                 let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: NewsCellType1.reuseIdentifier, for: indexPath) as! NewsCellType1
                 
-                Hashtag.createAtCell(cell: cell, position: .cellTop, dataSource: newsList[indexPath.row].hashtags, multiLines: true, solidColor: true)
+                //Hashtag.createAtCell(cell: cell, position: .cellTop, dataSource: newsList[indexPath.row].hashtags, multiLines: true, solidColor: true)
                 cell.newsTitle.text = newsList[indexPath.row].title
+                cell.hashtagsArray = newsList[indexPath.row].hashtags
                 //cell.bgImgView.sd_imageTransition = .fade
                 if let url = URL(string: newsList[indexPath.row].coverImages[0].secureUrl!){
                     cell.bgImgView.kf.setImage(with: url, options: [.transition(.fade(0.4))])
@@ -161,7 +162,7 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
             case 2:
                 let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: NewsCellType2.reuseIdentifier, for: indexPath) as! NewsCellType2
                 
-                Hashtag.createAtCell(cell: cell, position: .cellBottom, dataSource: newsList[indexPath.row].hashtags, solidColor: true)
+                //Hashtag.createAtCell(cell: cell, position: .cellBottom, dataSource: newsList[indexPath.row].hashtags, solidColor: true)
                 cell.newsTitle.text = newsList[indexPath.row].title
                 if let url = URL(string: newsList[indexPath.row].coverImages[0].secureUrl!){
                     cell.bgImgView.kf.setImage(with: url, options: [.transition(.fade(0.4))])
@@ -171,7 +172,7 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
             case 3:
                 let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: NewsCellType3.reuseIdentifier, for: indexPath) as! NewsCellType3
                 
-                Hashtag.createAtCell(cell: cell, position: .cellTop, dataSource: newsList[indexPath.row].hashtags, solidColor: true)
+                //Hashtag.createAtCell(cell: cell, position: .cellTop, dataSource: newsList[indexPath.row].hashtags, solidColor: true)
                 cell.newsTitle.text = newsList[indexPath.row].title
                 cell.subTitle.text = newsList[indexPath.row].subTitle
                 
@@ -191,7 +192,7 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
                 }
                 
                 cell.gradientBg.startAnimation()
-                Hashtag.createAtCell(cell: cell, position: .cellTop, dataSource: newsList[indexPath.row].hashtags)
+                //Hashtag.createAtCell(cell: cell, position: .cellTop, dataSource: newsList[indexPath.row].hashtags)
                 cell.viewsLabel.isHidden = false
                 cell.newsTitle.text = newsList[indexPath.row].title
                 cell.subTitle.text = newsList[indexPath.row].subTitle
@@ -200,7 +201,7 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
             case 5:
                 let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: NewsCellType5.reuseIdentifier, for: indexPath) as! NewsCellType5
                 
-                Hashtag.createAtCell(cell: cell, position: .cellTop, dataSource: newsList[indexPath.row].hashtags)
+                //Hashtag.createAtCell(cell: cell, position: .cellTop, dataSource: newsList[indexPath.row].hashtags)
                 cell.newsTitle.text = newsList[indexPath.row].title
                 cell.subTitle.text = newsList[indexPath.row].subTitle
                 
@@ -218,8 +219,6 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
 
             hasMoreNews ? getNews(skip: self.newsList.count, limit: numberOfNews) : print("fetched all news!")
 
-            
-            
             //if hasMoreNews { getNews(skip: self.newsList.count, limit: numberOfNews) } else { print("fetched all news!") }
         }
     }
@@ -227,7 +226,7 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let width = self.view.frame.width
         // Upcoming events section
-        if indexPath.section == 0 { return CGSize(width: width, height: EventsSection.height)} else {
+        if indexPath.section == 0 { return CGSize(width: width, height: EventsSection.height) } else {
             // News section
             if !newsList.isEmpty { self.cellType = newsList[indexPath.row].cellType! }
             switch cellType {
@@ -323,12 +322,14 @@ extension HomeViewController: EventsSectionDelegate {
 
 //NewsHeaderSection delegate
 extension HomeViewController: NewsSectionHeaderDelegate {
-    func newsBtnTapped() {
+    func newsBtnTapped(sender: UIButton) {
         print("news btn tapped")
     }
     
-    func postsBtnTapped() {
+    func postsBtnTapped(sender: UIButton) {
         print("post btn tapped")
+        //let indexSet = IndexSet(integer: 1)
+        mainCollectionView.reloadItems(inSection: 1)
     }
 }
 
@@ -366,5 +367,14 @@ extension HomeViewController: UITabBarControllerDelegate {
 extension UINavigationController {
     override open var childForStatusBarStyle: UIViewController? {
         return self.topViewController
+    }
+}
+
+//reloadItemsInSection
+extension UICollectionView {
+    func reloadItems(inSection section: Int) {
+        reloadItems(at: (0 ..< numberOfItems(inSection: section)).map {
+            IndexPath(item: $0, section: section)
+        })
     }
 }

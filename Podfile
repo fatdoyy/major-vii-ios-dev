@@ -11,8 +11,8 @@ target 'major-7-ios' do
   pod 'Firebase/Core'
   
   #Facebook
-  pod 'FacebookCore'
-  pod 'FacebookLogin'
+  pod 'FacebookCore', '0.5.0'
+  pod 'FacebookLogin', '0.5.0'
   pod 'FBSDKCoreKit', '~> 4.38.0'
   pod 'FBSDKLoginKit', '~> 4.38.0'
   
@@ -23,21 +23,21 @@ target 'major-7-ios' do
   #General Pods
   pod 'Localize-Swift', '~> 2.0'                # localization
   pod 'DynamicColor', '~> 4.0.2'                # UIColor extension
-  pod 'SnapKit', '~> 4.0.0'                     # layout constaints
+  pod 'SnapKit'                                 # layout constaints
   pod 'Pastel'                                  # dynamic gradient background
   pod 'ObjectMapper'                            # json mapping
-  pod 'Alamofire', '~> 4.7'                     # network requests
+  pod 'Alamofire', '~> 4.8'                     # network requests
   pod 'PromiseKit/CorePromise' , '~> 6.0'       # as title
   pod 'SkeletonView'                            # as title
   pod 'BouncyLayout'                            # UICollectionView animation
   pod 'AMScrollingNavbar'                       # UINavigationBar hiding
   pod 'Hero'                                    # transitions
   pod 'MXParallaxHeader'                        # parallax header
-  pod 'Floaty', '~> 4.1.0'                      # floating button
+  pod 'Floaty', '~> 4.1'                        # floating button
   pod 'Kingfisher'                              # image downloading
   pod 'Reqres'                                  # network activity logger
   pod 'JGProgressHUD'                           # progress hud
-  pod 'SwiftGifOrigin', '~> 1.6.1'              # gif in UIImageView
+  pod 'SwiftGifOrigin', '~> 1.6'                # gif in UIImageView
   pod 'Bartinter'                               # update status bar style automatically
   pod 'SkyFloatingLabelTextField', '~> 3.0'     # floating label above textfield
   pod 'NVActivityIndicatorView'                 # as title
@@ -49,6 +49,7 @@ target 'major-7-ios' do
   pod 'FloatingPanel'                           # as title
   pod 'fluid-slider'                            # custom ui slider
   pod 'InfiniteLayout'                          # infinite scrolling uicollectionview
+  pod 'BetterSegmentedControl'                  # segmented control
  
   pod 'GlitchLabel', :git => 'https://github.com/kikikiktai/GlitchLabel.git'                        # as title
   pod 'Validator', :git => 'https://github.com/kikikiktai/Validator.git'                            # UITextField validation
