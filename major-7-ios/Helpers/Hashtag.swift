@@ -16,7 +16,7 @@ class Hashtag {
     static let labelLeftRightPaddingInBgView: CGFloat = 8
     static let paddingBetweenTags: CGFloat = 10
     
-    //create hashtags at cell
+    //create hashtags at cell (DEPRECATED)
     static func createAtCell(cell: UICollectionViewCell, position: Hashtag.Position, dataSource: [String], multiLines: Bool? = false, solidColor: Bool? = false){
         //cell paddings
         var leftPaddingToCell: CGFloat = 20

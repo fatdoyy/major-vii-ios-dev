@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -49,15 +49,27 @@
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="Ro4-9O-hwk">
+                        <rect key="frame" x="0.0" y="131" width="335" height="28"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="28" id="1SF-F4-Nt1"/>
+                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="28" id="dRG-Ch-eRr"/>
+                        </constraints>
+                        <collectionViewLayout key="collectionViewLayout" id="q4C-Q5-EmB" customClass="HashtagsFlowLayout" customModule="major_7_ios" customModuleProvider="target"/>
+                    </collectionView>
                 </subviews>
             </view>
             <constraints>
+                <constraint firstAttribute="trailing" secondItem="Ro4-9O-hwk" secondAttribute="trailing" id="0w0-bh-5Mk"/>
                 <constraint firstItem="J4L-to-cZa" firstAttribute="trailing" secondItem="vjr-wZ-M7C" secondAttribute="trailing" constant="20" id="1ze-Wf-PoK"/>
                 <constraint firstItem="iR0-GX-xeH" firstAttribute="leading" secondItem="J4L-to-cZa" secondAttribute="leading" constant="20" id="3na-jK-0g6"/>
                 <constraint firstItem="J4L-to-cZa" firstAttribute="trailing" secondItem="iR0-GX-xeH" secondAttribute="trailing" constant="20" id="7aO-K5-NOi"/>
+                <constraint firstItem="Ro4-9O-hwk" firstAttribute="leading" secondItem="2Z7-VV-NDf" secondAttribute="leading" id="CE0-eE-SfS"/>
                 <constraint firstItem="J4L-to-cZa" firstAttribute="bottom" secondItem="Gxy-lU-G1M" secondAttribute="bottom" constant="15" id="Gri-lA-hs1"/>
                 <constraint firstItem="J4L-to-cZa" firstAttribute="bottom" secondItem="vjr-wZ-M7C" secondAttribute="bottom" constant="16" id="XQw-cr-Ioq"/>
                 <constraint firstItem="f0Q-SS-RPi" firstAttribute="top" secondItem="iR0-GX-xeH" secondAttribute="bottom" constant="5" id="XTz-9w-kcV"/>
+                <constraint firstItem="Gxy-lU-G1M" firstAttribute="top" secondItem="Ro4-9O-hwk" secondAttribute="bottom" constant="12" id="a3q-ZQ-1nb"/>
                 <constraint firstItem="J4L-to-cZa" firstAttribute="bottom" secondItem="YJ0-pr-JGW" secondAttribute="bottom" constant="15" id="aGc-7G-fnZ"/>
                 <constraint firstItem="iR0-GX-xeH" firstAttribute="top" secondItem="J4L-to-cZa" secondAttribute="top" constant="20.5" id="kGW-Nl-E9x"/>
                 <constraint firstItem="f0Q-SS-RPi" firstAttribute="leading" secondItem="J4L-to-cZa" secondAttribute="leading" constant="20" id="kvS-4k-M8P"/>
@@ -68,6 +80,7 @@
             <size key="customSize" width="191" height="123"/>
             <connections>
                 <outlet property="countLabel" destination="YJ0-pr-JGW" id="XOL-jT-5JG"/>
+                <outlet property="hashtagsCollectionView" destination="Ro4-9O-hwk" id="MRf-9R-mpa"/>
                 <outlet property="newsTitle" destination="iR0-GX-xeH" id="XC7-Nd-2PE"/>
                 <outlet property="subTitle" destination="f0Q-SS-RPi" id="y1D-Zi-BVA"/>
                 <outlet property="timeLabel" destination="Gxy-lU-G1M" id="vMU-0h-B0B"/>

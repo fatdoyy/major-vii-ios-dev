@@ -26,7 +26,6 @@ class NewsCellType1: UICollectionViewCell {
     
     var hashtagsArray: [String] = [] {
         didSet {
-            print(hashtagsArray)
             hashtagsCollectionView.reloadData()
         }
     }
@@ -40,7 +39,6 @@ class NewsCellType1: UICollectionViewCell {
         hashtagsCollectionView.showsHorizontalScrollIndicator = false
         hashtagsCollectionView.delegate = self
         hashtagsCollectionView.dataSource = self
-        hashtagsCollectionView.tag = 111
         
         if let layout = hashtagsCollectionView.collectionViewLayout as? HashtagsFlowLayout {
             layout.scrollDirection = .horizontal
@@ -93,21 +91,26 @@ class NewsCellType1: UICollectionViewCell {
 
 extension NewsCellType1: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 3
+        let count = hashtagsArray.isEmpty ? 0 : hashtagsArray.count
+        return count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = hashtagsCollectionView.dequeueReusableCell(withReuseIdentifier: HashtagCell.reuseIdentifier, for: indexPath) as! HashtagCell
         cell.backgroundColor = .clear
         cell.hashtag.alpha = 1
-        cell.hashtag.text = "#\(hashtagsArray[indexPath.row])"
+        cell.hashtag.text = hashtagsArray.isEmpty ? "" : "#\(hashtagsArray[indexPath.row])"
         cell.hashtag.textColor = .white
-        cell.bgView.backgroundColor = .lightPurple()
+        cell.bgView.backgroundColor = .random
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let size = (hashtagsArray[indexPath.row] as NSString).size(withAttributes: nil)
-        return CGSize(width: size.width + 32, height: HashtagCell.height)
+        if !hashtagsArray.isEmpty {
+            let size = (hashtagsArray[indexPath.row] as NSString).size(withAttributes: nil)
+            return CGSize(width: size.width + 32, height: HashtagCell.height)
+        } else {
+            return CGSize()
+        }
     }
 }

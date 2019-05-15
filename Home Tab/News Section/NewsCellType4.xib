@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -49,6 +49,14 @@
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="g6i-rL-PO5">
+                        <rect key="frame" x="0.0" y="18" width="335" height="28"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="28" id="v0I-83-Y1I"/>
+                        </constraints>
+                        <collectionViewLayout key="collectionViewLayout" id="WpX-19-IHZ" customClass="HashtagsFlowLayout" customModule="major_7_ios" customModuleProvider="target"/>
+                    </collectionView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="#hashtag" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BNJ-B9-Qmu">
                         <rect key="frame" x="20" y="20" width="53.5" height="14.5"/>
                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
@@ -65,11 +73,14 @@
                 <constraint firstItem="v6h-AJ-5OJ" firstAttribute="trailing" secondItem="bQK-He-l3L" secondAttribute="trailing" constant="19" id="RVM-WU-zVz"/>
                 <constraint firstItem="v6h-AJ-5OJ" firstAttribute="bottom" secondItem="GDe-vZ-uph" secondAttribute="bottom" constant="15" id="aRR-5y-X9K"/>
                 <constraint firstItem="bQK-He-l3L" firstAttribute="leading" secondItem="iH5-Q6-ok1" secondAttribute="trailing" constant="5" id="dwk-tg-KRn"/>
+                <constraint firstAttribute="trailing" secondItem="g6i-rL-PO5" secondAttribute="trailing" id="g6f-W4-aX8"/>
                 <constraint firstItem="v6h-AJ-5OJ" firstAttribute="bottom" secondItem="iH5-Q6-ok1" secondAttribute="bottom" constant="15" id="gmE-8Y-UxU"/>
                 <constraint firstItem="v6h-AJ-5OJ" firstAttribute="bottom" secondItem="bQK-He-l3L" secondAttribute="bottom" constant="16" id="j4W-bm-OD3"/>
                 <constraint firstItem="OBg-lJ-YT9" firstAttribute="top" secondItem="v6h-AJ-5OJ" secondAttribute="top" constant="60.5" id="nmC-0l-NDx"/>
+                <constraint firstItem="g6i-rL-PO5" firstAttribute="leading" secondItem="JeB-fL-mVD" secondAttribute="leading" id="ntN-ti-ynj"/>
                 <constraint firstItem="BNJ-B9-Qmu" firstAttribute="top" secondItem="JeB-fL-mVD" secondAttribute="top" constant="20" id="qtQ-3a-fHT"/>
                 <constraint firstItem="OBg-lJ-YT9" firstAttribute="leading" secondItem="v6h-AJ-5OJ" secondAttribute="leading" constant="20" id="rKD-o3-UJd"/>
+                <constraint firstItem="g6i-rL-PO5" firstAttribute="top" secondItem="JeB-fL-mVD" secondAttribute="top" constant="18" id="s6K-6H-JXR"/>
                 <constraint firstItem="OMb-4P-InM" firstAttribute="leading" secondItem="v6h-AJ-5OJ" secondAttribute="leading" constant="20" id="uHZ-vG-dpu"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="v6h-AJ-5OJ"/>
@@ -77,6 +88,7 @@
             <connections>
                 <outlet property="countLabel" destination="iH5-Q6-ok1" id="r63-Qt-xmK"/>
                 <outlet property="dummyTagLabel" destination="BNJ-B9-Qmu" id="9zL-Gd-hU3"/>
+                <outlet property="hashtagsCollectionView" destination="g6i-rL-PO5" id="K7O-RJ-j1K"/>
                 <outlet property="newsTitle" destination="OBg-lJ-YT9" id="xGd-b4-Ck8"/>
                 <outlet property="subTitle" destination="OMb-4P-InM" id="BQg-Jh-g5H"/>
                 <outlet property="timeLabel" destination="GDe-vZ-uph" id="dOD-6d-KYZ"/>

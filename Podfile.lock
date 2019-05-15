@@ -119,6 +119,7 @@ PODS:
   - JGProgressHUD (2.0.3)
   - Kingfisher (5.4.0)
   - Localize-Swift (2.0.0)
+  - MarqueeLabel (4.0.0)
   - MXParallaxHeader (0.6.1)
   - nanopb (0.3.901):
     - nanopb/decode (= 0.3.901)
@@ -170,6 +171,7 @@ DEPENDENCIES:
   - JGProgressHUD
   - Kingfisher
   - Localize-Swift (~> 2.0)
+  - MarqueeLabel
   - MXParallaxHeader
   - NVActivityIndicatorView
   - ObjectMapper
@@ -219,6 +221,7 @@ SPEC REPOS:
     - JGProgressHUD
     - Kingfisher
     - Localize-Swift
+    - MarqueeLabel
     - MXParallaxHeader
     - nanopb
     - NVActivityIndicatorView
@@ -289,6 +292,7 @@ SPEC CHECKSUMS:
   JGProgressHUD: 12b20a8f4ffe05258f8635c1ab92816e451f904d
   Kingfisher: 9c8f2cc6710334e06f32ba2b45e77707d5e2f0c9
   Localize-Swift: c798ec9286494866f7068f85f7c71283ac5bdab4
+  MarqueeLabel: b55b26e690b6ad41faedd95cbf5eae6f1d1735b4
   MXParallaxHeader: 858c403532ed933b381556a81ce333d7065ad182
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
   NVActivityIndicatorView: b19ddab2576f805cbe0fb2306cba3476e09a1dea
@@ -307,6 +311,6 @@ SPEC CHECKSUMS:
   Validator: b34ab17a8fffd0c1ffd8f9002ead4d1e02cd9e6e
   XCDYouTubeKit: 2458e1c823167ff1da2f326e4a40bc701ca86593
 
-PODFILE CHECKSUM: 8bd456989996445ae75acfaec45d4e07ad2d47b3
+PODFILE CHECKSUM: 6d116c594a96203c3a6be4dcfee8c6a0b1966bb2
 
 COCOAPODS: 1.5.3

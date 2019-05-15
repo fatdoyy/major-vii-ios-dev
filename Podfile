@@ -50,6 +50,7 @@ target 'major-7-ios' do
   pod 'fluid-slider'                            # custom ui slider
   pod 'InfiniteLayout'                          # infinite scrolling uicollectionview
   pod 'BetterSegmentedControl'                  # segmented control
+  pod 'MarqueeLabel'                            # auto scrolling UILabel
  
   pod 'GlitchLabel', :git => 'https://github.com/kikikiktai/GlitchLabel.git'                        # as title
   pod 'Validator', :git => 'https://github.com/kikikiktai/Validator.git'                            # UITextField validation

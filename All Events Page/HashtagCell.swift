@@ -21,7 +21,7 @@ class HashtagCell: UICollectionViewCell {
         super.awakeFromNib()
         backgroundColor = .darkGray()
         bgView.backgroundColor = .white15Alpha()
-        bgView.layer.cornerRadius = GlobalCornerRadius.value - 4
+        bgView.layer.cornerRadius = GlobalCornerRadius.value / 2
         
         hashtag.alpha = 0
         hashtag.textColor = .lightGray

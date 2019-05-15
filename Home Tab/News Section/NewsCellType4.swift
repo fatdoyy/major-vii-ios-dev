@@ -20,15 +20,34 @@ class NewsCellType4: UICollectionViewCell {
     @IBOutlet weak var viewsLabel: UILabel!
     @IBOutlet weak var countLabel: UILabel!
     @IBOutlet weak var dummyTagLabel: UILabel!
+    @IBOutlet weak var hashtagsCollectionView: UICollectionView!
     
     @IBOutlet var skeletonViews: Array<UILabel>!
     
     var gradientBg = PastelView()
     
+    var hashtagsArray: [String] = [] {
+        didSet {
+            hashtagsCollectionView.reloadData()
+        }
+    }
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         backgroundColor = .darkGray
         layer.cornerRadius = GlobalCornerRadius.value
+        
+        hashtagsCollectionView.showsHorizontalScrollIndicator = false
+        hashtagsCollectionView.delegate = self
+        hashtagsCollectionView.dataSource = self
+        
+        if let layout = hashtagsCollectionView.collectionViewLayout as? HashtagsFlowLayout {
+            layout.scrollDirection = .horizontal
+        }
+        
+        hashtagsCollectionView.contentInsetAdjustmentBehavior = .always
+        hashtagsCollectionView.backgroundColor = .clear
+        hashtagsCollectionView.register(UINib.init(nibName: "HashtagCell", bundle: nil), forCellWithReuseIdentifier: HashtagCell.reuseIdentifier)
         
         // Custom Direction
         gradientBg.startPastelPoint = .bottomLeft
@@ -92,4 +111,30 @@ class NewsCellType4: UICollectionViewCell {
         didSet { Animations.cellBounce(isHighlighted, view: self) }
     }
     
+}
+
+extension NewsCellType4: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        let count = hashtagsArray.isEmpty ? 0 : hashtagsArray.count
+        return count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = hashtagsCollectionView.dequeueReusableCell(withReuseIdentifier: HashtagCell.reuseIdentifier, for: indexPath) as! HashtagCell
+        cell.backgroundColor = .clear
+        cell.hashtag.alpha = 1
+        cell.hashtag.text = hashtagsArray.isEmpty ? "" : "#\(hashtagsArray[indexPath.row])"
+        cell.hashtag.textColor = .white
+        //cell.bgView.backgroundColor = .lightPurple()
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        if !hashtagsArray.isEmpty {
+            let size = (hashtagsArray[indexPath.row] as NSString).size(withAttributes: nil)
+            return CGSize(width: size.width + 32, height: HashtagCell.height)
+        } else {
+            return CGSize()
+        }
+    }
 }
