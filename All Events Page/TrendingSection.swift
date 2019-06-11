@@ -77,7 +77,7 @@ class TrendingSection: UICollectionViewCell {
         
         // Set message title, body, and icon. Here, we're overriding the default warning
         // image with an emoji character.
-        let iconText = ["🤔", "😳", "🙄", "😶"].sm_random()!
+        let iconText = "🤔"
         loginMsgView.configureContent(title: "Oh-no!", body: "Please login first", iconText: iconText)
         
         loginMsgView.titleLabel?.font = UIFont.systemFont(ofSize: 12, weight: .bold)

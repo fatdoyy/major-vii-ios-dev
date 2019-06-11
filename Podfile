@@ -22,7 +22,7 @@ target 'major-7-ios' do
   
   #General Pods
   pod 'Localize-Swift', '~> 2.0'                # localization
-  pod 'DynamicColor', '~> 4.0.2'                # UIColor extension
+  pod 'DynamicColor', '~> 4.1'                  # UIColor extension
   pod 'SnapKit'                                 # layout constaints
   pod 'Pastel'                                  # dynamic gradient background
   pod 'ObjectMapper'                            # json mapping

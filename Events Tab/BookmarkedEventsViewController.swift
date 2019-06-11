@@ -86,7 +86,7 @@ extension BookmarkedEventsViewController {
         
         // Set message title, body, and icon. Here, we're overriding the default warning
         // image with an emoji character.
-        let iconText = ["🤔", "😳", "🙄", "😶"].sm_random()!
+        let iconText = "😳"
         locationEmptyMsgView.configureContent(title: "Oops!", body: "This event doesn't have any locations set yet.", iconText: iconText)
         
         locationEmptyMsgView.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .bold)
