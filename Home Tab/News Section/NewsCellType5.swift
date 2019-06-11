@@ -45,8 +45,8 @@ class NewsCellType5: UICollectionViewCell {
         
         let gradientBg = PastelView()
         gradientBg.snp.makeConstraints { (make) -> Void in
-            make.width.equalTo(NewsCellType3.cellWidth)
-            make.height.equalTo(NewsCellType3.cellHeight)
+            make.width.equalTo(NewsCellType3.width)
+            make.height.equalTo(NewsCellType3.height)
         }
         
         // Custom Direction

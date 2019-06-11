@@ -99,7 +99,7 @@ extension NewsCellType2: UICollectionViewDelegate, UICollectionViewDataSource, U
         cell.hashtag.alpha = 1
         cell.hashtag.text = hashtagsArray.isEmpty ? "" : "#\(hashtagsArray[indexPath.row])"
         cell.hashtag.textColor = .white
-        cell.bgView.backgroundColor = .random
+        cell.bgView.backgroundColor = .darkPurple()
         return cell
     }
     

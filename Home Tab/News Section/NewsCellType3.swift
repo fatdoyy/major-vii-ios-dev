@@ -16,8 +16,8 @@ class NewsCellType3: UICollectionViewCell {
     private typealias `Self` = NewsCellType3
     
     static let aspectRatio: CGFloat = 335.0 / 203.0 //template 3 ratio according to zeplin
-    static let cellWidth = NewsCellType1.width
-    static let cellHeight: CGFloat = cellWidth / aspectRatio
+    static let width = NewsCellType1.width
+    static let height: CGFloat = width / aspectRatio
     
     @IBOutlet weak var newsTitle: UILabel!
     @IBOutlet weak var subTitle: MarqueeLabel!
@@ -69,21 +69,21 @@ class NewsCellType3: UICollectionViewCell {
         viewsLabel.textColor = .whiteText()
         
         bgImgView = UIImageView()
-        bgImgView.frame = CGRect(x: 0, y: 0, width: Self.cellWidth, height: Self.cellHeight)
+        bgImgView.frame = CGRect(x: 0, y: 0, width: Self.width, height: Self.height)
         bgImgView.contentMode = .scaleAspectFill
         bgImgView.layer.cornerRadius = GlobalCornerRadius.value
         bgImgView.clipsToBounds = true
         addSubview(bgImgView)
         bgImgView.snp.makeConstraints { (make) -> Void in
-            make.width.equalTo(Self.cellWidth)
-            make.height.equalTo(Self.cellHeight)
+            make.width.equalTo(Self.width)
+            make.height.equalTo(Self.height)
         }
         let overlayView = UIView()
         overlayView.backgroundColor = UIColor(hexString: "333333").withAlphaComponent(0.75)
         overlayView.layer.cornerRadius = GlobalCornerRadius.value
         overlayView.snp.makeConstraints { (make) -> Void in
-            make.width.equalTo(Self.cellWidth)
-            make.height.equalTo(Self.cellHeight)
+            make.width.equalTo(Self.width)
+            make.height.equalTo(Self.height)
         }
         sendSubviewToBack(bgImgView)
         insertSubview(overlayView, aboveSubview: bgImgView)
@@ -112,7 +112,7 @@ extension NewsCellType3: UICollectionViewDelegate, UICollectionViewDataSource, U
         cell.hashtag.alpha = 1
         cell.hashtag.text = hashtagsArray.isEmpty ? "" : "#\(hashtagsArray[indexPath.row])"
         cell.hashtag.textColor = .white
-        cell.bgView.backgroundColor = .random
+        cell.bgView.backgroundColor = .darkPurple()
         return cell
     }
     

@@ -68,8 +68,8 @@ class NewsCellType4: UICollectionViewCell {
         //gradientBg.startAnimation()
         insertSubview(gradientBg, at: 0)
         gradientBg.snp.makeConstraints { (make) -> Void in
-            make.width.equalTo(NewsCellType3.cellWidth)
-            make.height.equalTo(NewsCellType3.cellHeight)
+            make.width.equalTo(NewsCellType3.width)
+            make.height.equalTo(NewsCellType3.height)
         }
         //gradientBg.isHidden = true
         
