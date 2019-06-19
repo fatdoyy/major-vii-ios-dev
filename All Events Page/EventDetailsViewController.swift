@@ -239,20 +239,20 @@ class EventDetailsViewController: UIViewController {
     }
     
     private func setupLeftBarItems() {
-        let customView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: 20, height: 44.0))
+        let customView = UIView(frame: CGRect(x: 15, y: 10, width: 30, height: 30))
         customView.backgroundColor = .clear
         
         let menuBtn = UIButton(type: .custom)
-        menuBtn.frame = CGRect(x: 5, y: 10, width: 14.13, height: 24)
+        menuBtn.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
         menuBtn.setImage(UIImage(named: "back"), for: .normal)
         menuBtn.addTarget(self, action: #selector(popView), for: .touchUpInside)
         customView.addSubview(menuBtn)
         
+        customView.snp.makeConstraints { (make) -> Void in
+            make.size.equalTo(30)
+        }
+        
         let menuBarItem = UIBarButtonItem(customView: customView)
-        let currWidth = menuBarItem.customView?.widthAnchor.constraint(equalToConstant: 20)
-        currWidth?.isActive = true
-        let currHeight = menuBarItem.customView?.heightAnchor.constraint(equalToConstant: 44)
-        currHeight?.isActive = true
         self.navigationItem.leftBarButtonItem = menuBarItem
     }
     

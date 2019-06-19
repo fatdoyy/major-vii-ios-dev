@@ -131,17 +131,17 @@ class EventsListViewController: ScrollingNavigationViewController, UIGestureReco
     }
     
     private func setupLeftBarItems(){
-        let customView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: 110, height: 44.0))
+        let customView = UIView(frame: CGRect(x: 15, y: 10, width: 110, height: 30.0))
         customView.backgroundColor = .clear
         
         let backBtn = UIButton(type: .custom)
-        backBtn.frame = CGRect(x: 5, y: 10, width: 14.13, height: 24)
+        backBtn.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
         backBtn.setImage(UIImage(named: "back"), for: .normal)
         backBtn.addTarget(self, action: #selector(popView), for: .touchUpInside)
         customView.addSubview(backBtn)
         
         let titleLabel = UILabel()
-        titleLabel.frame = CGRect(x: backBtn.frame.maxX + 20, y: 0, width: 90, height: 44)
+        titleLabel.frame = CGRect(x: backBtn.frame.maxX + 20, y: -7, width: 90, height: 44)
         titleLabel.backgroundColor = .clear
         titleLabel.textColor = .whiteText()
         titleLabel.font = UIFont.systemFont(ofSize: 24, weight: .bold)
@@ -151,7 +151,7 @@ class EventsListViewController: ScrollingNavigationViewController, UIGestureReco
         let menuBarItem = UIBarButtonItem(customView: customView)
         let currWidth = menuBarItem.customView?.widthAnchor.constraint(equalToConstant: 110)
         currWidth?.isActive = true
-        let currHeight = menuBarItem.customView?.heightAnchor.constraint(equalToConstant: 44)
+        let currHeight = menuBarItem.customView?.heightAnchor.constraint(equalToConstant: 30)
         currHeight?.isActive = true
         self.navigationItem.leftBarButtonItem = menuBarItem
     }

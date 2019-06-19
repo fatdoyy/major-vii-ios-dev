@@ -20,7 +20,7 @@ class TrendingSection: UICollectionViewCell {
     
     var delegate: TrendingSectionDelegate?
     
-    static let aspectRatio: CGFloat = 335.0 / 297.0 //ratio according to zeplin
+    static let aspectRatio: CGFloat = 335.0 / 292.0 //ratio according to zeplin
     static let width = NewsCellType1.width
     static let height: CGFloat = width / aspectRatio
     
