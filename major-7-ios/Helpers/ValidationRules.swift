@@ -13,8 +13,8 @@ class M7ValidationRule {
     class func emailRules() -> ValidationRuleSet<String> {
         var rules = ValidationRuleSet<String>()
         
-        let requiredRule = ValidationRuleRequired<String>(error: ValidationError(message: "empty"))
-        let patternRule = ValidationRulePattern(pattern: EmailValidationPattern.standard, error: ValidationError(message: "incorrect"))
+        let requiredRule = ValidationRuleRequired<String>(error: MyValidationError("empty"))
+        let patternRule = ValidationRulePattern(pattern: EmailValidationPattern.standard, error: MyValidationError("incorrect"))
         
         rules.add(rule: requiredRule)
         rules.add(rule: patternRule)
@@ -25,8 +25,8 @@ class M7ValidationRule {
     class func pwRules() -> ValidationRuleSet<String> {
         var rules = ValidationRuleSet<String>()
         
-        let requiredRule = ValidationRuleRequired<String>(error: ValidationError(message: "is empty"))
-        let minLengthRule = ValidationRuleLength(min: 8, error: ValidationError(message: "must have minimum length of 8"))
+        let requiredRule = ValidationRuleRequired<String>(error: MyValidationError("is empty"))
+        let minLengthRule = ValidationRuleLength(min: 8, error: MyValidationError("must have minimum length of 8"))
     
         rules.add(rule: requiredRule)
         rules.add(rule: minLengthRule)
@@ -35,16 +35,17 @@ class M7ValidationRule {
     }
     
     class func pwCompareRule(pw: String) -> ValidationRuleEquality<String> {
-        return ValidationRuleEquality<String>(dynamicTarget: { return pw }, error: ValidationError(message: "not the same"))
+        return ValidationRuleEquality<String>(dynamicTarget: { return pw }, error: MyValidationError("not the same"))
     }
     
 }
 
-struct ValidationError: Error {
-    
-    public let message: String
-    
-    public init(message m: String) {
-        message = m
+struct MyValidationError: ValidationError {
+
+    let message: String
+
+    public init(_ message: String) {
+
+        self.message = message
     }
 }

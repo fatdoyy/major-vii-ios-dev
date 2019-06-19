@@ -27,11 +27,10 @@ target 'major-7-ios' do
   pod 'Pastel'                                  # dynamic gradient background
   pod 'ObjectMapper'                            # json mapping
   pod 'Alamofire', '~> 4.8'                     # network requests
-  pod 'PromiseKit/CorePromise' , '~> 6.0'       # as title
+  pod 'PromiseKit/CorePromise'                  # as title
   pod 'SkeletonView'                            # as title
   pod 'BouncyLayout'                            # UICollectionView animation
   pod 'AMScrollingNavbar'                       # UINavigationBar hiding
-  pod 'Hero'                                    # transitions
   pod 'MXParallaxHeader'                        # parallax header
   pod 'Floaty', '~> 4.1'                        # floating button
   pod 'Kingfisher'                              # image downloading
@@ -51,9 +50,11 @@ target 'major-7-ios' do
   pod 'InfiniteLayout'                          # infinite scrolling uicollectionview
   pod 'BetterSegmentedControl'                  # segmented control
   pod 'MarqueeLabel'                            # auto scrolling UILabel
- 
-  pod 'GlitchLabel', :git => 'https://github.com/kikikiktai/GlitchLabel.git'                        # as title
+  pod 'GlitchLabel'                             # as title
+  
+  pod 'Hero', :git => 'https://github.com/kikikiktai/Hero.git'                                      # transitions
   pod 'Validator', :git => 'https://github.com/kikikiktai/Validator.git'                            # UITextField validation
-  pod 'ImageViewer', :inhibit_warnings => true, :git=> 'https://github.com/mezhevikin/ImageViewer'  # as title
+  #  pod 'ImageViewer', :inhibit_warnings => true, :git=> 'https://github.com/mezhevikin/ImageViewer'  # as title
+  pod 'ImageViewer', :git=> 'https://github.com/Nabeatsu/ImageViewer', :branch=> 'master'           # as title
 
 end

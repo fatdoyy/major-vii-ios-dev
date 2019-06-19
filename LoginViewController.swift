@@ -216,7 +216,7 @@ extension LoginViewController: LoginViewDelegate, UserServiceDelegate {
                     HapticFeedback.createNotificationFeedback(style: .error)
                     
                     //animate title change to error msg
-                    let messages = failures.compactMap { $0 as? ValidationError }.map { $0.message }
+                    let messages = failures.compactMap { $0 as? MyValidationError }.map { $0.message }
                     UIView.transition(with: self.loginView.loginActionBtn, duration: 0.2, options: .transitionCrossDissolve, animations: {
                         self.loginView.loginActionBtn.setTitle("Password \(messages.joined(separator: " and "))!", for: .normal)
                         self.loginView.loginActionBtn.setTitleColor(.whiteText75Alpha(), for: .normal)
@@ -242,7 +242,7 @@ extension LoginViewController: LoginViewDelegate, UserServiceDelegate {
                 HapticFeedback.createNotificationFeedback(style: .error)
                 
                 //animate title change to error msg
-                let messages = failures.compactMap { $0 as? ValidationError }.map { $0.message }
+                let messages = failures.compactMap { $0 as? MyValidationError }.map { $0.message }
                 UIView.transition(with: self.loginView.loginActionBtn, duration: 0.2, options: .transitionCrossDissolve, animations: {
                     self.loginView.loginActionBtn.setTitle("Email is \(messages.joined(separator: " and "))!", for: .normal)
                     self.loginView.loginActionBtn.setTitleColor(.whiteText75Alpha(), for: .normal)
@@ -301,7 +301,7 @@ extension LoginViewController: LoginViewDelegate, UserServiceDelegate {
                         HapticFeedback.createNotificationFeedback(style: .error)
                         
                         //animate title change to error msg
-                        let messages = failures.compactMap { $0 as? ValidationError }.map { $0.message }
+                        let messages = failures.compactMap { $0 as? MyValidationError }.map { $0.message }
                         UIView.transition(with: self.loginView.regActionBtn, duration: 0.2, options: .transitionCrossDissolve, animations: {
                             self.loginView.regActionBtn.setTitle("Passwords \(messages.joined(separator: " and "))!", for: .normal)
                             self.loginView.regActionBtn.setTitleColor(.whiteText75Alpha(), for: .normal)
@@ -327,7 +327,7 @@ extension LoginViewController: LoginViewDelegate, UserServiceDelegate {
                     HapticFeedback.createNotificationFeedback(style: .error)
                     
                     //animate title change to error msg
-                    let messages = failures.compactMap { $0 as? ValidationError }.map { $0.message }
+                    let messages = failures.compactMap { $0 as? MyValidationError }.map { $0.message }
                     UIView.transition(with: self.loginView.regActionBtn, duration: 0.2, options: .transitionCrossDissolve, animations: {
                         self.loginView.regActionBtn.setTitle("Password \(messages.joined(separator: " and "))!", for: .normal)
                         self.loginView.regActionBtn.setTitleColor(.whiteText75Alpha(), for: .normal)
@@ -353,7 +353,7 @@ extension LoginViewController: LoginViewDelegate, UserServiceDelegate {
                 HapticFeedback.createNotificationFeedback(style: .error)
                 
                 //animate title change to error msg
-                let messages = failures.compactMap { $0 as? ValidationError }.map { $0.message }
+                let messages = failures.compactMap { $0 as? MyValidationError }.map { $0.message }
                 UIView.transition(with: self.loginView.regActionBtn, duration: 0.2, options: .transitionCrossDissolve, animations: {
                     self.loginView.regActionBtn.setTitle("Email is \(messages.joined(separator: " and "))!", for: .normal)
                     self.loginView.regActionBtn.setTitleColor(.whiteText75Alpha(), for: .normal)

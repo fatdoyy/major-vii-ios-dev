@@ -2,7 +2,7 @@ PODS:
   - Alamofire (4.8.2)
   - AMScrollingNavbar (5.2.0)
   - Bartinter (0.0.4)
-  - BetterSegmentedControl (1.1)
+  - BetterSegmentedControl (1.2.1)
   - Bolts (1.9.0):
     - Bolts/AppLinks (= 1.9.0)
     - Bolts/Tasks (= 1.9.0)
@@ -66,7 +66,7 @@ PODS:
   - Floaty (4.2.0)
   - fluid-slider (1.1.0):
     - pop
-  - GlitchLabel (2.0.0)
+  - GlitchLabel (2.1.0)
   - GoogleAppMeasurement (6.0.1):
     - GoogleUtilities/AppDelegateSwizzler (~> 6.0)
     - GoogleUtilities/MethodSwizzler (~> 6.0)
@@ -109,7 +109,7 @@ PODS:
   - GoogleUtilities/UserDefaults (6.2.0):
     - GoogleUtilities/Logger
   - GTMSessionFetcher/Core (1.2.2)
-  - Hero (1.4.0)
+  - Hero (1.4.1)
   - ImageViewer (5.0.0)
   - InfiniteLayout (0.4.1):
     - CocoaProxy (~> 0)
@@ -134,7 +134,7 @@ PODS:
   - Pastel (0.5.1)
   - PIPKit (0.1.0)
   - pop (1.0.12)
-  - PromiseKit/CorePromise (6.8.4)
+  - PromiseKit/CorePromise (6.9.0)
   - Reqres (3.1.0)
   - SkeletonView (1.6)
   - SkyFloatingLabelTextField (3.7.0)
@@ -143,7 +143,7 @@ PODS:
   - SwiftMessages (7.0.0):
     - SwiftMessages/App (= 7.0.0)
   - SwiftMessages/App (7.0.0)
-  - Validator (3.1.1)
+  - Validator (3.2)
   - XCDYouTubeKit (2.7.5)
 
 DEPENDENCIES:
@@ -162,11 +162,11 @@ DEPENDENCIES:
   - FloatingPanel
   - Floaty (~> 4.1)
   - fluid-slider
-  - GlitchLabel (from `https://github.com/kikikiktai/GlitchLabel.git`)
+  - GlitchLabel
   - GoogleMaps
   - GoogleSignIn
-  - Hero
-  - ImageViewer (from `https://github.com/mezhevikin/ImageViewer`)
+  - Hero (from `https://github.com/kikikiktai/Hero.git`)
+  - ImageViewer (from `https://github.com/Nabeatsu/ImageViewer`, branch `master`)
   - InfiniteLayout
   - JGProgressHUD
   - Kingfisher
@@ -178,7 +178,7 @@ DEPENDENCIES:
   - Parchment
   - Pastel
   - PIPKit
-  - PromiseKit/CorePromise (~> 6.0)
+  - PromiseKit/CorePromise
   - Reqres
   - SkeletonView
   - SkyFloatingLabelTextField (~> 3.0)
@@ -210,13 +210,13 @@ SPEC REPOS:
     - FloatingPanel
     - Floaty
     - fluid-slider
+    - GlitchLabel
     - GoogleAppMeasurement
     - GoogleMaps
     - GoogleSignIn
     - GoogleToolboxForMac
     - GoogleUtilities
     - GTMSessionFetcher
-    - Hero
     - InfiniteLayout
     - JGProgressHUD
     - Kingfisher
@@ -240,29 +240,30 @@ SPEC REPOS:
     - XCDYouTubeKit
 
 EXTERNAL SOURCES:
-  GlitchLabel:
-    :git: https://github.com/kikikiktai/GlitchLabel.git
+  Hero:
+    :git: https://github.com/kikikiktai/Hero.git
   ImageViewer:
-    :git: https://github.com/mezhevikin/ImageViewer
+    :branch: master
+    :git: https://github.com/Nabeatsu/ImageViewer
   Validator:
     :git: https://github.com/kikikiktai/Validator.git
 
 CHECKOUT OPTIONS:
-  GlitchLabel:
-    :commit: 3eef1aa36f2c5962c11ea5c7ba53bb768207f41d
-    :git: https://github.com/kikikiktai/GlitchLabel.git
+  Hero:
+    :commit: c2abd1d19c21cf58a0c80b8b9a5f391d5ecae08c
+    :git: https://github.com/kikikiktai/Hero.git
   ImageViewer:
-    :commit: 9ceca031cc78af6f7d80e20e29aeafda0ef41859
-    :git: https://github.com/mezhevikin/ImageViewer
+    :commit: 16388ac42603b295d6270ef8d32bb8a42dd8ff43
+    :git: https://github.com/Nabeatsu/ImageViewer
   Validator:
-    :commit: be4055d26109ef048c73bf16f60e2fcbc1a26e77
+    :commit: 7818fd3c46b84221cdebbb01b059e5b81e89cdc6
     :git: https://github.com/kikikiktai/Validator.git
 
 SPEC CHECKSUMS:
   Alamofire: ae5c501addb7afdbb13687d7f2f722c78734c2d3
   AMScrollingNavbar: 9df3652d6757f1a24646d8e90cb458591d8b1a6a
   Bartinter: cfc2ebf2fb8560a7d878dcbdc7d3c667c79090c9
-  BetterSegmentedControl: ea08bea31345cf096977ef5aa588b635fb21fa18
+  BetterSegmentedControl: b27bddbdff29b6cae988678d6cd106858986cd03
   Bolts: ac6567323eac61e203f6a9763667d0f711be34c8
   BouncyLayout: a7955879861375cc4e88bb64d42bcf622cd2694c
   CHIPageControl: bbe1ddd0c688c02ec65b7f7e7d34551a3d16f37c
@@ -279,14 +280,14 @@ SPEC CHECKSUMS:
   FloatingPanel: 11d3d21c1c66f40abde89a625ed3784db43b1857
   Floaty: e2bd5a0f6f7f70899e26ff2da31081c8bee8d1b0
   fluid-slider: 68037ac7247f16a89f3e24ff5d0167c8eea6f50b
-  GlitchLabel: 65773d1df358ef66c8daa40428eb79bd04e7a976
+  GlitchLabel: b7970749cfdc780ef5489709726a60dd93c71e77
   GoogleAppMeasurement: 51d8d9ea48f0ca44484d29cfbdef976fbd4fc336
   GoogleMaps: 5c13302e6fe6bb6e686b267196586b91cd594225
   GoogleSignIn: 7ff245e1a7b26d379099d3243a562f5747e23d39
   GoogleToolboxForMac: b3553629623a3b1bff17f555e736cd5a6d95ad55
   GoogleUtilities: 996e0db07153674fd1b54b220fda3a3dc3547cba
   GTMSessionFetcher: 61bb0f61a4cb560030f1222021178008a5727a23
-  Hero: bac92350d7201a1a940003e0767c7b52ce7c99a1
+  Hero: 497b79bc3aca812a262128b18f1c78306e69e905
   ImageViewer: 997018c2f4f7f9830602349bbcc3b2b776424942
   InfiniteLayout: 458eadbcb94afc3d777141990fbfe7a804a35609
   JGProgressHUD: 12b20a8f4ffe05258f8635c1ab92816e451f904d
@@ -301,16 +302,16 @@ SPEC CHECKSUMS:
   Pastel: b3dd5b8d612dac06ae7c63c97c45c900829bc139
   PIPKit: bf6c7a1d8a16757a6800c36ae1f5fcb88d686408
   pop: d582054913807fd11fd50bfe6a539d91c7e1a55a
-  PromiseKit: 51794a832647e7b819336dc2279039ce9f1cc49b
+  PromiseKit: 97397236f9e9c443d5b70a941d49cad25160af7a
   Reqres: da8d0497e660dc12c4db8285f30008c27c1800b7
   SkeletonView: 6c2bf622c352c7e36b4f3c8d73afc46d6c9360d6
   SkyFloatingLabelTextField: 4b46db0ab1ccde0919cded29c656e6b4805eda04
   SnapKit: fd22d10eb9aff484d79a8724eab922c1ddf89bcf
   SwiftGifOrigin: fbd6cf37afcfcf97a5c3db996ddc0492e5c5c145
   SwiftMessages: a952f7a9103d9aeab93730a2861d2d8fcdd8758f
-  Validator: b34ab17a8fffd0c1ffd8f9002ead4d1e02cd9e6e
+  Validator: 9cfe0da15338f2e36fcf9e394f5bc1761888bec4
   XCDYouTubeKit: 2458e1c823167ff1da2f326e4a40bc701ca86593
 
-PODFILE CHECKSUM: 08f1ecc2d07161886e2e72d94f12600b49fdd7b9
+PODFILE CHECKSUM: f0877db10f8470156b39e5a157566f6fb81012ac
 
 COCOAPODS: 1.5.3
