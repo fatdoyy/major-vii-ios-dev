@@ -10,7 +10,7 @@ import UIKit
 
 public extension UIDevice {
     
-    public enum `Type` {
+    enum `Type` {
         case iPad
         case iPhone_unknown
         case iPhone_5_5S_5C_SE
@@ -21,7 +21,7 @@ public extension UIDevice {
         case iPhone_Xr
     }
     
-    public var hasHomeButton: Bool {
+    var hasHomeButton: Bool {
         switch type {
         case .iPhone_X_Xs, .iPhone_Xr, .iPhone_Xs_Max:
             return false
@@ -30,7 +30,7 @@ public extension UIDevice {
         }
     }
     
-    public var type: Type {
+    var type: Type {
         if userInterfaceIdiom == .phone {
             switch UIScreen.main.nativeBounds.height {
             case 1136:

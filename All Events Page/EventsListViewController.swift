@@ -10,7 +10,7 @@ import UIKit
 import Localize_Swift
 import AMScrollingNavbar
 
-class EventsListViewController: ScrollingNavigationViewController, UIGestureRecognizerDelegate {
+class EventsListViewController: ScrollingNavigationViewController {
     
     static let storyboardId = "eventsVC"
     
@@ -27,8 +27,6 @@ class EventsListViewController: ScrollingNavigationViewController, UIGestureReco
         view.backgroundColor = .darkGray()
         
         isFromLoginView = false
-        
-        self.navigationController?.interactivePopGestureRecognizer?.delegate = self
         
         mainCollectionView.backgroundColor = .darkGray()
         mainCollectionView.showsVerticalScrollIndicator = false
@@ -178,12 +176,7 @@ class EventsListViewController: ScrollingNavigationViewController, UIGestureReco
         //navigationController?.hero.navigationAnimationType = .uncover(direction: .down)
         navigationController?.popViewController(animated: true)
     }
-    
-    //swipe pop gesture
-    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-        return true
-    }
-    
+
     func showLoginVC() {
         let loginVC = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "loginVC") as! LoginViewController
         

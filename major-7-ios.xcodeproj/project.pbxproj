@@ -98,6 +98,7 @@
 		96B0BE4A21F056B4003C9BA5 /* LocalKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B0BE4921F056B4003C9BA5 /* LocalKeys.swift */; };
 		96B34DEA224E257B00D9F236 /* InfoWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B34DE9224E257B00D9F236 /* InfoWindow.swift */; };
 		96B34DEC224F599E00D9F236 /* UIDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B34DEB224F599E00D9F236 /* UIDevice.swift */; };
+		96B95B7322C0B0C60062996C /* HeroHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B95B7222C0B0C60062996C /* HeroHelper.swift */; };
 		96C55414219044D00065D70A /* EventsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96C55413219044D00065D70A /* EventsListViewController.swift */; };
 		96C5541B21918CB90065D70A /* TrendingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96C5541921918CB90065D70A /* TrendingCell.swift */; };
 		96C5541C21918CB90065D70A /* TrendingCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96C5541A21918CB90065D70A /* TrendingCell.xib */; };
@@ -231,7 +232,7 @@
 		967BD33E2240C00300469CF9 /* PinterestLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinterestLayout.swift; sourceTree = "<group>"; };
 		967BD3402240E60200469CF9 /* BuskerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuskerCell.swift; sourceTree = "<group>"; };
 		967BD3412240E60200469CF9 /* BuskerCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BuskerCell.xib; sourceTree = "<group>"; };
-		9680373522509E8700A9C65F /* CREDC___.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = CREDC___.ttf; sourceTree = "<group>"; };
+		9680373522509E8700A9C65F /* CREDC___.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "CREDC___.ttf"; sourceTree = "<group>"; };
 		96862EB8219ACE1F00F709B0 /* EventDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDetailsViewController.swift; sourceTree = "<group>"; };
 		96862EBA219AD8AC00F709B0 /* TabBarToggle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarToggle.swift; sourceTree = "<group>"; };
 		9688DA8E22859D0100CCE925 /* PostService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostService.swift; sourceTree = "<group>"; };
@@ -242,6 +243,7 @@
 		96B0BE4921F056B4003C9BA5 /* LocalKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalKeys.swift; sourceTree = "<group>"; };
 		96B34DE9224E257B00D9F236 /* InfoWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoWindow.swift; sourceTree = "<group>"; };
 		96B34DEB224F599E00D9F236 /* UIDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIDevice.swift; sourceTree = "<group>"; };
+		96B95B7222C0B0C60062996C /* HeroHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeroHelper.swift; sourceTree = "<group>"; };
 		96C55413219044D00065D70A /* EventsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsListViewController.swift; sourceTree = "<group>"; };
 		96C5541921918CB90065D70A /* TrendingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendingCell.swift; sourceTree = "<group>"; };
 		96C5541A21918CB90065D70A /* TrendingCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TrendingCell.xib; sourceTree = "<group>"; };
@@ -485,6 +487,7 @@
 				967B562D2244D42E006F0AF9 /* UIImage.swift */,
 				96F37325224BA1610088E142 /* FloatingPanelSettings.swift */,
 				96B34DEB224F599E00D9F236 /* UIDevice.swift */,
+				96B95B7222C0B0C60062996C /* HeroHelper.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -977,6 +980,7 @@
 				96799FE6218C5A280074C828 /* ImageOverlay.swift in Sources */,
 				96EA375621B66BBC00E9DB74 /* ImageViewerHelper.swift in Sources */,
 				96EA375321B528E900E9DB74 /* DetailsImageCell.swift in Sources */,
+				96B95B7322C0B0C60062996C /* HeroHelper.swift in Sources */,
 				96C5542A2192C2DF0065D70A /* FollowingSection.swift in Sources */,
 				966A6CC1217DBD9F00DF872F /* AgentsViewController.swift in Sources */,
 				96C55450219438F10065D70A /* PagedCollectionViewLayout.swift in Sources */,

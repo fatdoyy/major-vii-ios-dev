@@ -9,13 +9,11 @@
 import UIKit
 
 class BuskersViewController: UIViewController {
-    //gesture for swipe-pop
-    var gesture: UIGestureRecognizer?
     
     var screenWidth: CGFloat = UIScreen.main.bounds.width
     var screenHeight: CGFloat = UIScreen.main.bounds.height
     var mainCollectionView: UICollectionView!
-
+    
     let searchResultsVC = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "buskersSearchVC") as! BuskersSearchViewController
     var searchController: UISearchController!
     
@@ -33,9 +31,9 @@ class BuskersViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        gesture?.delegate = self
         view.backgroundColor = .darkGray()
         hideKeyboardWhenTappedAround()
+        navigationController?.interactivePopGestureRecognizer?.delegate = self
         
         for image in img {
             scaledImgArray.append(image.scaleImage(maxWidth: 220))
@@ -44,7 +42,7 @@ class BuskersViewController: UIViewController {
         
         setupUI()
     }
-
+    
     override func viewWillAppear(_ animated: Bool) {
         setupNavBar()
     }
@@ -61,7 +59,7 @@ class BuskersViewController: UIViewController {
         }
     }
     
-
+    
 }
 
 //MARK: UINavigation Bar setup
@@ -82,7 +80,7 @@ extension BuskersViewController {
         
         UIView.animate(withDuration: 0.2) {
             self.navigationController?.navigationBar.backgroundColor = UIColor.darkGray().withAlphaComponent(0.8)
-
+            
             //status bar color
             if let statusBar = UIApplication.shared.value(forKeyPath: "statusBarWindow.statusBar") as? UIView {
                 statusBar.backgroundColor = UIColor.darkGray().withAlphaComponent(0.8)
@@ -90,9 +88,9 @@ extension BuskersViewController {
                 print("Can't get status bar?")
             }
         }
-
+        
     }
-
+    
 }
 
 //MARK: Search Controller setup
@@ -169,7 +167,7 @@ extension BuskersViewController: UICollectionViewDelegate, UICollectionViewDataS
         cell.buskerName.text = names[indexPath.row]
         cell.genre.textColor = randomColor[indexPath.row]
         cell.genre.text = genres[indexPath.row]
-
+        
         return cell
     }
     
@@ -217,7 +215,7 @@ extension BuskersViewController: UISearchControllerDelegate, UISearchBarDelegate
         }
         
     }
-
+    
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
         //searchBar.text = ""
         //searchController.searchResultsController?.view.isHidden = true
@@ -225,7 +223,7 @@ extension BuskersViewController: UISearchControllerDelegate, UISearchBarDelegate
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         NotificationCenter.default.post(name: .showSCViews, object: nil)
-
+        
     }
 }
 
@@ -245,8 +243,8 @@ extension BuskersViewController: UIScrollViewDelegate {
     }
 }
 
-//MARK: Swipe pop gesture
-extension BuskersViewController: UIGestureRecognizerDelegate{
+//MARK: UIGestureRecognizerDelegate (i.e. swipe pop gesture)
+extension BuskersViewController: UIGestureRecognizerDelegate {
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return true
     }

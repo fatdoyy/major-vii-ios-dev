@@ -10,7 +10,7 @@ import UIKit
 import Kingfisher
 import Localize_Swift
 
-class HomeViewController: UIViewController, UIGestureRecognizerDelegate {
+class HomeViewController: UIViewController {
     
     var coverImagesUrl: [String] = []
     var newsList: [News] = []
@@ -24,7 +24,8 @@ class HomeViewController: UIViewController, UIGestureRecognizerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .darkGray()
-
+        navigationController?.interactivePopGestureRecognizer?.delegate = self
+        
         //check if we need to present loginVC
         if UserService.User.isLoggedIn() == false {
             let loginVC = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "loginVC") as! LoginViewController
@@ -120,7 +121,6 @@ class HomeViewController: UIViewController, UIGestureRecognizerDelegate {
                 UIApplication.shared.isNetworkActivityIndicatorVisible = false
             }.catch { error in }
     }
-    
 }
 
 // MARK: UICollectionView Delegate
@@ -382,5 +382,12 @@ extension UICollectionView {
         reloadItems(at: (0 ..< numberOfItems(inSection: section)).map {
             IndexPath(item: $0, section: section)
         })
+    }
+}
+
+//MARK: UIGestureRecognizerDelegate (i.e. swipe pop gesture)
+extension HomeViewController: UIGestureRecognizerDelegate {
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
     }
 }

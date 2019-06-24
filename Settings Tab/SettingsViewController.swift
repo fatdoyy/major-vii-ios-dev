@@ -80,7 +80,9 @@ class SettingsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .darkGray()
+        navigationController?.interactivePopGestureRecognizer?.delegate = self
         //contentView.backgroundColor = .darkGray()
+
         
 //        logInOrOutBtn.isHidden = true
 //        if UserService.User.isLoggedIn() {
@@ -806,5 +808,12 @@ extension SettingsViewController {
             make.size.equalTo(24)
             make.right.equalTo(-20)
         }
+    }
+}
+
+//MARK: UIGestureRecognizerDelegate (i.e. swipe pop gesture)
+extension SettingsViewController: UIGestureRecognizerDelegate {
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
     }
 }
