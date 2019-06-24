@@ -41,24 +41,24 @@ PODS:
     - Bolts (~> 1.9)
   - FBSDKLoginKit (4.38.1):
     - FBSDKCoreKit
-  - Firebase/Core (6.2.0):
+  - Firebase/Core (6.3.0):
     - Firebase/CoreOnly
-    - FirebaseAnalytics (= 6.0.1)
-  - Firebase/CoreOnly (6.2.0):
-    - FirebaseCore (= 6.0.2)
-  - FirebaseAnalytics (6.0.1):
+    - FirebaseAnalytics (= 6.0.2)
+  - Firebase/CoreOnly (6.3.0):
+    - FirebaseCore (= 6.0.3)
+  - FirebaseAnalytics (6.0.2):
     - FirebaseCore (~> 6.0)
-    - FirebaseInstanceID (~> 4.1)
-    - GoogleAppMeasurement (= 6.0.1)
+    - FirebaseInstanceID (~> 4.2)
+    - GoogleAppMeasurement (= 6.0.2)
     - GoogleUtilities/AppDelegateSwizzler (~> 6.0)
     - GoogleUtilities/MethodSwizzler (~> 6.0)
     - GoogleUtilities/Network (~> 6.0)
     - "GoogleUtilities/NSData+zlib (~> 6.0)"
     - nanopb (~> 0.3)
-  - FirebaseCore (6.0.2):
+  - FirebaseCore (6.0.3):
     - GoogleUtilities/Environment (~> 6.0)
     - GoogleUtilities/Logger (~> 6.0)
-  - FirebaseInstanceID (4.1.1):
+  - FirebaseInstanceID (4.2.0):
     - FirebaseCore (~> 6.0)
     - GoogleUtilities/Environment (~> 6.0)
     - GoogleUtilities/UserDefaults (~> 6.0)
@@ -67,7 +67,7 @@ PODS:
   - fluid-slider (1.1.0):
     - pop
   - GlitchLabel (2.1.0)
-  - GoogleAppMeasurement (6.0.1):
+  - GoogleAppMeasurement (6.0.2):
     - GoogleUtilities/AppDelegateSwizzler (~> 6.0)
     - GoogleUtilities/MethodSwizzler (~> 6.0)
     - GoogleUtilities/Network (~> 6.0)
@@ -144,7 +144,7 @@ PODS:
     - SwiftMessages/App (= 7.0.0)
   - SwiftMessages/App (7.0.0)
   - Validator (3.2)
-  - XCDYouTubeKit (2.7.5)
+  - XCDYouTubeKit (2.7.6)
 
 DEPENDENCIES:
   - Alamofire (~> 4.8)
@@ -273,15 +273,15 @@ SPEC CHECKSUMS:
   FacebookLogin: ebcf34714a1cb9f0759d9f071cfb01ed500996cf
   FBSDKCoreKit: 8d47857400e2f5bdea697a80daff882e91c84ef6
   FBSDKLoginKit: 4621c690d9dd8628031a4791497062183ea34b0d
-  Firebase: 5965bac23e7fcb5fa6d926ed429c9ecef8a2014e
-  FirebaseAnalytics: 629301c2b9925f3537d4093a17a72751ae5b7084
-  FirebaseCore: b0f0262acebfa540e5f97b3832dbb13186980822
-  FirebaseInstanceID: cdb3827746d53ece7ae87a5c51c25c3055443366
+  Firebase: 8432d732974498afd5987e9001a05f90f1a3d625
+  FirebaseAnalytics: 470ddab7253b21ad5a40bebd4a9903d7ae19386a
+  FirebaseCore: 68f8a7f50cdae542715d4e86afa37c4067217dcb
+  FirebaseInstanceID: f20243a1d828e0e9a3798b995174dedc16f1b32a
   FloatingPanel: 11d3d21c1c66f40abde89a625ed3784db43b1857
   Floaty: e2bd5a0f6f7f70899e26ff2da31081c8bee8d1b0
   fluid-slider: 68037ac7247f16a89f3e24ff5d0167c8eea6f50b
   GlitchLabel: b7970749cfdc780ef5489709726a60dd93c71e77
-  GoogleAppMeasurement: 51d8d9ea48f0ca44484d29cfbdef976fbd4fc336
+  GoogleAppMeasurement: a35a645835bae31b6bdc0576396bc23908f12a22
   GoogleMaps: 5c13302e6fe6bb6e686b267196586b91cd594225
   GoogleSignIn: 7ff245e1a7b26d379099d3243a562f5747e23d39
   GoogleToolboxForMac: b3553629623a3b1bff17f555e736cd5a6d95ad55
@@ -310,8 +310,8 @@ SPEC CHECKSUMS:
   SwiftGifOrigin: fbd6cf37afcfcf97a5c3db996ddc0492e5c5c145
   SwiftMessages: a952f7a9103d9aeab93730a2861d2d8fcdd8758f
   Validator: 9cfe0da15338f2e36fcf9e394f5bc1761888bec4
-  XCDYouTubeKit: 2458e1c823167ff1da2f326e4a40bc701ca86593
+  XCDYouTubeKit: c3554ad8f69f1641ef450c4f1edbfba7af756c35
 
 PODFILE CHECKSUM: f0877db10f8470156b39e5a157566f6fb81012ac
 
-COCOAPODS: 1.5.3
+COCOAPODS: 1.7.2
