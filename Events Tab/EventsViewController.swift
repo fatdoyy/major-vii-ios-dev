@@ -75,6 +75,7 @@ class EventsViewController: UIViewController {
     
     var tappedMarker: GMSMarker?
     var currentMarkerPosition: CLLocationCoordinate2D?
+    var allMarkers = [MapMarker]()
     var currentVisibleMarkersEventId = [String]()
     var infoWindow: InfoWindow?
     
@@ -136,7 +137,7 @@ extension EventsViewController {
             }.catch { error in }
     }
     
-    private func showInfoWindow(withId id: String, position: CLLocationCoordinate2D) {
+    private func showInfoWindow(withId id: String, position: CLLocationCoordinate2D, tappedMarker: GMSMarker? = nil) {
         DispatchQueue.main.async {
             if self.infoWindow != nil {
                 if (self.infoWindow?.isDescendant(of: self.view))! { //infoWindow is visible
@@ -191,6 +192,9 @@ extension EventsViewController {
                 
                 }.ensure {
                     UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                    if let marker = tappedMarker {
+                        marker.isTappable = true
+                    }
                 }.catch { error in }
         }
     }
@@ -384,7 +388,7 @@ extension EventsViewController {
             
             let value = String(format: "%.2f", (self?.radiusSlider.fraction)!)
             let meter = Int(Float(value)! * 10000)
-            print(meter)
+            print("New radius is \(meter)")
             if meter != self?.searchRadius {
                 self?.searchRadius = meter
                 if let lat = self?.currentLocation.latitude, let long = self?.currentLocation.longitude {
@@ -393,6 +397,7 @@ extension EventsViewController {
                     DispatchQueue.main.async {
                         self?.mapView.clear()
                         self?.currentVisibleMarkersEventId.removeAll()
+                        self?.allMarkers.removeAll()
                         if self?.infoWindow != nil {
                             if self?.infoWindow!.alpha != 0 {
                                 self?.infoWindow!.alpha = 0
@@ -427,6 +432,8 @@ extension EventsViewController: GMSMapViewDelegate, InfoWindowDelegate, Bookmark
                     
                     self.currentVisibleMarkersEventId.append(id)
                     UIView.animate(withDuration: 0.2, animations: { marker.opacity = 1 })
+                    self.allMarkers.append(marker)
+                    print(self.allMarkers.count)
                     
                 case .failure(let error):
                     print(error)
@@ -504,6 +511,7 @@ extension EventsViewController: GMSMapViewDelegate, InfoWindowDelegate, Bookmark
     }
     
     func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
+        marker.isTappable = false
         if filterMenuView.alpha != 0 { //first hide filter menu if its not hidden
             UIView.animate(withDuration: 0.2) {
                 self.filterMenuView.alpha = 0
@@ -530,7 +538,7 @@ extension EventsViewController: GMSMapViewDelegate, InfoWindowDelegate, Bookmark
 
             
             if let id = marker.title {
-                showInfoWindow(withId: id, position: pos)
+                showInfoWindow(withId: id, position: pos, tappedMarker: marker)
             }
         }
         
@@ -556,6 +564,9 @@ extension EventsViewController: GMSMapViewDelegate, InfoWindowDelegate, Bookmark
             }
         }
         
+        for marker in allMarkers {
+            marker.isTappable = true
+        }
     }
     
     func mapView(_ mapView: GMSMapView, didChange position: GMSCameraPosition) {
