@@ -11,6 +11,7 @@ import Kingfisher
 import Localize_Swift
 
 class HomeViewController: UIViewController {
+    weak var previousController: UIViewController? //for tabbar scroll to top
     
     var coverImagesUrl: [String] = []
     var newsList: [News] = []
@@ -357,14 +358,21 @@ extension HomeViewController: UIScrollViewDelegate {
 
 //MARK: Scroll to top when tabbar icon is tapped
 extension HomeViewController: UITabBarControllerDelegate {
-    func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
-        let tabBarIndex = tabBarController.selectedIndex
-        
-        print(tabBarIndex)
-        
-        if tabBarIndex == 0 {
-            mainCollectionView.setContentOffset(CGPoint.zero, animated: true)
+    func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
+        if previousController == viewController || previousController == nil {
+            // the same tab was tapped a second time
+            let nav = viewController as! UINavigationController
+            
+            // if in first level of navigation (table view) then and only then scroll to top
+            if nav.viewControllers.count < 2 {
+                //let vc = nav.topViewController as! HomeViewController
+                //tableCont.tableView.setContentOffset(CGPoint(x: 0.0, y: -tableCont.tableView.contentInset.top), animated: true)
+                //vc.mainCollectionView.setContentOffset(CGPoint.zero, animated: true)
+                mainCollectionView.setContentOffset(CGPoint.zero, animated: true)
+            }
         }
+        previousController = viewController;
+        return true
     }
 }
 

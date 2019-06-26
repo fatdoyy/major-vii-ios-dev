@@ -124,3 +124,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 }
 
+extension UITabBarDelegate {
+    
+}

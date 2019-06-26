@@ -433,7 +433,6 @@ extension EventsViewController: GMSMapViewDelegate, InfoWindowDelegate, Bookmark
                     self.currentVisibleMarkersEventId.append(id)
                     UIView.animate(withDuration: 0.2, animations: { marker.opacity = 1 })
                     self.allMarkers.append(marker)
-                    print(self.allMarkers.count)
                     
                 case .failure(let error):
                     print(error)

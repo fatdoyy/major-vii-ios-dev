@@ -10,6 +10,7 @@ import UIKit
 import Pastel
 
 class SettingsViewController: UIViewController {
+    weak var previousController: UIViewController? //for tabbar scroll to top
     
     let screenWidth = UIScreen.main.bounds.width
     
@@ -814,6 +815,26 @@ extension SettingsViewController {
 //MARK: UIGestureRecognizerDelegate (i.e. swipe pop gesture)
 extension SettingsViewController: UIGestureRecognizerDelegate {
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
+    }
+}
+
+//MARK: Scroll to top when tabbar icon is tapped
+extension SettingsViewController: UITabBarControllerDelegate {
+    func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
+        if previousController == viewController || previousController == nil {
+            // the same tab was tapped a second time
+            let nav = viewController as! UINavigationController
+            
+            // if in first level of navigation (table view) then and only then scroll to top
+            if nav.viewControllers.count < 2 {
+                //let vc = nav.topViewController as! HomeViewController
+                //tableCont.tableView.setContentOffset(CGPoint(x: 0.0, y: -tableCont.tableView.contentInset.top), animated: true)
+                //vc.mainCollectionView.setContentOffset(CGPoint.zero, animated: true)
+                mainScrollView.setContentOffset(CGPoint.zero, animated: true)
+            }
+        }
+        previousController = viewController;
         return true
     }
 }

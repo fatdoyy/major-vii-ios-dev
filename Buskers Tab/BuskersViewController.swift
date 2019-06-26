@@ -9,6 +9,7 @@
 import UIKit
 
 class BuskersViewController: UIViewController {
+    weak var previousController: UIViewController? //for tabbar scroll to top
     
     var screenWidth: CGFloat = UIScreen.main.bounds.width
     var screenHeight: CGFloat = UIScreen.main.bounds.height
@@ -34,6 +35,7 @@ class BuskersViewController: UIViewController {
         view.backgroundColor = .darkGray()
         hideKeyboardWhenTappedAround()
         navigationController?.interactivePopGestureRecognizer?.delegate = self
+        tabBarController?.delegate = self
         
         for image in img {
             scaledImgArray.append(image.scaleImage(maxWidth: 220))
@@ -246,6 +248,27 @@ extension BuskersViewController: UIScrollViewDelegate {
 //MARK: UIGestureRecognizerDelegate (i.e. swipe pop gesture)
 extension BuskersViewController: UIGestureRecognizerDelegate {
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
+    }
+}
+
+//MARK: Scroll to top when tabbar icon is tapped
+extension BuskersViewController: UITabBarControllerDelegate {
+    func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
+        if previousController == viewController || previousController == nil {
+            // the same tab was tapped a second time
+            let nav = viewController as! UINavigationController
+            
+            // if in first level of navigation (table view) then and only then scroll to top
+            if nav.viewControllers.count < 2 {
+                //let vc = nav.topViewController as! HomeViewController
+                //tableCont.tableView.setContentOffset(CGPoint(x: 0.0, y: -tableCont.tableView.contentInset.top), animated: true)
+                //vc.mainCollectionView.setContentOffset(CGPoint.zero, animated: true)
+                mainCollectionView.setContentOffset(CGPoint(x: 0, y: -44), animated: true)
+                
+            }
+        }
+        previousController = viewController;
         return true
     }
 }
