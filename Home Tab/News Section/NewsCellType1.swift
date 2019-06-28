@@ -19,7 +19,7 @@ class NewsCellType1: UICollectionViewCell {
     
     @IBOutlet weak var newsTitle: UILabel!
     @IBOutlet weak var timeLabel: UILabel!
-    @IBOutlet weak var viewsLabel: UILabel!
+    //@IBOutlet weak var viewsLabel: UILabel!
     @IBOutlet weak var countLabel: UILabel!
     @IBOutlet weak var imageOverlay: ImageOverlay!
     @IBOutlet weak var hashtagsCollectionView: UICollectionView!
@@ -56,13 +56,13 @@ class NewsCellType1: UICollectionViewCell {
         newsTitle.textColor = .whiteText()
         
         timeLabel.text = "1 month ago"
-        timeLabel.textColor = .whiteText()
+        timeLabel.textColor = .whiteText50Alpha()
         
         countLabel.text = "12,843"
         countLabel.textColor = .whiteText()
         
-        viewsLabel.text = "views"
-        viewsLabel.textColor = .whiteText()
+//        viewsLabel.text = "views"
+//        viewsLabel.textColor = .whiteText()
         
         bgImgView = UIImageView()
         bgImgView.frame = CGRect(x: 0, y: 0, width: NewsCellType1.width, height: NewsCellType1.height)

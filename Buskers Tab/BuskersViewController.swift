@@ -9,7 +9,7 @@
 import UIKit
 
 class BuskersViewController: UIViewController {
-    weak var previousController: UIViewController? //for tabbar scroll to top
+    //weak var previousController: UIViewController? //for tabbar scroll to top
     
     var screenWidth: CGFloat = UIScreen.main.bounds.width
     var screenHeight: CGFloat = UIScreen.main.bounds.height
@@ -35,7 +35,7 @@ class BuskersViewController: UIViewController {
         view.backgroundColor = .darkGray()
         hideKeyboardWhenTappedAround()
         navigationController?.interactivePopGestureRecognizer?.delegate = self
-        tabBarController?.delegate = self
+        //tabBarController?.delegate = self
         
         for image in img {
             scaledImgArray.append(image.scaleImage(maxWidth: 220))
@@ -46,7 +46,18 @@ class BuskersViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         setupNavBar()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        //status bar color
+        if let statusBar = UIApplication.shared.value(forKeyPath: "statusBarWindow.statusBar") as? UIView {
+            statusBar.backgroundColor = UIColor.darkGray().withAlphaComponent(0.8)
+        } else {
+            print("Can't get status bar?")
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -80,17 +91,7 @@ extension BuskersViewController {
         navigationController?.navigationBar.isTranslucent = true
         //navigationController?.navigationBar.barTintColor = .darkGray()
         
-        UIView.animate(withDuration: 0.2) {
-            self.navigationController?.navigationBar.backgroundColor = UIColor.darkGray().withAlphaComponent(0.8)
-            
-            //status bar color
-            if let statusBar = UIApplication.shared.value(forKeyPath: "statusBarWindow.statusBar") as? UIView {
-                statusBar.backgroundColor = UIColor.darkGray().withAlphaComponent(0.8)
-            } else {
-                print("Can't get status bar?")
-            }
-        }
-        
+        self.navigationController?.navigationBar.backgroundColor = UIColor.darkGray().withAlphaComponent(0.8)
     }
     
 }
@@ -253,22 +254,22 @@ extension BuskersViewController: UIGestureRecognizerDelegate {
 }
 
 //MARK: Scroll to top when tabbar icon is tapped
-extension BuskersViewController: UITabBarControllerDelegate {
-    func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
-        if previousController == viewController || previousController == nil {
-            // the same tab was tapped a second time
-            let nav = viewController as! UINavigationController
-            
-            // if in first level of navigation (table view) then and only then scroll to top
-            if nav.viewControllers.count < 2 {
-                //let vc = nav.topViewController as! HomeViewController
-                //tableCont.tableView.setContentOffset(CGPoint(x: 0.0, y: -tableCont.tableView.contentInset.top), animated: true)
-                //vc.mainCollectionView.setContentOffset(CGPoint.zero, animated: true)
-                mainCollectionView.setContentOffset(CGPoint(x: 0, y: -44), animated: true)
-                
-            }
-        }
-        previousController = viewController;
-        return true
-    }
-}
+//extension BuskersViewController: UITabBarControllerDelegate {
+//    func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
+//        if previousController == viewController || previousController == nil {
+//            // the same tab was tapped a second time
+//            let nav = viewController as! UINavigationController
+//
+//            // if in first level of navigation (table view) then and only then scroll to top
+//            if nav.viewControllers.count < 2 {
+//                //let vc = nav.topViewController as! HomeViewController
+//                //tableCont.tableView.setContentOffset(CGPoint(x: 0.0, y: -tableCont.tableView.contentInset.top), animated: true)
+//                //vc.mainCollectionView.setContentOffset(CGPoint.zero, animated: true)
+//                mainCollectionView.setContentOffset(CGPoint(x: 0, y: -44), animated: true)
+//
+//            }
+//        }
+//        previousController = viewController;
+//        return true
+//    }
+//}

@@ -48,8 +48,15 @@
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_eye" translatesAutoresizingMaskIntoConstraints="NO" id="1wi-tu-rcu">
+                        <rect key="frame" x="258" y="227" width="15" height="15"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="15" id="6ke-CH-LzT"/>
+                            <constraint firstAttribute="width" constant="15" id="yh7-o1-ZAL"/>
+                        </constraints>
+                    </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8eQ-Zt-0hd">
-                        <rect key="frame" x="243" y="226" width="37" height="17"/>
+                        <rect key="frame" x="278" y="226" width="37" height="17"/>
                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="14"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
@@ -66,15 +73,17 @@
             </view>
             <constraints>
                 <constraint firstItem="tHM-AS-WXU" firstAttribute="leading" secondItem="ot6-Hj-gnC" secondAttribute="leading" constant="20" id="0ME-la-otA"/>
+                <constraint firstAttribute="bottom" secondItem="1wi-tu-rcu" secondAttribute="bottom" constant="16" id="2Up-Ql-5Ie"/>
                 <constraint firstItem="GU8-bt-JU9" firstAttribute="top" secondItem="nvi-Jr-JHf" secondAttribute="top" id="3bx-zh-SiH"/>
                 <constraint firstItem="F7X-17-81M" firstAttribute="leading" secondItem="nvi-Jr-JHf" secondAttribute="leading" id="789-DF-AGg"/>
+                <constraint firstItem="8eQ-Zt-0hd" firstAttribute="leading" secondItem="1wi-tu-rcu" secondAttribute="trailing" constant="5" id="7bA-x2-93d"/>
                 <constraint firstItem="tHM-AS-WXU" firstAttribute="top" secondItem="GU8-bt-JU9" secondAttribute="bottom" constant="97" id="A5n-qT-GDc"/>
-                <constraint firstItem="ot6-Hj-gnC" firstAttribute="bottom" secondItem="8eQ-Zt-0hd" secondAttribute="bottom" constant="15" id="Cqz-qS-8mF"/>
-                <constraint firstItem="I4Y-e3-On3" firstAttribute="leading" secondItem="8eQ-Zt-0hd" secondAttribute="trailing" constant="4" id="Gws-Cb-Twf"/>
+                <constraint firstAttribute="bottom" secondItem="8eQ-Zt-0hd" secondAttribute="bottom" constant="15" id="GW4-50-6gz"/>
                 <constraint firstItem="oEC-b7-GOA" firstAttribute="leading" secondItem="nvi-Jr-JHf" secondAttribute="leading" id="IXY-Ln-aCW"/>
                 <constraint firstItem="fIk-t3-ANW" firstAttribute="leading" secondItem="ot6-Hj-gnC" secondAttribute="leading" constant="20" id="Ioc-aq-ie6"/>
                 <constraint firstAttribute="trailing" secondItem="F7X-17-81M" secondAttribute="trailing" id="KHx-ha-7bm"/>
                 <constraint firstItem="GU8-bt-JU9" firstAttribute="leading" secondItem="nvi-Jr-JHf" secondAttribute="leading" id="Mbo-Wy-EQi"/>
+                <constraint firstAttribute="trailing" secondItem="8eQ-Zt-0hd" secondAttribute="trailing" constant="20" id="NJa-B0-N3k"/>
                 <constraint firstAttribute="bottom" secondItem="F7X-17-81M" secondAttribute="bottom" id="RNG-w4-93O"/>
                 <constraint firstItem="ot6-Hj-gnC" firstAttribute="trailing" secondItem="I4Y-e3-On3" secondAttribute="trailing" constant="20" id="b5g-X2-vw4"/>
                 <constraint firstItem="tHM-AS-WXU" firstAttribute="top" secondItem="oEC-b7-GOA" secondAttribute="bottom" constant="10" id="e01-4l-5NA"/>
@@ -99,4 +108,7 @@
             <point key="canvasLocation" x="205.59999999999999" y="181.70914542728636"/>
         </collectionViewCell>
     </objects>
+    <resources>
+        <image name="icon_eye" width="15" height="15"/>
+    </resources>
 </document>

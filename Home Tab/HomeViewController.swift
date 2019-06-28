@@ -9,10 +9,13 @@
 import UIKit
 import Kingfisher
 import Localize_Swift
+import NVActivityIndicatorView
 
 class HomeViewController: UIViewController {
     weak var previousController: UIViewController? //for tabbar scroll to top
     
+    let refreshControl = UIRefreshControl()
+    var refreshIndicator: NVActivityIndicatorView?
     var coverImagesUrl: [String] = []
     var newsList: [News] = []
     var posts: [Post] = []
@@ -26,6 +29,8 @@ class HomeViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .darkGray()
         navigationController?.interactivePopGestureRecognizer?.delegate = self
+        tabBarController?.delegate = self
+        setupRefreshControl()
         
         //check if we need to present loginVC
         if UserService.User.isLoggedIn() == false {
@@ -34,8 +39,6 @@ class HomeViewController: UIViewController {
 //            loginVC.hero.modalAnimationType = .selectBy(presenting: .zoom, dismissing: .zoomOut)
             self.present(loginVC, animated: true, completion: nil)
         }
-        
-        self.tabBarController?.delegate = self
         
         mainCollectionView.isUserInteractionEnabled = false
         mainCollectionView.dataSource = self
@@ -83,10 +86,6 @@ class HomeViewController: UIViewController {
         }
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-    }
-    
     private func getNews(skip: Int? = nil, limit: Int? = nil) {
         NewsService.getList(skip: skip, limit: limit).done { response -> () in
             //self.newsList = response.list
@@ -121,6 +120,27 @@ class HomeViewController: UIViewController {
                 //self.mainCollectionView.isUserInteractionEnabled = true
                 UIApplication.shared.isNetworkActivityIndicatorVisible = false
             }.catch { error in }
+    }
+    
+    private func setupRefreshControl() {
+        //hide default spinner
+        refreshControl.tintColor = .clear
+        refreshControl.subviews.first?.alpha = 0
+        
+        refreshIndicator = NVActivityIndicatorView(frame: refreshControl.bounds, type: .lineScale)
+        refreshControl.addTarget(self, action: #selector(pullToRefresh), for: .valueChanged)
+        refreshControl.addSubview(refreshIndicator!)
+        refreshIndicator!.snp.makeConstraints { make in
+            make.center.equalTo(refreshControl)
+            make.size.equalTo(20)
+        }
+        mainCollectionView.addSubview(refreshControl)
+        
+    }
+    
+    @objc func pullToRefresh() {
+        // Start animation here.
+        refreshIndicator?.startAnimating()
     }
 }
 
@@ -194,7 +214,8 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
                 }
                 
                 cell.gradientBg.startAnimation()
-                cell.viewsLabel.isHidden = false
+                //cell.viewsLabel.isHidden = false
+                cell.eyeImgView.isHidden = false
                 cell.newsTitle.text = newsList[indexPath.row].title
                 cell.subTitle.text = newsList[indexPath.row].subTitle
                 cell.hashtagsArray = newsList[indexPath.row].hashtags
@@ -375,7 +396,6 @@ extension HomeViewController: UITabBarControllerDelegate {
         return true
     }
 }
-
 
 //avoid preferredStatusBarStyle not being called
 extension UINavigationController {

@@ -38,11 +38,18 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="13,234" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iH5-Q6-ok1">
-                        <rect key="frame" x="232.5" y="171" width="46.5" height="17"/>
+                        <rect key="frame" x="268.5" y="171" width="46.5" height="17"/>
                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="14"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_eye" translatesAutoresizingMaskIntoConstraints="NO" id="dt2-ao-Yfa">
+                        <rect key="frame" x="248.5" y="172" width="15" height="15"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="15" id="8vS-ys-cXw"/>
+                            <constraint firstAttribute="height" constant="15" id="HXF-eW-zOp"/>
+                        </constraints>
+                    </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Long awaited one." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OMb-4P-InM">
                         <rect key="frame" x="20" y="97" width="145.5" height="22"/>
                         <fontDescription key="fontDescription" type="system" weight="light" pointSize="18"/>
@@ -67,20 +74,22 @@
             </view>
             <constraints>
                 <constraint firstItem="OMb-4P-InM" firstAttribute="top" secondItem="OBg-lJ-YT9" secondAttribute="bottom" constant="5" id="6bB-xX-L6N"/>
+                <constraint firstAttribute="trailing" secondItem="iH5-Q6-ok1" secondAttribute="trailing" constant="20" id="Fet-zh-JBg"/>
                 <constraint firstItem="GDe-vZ-uph" firstAttribute="leading" secondItem="v6h-AJ-5OJ" secondAttribute="leading" constant="20" id="KVh-KH-0hs"/>
                 <constraint firstItem="v6h-AJ-5OJ" firstAttribute="trailing" secondItem="OBg-lJ-YT9" secondAttribute="trailing" constant="20" id="NaG-KQ-Ddy"/>
                 <constraint firstItem="BNJ-B9-Qmu" firstAttribute="leading" secondItem="JeB-fL-mVD" secondAttribute="leading" constant="20" id="QtE-js-vKO"/>
                 <constraint firstItem="v6h-AJ-5OJ" firstAttribute="trailing" secondItem="bQK-He-l3L" secondAttribute="trailing" constant="19" id="RVM-WU-zVz"/>
+                <constraint firstAttribute="bottom" secondItem="iH5-Q6-ok1" secondAttribute="bottom" constant="15" id="TNG-Vl-hTC"/>
                 <constraint firstItem="v6h-AJ-5OJ" firstAttribute="bottom" secondItem="GDe-vZ-uph" secondAttribute="bottom" constant="15" id="aRR-5y-X9K"/>
-                <constraint firstItem="bQK-He-l3L" firstAttribute="leading" secondItem="iH5-Q6-ok1" secondAttribute="trailing" constant="5" id="dwk-tg-KRn"/>
                 <constraint firstAttribute="trailing" secondItem="g6i-rL-PO5" secondAttribute="trailing" id="g6f-W4-aX8"/>
-                <constraint firstItem="v6h-AJ-5OJ" firstAttribute="bottom" secondItem="iH5-Q6-ok1" secondAttribute="bottom" constant="15" id="gmE-8Y-UxU"/>
+                <constraint firstAttribute="bottom" secondItem="dt2-ao-Yfa" secondAttribute="bottom" constant="16" id="huE-K5-aM0"/>
                 <constraint firstItem="v6h-AJ-5OJ" firstAttribute="bottom" secondItem="bQK-He-l3L" secondAttribute="bottom" constant="16" id="j4W-bm-OD3"/>
                 <constraint firstItem="OBg-lJ-YT9" firstAttribute="top" secondItem="v6h-AJ-5OJ" secondAttribute="top" constant="60.5" id="nmC-0l-NDx"/>
                 <constraint firstItem="g6i-rL-PO5" firstAttribute="leading" secondItem="JeB-fL-mVD" secondAttribute="leading" id="ntN-ti-ynj"/>
                 <constraint firstItem="BNJ-B9-Qmu" firstAttribute="top" secondItem="JeB-fL-mVD" secondAttribute="top" constant="20" id="qtQ-3a-fHT"/>
                 <constraint firstItem="OBg-lJ-YT9" firstAttribute="leading" secondItem="v6h-AJ-5OJ" secondAttribute="leading" constant="20" id="rKD-o3-UJd"/>
                 <constraint firstItem="g6i-rL-PO5" firstAttribute="top" secondItem="JeB-fL-mVD" secondAttribute="top" constant="18" id="s6K-6H-JXR"/>
+                <constraint firstItem="iH5-Q6-ok1" firstAttribute="leading" secondItem="dt2-ao-Yfa" secondAttribute="trailing" constant="5" id="t6Q-Rb-GMH"/>
                 <constraint firstItem="OMb-4P-InM" firstAttribute="leading" secondItem="v6h-AJ-5OJ" secondAttribute="leading" constant="20" id="uHZ-vG-dpu"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="v6h-AJ-5OJ"/>
@@ -88,6 +97,7 @@
             <connections>
                 <outlet property="countLabel" destination="iH5-Q6-ok1" id="r63-Qt-xmK"/>
                 <outlet property="dummyTagLabel" destination="BNJ-B9-Qmu" id="9zL-Gd-hU3"/>
+                <outlet property="eyeImgView" destination="dt2-ao-Yfa" id="e89-7f-ls5"/>
                 <outlet property="hashtagsCollectionView" destination="g6i-rL-PO5" id="K7O-RJ-j1K"/>
                 <outlet property="newsTitle" destination="OBg-lJ-YT9" id="xGd-b4-Ck8"/>
                 <outlet property="subTitle" destination="OMb-4P-InM" id="BQg-Jh-g5H"/>
@@ -102,4 +112,7 @@
             <point key="canvasLocation" x="207" y="182"/>
         </collectionViewCell>
     </objects>
+    <resources>
+        <image name="icon_eye" width="15" height="15"/>
+    </resources>
 </document>

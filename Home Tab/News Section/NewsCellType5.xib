@@ -37,8 +37,15 @@
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_eye" translatesAutoresizingMaskIntoConstraints="NO" id="Rtl-n5-zpR">
+                        <rect key="frame" x="258" y="172" width="15" height="15"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="15" id="P1O-bY-abt"/>
+                            <constraint firstAttribute="height" constant="15" id="van-WW-OyO"/>
+                        </constraints>
+                    </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YJ0-pr-JGW">
-                        <rect key="frame" x="243" y="171" width="37" height="17"/>
+                        <rect key="frame" x="278" y="171" width="37" height="17"/>
                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="14"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
@@ -65,15 +72,17 @@
                 <constraint firstItem="J4L-to-cZa" firstAttribute="trailing" secondItem="vjr-wZ-M7C" secondAttribute="trailing" constant="20" id="1ze-Wf-PoK"/>
                 <constraint firstItem="iR0-GX-xeH" firstAttribute="leading" secondItem="J4L-to-cZa" secondAttribute="leading" constant="20" id="3na-jK-0g6"/>
                 <constraint firstItem="J4L-to-cZa" firstAttribute="trailing" secondItem="iR0-GX-xeH" secondAttribute="trailing" constant="20" id="7aO-K5-NOi"/>
+                <constraint firstItem="YJ0-pr-JGW" firstAttribute="leading" secondItem="Rtl-n5-zpR" secondAttribute="trailing" constant="5" id="8cf-74-jXD"/>
                 <constraint firstItem="Ro4-9O-hwk" firstAttribute="leading" secondItem="2Z7-VV-NDf" secondAttribute="leading" id="CE0-eE-SfS"/>
                 <constraint firstItem="J4L-to-cZa" firstAttribute="bottom" secondItem="Gxy-lU-G1M" secondAttribute="bottom" constant="15" id="Gri-lA-hs1"/>
+                <constraint firstAttribute="trailing" secondItem="YJ0-pr-JGW" secondAttribute="trailing" constant="20" id="Ied-Xo-Zaa"/>
                 <constraint firstItem="J4L-to-cZa" firstAttribute="bottom" secondItem="vjr-wZ-M7C" secondAttribute="bottom" constant="16" id="XQw-cr-Ioq"/>
                 <constraint firstItem="f0Q-SS-RPi" firstAttribute="top" secondItem="iR0-GX-xeH" secondAttribute="bottom" constant="5" id="XTz-9w-kcV"/>
                 <constraint firstItem="Gxy-lU-G1M" firstAttribute="top" secondItem="Ro4-9O-hwk" secondAttribute="bottom" constant="12" id="a3q-ZQ-1nb"/>
-                <constraint firstItem="J4L-to-cZa" firstAttribute="bottom" secondItem="YJ0-pr-JGW" secondAttribute="bottom" constant="15" id="aGc-7G-fnZ"/>
+                <constraint firstAttribute="bottom" secondItem="Rtl-n5-zpR" secondAttribute="bottom" constant="16" id="eVt-Mo-t3d"/>
                 <constraint firstItem="iR0-GX-xeH" firstAttribute="top" secondItem="J4L-to-cZa" secondAttribute="top" constant="20.5" id="kGW-Nl-E9x"/>
                 <constraint firstItem="f0Q-SS-RPi" firstAttribute="leading" secondItem="J4L-to-cZa" secondAttribute="leading" constant="20" id="kvS-4k-M8P"/>
-                <constraint firstItem="vjr-wZ-M7C" firstAttribute="leading" secondItem="YJ0-pr-JGW" secondAttribute="trailing" constant="4" id="tKf-MV-WHA"/>
+                <constraint firstAttribute="bottom" secondItem="YJ0-pr-JGW" secondAttribute="bottom" constant="15" id="rEd-So-DN4"/>
                 <constraint firstItem="Gxy-lU-G1M" firstAttribute="leading" secondItem="J4L-to-cZa" secondAttribute="leading" constant="20" id="zmW-pV-kfJ"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="J4L-to-cZa"/>
@@ -89,4 +98,7 @@
             <point key="canvasLocation" x="207" y="182"/>
         </collectionViewCell>
     </objects>
+    <resources>
+        <image name="icon_eye" width="15" height="15"/>
+    </resources>
 </document>

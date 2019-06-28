@@ -60,13 +60,14 @@ class NewsCellType3: UICollectionViewCell {
         subTitle.textColor = .whiteText()
         
         timeLabel.text = "3 days ago"
-        timeLabel.textColor = .whiteText()
+        timeLabel.textColor = .whiteText50Alpha()
         
         countLabel.text = "2,636"
         countLabel.textColor = .whiteText()
         
         viewsLabel.text = "views"
         viewsLabel.textColor = .whiteText()
+        viewsLabel.isHidden = true
         
         bgImgView = UIImageView()
         bgImgView.frame = CGRect(x: 0, y: 0, width: Self.width, height: Self.height)

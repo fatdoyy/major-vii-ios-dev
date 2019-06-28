@@ -37,8 +37,15 @@
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_eye" translatesAutoresizingMaskIntoConstraints="NO" id="mss-ol-7QD">
+                        <rect key="frame" x="258" y="172" width="15" height="15"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="15" id="IwU-Oi-5Kf"/>
+                            <constraint firstAttribute="width" constant="15" id="NH2-4u-Ybi"/>
+                        </constraints>
+                    </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tj5-E1-OH0">
-                        <rect key="frame" x="243" y="171" width="37" height="17"/>
+                        <rect key="frame" x="278" y="171" width="37" height="17"/>
                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="14"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
@@ -65,17 +72,19 @@
             <constraints>
                 <constraint firstItem="yto-Ta-Hjf" firstAttribute="leading" secondItem="bcE-LQ-mqZ" secondAttribute="leading" id="04o-r2-YB1"/>
                 <constraint firstItem="zWT-PS-wsJ" firstAttribute="leading" secondItem="SBn-7X-vzw" secondAttribute="leading" constant="20" id="1XS-Qb-Kca"/>
+                <constraint firstItem="tj5-E1-OH0" firstAttribute="leading" secondItem="mss-ol-7QD" secondAttribute="trailing" constant="5" id="AcY-oq-En6"/>
+                <constraint firstAttribute="bottom" secondItem="mss-ol-7QD" secondAttribute="bottom" constant="16" id="I9J-sA-86r"/>
                 <constraint firstItem="6dw-wb-Z9x" firstAttribute="leading" secondItem="SBn-7X-vzw" secondAttribute="leading" constant="20" id="PEF-iL-x55"/>
                 <constraint firstItem="yto-Ta-Hjf" firstAttribute="top" secondItem="bcE-LQ-mqZ" secondAttribute="top" constant="18" id="Rdz-1F-PPU"/>
                 <constraint firstItem="6dw-wb-Z9x" firstAttribute="top" secondItem="SBn-7X-vzw" secondAttribute="top" constant="60.5" id="Srh-ei-5uA"/>
+                <constraint firstAttribute="bottom" secondItem="tj5-E1-OH0" secondAttribute="bottom" constant="15" id="UfF-Gz-pp4"/>
                 <constraint firstItem="SBn-7X-vzw" firstAttribute="bottom" secondItem="zWT-PS-wsJ" secondAttribute="bottom" constant="15" id="WHk-Jw-Mck"/>
                 <constraint firstItem="IzX-4N-Yok" firstAttribute="leading" secondItem="SBn-7X-vzw" secondAttribute="leading" constant="20" id="aG8-Kh-75o"/>
-                <constraint firstItem="SBn-7X-vzw" firstAttribute="bottom" secondItem="tj5-E1-OH0" secondAttribute="bottom" constant="15" id="cNH-V7-atS"/>
                 <constraint firstAttribute="trailing" secondItem="yto-Ta-Hjf" secondAttribute="trailing" id="eFu-J4-WFS"/>
-                <constraint firstItem="jQy-iH-t2E" firstAttribute="leading" secondItem="tj5-E1-OH0" secondAttribute="trailing" constant="4" id="eNn-Za-BKk"/>
                 <constraint firstItem="SBn-7X-vzw" firstAttribute="trailing" secondItem="jQy-iH-t2E" secondAttribute="trailing" constant="20" id="ebn-8S-F9b"/>
                 <constraint firstAttribute="trailing" secondItem="IzX-4N-Yok" secondAttribute="trailing" constant="20" id="hLu-PO-0ip"/>
                 <constraint firstItem="SBn-7X-vzw" firstAttribute="trailing" secondItem="6dw-wb-Z9x" secondAttribute="trailing" constant="20" id="hdS-F4-7F6"/>
+                <constraint firstAttribute="trailing" secondItem="tj5-E1-OH0" secondAttribute="trailing" constant="20" id="iPx-9O-8g4"/>
                 <constraint firstItem="SBn-7X-vzw" firstAttribute="bottom" secondItem="jQy-iH-t2E" secondAttribute="bottom" constant="16" id="oz6-IH-xmn"/>
                 <constraint firstItem="IzX-4N-Yok" firstAttribute="top" secondItem="6dw-wb-Z9x" secondAttribute="bottom" constant="5" id="wi3-G9-drb"/>
             </constraints>
@@ -92,4 +101,7 @@
             <point key="canvasLocation" x="207" y="182"/>
         </collectionViewCell>
     </objects>
+    <resources>
+        <image name="icon_eye" width="15" height="15"/>
+    </resources>
 </document>

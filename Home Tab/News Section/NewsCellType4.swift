@@ -18,6 +18,7 @@ class NewsCellType4: UICollectionViewCell {
     @IBOutlet weak var subTitle: UILabel!
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var viewsLabel: UILabel!
+    @IBOutlet weak var eyeImgView: UIImageView!
     @IBOutlet weak var countLabel: UILabel!
     @IBOutlet weak var dummyTagLabel: UILabel!
     @IBOutlet weak var hashtagsCollectionView: UICollectionView!
@@ -95,12 +96,14 @@ class NewsCellType4: UICollectionViewCell {
         
         subTitle.textColor = .whiteText()
         
-        timeLabel.textColor = .whiteText()
+        timeLabel.textColor = .whiteText50Alpha()
         
         countLabel.textColor = .whiteText()
         
         viewsLabel.textColor = .whiteText()
         viewsLabel.isHidden = true
+        
+        eyeImgView.isHidden = true
     }
     
     override func prepareForReuse() {

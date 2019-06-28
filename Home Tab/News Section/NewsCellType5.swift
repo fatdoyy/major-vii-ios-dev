@@ -80,14 +80,14 @@ class NewsCellType5: UICollectionViewCell {
         subTitle.textColor = .whiteText()
         
         timeLabel.text = "3 days ago"
-        timeLabel.textColor = .whiteText()
+        timeLabel.textColor = .whiteText50Alpha()
         
         countLabel.text = "2,636"
         countLabel.textColor = .whiteText()
         
         viewsLabel.text = "views"
         viewsLabel.textColor = .whiteText()
-        
+        viewsLabel.isHidden = true
     }
     
     override func prepareForReuse() {
