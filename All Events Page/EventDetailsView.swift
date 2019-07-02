@@ -71,7 +71,7 @@ class EventDetailsView: UIView {
         commonInit()
     }
     
-    private func commonInit(){
+    private func commonInit() {
         Bundle.main.loadNibNamed("EventDetailsView", owner: self, options: nil)
         addSubview(contentView)
         contentView.frame = self.bounds

@@ -32,6 +32,8 @@
 		9639217121ABCA3000BA515A /* EventDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9639217021ABCA3000BA515A /* EventDetailsView.swift */; };
 		9639217421AD1C4500BA515A /* HashtagCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9639217221AD1C4500BA515A /* HashtagCell.swift */; };
 		9639217521AD1C4500BA515A /* HashtagCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9639217321AD1C4500BA515A /* HashtagCell.xib */; };
+		963E7FB022CB30EC00009DA7 /* CustomRefreshControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 963E7FAF22CB30EC00009DA7 /* CustomRefreshControl.swift */; };
+		963E7FB222CB315C00009DA7 /* CustomRefreshControl.xib in Resources */ = {isa = PBXBuildFile; fileRef = 963E7FB122CB315C00009DA7 /* CustomRefreshControl.xib */; };
 		9643C498224DF76F00730DAB /* MapMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9643C497224DF76F00730DAB /* MapMarker.swift */; };
 		964761ED2186FAAD0004F58C /* BaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 964761EC2186FAAD0004F58C /* BaseService.swift */; };
 		964761EF21870EE60004F58C /* NewsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 964761EE21870EE60004F58C /* NewsService.swift */; };
@@ -176,6 +178,8 @@
 		9639217021ABCA3000BA515A /* EventDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDetailsView.swift; sourceTree = "<group>"; };
 		9639217221AD1C4500BA515A /* HashtagCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HashtagCell.swift; sourceTree = "<group>"; };
 		9639217321AD1C4500BA515A /* HashtagCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HashtagCell.xib; sourceTree = "<group>"; };
+		963E7FAF22CB30EC00009DA7 /* CustomRefreshControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomRefreshControl.swift; sourceTree = "<group>"; };
+		963E7FB122CB315C00009DA7 /* CustomRefreshControl.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomRefreshControl.xib; sourceTree = "<group>"; };
 		9643C497224DF76F00730DAB /* MapMarker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapMarker.swift; sourceTree = "<group>"; };
 		964761EC2186FAAD0004F58C /* BaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseService.swift; sourceTree = "<group>"; };
 		964761EE21870EE60004F58C /* NewsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsService.swift; sourceTree = "<group>"; };
@@ -362,6 +366,15 @@
 			path = GIFs;
 			sourceTree = "<group>";
 		};
+		963E7FAE22CB2F6400009DA7 /* Custom Refresh Control */ = {
+			isa = PBXGroup;
+			children = (
+				963E7FAF22CB30EC00009DA7 /* CustomRefreshControl.swift */,
+				963E7FB122CB315C00009DA7 /* CustomRefreshControl.xib */,
+			);
+			name = "Custom Refresh Control";
+			sourceTree = "<group>";
+		};
 		964761EA2186F6D30004F58C /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -444,6 +457,7 @@
 		966A6CBD217DBC2C00DF872F /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				963E7FAE22CB2F6400009DA7 /* Custom Refresh Control */,
 				9620021621DDF1640055D070 /* Login */,
 				966A6CB7217DB5F500DF872F /* TabBarViewController.swift */,
 				966A6CC9217DE6AC00DF872F /* Home Tab */,
@@ -739,6 +753,7 @@
 				96F3732E224CBD850088E142 /* BookmarkedEventCollectionHeaderView.xib in Resources */,
 				96C5542F2192C6730065D70A /* FollowingCell.xib in Resources */,
 				96DEB1EE22378446005F87F4 /* BuskerProfileEventCell.xib in Resources */,
+				963E7FB222CB315C00009DA7 /* CustomRefreshControl.xib in Resources */,
 				965838C321831866000FE8B0 /* NewsCellType5.xib in Resources */,
 				96F3732A224C9B280088E142 /* BookmarkedEventCell.xib in Resources */,
 				96AC42F322327F9600F9D62C /* BuskerProfileMemberCell.xib in Resources */,
@@ -861,6 +876,7 @@
 				965798B222266BC500A03BE9 /* BuskerProfileViewController.swift in Sources */,
 				966A6CC3217DBDAF00DF872F /* EventsViewController.swift in Sources */,
 				9620025E21E5E5490055D070 /* UIView+Xib.swift in Sources */,
+				963E7FB022CB30EC00009DA7 /* CustomRefreshControl.swift in Sources */,
 				9643C498224DF76F00730DAB /* MapMarker.swift in Sources */,
 				96625F7B21C793DA0086A2B2 /* EventService.swift in Sources */,
 				965798B52226706C00A03BE9 /* BuskerProfileImgCell.swift in Sources */,

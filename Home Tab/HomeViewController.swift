@@ -14,7 +14,15 @@ import NVActivityIndicatorView
 class HomeViewController: UIViewController {
     weak var previousController: UIViewController? //for tabbar scroll to top
     
-    let refreshControl = UIRefreshControl()
+    var customRefreshControl: UIRefreshControl = {
+        let refreshControl = UIRefreshControl()
+        refreshControl.backgroundColor = .clear
+        refreshControl.tintColor = .clear
+        refreshControl.addTarget(self, action: #selector(refreshCollectionView), for: .valueChanged)
+        return refreshControl
+    }()
+    
+    var refreshView: CustomRefreshControl!
     var refreshIndicator: NVActivityIndicatorView?
     var coverImagesUrl: [String] = []
     var newsList: [News] = []
@@ -30,7 +38,8 @@ class HomeViewController: UIViewController {
         view.backgroundColor = .darkGray()
         navigationController?.interactivePopGestureRecognizer?.delegate = self
         tabBarController?.delegate = self
-        setupRefreshControl()
+        mainCollectionView.refreshControl = customRefreshControl
+        getRefereshView()
         
         //check if we need to present loginVC
         if UserService.User.isLoggedIn() == false {
@@ -122,25 +131,22 @@ class HomeViewController: UIViewController {
             }.catch { error in }
     }
     
-    private func setupRefreshControl() {
-        //hide default spinner
-        refreshControl.tintColor = .clear
-        refreshControl.subviews.first?.alpha = 0
-        
-        refreshIndicator = NVActivityIndicatorView(frame: refreshControl.bounds, type: .lineScale)
-        refreshControl.addTarget(self, action: #selector(pullToRefresh), for: .valueChanged)
-        refreshControl.addSubview(refreshIndicator!)
-        refreshIndicator!.snp.makeConstraints { make in
-            make.center.equalTo(refreshControl)
-            make.size.equalTo(20)
+    func getRefereshView() {
+        if let objOfRefreshView = Bundle.main.loadNibNamed("CustomRefreshControl", owner: self, options: nil)?.first as? CustomRefreshControl {
+            // Initializing the 'refreshView'
+            refreshView = objOfRefreshView
+            // Giving the frame as per 'tableViewRefreshControl'
+            refreshView.frame = customRefreshControl.frame
+            // Adding the 'refreshView' to 'tableViewRefreshControl'
+            refreshView.setupUI()
+            customRefreshControl.addSubview(refreshView)
         }
-        mainCollectionView.addSubview(refreshControl)
-        
     }
     
-    @objc func pullToRefresh() {
+    @objc func refreshCollectionView() {
         // Start animation here.
-        refreshIndicator?.startAnimating()
+        //refreshIndicator?.startAnimating()
+        print("refreshing")
     }
 }
 
