@@ -32,8 +32,6 @@
 		9639217121ABCA3000BA515A /* EventDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9639217021ABCA3000BA515A /* EventDetailsView.swift */; };
 		9639217421AD1C4500BA515A /* HashtagCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9639217221AD1C4500BA515A /* HashtagCell.swift */; };
 		9639217521AD1C4500BA515A /* HashtagCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9639217321AD1C4500BA515A /* HashtagCell.xib */; };
-		963E7FB022CB30EC00009DA7 /* CustomRefreshControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 963E7FAF22CB30EC00009DA7 /* CustomRefreshControl.swift */; };
-		963E7FB222CB315C00009DA7 /* CustomRefreshControl.xib in Resources */ = {isa = PBXBuildFile; fileRef = 963E7FB122CB315C00009DA7 /* CustomRefreshControl.xib */; };
 		9643C498224DF76F00730DAB /* MapMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9643C497224DF76F00730DAB /* MapMarker.swift */; };
 		964761ED2186FAAD0004F58C /* BaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 964761EC2186FAAD0004F58C /* BaseService.swift */; };
 		964761EF21870EE60004F58C /* NewsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 964761EE21870EE60004F58C /* NewsService.swift */; };
@@ -57,6 +55,8 @@
 		96625F7B21C793DA0086A2B2 /* EventService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96625F7A21C793DA0086A2B2 /* EventService.swift */; };
 		96625F7D21C7ABFE0086A2B2 /* GradientLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96625F7C21C7ABFE0086A2B2 /* GradientLayer.swift */; };
 		96625F7F21C8C8030086A2B2 /* EventDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96625F7E21C8C8030086A2B2 /* EventDetails.swift */; };
+		96642E6B22CCA436003A9188 /* RefreshView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96642E6922CCA434003A9188 /* RefreshView.xib */; };
+		96642E6C22CCA436003A9188 /* RefreshView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96642E6A22CCA435003A9188 /* RefreshView.swift */; };
 		966A6CB8217DB5F500DF872F /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 966A6CB7217DB5F500DF872F /* TabBarViewController.swift */; };
 		966A6CBC217DB86D00DF872F /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 966A6CBB217DB86D00DF872F /* HomeViewController.swift */; };
 		966A6CBF217DBD7F00DF872F /* BuskersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 966A6CBE217DBD7F00DF872F /* BuskersViewController.swift */; };
@@ -178,8 +178,6 @@
 		9639217021ABCA3000BA515A /* EventDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDetailsView.swift; sourceTree = "<group>"; };
 		9639217221AD1C4500BA515A /* HashtagCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HashtagCell.swift; sourceTree = "<group>"; };
 		9639217321AD1C4500BA515A /* HashtagCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HashtagCell.xib; sourceTree = "<group>"; };
-		963E7FAF22CB30EC00009DA7 /* CustomRefreshControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomRefreshControl.swift; sourceTree = "<group>"; };
-		963E7FB122CB315C00009DA7 /* CustomRefreshControl.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomRefreshControl.xib; sourceTree = "<group>"; };
 		9643C497224DF76F00730DAB /* MapMarker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapMarker.swift; sourceTree = "<group>"; };
 		964761EC2186FAAD0004F58C /* BaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseService.swift; sourceTree = "<group>"; };
 		964761EE21870EE60004F58C /* NewsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsService.swift; sourceTree = "<group>"; };
@@ -203,6 +201,8 @@
 		96625F7A21C793DA0086A2B2 /* EventService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventService.swift; sourceTree = "<group>"; };
 		96625F7C21C7ABFE0086A2B2 /* GradientLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientLayer.swift; sourceTree = "<group>"; };
 		96625F7E21C8C8030086A2B2 /* EventDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDetails.swift; sourceTree = "<group>"; };
+		96642E6922CCA434003A9188 /* RefreshView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RefreshView.xib; sourceTree = "<group>"; };
+		96642E6A22CCA435003A9188 /* RefreshView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RefreshView.swift; sourceTree = "<group>"; };
 		966A6CB7217DB5F500DF872F /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		966A6CBB217DB86D00DF872F /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		966A6CBE217DBD7F00DF872F /* BuskersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuskersViewController.swift; sourceTree = "<group>"; };
@@ -369,8 +369,8 @@
 		963E7FAE22CB2F6400009DA7 /* Custom Refresh Control */ = {
 			isa = PBXGroup;
 			children = (
-				963E7FAF22CB30EC00009DA7 /* CustomRefreshControl.swift */,
-				963E7FB122CB315C00009DA7 /* CustomRefreshControl.xib */,
+				96642E6A22CCA435003A9188 /* RefreshView.swift */,
+				96642E6922CCA434003A9188 /* RefreshView.xib */,
 			);
 			name = "Custom Refresh Control";
 			sourceTree = "<group>";
@@ -753,7 +753,6 @@
 				96F3732E224CBD850088E142 /* BookmarkedEventCollectionHeaderView.xib in Resources */,
 				96C5542F2192C6730065D70A /* FollowingCell.xib in Resources */,
 				96DEB1EE22378446005F87F4 /* BuskerProfileEventCell.xib in Resources */,
-				963E7FB222CB315C00009DA7 /* CustomRefreshControl.xib in Resources */,
 				965838C321831866000FE8B0 /* NewsCellType5.xib in Resources */,
 				96F3732A224C9B280088E142 /* BookmarkedEventCell.xib in Resources */,
 				96AC42F322327F9600F9D62C /* BuskerProfileMemberCell.xib in Resources */,
@@ -778,6 +777,7 @@
 				965838BB2181CAFE000FE8B0 /* NewsCellType3.xib in Resources */,
 				966A6CE121808BB100DF872F /* NewsCellType1.xib in Resources */,
 				9620022E21E4AF000055D070 /* gif4.gif in Resources */,
+				96642E6B22CCA436003A9188 /* RefreshView.xib in Resources */,
 				96C5544D219408580065D70A /* FeaturedCell.xib in Resources */,
 				96DEB1F22237B08B005F87F4 /* BuskerProfilePostCell.xib in Resources */,
 				9620021A21DDFDC20055D070 /* LoginView.xib in Resources */,
@@ -864,6 +864,7 @@
 				96B34DEC224F599E00D9F236 /* UIDevice.swift in Sources */,
 				966A6CBC217DB86D00DF872F /* HomeViewController.swift in Sources */,
 				967B56372248C2E3006F0AF9 /* SearchResultCell.swift in Sources */,
+				96642E6C22CCA436003A9188 /* RefreshView.swift in Sources */,
 				96F37326224BA1610088E142 /* FloatingPanelSettings.swift in Sources */,
 				96C5543A2192D9980065D70A /* BookmarkedCell.swift in Sources */,
 				96C5541F219199700065D70A /* TrendingSection.swift in Sources */,
@@ -876,7 +877,6 @@
 				965798B222266BC500A03BE9 /* BuskerProfileViewController.swift in Sources */,
 				966A6CC3217DBDAF00DF872F /* EventsViewController.swift in Sources */,
 				9620025E21E5E5490055D070 /* UIView+Xib.swift in Sources */,
-				963E7FB022CB30EC00009DA7 /* CustomRefreshControl.swift in Sources */,
 				9643C498224DF76F00730DAB /* MapMarker.swift in Sources */,
 				96625F7B21C793DA0086A2B2 /* EventService.swift in Sources */,
 				965798B52226706C00A03BE9 /* BuskerProfileImgCell.swift in Sources */,

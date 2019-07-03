@@ -22,14 +22,13 @@ class HomeViewController: UIViewController {
         return refreshControl
     }()
     
-    var refreshView: CustomRefreshControl!
+    var refreshView: RefreshView!
     var refreshIndicator: NVActivityIndicatorView?
     var coverImagesUrl: [String] = []
     var newsList: [News] = []
     var posts: [Post] = []
     var numberOfNews = 8 //news limit per request
-    var hasMoreNews = true
-    var cellType: Int?
+    var hasMoreNews = true //lazy loading
     
     @IBOutlet weak var mainCollectionView: UICollectionView!
     
@@ -44,12 +43,11 @@ class HomeViewController: UIViewController {
         //check if we need to present loginVC
         if UserService.User.isLoggedIn() == false {
             let loginVC = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "loginVC") as! LoginViewController
-//            loginVC.hero.isEnabled = true
-//            loginVC.hero.modalAnimationType = .selectBy(presenting: .zoom, dismissing: .zoomOut)
+            //            loginVC.hero.isEnabled = true
+            //            loginVC.hero.modalAnimationType = .selectBy(presenting: .zoom, dismissing: .zoomOut)
             self.present(loginVC, animated: true, completion: nil)
         }
         
-        mainCollectionView.isUserInteractionEnabled = false
         mainCollectionView.dataSource = self
         mainCollectionView.delegate = self
         
@@ -96,6 +94,7 @@ class HomeViewController: UIViewController {
     }
     
     private func getNews(skip: Int? = nil, limit: Int? = nil) {
+        mainCollectionView.isUserInteractionEnabled = false
         NewsService.getList(skip: skip, limit: limit).done { response -> () in
             //self.newsList = response.list
             self.newsList.append(contentsOf: response.list)
@@ -114,14 +113,18 @@ class HomeViewController: UIViewController {
             }.ensure {
                 self.mainCollectionView.isUserInteractionEnabled = true
                 UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                
+                //pull to refresh
+                self.refreshView.stopAnimation()
+                self.customRefreshControl.endRefreshing()
             }.catch { error in }
     }
-
+    
     private func getPosts(skip: Int? = nil, limit: Int? = nil) {
         PostService.getList(skip: skip, limit: limit).done { response -> () in
             //self.newsList = response.list
             self.posts.append(contentsOf: response.list)
-
+            
             print(self.posts[0].content!)
             
             //self.mainCollectionView.reloadData()
@@ -132,7 +135,7 @@ class HomeViewController: UIViewController {
     }
     
     func getRefereshView() {
-        if let objOfRefreshView = Bundle.main.loadNibNamed("CustomRefreshControl", owner: self, options: nil)?.first as? CustomRefreshControl {
+        if let objOfRefreshView = Bundle.main.loadNibNamed("RefreshView", owner: self, options: nil)?.first as? RefreshView {
             // Initializing the 'refreshView'
             refreshView = objOfRefreshView
             // Giving the frame as per 'tableViewRefreshControl'
@@ -145,8 +148,17 @@ class HomeViewController: UIViewController {
     
     @objc func refreshCollectionView() {
         // Start animation here.
-        //refreshIndicator?.startAnimating()
+        refreshView.startAnimation()
         print("refreshing")
+        
+        //get events again
+        
+        //get news again
+        newsList.removeAll()
+        mainCollectionView.reloadData()
+        hasMoreNews = true
+        getNews()
+        
     }
 }
 
@@ -171,90 +183,98 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
             cell.eventsCollectionView.reloadData()
             return cell
         } else { //news section
-            if !newsList.isEmpty { self.cellType = newsList[indexPath.row].cellType! }
-            
-            switch cellType {
-            case 1:
-                let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: NewsCellType1.reuseIdentifier, for: indexPath) as! NewsCellType1
-                
-                //Hashtag.createAtCell(cell: cell, position: .cellTop, dataSource: newsList[indexPath.row].hashtags, multiLines: true, solidColor: true)
-                cell.newsTitle.text = newsList[indexPath.row].title
-                cell.hashtagsArray = newsList[indexPath.row].hashtags
-                //cell.bgImgView.sd_imageTransition = .fade
-                if let url = URL(string: newsList[indexPath.row].coverImages[0].secureUrl!){
-                    cell.bgImgView.kf.setImage(with: url, options: [.transition(.fade(0.4))])
-                }
-                
-                return cell
-            case 2:
-                let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: NewsCellType2.reuseIdentifier, for: indexPath) as! NewsCellType2
-                
-                cell.newsTitle.text = newsList[indexPath.row].title
-                cell.hashtagsArray = newsList[indexPath.row].hashtags
-                
-                if let url = URL(string: newsList[indexPath.row].coverImages[0].secureUrl!){
-                    cell.bgImgView.kf.setImage(with: url, options: [.transition(.fade(0.4))])
-                }
-                
-                return cell
-            case 3:
-                let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: NewsCellType3.reuseIdentifier, for: indexPath) as! NewsCellType3
-                
-                cell.newsTitle.text = newsList[indexPath.row].title
-                cell.subTitle.text = newsList[indexPath.row].subTitle
-                cell.hashtagsArray = newsList[indexPath.row].hashtags
-
-                if let url = URL(string: newsList[indexPath.row].coverImages[0].secureUrl!){
-                    cell.bgImgView.kf.setImage(with: url, options: [.transition(.fade(0.4))])
-                }
-                
-                return cell
-            case 4:
-                let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: NewsCellType4.reuseIdentifier, for: indexPath) as! NewsCellType4
-                
-                for view in cell.skeletonViews{ //hide all skeleton views because template 4 is the default template
-                    if view.tag == 2 { //remove dummyTagLabel
-                        view.removeFromSuperview()
+            if !newsList.isEmpty {
+                switch newsList[indexPath.row].cellType! {
+                case 1:
+                    let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: NewsCellType1.reuseIdentifier, for: indexPath) as! NewsCellType1
+                    
+                    //Hashtag.createAtCell(cell: cell, position: .cellTop, dataSource: newsList[indexPath.row].hashtags, multiLines: true, solidColor: true)
+                    cell.newsTitle.text = newsList[indexPath.row].title
+                    cell.hashtagsArray = newsList[indexPath.row].hashtags
+                    //cell.bgImgView.sd_imageTransition = .fade
+                    if let url = URL(string: newsList[indexPath.row].coverImages[0].secureUrl!){
+                        cell.bgImgView.kf.setImage(with: url, options: [.transition(.fade(0.4))])
                     }
-                    view.hideSkeleton()
+                    
+                    return cell
+                case 2:
+                    let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: NewsCellType2.reuseIdentifier, for: indexPath) as! NewsCellType2
+                    
+                    cell.newsTitle.text = newsList[indexPath.row].title
+                    cell.hashtagsArray = newsList[indexPath.row].hashtags
+                    
+                    if let url = URL(string: newsList[indexPath.row].coverImages[0].secureUrl!){
+                        cell.bgImgView.kf.setImage(with: url, options: [.transition(.fade(0.4))])
+                    }
+                    
+                    return cell
+                case 3:
+                    let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: NewsCellType3.reuseIdentifier, for: indexPath) as! NewsCellType3
+                    
+                    cell.newsTitle.text = newsList[indexPath.row].title
+                    cell.subTitle.text = newsList[indexPath.row].subTitle
+                    cell.hashtagsArray = newsList[indexPath.row].hashtags
+                    
+                    if let url = URL(string: newsList[indexPath.row].coverImages[0].secureUrl!){
+                        cell.bgImgView.kf.setImage(with: url, options: [.transition(.fade(0.4))])
+                    }
+                    
+                    return cell
+                case 4:
+                    let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: NewsCellType4.reuseIdentifier, for: indexPath) as! NewsCellType4
+                    
+                    for view in cell.skeletonViews{ //hide all skeleton views because template 4 is the default template
+                        if view.tag == 2 { //remove dummyTagLabel
+                            view.isHidden = true
+                        }
+                        view.hideSkeleton()
+                    }
+                    
+                    for view in cell.viewsToShowlater {
+                        view.isHidden = false
+                    }
+                    
+                    cell.gradientBg.isHidden = false
+                    cell.gradientBg.startAnimation()
+                    //cell.viewsLabel.isHidden = false
+                    cell.eyeImgView.isHidden = false
+                    cell.newsTitle.text = newsList[indexPath.row].title
+                    cell.subTitle.text = newsList[indexPath.row].subTitle
+                    cell.hashtagsArray = newsList[indexPath.row].hashtags
+                    
+                    return cell
+                case 5:
+                    let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: NewsCellType5.reuseIdentifier, for: indexPath) as! NewsCellType5
+                    
+                    cell.newsTitle.text = newsList[indexPath.row].title
+                    cell.subTitle.text = newsList[indexPath.row].subTitle
+                    cell.hashtagsArray = newsList[indexPath.row].hashtags
+                    
+                    return cell
+                default: //loading template
+                    let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: NewsCellType4.reuseIdentifier, for: indexPath) as! NewsCellType4
+                    return cell
                 }
-                
-                cell.gradientBg.startAnimation()
-                //cell.viewsLabel.isHidden = false
-                cell.eyeImgView.isHidden = false
-                cell.newsTitle.text = newsList[indexPath.row].title
-                cell.subTitle.text = newsList[indexPath.row].subTitle
-                cell.hashtagsArray = newsList[indexPath.row].hashtags
-                
-                return cell
-            case 5:
-                let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: NewsCellType5.reuseIdentifier, for: indexPath) as! NewsCellType5
-                
-                cell.newsTitle.text = newsList[indexPath.row].title
-                cell.subTitle.text = newsList[indexPath.row].subTitle
-                cell.hashtagsArray = newsList[indexPath.row].hashtags
-
-                return cell
-            default: //loading template
+            } else { // news list is empty
                 let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: NewsCellType4.reuseIdentifier, for: indexPath) as! NewsCellType4
                 return cell
             }
+            
+            
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         if (indexPath.row == newsList.count - 1 ) {
             print("need to fetch!")
-
+            
             hasMoreNews ? getNews(skip: self.newsList.count, limit: numberOfNews) : print("fetched all news!")
-
-            //if hasMoreNews { getNews(skip: self.newsList.count, limit: numberOfNews) } else { print("fetched all news!") }
         }
         
         let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: NewsCellType3.reuseIdentifier, for: indexPath) as! NewsCellType3
         
         cell.subTitle.restartLabel()
-
+        
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -262,10 +282,13 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
         // Upcoming events section
         if indexPath.section == 0 { return CGSize(width: width, height: EventsSection.height) } else {
             // News section
-            if !newsList.isEmpty { self.cellType = newsList[indexPath.row].cellType! }
-            switch cellType {
-            case 1, 2:  return CGSize(width: NewsCellType1.width, height: NewsCellType1.height)
-            default:    return CGSize(width: NewsCellType3.width, height: NewsCellType3.height)
+            if !newsList.isEmpty {
+                switch newsList[indexPath.row].cellType! {
+                case 1, 2:  return CGSize(width: NewsCellType1.width, height: NewsCellType1.height) //cell type 1,2 have same height
+                default:    return CGSize(width: NewsCellType3.width, height: NewsCellType3.height) //cell type 3,4,5 have same height
+                }
+            } else { //news list is empty
+                return CGSize(width: NewsCellType3.width, height: NewsCellType3.height)
             }
         }
     }
@@ -307,7 +330,7 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
             switch section {
             case 1: //News/Post Section
                 let footer = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: NewsSectionFooter.reuseIdentifier, for: indexPath) as! NewsSectionFooter
-    
+                
                 footer.sepLine.alpha = hasMoreNews ? 0 : 1
                 footer.copyrightLabel.alpha = hasMoreNews ? 0 : 1
                 footer.loadingIndicator.alpha = hasMoreNews ? 1 : 0

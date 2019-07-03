@@ -20,21 +20,24 @@ target 'major-7-ios' do
   pod 'GoogleSignIn'
   pod 'GoogleMaps'
   
+  #Networking
+  pod 'ReachabilitySwift'
+  pod 'Alamofire', '~> 4.8'
+  pod 'PromiseKit/CorePromise'
+  pod 'Kingfisher'                              # image downloading
+  pod 'Reqres'                                  # network activity logger
+  
   #General Pods
   pod 'Localize-Swift', '~> 2.0'                # localization
   pod 'DynamicColor', '~> 4.1'                  # UIColor extension
   pod 'SnapKit'                                 # layout constaints
   pod 'Pastel'                                  # dynamic gradient background
   pod 'ObjectMapper'                            # json mapping
-  pod 'Alamofire', '~> 4.8'                     # network requests
-  pod 'PromiseKit/CorePromise'                  # as title
   pod 'SkeletonView'                            # as title
   pod 'BouncyLayout'                            # UICollectionView animation
   pod 'AMScrollingNavbar'                       # UINavigationBar hiding
   pod 'MXParallaxHeader'                        # parallax header
   pod 'Floaty', '~> 4.1'                        # floating button
-  pod 'Kingfisher'                              # image downloading
-  pod 'Reqres'                                  # network activity logger
   pod 'JGProgressHUD'                           # progress hud
   pod 'SwiftGifOrigin', '~> 1.6'                # gif in UIImageView
   pod 'Bartinter'                               # update status bar style automatically

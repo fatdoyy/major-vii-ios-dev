@@ -23,10 +23,11 @@ class NewsCellType4: UICollectionViewCell {
     @IBOutlet weak var dummyTagLabel: UILabel!
     @IBOutlet weak var hashtagsCollectionView: UICollectionView!
     
-    @IBOutlet var skeletonViews: Array<UILabel>!
+    @IBOutlet var skeletonViews: Array<UIView>!
+    @IBOutlet var viewsToShowlater: Array<UIView>!
     
     var gradientBg = PastelView()
-    
+    let animation = SkeletonAnimationBuilder().makeSlidingAnimation(withDirection: .leftRight, duration: 2)
     var hashtagsArray: [String] = [] {
         didSet {
             hashtagsCollectionView.reloadData()
@@ -76,8 +77,7 @@ class NewsCellType4: UICollectionViewCell {
         
         //limiting the number of lines on iPhone SE because the screen is too small and will cause layout problems
         newsTitle.numberOfLines = UIDevice.current.type == .iPhone_5_5S_5C_SE ? 1 : 2
-        
-        let animation = SkeletonAnimationBuilder().makeSlidingAnimation(withDirection: .leftRight, duration: 2)
+
         newsTitle.tag = 1
         dummyTagLabel.tag = 2
         for view in skeletonViews{
@@ -88,6 +88,10 @@ class NewsCellType4: UICollectionViewCell {
             }
             view.isSkeletonable = true
             view.showAnimatedGradientSkeleton(animation: animation)
+        }
+        
+        for view in viewsToShowlater {
+            view.isHidden = true
         }
         
         newsTitle.lineBreakMode = .byTruncatingTail
@@ -103,11 +107,29 @@ class NewsCellType4: UICollectionViewCell {
         viewsLabel.textColor = .whiteText()
         viewsLabel.isHidden = true
         
-        eyeImgView.isHidden = true
     }
     
     override func prepareForReuse() {
         super.prepareForReuse()
+        for view in skeletonViews{
+            if view.tag == 1 {
+                SkeletonAppearance.default.multilineHeight = 20
+            } else {
+                SkeletonAppearance.default.multilineHeight = 15
+            }
+            if view.tag == 2 { //show dummyTagLabel
+                view.isHidden = false
+            }
+            view.isSkeletonable = true
+            view.showAnimatedGradientSkeleton(animation: animation)
+        }
+        
+        for view in viewsToShowlater {
+            view.isHidden = true
+        }
+        
+        hashtagsArray.removeAll()
+        gradientBg.isHidden = true
     }
     
     override var isHighlighted: Bool {
