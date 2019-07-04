@@ -26,8 +26,11 @@ class NewsCellType4: UICollectionViewCell {
     @IBOutlet var skeletonViews: Array<UIView>!
     @IBOutlet var viewsToShowlater: Array<UIView>!
     
+    @IBOutlet var newsTitleTopConstraint: NSLayoutConstraint!
+    
     var gradientBg = PastelView()
     let animation = SkeletonAnimationBuilder().makeSlidingAnimation(withDirection: .leftRight, duration: 2)
+    
     var hashtagsArray: [String] = [] {
         didSet {
             hashtagsCollectionView.reloadData()
@@ -100,7 +103,7 @@ class NewsCellType4: UICollectionViewCell {
         
         subTitle.textColor = .whiteText()
         
-        timeLabel.textColor = .whiteText50Alpha()
+        timeLabel.textColor = .lightGrayText()
         
         countLabel.textColor = .whiteText()
         
@@ -128,6 +131,9 @@ class NewsCellType4: UICollectionViewCell {
             view.isHidden = true
         }
         
+        newsTitle.snp.removeConstraints()
+        newsTitleTopConstraint.isActive = true
+
         hashtagsArray.removeAll()
         gradientBg.isHidden = true
     }

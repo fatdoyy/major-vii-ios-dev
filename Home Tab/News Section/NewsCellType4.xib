@@ -100,6 +100,7 @@
                 <outlet property="eyeImgView" destination="dt2-ao-Yfa" id="e89-7f-ls5"/>
                 <outlet property="hashtagsCollectionView" destination="g6i-rL-PO5" id="K7O-RJ-j1K"/>
                 <outlet property="newsTitle" destination="OBg-lJ-YT9" id="xGd-b4-Ck8"/>
+                <outlet property="newsTitleTopConstraint" destination="nmC-0l-NDx" id="GJc-GE-Ry0"/>
                 <outlet property="subTitle" destination="OMb-4P-InM" id="BQg-Jh-g5H"/>
                 <outlet property="timeLabel" destination="GDe-vZ-uph" id="dOD-6d-KYZ"/>
                 <outlet property="viewsLabel" destination="bQK-He-l3L" id="nT4-2U-UQ1"/>

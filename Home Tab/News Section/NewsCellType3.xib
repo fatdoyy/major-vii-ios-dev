@@ -94,6 +94,7 @@
                 <outlet property="countLabel" destination="tj5-E1-OH0" id="1wd-kD-fGZ"/>
                 <outlet property="hashtagsCollectionView" destination="yto-Ta-Hjf" id="U7V-Ku-9cX"/>
                 <outlet property="newsTitle" destination="6dw-wb-Z9x" id="uoY-YZ-OnU"/>
+                <outlet property="newsTitleTopConstraint" destination="Srh-ei-5uA" id="Qt6-MZ-7EU"/>
                 <outlet property="subTitle" destination="IzX-4N-Yok" id="aIS-MX-QrU"/>
                 <outlet property="timeLabel" destination="zWT-PS-wsJ" id="MfI-BM-Vs3"/>
                 <outlet property="viewsLabel" destination="jQy-iH-t2E" id="jsF-M3-N0D"/>

@@ -189,8 +189,10 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
                     let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: NewsCellType1.reuseIdentifier, for: indexPath) as! NewsCellType1
                     
                     //Hashtag.createAtCell(cell: cell, position: .cellTop, dataSource: newsList[indexPath.row].hashtags, multiLines: true, solidColor: true)
+                    let hashtagsArr = newsList[indexPath.row].hashtags
+                    if !hashtagsArr.isEmpty { cell.hashtagsArray = hashtagsArr }
+                    
                     cell.newsTitle.text = newsList[indexPath.row].title
-                    cell.hashtagsArray = newsList[indexPath.row].hashtags
                     //cell.bgImgView.sd_imageTransition = .fade
                     if let url = URL(string: newsList[indexPath.row].coverImages[0].secureUrl!){
                         cell.bgImgView.kf.setImage(with: url, options: [.transition(.fade(0.4))])
@@ -200,8 +202,10 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
                 case 2:
                     let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: NewsCellType2.reuseIdentifier, for: indexPath) as! NewsCellType2
                     
+                    let hashtagsArr = newsList[indexPath.row].hashtags
+                    if !hashtagsArr.isEmpty { cell.hashtagsArray = hashtagsArr }
+                    
                     cell.newsTitle.text = newsList[indexPath.row].title
-                    cell.hashtagsArray = newsList[indexPath.row].hashtags
                     
                     if let url = URL(string: newsList[indexPath.row].coverImages[0].secureUrl!){
                         cell.bgImgView.kf.setImage(with: url, options: [.transition(.fade(0.4))])
@@ -211,9 +215,15 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
                 case 3:
                     let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: NewsCellType3.reuseIdentifier, for: indexPath) as! NewsCellType3
                     
+                    let hashtagsArr = newsList[indexPath.row].hashtags
+                    if !hashtagsArr.isEmpty { cell.hashtagsArray = hashtagsArr } else {
+                        cell.newsTitleTopConstraint.isActive = false
+                        cell.newsTitle.snp.remakeConstraints { (make) in
+                            make.top.equalTo(25)
+                        }
+                    }
                     cell.newsTitle.text = newsList[indexPath.row].title
                     cell.subTitle.text = newsList[indexPath.row].subTitle
-                    cell.hashtagsArray = newsList[indexPath.row].hashtags
                     
                     if let url = URL(string: newsList[indexPath.row].coverImages[0].secureUrl!){
                         cell.bgImgView.kf.setImage(with: url, options: [.transition(.fade(0.4))])
@@ -236,19 +246,26 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
                     
                     cell.gradientBg.isHidden = false
                     cell.gradientBg.startAnimation()
-                    //cell.viewsLabel.isHidden = false
-                    cell.eyeImgView.isHidden = false
+                    
+                    let hashtagsArr = newsList[indexPath.row].hashtags
+                    if !hashtagsArr.isEmpty { cell.hashtagsArray = hashtagsArr } else {
+                        cell.newsTitleTopConstraint.isActive = false
+                        cell.newsTitle.snp.remakeConstraints { (make) in
+                            make.top.equalTo(25)
+                        }
+                    }
                     cell.newsTitle.text = newsList[indexPath.row].title
                     cell.subTitle.text = newsList[indexPath.row].subTitle
-                    cell.hashtagsArray = newsList[indexPath.row].hashtags
                     
                     return cell
                 case 5:
                     let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: NewsCellType5.reuseIdentifier, for: indexPath) as! NewsCellType5
                     
+                    let hashtagsArr = newsList[indexPath.row].hashtags
+                    if !hashtagsArr.isEmpty { cell.hashtagsArray = hashtagsArr }
+                    
                     cell.newsTitle.text = newsList[indexPath.row].title
                     cell.subTitle.text = newsList[indexPath.row].subTitle
-                    cell.hashtagsArray = newsList[indexPath.row].hashtags
                     
                     return cell
                 default: //loading template
@@ -386,7 +403,10 @@ extension HomeViewController: NewsSectionHeaderDelegate {
     func postsBtnTapped(sender: UIButton) {
         print("post btn tapped")
         //let indexSet = IndexSet(integer: 1)
-        mainCollectionView.reloadItems(inSection: 1)
+        //mainCollectionView.reloadItems(inSection: 1)
+        newsList.removeAll()
+        mainCollectionView.reloadData()
+        hasMoreNews = true
     }
 }
 

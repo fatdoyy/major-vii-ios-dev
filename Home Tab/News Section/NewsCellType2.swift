@@ -56,7 +56,7 @@ class NewsCellType2: UICollectionViewCell {
         newsTitle.textColor = .whiteText()
         
         timeLabel.text = "3 days ago"
-        timeLabel.textColor = .whiteText50Alpha()
+        timeLabel.textColor = .lightGrayText()
         
         countLabel.text = "2,636"
         countLabel.textColor = .whiteText()
@@ -81,6 +81,7 @@ class NewsCellType2: UICollectionViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         bgImgView.image = nil
+        hashtagsArray.removeAll()
     }
     
     override var isHighlighted: Bool {

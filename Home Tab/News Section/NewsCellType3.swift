@@ -26,6 +26,8 @@ class NewsCellType3: UICollectionViewCell {
     @IBOutlet weak var countLabel: UILabel!
     @IBOutlet weak var hashtagsCollectionView: UICollectionView!
     
+    @IBOutlet var newsTitleTopConstraint: NSLayoutConstraint!
+    
     var hashtagsArray: [String] = [] {
         didSet {
             hashtagsCollectionView.reloadData()
@@ -60,7 +62,7 @@ class NewsCellType3: UICollectionViewCell {
         subTitle.textColor = .whiteText()
         
         timeLabel.text = "3 days ago"
-        timeLabel.textColor = .whiteText50Alpha()
+        timeLabel.textColor = .lightGrayText()
         
         countLabel.text = "2,636"
         countLabel.textColor = .whiteText()
@@ -94,6 +96,9 @@ class NewsCellType3: UICollectionViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         bgImgView.image = nil
+        newsTitle.snp.removeConstraints()
+        newsTitleTopConstraint.isActive = true
+        hashtagsArray.removeAll()
     }
     
     override var isHighlighted: Bool {

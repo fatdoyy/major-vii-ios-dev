@@ -52,3 +52,11 @@ extension UIView {
         layer.rasterizationScale = scale ? UIScreen.main.scale : 1
     }
 }
+
+// Returns the first constraint with the given identifier, if available.
+extension UIView {
+    /// - Parameter identifier: The constraint identifier.
+    func constraintWithIdentifier(_ identifier: String) -> NSLayoutConstraint? {
+        return self.constraints.first { $0.identifier == identifier }
+    }
+}
