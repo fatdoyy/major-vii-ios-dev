@@ -192,14 +192,14 @@ extension NewsDetailViewController {
         swipeUpLabel.font = UIFont.systemFont(ofSize: 10, weight: .semibold)
         swipeUpLabel.textColor = .lightGrayText()
         swipeUpLabel.text = "Loading Content..."
-        self.detailUpperView.insertSubview(swipeUpLabel, aboveSubview: imgOverlay)
+        detailUpperView.insertSubview(swipeUpLabel, aboveSubview: imgOverlay)
         swipeUpLabel.snp.makeConstraints { (make) -> Void in
             make.centerX.equalToSuperview()
             make.bottom.equalTo(detailUpperView.snp.bottom).offset(UIDevice.current.hasHomeButton ? -20 : -40)
             make.width.equalTo(detailUpperView.snp.width).inset(UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20))
         }
         
-        self.detailUpperView.insertSubview(loadingIndicator, aboveSubview: imgOverlay)
+        detailUpperView.insertSubview(loadingIndicator, aboveSubview: imgOverlay)
         loadingIndicator.snp.makeConstraints { (make) -> Void in
             make.centerX.equalToSuperview()
             make.size.equalTo(15)
@@ -208,7 +208,7 @@ extension NewsDetailViewController {
         
         swipeUpImg.alpha = 0
         swipeUpImg.image = UIImage(named: "icon_swipe_up")
-        self.detailUpperView.insertSubview(swipeUpImg, aboveSubview: imgOverlay)
+        detailUpperView.insertSubview(swipeUpImg, aboveSubview: imgOverlay)
         swipeUpImg.snp.makeConstraints { (make) -> Void in
             make.centerX.equalToSuperview()
             make.size.equalTo(25)
@@ -221,8 +221,7 @@ extension NewsDetailViewController {
         viewsLabel.numberOfLines = 1
         viewsLabel.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
         viewsLabel.textColor = .topazText()
-        viewsLabel.text = "Today | 1,234 views"
-        self.detailUpperView.insertSubview(viewsLabel, aboveSubview: imgOverlay)
+        detailUpperView.insertSubview(viewsLabel, aboveSubview: imgOverlay)
         viewsLabel.snp.makeConstraints { (make) -> Void in
             make.centerX.equalToSuperview()
             make.bottom.equalTo(swipeUpImg.snp.top).offset(-15)
@@ -232,11 +231,10 @@ extension NewsDetailViewController {
         
         descLabel.alpha = 0
         descLabel.textAlignment = .left
-        descLabel.numberOfLines = 2
+        descLabel.numberOfLines = 0
         descLabel.font = UIFont.systemFont(ofSize: 14, weight: .medium)
         descLabel.textColor = .lightGrayText()
-        descLabel.text = "Pimp up your home with latest design classics and smart helpers."
-        self.detailUpperView.insertSubview(descLabel, aboveSubview: imgOverlay)
+        detailUpperView.insertSubview(descLabel, aboveSubview: imgOverlay)
         descLabel.snp.makeConstraints { (make) -> Void in
             make.centerX.equalToSuperview()
             make.bottom.equalTo(viewsLabel.snp.top).offset(-20)
@@ -245,11 +243,10 @@ extension NewsDetailViewController {
         
         titleLabel.alpha = 0
         titleLabel.textAlignment = .left
-        titleLabel.numberOfLines = 2
+        titleLabel.numberOfLines = 0
         titleLabel.font = UIFont.systemFont(ofSize: 24, weight: .semibold)
         titleLabel.textColor = .white
-        titleLabel.text = "JL is releasing an brand new album."
-        self.detailUpperView.insertSubview(titleLabel, aboveSubview: imgOverlay)
+        detailUpperView.insertSubview(titleLabel, aboveSubview: imgOverlay)
         titleLabel.snp.makeConstraints { (make) -> Void in
             make.centerX.equalToSuperview()
             make.bottom.equalTo(descLabel.snp.top).offset(-10)
@@ -265,7 +262,7 @@ extension NewsDetailViewController {
         pageControl.tintColor = .white
         pageControl.currentPageTintColor = .white
         pageControl.padding = 8
-        self.detailUpperView.addSubview(pageControl)
+        detailUpperView.addSubview(pageControl)
         pageControl.snp.makeConstraints { (make) -> Void in
             make.centerX.equalToSuperview()
             make.bottom.equalTo(titleLabel.snp.top).offset(-15)
@@ -276,7 +273,7 @@ extension NewsDetailViewController {
         imgOverlay.isUserInteractionEnabled = false
         imgOverlay.backgroundColor = .clear
         imgOverlay.layer.insertSublayer(GradientLayer.create(frame: CGRect(origin: CGPoint.zero, size: CGSize(width: UIScreen.main.bounds.width, height: (UIScreen.main.bounds.height / 3) * 2)), colors: [.darkGray(), .clear], startPoint: CGPoint(x: 0.5, y: 1), endPoint: CGPoint(x: 0.5, y: 0)), at: 0)
-        self.detailUpperView.addSubview(imgOverlay)
+        detailUpperView.addSubview(imgOverlay)
         imgOverlay.snp.makeConstraints { (make) -> Void in
             make.bottom.equalTo(detailUpperView.snp.bottom)
             make.width.equalTo(detailUpperView.snp.width)

@@ -26,9 +26,14 @@ class HomeViewController: UIViewController {
     var refreshIndicator: NVActivityIndicatorView?
     var coverImagesUrl: [String] = []
     var newsList: [News] = []
-    var posts: [Post] = []
     var numberOfNews = 8 //news limit per request
     var hasMoreNews = true //lazy loading
+    var isNewsSelected = true
+    
+    var posts: [Post] = []
+    var numberOfPosts = 8 //news limit per request
+    var hasMorePost = true //lazy loading
+    var isPostsSelected = false
     
     @IBOutlet weak var mainCollectionView: UICollectionView!
     
@@ -38,7 +43,6 @@ class HomeViewController: UIViewController {
         navigationController?.interactivePopGestureRecognizer?.delegate = self
         tabBarController?.delegate = self
         mainCollectionView.refreshControl = customRefreshControl
-        getRefereshView()
         
         //check if we need to present loginVC
         if UserService.User.isLoggedIn() == false {
@@ -115,14 +119,19 @@ class HomeViewController: UIViewController {
                 UIApplication.shared.isNetworkActivityIndicatorVisible = false
                 
                 //pull to refresh
-                self.refreshView.stopAnimation()
-                self.customRefreshControl.endRefreshing()
+                if let refreshView = self.refreshView {
+                    refreshView.stopAnimation()
+                    self.customRefreshControl.endRefreshing()
+                    HapticFeedback.createNotificationFeedback(style: .success)
+                } else {
+                    self.getRefereshView() //setup pull to refresh view
+                }
+                
             }.catch { error in }
     }
     
     private func getPosts(skip: Int? = nil, limit: Int? = nil) {
         PostService.getList(skip: skip, limit: limit).done { response -> () in
-            //self.newsList = response.list
             self.posts.append(contentsOf: response.list)
             
             print(self.posts[0].content!)
@@ -398,15 +407,29 @@ extension HomeViewController: EventsSectionDelegate {
 extension HomeViewController: NewsSectionHeaderDelegate {
     func newsBtnTapped(sender: UIButton) {
         print("news btn tapped")
+        if !isNewsSelected {
+            newsList.removeAll()
+            mainCollectionView.reloadData()
+            hasMoreNews = true
+            getNews()
+
+            isNewsSelected = true
+            isPostsSelected = false
+        }
     }
     
     func postsBtnTapped(sender: UIButton) {
         print("post btn tapped")
-        //let indexSet = IndexSet(integer: 1)
-        //mainCollectionView.reloadItems(inSection: 1)
-        newsList.removeAll()
-        mainCollectionView.reloadData()
-        hasMoreNews = true
+        
+        if !isPostsSelected {
+            newsList.removeAll()
+            mainCollectionView.reloadData()
+            hasMoreNews = true
+            getNews()
+            
+            isPostsSelected = true
+            isNewsSelected = false
+        }
     }
 }
 
