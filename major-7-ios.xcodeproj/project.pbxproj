@@ -337,16 +337,6 @@
 			path = "Settings Tab";
 			sourceTree = "<group>";
 		};
-		9620021621DDF1640055D070 /* Login */ = {
-			isa = PBXGroup;
-			children = (
-				9620021721DDFC320055D070 /* LoginViewController.swift */,
-				9620021B21DDFDED0055D070 /* LoginView.swift */,
-				9620021921DDFDC20055D070 /* LoginView.xib */,
-			);
-			name = Login;
-			sourceTree = "<group>";
-		};
 		9620022421E4AE0B0055D070 /* GIFs */ = {
 			isa = PBXGroup;
 			children = (
@@ -364,15 +354,6 @@
 				9620025621E4F58E0055D070 /* gif11.gif */,
 			);
 			path = GIFs;
-			sourceTree = "<group>";
-		};
-		963E7FAE22CB2F6400009DA7 /* Custom Refresh Control */ = {
-			isa = PBXGroup;
-			children = (
-				96642E6A22CCA435003A9188 /* RefreshView.swift */,
-				96642E6922CCA434003A9188 /* RefreshView.xib */,
-			);
-			name = "Custom Refresh Control";
 			sourceTree = "<group>";
 		};
 		964761EA2186F6D30004F58C /* Models */ = {
@@ -457,8 +438,8 @@
 		966A6CBD217DBC2C00DF872F /* UI */ = {
 			isa = PBXGroup;
 			children = (
-				963E7FAE22CB2F6400009DA7 /* Custom Refresh Control */,
-				9620021621DDF1640055D070 /* Login */,
+				966AE61122D3188200AC17EC /* Custom Refresh View */,
+				966AE61222D318BD00AC17EC /* Login View */,
 				966A6CB7217DB5F500DF872F /* TabBarViewController.swift */,
 				966A6CC9217DE6AC00DF872F /* Home Tab */,
 				965798B022266B0700A03BE9 /* Buskers Tab */,
@@ -506,6 +487,7 @@
 		966A6CC9217DE6AC00DF872F /* Home Tab */ = {
 			isa = PBXGroup;
 			children = (
+				96CCE28922D310D800AA1727 /* New Group */,
 				966A6CBB217DB86D00DF872F /* HomeViewController.swift */,
 				966A6CCE217F096700DF872F /* HomeHeaderView.swift */,
 				966A6CCF217F096700DF872F /* HomeHeaderView.xib */,
@@ -539,6 +521,25 @@
 				96C989982216C98C00170609 /* NewsDetailImageCell.xib */,
 			);
 			path = "News Section";
+			sourceTree = "<group>";
+		};
+		966AE61122D3188200AC17EC /* Custom Refresh View */ = {
+			isa = PBXGroup;
+			children = (
+				96642E6A22CCA435003A9188 /* RefreshView.swift */,
+				96642E6922CCA434003A9188 /* RefreshView.xib */,
+			);
+			path = "Custom Refresh View";
+			sourceTree = "<group>";
+		};
+		966AE61222D318BD00AC17EC /* Login View */ = {
+			isa = PBXGroup;
+			children = (
+				9620021721DDFC320055D070 /* LoginViewController.swift */,
+				9620021B21DDFDED0055D070 /* LoginView.swift */,
+				9620021921DDFDC20055D070 /* LoginView.xib */,
+			);
+			path = "Login View";
 			sourceTree = "<group>";
 		};
 		9680373422509E6C00A9C65F /* Font */ = {
@@ -604,6 +605,13 @@
 				96C5544A219408560065D70A /* FeaturedCell.xib */,
 			);
 			name = "Featured Section";
+			sourceTree = "<group>";
+		};
+		96CCE28922D310D800AA1727 /* New Group */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "New Group";
 			sourceTree = "<group>";
 		};
 		96EA375021B5271100E9DB74 /* Event Details Page */ = {
