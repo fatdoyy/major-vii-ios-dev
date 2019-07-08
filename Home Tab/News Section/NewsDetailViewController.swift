@@ -347,21 +347,13 @@ extension NewsDetailViewController {
         } else {
             descString = "default content"
         }
-            
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineSpacing = 8
-        paragraphStyle.lineBreakMode = .byTruncatingTail
-
-        let myAttribute = [NSAttributedString.Key.foregroundColor: UIColor.whiteText(), NSAttributedString.Key.paragraphStyle: paragraphStyle]
         
         // create attributed string
-        let descAttrString = NSAttributedString(string: descString, attributes: myAttribute)
+        let descAttrString = NSAttributedString(string: descString, attributes: TextAttributes.newsContentConfig())
         
         // set attributed text on a UILabel
         contentLabel.attributedText = descAttrString
         contentLabel.sizeToFit()
-        //contentLabel.textColor = .white
-        //contentLabel.text =
         contentLabel.font = UIFont.systemFont(ofSize: 15, weight: .regular)
         contentLabel.numberOfLines = 0
         contentLabel.lineBreakMode = .byWordWrapping
@@ -411,7 +403,7 @@ extension NewsDetailViewController: UICollectionViewDelegateFlowLayout, UICollec
         if let newsDetails = self.details?.item {
             let realIndexPath = self.imgCollectionView.indexPath(from: indexPath) //InfiniteLayout indexPath
             if let url = URL(string: newsDetails.coverImages[realIndexPath.row].secureUrl!) {
-                cell.imgView.kf.setImage(with: url, options: [.transition(.fade(0.4))])
+                cell.imgView.kf.setImage(with: url, options: [.transition(.fade(0.3))])
             }
         }
 

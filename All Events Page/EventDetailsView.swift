@@ -194,7 +194,7 @@ class EventDetailsView: UIView {
     
 }
 
-extension EventDetailsView: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout{
+extension EventDetailsView: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if collectionView == hashtagsCollectionView{
             return hashtagsArray.count
@@ -211,7 +211,7 @@ extension EventDetailsView: UICollectionViewDelegate, UICollectionViewDataSource
             return cell
         } else { //imgCollectionView
             let cell = imgCollectionView.dequeueReusableCell(withReuseIdentifier: DetailsImageCell.reuseIdentifier, for: indexPath) as! DetailsImageCell
-            cell.imgView.kf.setImage(with: URL(string: imgUrlArray[indexPath.row]), options: [.transition(.fade(0.4))])
+            cell.imgView.kf.setImage(with: URL(string: imgUrlArray[indexPath.row]), options: [.transition(.fade(0.3))])
             return cell
         }
     }

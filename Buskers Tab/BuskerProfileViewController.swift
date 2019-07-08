@@ -1021,7 +1021,7 @@ extension BuskerProfileViewController: UICollectionViewDelegateFlowLayout, UICol
             if let profile = buskerDetails?.item {
                 let realIndexPath = self.imgCollectionView.indexPath(from: indexPath) //InfiniteLayout indexPath
                 if let url = URL(string: profile.coverImages[realIndexPath.row].secureUrl!) {
-                    cell.imgView.kf.setImage(with: url, options: [.transition(.fade(0.4))])
+                    cell.imgView.kf.setImage(with: url, options: [.transition(.fade(0.3))])
                 }
             }
             return cell
@@ -1037,7 +1037,7 @@ extension BuskerProfileViewController: UICollectionViewDelegateFlowLayout, UICol
             let cell = membersCollectionView.dequeueReusableCell(withReuseIdentifier: BuskerProfileMemberCell.reuseIdentifier, for: indexPath) as! BuskerProfileMemberCell
             if let profile = buskerDetails?.item {
                 if let url = URL(string: profile.members[indexPath.row].icon!.secureUrl!) {
-                    cell.icon.kf.setImage(with: url, options: [.transition(.fade(0.4))])
+                    cell.icon.kf.setImage(with: url, options: [.transition(.fade(0.3))])
                 }
                 cell.nameLabel.text = profile.members[indexPath.row].name
                 cell.roleLabel.text = profile.members[indexPath.row].role
@@ -1054,7 +1054,7 @@ extension BuskerProfileViewController: UICollectionViewDelegateFlowLayout, UICol
             let cell = eventsCollectionView.dequeueReusableCell(withReuseIdentifier: BuskerProfileEventCell.reuseIdentifier, for: indexPath) as! BuskerProfileEventCell
             if let events = buskerEvents?.list {
                 if let url = URL(string: events[indexPath.row].images[0].secureUrl!) {
-                    cell.eventImg.kf.setImage(with: url, options: [.transition(.fade(0.4))])
+                    cell.eventImg.kf.setImage(with: url, options: [.transition(.fade(0.3))])
                 }
                 cell.eventLabel.text = events[indexPath.row].title
                 cell.locationLabel.text = events[indexPath.row].address
@@ -1069,10 +1069,10 @@ extension BuskerProfileViewController: UICollectionViewDelegateFlowLayout, UICol
             
             if let posts = buskerPosts?.list {
 //                if let url = URL(string: posts[indexPath.row].images[0].secureUrl!) {
-//                    cell.buskerIcon.kf.setImage(with: url, options: [.transition(.fade(0.4))])
+//                    cell.buskerIcon.kf.setImage(with: url, options: [.transition(.fade(0.3))])
 //                }
                 cell.buskerIcon.image = UIImage(named: "cat")
-                cell.buskerLabel.text = posts[indexPath.row].createrProfile?.name
+                cell.buskerLabel.text = posts[indexPath.row].authorProfile?.name
                 cell.timeLabel.text = posts[indexPath.row].publishTime
                 
                 if let content = posts[indexPath.row].content {

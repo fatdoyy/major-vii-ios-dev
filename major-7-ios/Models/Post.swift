@@ -26,7 +26,7 @@ class Post: Mappable {
     var images = [Image]()
     var id: String?
     var content: String?
-    var createrProfile: OrganizerProfile?
+    var authorProfile: OrganizerProfile?
     var creatorType: Int?
     var publishTime: String?
     
@@ -36,7 +36,7 @@ class Post: Mappable {
         images          <- map["images"]
         id              <- map["_id"]
         content         <- map["text"]
-        createrProfile  <- map["cretor_profile"]
+        authorProfile  <- map["cretor_profile"]
         creatorType     <- map["creator_type"]
         publishTime     <- map["publish_time"]
     }

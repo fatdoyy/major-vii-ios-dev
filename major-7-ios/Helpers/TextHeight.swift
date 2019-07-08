@@ -1,5 +1,5 @@
 //
-//  UILabel.swift
+//  TextHeight.swift
 //  major-7-ios
 //
 //  Created by jason on 22/2/2019.
@@ -8,12 +8,13 @@
 
 import UIKit
 
+//calculate text height
 extension UILabel {
     func textHeight(withWidth width: CGFloat) -> CGFloat {
         guard let text = text else {
             return 0
         }
-        return text.height(withWidth: width, font: font)
+        return text.height(withWidth: width)
     }
     
     func attributedTextHeight(withWidth width: CGFloat) -> CGFloat {
@@ -25,16 +26,17 @@ extension UILabel {
 }
 
 extension String {
-    func height(withWidth width: CGFloat, font: UIFont) -> CGFloat {
+    func height(withWidth width: CGFloat) -> CGFloat {
         let constraintRect = CGSize(width: width, height: .greatestFiniteMagnitude)
-        let boundingBox = self.boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, attributes: [.font: font], context: nil)
-        
+        //let boundingBox = self.boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, attributes: [.font: font], context: nil)
+        let boundingBox = self.boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, context: nil)
+
         return ceil(boundingBox.height)
     }
     
-    func width(withHeight height: CGFloat, font: UIFont) -> CGFloat {
+    func width(withHeight height: CGFloat) -> CGFloat {
         let constraintRect = CGSize(width: .greatestFiniteMagnitude, height: height)
-        let boundingBox = self.boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, attributes: [.font: font], context: nil)
+        let boundingBox = self.boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, context: nil)
         
         return ceil(boundingBox.width)
     }

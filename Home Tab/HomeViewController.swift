@@ -14,6 +14,10 @@ import NVActivityIndicatorView
 class HomeViewController: UIViewController {
     weak var previousController: UIViewController? //for tabbar scroll to top
     
+    let stringArr: [String] = [ "【突發】聽朝9點 屯門區議會 要人！！！見到有巴打個post潛左突發】聽朝9點 屯門區議會 要人！！！ ", "distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like)."]
+    
+    var attrStringArr: [NSAttributedString] = []
+    
     var customRefreshControl: UIRefreshControl = {
         let refreshControl = UIRefreshControl()
         refreshControl.backgroundColor = .clear
@@ -26,14 +30,14 @@ class HomeViewController: UIViewController {
     var refreshIndicator: NVActivityIndicatorView?
     var coverImagesUrl: [String] = []
     
-    var selectedSection = SelectedSection.News
+    var selectedSection = HomeSelectedSection.News //default section is "News"
     
     var newsList: [News] = []
     var numberOfNews = 8 //news limit per request
     var hasMoreNews = true //lazy loading
     var isNewsSelected = true
     
-    var posts: [Post] = []
+    var postsList: [Post] = []
     var numberOfPosts = 8 //news limit per request
     var hasMorePost = true //lazy loading
     var isPostsSelected = false
@@ -79,7 +83,7 @@ class HomeViewController: UIViewController {
         mainCollectionView.register(UINib.init(nibName: "NewsSectionFooter", bundle: nil), forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: NewsSectionFooter.reuseIdentifier)
         
         getNews(limit: numberOfNews)
-        getPosts()
+        getPosts(limit: numberOfPosts)
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -110,14 +114,6 @@ class HomeViewController: UIViewController {
             if response.list.count < self.numberOfNews || response.list.count == 0 {
                 self.hasMoreNews = false
             }
-            
-            //            for news in self.news{
-            //                for tag in news.hashtags{
-            //                    self.coverImagesUrl.append(tag)
-            //                    print(self.coverImagesUrl)
-            //                }
-            //            }
-            
             self.mainCollectionView.reloadData()
             }.ensure {
                 self.mainCollectionView.isUserInteractionEnabled = true
@@ -136,14 +132,20 @@ class HomeViewController: UIViewController {
     }
     
     private func getPosts(skip: Int? = nil, limit: Int? = nil) {
+        mainCollectionView.isUserInteractionEnabled = false
         PostService.getList(skip: skip, limit: limit).done { response -> () in
-            self.posts.append(contentsOf: response.list)
+            self.postsList.append(contentsOf: response.list)
             
-            print(self.posts[0].content!)
+            for string in self.stringArr {
+                let contentAttrString = NSAttributedString(string: string, attributes: TextAttributes.postContentConfig())
+                self.attrStringArr.append(contentAttrString)
+            }
             
-            //self.mainCollectionView.reloadData()
+            print(self.postsList[0].authorProfile?.name!)
+            
+            self.mainCollectionView.reloadData()
             }.ensure {
-                //self.mainCollectionView.isUserInteractionEnabled = true
+                self.mainCollectionView.isUserInteractionEnabled = true
                 UIApplication.shared.isNetworkActivityIndicatorVisible = false
             }.catch { error in }
     }
@@ -171,23 +173,28 @@ class HomeViewController: UIViewController {
         newsList.removeAll()
         mainCollectionView.reloadData()
         hasMoreNews = true
-        getNews()
+        getNews(limit: numberOfNews)
         
     }
 }
 
 // MARK: UICollectionView Delegate
 extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource, UICollectionViewDelegate {
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if section == 0 { return 1 } else {
-            let count = newsList.isEmpty ? 2 : newsList.count
-            return count
-        }
-    }
-    
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 2
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        if section == 0 { return 1 } else { // News|Posts section
+            switch selectedSection {
+            case .News:
+                let count = newsList.isEmpty ? 2 : newsList.count
+                return count
+            case .Posts:
+                let count = postsList.isEmpty ? 2 : postsList.count
+                return count
+            }
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -196,102 +203,123 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
             cell.delegate = self
             cell.eventsCollectionView.reloadData()
             return cell
-        } else { //news section
-            
-            if !newsList.isEmpty {
-                switch newsList[indexPath.row].cellType! {
-                case 1:
-                    let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: NewsCellType1.reuseIdentifier, for: indexPath) as! NewsCellType1
-                    
-                    //Hashtag.createAtCell(cell: cell, position: .cellTop, dataSource: newsList[indexPath.row].hashtags, multiLines: true, solidColor: true)
-                    let hashtagsArr = newsList[indexPath.row].hashtags
-                    if !hashtagsArr.isEmpty { cell.hashtagsArray = hashtagsArr }
-                    
-                    cell.newsTitle.text = newsList[indexPath.row].title
-                    //cell.bgImgView.sd_imageTransition = .fade
-                    if let url = URL(string: newsList[indexPath.row].coverImages[0].secureUrl!) {
-                        cell.bgImgView.kf.setImage(with: url, options: [.transition(.fade(0.4))])
-                    }
-                    
-                    return cell
-                case 2:
-                    let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: NewsCellType2.reuseIdentifier, for: indexPath) as! NewsCellType2
-                    
-                    let hashtagsArr = newsList[indexPath.row].hashtags
-                    if !hashtagsArr.isEmpty { cell.hashtagsArray = hashtagsArr }
-                    
-                    cell.newsTitle.text = newsList[indexPath.row].title
-                    
-                    if let url = URL(string: newsList[indexPath.row].coverImages[0].secureUrl!) {
-                        cell.bgImgView.kf.setImage(with: url, options: [.transition(.fade(0.4))])
-                    }
-                    
-                    return cell
-                case 3:
-                    let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: NewsCellType3.reuseIdentifier, for: indexPath) as! NewsCellType3
-                    
-                    let hashtagsArr = newsList[indexPath.row].hashtags
-                    if !hashtagsArr.isEmpty { cell.hashtagsArray = hashtagsArr } else {
-                        cell.newsTitleTopConstraint.isActive = false
-                        cell.newsTitle.snp.remakeConstraints { (make) in
-                            make.top.equalTo(25)
+        } else { // news|posts section
+            switch selectedSection {
+            case .News:
+                if !newsList.isEmpty {
+                    switch newsList[indexPath.row].cellType! {
+                    case 1:
+                        let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: NewsCellType1.reuseIdentifier, for: indexPath) as! NewsCellType1
+                        
+                        //Hashtag.createAtCell(cell: cell, position: .cellTop, dataSource: newsList[indexPath.row].hashtags, multiLines: true, solidColor: true)
+                        let hashtagsArr = newsList[indexPath.row].hashtags
+                        if !hashtagsArr.isEmpty { cell.hashtagsArray = hashtagsArr }
+                        
+                        cell.newsTitle.text = newsList[indexPath.row].title
+                        //cell.bgImgView.sd_imageTransition = .fade
+                        if let url = URL(string: newsList[indexPath.row].coverImages[0].secureUrl!) {
+                            cell.bgImgView.kf.setImage(with: url, options: [.transition(.fade(0.3))])
                         }
-                    }
-                    cell.newsTitle.text = newsList[indexPath.row].title
-                    cell.subTitle.text = newsList[indexPath.row].subTitle
-                    
-                    if let url = URL(string: newsList[indexPath.row].coverImages[0].secureUrl!) {
-                        cell.bgImgView.kf.setImage(with: url, options: [.transition(.fade(0.4))])
-                    }
-                    
-                    return cell
-                case 4:
-                    let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: NewsCellType4.reuseIdentifier, for: indexPath) as! NewsCellType4
-                    
-                    for view in cell.skeletonViews{ //hide all skeleton views because template 4 is the default template
-                        if view.tag == 2 { //remove dummyTagLabel
-                            view.isHidden = true
+                        
+                        return cell
+                    case 2:
+                        let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: NewsCellType2.reuseIdentifier, for: indexPath) as! NewsCellType2
+                        
+                        let hashtagsArr = newsList[indexPath.row].hashtags
+                        if !hashtagsArr.isEmpty { cell.hashtagsArray = hashtagsArr }
+                        
+                        cell.newsTitle.text = newsList[indexPath.row].title
+                        
+                        if let url = URL(string: newsList[indexPath.row].coverImages[0].secureUrl!) {
+                            cell.bgImgView.kf.setImage(with: url, options: [.transition(.fade(0.3))])
                         }
-                        view.hideSkeleton()
-                    }
-                    
-                    for view in cell.viewsToShowlater {
-                        view.isHidden = false
-                    }
-                    
-                    cell.gradientBg.isHidden = false
-                    cell.gradientBg.startAnimation()
-                    
-                    let hashtagsArr = newsList[indexPath.row].hashtags
-                    if !hashtagsArr.isEmpty { cell.hashtagsArray = hashtagsArr } else {
-                        cell.newsTitleTopConstraint.isActive = false
-                        cell.newsTitle.snp.remakeConstraints { (make) in
-                            make.top.equalTo(25)
+                        
+                        return cell
+                    case 3:
+                        let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: NewsCellType3.reuseIdentifier, for: indexPath) as! NewsCellType3
+                        
+                        let hashtagsArr = newsList[indexPath.row].hashtags
+                        if !hashtagsArr.isEmpty { cell.hashtagsArray = hashtagsArr } else {
+                            cell.newsTitleTopConstraint.isActive = false
+                            cell.newsTitle.snp.remakeConstraints { (make) in
+                                make.top.equalTo(25)
+                            }
                         }
+                        cell.newsTitle.text = newsList[indexPath.row].title
+                        cell.subTitle.text = newsList[indexPath.row].subTitle
+                        
+                        if let url = URL(string: newsList[indexPath.row].coverImages[0].secureUrl!) {
+                            cell.bgImgView.kf.setImage(with: url, options: [.transition(.fade(0.3))])
+                        }
+                        
+                        return cell
+                    case 4:
+                        let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: NewsCellType4.reuseIdentifier, for: indexPath) as! NewsCellType4
+                        
+                        for view in cell.skeletonViews{ //hide all skeleton views because template 4 is the default template
+                            if view.tag == 2 { //remove dummyTagLabel
+                                view.isHidden = true
+                            }
+                            view.hideSkeleton()
+                        }
+                        
+                        for view in cell.viewsToShowlater {
+                            view.isHidden = false
+                        }
+                        
+                        cell.gradientBg.isHidden = false
+                        cell.gradientBg.startAnimation()
+                        
+                        let hashtagsArr = newsList[indexPath.row].hashtags
+                        if !hashtagsArr.isEmpty { cell.hashtagsArray = hashtagsArr } else {
+                            cell.newsTitleTopConstraint.isActive = false
+                            cell.newsTitle.snp.remakeConstraints { (make) in
+                                make.top.equalTo(25)
+                            }
+                        }
+                        cell.newsTitle.text = newsList[indexPath.row].title
+                        cell.subTitle.text = newsList[indexPath.row].subTitle
+                        
+                        return cell
+                    case 5:
+                        let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: NewsCellType5.reuseIdentifier, for: indexPath) as! NewsCellType5
+                        
+                        let hashtagsArr = newsList[indexPath.row].hashtags
+                        if !hashtagsArr.isEmpty { cell.hashtagsArray = hashtagsArr }
+                        
+                        cell.newsTitle.text = newsList[indexPath.row].title
+                        cell.subTitle.text = newsList[indexPath.row].subTitle
+                        
+                        return cell
+                    default: //loading template
+                        let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: NewsCellType4.reuseIdentifier, for: indexPath) as! NewsCellType4
+                        return cell
                     }
-                    cell.newsTitle.text = newsList[indexPath.row].title
-                    cell.subTitle.text = newsList[indexPath.row].subTitle
-                    
-                    return cell
-                case 5:
-                    let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: NewsCellType5.reuseIdentifier, for: indexPath) as! NewsCellType5
-                    
-                    let hashtagsArr = newsList[indexPath.row].hashtags
-                    if !hashtagsArr.isEmpty { cell.hashtagsArray = hashtagsArr }
-                    
-                    cell.newsTitle.text = newsList[indexPath.row].title
-                    cell.subTitle.text = newsList[indexPath.row].subTitle
-                    
-                    return cell
-                default: //loading template
+                } else { // news list is empty
                     let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: NewsCellType4.reuseIdentifier, for: indexPath) as! NewsCellType4
                     return cell
                 }
-            } else { // news list is empty
-                let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: NewsCellType4.reuseIdentifier, for: indexPath) as! NewsCellType4
-                return cell
+                
+            case .Posts:
+                if !postsList.isEmpty {
+                    let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: HomePostCell.reuseIdentifier, for: indexPath) as! HomePostCell
+                    
+                    if let url = URL(string: postsList[indexPath.row].authorProfile?.coverImages[0].secureUrl! ?? "") {
+                        cell.buskerIcon.kf.setImage(with: url, options: [.transition(.fade(0.3))])
+                    }
+                    cell.buskerName.text = postsList[indexPath.row].authorProfile?.name
+                    //cell.contentLabel.text = stringArr[indexPath.row]
+                    cell.contentLabel.attributedText = attrStringArr[indexPath.row]
+                    cell.contentLabel.sizeToFit()
+                    print("cell height is \(cell.contentLabel.attributedTextHeight(withWidth: HomePostCell.width))")
+                    
+                    return cell
+                } else { // post list is empty
+                    let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: HomePostCell.reuseIdentifier, for: indexPath) as! HomePostCell
+                    
+                    return cell
+                }
             }
-            
             
         }
     }
@@ -302,28 +330,41 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
             
             hasMoreNews ? getNews(skip: self.newsList.count, limit: numberOfNews) : print("fetched all news!")
         }
-        
-        let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: NewsCellType3.reuseIdentifier, for: indexPath) as! NewsCellType3
-        
-        cell.subTitle.restartLabel()
-        
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width = self.view.frame.width
-        // Upcoming events section
-        if indexPath.section == 0 { return CGSize(width: width, height: EventsSection.height) } else {
-            // News section
-            if !newsList.isEmpty {
-                switch newsList[indexPath.row].cellType! {
-                case 1, 2:  return CGSize(width: NewsCellType1.width, height: NewsCellType1.height) //cell type 1,2 have same height
-                default:    return CGSize(width: NewsCellType3.width, height: NewsCellType3.height) //cell type 3,4,5 have same height
+        if indexPath.section == 0 /* Upcoming events section */ { return CGSize(width: view.frame.width, height: EventsSection.height) } else {
+            switch selectedSection {
+            case .News:
+                if !newsList.isEmpty {
+                    switch newsList[indexPath.row].cellType! {
+                    case 1, 2:  return CGSize(width: NewsCellType1.width, height: NewsCellType1.height) //cell type 1,2 have same height
+                    default:    return CGSize(width: NewsCellType3.width, height: NewsCellType3.height) //cell type 3,4,5 have same height
+                    }
+                } else { //news list is empty
+                    return CGSize(width: NewsCellType3.width, height: NewsCellType3.height)
                 }
-            } else { //news list is empty
-                return CGSize(width: NewsCellType3.width, height: NewsCellType3.height)
+                
+            case .Posts: //dynamic cell height (i.e. attributed text height)
+                if !postsList.isEmpty {
+//                    if let content = postsList[indexPath.row].content {
+//                        //let textHeight = content.height(withWidth: HomePostCell.width, font: UIFont())
+//                        let attrTextHeight = attrStringArr[indexPath.row].height(withWidth: HomePostCell.width)
+//                        print("attrTextHeight is \(attrTextHeight)")
+//                        return CGSize(width: HomePostCell.width, height: HomePostCell.height + attrTextHeight + 40)
+//                    } else {
+//                        return CGSize(width: HomePostCell.width, height: HomePostCell.height)
+//                    }
+                    let attrTextHeight = attrStringArr[indexPath.row].height(withWidth: HomePostCell.width)
+                    print("attrTextHeight is \(attrTextHeight)")
+                    return CGSize(width: HomePostCell.width, height: HomePostCell.height + attrTextHeight + 40)
+                } else { //news list is empty
+                    return CGSize(width: HomePostCell.width, height: HomePostCell.height)
+                }
             }
         }
     }
+    
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if indexPath.section == 1 { //news section
@@ -414,32 +455,27 @@ extension HomeViewController: NewsSectionHeaderDelegate {
     func newsBtnTapped(sender: UIButton) {
         print("news btn tapped")
         
-        if selectedSection == .News {
-            
-        }
-        
-        if !isNewsSelected {
+        if selectedSection != .News {
             newsList.removeAll()
             mainCollectionView.reloadData()
             hasMoreNews = true
-            getNews()
-
-            isNewsSelected = true
-            isPostsSelected = false
+            getNews(limit: numberOfNews)
+            
+            selectedSection = .News
         }
+
     }
     
     func postsBtnTapped(sender: UIButton) {
         print("post btn tapped")
         
-        if !isPostsSelected {
-            newsList.removeAll()
+        if selectedSection != .Posts {
+            postsList.removeAll()
             mainCollectionView.reloadData()
-            hasMoreNews = true
-            getNews()
+            hasMorePost = true
+            getPosts(limit: numberOfPosts)
             
-            isPostsSelected = true
-            isNewsSelected = false
+            selectedSection = .Posts
         }
     }
 }

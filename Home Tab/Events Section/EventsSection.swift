@@ -113,7 +113,7 @@ extension EventsSection: UICollectionViewDataSource, UICollectionViewDelegate, U
             cell.bgView.alpha = 0.7
             cell.imgOverlay.isHidden = false
 
-            cell.bgImgView.kf.setImage(with: randomImgUrl[indexPath.row], options: [.transition(.fade(0.4))])
+            cell.bgImgView.kf.setImage(with: randomImgUrl[indexPath.row], options: [.transition(.fade(0.3))])
             
             //decoding the date to "dd MMM"
             let dateResponse = upcomingEvents[indexPath.row].dateTime
