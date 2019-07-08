@@ -11,7 +11,7 @@ import UIKit
 class HapticFeedback {
     
     //impact
-    static func createImpact(style: UIImpactFeedbackGenerator.FeedbackStyle){
+    static func createImpact(style: UIImpactFeedbackGenerator.FeedbackStyle) {
         switch style{
         case .light:
             let impact = UIImpactFeedbackGenerator(style: .light)
@@ -26,13 +26,13 @@ class HapticFeedback {
     }
     
     //selection
-    static func createSelectionFeedback(){
+    static func createSelectionFeedback() {
         let selection = UISelectionFeedbackGenerator()
         selection.selectionChanged()
     }
     
     //notification
-    static func createNotificationFeedback(style: UINotificationFeedbackGenerator.FeedbackType){
+    static func createNotificationFeedback(style: UINotificationFeedbackGenerator.FeedbackType) {
         let notification = UINotificationFeedbackGenerator()
         switch style{
         case .warning:  notification.notificationOccurred(.warning)

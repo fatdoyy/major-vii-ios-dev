@@ -75,7 +75,7 @@ class UserService: NSObject {
 //facebook login
 extension UserService {
     struct FB{
-        static func logIn(fromVC: UIViewController){
+        static func logIn(fromVC: UIViewController) {
             
             let loginManager = LoginManager()
             
@@ -102,7 +102,7 @@ extension UserService {
             }
         }
         
-        static func getFbUserInfo(accessToken: AccessToken, vc: UIViewController, hud: JGProgressHUD){
+        static func getFbUserInfo(accessToken: AccessToken, vc: UIViewController, hud: JGProgressHUD) {
             let graphRequest: GraphRequest = GraphRequest(graphPath: "me", parameters: ["fields": "first_name, email, picture.type(large)"], accessToken: accessToken, httpMethod: .GET)
             graphRequest.start({ (response, result) in
                 switch result {
@@ -187,7 +187,7 @@ extension UserService {
         }
         
         //FB logout, NOTE: NOT Major VII Logout
-        static func logOut(){
+        static func logOut() {
             if AccessToken.current == nil {
                 LoginManager().logOut()
             }

@@ -10,7 +10,7 @@ import UIKit
 
 class TabBar {
     
-    static func hide(from: UIViewController){
+    static func hide(from: UIViewController) {
         var frame = from.tabBarController?.tabBar.frame
         if frame?.minY != from.view.frame.maxY {
             let newY = UIScreen.main.bounds.height + (frame?.size.height)!
@@ -21,7 +21,7 @@ class TabBar {
         }
     }
     
-    static func show(from: UIViewController){
+    static func show(from: UIViewController) {
         var frame = from.tabBarController?.tabBar.frame
         let newY = UIScreen.main.bounds.height - (frame?.size.height)!
         let originY = (frame?.minY)! - (frame?.height)!

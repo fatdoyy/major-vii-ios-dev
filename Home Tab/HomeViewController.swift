@@ -25,6 +25,9 @@ class HomeViewController: UIViewController {
     var refreshView: RefreshView!
     var refreshIndicator: NVActivityIndicatorView?
     var coverImagesUrl: [String] = []
+    
+    var selectedSection = SelectedSection.News
+    
     var newsList: [News] = []
     var numberOfNews = 8 //news limit per request
     var hasMoreNews = true //lazy loading
@@ -70,6 +73,8 @@ class HomeViewController: UIViewController {
         mainCollectionView.register(UINib.init(nibName: "NewsCellType3", bundle: nil), forCellWithReuseIdentifier: NewsCellType3.reuseIdentifier)
         mainCollectionView.register(UINib.init(nibName: "NewsCellType4", bundle: nil), forCellWithReuseIdentifier: NewsCellType4.reuseIdentifier)
         mainCollectionView.register(UINib.init(nibName: "NewsCellType5", bundle: nil), forCellWithReuseIdentifier: NewsCellType5.reuseIdentifier)
+        
+        mainCollectionView.register(UINib.init(nibName: "HomePostCell", bundle: nil), forCellWithReuseIdentifier: HomePostCell.reuseIdentifier)
         
         mainCollectionView.register(UINib.init(nibName: "NewsSectionFooter", bundle: nil), forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: NewsSectionFooter.reuseIdentifier)
         
@@ -192,6 +197,7 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
             cell.eventsCollectionView.reloadData()
             return cell
         } else { //news section
+            
             if !newsList.isEmpty {
                 switch newsList[indexPath.row].cellType! {
                 case 1:
@@ -203,7 +209,7 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
                     
                     cell.newsTitle.text = newsList[indexPath.row].title
                     //cell.bgImgView.sd_imageTransition = .fade
-                    if let url = URL(string: newsList[indexPath.row].coverImages[0].secureUrl!){
+                    if let url = URL(string: newsList[indexPath.row].coverImages[0].secureUrl!) {
                         cell.bgImgView.kf.setImage(with: url, options: [.transition(.fade(0.4))])
                     }
                     
@@ -216,7 +222,7 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
                     
                     cell.newsTitle.text = newsList[indexPath.row].title
                     
-                    if let url = URL(string: newsList[indexPath.row].coverImages[0].secureUrl!){
+                    if let url = URL(string: newsList[indexPath.row].coverImages[0].secureUrl!) {
                         cell.bgImgView.kf.setImage(with: url, options: [.transition(.fade(0.4))])
                     }
                     
@@ -234,7 +240,7 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
                     cell.newsTitle.text = newsList[indexPath.row].title
                     cell.subTitle.text = newsList[indexPath.row].subTitle
                     
-                    if let url = URL(string: newsList[indexPath.row].coverImages[0].secureUrl!){
+                    if let url = URL(string: newsList[indexPath.row].coverImages[0].secureUrl!) {
                         cell.bgImgView.kf.setImage(with: url, options: [.transition(.fade(0.4))])
                     }
                     
@@ -407,6 +413,11 @@ extension HomeViewController: EventsSectionDelegate {
 extension HomeViewController: NewsSectionHeaderDelegate {
     func newsBtnTapped(sender: UIButton) {
         print("news btn tapped")
+        
+        if selectedSection == .News {
+            
+        }
+        
         if !isNewsSelected {
             newsList.removeAll()
             mainCollectionView.reloadData()
@@ -490,4 +501,10 @@ extension HomeViewController: UIGestureRecognizerDelegate {
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return true
     }
+}
+
+//MARK: Selected section enum
+enum HomeSelectedSection {
+    case News
+    case Posts
 }

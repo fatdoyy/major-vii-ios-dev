@@ -74,6 +74,8 @@
 		966A6CDD218086BC00DF872F /* NewsSectionHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 966A6CDB218086BC00DF872F /* NewsSectionHeader.xib */; };
 		966A6CE021808BB100DF872F /* NewsCellType1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 966A6CDE21808BB100DF872F /* NewsCellType1.swift */; };
 		966A6CE121808BB100DF872F /* NewsCellType1.xib in Resources */ = {isa = PBXBuildFile; fileRef = 966A6CDF21808BB100DF872F /* NewsCellType1.xib */; };
+		966AE61522D31CC800AC17EC /* HomePostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 966AE61322D31CC800AC17EC /* HomePostCell.swift */; };
+		966AE61622D31CC800AC17EC /* HomePostCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 966AE61422D31CC800AC17EC /* HomePostCell.xib */; };
 		96799FE221889D520074C828 /* Animations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96799FE121889D520074C828 /* Animations.swift */; };
 		96799FE4218AF8E70074C828 /* Hashtag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96799FE3218AF8E60074C828 /* Hashtag.swift */; };
 		96799FE6218C5A280074C828 /* ImageOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96799FE5218C5A270074C828 /* ImageOverlay.swift */; };
@@ -220,6 +222,8 @@
 		966A6CDB218086BC00DF872F /* NewsSectionHeader.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewsSectionHeader.xib; sourceTree = "<group>"; };
 		966A6CDE21808BB100DF872F /* NewsCellType1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsCellType1.swift; sourceTree = "<group>"; };
 		966A6CDF21808BB100DF872F /* NewsCellType1.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewsCellType1.xib; sourceTree = "<group>"; };
+		966AE61322D31CC800AC17EC /* HomePostCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePostCell.swift; sourceTree = "<group>"; };
+		966AE61422D31CC800AC17EC /* HomePostCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HomePostCell.xib; sourceTree = "<group>"; };
 		96799FE121889D520074C828 /* Animations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Animations.swift; sourceTree = "<group>"; };
 		96799FE3218AF8E60074C828 /* Hashtag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hashtag.swift; sourceTree = "<group>"; };
 		96799FE5218C5A270074C828 /* ImageOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageOverlay.swift; sourceTree = "<group>"; };
@@ -487,12 +491,12 @@
 		966A6CC9217DE6AC00DF872F /* Home Tab */ = {
 			isa = PBXGroup;
 			children = (
-				96CCE28922D310D800AA1727 /* New Group */,
 				966A6CBB217DB86D00DF872F /* HomeViewController.swift */,
 				966A6CCE217F096700DF872F /* HomeHeaderView.swift */,
 				966A6CCF217F096700DF872F /* HomeHeaderView.xib */,
 				966A6CD621804C8900DF872F /* Events Section */,
 				966A6CD92180868A00DF872F /* News Section */,
+				96CCE28922D310D800AA1727 /* Posts Section */,
 			);
 			path = "Home Tab";
 			sourceTree = "<group>";
@@ -607,11 +611,13 @@
 			name = "Featured Section";
 			sourceTree = "<group>";
 		};
-		96CCE28922D310D800AA1727 /* New Group */ = {
+		96CCE28922D310D800AA1727 /* Posts Section */ = {
 			isa = PBXGroup;
 			children = (
+				966AE61322D31CC800AC17EC /* HomePostCell.swift */,
+				966AE61422D31CC800AC17EC /* HomePostCell.xib */,
 			);
-			path = "New Group";
+			path = "Posts Section";
 			sourceTree = "<group>";
 		};
 		96EA375021B5271100E9DB74 /* Event Details Page */ = {
@@ -775,6 +781,7 @@
 				96C55420219199700065D70A /* TrendingSection.xib in Resources */,
 				9620022D21E4AF000055D070 /* gif2.gif in Resources */,
 				966A6CD1217F096700DF872F /* HomeHeaderView.xib in Resources */,
+				966AE61622D31CC800AC17EC /* HomePostCell.xib in Resources */,
 				96C5541C21918CB90065D70A /* TrendingCell.xib in Resources */,
 				9639217521AD1C4500BA515A /* HashtagCell.xib in Resources */,
 				9639216F21ABC85500BA515A /* EventDetailsView.xib in Resources */,
@@ -940,6 +947,7 @@
 				967BD33F2240C00300469CF9 /* PinterestLayout.swift in Sources */,
 				96C554312192CBCE0065D70A /* GlobalCornerRadius.swift in Sources */,
 				96F3732D224CBD850088E142 /* BookmarkedEventCollectionHeaderView.swift in Sources */,
+				966AE61522D31CC800AC17EC /* HomePostCell.swift in Sources */,
 				96C55414219044D00065D70A /* EventsListViewController.swift in Sources */,
 				96B0BE4A21F056B4003C9BA5 /* LocalKeys.swift in Sources */,
 				966A6CDC218086BC00DF872F /* NewsSectionHeader.swift in Sources */,

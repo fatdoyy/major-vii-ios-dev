@@ -22,7 +22,7 @@ class Animations {
             completion: nil)
     }
     
-    static func btnBounce(sender: UIButton){
+    static func btnBounce(sender: UIButton) {
         sender.transform = CGAffineTransform(scaleX: 0.6, y: 0.6)
         
         UIView.animate(withDuration: 1.0,

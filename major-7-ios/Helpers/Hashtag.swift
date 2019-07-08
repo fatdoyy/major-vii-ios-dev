@@ -17,7 +17,7 @@ class Hashtag {
     static let paddingBetweenTags: CGFloat = 10
     
     //create hashtags at cell (DEPRECATED)
-    static func createAtCell(cell: UICollectionViewCell, position: Hashtag.Position, dataSource: [String], multiLines: Bool? = false, solidColor: Bool? = false){
+    static func createAtCell(cell: UICollectionViewCell, position: Hashtag.Position, dataSource: [String], multiLines: Bool? = false, solidColor: Bool? = false) {
         //cell paddings
         var leftPaddingToCell: CGFloat = 20
         let rightPaddingToCell: CGFloat = 20
@@ -62,7 +62,7 @@ class Hashtag {
                                     tagLabel.frame = newFrame
                                 }
                             } else {
-                                if tagLabel.frame.maxX >= (cell.contentView.frame.width - rightPaddingToCell){
+                                if tagLabel.frame.maxX >= (cell.contentView.frame.width - rightPaddingToCell) {
                                     tagLabel.isHidden = true //not showing all hashtags due to cell width
                                 }
                             }

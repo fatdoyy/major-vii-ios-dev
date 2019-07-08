@@ -110,7 +110,7 @@ class NewsDetailViewController: UIViewController {
         TabBar.show(from: self)
     }
 
-    private func setupLeftBarItems(){
+    private func setupLeftBarItems() {
         let customView = UIView(frame: CGRect(x: 15, y: 10, width: 30, height: 30))
         customView.backgroundColor = .clear
         
@@ -142,7 +142,7 @@ class NewsDetailViewController: UIViewController {
         self.navigationItem.titleView = label
     }
     
-    @objc private func popView(){
+    @objc private func popView() {
         navigationController?.popViewController(animated: true)
     }
 
@@ -450,7 +450,7 @@ extension NewsDetailViewController: UIScrollViewDelegate {
 
 // MARK: function to push this view controller
 extension NewsDetailViewController {
-    static func push(fromView: UIViewController, newsId: String){
+    static func push(fromView: UIViewController, newsId: String) {
         let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
         let detailsVC = storyboard.instantiateViewController(withIdentifier: NewsDetailViewController.storyboardId) as! NewsDetailViewController
         

@@ -80,7 +80,7 @@ class EventsSection: UICollectionViewCell {
     }
     
     //get upcoming events list
-    private func getUpcomingEvents(){
+    private func getUpcomingEvents() {
         EventService.getUpcomingEvents().done { response -> () in
             self.upcomingEvents = response.list.reversed()
             }.ensure {

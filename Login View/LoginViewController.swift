@@ -76,7 +76,7 @@ class LoginViewController: UIViewController {
 //MARK: Login / Register Delegate
 extension LoginViewController: LoginViewDelegate, UserServiceDelegate {
     
-    func didTapDismissBtn(){
+    func didTapDismissBtn() {
         if self.isModal {
             self.dismiss(animated: true, completion: nil)
         } else {

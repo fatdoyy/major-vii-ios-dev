@@ -128,7 +128,7 @@ class EventsListViewController: ScrollingNavigationViewController {
         isFromLoginView = true
     }
     
-    private func setupLeftBarItems(){
+    private func setupLeftBarItems() {
         let customView = UIView(frame: CGRect(x: 15, y: 10, width: 110, height: 30.0))
         customView.backgroundColor = .clear
         
@@ -154,7 +154,7 @@ class EventsListViewController: ScrollingNavigationViewController {
         self.navigationItem.leftBarButtonItem = menuBarItem
     }
     
-    private func setupRightBarItems(){
+    private func setupRightBarItems() {
         let menuBtn = UIButton(type: .custom)
         menuBtn.frame = CGRect(x: 0.0, y: 0.0, width: 32, height: 32)
         menuBtn.setImage(UIImage(named:"search"), for: .normal)
@@ -168,11 +168,11 @@ class EventsListViewController: ScrollingNavigationViewController {
         self.navigationItem.rightBarButtonItem = menuBarItem
     }
     
-    @objc private func searchTapped(){
+    @objc private func searchTapped() {
         print("tapped")
     }
     
-    @objc private func popView(){
+    @objc private func popView() {
         //navigationController?.hero.navigationAnimationType = .uncover(direction: .down)
         navigationController?.popViewController(animated: true)
     }
@@ -192,8 +192,8 @@ class EventsListViewController: ScrollingNavigationViewController {
 
 extension EventsListViewController: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if let section = Section(rawValue: section){
-            switch section{
+        if let section = EventsListSection(rawValue: section) {
+            switch section {
             case .Featured:  return 7 //featuredEvents.count
             default: return 1 //return the cell contains horizontal collection view
             }
@@ -207,8 +207,8 @@ extension EventsListViewController: UICollectionViewDelegate, UICollectionViewDe
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        if let section = Section(rawValue: indexPath.section){
-            switch section{
+        if let section = EventsListSection(rawValue: indexPath.section) {
+            switch section {
             case .Following:
                 let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: FollowingSection.reuseIdentifier, for: indexPath) as! FollowingSection
                 cell.delegate = self
@@ -253,9 +253,9 @@ extension EventsListViewController: UICollectionViewDelegate, UICollectionViewDe
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        if let section = Section(rawValue: indexPath.section){
+        if let section = EventsListSection(rawValue: indexPath.section) {
             let width = self.view.frame.width
-            switch section{
+            switch section {
             case .Following:    return CGSize(width: width, height: FollowingSection.height)
             case .Bookmark:     return CGSize(width: width, height: BookmarkedSection.height)
             case .Featured:     return CGSize(width: FeaturedCell.width, height: FeaturedCell.height)
@@ -270,7 +270,7 @@ extension EventsListViewController: UICollectionViewDelegate, UICollectionViewDe
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         switch kind{
         case UICollectionView.elementKindSectionHeader:
-            if indexPath.section == Section.Featured.rawValue{
+            if indexPath.section == EventsListSection.Featured.rawValue {
                 let reusableView = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: FeaturedSectionHeader.reuseIdentifier, for: indexPath) as! FeaturedSectionHeader
                 return reusableView
             } else {
@@ -283,7 +283,7 @@ extension EventsListViewController: UICollectionViewDelegate, UICollectionViewDe
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        if section == Section.Featured.rawValue{
+        if section == EventsListSection.Featured.rawValue {
             return CGSize(width: mainCollectionView.bounds.width, height: FeaturedSectionHeader.height)
         } else {
             return CGSize.zero
@@ -291,7 +291,7 @@ extension EventsListViewController: UICollectionViewDelegate, UICollectionViewDe
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        if section == Section.Featured.rawValue{
+        if section == EventsListSection.Featured.rawValue {
             return 15
         } else {
             return 10
@@ -299,7 +299,7 @@ extension EventsListViewController: UICollectionViewDelegate, UICollectionViewDe
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if indexPath.section == Section.Featured.rawValue{
+        if indexPath.section == EventsListSection.Featured.rawValue {
             print("\(indexPath.row)")
             EventDetailsViewController.push(from: self, eventId: "")
         }
@@ -336,6 +336,6 @@ extension EventsListViewController: FeaturedCellDelegate{
     }
 }
 
-enum Section: Int {
+enum EventsListSection: Int {
     case Trending = 0, Following, Bookmark, Featured
 }

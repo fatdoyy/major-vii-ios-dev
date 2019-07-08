@@ -403,7 +403,7 @@ extension BuskerProfileViewController {
         }
     }
     
-    private func setupLeftBarItems(){
+    private func setupLeftBarItems() {
         let customView = UIView(frame: CGRect(x: 15, y: 10, width: 30, height: 30))
         customView.backgroundColor = .clear
         
@@ -421,7 +421,7 @@ extension BuskerProfileViewController {
         self.navigationItem.leftBarButtonItem = menuBarItem
     }
     
-    @objc private func popView(){
+    @objc private func popView() {
         navigationController?.hero.navigationAnimationType = .zoomOut
         navigationController?.popViewController(animated: true)
     }
@@ -440,7 +440,7 @@ extension BuskerProfileViewController {
         }
     }
     
-    @objc private func dismissView(){
+    @objc private func dismissView() {
         dismiss(animated: true, completion: nil)
     }
     
@@ -957,7 +957,7 @@ extension BuskerProfileViewController {
 
 //MARK: Footer Section
 extension BuskerProfileViewController {
-    private func setupFooter(){
+    private func setupFooter() {
         sepLine.backgroundColor = UIColor.white.withAlphaComponent(0.1)
         sepLine.layer.cornerRadius = 0.2
         mainScrollView.addSubview(sepLine)

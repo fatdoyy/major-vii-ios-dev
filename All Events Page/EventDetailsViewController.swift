@@ -120,7 +120,7 @@ class EventDetailsViewController: UIViewController {
         if !isModal { TabBar.show(from: self) }
     }
     
-    private func getDetails(eventId: String){
+    private func getDetails(eventId: String) {
         EventService.getEventDetails(eventId: eventId).done { details -> () in
             self.eventDetails = details
             self.loadImgIntoImgViewer()
@@ -130,7 +130,7 @@ class EventDetailsViewController: UIViewController {
             }.catch { error in }
     }
     
-    private func loadDetails(){
+    private func loadDetails() {
         if let url = URL(string: (eventDetails!.item?.images.first?.secureUrl)!) {
             headerImg.kf.setImage(with: url, options: [.transition(.fade(0.4))])
         }
@@ -223,7 +223,7 @@ class EventDetailsViewController: UIViewController {
             if view.tag == 111 { //not fading hashtagsCollectionView for better exp.
                 view.alpha = 1.0
             } else {
-                UIView.animate(withDuration: 0.75){
+                UIView.animate(withDuration: 0.75) {
                     view.alpha = 1.0
                 }
             }
@@ -270,7 +270,7 @@ class EventDetailsViewController: UIViewController {
         }
     }
     
-    @objc private func dismissView(){
+    @objc private func dismissView() {
         dismiss(animated: true, completion: nil)
     }
     
@@ -311,7 +311,7 @@ class EventDetailsViewController: UIViewController {
         }
     }
     
-    @objc private func popView(){
+    @objc private func popView() {
         navigationController?.hero.navigationAnimationType = .zoomOut
         navigationController?.popViewController(animated: true)
     }
@@ -397,7 +397,7 @@ extension EventDetailsViewController: EventsDetailsViewDelegate{
 
 // MARK: present image viewer when imgCollectionView cell is tapped
 extension EventDetailsViewController{
-    func showImageViewer(atIndex: Int){
+    func showImageViewer(atIndex: Int) {
         let frame = CGRect(x: 0, y: 0, width: 200, height: 24)
         let footerView = CounterView(frame: frame, currentIndex: atIndex, count: imgViewerItems.count)
         
@@ -470,7 +470,7 @@ extension EventDetailsViewController: UIGestureRecognizerDelegate{
 
 // MARK: function to push this view controller
 extension EventDetailsViewController{
-    static func push(from view: UIViewController, eventId: String){
+    static func push(from view: UIViewController, eventId: String) {
         let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
         let detailsVC = storyboard.instantiateViewController(withIdentifier: EventDetailsViewController.storyboardId) as! EventDetailsViewController
         

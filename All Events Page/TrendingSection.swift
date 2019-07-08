@@ -99,7 +99,7 @@ class TrendingSection: UICollectionViewCell {
     }
     
     //get trending events list
-    func getTrendingEvents(){
+    func getTrendingEvents() {
         EventService.getTrendingEvents().done { response in
             self.trendingEvents = response.list.reversed()
             }.ensure {
@@ -236,7 +236,7 @@ extension TrendingSection: UICollectionViewDataSource, UICollectionViewDelegate,
             }
             
             for view in cell.viewsToShowLater { //show hidden view
-                UIView.animate(withDuration: 0.75){
+                UIView.animate(withDuration: 0.75) {
                     view.alpha = 1.0
                 }
             }

@@ -45,7 +45,7 @@ class EventsCell: UICollectionViewCell {
         }
     }
 
-    private func setupViews(){
+    private func setupViews() {
         imgOverlay.isHidden = true
         dateLabel.textColor = .whiteText()
         eventLabel.textColor = .whiteText()

@@ -154,7 +154,7 @@ class EventDetailsView: UIView {
         delegate?.bookmarkBtnTapped(sender: sender)
     }
     
-    private func setupLabels(){
+    private func setupLabels() {
         bookmarkCountLabel.textColor = .whiteText50Alpha()
         
         titleLabel.textColor = .whiteText()
@@ -181,7 +181,7 @@ class EventDetailsView: UIView {
         webLabel.textColor = .whiteText()
     }
     
-    private func hideViews(){
+    private func hideViews() {
         for view in viewsToShowLater {
             view.alpha = 0
         }

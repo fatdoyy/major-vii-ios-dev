@@ -98,7 +98,7 @@ class LoginView: UIView {
         setupUI()
     }
     
-    private func setupUI(){
+    private func setupUI() {
         NotificationCenter.default.setObserver(self, selector: #selector(keyboardWillDisappear), name: UIResponder.keyboardWillHideNotification, object: nil)
         NotificationCenter.default.setObserver(self, selector: #selector(keyboardWillAppear), name: UIResponder.keyboardWillShowNotification, object: nil)
         contentView.backgroundColor = .darkGray
