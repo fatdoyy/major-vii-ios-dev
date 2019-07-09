@@ -54,7 +54,8 @@ target 'major-7-ios' do
   pod 'BetterSegmentedControl'                  # segmented control
   pod 'MarqueeLabel'                            # auto scrolling UILabel
   pod 'GlitchLabel'                             # as title
-  
+#  pod 'ActiveLabel'                             # supporting Hashtags (#), Mentions (@), URLs (http:/)
+
   pod 'Hero', :git => 'https://github.com/kikikiktai/Hero.git'                                      # transitions
   pod 'Validator', :git => 'https://github.com/kikikiktai/Validator.git'                            # UITextField validation
   #  pod 'ImageViewer', :inhibit_warnings => true, :git=> 'https://github.com/mezhevikin/ImageViewer'  # as title

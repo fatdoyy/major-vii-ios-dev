@@ -39,14 +39,14 @@ class NewsDetailViewController: UIViewController {
     let pageControl = CHIPageControlJalapeno(frame: CGRect(x: 0, y: 0, width: 100, height: 20))
     let imgOverlay = UIView()
     var titleLabel = UILabel()
-    var descLabel = UILabel()
+    var subTitleLabel = UILabel()
     var viewsLabel = UILabel()
     var swipeUpImg = UIImageView()
     var swipeUpLabel = UILabel()
 
     let detailLowerView = UIView()
     var pageSize = CGSize()
-    var descString = ""
+    var contentStr = ""
     let contentLabel = UILabel()
     var contentLabelHeight : CGFloat = 0.0
     var sepLine = UIView()
@@ -229,13 +229,12 @@ extension NewsDetailViewController {
             //make.height.equalTo(16)
         }
         
-        descLabel.alpha = 0
-        descLabel.textAlignment = .left
-        descLabel.numberOfLines = 0
-        descLabel.font = UIFont.systemFont(ofSize: 14, weight: .medium)
-        descLabel.textColor = .lightGrayText()
-        detailUpperView.insertSubview(descLabel, aboveSubview: imgOverlay)
-        descLabel.snp.makeConstraints { (make) -> Void in
+        subTitleLabel.alpha = 0
+        subTitleLabel.textAlignment = .left
+        subTitleLabel.numberOfLines = 0
+        subTitleLabel.font = UIFont.systemFont(ofSize: 14, weight: .medium)
+        detailUpperView.insertSubview(subTitleLabel, aboveSubview: imgOverlay)
+        subTitleLabel.snp.makeConstraints { (make) -> Void in
             make.centerX.equalToSuperview()
             make.bottom.equalTo(viewsLabel.snp.top).offset(-20)
             make.width.equalTo(detailUpperView.snp.width).inset(UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20))
@@ -249,7 +248,7 @@ extension NewsDetailViewController {
         detailUpperView.insertSubview(titleLabel, aboveSubview: imgOverlay)
         titleLabel.snp.makeConstraints { (make) -> Void in
             make.centerX.equalToSuperview()
-            make.bottom.equalTo(descLabel.snp.top).offset(-10)
+            make.bottom.equalTo(subTitleLabel.snp.top).offset(-10)
             make.width.equalTo(detailUpperView.snp.width).inset(UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20))
         }
         
@@ -287,15 +286,22 @@ extension NewsDetailViewController {
                 imgCollectionView.infiniteLayout.isEnabled = newsDetails.coverImages.count > 1
                 pageControl.numberOfPages = newsDetails.coverImages.count
                 titleLabel.text = newsDetails.title
-                descLabel.text = newsDetails.subTitle
-                //viewsLabel.text
+                
+                if let subTitle = newsDetails.subTitle {
+                    let subTitleAttrString = NSAttributedString(string: subTitle, attributes: TextAttributes.newsSubtitleConfig())
+                    
+                    subTitleLabel.attributedText = subTitleAttrString
+                    subTitleLabel.sizeToFit()
+                    contentLabel.lineBreakMode = .byWordWrapping
+                    //viewsLabel.text
+                }
             }
         }
         
         UIView.animate(withDuration: 0.5) {
             self.pageControl.alpha = 1
             self.titleLabel.alpha = 1
-            self.descLabel.alpha = 1
+            self.subTitleLabel.alpha = 1
             self.viewsLabel.alpha = 1
         }
 
@@ -343,16 +349,16 @@ extension NewsDetailViewController {
         }
         
         if let newsDetails = details?.item {
-            descString = newsDetails.content!
+            contentStr = newsDetails.content!
         } else {
-            descString = "default content"
+            contentStr = "default content"
         }
         
         // create attributed string
-        let descAttrString = NSAttributedString(string: descString, attributes: TextAttributes.newsContentConfig())
+        let contentAttrString = NSAttributedString(string: contentStr, attributes: TextAttributes.newsContentConfig())
         
         // set attributed text on a UILabel
-        contentLabel.attributedText = descAttrString
+        contentLabel.attributedText = contentAttrString
         contentLabel.sizeToFit()
         contentLabel.font = UIFont.systemFont(ofSize: 15, weight: .regular)
         contentLabel.numberOfLines = 0

@@ -11,6 +11,15 @@ import UIKit
 class TextAttributes {}
 
 extension TextAttributes {
+    class func newsSubtitleConfig() -> [NSAttributedString.Key : Any] {
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineSpacing = 6
+        paragraphStyle.lineBreakMode = .byTruncatingTail
+        
+        let myAttribute = [NSAttributedString.Key.foregroundColor: UIColor.lightGrayText(), NSAttributedString.Key.paragraphStyle: paragraphStyle]
+        return myAttribute
+    }
+    
     class func newsContentConfig() -> [NSAttributedString.Key : Any] {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = 8
