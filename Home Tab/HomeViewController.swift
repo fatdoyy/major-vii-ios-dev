@@ -143,6 +143,10 @@ class HomeViewController: UIViewController {
             }.ensure {
                 self.mainCollectionView.isUserInteractionEnabled = true
                 UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                
+                self.refreshView.stopAnimation()
+                self.customRefreshControl.endRefreshing()
+                HapticFeedback.createNotificationFeedback(style: .success)
             }.catch { error in }
     }
     
@@ -165,12 +169,21 @@ class HomeViewController: UIViewController {
         
         //get events again... TODO
         
-        //get news again
-        newsList.removeAll()
-        mainCollectionView.reloadData()
-        gotMoreNews = true
-        getNews(limit: newsLimit)
-        
+        //refresh based on selected section
+        switch selectedSection {
+        case .News:
+            newsList.removeAll()
+            mainCollectionView.reloadData()
+            gotMoreNews = true
+            getNews(limit: newsLimit)
+
+        case .Posts:
+            postsList.removeAll()
+            mainCollectionView.reloadData()
+            gotMorePosts = true
+            getPosts(limit: postsLimit)
+
+        }
     }
 }
 

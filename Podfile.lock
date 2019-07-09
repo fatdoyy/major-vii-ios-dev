@@ -182,7 +182,7 @@ DEPENDENCIES:
   - PromiseKit/CorePromise
   - ReachabilitySwift
   - Reqres
-  - SkeletonView
+  - SkeletonView (= 1.6)
   - SkyFloatingLabelTextField (~> 3.0)
   - SnapKit
   - SwiftGifOrigin (~> 1.6)
@@ -316,6 +316,6 @@ SPEC CHECKSUMS:
   Validator: 9cfe0da15338f2e36fcf9e394f5bc1761888bec4
   XCDYouTubeKit: ab0bd023c24c69a417c8beacda9502e99e23d6b4
 
-PODFILE CHECKSUM: 50ccc2b8f4127c319e25d1b84a38e464a5549c4a
+PODFILE CHECKSUM: 3f31f460d47b6f3271ed905c07cd3b84aa4932a3
 
 COCOAPODS: 1.7.2

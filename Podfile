@@ -33,7 +33,7 @@ target 'major-7-ios' do
   pod 'SnapKit'                                 # layout constaints
   pod 'Pastel'                                  # dynamic gradient background
   pod 'ObjectMapper'                            # json mapping
-  pod 'SkeletonView'                            # as title
+  pod 'SkeletonView', '1.6'                     # as title
   pod 'BouncyLayout'                            # UICollectionView animation
   pod 'AMScrollingNavbar'                       # UINavigationBar hiding
   pod 'MXParallaxHeader'                        # parallax header
