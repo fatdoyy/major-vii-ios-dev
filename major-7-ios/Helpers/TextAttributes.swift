@@ -22,7 +22,7 @@ extension TextAttributes {
     
     class func postContentConfig() -> [NSAttributedString.Key : Any] {
         let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineSpacing = 6
+        paragraphStyle.lineSpacing = 5
         //paragraphStyle.lineBreakMode = .byTruncatingTail
         
         let myAttribute = [NSAttributedString.Key.foregroundColor: UIColor.whiteText(), NSAttributedString.Key.paragraphStyle: paragraphStyle]

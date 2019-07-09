@@ -13,11 +13,7 @@ import NVActivityIndicatorView
 
 class HomeViewController: UIViewController {
     weak var previousController: UIViewController? //for tabbar scroll to top
-    
-    let stringArr: [String] = [ "【突發】聽朝9點 屯門區議會 要人！！！見到有巴打個post潛左突發】聽朝9點 屯門區議會 要人！！！ ", "distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like)."]
-    
-    var attrStringArr: [NSAttributedString] = []
-    
+
     var customRefreshControl: UIRefreshControl = {
         let refreshControl = UIRefreshControl()
         refreshControl.backgroundColor = .clear
@@ -33,14 +29,13 @@ class HomeViewController: UIViewController {
     var selectedSection = HomeSelectedSection.News //default section is "News"
     
     var newsList: [News] = []
-    var numberOfNews = 8 //news limit per request
-    var hasMoreNews = true //lazy loading
-    var isNewsSelected = true
+    var newsLimit = 8 //news limit per request
+    var gotMoreNews = true //lazy loading, "true" because default section is News
     
     var postsList: [Post] = []
-    var numberOfPosts = 8 //news limit per request
-    var hasMorePost = true //lazy loading
-    var isPostsSelected = false
+    var attrContentArr: [NSAttributedString] = [] //attributed string array
+    var postsLimit = 3 //post limit per request
+    var gotMorePosts = false //lazy loading, should be set to true when Posts section is selected
     
     @IBOutlet weak var mainCollectionView: UICollectionView!
     
@@ -82,8 +77,7 @@ class HomeViewController: UIViewController {
         
         mainCollectionView.register(UINib.init(nibName: "NewsSectionFooter", bundle: nil), forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: NewsSectionFooter.reuseIdentifier)
         
-        getNews(limit: numberOfNews)
-        getPosts(limit: numberOfPosts)
+        getNews(limit: newsLimit)
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -92,7 +86,7 @@ class HomeViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.navigationItem.title = ""
+        navigationItem.title = ""
         navigationController?.setNavigationBarHidden(true, animated: true)
     }
     
@@ -111,9 +105,7 @@ class HomeViewController: UIViewController {
         NewsService.getList(skip: skip, limit: limit).done { response -> () in
             //self.newsList = response.list
             self.newsList.append(contentsOf: response.list)
-            if response.list.count < self.numberOfNews || response.list.count == 0 {
-                self.hasMoreNews = false
-            }
+            self.gotMoreNews = response.list.count < self.newsLimit || response.list.count == 0 ? false : true
             self.mainCollectionView.reloadData()
             }.ensure {
                 self.mainCollectionView.isUserInteractionEnabled = true
@@ -135,14 +127,18 @@ class HomeViewController: UIViewController {
         mainCollectionView.isUserInteractionEnabled = false
         PostService.getList(skip: skip, limit: limit).done { response -> () in
             self.postsList.append(contentsOf: response.list)
+//            if response.list.count < self.postsLimit || response.list.count == 0 {
+//                self.gotMorePosts = false
+//            }
+            self.gotMorePosts = response.list.count < self.postsLimit || response.list.count == 0 ? false : true
             
-            for string in self.stringArr {
-                let contentAttrString = NSAttributedString(string: string, attributes: TextAttributes.postContentConfig())
-                self.attrStringArr.append(contentAttrString)
+            //set text attributes to content and add them to new array (i.e. attrContentArr)
+            for post in self.postsList {
+                if let content = post.content {
+                    let contentAttrString = NSAttributedString(string: content, attributes: TextAttributes.postContentConfig())
+                    self.attrContentArr.append(contentAttrString)
+                }
             }
-            
-            print(self.postsList[0].authorProfile?.name!)
-            
             self.mainCollectionView.reloadData()
             }.ensure {
                 self.mainCollectionView.isUserInteractionEnabled = true
@@ -167,13 +163,13 @@ class HomeViewController: UIViewController {
         refreshView.startAnimation()
         print("refreshing")
         
-        //get events again
+        //get events again... TODO
         
         //get news again
         newsList.removeAll()
         mainCollectionView.reloadData()
-        hasMoreNews = true
-        getNews(limit: numberOfNews)
+        gotMoreNews = true
+        getNews(limit: newsLimit)
         
     }
 }
@@ -307,11 +303,16 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
                     if let url = URL(string: postsList[indexPath.row].authorProfile?.coverImages[0].secureUrl! ?? "") {
                         cell.buskerIcon.kf.setImage(with: url, options: [.transition(.fade(0.3))])
                     }
+                    
                     cell.buskerName.text = postsList[indexPath.row].authorProfile?.name
-                    //cell.contentLabel.text = stringArr[indexPath.row]
-                    cell.contentLabel.attributedText = attrStringArr[indexPath.row]
+                    cell.contentLabel.attributedText = attrContentArr[indexPath.row] //not getting from postsList because we need attributed text
                     cell.contentLabel.sizeToFit()
-                    print("cell height is \(cell.contentLabel.attributedTextHeight(withWidth: HomePostCell.width))")
+                    print("Is cell \(indexPath.row) truncated? \(cell.contentLabel.isTruncated)")
+                    if cell.contentLabel.isTruncated { //add custom truncated text
+                        DispatchQueue.main.async {
+                            cell.contentLabel.addTrailing(with: "... ", moreText: "more", moreTextFont: UIFont.systemFont(ofSize: 13, weight: .bold), moreTextColor: .lightPurple())
+                        }
+                    }
                     
                     return cell
                 } else { // post list is empty
@@ -325,10 +326,17 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        if (indexPath.row == newsList.count - 1 ) {
-            print("need to fetch!")
-            
-            hasMoreNews ? getNews(skip: self.newsList.count, limit: numberOfNews) : print("fetched all news!")
+        switch selectedSection {
+        case .News:
+            if (indexPath.row == newsList.count - 1 ) {
+                print("Fetching news...")
+                gotMoreNews ? getNews(skip: newsList.count, limit: newsLimit) : print("No more news to fetch!")
+            }
+        case .Posts:
+            if (indexPath.row == postsList.count - 1 ) {
+                print("Fetching posts...")
+                gotMorePosts ? getPosts(skip: postsList.count, limit: postsLimit) : print("No more posts to fetch!")
+            }
         }
     }
     
@@ -347,19 +355,10 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
                 
             case .Posts: //dynamic cell height (i.e. attributed text height)
                 if !postsList.isEmpty {
-//                    if let content = postsList[indexPath.row].content {
-//                        //let textHeight = content.height(withWidth: HomePostCell.width, font: UIFont())
-//                        let attrTextHeight = attrStringArr[indexPath.row].height(withWidth: HomePostCell.width)
-//                        print("attrTextHeight is \(attrTextHeight)")
-//                        return CGSize(width: HomePostCell.width, height: HomePostCell.height + attrTextHeight + 40)
-//                    } else {
-//                        return CGSize(width: HomePostCell.width, height: HomePostCell.height)
-//                    }
-                    let attrTextHeight = attrStringArr[indexPath.row].height(withWidth: HomePostCell.width)
-                    print("attrTextHeight is \(attrTextHeight)")
-                    return CGSize(width: HomePostCell.width, height: HomePostCell.height + attrTextHeight + 40)
+                    let attrTextHeight = attrContentArr[indexPath.row].height(withWidth: HomePostCell.width)
+                    return CGSize(width: HomePostCell.width, height: (HomePostCell.width / HomePostCell.aspectRatio) + attrTextHeight + (HomePostCell.width * 188 / 335))
                 } else { //news list is empty
-                    return CGSize(width: HomePostCell.width, height: HomePostCell.height)
+                    return CGSize(width: HomePostCell.width, height: HomePostCell.width / HomePostCell.aspectRatio)
                 }
             }
         }
@@ -399,18 +398,25 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
             }
             
         case UICollectionView.elementKindSectionFooter:
-            let section = indexPath.section
-            switch section {
+            switch indexPath.section {
             case 1: //News/Post Section
                 let footer = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: NewsSectionFooter.reuseIdentifier, for: indexPath) as! NewsSectionFooter
-                
-                footer.sepLine.alpha = hasMoreNews ? 0 : 1
-                footer.copyrightLabel.alpha = hasMoreNews ? 0 : 1
-                footer.loadingIndicator.alpha = hasMoreNews ? 1 : 0
-                
-                return footer
-                
-            default: return UICollectionReusableView()
+                switch selectedSection {
+                case .News:
+                    footer.sepLine.alpha = gotMoreNews ? 0 : 1
+                    footer.copyrightLabel.alpha = gotMoreNews ? 0 : 1
+                    footer.loadingIndicator.alpha = gotMoreNews ? 1 : 0
+                    
+                    return footer
+                    
+                case .Posts:
+                    footer.sepLine.alpha = gotMorePosts ? 0 : 1
+                    footer.copyrightLabel.alpha = gotMorePosts ? 0 : 1
+                    footer.loadingIndicator.alpha = gotMorePosts ? 1 : 0
+                    
+                    return footer
+                }
+            default: return UICollectionReusableView() //events section
             }
         default:  fatalError("Unexpected element kind")
         }
@@ -458,8 +464,8 @@ extension HomeViewController: NewsSectionHeaderDelegate {
         if selectedSection != .News {
             newsList.removeAll()
             mainCollectionView.reloadData()
-            hasMoreNews = true
-            getNews(limit: numberOfNews)
+            gotMoreNews = true
+            getNews(limit: newsLimit)
             
             selectedSection = .News
         }
@@ -472,8 +478,8 @@ extension HomeViewController: NewsSectionHeaderDelegate {
         if selectedSection != .Posts {
             postsList.removeAll()
             mainCollectionView.reloadData()
-            hasMorePost = true
-            getPosts(limit: numberOfPosts)
+            gotMorePosts = true
+            getPosts(limit: postsLimit)
             
             selectedSection = .Posts
         }

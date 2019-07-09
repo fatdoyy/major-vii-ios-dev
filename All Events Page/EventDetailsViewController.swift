@@ -189,7 +189,7 @@ class EventDetailsViewController: UIViewController {
         paragraphStyle.lineSpacing = 8
         paragraphStyle.lineBreakMode = .byTruncatingTail
         
-        let myAttribute = [ NSAttributedString.Key.foregroundColor: UIColor.whiteText(), NSAttributedString.Key.paragraphStyle: paragraphStyle ]
+        let myAttribute = [NSAttributedString.Key.foregroundColor: UIColor.whiteText(), NSAttributedString.Key.paragraphStyle: paragraphStyle]
         
         // create attributed string
         let descAttrString = NSAttributedString(string: descString!, attributes: myAttribute)

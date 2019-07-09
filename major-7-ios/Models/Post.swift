@@ -36,7 +36,7 @@ class Post: Mappable {
         images          <- map["images"]
         id              <- map["_id"]
         content         <- map["text"]
-        authorProfile  <- map["cretor_profile"]
+        authorProfile   <- map["creator_profile"]
         creatorType     <- map["creator_type"]
         publishTime     <- map["publish_time"]
     }

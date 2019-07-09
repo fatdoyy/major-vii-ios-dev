@@ -111,8 +111,7 @@ extension BuskersViewController {
         searchController.searchBar.backgroundColor = UIColor.darkGray().withAlphaComponent(0.8)
         searchController.searchResultsController?.view.addObserver(self, forKeyPath: "hidden", options: [], context: nil)
         
-        
-        UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).defaultTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+        UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).defaultTextAttributes = [.foregroundColor: UIColor.white]
         
         if let textfield = searchController.searchBar.value(forKey: "searchField") as? UITextField {
             if let backgroundview = textfield.subviews.first {

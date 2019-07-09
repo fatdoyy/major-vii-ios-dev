@@ -102,6 +102,7 @@
 		96B0BE4A21F056B4003C9BA5 /* LocalKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B0BE4921F056B4003C9BA5 /* LocalKeys.swift */; };
 		96B34DEA224E257B00D9F236 /* InfoWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B34DE9224E257B00D9F236 /* InfoWindow.swift */; };
 		96B34DEC224F599E00D9F236 /* UIDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B34DEB224F599E00D9F236 /* UIDevice.swift */; };
+		96B3C80122D4D7FB00ED23BD /* UILabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B3C80022D4D7FB00ED23BD /* UILabel.swift */; };
 		96B80C3422D3958700E932BA /* TextAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B80C3322D3958700E932BA /* TextAttributes.swift */; };
 		96C55414219044D00065D70A /* EventsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96C55413219044D00065D70A /* EventsListViewController.swift */; };
 		96C5541B21918CB90065D70A /* TrendingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96C5541921918CB90065D70A /* TrendingCell.swift */; };
@@ -251,6 +252,7 @@
 		96B0BE4921F056B4003C9BA5 /* LocalKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalKeys.swift; sourceTree = "<group>"; };
 		96B34DE9224E257B00D9F236 /* InfoWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoWindow.swift; sourceTree = "<group>"; };
 		96B34DEB224F599E00D9F236 /* UIDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIDevice.swift; sourceTree = "<group>"; };
+		96B3C80022D4D7FB00ED23BD /* UILabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UILabel.swift; sourceTree = "<group>"; };
 		96B80C3322D3958700E932BA /* TextAttributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextAttributes.swift; sourceTree = "<group>"; };
 		96C55413219044D00065D70A /* EventsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsListViewController.swift; sourceTree = "<group>"; };
 		96C5541921918CB90065D70A /* TrendingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendingCell.swift; sourceTree = "<group>"; };
@@ -485,6 +487,7 @@
 				967B562D2244D42E006F0AF9 /* UIImage.swift */,
 				96F37325224BA1610088E142 /* FloatingPanelSettings.swift */,
 				96B34DEB224F599E00D9F236 /* UIDevice.swift */,
+				96B3C80022D4D7FB00ED23BD /* UILabel.swift */,
 				96C9899D2220307600170609 /* TextHeight.swift */,
 				96B80C3322D3958700E932BA /* TextAttributes.swift */,
 			);
@@ -890,6 +893,7 @@
 				960A4760219AA8FE00780AD4 /* HapticFeedback.swift in Sources */,
 				96C9899C221FFA4100170609 /* UIScrollView.swift in Sources */,
 				964761EF21870EE60004F58C /* NewsService.swift in Sources */,
+				96B3C80122D4D7FB00ED23BD /* UILabel.swift in Sources */,
 				966A6CC7217DC16500DF872F /* Colors.swift in Sources */,
 				96C5544C219408580065D70A /* FeaturedCell.swift in Sources */,
 				965798B222266BC500A03BE9 /* BuskerProfileViewController.swift in Sources */,
