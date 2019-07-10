@@ -320,6 +320,10 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
                     cell.buskerName.text = postsList[indexPath.row].authorProfile?.name
                     cell.contentLabel.attributedText = attrContentArr[indexPath.row] //not getting from postsList because we need attributed text
                     cell.contentLabel.sizeToFit()
+                    //print("contentLabelHeight = \(cell.contentLabel.bounds.size.height)")
+
+                    cell.contentLabel.backgroundColor = cell.isSelected ? .red : .purpleText()
+                    
                     print("Is cell \(indexPath.row) truncated? \(cell.contentLabel.isTruncated)")
                     if cell.contentLabel.isTruncated { //add custom truncated text
                         DispatchQueue.main.async {
@@ -369,6 +373,16 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
             case .Posts: //dynamic cell height (i.e. attributed text height)
                 if !postsList.isEmpty {
                     let attrTextHeight = attrContentArr[indexPath.row].height(withWidth: HomePostCell.width)
+
+                    print("collectionView.indexPathsForSelectedItems = \(collectionView.indexPathsForSelectedItems)")
+                    switch collectionView.indexPathsForSelectedItems?.first {
+                    case .some(indexPath):
+                        return CGSize(width: HomePostCell.width, height: (HomePostCell.width / HomePostCell.aspectRatio) + attrTextHeight + (HomePostCell.width * 188 / 335))
+                    default:
+                        return CGSize(width: HomePostCell.width, height: HomePostCell.width / HomePostCell.aspectRatio)
+                    }
+                    
+                    print("attrTextHeight = \(attrTextHeight)")
                     return CGSize(width: HomePostCell.width, height: (HomePostCell.width / HomePostCell.aspectRatio) + attrTextHeight + (HomePostCell.width * 188 / 335))
                 } else { //news list is empty
                     return CGSize(width: HomePostCell.width, height: HomePostCell.width / HomePostCell.aspectRatio)
@@ -380,9 +394,31 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if indexPath.section == 1 { //news section
-            print("News cell index: \(indexPath.row)")
-            NewsDetailViewController.push(fromView: self, newsId: newsList[indexPath.row].id!)
-            
+            switch selectedSection {
+            case .News:
+                print("News cell index: \(indexPath.row)")
+                NewsDetailViewController.push(fromView: self, newsId: newsList[indexPath.row].id!)
+            case .Posts:
+                
+                
+                
+//                let currentCell = mainCollectionView.cellForItem(at: indexPath) as! HomePostCell
+//                print("Selected post cell's artist = \(currentCell.buskerName.text ?? "name's empty?")")
+//                currentCell.isSelected = true
+//                currentCell.contentLabel.backgroundColor = .red
+//
+//                print(collectionView.indexPathsForSelectedItems?.first)
+//
+//                if currentCell.contentLabel.isTruncated {
+//                    //currentCell.contentLabel.bounds.size.height +=
+//                }
+                
+                collectionView.performBatchUpdates(nil, completion: nil)
+                
+                
+                print("post cell tapped")
+            }
+
         }
     }
     

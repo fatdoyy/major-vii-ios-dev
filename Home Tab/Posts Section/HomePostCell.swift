@@ -48,6 +48,7 @@ class HomePostCell: UICollectionViewCell {
         
         buskerName.textColor = .white
         
+        contentLabel.backgroundColor = .purpleText()
         contentLabel.numberOfLines = 3
         //contentLabel.lineBreakMode = .byTruncatingTail
         contentLabel.translatesAutoresizingMaskIntoConstraints = false
