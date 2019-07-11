@@ -8,8 +8,14 @@
 
 import UIKit
 
-class HomePostCell: UICollectionViewCell {
+protocol HomePostCellDelegate {
+    func contentLabelTapped(indexPath: IndexPath)
+}
 
+class HomePostCell: UICollectionViewCell {
+    var delegate: HomePostCellDelegate?
+    var indexPath: IndexPath!
+    
     static let width: CGFloat = UIScreen.main.bounds.width - 40
     static let xibWidth: CGFloat = 335
     static let xibheight: CGFloat = 499
@@ -48,6 +54,9 @@ class HomePostCell: UICollectionViewCell {
         
         buskerName.textColor = .white
         
+        let tap = UITapGestureRecognizer(target: self, action: #selector(contentLabelTapped))
+        contentLabel.isUserInteractionEnabled = true
+        contentLabel.addGestureRecognizer(tap)
         contentLabel.backgroundColor = .purpleText()
         contentLabel.numberOfLines = 3
         //contentLabel.lineBreakMode = .byTruncatingTail
@@ -83,6 +92,16 @@ class HomePostCell: UICollectionViewCell {
 
 }
 
+//MARK: Content Label tapped
+extension HomePostCell {
+    @objc func contentLabelTapped(_ sender: Any) {
+        delegate?.contentLabelTapped(indexPath: indexPath)
+
+//        if let delegate = delegate {
+//        }
+    }
+    
+}
 
 ////MARK: UICollectionView delegate/datasource
 //extension HomePostCell: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {

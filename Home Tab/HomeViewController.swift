@@ -36,6 +36,7 @@ class HomeViewController: UIViewController {
     var attrContentArr: [NSAttributedString] = [] //attributed string array
     var postsLimit = 3 //post limit per request
     var gotMorePosts = false //lazy loading, should be set to true when Posts section is selected
+    var isPostCellExpanded = [Bool]()
     
     @IBOutlet weak var mainCollectionView: UICollectionView!
     
@@ -139,6 +140,8 @@ class HomeViewController: UIViewController {
                     self.attrContentArr.append(contentAttrString)
                 }
             }
+            
+            self.isPostCellExpanded = Array(repeating: false, count: self.postsList.count)
             self.mainCollectionView.reloadData()
             }.ensure {
                 self.mainCollectionView.isUserInteractionEnabled = true
@@ -316,7 +319,8 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
                     if let url = URL(string: postsList[indexPath.row].authorProfile?.coverImages[0].secureUrl! ?? "") {
                         cell.buskerIcon.kf.setImage(with: url, options: [.transition(.fade(0.3))])
                     }
-                    
+                    cell.delegate = self
+                    cell.indexPath = indexPath
                     cell.buskerName.text = postsList[indexPath.row].authorProfile?.name
                     cell.contentLabel.attributedText = attrContentArr[indexPath.row] //not getting from postsList because we need attributed text
                     cell.contentLabel.sizeToFit()
@@ -374,16 +378,23 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
                 if !postsList.isEmpty {
                     let attrTextHeight = attrContentArr[indexPath.row].height(withWidth: HomePostCell.width)
 
-                    print("collectionView.indexPathsForSelectedItems = \(collectionView.indexPathsForSelectedItems)")
-                    switch collectionView.indexPathsForSelectedItems?.first {
-                    case .some(indexPath):
+//                    print("collectionView.indexPathsForSelectedItems = \(collectionView.indexPathsForSelectedItems)")
+//                    switch collectionView.indexPathsForSelectedItems?.first {
+//                    case .some(indexPath):
+//                        return CGSize(width: HomePostCell.width, height: (HomePostCell.width / HomePostCell.aspectRatio) + attrTextHeight + (HomePostCell.width * 188 / 335))
+//                    default:
+//                        return CGSize(width: HomePostCell.width, height: HomePostCell.width / HomePostCell.aspectRatio)
+//                    }
+                    
+                    if isPostCellExpanded[indexPath.row] == true {
                         return CGSize(width: HomePostCell.width, height: (HomePostCell.width / HomePostCell.aspectRatio) + attrTextHeight + (HomePostCell.width * 188 / 335))
-                    default:
+                    }else{
                         return CGSize(width: HomePostCell.width, height: HomePostCell.width / HomePostCell.aspectRatio)
                     }
                     
-                    print("attrTextHeight = \(attrTextHeight)")
-                    return CGSize(width: HomePostCell.width, height: (HomePostCell.width / HomePostCell.aspectRatio) + attrTextHeight + (HomePostCell.width * 188 / 335))
+//
+//                    print("attrTextHeight = \(attrTextHeight)")
+//                    return CGSize(width: HomePostCell.width, height: (HomePostCell.width / HomePostCell.aspectRatio) + attrTextHeight + (HomePostCell.width * 188 / 335))
                 } else { //news list is empty
                     return CGSize(width: HomePostCell.width, height: HomePostCell.width / HomePostCell.aspectRatio)
                 }
@@ -399,21 +410,15 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
                 print("News cell index: \(indexPath.row)")
                 NewsDetailViewController.push(fromView: self, newsId: newsList[indexPath.row].id!)
             case .Posts:
+
+                let currentCell = mainCollectionView.cellForItem(at: indexPath) as! HomePostCell
+                print("Selected post cell's artist = \(currentCell.buskerName.text ?? "name's empty?")")
+                currentCell.isSelected = true
+                currentCell.contentLabel.backgroundColor = .red
+
+                print(collectionView.indexPathsForSelectedItems?.first)
                 
-                
-                
-//                let currentCell = mainCollectionView.cellForItem(at: indexPath) as! HomePostCell
-//                print("Selected post cell's artist = \(currentCell.buskerName.text ?? "name's empty?")")
-//                currentCell.isSelected = true
-//                currentCell.contentLabel.backgroundColor = .red
-//
-//                print(collectionView.indexPathsForSelectedItems?.first)
-//
-//                if currentCell.contentLabel.isTruncated {
-//                    //currentCell.contentLabel.bounds.size.height +=
-//                }
-                
-                collectionView.performBatchUpdates(nil, completion: nil)
+                //collectionView.performBatchUpdates(nil, completion: nil)
                 
                 
                 print("post cell tapped")
@@ -488,7 +493,7 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
     }
 }
 
-//View all btn/cell tapped
+//MARK: Event sectopm view all btn/cell tapped
 extension HomeViewController: EventsSectionDelegate {
     
     func viewAllBtnTapped() {
@@ -505,7 +510,7 @@ extension HomeViewController: EventsSectionDelegate {
     }
 }
 
-//NewsHeaderSection delegate
+//MARK: NewsHeaderSection delegate
 extension HomeViewController: NewsSectionHeaderDelegate {
     func newsBtnTapped(sender: UIButton) {
         print("news btn tapped")
@@ -532,6 +537,18 @@ extension HomeViewController: NewsSectionHeaderDelegate {
             
             selectedSection = .Posts
         }
+    }
+}
+
+//MARK: HomePostCell delegate
+extension HomeViewController: HomePostCellDelegate {
+    func contentLabelTapped(indexPath: IndexPath) {
+        isPostCellExpanded[indexPath.row] = !isPostCellExpanded[indexPath.row]
+        UIView.animate(withDuration: 0.8, delay: 0.0, usingSpringWithDamping: 0.9, initialSpringVelocity: 0.9, options: .curveEaseInOut, animations: {
+            self.mainCollectionView.reloadItems(at: [indexPath])
+        }, completion: { success in
+            print("success")
+        })
     }
 }
 
