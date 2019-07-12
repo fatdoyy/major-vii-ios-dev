@@ -322,10 +322,13 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
                     cell.delegate = self
                     cell.indexPath = indexPath
                     cell.buskerName.text = postsList[indexPath.row].authorProfile?.name
+                    cell.contentLabel.numberOfLines = isPostCellExpanded[indexPath.row] == true ? 0 : 2
                     cell.contentLabel.attributedText = attrContentArr[indexPath.row] //not getting from postsList because we need attributed text
                     cell.contentLabel.sizeToFit()
-                    //print("contentLabelHeight = \(cell.contentLabel.bounds.size.height)")
-
+                    cell.contentLabelHeight = cell.contentLabel.bounds.size.height
+                    print("contentLabelHeight = \(cell.contentLabel.bounds.size.height)")
+                    print("cellHeight = \(cell.contentView.bounds.size)")
+                    
                     cell.contentLabel.backgroundColor = cell.isSelected ? .red : .purpleText()
                     
                     print("Is cell \(indexPath.row) truncated? \(cell.contentLabel.isTruncated)")
@@ -387,16 +390,21 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
 //                    }
                     
                     if isPostCellExpanded[indexPath.row] == true {
-                        return CGSize(width: HomePostCell.width, height: (HomePostCell.width / HomePostCell.aspectRatio) + attrTextHeight + (HomePostCell.width * 188 / 335))
-                    }else{
-                        return CGSize(width: HomePostCell.width, height: HomePostCell.width / HomePostCell.aspectRatio)
+                        return CGSize(width: HomePostCell.width, height: HomePostCell.xibHeight + attrTextHeight /* + (HomePostCell.width * 188 / 335) */)
+                    } else {
+//                        let cell = mainCollectionView.cellForItem(at: indexPath) as! HomePostCell
+//                        if let height = cell.contentLabelHeight {
+//                            print("cell.contentLabelHeight = \(height)")
+//                        }
+                        //return CGSize(width: HomePostCell.width, height: (HomePostCell.width / HomePostCell.aspectRatio))
+                        return CGSize(width: HomePostCell.width, height: HomePostCell.xibHeight)
                     }
                     
 //
 //                    print("attrTextHeight = \(attrTextHeight)")
 //                    return CGSize(width: HomePostCell.width, height: (HomePostCell.width / HomePostCell.aspectRatio) + attrTextHeight + (HomePostCell.width * 188 / 335))
                 } else { //news list is empty
-                    return CGSize(width: HomePostCell.width, height: HomePostCell.width / HomePostCell.aspectRatio)
+                    return CGSize(width: HomePostCell.width, height: HomePostCell.xibHeight)
                 }
             }
         }
@@ -546,9 +554,8 @@ extension HomeViewController: HomePostCellDelegate {
         isPostCellExpanded[indexPath.row] = !isPostCellExpanded[indexPath.row]
         UIView.animate(withDuration: 0.8, delay: 0.0, usingSpringWithDamping: 0.9, initialSpringVelocity: 0.9, options: .curveEaseInOut, animations: {
             self.mainCollectionView.reloadItems(at: [indexPath])
-        }, completion: { success in
-            print("success")
-        })
+        }, completion: nil)
+       // mainCollectionView.performBatchUpdates(nil, completion: nil)
     }
 }
 

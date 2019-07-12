@@ -15,10 +15,11 @@ protocol HomePostCellDelegate {
 class HomePostCell: UICollectionViewCell {
     var delegate: HomePostCellDelegate?
     var indexPath: IndexPath!
+    var contentLabelHeight: CGFloat!
     
     static let width: CGFloat = UIScreen.main.bounds.width - 40
     static let xibWidth: CGFloat = 335
-    static let xibheight: CGFloat = 499
+    static let xibHeight: CGFloat = 331
     static let aspectRatio: CGFloat = xibWidth / xibWidth
     static let reuseIdentifier = "homePostCell"
     
@@ -44,6 +45,7 @@ class HomePostCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         backgroundColor = .darkGray()
+        contentView.autoresizingMask = [.flexibleHeight]
         bgView.backgroundColor = UIColor(hexString: "#292b32")
         bgView.layer.cornerRadius = GlobalCornerRadius.value
         
@@ -57,8 +59,8 @@ class HomePostCell: UICollectionViewCell {
         let tap = UITapGestureRecognizer(target: self, action: #selector(contentLabelTapped))
         contentLabel.isUserInteractionEnabled = true
         contentLabel.addGestureRecognizer(tap)
-        contentLabel.backgroundColor = .purpleText()
-        contentLabel.numberOfLines = 3
+        //contentLabel.backgroundColor = .purpleText()
+        contentLabel.numberOfLines = 2
         //contentLabel.lineBreakMode = .byTruncatingTail
         contentLabel.translatesAutoresizingMaskIntoConstraints = false
 
