@@ -200,10 +200,10 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
         if section == 0 { return 1 } else { // News|Posts section
             switch selectedSection {
             case .News:
-                let count = newsList.isEmpty ? 2 : newsList.count
+                let count = newsList.isEmpty ? 3 : newsList.count
                 return count
             case .Posts:
-                let count = postsList.isEmpty ? 2 : postsList.count
+                let count = postsList.isEmpty ? 3 : postsList.count
                 return count
             }
         }
@@ -315,23 +315,26 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
             case .Posts:
                 if !postsList.isEmpty {
                     let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: HomePostCell.reuseIdentifier, for: indexPath) as! HomePostCell
+                    cell.delegate = self
                     
                     if let url = URL(string: postsList[indexPath.row].authorProfile?.coverImages[0].secureUrl! ?? "") {
                         cell.buskerIcon.kf.setImage(with: url, options: [.transition(.fade(0.3))])
                     }
-                    cell.delegate = self
+                    
+                    for view in cell.skeletonViews { view.hideSkeleton() }
+                    for view in cell.viewsToShowLater { view.alpha = 1 }
+                    for constraint in cell.tempConstraints { constraint.isActive = true }
+                    cell.contentLabel.snp.removeConstraints()
+                    cell.statsLabel.snp.removeConstraints()
+                    
                     cell.indexPath = indexPath
                     cell.buskerName.text = postsList[indexPath.row].authorProfile?.name
                     cell.contentLabel.numberOfLines = isPostCellExpanded[indexPath.row] == true ? 0 : 2
                     cell.contentLabel.attributedText = attrContentArr[indexPath.row] //not getting from postsList because we need attributed text
                     cell.contentLabel.sizeToFit()
-                    cell.contentLabelHeight = cell.contentLabel.bounds.size.height
-                    print("contentLabelHeight = \(cell.contentLabel.bounds.size.height)")
-                    print("cellHeight = \(cell.contentView.bounds.size)")
+//                    print("contentLabelHeight = \(cell.contentLabel.bounds.size.height)")
+//                    print("Is cell \(indexPath.row) truncated? \(cell.contentLabel.isTruncated)")
                     
-                    cell.contentLabel.backgroundColor = cell.isSelected ? .red : .purpleText()
-                    
-                    print("Is cell \(indexPath.row) truncated? \(cell.contentLabel.isTruncated)")
                     if cell.contentLabel.isTruncated { //add custom truncated text
                         DispatchQueue.main.async {
                             cell.contentLabel.addTrailing(with: "... ", moreText: "more", moreTextFont: UIFont.systemFont(ofSize: 13, weight: .bold), moreTextColor: .lightPurple())
@@ -392,24 +395,14 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
                     if isPostCellExpanded[indexPath.row] == true {
                         return CGSize(width: HomePostCell.width, height: HomePostCell.xibHeight + attrTextHeight /* + (HomePostCell.width * 188 / 335) */)
                     } else {
-//                        let cell = mainCollectionView.cellForItem(at: indexPath) as! HomePostCell
-//                        if let height = cell.contentLabelHeight {
-//                            print("cell.contentLabelHeight = \(height)")
-//                        }
-                        //return CGSize(width: HomePostCell.width, height: (HomePostCell.width / HomePostCell.aspectRatio))
                         return CGSize(width: HomePostCell.width, height: HomePostCell.xibHeight)
                     }
-                    
-//
-//                    print("attrTextHeight = \(attrTextHeight)")
-//                    return CGSize(width: HomePostCell.width, height: (HomePostCell.width / HomePostCell.aspectRatio) + attrTextHeight + (HomePostCell.width * 188 / 335))
                 } else { //news list is empty
-                    return CGSize(width: HomePostCell.width, height: HomePostCell.xibHeight)
+                    return CGSize(width: HomePostCell.width, height: HomePostCell.xibHeight - 140)
                 }
             }
         }
     }
-    
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if indexPath.section == 1 { //news section
@@ -417,21 +410,12 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
             case .News:
                 print("News cell index: \(indexPath.row)")
                 NewsDetailViewController.push(fromView: self, newsId: newsList[indexPath.row].id!)
+                
             case .Posts:
-
                 let currentCell = mainCollectionView.cellForItem(at: indexPath) as! HomePostCell
                 print("Selected post cell's artist = \(currentCell.buskerName.text ?? "name's empty?")")
-                currentCell.isSelected = true
-                currentCell.contentLabel.backgroundColor = .red
-
-                print(collectionView.indexPathsForSelectedItems?.first)
                 
-                //collectionView.performBatchUpdates(nil, completion: nil)
-                
-                
-                print("post cell tapped")
             }
-
         }
     }
     

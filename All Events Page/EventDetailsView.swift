@@ -191,7 +191,6 @@ class EventDetailsView: UIView {
         delegate?.performerLabelTapped(sender: sender)
     }
     
-    
 }
 
 extension EventDetailsView: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {

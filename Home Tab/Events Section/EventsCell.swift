@@ -23,7 +23,7 @@ class EventsCell: UICollectionViewCell {
     @IBOutlet weak var imgOverlay: UIView!
     @IBOutlet weak var bgImgView: UIImageView!
     
-    @IBOutlet var skeletonViews: Array<UILabel>!
+    @IBOutlet var skeletonViews: Array<UIView>!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -34,7 +34,7 @@ class EventsCell: UICollectionViewCell {
         
         let animation = SkeletonAnimationBuilder().makeSlidingAnimation(withDirection: .leftRight, duration: 2)
         dateLabel.tag = 1
-        for view in skeletonViews{
+        for view in skeletonViews {
             if view.tag == 1 {
                 SkeletonAppearance.default.multilineHeight = 18
             } else {

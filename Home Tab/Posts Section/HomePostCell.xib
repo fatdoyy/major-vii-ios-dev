@@ -38,14 +38,13 @@
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="This is some content. This is some content. This is some content." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hRo-W8-KXq">
                                 <rect key="frame" x="20" y="53" width="295" height="42.666666666666657"/>
-                                <color key="backgroundColor" red="0.36470588240000001" green="0.2901960784" blue="0.59999999999999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <gestureRecognizers/>
                                 <fontDescription key="fontDescription" name=".SFNSText" family=".SF NS Text" pointSize="14"/>
                                 <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tci-z6-yc9">
-                                <rect key="frame" x="20" y="110.66666666666666" width="31" height="14.333333333333329"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2000個拍手" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tci-z6-yc9">
+                                <rect key="frame" x="20" y="110.66666666666666" width="67" height="14.333333333333329"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="14.33" id="AZf-vC-fSY"/>
                                 </constraints>
@@ -84,7 +83,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
-                                <color key="backgroundColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="backgroundColor" red="0.23921568627450979" green="0.25098039215686274" blue="0.29019607843137252" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstItem="FQf-0Y-0uh" firstAttribute="top" secondItem="lV1-GJ-BZp" secondAttribute="top" constant="10" id="0At-dR-GR5"/>
                                     <constraint firstItem="ppj-qe-hcs" firstAttribute="top" secondItem="lV1-GJ-BZp" secondAttribute="top" constant="15" id="DPv-0l-PfY"/>
@@ -138,6 +137,7 @@
                             <constraint firstItem="lV1-GJ-BZp" firstAttribute="top" secondItem="06N-1J-jMo" secondAttribute="bottom" constant="20" id="PXa-aV-Dun"/>
                             <constraint firstAttribute="trailing" secondItem="lV1-GJ-BZp" secondAttribute="trailing" id="QO2-Sn-jat"/>
                             <constraint firstItem="jAV-3c-DWz" firstAttribute="top" secondItem="lV1-GJ-BZp" secondAttribute="bottom" constant="8" id="U4l-li-LNu"/>
+                            <constraint firstItem="tci-z6-yc9" firstAttribute="bottom" secondItem="K9b-8k-2Ps" secondAttribute="bottom" id="VPT-eO-UFJ"/>
                             <constraint firstAttribute="bottom" secondItem="jAV-3c-DWz" secondAttribute="bottom" constant="7" id="Vl1-LQ-Ijs"/>
                             <constraint firstAttribute="trailing" secondItem="Iqs-Eq-0ap" secondAttribute="trailing" constant="10" id="WPq-XT-86f"/>
                             <constraint firstItem="tci-z6-yc9" firstAttribute="top" secondItem="hRo-W8-KXq" secondAttribute="bottom" constant="15" id="YpL-pV-qYB"/>
@@ -189,6 +189,39 @@
                 <outlet property="userComment" destination="nLf-Qp-kSC" id="KO6-le-1em"/>
                 <outlet property="userIcon" destination="FQf-0Y-0uh" id="ZCP-fr-8Ln"/>
                 <outlet property="username" destination="ppj-qe-hcs" id="e3k-7Q-maj"/>
+                <outletCollection property="skeletonViews" destination="Sdz-sQ-Iod" collectionClass="NSMutableArray" id="lBd-6j-gg9"/>
+                <outletCollection property="skeletonViews" destination="hRo-W8-KXq" collectionClass="NSMutableArray" id="6wP-0u-Bt6"/>
+                <outletCollection property="skeletonViews" destination="tci-z6-yc9" collectionClass="NSMutableArray" id="3yA-cU-FK7"/>
+                <outletCollection property="viewsToShowLater" destination="Iqs-Eq-0ap" collectionClass="NSMutableArray" id="unR-cB-pmC"/>
+                <outletCollection property="viewsToShowLater" destination="K9b-8k-2Ps" collectionClass="NSMutableArray" id="ZrC-Va-802"/>
+                <outletCollection property="viewsToShowLater" destination="06N-1J-jMo" collectionClass="NSMutableArray" id="J3R-Od-T5v"/>
+                <outletCollection property="viewsToShowLater" destination="4JC-Nh-uU6" collectionClass="NSMutableArray" id="98T-QZ-N5s"/>
+                <outletCollection property="viewsToShowLater" destination="lV1-GJ-BZp" collectionClass="NSMutableArray" id="L7B-ki-Vrw"/>
+                <outletCollection property="viewsToShowLater" destination="jAV-3c-DWz" collectionClass="NSMutableArray" id="8qo-xF-5Dm"/>
+                <outletCollection property="tempConstraints" destination="6x3-O3-Lpb" collectionClass="NSMutableArray" id="xf7-o9-zc2"/>
+                <outletCollection property="tempConstraints" destination="gNY-S4-3ij" collectionClass="NSMutableArray" id="ulI-Ag-dU1"/>
+                <outletCollection property="tempConstraints" destination="t4n-uB-IUq" collectionClass="NSMutableArray" id="GtS-Sd-bcC"/>
+                <outletCollection property="tempConstraints" destination="gmg-wD-pGK" collectionClass="NSMutableArray" id="SZe-bt-NXI"/>
+                <outletCollection property="tempConstraints" destination="0fo-6g-9aj" collectionClass="NSMutableArray" id="g2p-Yq-ChW"/>
+                <outletCollection property="tempConstraints" destination="PXa-aV-Dun" collectionClass="NSMutableArray" id="ypR-Zp-zZp"/>
+                <outletCollection property="tempConstraints" destination="QO2-Sn-jat" collectionClass="NSMutableArray" id="Gwt-LH-wgX"/>
+                <outletCollection property="tempConstraints" destination="xfI-Bj-yM5" collectionClass="NSMutableArray" id="zf2-0B-VyG"/>
+                <outletCollection property="tempConstraints" destination="78u-C0-Ai1" collectionClass="NSMutableArray" id="6Jm-gP-bKo"/>
+                <outletCollection property="tempConstraints" destination="fm3-Mg-roK" collectionClass="NSMutableArray" id="8hJ-rA-PNT"/>
+                <outletCollection property="tempConstraints" destination="j9f-JH-D5S" collectionClass="NSMutableArray" id="cQH-Hd-6W0"/>
+                <outletCollection property="tempConstraints" destination="1cI-Lz-3kF" collectionClass="NSMutableArray" id="hKv-oQ-C0A"/>
+                <outletCollection property="tempConstraints" destination="U4l-li-LNu" collectionClass="NSMutableArray" id="SYu-ZZ-WA9"/>
+                <outletCollection property="tempConstraints" destination="Vl1-LQ-Ijs" collectionClass="NSMutableArray" id="v1n-E6-bS1"/>
+                <outletCollection property="tempConstraints" destination="3A6-2w-N54" collectionClass="NSMutableArray" id="PSU-HO-FG6"/>
+                <outletCollection property="tempConstraints" destination="kRr-Ze-HxE" collectionClass="NSMutableArray" id="Ium-02-qwf"/>
+                <outletCollection property="tempConstraints" destination="0At-dR-GR5" collectionClass="NSMutableArray" id="Wac-Se-oSB"/>
+                <outletCollection property="tempConstraints" destination="kHC-XI-wGe" collectionClass="NSMutableArray" id="sgB-EH-oWE"/>
+                <outletCollection property="tempConstraints" destination="DPv-0l-PfY" collectionClass="NSMutableArray" id="fvN-12-6d9"/>
+                <outletCollection property="tempConstraints" destination="FyP-k7-Fpf" collectionClass="NSMutableArray" id="vMx-mf-yVQ"/>
+                <outletCollection property="tempConstraints" destination="vTS-Dq-5Ux" collectionClass="NSMutableArray" id="d1M-Hq-6BN"/>
+                <outletCollection property="tempConstraints" destination="NZo-oC-nRd" collectionClass="NSMutableArray" id="4er-J1-QOE"/>
+                <outletCollection property="tempConstraints" destination="diM-26-TCN" collectionClass="NSMutableArray" id="fHL-xJ-x5G"/>
+                <outletCollection property="tempConstraints" destination="YpL-pV-qYB" collectionClass="NSMutableArray" id="2AO-PQ-fnl"/>
             </connections>
             <point key="canvasLocation" x="132.60869565217394" y="159.375"/>
         </collectionViewCell>
