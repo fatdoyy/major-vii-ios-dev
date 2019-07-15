@@ -77,7 +77,7 @@ class EventDetailsView: UIView {
         contentView.frame = self.bounds
         contentView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         
-        contentView.backgroundColor = .darkGray()
+        contentView.backgroundColor = .m7DarkGray()
         contentView.layer.cornerRadius = GlobalCornerRadius.value + 4
         
         if UserService.User.isLoggedIn() {
@@ -107,7 +107,7 @@ class EventDetailsView: UIView {
             hashtagsCollectionView.contentInsetAdjustmentBehavior = .always
         }
         
-        hashtagsCollectionView.backgroundColor = .darkGray()
+        hashtagsCollectionView.backgroundColor = .m7DarkGray()
         hashtagsCollectionView.register(UINib.init(nibName: "HashtagCell", bundle: nil), forCellWithReuseIdentifier: HashtagCell.reuseIdentifier)
         
         imgCollectionView.delegate = self
@@ -118,7 +118,7 @@ class EventDetailsView: UIView {
             layout.sectionInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
         }
         
-        imgCollectionView.backgroundColor = .darkGray()
+        imgCollectionView.backgroundColor = .m7DarkGray()
         imgCollectionView.register(UINib.init(nibName: "DetailsImageCell", bundle: nil), forCellWithReuseIdentifier: DetailsImageCell.reuseIdentifier)
         
         //hiding imgCollectionView on iPhone SE

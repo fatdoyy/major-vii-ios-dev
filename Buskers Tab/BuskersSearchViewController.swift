@@ -47,7 +47,7 @@ class BuskersSearchViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         definesPresentationContext = true
-        view.backgroundColor = .darkGray()
+        view.backgroundColor = .m7DarkGray()
         
         for img in imgArray {
             grayscaleImgArray.append(img.tonalFilter!)
@@ -102,7 +102,7 @@ extension BuskersSearchViewController {
         genreCollectionView = UICollectionView(frame: CGRect(origin: CGPoint.zero, size: CGSize(width: screenWidth, height: GenreCell.height)), collectionViewLayout: layout)
         genreCollectionView.showsHorizontalScrollIndicator = false
         genreCollectionView.contentInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
-        genreCollectionView.backgroundColor = .darkGray()
+        genreCollectionView.backgroundColor = .m7DarkGray()
         genreCollectionView.dataSource = self
         genreCollectionView.delegate = self
         genreCollectionView.register(UINib.init(nibName: "GenreCell", bundle: nil), forCellWithReuseIdentifier: GenreCell.reuseIdentifier)
@@ -159,7 +159,7 @@ extension BuskersSearchViewController {
         historyTableView.showsVerticalScrollIndicator = false
         historyTableView.alwaysBounceVertical = false
         historyTableView.rowHeight = 46
-        historyTableView.backgroundColor = .darkGray()
+        historyTableView.backgroundColor = .m7DarkGray()
         historyTableView.separatorColor = .darkGray
         historyTableView.separatorInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 0)
         historyTableView.tableFooterView = UIView()
@@ -202,7 +202,7 @@ extension BuskersSearchViewController {
         resultsCollectionView.alpha = 0
         resultsCollectionView.showsVerticalScrollIndicator = false
         resultsCollectionView.contentInset = UIEdgeInsets(top: 0, left: 10, bottom: 20, right: 10)
-        resultsCollectionView.backgroundColor = .darkGray()
+        resultsCollectionView.backgroundColor = .m7DarkGray()
         resultsCollectionView.dataSource = self
         resultsCollectionView.delegate = self
         resultsCollectionView.register(UINib.init(nibName: "SearchResultCell", bundle: nil), forCellWithReuseIdentifier: SearchResultCell.reuseIdentifier)

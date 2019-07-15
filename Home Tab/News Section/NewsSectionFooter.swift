@@ -22,7 +22,7 @@ class NewsSectionFooter: UICollectionReusableView {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        backgroundColor = .darkGray()
+        backgroundColor = .m7DarkGray()
         
         sepLine.alpha = 0
         sepLine.backgroundColor = UIColor.white.withAlphaComponent(0.1)

@@ -80,7 +80,7 @@ class SettingsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .darkGray()
+        view.backgroundColor = .m7DarkGray()
         navigationController?.interactivePopGestureRecognizer?.delegate = self
         //contentView.backgroundColor = .darkGray()
 
@@ -98,7 +98,7 @@ class SettingsViewController: UIViewController {
         mainScrollView.contentInset = UIEdgeInsets.zero
         //mainScrollView.delegate = self
         mainScrollView.translatesAutoresizingMaskIntoConstraints = false
-        mainScrollView.backgroundColor = .darkGray()
+        mainScrollView.backgroundColor = .m7DarkGray()
         view.addSubview(mainScrollView)
         mainScrollView.snp.makeConstraints { (make) in
             make.edges.equalTo(0)
@@ -115,7 +115,7 @@ class SettingsViewController: UIViewController {
         setupNavBar()
         
         if let statusBar = UIApplication.shared.value(forKeyPath: "statusBarWindow.statusBar") as? UIView {
-            statusBar.backgroundColor = .darkGray()
+            statusBar.backgroundColor = .m7DarkGray()
         } else {
             print("Can't get status bar?")
         }
@@ -152,7 +152,7 @@ class SettingsViewController: UIViewController {
     private func setupNavBar() {
         navigationItem.title = ""
         
-        let textAttributes = [NSAttributedString.Key.foregroundColor: UIColor.darkGray()]
+        let textAttributes = [NSAttributedString.Key.foregroundColor: UIColor.m7DarkGray()]
         navigationController?.navigationBar.titleTextAttributes = textAttributes
         navigationController?.navigationBar.largeTitleTextAttributes = textAttributes
         
@@ -360,7 +360,7 @@ extension SettingsViewController {
         }
         
         generalSectionBg = UIView()
-        generalSectionBg.backgroundColor = .darkGray()
+        generalSectionBg.backgroundColor = .m7DarkGray()
         generalSectionBg.clipsToBounds = true
         generalSectionBg.layer.cornerRadius = GlobalCornerRadius.value
         mainScrollView.addSubview(generalSectionBg)
@@ -500,7 +500,7 @@ extension SettingsViewController {
         }
         
         buskerSectionBg = UIView()
-        buskerSectionBg.backgroundColor = .darkGray()
+        buskerSectionBg.backgroundColor = .m7DarkGray()
         buskerSectionBg.clipsToBounds = true
         buskerSectionBg.layer.cornerRadius = GlobalCornerRadius.value
         mainScrollView.addSubview(buskerSectionBg)
@@ -635,7 +635,7 @@ extension SettingsViewController {
         }
         
         othersSectionBg = UIView()
-        othersSectionBg.backgroundColor = .darkGray()
+        othersSectionBg.backgroundColor = .m7DarkGray()
         othersSectionBg.clipsToBounds = true
         othersSectionBg.layer.cornerRadius = GlobalCornerRadius.value
         mainScrollView.addSubview(othersSectionBg)

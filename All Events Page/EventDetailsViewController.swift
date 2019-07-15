@@ -72,8 +72,8 @@ class EventDetailsViewController: UIViewController {
 
         gesture?.delegate = self
         self.hero.isEnabled = true
-        view.backgroundColor = .darkGray()
-        roundedView.backgroundColor = .darkGray()
+        view.backgroundColor = .m7DarkGray()
+        roundedView.backgroundColor = .m7DarkGray()
         mainScrollView.delegate = self
         
         createHeroTransitions()

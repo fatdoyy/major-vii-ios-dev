@@ -21,7 +21,7 @@ class BuskerCell: UICollectionViewCell {
         super.awakeFromNib()
         layer.cornerRadius = GlobalCornerRadius.value
         
-        containerView.backgroundColor = .darkGray()
+        containerView.backgroundColor = .m7DarkGray()
         
         imgView.backgroundColor = .darkGray
         imgView.contentMode = .scaleAspectFill

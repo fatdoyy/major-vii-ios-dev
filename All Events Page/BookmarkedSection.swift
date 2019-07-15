@@ -109,7 +109,7 @@ class BookmarkedSection: UICollectionViewCell {
         bookmarksCollectionView.showsVerticalScrollIndicator = false
         bookmarksCollectionView.showsHorizontalScrollIndicator = false
         
-        bookmarksCollectionView.backgroundColor = .darkGray()
+        bookmarksCollectionView.backgroundColor = .m7DarkGray()
         bookmarksCollectionView.register(UINib.init(nibName: "BookmarkedCell", bundle: nil), forCellWithReuseIdentifier: BookmarkedCell.reuseIdentifier)
         
         reloadIndicator.startAnimating()

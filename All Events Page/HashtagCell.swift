@@ -19,7 +19,7 @@ class HashtagCell: UICollectionViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        backgroundColor = .darkGray()
+        backgroundColor = .m7DarkGray()
         bgView.backgroundColor = .white15Alpha()
         bgView.layer.cornerRadius = GlobalCornerRadius.value / 2
         

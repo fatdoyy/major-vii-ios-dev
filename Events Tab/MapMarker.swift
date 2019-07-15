@@ -22,7 +22,7 @@ class MapMarker: GMSMarker {
         let iconView = UIView(frame: CGRect(origin: .zero, size: CGSize(width: 80, height: 80)))
         iconView.backgroundColor = .clear
         
-        nameBg.backgroundColor = .darkGray()
+        nameBg.backgroundColor = .m7DarkGray()
         nameBg.layer.cornerRadius = 5
         iconView.addSubview(nameBg)
         nameBg.snp.makeConstraints { (make) in

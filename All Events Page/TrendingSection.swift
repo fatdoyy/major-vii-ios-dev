@@ -60,7 +60,7 @@ class TrendingSection: UICollectionViewCell {
         
         trendingCollectionView.contentInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
         
-        trendingCollectionView.backgroundColor = .darkGray()
+        trendingCollectionView.backgroundColor = .m7DarkGray()
         trendingCollectionView.register(UINib.init(nibName: "TrendingCell", bundle: nil), forCellWithReuseIdentifier: TrendingCell.reuseIdentifier)
         
         //getTrendingEvents()

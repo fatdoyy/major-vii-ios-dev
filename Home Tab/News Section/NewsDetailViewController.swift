@@ -72,7 +72,7 @@ class NewsDetailViewController: UIViewController {
         view.isSkeletonable = true
         
         updatesStatusBarAppearanceAutomatically = true
-        view.backgroundColor = .darkGray()
+        view.backgroundColor = .m7DarkGray()
         mainScrollView.delegate = self
         mainScrollView.showsVerticalScrollIndicator = false
         mainScrollView.showsHorizontalScrollIndicator = false
@@ -151,7 +151,7 @@ class NewsDetailViewController: UIViewController {
 //MARK: Upper view UI
 extension NewsDetailViewController {
     private func setupUpperViewUI() {
-        detailUpperView.backgroundColor = .darkGray()
+        detailUpperView.backgroundColor = .m7DarkGray()
 
         setupImgCollectionView()
         setupOverlay()
@@ -176,7 +176,7 @@ extension NewsDetailViewController {
         layout.minimumInteritemSpacing = 0
         
         imgCollectionView = InfiniteCollectionView(frame: self.view.frame, collectionViewLayout: layout)
-        imgCollectionView.backgroundColor = .darkGray()
+        imgCollectionView.backgroundColor = .m7DarkGray()
         imgCollectionView.isItemPagingEnabled = true
         //imgCollectionView.preferredCenteredIndexPath = nil
         imgCollectionView.dataSource = self
@@ -271,7 +271,7 @@ extension NewsDetailViewController {
     private func setupOverlay() {
         imgOverlay.isUserInteractionEnabled = false
         imgOverlay.backgroundColor = .clear
-        imgOverlay.layer.insertSublayer(GradientLayer.create(frame: CGRect(origin: CGPoint.zero, size: CGSize(width: UIScreen.main.bounds.width, height: (UIScreen.main.bounds.height / 3) * 2)), colors: [.darkGray(), .clear], startPoint: CGPoint(x: 0.5, y: 1), endPoint: CGPoint(x: 0.5, y: 0)), at: 0)
+        imgOverlay.layer.insertSublayer(GradientLayer.create(frame: CGRect(origin: CGPoint.zero, size: CGSize(width: UIScreen.main.bounds.width, height: (UIScreen.main.bounds.height / 3) * 2)), colors: [.m7DarkGray(), .clear], startPoint: CGPoint(x: 0.5, y: 1), endPoint: CGPoint(x: 0.5, y: 0)), at: 0)
         detailUpperView.addSubview(imgOverlay)
         imgOverlay.snp.makeConstraints { (make) -> Void in
             make.bottom.equalTo(detailUpperView.snp.bottom)
@@ -312,7 +312,7 @@ extension NewsDetailViewController {
 extension NewsDetailViewController {
 
     private func setupLowerViewUI() {
-        detailLowerView.backgroundColor = .darkGray()
+        detailLowerView.backgroundColor = .m7DarkGray()
     }
     
     private func loadLowerDetails() {

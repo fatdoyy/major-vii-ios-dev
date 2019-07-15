@@ -39,7 +39,7 @@ class BookmarkedCell: UICollectionViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        backgroundColor = .darkGray()
+        backgroundColor = .m7DarkGray()
         bgImgView.layer.cornerRadius = GlobalCornerRadius.value
         
         imageOverlay.clipsToBounds = true

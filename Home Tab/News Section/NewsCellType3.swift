@@ -38,7 +38,7 @@ class NewsCellType3: UICollectionViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        backgroundColor = .darkGray()
+        backgroundColor = .m7DarkGray()
         
         hashtagsCollectionView.showsHorizontalScrollIndicator = false
         hashtagsCollectionView.delegate = self

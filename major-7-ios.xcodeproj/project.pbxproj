@@ -28,6 +28,8 @@
 		9620025A21E5CED10055D070 /* gif0.gif in Resources */ = {isa = PBXBuildFile; fileRef = 9620025921E5CED00055D070 /* gif0.gif */; };
 		9620025C21E5CF1B0055D070 /* gif6.gif in Resources */ = {isa = PBXBuildFile; fileRef = 9620025B21E5CF1B0055D070 /* gif6.gif */; };
 		9620025E21E5E5490055D070 /* UIView+Xib.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9620025D21E5E5480055D070 /* UIView+Xib.swift */; };
+		96313E5F22DC7FE40033EA49 /* PostImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96313E5D22DC7FE30033EA49 /* PostImageCell.swift */; };
+		96313E6022DC7FE40033EA49 /* PostImageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96313E5E22DC7FE40033EA49 /* PostImageCell.xib */; };
 		9639216F21ABC85500BA515A /* EventDetailsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9639216E21ABC85500BA515A /* EventDetailsView.xib */; };
 		9639217121ABCA3000BA515A /* EventDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9639217021ABCA3000BA515A /* EventDetailsView.swift */; };
 		9639217421AD1C4500BA515A /* HashtagCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9639217221AD1C4500BA515A /* HashtagCell.swift */; };
@@ -178,6 +180,8 @@
 		9620025921E5CED00055D070 /* gif0.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = gif0.gif; sourceTree = "<group>"; };
 		9620025B21E5CF1B0055D070 /* gif6.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = gif6.gif; sourceTree = "<group>"; };
 		9620025D21E5E5480055D070 /* UIView+Xib.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Xib.swift"; sourceTree = "<group>"; };
+		96313E5D22DC7FE30033EA49 /* PostImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostImageCell.swift; sourceTree = "<group>"; };
+		96313E5E22DC7FE40033EA49 /* PostImageCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PostImageCell.xib; sourceTree = "<group>"; };
 		9639216E21ABC85500BA515A /* EventDetailsView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EventDetailsView.xib; sourceTree = "<group>"; };
 		9639217021ABCA3000BA515A /* EventDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDetailsView.swift; sourceTree = "<group>"; };
 		9639217221AD1C4500BA515A /* HashtagCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HashtagCell.swift; sourceTree = "<group>"; };
@@ -575,11 +579,11 @@
 			isa = PBXGroup;
 			children = (
 				96C55413219044D00065D70A /* EventsListViewController.swift */,
-				96EA375021B5271100E9DB74 /* Event Details Page */,
 				96C554212192BF0F0065D70A /* Trending Section */,
 				9681E77E21955E5000B4F80A /* Following Section */,
 				96C554372192D8E50065D70A /* Bookmark Section */,
 				96C5545421943B020065D70A /* Featured Section */,
+				96EA375021B5271100E9DB74 /* Event Details Page */,
 			);
 			path = "All Events Page";
 			sourceTree = "<group>";
@@ -622,6 +626,8 @@
 			children = (
 				966AE61322D31CC800AC17EC /* HomePostCell.swift */,
 				966AE61422D31CC800AC17EC /* HomePostCell.xib */,
+				96313E5D22DC7FE30033EA49 /* PostImageCell.swift */,
+				96313E5E22DC7FE40033EA49 /* PostImageCell.xib */,
 			);
 			path = "Posts Section";
 			sourceTree = "<group>";
@@ -762,6 +768,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				96C5542B2192C2DF0065D70A /* FollowingSection.xib in Resources */,
+				96313E6022DC7FE40033EA49 /* PostImageCell.xib in Resources */,
 				CA550AB321706A66008E493D /* LaunchScreen.storyboard in Resources */,
 				967B56302244E80C006F0AF9 /* Assets.xcassets in Resources */,
 				9620025A21E5CED10055D070 /* gif0.gif in Resources */,
@@ -880,6 +887,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				96F5308521EC68FD007BCCB0 /* UIVisualEffectView.swift in Sources */,
+				96313E5F22DC7FE40033EA49 /* PostImageCell.swift in Sources */,
 				965838BA2181CAFE000FE8B0 /* NewsCellType3.swift in Sources */,
 				966A6CD42180492F00DF872F /* EventsCell.swift in Sources */,
 				96B34DEC224F599E00D9F236 /* UIDevice.swift in Sources */,

@@ -154,7 +154,7 @@ class BuskerProfileViewController: UIViewController {
         loadingIndicator2.startAnimating()
         
         updatesStatusBarAppearanceAutomatically = true
-        view.backgroundColor = .darkGray()
+        view.backgroundColor = .m7DarkGray()
         
         setupImgCollectionView()
         setupOverlay()
@@ -357,7 +357,7 @@ extension BuskerProfileViewController {
         layout.minimumInteritemSpacing = 0
         
         imgCollectionView = InfiniteCollectionView(frame: CGRect(origin: CGPoint.zero, size: CGSize(width: screenWidth, height: imgCollectionViewHeight)), collectionViewLayout: layout)
-        imgCollectionView.backgroundColor = .darkGray()
+        imgCollectionView.backgroundColor = .m7DarkGray()
         imgCollectionView.isItemPagingEnabled = true
         imgCollectionView.dataSource = self
         imgCollectionView.delegate = self
@@ -395,7 +395,7 @@ extension BuskerProfileViewController {
         imgOverlay.isUserInteractionEnabled = false
         imgOverlay.frame = CGRect(origin: CGPoint.zero, size: CGSize(width: screenWidth, height: imgCollectionViewHeight))
         imgOverlay.backgroundColor = .clear
-        imgOverlay.layer.insertSublayer(GradientLayer.create(frame: CGRect(origin: CGPoint.zero, size: CGSize(width: screenWidth, height: (imgCollectionViewHeight / 3) * 2)), colors: [.darkGray(), .clear], startPoint: CGPoint(x: 0.5, y: 1), endPoint: CGPoint(x: 0.5, y: 0)), at: 0)
+        imgOverlay.layer.insertSublayer(GradientLayer.create(frame: CGRect(origin: CGPoint.zero, size: CGSize(width: screenWidth, height: (imgCollectionViewHeight / 3) * 2)), colors: [.m7DarkGray(), .clear], startPoint: CGPoint(x: 0.5, y: 1), endPoint: CGPoint(x: 0.5, y: 0)), at: 0)
         mainScrollView.insertSubview(imgOverlay, aboveSubview: imgCollectionView)
         imgOverlay.snp.makeConstraints { (make) -> Void in
             make.top.equalTo(imgCollectionView.snp.top).offset(imgCollectionViewHeight / 3)
@@ -492,7 +492,7 @@ extension BuskerProfileViewController {
         layout.scrollDirection = .horizontal
         
         hashtagsCollectionView = UICollectionView(frame: CGRect(origin: CGPoint.zero, size: CGSize(width: screenWidth, height: 28)), collectionViewLayout: layout)
-        hashtagsCollectionView.backgroundColor = .darkGray()
+        hashtagsCollectionView.backgroundColor = .m7DarkGray()
         hashtagsCollectionView.collectionViewLayout = layout
         hashtagsCollectionView.dataSource = self
         hashtagsCollectionView.delegate = self

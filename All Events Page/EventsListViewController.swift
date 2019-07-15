@@ -24,11 +24,11 @@ class EventsListViewController: ScrollingNavigationViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .darkGray()
+        view.backgroundColor = .m7DarkGray()
         
         isFromLoginView = false
         
-        mainCollectionView.backgroundColor = .darkGray()
+        mainCollectionView.backgroundColor = .m7DarkGray()
         mainCollectionView.showsVerticalScrollIndicator = false
         mainCollectionView.showsHorizontalScrollIndicator = false
         
@@ -52,7 +52,7 @@ class EventsListViewController: ScrollingNavigationViewController {
         //transparent navigation bar
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
         navigationController?.navigationBar.shadowImage = UIImage()
-        navigationController?.navigationBar.barTintColor = .darkGray()
+        navigationController?.navigationBar.barTintColor = .m7DarkGray()
         navigationController?.navigationBar.isTranslucent = false
         TabBar.hide(from: self)
         

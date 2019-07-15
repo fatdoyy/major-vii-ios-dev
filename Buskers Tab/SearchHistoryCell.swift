@@ -23,7 +23,7 @@ class SearchHistoryCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        backgroundColor = .darkGray()
+        backgroundColor = .m7DarkGray()
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

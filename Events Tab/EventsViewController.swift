@@ -81,7 +81,7 @@ class EventsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .darkGray()
+        view.backgroundColor = .m7DarkGray()
         navigationController?.interactivePopGestureRecognizer?.delegate = self
         
         locationManager.delegate = self
@@ -223,7 +223,7 @@ extension EventsViewController {
         }
         
         eventsTitle = UILabel()
-        eventsTitle.textColor = .darkGray()
+        eventsTitle.textColor = .m7DarkGray()
         eventsTitle.font = UIFont.systemFont(ofSize: 30, weight: .bold)
         eventsTitle.text = "Events"
         view.insertSubview(eventsTitle, aboveSubview: mapView)
@@ -290,7 +290,7 @@ extension EventsViewController {
         let camera = GMSCameraPosition.camera(withLatitude: lat ,longitude: lng , zoom: 14)
         CATransaction.begin()
         CATransaction.setAnimationDuration(0.75)
-        CATransaction.setAnimationTimingFunction(CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut))
+        CATransaction.setAnimationTimingFunction(CAMediaTimingFunction(name: .easeInEaseOut))
         mapView.animate(to: camera)
         CATransaction.commit()
     }
@@ -298,7 +298,7 @@ extension EventsViewController {
     private func setupNavBar() {
         navigationItem.title = ""
         
-        let textAttributes = [NSAttributedString.Key.foregroundColor: UIColor.darkGray()]
+        let textAttributes = [NSAttributedString.Key.foregroundColor: UIColor.m7DarkGray()]
         navigationController?.navigationBar.titleTextAttributes = textAttributes
         navigationController?.navigationBar.largeTitleTextAttributes = textAttributes
         
@@ -318,7 +318,7 @@ extension EventsViewController {
         filterMenuView.alpha = 0
         filterMenuView.dropShadow(color: .black, opacity: 0.65, offSet: CGSize(width: -1, height: 1), radius: GlobalCornerRadius.value, scale: true)
         filterMenuView.layer.cornerRadius = GlobalCornerRadius.value
-        filterMenuView.backgroundColor = .darkGray()
+        filterMenuView.backgroundColor = .m7DarkGray()
         view.addSubview(filterMenuView)
         filterMenuView.snp.makeConstraints { (make) in
             make.top.equalTo(nearbyEventsCountLabel.snp.bottom).offset(5)
@@ -476,7 +476,7 @@ extension EventsViewController: GMSMapViewDelegate, InfoWindowDelegate, Bookmark
         
         CATransaction.begin()
         CATransaction.setAnimationDuration(0.75)
-        CATransaction.setAnimationTimingFunction(CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut))
+        CATransaction.setAnimationTimingFunction(CAMediaTimingFunction(name: .easeInEaseOut))
         mapView.animate(to: camera)
         CATransaction.commit()
         
@@ -531,7 +531,7 @@ extension EventsViewController: GMSMapViewDelegate, InfoWindowDelegate, Bookmark
 
             CATransaction.begin()
             CATransaction.setAnimationDuration(0.75)
-            CATransaction.setAnimationTimingFunction(CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut))
+            CATransaction.setAnimationTimingFunction(CAMediaTimingFunction(name: .easeInEaseOut))
             mapView.animate(to: camera)
             CATransaction.commit()
 

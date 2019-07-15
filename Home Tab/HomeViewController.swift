@@ -14,6 +14,12 @@ import NVActivityIndicatorView
 class HomeViewController: UIViewController {
     weak var previousController: UIViewController? //for tabbar scroll to top
 
+    // Remove when comments and image section API in Post are done
+    var haveComments = [true, false, true]
+    var username = ["fatdoyy", "John Mayer", "ronniefieg"]
+    var comments = ["呢個畫面真係好魔幻", "親眼見到居民對遊行支持 感謝", "Great show!"]
+    var haveImages = [true, true, false]
+    
     var customRefreshControl: UIRefreshControl = {
         let refreshControl = UIRefreshControl()
         refreshControl.backgroundColor = .clear
@@ -42,7 +48,7 @@ class HomeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .darkGray()
+        view.backgroundColor = .m7DarkGray()
         navigationController?.interactivePopGestureRecognizer?.delegate = self
         tabBarController?.delegate = self
         mainCollectionView.refreshControl = customRefreshControl
@@ -58,7 +64,7 @@ class HomeViewController: UIViewController {
         mainCollectionView.dataSource = self
         mainCollectionView.delegate = self
         
-        mainCollectionView.backgroundColor = .darkGray()
+        mainCollectionView.backgroundColor = .m7DarkGray()
         mainCollectionView.showsVerticalScrollIndicator = false
         mainCollectionView.showsHorizontalScrollIndicator = false
         
@@ -323,9 +329,10 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
                     
                     for view in cell.skeletonViews { view.hideSkeleton() }
                     for view in cell.viewsToShowLater { view.alpha = 1 }
-                    for constraint in cell.tempConstraints { constraint.isActive = true }
+                    
                     cell.contentLabel.snp.removeConstraints()
                     cell.statsLabel.snp.removeConstraints()
+                    for constraint in cell.tempConstraints { constraint.isActive = true }
                     
                     cell.indexPath = indexPath
                     cell.buskerName.text = postsList[indexPath.row].authorProfile?.name
@@ -336,16 +343,48 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
 //                    print("Is cell \(indexPath.row) truncated? \(cell.contentLabel.isTruncated)")
                     
                     if cell.contentLabel.isTruncated { //add custom truncated text
-                        DispatchQueue.main.async {
+                        //DispatchQueue.main.async {
                             cell.contentLabel.addTrailing(with: "... ", moreText: "more", moreTextFont: UIFont.systemFont(ofSize: 13, weight: .bold), moreTextColor: .lightPurple())
+                        //}
+                    }
+                    
+                    if haveImages[indexPath.row] == true && haveComments[indexPath.row] == true {
+                        
+                        cell.username.text = username[indexPath.row]
+                        cell.userComment.text = comments[indexPath.row]
+                        cell.userIcon.image = UIImage(named: "cat")
+                        
+                        //TODO
+                        //cell.imgCollectionView
+                        
+//                        for view in cell.commentSection {
+//                            view.alpha = 1
+//                        }
+                    } else if haveImages[indexPath.row] == true {
+                        for view in cell.commentSection {
+                            view.alpha = 0
+                        }
+
+                        //update constraints
+                        cell.clapBtn.snp.makeConstraints { (make) in
+                            make.bottom.equalToSuperview().offset(-20)
+                        }
+                    } else if haveComments[indexPath.row] == true {
+                        cell.username.text = username[indexPath.row]
+                        cell.userComment.text = comments[indexPath.row]
+                        cell.userIcon.image = UIImage(named: "cat")
+                        
+                        //update constraints since we remove imgCollectionView
+                        cell.imgCollectionView.alpha = 0
+                        cell.statsLabel.snp.makeConstraints { (make) in
+                            make.top.equalTo(cell.contentLabel.snp.bottom).offset(25)
                         }
                     }
+
                     
                     return cell
                 } else { // post list is empty
-                    let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: HomePostCell.reuseIdentifier, for: indexPath) as! HomePostCell
-                    
-                    return cell
+                    return mainCollectionView.dequeueReusableCell(withReuseIdentifier: HomePostCell.reuseIdentifier, for: indexPath) as! HomePostCell
                 }
             }
             
@@ -383,22 +422,41 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
             case .Posts: //dynamic cell height (i.e. attributed text height)
                 if !postsList.isEmpty {
                     let attrTextHeight = attrContentArr[indexPath.row].height(withWidth: HomePostCell.width)
-
-//                    print("collectionView.indexPathsForSelectedItems = \(collectionView.indexPathsForSelectedItems)")
-//                    switch collectionView.indexPathsForSelectedItems?.first {
-//                    case .some(indexPath):
-//                        return CGSize(width: HomePostCell.width, height: (HomePostCell.width / HomePostCell.aspectRatio) + attrTextHeight + (HomePostCell.width * 188 / 335))
-//                    default:
-//                        return CGSize(width: HomePostCell.width, height: HomePostCell.width / HomePostCell.aspectRatio)
-//                    }
+                    
+                    let sizeWithText = CGSize(width: HomePostCell.width, height: HomePostCell.xibHeight - HomePostCell.commentSectionHeight - 188)
+                    let sizeWithTextImg = CGSize(width: HomePostCell.width, height: HomePostCell.xibHeight - HomePostCell.commentSectionHeight)
+                    let sizeWithTextComment = CGSize(width: HomePostCell.width, height: HomePostCell.xibHeight - 188)
+                    let sizeWithTextImgComment = CGSize(width: HomePostCell.width, height: HomePostCell.xibHeight)
+                    
+                    let sizeWithTextExpanded = CGSize(width: HomePostCell.width, height: HomePostCell.xibHeight + attrTextHeight - HomePostCell.commentSectionHeight - 188)
+                    let sizeWithTextImgExpanded = CGSize(width: HomePostCell.width, height: HomePostCell.xibHeight + attrTextHeight - HomePostCell.commentSectionHeight)
+                    let sizeWithTextCommentExpanded = CGSize(width: HomePostCell.width, height: HomePostCell.xibHeight + attrTextHeight - 188)
+                    let sizeWithTextImgCommentExpanded = CGSize(width: HomePostCell.width, height: HomePostCell.xibHeight + attrTextHeight)
                     
                     if isPostCellExpanded[indexPath.row] == true {
-                        return CGSize(width: HomePostCell.width, height: HomePostCell.xibHeight + attrTextHeight /* + (HomePostCell.width * 188 / 335) */)
+                        if haveImages[indexPath.row] == true && haveComments[indexPath.row] == true {
+                            return sizeWithTextImgCommentExpanded
+                        } else if haveImages[indexPath.row] == true {
+                            return sizeWithTextImgExpanded
+                        } else if haveComments[indexPath.row] == true {
+                            return sizeWithTextCommentExpanded
+                        } else {
+                            return sizeWithTextExpanded
+                        }
+
                     } else {
-                        return CGSize(width: HomePostCell.width, height: HomePostCell.xibHeight)
+                        if haveImages[indexPath.row] == true && haveComments[indexPath.row] == true {
+                            return sizeWithTextImgComment
+                        } else if haveImages[indexPath.row] == true {
+                            return sizeWithTextImg
+                        } else if haveComments[indexPath.row] == true {
+                            return sizeWithTextComment
+                        } else {
+                            return sizeWithText
+                        }
                     }
                 } else { //news list is empty
-                    return CGSize(width: HomePostCell.width, height: HomePostCell.xibHeight - 140)
+                    return CGSize(width: HomePostCell.width, height: HomePostCell.xibHeight - 140 - 188 /* imgCollectionView height */)
                 }
             }
         }

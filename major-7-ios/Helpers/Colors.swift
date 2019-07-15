@@ -13,7 +13,7 @@ import DynamicColor
 extension UIColor {
     
     //General UI Colors
-    class func darkGray() -> UIColor {
+    class func m7DarkGray() -> UIColor {
         return UIColor(hexString: "#1E1E24")
     }
     

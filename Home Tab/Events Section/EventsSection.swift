@@ -46,7 +46,7 @@ class EventsSection: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        backgroundColor = .darkGray()
+        backgroundColor = .m7DarkGray()
         
         eventsLabel.text = "Upcoming Events"
         eventsLabel.textColor = .whiteText()
@@ -69,7 +69,7 @@ class EventsSection: UICollectionViewCell {
         eventsCollectionView.showsVerticalScrollIndicator = false
         eventsCollectionView.showsHorizontalScrollIndicator = false
         
-        eventsCollectionView.backgroundColor = .darkGray()
+        eventsCollectionView.backgroundColor = .m7DarkGray()
         eventsCollectionView.register(UINib.init(nibName: "EventsCell", bundle: nil), forCellWithReuseIdentifier: EventsCell.reuseIdentifier)
         
         getUpcomingEvents()

@@ -32,7 +32,7 @@ class BuskersViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .darkGray()
+        view.backgroundColor = .m7DarkGray()
         hideKeyboardWhenTappedAround()
         navigationController?.interactivePopGestureRecognizer?.delegate = self
         //tabBarController?.delegate = self
@@ -54,7 +54,7 @@ class BuskersViewController: UIViewController {
         super.viewDidAppear(animated)
         //status bar color
         if let statusBar = UIApplication.shared.value(forKeyPath: "statusBarWindow.statusBar") as? UIView {
-            statusBar.backgroundColor = UIColor.darkGray().withAlphaComponent(0.8)
+            statusBar.backgroundColor = UIColor.m7DarkGray().withAlphaComponent(0.8)
         } else {
             print("Can't get status bar?")
         }
@@ -91,7 +91,7 @@ extension BuskersViewController {
         navigationController?.navigationBar.isTranslucent = true
         //navigationController?.navigationBar.barTintColor = .darkGray()
         
-        self.navigationController?.navigationBar.backgroundColor = UIColor.darkGray().withAlphaComponent(0.8)
+        self.navigationController?.navigationBar.backgroundColor = UIColor.m7DarkGray().withAlphaComponent(0.8)
     }
     
 }
@@ -108,7 +108,7 @@ extension BuskersViewController {
         searchController.searchBar.barTintColor = .white
         searchController.searchBar.isTranslucent = true
         searchController.searchBar.backgroundImage = UIImage()
-        searchController.searchBar.backgroundColor = UIColor.darkGray().withAlphaComponent(0.8)
+        searchController.searchBar.backgroundColor = UIColor.m7DarkGray().withAlphaComponent(0.8)
         searchController.searchResultsController?.view.addObserver(self, forKeyPath: "hidden", options: [], context: nil)
         
         UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).defaultTextAttributes = [.foregroundColor: UIColor.white]
@@ -146,7 +146,7 @@ extension BuskersViewController {
         mainCollectionView = UICollectionView(frame: CGRect(origin: CGPoint.zero, size: CGSize(width: screenWidth, height: screenHeight)), collectionViewLayout: layout)
         mainCollectionView.showsVerticalScrollIndicator = false
         mainCollectionView.contentInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
-        mainCollectionView.backgroundColor = .darkGray()
+        mainCollectionView.backgroundColor = .m7DarkGray()
         mainCollectionView.dataSource = self
         mainCollectionView.delegate = self
         mainCollectionView.register(UINib.init(nibName: "BuskerCell", bundle: nil), forCellWithReuseIdentifier: BuskerCell.reuseIdentifier)

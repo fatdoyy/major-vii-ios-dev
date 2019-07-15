@@ -33,7 +33,7 @@ class FeaturedCell: UICollectionViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        backgroundColor = .darkGray()
+        backgroundColor = .m7DarkGray()
         bgView.backgroundColor = .charcoal()
         bgView.layer.cornerRadius = GlobalCornerRadius.value
          

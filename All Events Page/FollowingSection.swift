@@ -42,7 +42,7 @@ class FollowingSection: UICollectionViewCell {
         followingSectionCollectionView.showsVerticalScrollIndicator = false
         followingSectionCollectionView.showsHorizontalScrollIndicator = false
         
-        followingSectionCollectionView.backgroundColor = .darkGray()
+        followingSectionCollectionView.backgroundColor = .m7DarkGray()
         followingSectionCollectionView.register(UINib.init(nibName: "FollowingCell", bundle: nil), forCellWithReuseIdentifier: FollowingCell.reuseIdentifier)
     }
     

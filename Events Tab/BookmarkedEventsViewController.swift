@@ -39,7 +39,7 @@ class BookmarkedEventsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .darkGray()
+        view.backgroundColor = .m7DarkGray()
         
         setupUI()
         setupEmptyLocationMsg()
@@ -65,7 +65,7 @@ extension BookmarkedEventsViewController {
         eventsCollectionView.isUserInteractionEnabled = false
         eventsCollectionView.showsVerticalScrollIndicator = false
         eventsCollectionView.contentInset = UIEdgeInsets(top: 0, left: 10, bottom: 20, right: 10)
-        eventsCollectionView.backgroundColor = .darkGray()
+        eventsCollectionView.backgroundColor = .m7DarkGray()
         eventsCollectionView.dataSource = self
         eventsCollectionView.delegate = self
         eventsCollectionView.register(UINib.init(nibName: "BookmarkedEventCollectionHeaderView", bundle: nil), forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: BookmarkedEventCollectionHeaderView.reuseIdentifier)
