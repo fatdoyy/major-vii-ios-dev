@@ -96,7 +96,8 @@ class TrendingCell: UICollectionViewCell {
     }
     
     override func prepareForReuse() {
-        bookmarkBtn.backgroundColor = .clear
+        checkShouldDisplayIndicator()
+
         //bookmarkBtn.setImage(UIImage(named: "bookmark"), for: .normal)
     
     }

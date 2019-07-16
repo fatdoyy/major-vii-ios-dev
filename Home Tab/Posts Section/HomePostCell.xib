@@ -125,9 +125,6 @@
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="ORV-hQ-Mnu">
                                 <rect key="frame" x="0.0" y="101" width="335" height="188"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="188" id="tTL-sv-QZD"/>
-                                </constraints>
                                 <collectionViewLayout key="collectionViewLayout" id="IFb-s1-Uzw" customClass="PagedCollectionViewLayout" customModule="major_7_ios" customModuleProvider="target"/>
                             </collectionView>
                         </subviews>
@@ -241,6 +238,26 @@
                 <outletCollection property="tempConstraints" destination="uNn-KD-STl" collectionClass="NSMutableArray" id="BQF-2d-k5g"/>
                 <outletCollection property="commentSection" destination="lV1-GJ-BZp" collectionClass="NSMutableArray" id="xw9-Pw-bvp"/>
                 <outletCollection property="commentSection" destination="jAV-3c-DWz" collectionClass="NSMutableArray" id="jE2-EQ-JIl"/>
+                <outletCollection property="commentSectionConstraints" destination="PXa-aV-Dun" collectionClass="NSMutableArray" id="DM0-1e-TcT"/>
+                <outletCollection property="commentSectionConstraints" destination="0fo-6g-9aj" collectionClass="NSMutableArray" id="9Oy-Xv-Ej8"/>
+                <outletCollection property="commentSectionConstraints" destination="U4l-li-LNu" collectionClass="NSMutableArray" id="RBb-jM-VBZ"/>
+                <outletCollection property="commentSectionConstraints" destination="1cI-Lz-3kF" collectionClass="NSMutableArray" id="8lM-WF-1nH"/>
+                <outletCollection property="commentSectionConstraints" destination="Vl1-LQ-Ijs" collectionClass="NSMutableArray" id="c0w-93-aMa"/>
+                <outletCollection property="commentSectionConstraints" destination="3A6-2w-N54" collectionClass="NSMutableArray" id="WMg-IK-QSg"/>
+                <outletCollection property="commentSectionConstraints" destination="kRr-Ze-HxE" collectionClass="NSMutableArray" id="HDu-6i-HTC"/>
+                <outletCollection property="commentSectionConstraints" destination="0At-dR-GR5" collectionClass="NSMutableArray" id="KNp-3I-Zt1"/>
+                <outletCollection property="commentSectionConstraints" destination="kHC-XI-wGe" collectionClass="NSMutableArray" id="rG7-3f-nkN"/>
+                <outletCollection property="commentSectionConstraints" destination="DPv-0l-PfY" collectionClass="NSMutableArray" id="qFx-Yz-xvm"/>
+                <outletCollection property="commentSectionConstraints" destination="FyP-k7-Fpf" collectionClass="NSMutableArray" id="aC4-tS-mKz"/>
+                <outletCollection property="commentSectionConstraints" destination="vTS-Dq-5Ux" collectionClass="NSMutableArray" id="hcZ-iv-EV8"/>
+                <outletCollection property="commentSectionConstraints" destination="NZo-oC-nRd" collectionClass="NSMutableArray" id="DSh-PV-pZY"/>
+                <outletCollection property="commentSectionConstraints" destination="diM-26-TCN" collectionClass="NSMutableArray" id="tVa-8I-qzB"/>
+                <outletCollection property="commentSectionConstraints" destination="QO2-Sn-jat" collectionClass="NSMutableArray" id="Ptb-jH-QDz"/>
+                <outletCollection property="commentSectionConstraints" destination="xfI-Bj-yM5" collectionClass="NSMutableArray" id="ghL-8j-0I3"/>
+                <outletCollection property="imgCollectionViewConstraints" destination="wBy-2X-hqe" collectionClass="NSMutableArray" id="bTD-PN-baJ"/>
+                <outletCollection property="imgCollectionViewConstraints" destination="0PF-l0-7aA" collectionClass="NSMutableArray" id="UIG-We-ZnZ"/>
+                <outletCollection property="imgCollectionViewConstraints" destination="8DJ-ZQ-JOp" collectionClass="NSMutableArray" id="Vub-37-hlT"/>
+                <outletCollection property="imgCollectionViewConstraints" destination="uNn-KD-STl" collectionClass="NSMutableArray" id="wFd-8Y-WcL"/>
             </connections>
             <point key="canvasLocation" x="132.60869565217394" y="231.36160714285714"/>
         </collectionViewCell>

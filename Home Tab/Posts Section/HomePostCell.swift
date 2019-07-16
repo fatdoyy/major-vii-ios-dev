@@ -43,12 +43,15 @@ class HomePostCell: UICollectionViewCell {
     @IBOutlet weak var username: UILabel!
     @IBOutlet weak var userComment: UILabel!
     @IBOutlet weak var showMoreBtn: UIButton!
+    @IBOutlet var commentSection: Array<UIView>!
     
     @IBOutlet var skeletonViews: Array<UIView>!
     @IBOutlet var viewsToShowLater: Array<UIView>!
+  
+    //Constraints
     @IBOutlet var tempConstraints: Array<NSLayoutConstraint>!
-    
-    @IBOutlet var commentSection: Array<UIView>!
+    @IBOutlet var commentSectionConstraints: Array<NSLayoutConstraint>!
+    @IBOutlet var imgCollectionViewConstraints: Array<NSLayoutConstraint>!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -66,6 +69,8 @@ extension HomePostCell {
         bgView.backgroundColor = UIColor(hexString: "#292b32")
         bgView.layer.cornerRadius = GlobalCornerRadius.value
         
+        setupImgCollectionView()
+        
         buskerIcon.clipsToBounds = true
         buskerIcon.layer.cornerRadius = 32
         buskerIcon.backgroundColor = .darkGray
@@ -80,8 +85,6 @@ extension HomePostCell {
         contentLabel.numberOfLines = 2
         contentLabel.lineBreakMode = .byTruncatingTail
         contentLabel.translatesAutoresizingMaskIntoConstraints = false
-        
-        setupImgCollectionView()
         
         statsLabel.textColor = .whiteText50Alpha()
         timeLabel.textColor = .whiteText50Alpha()
@@ -105,6 +108,21 @@ extension HomePostCell {
         userComment.textColor = .white
         
         showMoreBtn.setTitleColor(.white, for: .normal)
+    }
+    
+    func setupImgCollectionView() {
+        imgCollectionView.register(UINib.init(nibName: "PostImageCell", bundle: nil), forCellWithReuseIdentifier: PostImageCell.reuseIdentifier)
+        if let layout = imgCollectionView.collectionViewLayout as? PagedCollectionViewLayout {
+            layout.scrollDirection = .horizontal
+            layout.minimumLineSpacing = 10
+            layout.itemSize = CGSize(width: HomePostCell.width - 40, height: 188 /* imgCollectionView xib height */)
+        }
+        imgCollectionView.delegate = self
+        imgCollectionView.dataSource = self
+        imgCollectionView.isPagingEnabled = false
+        imgCollectionView.showsHorizontalScrollIndicator = false
+        imgCollectionView.contentInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
+        imgCollectionView.backgroundColor = UIColor(hexString: "#292b32")
     }
     
     func setupSkeletonViews() {
@@ -136,29 +154,23 @@ extension HomePostCell {
             make.height.equalTo(42.67) //xib height
         }
         statsLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(contentLabel.snp.bottom).offset(25)
+            make.top.equalTo(contentLabel.snp.bottom).offset(20)
         }
-    }
-    
-    func setupImgCollectionView() {
-        if let layout = imgCollectionView.collectionViewLayout as? PagedCollectionViewLayout {
-            layout.scrollDirection = .horizontal
-            layout.minimumLineSpacing = 10
-            layout.itemSize = CGSize(width: HomePostCell.width - 40, height: 188 /* imgCollectionView xib height */)
-        }
-        imgCollectionView.delegate = self
-        imgCollectionView.dataSource = self
-        imgCollectionView.isPagingEnabled = false
-        imgCollectionView.showsHorizontalScrollIndicator = false
-        imgCollectionView.contentInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
-        imgCollectionView.backgroundColor = UIColor(hexString: "#292b32")
-        imgCollectionView.register(UINib.init(nibName: "PostImageCell", bundle: nil), forCellWithReuseIdentifier: PostImageCell.reuseIdentifier)
     }
     
     override func prepareForReuse() {
         super.prepareForReuse()
         setupSkeletonViews()
 
+        statsLabel.snp.removeConstraints()
+        clapBtn.snp.removeConstraints()
+        for constraint in imgCollectionViewConstraints {
+            constraint.isActive = true
+        }
+        for constraint in commentSectionConstraints {
+            constraint.isActive = true
+        }
+        
         buskerIcon.image = nil
         buskerName.text = ""
         contentLabel.attributedText = NSAttributedString(string: "")

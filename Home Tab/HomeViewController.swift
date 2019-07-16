@@ -339,12 +339,12 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
                     cell.contentLabel.numberOfLines = isPostCellExpanded[indexPath.row] == true ? 0 : 2
                     cell.contentLabel.attributedText = attrContentArr[indexPath.row] //not getting from postsList because we need attributed text
                     cell.contentLabel.sizeToFit()
-//                    print("contentLabelHeight = \(cell.contentLabel.bounds.size.height)")
-//                    print("Is cell \(indexPath.row) truncated? \(cell.contentLabel.isTruncated)")
+                    //                    print("contentLabelHeight = \(cell.contentLabel.bounds.size.height)")
+                    //                    print("Is cell \(indexPath.row) truncated? \(cell.contentLabel.isTruncated)")
                     
                     if cell.contentLabel.isTruncated { //add custom truncated text
                         //DispatchQueue.main.async {
-                            cell.contentLabel.addTrailing(with: "... ", moreText: "more", moreTextFont: UIFont.systemFont(ofSize: 13, weight: .bold), moreTextColor: .lightPurple())
+                        cell.contentLabel.addTrailing(with: "... ", moreText: "more", moreTextFont: UIFont.systemFont(ofSize: 13, weight: .bold), moreTextColor: .lightPurple())
                         //}
                     }
                     
@@ -355,33 +355,33 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
                         cell.userIcon.image = UIImage(named: "cat")
                         
                         //TODO
-                        //cell.imgCollectionView
+                        //cell.imgCollectionView.imgArray
                         
-//                        for view in cell.commentSection {
-//                            view.alpha = 1
-//                        }
-                    } else if haveImages[indexPath.row] == true {
+                    } else if haveImages[indexPath.row] == true { //hide comment section and update constraints
                         for view in cell.commentSection {
                             view.alpha = 0
                         }
-
+                        
                         //update constraints
+                        for constraint in cell.commentSectionConstraints { constraint.isActive = false }
                         cell.clapBtn.snp.makeConstraints { (make) in
                             make.bottom.equalToSuperview().offset(-20)
                         }
-                    } else if haveComments[indexPath.row] == true {
+                    } else if haveComments[indexPath.row] == true { //hide imgCollectionView and update constraints
                         cell.username.text = username[indexPath.row]
                         cell.userComment.text = comments[indexPath.row]
                         cell.userIcon.image = UIImage(named: "cat")
                         
-                        //update constraints since we remove imgCollectionView
+                        //hide imgCollectionView
                         cell.imgCollectionView.alpha = 0
+                        
+                        //update constraints
+                        for constraint in cell.imgCollectionViewConstraints { constraint.isActive = false }
                         cell.statsLabel.snp.makeConstraints { (make) in
-                            make.top.equalTo(cell.contentLabel.snp.bottom).offset(25)
+                            make.top.equalTo(cell.contentLabel.snp.bottom).offset(20)
                         }
                     }
 
-                    
                     return cell
                 } else { // post list is empty
                     return mainCollectionView.dequeueReusableCell(withReuseIdentifier: HomePostCell.reuseIdentifier, for: indexPath) as! HomePostCell
@@ -443,7 +443,7 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
                         } else {
                             return sizeWithTextExpanded
                         }
-
+                        
                     } else {
                         if haveImages[indexPath.row] == true && haveComments[indexPath.row] == true {
                             return sizeWithTextImgComment
@@ -573,7 +573,7 @@ extension HomeViewController: NewsSectionHeaderDelegate {
             
             selectedSection = .News
         }
-
+        
     }
     
     func postsBtnTapped(sender: UIButton) {
@@ -597,7 +597,7 @@ extension HomeViewController: HomePostCellDelegate {
         UIView.animate(withDuration: 0.8, delay: 0.0, usingSpringWithDamping: 0.9, initialSpringVelocity: 0.9, options: .curveEaseInOut, animations: {
             self.mainCollectionView.reloadItems(at: [indexPath])
         }, completion: nil)
-       // mainCollectionView.performBatchUpdates(nil, completion: nil)
+        // mainCollectionView.performBatchUpdates(nil, completion: nil)
     }
 }
 
@@ -632,7 +632,7 @@ extension HomeViewController: UITabBarControllerDelegate {
                 mainCollectionView.setContentOffset(CGPoint.zero, animated: true)
             }
         }
-        previousController = viewController;
+        previousController = viewController
         return true
     }
 }
