@@ -54,7 +54,7 @@ class HomeViewController: UIViewController {
         mainCollectionView.refreshControl = customRefreshControl
         
         //check if we need to present loginVC
-        if UserService.User.isLoggedIn() == false {
+        if !UserService.User.isLoggedIn() {
             let loginVC = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "loginVC") as! LoginViewController
             //            loginVC.hero.isEnabled = true
             //            loginVC.hero.modalAnimationType = .selectBy(presenting: .zoom, dismissing: .zoomOut)
@@ -122,7 +122,7 @@ class HomeViewController: UIViewController {
                 if let refreshView = self.refreshView {
                     refreshView.stopAnimation()
                     self.customRefreshControl.endRefreshing()
-                    HapticFeedback.createNotificationFeedback(style: .success)
+                    //HapticFeedback.createNotificationFeedback(style: .success)
                 } else {
                     self.getRefereshView() //setup pull to refresh view
                 }
@@ -155,7 +155,7 @@ class HomeViewController: UIViewController {
                 
                 self.refreshView.stopAnimation()
                 self.customRefreshControl.endRefreshing()
-                HapticFeedback.createNotificationFeedback(style: .success)
+                //HapticFeedback.createNotificationFeedback(style: .success)
             }.catch { error in }
     }
     
@@ -330,6 +330,8 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
                     for view in cell.skeletonViews { view.hideSkeleton() }
                     for view in cell.viewsToShowLater { view.alpha = 1 }
                     
+                    cell.timeLabel.text = "3 days ago"
+                    
                     cell.contentLabel.snp.removeConstraints()
                     cell.statsLabel.snp.removeConstraints()
                     for constraint in cell.tempConstraints { constraint.isActive = true }
@@ -467,7 +469,7 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
             switch selectedSection {
             case .News:
                 print("News cell index: \(indexPath.row)")
-                NewsDetailViewController.push(fromView: self, newsId: newsList[indexPath.row].id!)
+                NewsDetailViewController.push(fromView: self, newsID: newsList[indexPath.row].id!)
                 
             case .Posts:
                 let currentCell = mainCollectionView.cellForItem(at: indexPath) as! HomePostCell
@@ -555,8 +557,8 @@ extension HomeViewController: EventsSectionDelegate {
         self.navigationController?.pushViewController(eventsVc, animated: true)
     }
     
-    func cellTapped(eventId: String) {
-        EventDetailsViewController.push(from: self, eventId: eventId)
+    func cellTapped(eventID: String) {
+        EventDetailsViewController.push(from: self, eventID: eventID)
     }
 }
 

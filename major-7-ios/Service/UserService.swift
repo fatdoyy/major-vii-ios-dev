@@ -10,6 +10,7 @@ import FacebookCore
 import FacebookLogin
 import GoogleSignIn
 import PromiseKit
+import ObjectMapper
 import JGProgressHUD
 
 protocol UserServiceDelegate {
@@ -18,7 +19,7 @@ protocol UserServiceDelegate {
     func googleLoginWillDispatch()
 }
 
-class UserService: NSObject {
+class UserService: BaseService {
     
     static var sharedInstance = UserService()
     
@@ -72,7 +73,7 @@ class UserService: NSObject {
 
 }
 
-//facebook login
+//MARK: Facebook login
 extension UserService {
     struct FB{
         static func logIn(fromVC: UIViewController) {
@@ -196,7 +197,7 @@ extension UserService {
     }
 }
 
-//google login
+//MARK: Google login
 extension UserService: GIDSignInDelegate, GIDSignInUIDelegate {
     struct Google {
         static func logIn(fromVC: UIViewController) {
@@ -315,7 +316,7 @@ extension UserService: GIDSignInDelegate, GIDSignInUIDelegate {
     
 }
 
-//email login
+//MARK: Email login
 extension UserService {
     struct Email {
         static func login(email: String, password: String, loginView: LoginView) {
@@ -454,6 +455,7 @@ extension UserService {
         
         static func loginRequest(email: String, password: String) -> Promise<Any> {
             var params: [String: Any] = [:]
+            
             params["email"]        = email
             params["password"]     = password
             
@@ -468,15 +470,51 @@ extension UserService {
         
         static func registerRequest(email: String, password: String) -> Promise<Any> {
             var param: [String: Any] = [:]
+            
             param["email"]        = email
             param["password"]     = password
             
             return Promise { resolver in
-                BaseService.request(method: .post, url: BaseService.getActionPath(.emailReg), params: param).done { response in
+                BaseService.request(method: .post, url: BaseService.getActionPath(.emailRegister), params: param).done { response in
                     resolver.fulfill(response)
                     }.catch { error in
                         resolver.reject(error)
                 }
+            }
+        }
+    }
+}
+
+//MARK: Other functions
+extension UserService {
+    //get user followings
+    static func getUserFollowings() -> Promise<UserFollowings> {
+        return Promise { resolver in
+            request(method: .get, url: getActionPath(.getCurrentUserFollowings)).done { response in
+                guard let list = Mapper<UserFollowings>().map(JSONObject: response) else {
+                    resolver.reject(PMKError.cancelled)
+                    return
+                }
+                
+                resolver.fulfill(list)
+                }.catch { error in
+                    resolver.reject(error)
+            }
+        }
+    }
+    
+    //get bookmarked events
+    static func getBookmarkedEvents() -> Promise<BookmarkedEvents> {
+        return Promise { resolver in
+            request(method: .get, url: getActionPath(.getCurrentUserBookmarkedEvents)).done { response in
+                guard let events = Mapper<BookmarkedEvents>().map(JSONObject: response) else {
+                    resolver.reject(PMKError.cancelled)
+                    return
+                }
+                
+                resolver.fulfill(events)
+                }.catch { error in
+                    resolver.reject(error)
             }
         }
     }

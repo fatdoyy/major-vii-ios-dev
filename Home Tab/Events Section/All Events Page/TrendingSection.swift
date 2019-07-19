@@ -10,7 +10,7 @@ import UIKit
 import SwiftMessages
 
 protocol TrendingSectionDelegate{
-    func trendingCellTapped(eventId: String)
+    func trendingCellTapped(eventID: String)
     func showLoginVC()
 }
 
@@ -116,40 +116,40 @@ class TrendingSection: UICollectionViewCell {
                 print(self.bookmarkedEventArray)
                 
                 for cell in visibleCells {
-                    if cell.eventId == removeId { //remove bookmark
+                    if cell.eventID == removeId { //remove bookmark
                         self.removeBookmarkAnimation(cell: cell)
                     }
                 }
                 
-            } else if let checkId = event["check_id"] as? String { //Callback from Event Details
-                EventService.getBookmarkedEvents().done { response in
+            } else if let checkID = event["check_id"] as? String { //Callback from Event Details
+                UserService.getBookmarkedEvents().done { response in
                     if !response.list.isEmpty {
-                        if response.list.contains(where: { $0.targetEvent?.id == checkId }) { //check visible cell is bookmarked or not
+                        if response.list.contains(where: { $0.targetEvent?.id == checkID }) { //check visible cell is bookmarked or not
                             for cell in visibleCells { //check bookmarked list contains id
-                                if cell.eventId == checkId && (cell.bookmarkBtn.backgroundColor?.isEqual(UIColor.clear))! { //add bookmark
-                                    if !self.bookmarkedEventArray.contains(checkId) {
-                                        self.bookmarkedEventArray.append(checkId)
+                                if cell.eventID == checkID && (cell.bookmarkBtn.backgroundColor?.isEqual(UIColor.clear))! { //add bookmark
+                                    if !self.bookmarkedEventArray.contains(checkID) {
+                                        self.bookmarkedEventArray.append(checkID)
                                         print("Callback from details array \(self.bookmarkedEventArray)")
                                     }
                                     self.addBookmarkAnimation(cell: cell)
                                 }
                             }
                             
-                        } else { //checkId is not in bookmarked list
-                            if self.bookmarkedEventArray.contains(checkId) {
-                                self.bookmarkedEventArray.remove(object: checkId)
+                        } else { //checkID is not in bookmarked list
+                            if self.bookmarkedEventArray.contains(checkID) {
+                                self.bookmarkedEventArray.remove(object: checkID)
                             }
                             
                             for cell in visibleCells {
-                                if cell.eventId == checkId && (cell.bookmarkBtn.backgroundColor?.isEqual(UIColor.mintGreen()))! {
+                                if cell.eventID == checkID && (cell.bookmarkBtn.backgroundColor?.isEqual(UIColor.mintGreen()))! {
                                     self.removeBookmarkAnimation(cell: cell)
                                 }
                             }
                         }
                         
                     } else { //bookmarked list is empty, remove id from array
-                        if self.bookmarkedEventArray.contains(checkId) {
-                            self.bookmarkedEventArray.remove(object: checkId)
+                        if self.bookmarkedEventArray.contains(checkID) {
+                            self.bookmarkedEventArray.remove(object: checkID)
                         }
                         
                         for cell in visibleCells {
@@ -246,7 +246,7 @@ extension TrendingSection: UICollectionViewDataSource, UICollectionViewDelegate,
             }
             
             if let id = trendingEvents[indexPath.row].id {
-                cell.eventId = id
+                cell.eventID = id
             }
             
             cell.eventTitle.text = trendingEvents[indexPath.row].title
@@ -256,18 +256,18 @@ extension TrendingSection: UICollectionViewDataSource, UICollectionViewDelegate,
             
             //detemine bookmarkBtn bg color
             if UserService.User.isLoggedIn() {
-                if let eventId = trendingEvents[indexPath.row].id {
-                    if !bookmarkedEventArray.contains(eventId) {
+                if let eventID = trendingEvents[indexPath.row].id {
+                    if !bookmarkedEventArray.contains(eventID) {
                         /* Check if local array is holding this bookmarked cell
                          NOTE: This check is to prevent cell reuse issues, all bookmarked events will be saved in server */
                         
-                        EventService.getBookmarkedEvents().done { response in
+                        UserService.getBookmarkedEvents().done { response in
                             if !response.list.isEmpty {
                                 for event in response.list {
                                     //check if bookmarked list contains id
                                     let isBookmarked = event.targetEvent?.id == self.trendingEvents[indexPath.row].id
                                     if isBookmarked {
-                                        self.bookmarkedEventArray.append(eventId) //add this cell to local array to avoid reuse
+                                        self.bookmarkedEventArray.append(eventID) //add this cell to local array to avoid reuse
                                         print(self.bookmarkedEventArray)
                                         
                                         //animate button state
@@ -324,7 +324,7 @@ extension TrendingSection: UICollectionViewDataSource, UICollectionViewDelegate,
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        delegate?.trendingCellTapped(eventId: trendingEvents[indexPath.row].id ?? "")
+        delegate?.trendingCellTapped(eventID: trendingEvents[indexPath.row].id ?? "")
     }
 }
 
@@ -333,7 +333,7 @@ extension TrendingSection: TrendingCellDelegate {
     func bookmarkBtnTapped(cell: TrendingCell, tappedIndex: IndexPath) {
         cell.checkShouldDisplayIndicator()
         if UserService.User.isLoggedIn() {
-            if let eventId = self.trendingEvents[tappedIndex.row].id {
+            if let eventID = self.trendingEvents[tappedIndex.row].id {
                 if (cell.bookmarkBtn.backgroundColor?.isEqual(UIColor.clear))! { //do bookmark action
                     HapticFeedback.createImpact(style: .light)
                     cell.bookmarkBtn.isUserInteractionEnabled = false
@@ -348,8 +348,8 @@ extension TrendingSection: TrendingCellDelegate {
                     }, completion: nil)
                     
                     //create bookmark action
-                    EventService.createBookmark(eventId: eventId).done { _ in
-                        print("Event with ID (\(eventId)) bookmarked")
+                    EventService.createBookmark(eventID: eventID).done { _ in
+                        print("Event with ID (\(eventID)) bookmarked")
                         }.ensure {
                             UIView.animate(withDuration: 0.2) {
                                 cell.bookmarkBtn.backgroundColor = .mintGreen()
@@ -361,12 +361,12 @@ extension TrendingSection: TrendingCellDelegate {
                             }, completion: nil)
                             
                             cell.bookmarkBtn.isUserInteractionEnabled = true
-                            if !self.bookmarkedEventArray.contains(eventId) {
-                                self.bookmarkedEventArray.append(eventId)
+                            if !self.bookmarkedEventArray.contains(eventID) {
+                                self.bookmarkedEventArray.append(eventID)
                                 print("Trending Section array: \(self.bookmarkedEventArray)\n")
                             }
                             
-                            NotificationCenter.default.post(name: .refreshBookmarkedSection, object: nil, userInfo: ["add_id": eventId]) //reload collection view in BookmarkedSection
+                            NotificationCenter.default.post(name: .refreshBookmarkedSection, object: nil, userInfo: ["add_id": eventID]) //reload collection view in BookmarkedSection
                             
                             UIApplication.shared.isNetworkActivityIndicatorVisible = false
                             HapticFeedback.createNotificationFeedback(style: .success)
@@ -387,7 +387,7 @@ extension TrendingSection: TrendingCellDelegate {
                     }, completion: nil)
                     
                     //remove bookmark action
-                    EventService.removeBookmark(eventId: eventId).done { response in
+                    EventService.removeBookmark(eventID: eventID).done { response in
                         print(response)
                         }.ensure {
                             
@@ -402,12 +402,12 @@ extension TrendingSection: TrendingCellDelegate {
                             
                             cell.bookmarkBtn.isUserInteractionEnabled = true
                             
-                            if let index = self.bookmarkedEventArray.index(of: eventId) {
+                            if let index = self.bookmarkedEventArray.index(of: eventID) {
                                 self.bookmarkedEventArray.remove(at: index)
                                 print("Trending Section array: \(self.bookmarkedEventArray)\n")
                             }
                             
-                            NotificationCenter.default.post(name: .refreshBookmarkedSection, object: nil, userInfo: ["remove_id": eventId]) //reload collection view in BookmarkedSection
+                            NotificationCenter.default.post(name: .refreshBookmarkedSection, object: nil, userInfo: ["remove_id": eventID]) //reload collection view in BookmarkedSection
                             
                             UIApplication.shared.isNetworkActivityIndicatorVisible = false
                             HapticFeedback.createNotificationFeedback(style: .success)

@@ -27,7 +27,7 @@ class TrendingCell: UICollectionViewCell {
     static let width = UIScreen.main.bounds.width - 40
     static var height: CGFloat = width / aspectRatio
     
-    var eventId: String = ""
+    var eventID: String = ""
     
     @IBOutlet weak var bgImgView: UIImageView!
     @IBOutlet weak var eventTitle: UILabel!

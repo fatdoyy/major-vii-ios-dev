@@ -38,9 +38,9 @@ extension NewsService {
         }
     }
     
-    static func getDetails(newsId: String) -> Promise<NewsDetails> {
+    static func getDetails(newsID: String) -> Promise<NewsDetails> {
         return Promise { resolver in
-            request(method: .get, url: getActionPath(.getNewsDetails(newsId: newsId))).done { response in
+            request(method: .get, url: getActionPath(.getNewsDetails(newsID: newsID))).done { response in
                 guard let news = Mapper<NewsDetails>().map(JSONObject: response) else {
                     resolver.reject(PMKError.cancelled)
                     return

@@ -301,7 +301,7 @@ extension BuskersSearchViewController: UICollectionViewDelegate, UICollectionVie
         case genreCollectionView:
             print("tapped genre cell")
         case resultsCollectionView:
-            BuskerProfileViewController.present(from: self, buskerName: perfomers[indexPath.row], buskerId: "5be7f512d92f1257fd2a530e")
+            BuskerProfileViewController.present(from: self, buskerName: perfomers[indexPath.row], buskerID: "5be7f512d92f1257fd2a530e")
         default:
             print("error")
         }

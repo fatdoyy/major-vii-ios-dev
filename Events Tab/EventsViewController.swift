@@ -115,7 +115,7 @@ class EventsViewController: UIViewController {
 //MARK: Network calls
 extension EventsViewController {
     private func getBookmarkedEvents() {
-        EventService.getBookmarkedEvents().done { response in
+        UserService.getBookmarkedEvents().done { response in
             self.bookmarkedEvents = response.list.reversed()
             }.ensure {
                 UIApplication.shared.isNetworkActivityIndicatorVisible = false
@@ -150,7 +150,7 @@ extension EventsViewController {
             let lat = position.latitude
             let long = position.longitude
             
-            EventService.getEventDetails(eventId: id).done { event in
+            EventService.getEventDetails(eventID: id).done { event in
                 if let event = event.item {
                     let venue: String
                     venue = (event.venue?.isEmpty)! ? "\(String(format: "%.5f", lat)) \(String(format: "%.5f", long))" : event.venue!
@@ -178,7 +178,7 @@ extension EventsViewController {
                     self.infoWindow = InfoWindow(eventTitle: event.title!, date: event.dateTime!, desc: event.desc!, venue: venue, distance: distanceStr ?? "0")
                     self.infoWindow?.delegate = self
                     //self.infoWindow?.center = self.mapView.projection.point(for: (self.tappedMarker?.position)!)
-                    self.infoWindow?.eventId = id
+                    self.infoWindow?.eventID = id
                     self.infoWindow?.center = self.mapView.projection.point(for: position)
                     self.infoWindow?.center.y -= 190
                     
@@ -492,7 +492,7 @@ extension EventsViewController: GMSMapViewDelegate, InfoWindowDelegate, Bookmark
             }
         }
         
-        if infoWindow?.alpha == 0 || (infoWindow?.eventId != id) {
+        if infoWindow?.alpha == 0 || (infoWindow?.eventID != id) {
             showInfoWindow(withId: id, position: position)
         }
         
@@ -500,8 +500,8 @@ extension EventsViewController: GMSMapViewDelegate, InfoWindowDelegate, Bookmark
     }
     
     func infoWindowMoreBtnTapped() {
-        if let id = self.infoWindow?.eventId {
-            EventDetailsViewController.push(from: self, eventId: id)
+        if let id = self.infoWindow?.eventID {
+            EventDetailsViewController.push(from: self, eventID: id)
         }
     }
     

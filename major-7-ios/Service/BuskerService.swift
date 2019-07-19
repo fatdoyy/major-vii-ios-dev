@@ -15,15 +15,15 @@ class BuskerService: BaseService {}
 extension BuskerService {
     
     //busker profile details
-    static func getProfileDetails(buskerId: String) -> Promise<BuskerProfile> {
+    static func getProfileDetails(buskerID: String) -> Promise<BuskerProfile> {
         return Promise { resolver in
-            request(method: .get, url: getActionPath(.buskerProfile(buskerId: buskerId))).done { response in
-                guard let upcomingEvent = Mapper<BuskerProfile>().map(JSONObject: response) else {
+            request(method: .get, url: getActionPath(.buskerProfile(buskerID: buskerID))).done { response in
+                guard let details = Mapper<BuskerProfile>().map(JSONObject: response) else {
                     resolver.reject(PMKError.cancelled)
                     return
                 }
                 
-                resolver.fulfill(upcomingEvent)
+                resolver.fulfill(details)
                 }.catch { error in
                     resolver.reject(error)
             }
@@ -31,15 +31,15 @@ extension BuskerService {
     }
     
     //busker events
-    static func getBuskerEvents(buskerId: String) -> Promise<BuskerEventsList> {
+    static func getBuskerEvents(buskerID: String) -> Promise<BuskerEventsList> {
         return Promise { resolver in
-            request(method: .get, url: getActionPath(.buskerEvents(buskerId: buskerId))).done { response in
-                guard let upcomingEvent = Mapper<BuskerEventsList>().map(JSONObject: response) else {
+            request(method: .get, url: getActionPath(.buskerEvents(buskerID: buskerID))).done { response in
+                guard let events = Mapper<BuskerEventsList>().map(JSONObject: response) else {
                     resolver.reject(PMKError.cancelled)
                     return
                 }
                 
-                resolver.fulfill(upcomingEvent)
+                resolver.fulfill(events)
                 }.catch { error in
                     resolver.reject(error)
             }
@@ -47,9 +47,25 @@ extension BuskerService {
     }
     
     //busker posts
-    static func getBuskerPosts(buskerId: String) -> Promise<BuskerPostsList> {
+    static func getBuskerPosts(buskerID: String) -> Promise<BuskerPostsList> {
         return Promise { resolver in
-            request(method: .get, url: getActionPath(.buskerPosts(buskerId: buskerId))).done { response in
+            request(method: .get, url: getActionPath(.buskerPosts(buskerID: buskerID))).done { response in
+                guard let posts = Mapper<BuskerPostsList>().map(JSONObject: response) else {
+                    resolver.reject(PMKError.cancelled)
+                    return
+                }
+                
+                resolver.fulfill(posts)
+                }.catch { error in
+                    resolver.reject(error)
+            }
+        }
+    }
+    
+    //busker profile follower list
+    static func getBuskerFollowings(buskerID: String) -> Promise<BuskerPostsList> {
+        return Promise { resolver in
+            request(method: .get, url: getActionPath(.buskerFollowers(buskerID: buskerID))).done { response in
                 guard let upcomingEvent = Mapper<BuskerPostsList>().map(JSONObject: response) else {
                     resolver.reject(PMKError.cancelled)
                     return
@@ -61,4 +77,27 @@ extension BuskerService {
             }
         }
     }
+    
+    //busker profile follow request
+    static func followBusker(buskerID: String) -> Promise<Any> {
+        return Promise { resolver in
+            request(method: .post, url: getActionPath(.buskerFollowers(buskerID: buskerID))).done { response in
+                resolver.fulfill(response)
+                }.catch { error in
+                    resolver.reject(error)
+            }
+        }
+    }
+    
+    //busker profile un-follow request
+    static func unfollowBusker(buskerID: String) -> Promise<Any> {
+        return Promise { resolver in
+            request(method: .delete, url: getActionPath(.buskerFollowers(buskerID: buskerID))).done { response in
+                resolver.fulfill(response)
+                }.catch { error in
+                    resolver.reject(error)
+            }
+        }
+    }
+    
 }

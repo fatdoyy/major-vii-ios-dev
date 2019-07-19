@@ -18,12 +18,12 @@ extension EventService {
     static func getUpcomingEvents() -> Promise<Events> {
         return Promise { resolver in
             request(method: .get, url: getActionPath(.getUpcomingEvents)).done { response in
-                guard let upcomingEvent = Mapper<Events>().map(JSONObject: response) else {
+                guard let events = Mapper<Events>().map(JSONObject: response) else {
                     resolver.reject(PMKError.cancelled)
                     return
                 }
                 
-                resolver.fulfill(upcomingEvent)
+                resolver.fulfill(events)
                 }.catch { error in
                     resolver.reject(error)
             }
@@ -34,12 +34,12 @@ extension EventService {
     static func getTrendingEvents() -> Promise<Events> {
         return Promise { resolver in
             request(method: .get, url: getActionPath(.getTrendingEvents)).done { response in
-                guard let upcomingEvent = Mapper<Events>().map(JSONObject: response) else {
+                guard let events = Mapper<Events>().map(JSONObject: response) else {
                     resolver.reject(PMKError.cancelled)
                     return
                 }
                 
-                resolver.fulfill(upcomingEvent)
+                resolver.fulfill(events)
                 }.catch { error in
                     resolver.reject(error)
             }
@@ -80,9 +80,9 @@ extension EventService {
     
     
     //event details
-    static func getEventDetails(eventId: String) -> Promise<EventDetails> {
+    static func getEventDetails(eventID: String) -> Promise<EventDetails> {
         return Promise { resolver in
-            request(method: .get, url: getActionPath(.getEventDetails(eventId: eventId))).done { response in
+            request(method: .get, url: getActionPath(.getEventDetails(eventID: eventID))).done { response in
                 guard let details = Mapper<EventDetails>().map(JSONObject: response) else {
                     resolver.reject(PMKError.cancelled)
                     return
@@ -96,9 +96,9 @@ extension EventService {
     }
     
     //create bookmark
-    static func createBookmark(eventId: String) -> Promise<Any> {
+    static func createBookmark(eventID: String) -> Promise<Any> {
         return Promise { resolver in
-            request(method: .post, url: getActionPath(.bookmarkAction(eventId: eventId))).done { response in
+            request(method: .post, url: getActionPath(.bookmarkAction(eventID: eventID))).done { response in
                 resolver.fulfill(response)
                 }.catch { error in
                     resolver.reject(error)
@@ -107,26 +107,10 @@ extension EventService {
     }
     
     //remove bookmark
-    static func removeBookmark(eventId: String) -> Promise<Any> {
+    static func removeBookmark(eventID: String) -> Promise<Any> {
         return Promise { resolver in
-            request(method: .delete, url: getActionPath(.bookmarkAction(eventId: eventId))).done { response in
+            request(method: .delete, url: getActionPath(.bookmarkAction(eventID: eventID))).done { response in
                 resolver.fulfill(response)
-                }.catch { error in
-                    resolver.reject(error)
-            }
-        }
-    }
-    
-    //get bookmarked events
-    static func getBookmarkedEvents() -> Promise<BookmarkedEvents> {
-        return Promise { resolver in
-            request(method: .get, url: getActionPath(.getBookmarkedEvents)).done { response in
-                guard let details = Mapper<BookmarkedEvents>().map(JSONObject: response) else {
-                    resolver.reject(PMKError.cancelled)
-                    return
-                }
-                
-                resolver.fulfill(details)
                 }.catch { error in
                     resolver.reject(error)
             }

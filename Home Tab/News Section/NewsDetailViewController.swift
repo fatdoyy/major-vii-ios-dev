@@ -16,10 +16,10 @@ class NewsDetailViewController: UIViewController {
 
     static let storyboardId = "newsDetailVC"
 
-    //newsId
-    var newsId = "" {
+    //newsID
+    var newsID = "" {
         didSet {
-            getDetails(newsId: newsId)
+            getDetails(newsID: newsID)
         }
     }
     
@@ -57,8 +57,8 @@ class NewsDetailViewController: UIViewController {
     
     @IBOutlet weak var mainScrollView: UIScrollView!
     
-    private func getDetails(newsId: String) {
-        NewsService.getDetails(newsId: newsId).done { details -> () in
+    private func getDetails(newsID: String) {
+        NewsService.getDetails(newsID: newsID).done { details -> () in
             self.details = details
             
             }.ensure {
@@ -448,11 +448,11 @@ extension NewsDetailViewController: UIScrollViewDelegate {
 
 // MARK: function to push this view controller
 extension NewsDetailViewController {
-    static func push(fromView: UIViewController, newsId: String) {
+    static func push(fromView: UIViewController, newsID: String) {
         let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
         let detailsVC = storyboard.instantiateViewController(withIdentifier: NewsDetailViewController.storyboardId) as! NewsDetailViewController
         
-        detailsVC.newsId = newsId
+        detailsVC.newsID = newsID
         
         fromView.navigationItem.title = ""
         fromView.navigationController?.hero.navigationAnimationType = .autoReverse(presenting: .zoom)

@@ -47,10 +47,10 @@ class EventDetailsViewController: UIViewController {
     //gesture for swipe-pop
     var gesture: UIGestureRecognizer?
     
-    //eventId
-    var eventId = "" {
+    //eventID
+    var eventID = "" {
         didSet {
-            getDetails(eventId: eventId)
+            getDetails(eventID: eventID)
         }
     }
     
@@ -113,15 +113,15 @@ class EventDetailsViewController: UIViewController {
         }
 
         if UserService.User.isLoggedIn() {
-            NotificationCenter.default.post(name: .refreshTrendingSectionCell, object: nil, userInfo: ["check_id": eventId])
-            NotificationCenter.default.post(name: .refreshBookmarkedSectionFromDetails, object: nil, userInfo: ["check_id": eventId])
+            NotificationCenter.default.post(name: .refreshTrendingSectionCell, object: nil, userInfo: ["check_id": eventID])
+            NotificationCenter.default.post(name: .refreshBookmarkedSectionFromDetails, object: nil, userInfo: ["check_id": eventID])
         }
             
         if !isModal { TabBar.show(from: self) }
     }
     
-    private func getDetails(eventId: String) {
-        EventService.getEventDetails(eventId: eventId).done { details -> () in
+    private func getDetails(eventID: String) {
+        EventService.getEventDetails(eventID: eventID).done { details -> () in
             self.eventDetails = details
             self.loadImgIntoImgViewer()
 
@@ -139,17 +139,17 @@ class EventDetailsViewController: UIViewController {
         
         //bookmarkBtn state
         if UserService.User.isLoggedIn() {
-        EventService.getBookmarkedEvents().done { response in
+        UserService.getBookmarkedEvents().done { response in
             if !response.list.isEmpty {
                 for event in response.list {
                     if let targetEvent = event.targetEvent {
-                        if let eventId = targetEvent.id {
-                            self.allBoomarkedEventId.append(eventId)
+                        if let eventID = targetEvent.id {
+                            self.allBoomarkedEventId.append(eventID)
                         }
                     }
                 }
  
-                if self.allBoomarkedEventId.contains(self.eventId) {
+                if self.allBoomarkedEventId.contains(self.eventID) {
                     UIView.transition(with: self.bgView.bookmarkBtn, duration: 0.2, options: .transitionCrossDissolve, animations: {
                         self.bgView.bookmarkBtn.setImage(UIImage(named: "eventdetails_bookmarked_1"), for: .normal)
                     }, completion: nil)
@@ -340,13 +340,13 @@ extension EventDetailsViewController: EventsDetailsViewDelegate{
                     sender.setImage(nil, for: .normal)
                 }, completion: nil)
                 
-                EventService.createBookmark(eventId: eventId).done { _ in
+                EventService.createBookmark(eventID: eventID).done { _ in
                     self.hideIndicator()
                     
                     UIView.transition(with: sender, duration: 0.2, options: .transitionCrossDissolve, animations: {
                         sender.setImage(bookmarkedImg, for: .normal)
                     }, completion: nil)
-                    print("Event(\(self.eventId)) bookmarked")
+                    print("Event(\(self.eventID)) bookmarked")
                     sender.isUserInteractionEnabled = true
                     }.ensure {
                         HapticFeedback.createNotificationFeedback(style: .success)
@@ -361,7 +361,7 @@ extension EventDetailsViewController: EventsDetailsViewDelegate{
                     sender.setImage(nil, for: .normal)
                 }, completion: nil)
                 
-                EventService.removeBookmark(eventId: eventId).done { response in
+                EventService.removeBookmark(eventID: eventID).done { response in
                     print(response)
                     
                     self.hideIndicator()
@@ -369,7 +369,7 @@ extension EventDetailsViewController: EventsDetailsViewDelegate{
                     UIView.transition(with: sender, duration: 0.2, options: .transitionCrossDissolve, animations: {
                         sender.setImage(notBookmarkedImg, for: .normal)
                     }, completion: nil)
-                    print("Event(\(self.eventId)) bookmark removed")
+                    print("Event(\(self.eventID)) bookmark removed")
                     sender.isUserInteractionEnabled = true
                     }.ensure {
                         HapticFeedback.createNotificationFeedback(style: .success)
@@ -388,9 +388,9 @@ extension EventDetailsViewController: EventsDetailsViewDelegate{
     
     func performerLabelTapped(sender: Any) {
         if !isModal {
-            BuskerProfileViewController.push(from: self, buskerName: eventDetails!.item?.organizerProfile?.name ?? "", buskerId: eventDetails!.item?.organizerProfile?.id ?? "")
+            BuskerProfileViewController.push(from: self, buskerName: eventDetails!.item?.organizerProfile?.name ?? "", buskerID: eventDetails!.item?.organizerProfile?.id ?? "")
         } else {
-            BuskerProfileViewController.present(from: self, buskerName: eventDetails!.item?.organizerProfile?.name ?? "", buskerId: eventDetails!.item?.organizerProfile?.id ?? "")
+            BuskerProfileViewController.present(from: self, buskerName: eventDetails!.item?.organizerProfile?.name ?? "", buskerID: eventDetails!.item?.organizerProfile?.id ?? "")
         }
     }
 }
@@ -470,22 +470,22 @@ extension EventDetailsViewController: UIGestureRecognizerDelegate{
 
 // MARK: function to push this view controller
 extension EventDetailsViewController{
-    static func push(from view: UIViewController, eventId: String) {
+    static func push(from view: UIViewController, eventID: String) {
         let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
         let detailsVC = storyboard.instantiateViewController(withIdentifier: EventDetailsViewController.storyboardId) as! EventDetailsViewController
         
-        detailsVC.eventId = eventId
+        detailsVC.eventID = eventID
         
         view.navigationItem.title = ""
         view.navigationController?.hero.navigationAnimationType = .autoReverse(presenting: .zoom)
         view.navigationController?.pushViewController(detailsVC, animated: true)
     }
     
-    static func present(from view: UIViewController, eventId: String) {
+    static func present(from view: UIViewController, eventID: String) {
         let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
         let detailsVC = storyboard.instantiateViewController(withIdentifier: EventDetailsViewController.storyboardId) as! EventDetailsViewController
         
-        detailsVC.eventId = eventId
+        detailsVC.eventID = eventID
         
         detailsVC.hero.isEnabled = true
         detailsVC.hero.modalAnimationType = .autoReverse(presenting: .zoom)

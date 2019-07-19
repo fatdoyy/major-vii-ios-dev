@@ -19,7 +19,7 @@ class InfoWindow: UIView {
     static var aspectRatio: CGFloat = width / 190
     static var height: CGFloat = width / aspectRatio
     
-    var eventId: String?
+    var eventID: String?
     var titleLabel = UILabel()
     var detailsLabel = UILabel()
 

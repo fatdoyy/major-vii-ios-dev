@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		20A96B2F0DADE6B405F6D3CE /* Pods_major_7_ios.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 72E5F17BF3B3C6876EB735D2 /* Pods_major_7_ios.framework */; };
+		96086BB322E1D3690016A0B8 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96086BB222E1D3690016A0B8 /* User.swift */; };
 		960A4760219AA8FE00780AD4 /* HapticFeedback.swift in Sources */ = {isa = PBXBuildFile; fileRef = 960A475F219AA8FE00780AD4 /* HapticFeedback.swift */; };
 		960B54BE22437C0700FEA079 /* BuskersSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 960B54BD22437C0700FEA079 /* BuskersSearchViewController.swift */; };
 		9620021821DDFC320055D070 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9620021721DDFC320055D070 /* LoginViewController.swift */; };
@@ -160,6 +161,7 @@
 /* Begin PBXFileReference section */
 		72E5F17BF3B3C6876EB735D2 /* Pods_major_7_ios.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_major_7_ios.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		85E2A7C70D0DC04C0984E968 /* Pods-major-7-ios.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-major-7-ios.debug.xcconfig"; path = "Pods/Target Support Files/Pods-major-7-ios/Pods-major-7-ios.debug.xcconfig"; sourceTree = "<group>"; };
+		96086BB222E1D3690016A0B8 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		960A475F219AA8FE00780AD4 /* HapticFeedback.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticFeedback.swift; sourceTree = "<group>"; };
 		960B54BD22437C0700FEA079 /* BuskersSearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuskersSearchViewController.swift; sourceTree = "<group>"; };
 		9620021721DDFC320055D070 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -372,10 +374,11 @@
 			isa = PBXGroup;
 			children = (
 				96B0BE4921F056B4003C9BA5 /* LocalKeys.swift */,
+				96086BB222E1D3690016A0B8 /* User.swift */,
 				965838B22181C5A4000FE8B0 /* News.swift */,
 				96625F7821C7859E0086A2B2 /* Event.swift */,
-				967BD33C223F800000469CF9 /* Post.swift */,
 				96625F7E21C8C8030086A2B2 /* EventDetails.swift */,
+				967BD33C223F800000469CF9 /* Post.swift */,
 				96FAF248223A287C00DF23B9 /* Busker.swift */,
 				96625F7621C785670086A2B2 /* Image.swift */,
 			);
@@ -456,7 +459,6 @@
 				966A6CC9217DE6AC00DF872F /* Home Tab */,
 				965798B022266B0700A03BE9 /* Buskers Tab */,
 				965798B72227B20300A03BE9 /* Busker Profile View */,
-				96C55412219044710065D70A /* All Events Page */,
 				966A6CC0217DBD9F00DF872F /* AgentsViewController.swift */,
 				96F37322224B95850088E142 /* Events Tab */,
 				9611CD76225B226A00ACA937 /* Settings Tab */,
@@ -518,6 +520,7 @@
 				966A6CCB217DE6DD00DF872F /* EventsSection.xib */,
 				966A6CD22180492F00DF872F /* EventsCell.swift */,
 				966A6CD32180492F00DF872F /* EventsCell.xib */,
+				96C55412219044710065D70A /* All Events Page */,
 			);
 			path = "Events Section";
 			sourceTree = "<group>";
@@ -888,6 +891,7 @@
 			files = (
 				96F5308521EC68FD007BCCB0 /* UIVisualEffectView.swift in Sources */,
 				96313E5F22DC7FE40033EA49 /* PostImageCell.swift in Sources */,
+				96086BB322E1D3690016A0B8 /* User.swift in Sources */,
 				965838BA2181CAFE000FE8B0 /* NewsCellType3.swift in Sources */,
 				966A6CD42180492F00DF872F /* EventsCell.swift in Sources */,
 				96B34DEC224F599E00D9F236 /* UIDevice.swift in Sources */,

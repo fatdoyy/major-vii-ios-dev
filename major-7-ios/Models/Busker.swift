@@ -40,7 +40,7 @@ class BuskerProfileDetails: Mappable {
         hashtags    <- map["hashtags"]
         verified    <- map["verified"]
         desc        <- map["desc"]
-        genres  <- map["music_types"]
+        genres      <- map["music_types"]
         coverImages <- map["cover_images"]
         members     <- map["members"]
         igId        <- map["instagram_id"]
@@ -66,7 +66,7 @@ class BuskerMember: Mappable {
 }
 
 class BuskerEventsList: Mappable {
-    var buskerId: String?
+    var buskerID: String?
     var skip: Int?
     var limit: Int?
     var list = [Event]()
@@ -74,7 +74,7 @@ class BuskerEventsList: Mappable {
     required init?(map: Map) {}
     
     func mapping(map: Map) {
-        buskerId   <- map["profile_id"]
+        buskerID    <- map["profile_id"]
         skip        <- map["skip"]
         limit       <- map["limit"]
         list        <- map["list"]
@@ -83,7 +83,7 @@ class BuskerEventsList: Mappable {
 }
 
 class BuskerPostsList: Mappable {
-    var buskerId: String?
+    var buskerID: String?
     var skip: Int?
     var limit: Int?
     var list = [Post]()
@@ -91,7 +91,7 @@ class BuskerPostsList: Mappable {
     required init?(map: Map) {}
     
     func mapping(map: Map) {
-        buskerId   <- map["profile_id"]
+        buskerID    <- map["profile_id"]
         skip        <- map["skip"]
         limit       <- map["limit"]
         list        <- map["list"]
@@ -99,3 +99,22 @@ class BuskerPostsList: Mappable {
     
 }
 
+class OrganizerProfile: Mappable {
+    var musicTypes = [String]()
+    var coverImages = [Image]()
+    var id: String?
+    var name: String?
+    var type: Int?
+    var verfied: Bool?
+    
+    required init?(map: Map) {}
+    
+    func mapping(map: Map) {
+        musicTypes      <- map["music_types"]
+        coverImages     <- map["cover_images"]
+        id              <- map["_id"]
+        name            <- map["name"]
+        type            <- map["type"]
+        verfied         <- map["verfied"]
+    }
+}

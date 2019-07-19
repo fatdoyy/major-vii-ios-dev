@@ -12,7 +12,7 @@ import Kingfisher
 
 protocol EventsSectionDelegate {
     func viewAllBtnTapped()
-    func cellTapped(eventId: String)
+    func cellTapped(eventID: String)
 }
 
 class EventsSection: UICollectionViewCell {
@@ -143,6 +143,6 @@ extension EventsSection: UICollectionViewDataSource, UICollectionViewDelegate, U
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        delegate?.cellTapped(eventId: upcomingEvents[indexPath.row].id ?? "")
+        delegate?.cellTapped(eventID: upcomingEvents[indexPath.row].id ?? "")
     }
 }

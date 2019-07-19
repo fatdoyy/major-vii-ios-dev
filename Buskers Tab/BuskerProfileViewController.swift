@@ -17,6 +17,12 @@ import SkeletonView
 import NVActivityIndicatorView
 import InfiniteLayout
 
+//MARK: isFollowingBusker Enum
+enum isFollowingBusker {
+    case Yes
+    case No
+}
+
 class BuskerProfileViewController: UIViewController {
     static let storyboardId = "buskerProfileVC"
     
@@ -26,11 +32,11 @@ class BuskerProfileViewController: UIViewController {
         }
     }
     
-    var buskerId = "" {
+    var buskerID = "" {
         didSet {
-            getProfileDetails(buskerId: buskerId)
-            getBuskerEvents(buskerId: buskerId)
-            getBuskerPosts(buskerId: buskerId)
+            getProfileDetails(buskerID: buskerID)
+            getBuskerEvents(buskerID: buskerID)
+            getBuskerPosts(buskerID: buskerID)
         }
     }
     
@@ -76,7 +82,9 @@ class BuskerProfileViewController: UIViewController {
     
     var hashtagsCollectionView: UICollectionView!
     
-    var actionBtn = UIButton()
+    var followBtn = UIButton()
+    var isFollowing = isFollowingBusker.No //default no
+    
     var statsBgView = UIView()
     var statsGradientBg = PastelView()
     var statsFollowersCount = UILabel()
@@ -148,6 +156,7 @@ class BuskerProfileViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        checkIsFollowing(buskerID: buskerID)
         
         gesture?.delegate = self
         loadingIndicator.startAnimating()
@@ -162,7 +171,7 @@ class BuskerProfileViewController: UIViewController {
         setupPageControl()
         setupHashtagsCollectionView()
         
-        setupActionBtn()
+        setupFollowBtn()
         
         setupStatsView()
         setupProfileSection()
@@ -200,8 +209,8 @@ class BuskerProfileViewController: UIViewController {
 
 //MARK: API Calling
 extension BuskerProfileViewController {
-    private func getProfileDetails(buskerId: String) {
-        BuskerService.getProfileDetails(buskerId: buskerId).done { details -> () in
+    private func getProfileDetails(buskerID: String) {
+        BuskerService.getProfileDetails(buskerID: buskerID).done { details -> () in
             self.buskerDetails = details
             
             }.ensure {
@@ -209,8 +218,26 @@ extension BuskerProfileViewController {
             }.catch { error in }
     }
     
-    private func getBuskerEvents(buskerId: String) {
-        BuskerService.getBuskerEvents(buskerId: buskerId).done { events -> () in
+    private func checkIsFollowing(buskerID: String) {
+        UserService.getUserFollowings().done { response -> () in
+            if !response.list.isEmpty {
+                for object in response.list {
+                    if object.targetProfile?.id == self.buskerID {
+                        self.isFollowing = .Yes
+                        print("Busker \(self.buskerID) is already followed")
+                    }
+                }
+            }
+            }.ensure {
+                if self.isFollowing == .No {
+                    print("not following")
+                }
+                UIApplication.shared.isNetworkActivityIndicatorVisible = false
+            }.catch { error in }
+    }
+
+    private func getBuskerEvents(buskerID: String) {
+        BuskerService.getBuskerEvents(buskerID: buskerID).done { events -> () in
             self.buskerEvents = events
             
             }.ensure {
@@ -218,8 +245,8 @@ extension BuskerProfileViewController {
             }.catch { error in }
     }
     
-    private func getBuskerPosts(buskerId: String) {
-        BuskerService.getBuskerPosts(buskerId: buskerId).done { posts -> () in
+    private func getBuskerPosts(buskerID: String) {
+        BuskerService.getBuskerPosts(buskerID: buskerID).done { posts -> () in
             self.buskerPosts = posts
             
             }.ensure {
@@ -508,15 +535,15 @@ extension BuskerProfileViewController {
         }
     }
     
-    private func setupActionBtn() {
-        actionBtn.backgroundColor = UIColor.white.withAlphaComponent(0.05)
-        actionBtn.setTitle("Follow", for: .normal)
-        actionBtn.setTitleColor(.white, for: .normal)
-        actionBtn.titleLabel?.font = UIFont.systemFont(ofSize: 12, weight: .semibold)
-        actionBtn.layer.cornerRadius = GlobalCornerRadius.value
-        actionBtn.addTarget(self, action: #selector(didTapActionBtn), for: .touchUpInside)
-        mainScrollView.addSubview(actionBtn)
-        actionBtn.snp.makeConstraints { (make) -> Void in
+    private func setupFollowBtn() {
+        followBtn.backgroundColor = UIColor.white.withAlphaComponent(0.05)
+        followBtn.setTitle("Follow", for: .normal)
+        followBtn.setTitleColor(.white, for: .normal)
+        followBtn.titleLabel?.font = UIFont.systemFont(ofSize: 12, weight: .semibold)
+        followBtn.layer.cornerRadius = GlobalCornerRadius.value
+        followBtn.addTarget(self, action: #selector(didTapFollowBtn), for: .touchUpInside)
+        mainScrollView.addSubview(followBtn)
+        followBtn.snp.makeConstraints { (make) -> Void in
             make.centerX.equalToSuperview()
             make.width.equalTo(screenWidth - 40)
             make.height.equalTo(40)
@@ -524,9 +551,35 @@ extension BuskerProfileViewController {
         }
     }
     
-    @objc private func didTapActionBtn(_ sender: UIButton) {
+    @objc private func didTapFollowBtn(_ sender: UIButton) {
         Animations.btnBounce(sender: sender)
-        print("action btn tapped")
+        print("follow btn tapped")
+        
+        if UserService.User.isLoggedIn() {
+            switch isFollowing {
+            case .Yes:
+                BuskerService.followBusker(buskerID: buskerID).done { _ in
+                    print("Busker with ID (\(self.buskerID)) followed")
+                    }.ensure {
+                        UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                        HapticFeedback.createNotificationFeedback(style: .success)
+                        self.isFollowing = .No
+                    }.catch { error in }
+                
+            case .No:
+                BuskerService.followBusker(buskerID: buskerID).done { _ in
+                    print("Busker with ID (\(self.buskerID)) followed")
+                    }.ensure {
+                        UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                        HapticFeedback.createNotificationFeedback(style: .success)
+                        self.isFollowing = .Yes
+                    }.catch { error in }
+            }
+
+        } else {
+            let loginVC = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "loginVC") as! LoginViewController
+            self.present(loginVC, animated: true, completion: nil)
+        }
     }
     
     private func setupStatsView() {
@@ -553,7 +606,7 @@ extension BuskerProfileViewController {
         }
         mainScrollView.addSubview(statsBgView)
         statsBgView.snp.makeConstraints { (make) -> Void in
-            make.top.equalTo(actionBtn.snp.bottom).offset(20)
+            make.top.equalTo(followBtn.snp.bottom).offset(20)
             make.centerX.equalToSuperview()
             make.width.equalTo(screenWidth - 40)
             make.height.equalTo(80)
@@ -1112,12 +1165,12 @@ extension BuskerProfileViewController: UICollectionViewDelegateFlowLayout, UICol
             print("Member \(indexPath.row) tapped")
 
         case eventsCollectionView:
-            //EventDetailsViewController.push(from: self, eventId: (buskerEvents?.list[indexPath.row].id)!)
+            //EventDetailsViewController.push(from: self, eventID: (buskerEvents?.list[indexPath.row].id)!)
 
             if !isModal {
-                EventDetailsViewController.push(from: self, eventId: (buskerEvents?.list[indexPath.row].id)!)
+                EventDetailsViewController.push(from: self, eventID: (buskerEvents?.list[indexPath.row].id)!)
             } else {
-                EventDetailsViewController.present(from: self, eventId: (buskerEvents?.list[indexPath.row].id)!)
+                EventDetailsViewController.present(from: self, eventID: (buskerEvents?.list[indexPath.row].id)!)
             }
             
         case postsCollectionView:
@@ -1194,22 +1247,22 @@ extension BuskerProfileViewController: UIScrollViewDelegate {
 
 //MARK: Function to push/present this view controller
 extension BuskerProfileViewController {
-    static func push(from view: UIViewController, buskerName: String, buskerId: String) {
+    static func push(from view: UIViewController, buskerName: String, buskerID: String) {
         let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
         let profileVC = storyboard.instantiateViewController(withIdentifier: BuskerProfileViewController.storyboardId) as! BuskerProfileViewController
         
-        profileVC.buskerId = buskerId
+        profileVC.buskerID = buskerID
         profileVC.buskerName = buskerName
         
         view.navigationController?.hero.navigationAnimationType = .autoReverse(presenting: .zoom)
         view.navigationController?.pushViewController(profileVC, animated: true)
     }
     
-    static func present(from view: UIViewController, buskerName: String, buskerId: String) {
+    static func present(from view: UIViewController, buskerName: String, buskerID: String) {
         let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
         let profileVC = storyboard.instantiateViewController(withIdentifier: BuskerProfileViewController.storyboardId) as! BuskerProfileViewController
         
-        profileVC.buskerId = buskerId
+        profileVC.buskerID = buskerID
         profileVC.buskerName = buskerName
         
         profileVC.hero.isEnabled = true

@@ -26,23 +26,44 @@ class BaseService: NSObject {
             actionPathStr = "auth/login/google"
         case .emailLogin:
             actionPathStr = "auth/login/email"
-        case .emailReg:
+
+        //User
+        case .currentUserInfo:
+            actionPathStr = "users/me"
+        case .userInfo(let userID):
+            actionPathStr = "users/\(userID)"
+        case .getCurrentUserSettings:
+            actionPathStr = "users/me/settings"
+        case .getCurrentUserFollowings:
+            actionPathStr = "users/me/followings"
+        case .getCurrentUserBookmarkedEvents:
+            actionPathStr = "users/me/bookmarks"
+        case .currentUserBrowseHistory:
+            actionPathStr = "users/me/browseHistory"
+        case .emailRegister:
             actionPathStr = "users/register/email"
-            
+        case .pushNotificationToken:
+            actionPathStr = "users/pushNotificationToken"
+        case .requestVerifyEmail:
+            actionPathStr = "users/me/requestVerifyEmail"
+        case .verifyEmail:
+            actionPathStr = "users/verifyEmail"
+        case .updatePassword:
+            actionPathStr = "users/me/updatePassword"
             
         //News
         case .getNews:
             actionPathStr = "news"
-        case .getNewsDetails(let newsId):
-            actionPathStr = "news/\(newsId)"
+        case .getNewsDetails(let newsID):
+            actionPathStr = "news/\(newsID)"
             
         //Posts
         case .getPosts:
             actionPathStr = "posts"
-        case .getPostDetails(let postId):
-            actionPathStr = "posts/\(postId)"
-        case .commentAction(let postId):
-            actionPathStr = "posts/\(postId)/comments"
+        case .getPostDetails(let postID):
+            actionPathStr = "posts/\(postID)"
+        case .commentAction(let postID):
+            actionPathStr = "posts/\(postID)/comments"
             
         //Events
         case .getUpcomingEvents:
@@ -55,24 +76,23 @@ class BaseService: NSObject {
             actionPathStr = "events/feature"
         case .getNearbyEvents:
             actionPathStr = "events/nearby"
-        case .getEventDetails(let eventId):
-            actionPathStr = "events/\(eventId)"
-        case .bookmarkAction(let eventId):
-            actionPathStr = "events/\(eventId)/bookmarks"
-        case .getBookmarkedEvents:
-            actionPathStr = "users/me/bookmarks"
+        case .getEventDetails(let eventID):
+            actionPathStr = "events/\(eventID)"
+        case .bookmarkAction(let eventID):
+            actionPathStr = "events/\(eventID)/bookmarks"
+
             
-        //Busker
+        //Busker profile
         case .buskerRanking:
             actionPathStr = "profiles/trendRanking"
-        case .buskerProfile(let buskerId):
-            actionPathStr = "profiles/\(buskerId)"
-        case .buskerEvents(let buskerId):
-            actionPathStr = "profiles/\(buskerId)/events"
-        case .buskerPosts(let buskerId):
-            actionPathStr = "profiles/\(buskerId)/posts"
-        case .buskerFollowers(let buskerId):
-            actionPathStr = "profiles/\(buskerId)/followings"
+        case .buskerProfile(let buskerID):
+            actionPathStr = "profiles/\(buskerID)"
+        case .buskerEvents(let buskerID):
+            actionPathStr = "profiles/\(buskerID)/events"
+        case .buskerPosts(let buskerID):
+            actionPathStr = "profiles/\(buskerID)/posts"
+        case .buskerFollowers(let buskerID):
+            actionPathStr = "profiles/\(buskerID)/followings"
         }
         
         return endpoint + actionPathStr
@@ -95,8 +115,8 @@ class BaseService: NSObject {
             "Content-Type": "application/x-www-form-urlencoded",
         ]
         
-        if let userId = UserDefaults.standard.string(forKey: LOCAL_KEY.USER_ID) {
-            headers["user-id"] = userId
+        if let userID = UserDefaults.standard.string(forKey: LOCAL_KEY.USER_ID) {
+            headers["user-id"] = userID
         }
         
         if let accessToken = UserDefaults.standard.string(forKey: LOCAL_KEY.ACCESS_TOKEN) {
@@ -129,20 +149,32 @@ class BaseService: NSObject {
 extension BaseService {
     enum ActionPath{
         
-        //Login | Register
+        //Auth | Login
         case fbLogin
         case googleLogin
         case emailLogin
-        case emailReg
+        
+        //User
+        case currentUserInfo
+        case userInfo(userID: String)
+        case getCurrentUserSettings
+        case getCurrentUserFollowings
+        case getCurrentUserBookmarkedEvents
+        case currentUserBrowseHistory
+        case emailRegister
+        case pushNotificationToken
+        case requestVerifyEmail
+        case verifyEmail
+        case updatePassword
         
         //News
         case getNews
-        case getNewsDetails(newsId: String)
+        case getNewsDetails(newsID: String)
         
         //Posts
         case getPosts
-        case getPostDetails(postId: String)
-        case commentAction(postId: String)
+        case getPostDetails(postID: String)
+        case commentAction(postID: String)
         
         //Events
         case getUpcomingEvents
@@ -150,15 +182,14 @@ extension BaseService {
         case getFollowingEvents
         case getFeaturedEvents
         case getNearbyEvents
-        case getEventDetails(eventId: String)
-        case bookmarkAction(eventId: String)
-        case getBookmarkedEvents
+        case getEventDetails(eventID: String)
+        case bookmarkAction(eventID: String)
         
         //Busker
         case buskerRanking
-        case buskerProfile(buskerId: String)
-        case buskerEvents(buskerId: String)
-        case buskerPosts(buskerId: String)
-        case buskerFollowers(buskerId: String)
+        case buskerProfile(buskerID: String)
+        case buskerEvents(buskerID: String)
+        case buskerPosts(buskerID: String)
+        case buskerFollowers(buskerID: String)
     }
 }

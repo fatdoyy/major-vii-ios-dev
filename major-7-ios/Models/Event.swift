@@ -82,26 +82,6 @@ class Event: Mappable {
     }
 }
 
-class OrganizerProfile: Mappable {
-    var musicTypes = [String]()
-    var coverImages = [Image]()
-    var id: String?
-    var name: String?
-    var type: Int?
-    var verfied: Bool?
-    
-    required init?(map: Map) {}
-    
-    func mapping(map: Map) {
-        musicTypes      <- map["music_types"]
-        coverImages     <- map["cover_images"]
-        id              <- map["_id"]
-        name            <- map["name"]
-        type            <- map["type"]
-        verfied         <- map["verfied"]
-    }
-}
-
 class EventLocation: Mappable {
     var coordinates = [Double]()
     var type: String?
