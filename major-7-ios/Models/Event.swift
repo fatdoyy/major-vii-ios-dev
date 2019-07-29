@@ -1,5 +1,5 @@
 //
-//  Events.swift
+//  Event.swift
 //  major-7-ios
 //
 //  Created by jason on 17/12/2018.
@@ -7,56 +7,6 @@
 //
 
 import ObjectMapper
-
-class Events: Mappable {
-    var list = [Event]()
-    
-    required init?(map: Map) {}
-    
-    func mapping(map: Map) {
-        list        <- map["list"]
-    }
-}
-
-class BookmarkedEvents: Mappable {
-    var list = [BookmarkedEvent]()
-    
-    required init?(map: Map) {}
-    
-    func mapping(map: Map) {
-        list        <- map["list"]
-    }
-}
-
-class BookmarkedEvent: Mappable {
-    var targetEvent: Event?
-    var targetType: Int?
-    var createTime: String?
-    
-    required init?(map: Map) {}
-    
-    func mapping(map: Map) {
-        targetEvent     <- map["target_event"]
-        targetType      <- map["target_type"]
-        createTime      <- map["create_time"]
-    }
-}
-
-class NearbyEvents: Mappable {
-    var lat: CGFloat?
-    var long: CGFloat?
-    var radius: Int?
-    var list = [NearbyEvent]()
-    
-    required init?(map: Map) {}
-    
-    func mapping(map: Map) {
-        lat     <- map["latitude"]
-        long    <- map["longitude"]
-        radius  <- map["radius"]
-        list    <- map["list"]
-    }
-}
 
 class Event: Mappable {
     var hashtags = [String]()
@@ -79,6 +29,73 @@ class Event: Mappable {
         dateTime            <- map["datetime"]
         address             <- map["address"]
         location            <- map["location"]
+    }
+}
+
+class Events: Mappable {
+    var list = [Event]()
+    
+    required init?(map: Map) {}
+    
+    func mapping(map: Map) {
+        list        <- map["list"]
+    }
+}
+
+//MARK: Bookmarked events
+class BookmarkedEvent: Mappable {
+    var targetEvent: Event?
+    var targetType: Int?
+    var createTime: String?
+    
+    required init?(map: Map) {}
+    
+    func mapping(map: Map) {
+        targetEvent     <- map["target_event"]
+        targetType      <- map["target_type"]
+        createTime      <- map["create_time"]
+    }
+}
+
+class BookmarkedEvents: Mappable {
+    var list = [BookmarkedEvent]()
+    
+    required init?(map: Map) {}
+    
+    func mapping(map: Map) {
+        list        <- map["list"]
+    }
+}
+
+//MARK: Following events
+class FollowingEvents: Mappable {
+    var skip: Int?
+    var limit: Int?
+    var list = [Event]()
+    
+    required init?(map: Map) {}
+    
+    func mapping(map: Map) {
+        skip    <- map["skip"]
+        limit   <- map["limit"]
+        list    <- map["list"]
+    }
+}
+
+//MARK: Nearby Events
+class NearbyEvents: Mappable {
+    var lat: CGFloat?
+    var long: CGFloat?
+    var radius: Int?
+    var list = [NearbyEvent]()
+    
+    required init?(map: Map) {}
+    
+    func mapping(map: Map) {
+        lat     <- map["latitude"]
+        long    <- map["longitude"]
+        radius  <- map["radius"]
+        list    <- map["list"]
     }
 }
 

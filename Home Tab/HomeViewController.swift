@@ -35,7 +35,7 @@ class HomeViewController: UIViewController {
     var selectedSection = HomeSelectedSection.News //default section is "News"
     
     var newsList: [News] = []
-    var newsLimit = 8 //news limit per request
+    var newsLimit = 5 //news limit per request
     var gotMoreNews = true //lazy loading, "true" because default section is News
     
     var postsList: [Post] = []
@@ -107,58 +107,6 @@ class HomeViewController: UIViewController {
         }
     }
     
-    private func getNews(skip: Int? = nil, limit: Int? = nil) {
-        mainCollectionView.isUserInteractionEnabled = false
-        NewsService.getList(skip: skip, limit: limit).done { response -> () in
-            //self.newsList = response.list
-            self.newsList.append(contentsOf: response.list)
-            self.gotMoreNews = response.list.count < self.newsLimit || response.list.count == 0 ? false : true
-            self.mainCollectionView.reloadData()
-            }.ensure {
-                self.mainCollectionView.isUserInteractionEnabled = true
-                UIApplication.shared.isNetworkActivityIndicatorVisible = false
-                
-                //pull to refresh
-                if let refreshView = self.refreshView {
-                    refreshView.stopAnimation()
-                    self.customRefreshControl.endRefreshing()
-                    //HapticFeedback.createNotificationFeedback(style: .success)
-                } else {
-                    self.getRefereshView() //setup pull to refresh view
-                }
-                
-            }.catch { error in }
-    }
-    
-    private func getPosts(skip: Int? = nil, limit: Int? = nil) {
-        mainCollectionView.isUserInteractionEnabled = false
-        PostService.getList(skip: skip, limit: limit).done { response -> () in
-            self.postsList.append(contentsOf: response.list)
-//            if response.list.count < self.postsLimit || response.list.count == 0 {
-//                self.gotMorePosts = false
-//            }
-            self.gotMorePosts = response.list.count < self.postsLimit || response.list.count == 0 ? false : true
-            
-            //set text attributes to content and add them to new array (i.e. attrContentArr)
-            for post in self.postsList {
-                if let content = post.content {
-                    let contentAttrString = NSAttributedString(string: content, attributes: TextAttributes.postContentConfig())
-                    self.attrContentArr.append(contentAttrString)
-                }
-            }
-            
-            self.isPostCellExpanded = Array(repeating: false, count: self.postsList.count)
-            self.mainCollectionView.reloadData()
-            }.ensure {
-                self.mainCollectionView.isUserInteractionEnabled = true
-                UIApplication.shared.isNetworkActivityIndicatorVisible = false
-                
-                self.refreshView.stopAnimation()
-                self.customRefreshControl.endRefreshing()
-                //HapticFeedback.createNotificationFeedback(style: .success)
-            }.catch { error in }
-    }
-    
     func getRefereshView() {
         if let objOfRefreshView = Bundle.main.loadNibNamed("RefreshView", owner: self, options: nil)?.first as? RefreshView {
             // Initializing the 'refreshView'
@@ -193,6 +141,61 @@ class HomeViewController: UIViewController {
             getPosts(limit: postsLimit)
 
         }
+    }
+}
+
+//MARK: API Calls
+extension HomeViewController {
+    private func getNews(skip: Int? = nil, limit: Int? = nil) {
+        mainCollectionView.isUserInteractionEnabled = false
+        NewsService.getList(skip: skip, limit: limit).done { response -> () in
+            //self.newsList = response.list
+            self.newsList.append(contentsOf: response.list)
+            self.gotMoreNews = response.list.count < self.newsLimit || response.list.count == 0 ? false : true
+            self.mainCollectionView.reloadData()
+            }.ensure {
+                self.mainCollectionView.isUserInteractionEnabled = true
+                UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                
+                //pull to refresh
+                if let refreshView = self.refreshView {
+                    refreshView.stopAnimation()
+                    self.customRefreshControl.endRefreshing()
+                    //HapticFeedback.createNotificationFeedback(style: .success)
+                } else {
+                    self.getRefereshView() //setup pull to refresh view
+                }
+                
+            }.catch { error in }
+    }
+    
+    private func getPosts(skip: Int? = nil, limit: Int? = nil) {
+        mainCollectionView.isUserInteractionEnabled = false
+        PostService.getList(skip: skip, limit: limit).done { response -> () in
+            self.postsList.append(contentsOf: response.list)
+            //            if response.list.count < self.postsLimit || response.list.count == 0 {
+            //                self.gotMorePosts = false
+            //            }
+            self.gotMorePosts = response.list.count < self.postsLimit || response.list.count == 0 ? false : true
+            
+            //set text attributes to content and add them to new array (i.e. attrContentArr)
+            for post in self.postsList {
+                if let content = post.content {
+                    let contentAttrString = NSAttributedString(string: content, attributes: TextAttributes.postContentConfig())
+                    self.attrContentArr.append(contentAttrString)
+                }
+            }
+            
+            self.isPostCellExpanded = Array(repeating: false, count: self.postsList.count)
+            self.mainCollectionView.reloadData()
+            }.ensure {
+                self.mainCollectionView.isUserInteractionEnabled = true
+                UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                
+                self.refreshView.stopAnimation()
+                self.customRefreshControl.endRefreshing()
+                //HapticFeedback.createNotificationFeedback(style: .success)
+            }.catch { error in }
     }
 }
 

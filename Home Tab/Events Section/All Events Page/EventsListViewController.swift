@@ -317,7 +317,7 @@ extension EventsListViewController: TrendingSectionDelegate{
 
 //MARK: Following Section Delegate
 extension EventsListViewController: FollowingSectionDelegate{
-    func followingCellTapped() {
+    func followingCellTapped(eventID: String) {
         EventDetailsViewController.push(from: self, eventID: "")
     }
 }

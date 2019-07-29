@@ -10,7 +10,7 @@ import UIKit
 import BouncyLayout
 
 protocol FollowingSectionDelegate{
-    func followingCellTapped()
+    func followingCellTapped(eventID: String)
 }
 
 class FollowingSection: UICollectionViewCell {
@@ -24,9 +24,25 @@ class FollowingSection: UICollectionViewCell {
     @IBOutlet weak var followingSectionTitle: UILabel!
     @IBOutlet weak var followingSectionCollectionView: UICollectionView!
     
+    var followingEvents: [Event] = [] {
+        didSet {
+            print("Sucessfully got following events:\n\(followingEvents)")
+        }
+    }
+    var eventsLimit = 8 //event limit per request
+    var gotMoreEvents = true //lazy loading
+    
     override func awakeFromNib() {
         super.awakeFromNib()
-        
+        setupUI()
+        getFollowingEvents()
+    }
+    
+}
+
+//MARK: UI setup
+extension FollowingSection {
+    private func setupUI() {
         followingSectionTitle.textColor = .whiteText()
         followingSectionTitle.text = "Your Followings"
         
@@ -45,9 +61,21 @@ class FollowingSection: UICollectionViewCell {
         followingSectionCollectionView.backgroundColor = .m7DarkGray()
         followingSectionCollectionView.register(UINib.init(nibName: "FollowingCell", bundle: nil), forCellWithReuseIdentifier: FollowingCell.reuseIdentifier)
     }
-    
 }
 
+//MARK: API Calls
+extension FollowingSection {
+    func getFollowingEvents(completion: (() -> Void)? = nil) {
+        EventService.getFollowingEvents().done { response in
+            self.followingEvents = response.list
+            
+            }.ensure {
+                UIApplication.shared.isNetworkActivityIndicatorVisible = false
+            }.catch { error in }
+    }
+}
+
+//MARK: UICollectionView delegate
 extension FollowingSection: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 4
@@ -69,11 +97,12 @@ extension FollowingSection: UICollectionViewDataSource, UICollectionViewDelegate
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print(indexPath.row)
-        delegate?.followingCellTapped()
+        delegate?.followingCellTapped(eventID: "")
     }
     
 }
 
+//MARK: FollowingCell delegate
 extension FollowingSection: FollowingCellDelegate {
     func bookmarkBtnTapped() {
         print("tapped")

@@ -46,6 +46,31 @@ extension EventService {
         }
     }
     
+    //following events
+    static func getFollowingEvents(skip: Int? = nil, limit: Int? = nil) -> Promise<FollowingEvents> {
+        var params: [String: Any] = [:]
+        if let skip = skip {
+            params["skip"] = skip
+        }
+        
+        if let limit = limit {
+            params["limit"] = limit
+        }
+        
+        return Promise { resolver in
+            request(method: .get, url: getActionPath(.getFollowingEvents), params: params).done { response in
+                guard let events = Mapper<FollowingEvents>().map(JSONObject: response) else {
+                    resolver.reject(PMKError.cancelled)
+                    return
+                }
+                
+                resolver.fulfill(events)
+                }.catch { error in
+                    resolver.reject(error)
+            }
+        }
+    }
+    
     //nearby events
     static func getNearbyEvents(lat: Double, long: Double, radius: Int? = nil, skip: Int? = nil, limit: Int? = nil) -> Promise<NearbyEvents> {
         var params: [String: Any] = [:]

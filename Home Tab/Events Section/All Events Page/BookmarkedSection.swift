@@ -90,6 +90,49 @@ class BookmarkedSection: UICollectionViewCell {
         NotificationCenter.default.setObserver(self, selector: #selector(refreshBookmarkedSectionFromDetails(_:)), name: .refreshBookmarkedSectionFromDetails, object: nil)
         NotificationCenter.default.setObserver(self, selector: #selector(removeAllObservers), name: .removeBookmarkedSectionObservers, object: nil)
         
+        setupUI()
+    }
+    
+    @objc private func refreshBookmarkedSection(_ notification: Notification) {
+        UIView.animate(withDuration: 0.2) {
+            if self.emptyBookmarkShadowView.alpha != 0 {
+                self.emptyBookmarkShadowView.alpha = 0
+            }
+            self.bookmarksCollectionView.alpha = 0
+            self.reloadIndicator.alpha = 1
+        }
+        
+        if let data = notification.userInfo {
+            if let eventID = data["add_id"] as? String {
+                print("Recieved event id: \(eventID), double checking BookmarkedSection's bookmarkedEventIdArray...")
+                if !self.bookmarkedEventIdArray.contains(eventID) {
+                    self.bookmarkedEventIdArray.append(eventID)
+                    print("\(eventID) is added to bookmarkedEventIdArray - bookmarkedEventIdArray: \(self.bookmarkedEventIdArray)\n")
+                }
+            } else if let eventID = data["remove_id"] as? String {
+                if self.bookmarkedEventIdArray.contains(eventID) {
+                    self.bookmarkedEventIdArray.remove(object: eventID)
+                    print("Recieved remove id: \(eventID) - bookmarkedEventIdArray: \(self.bookmarkedEventIdArray)\n")
+                }
+            }
+        }
+        
+        getBookmarkedEvents()
+    }
+    
+    @objc private func refreshBookmarkedSectionFromDetails(_ notification: Notification) {
+        getBookmarkedEvents()
+    }
+    
+    @objc private func removeAllObservers() {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+}
+
+//MARK: UI setup
+extension BookmarkedSection {
+    private func setupUI() {
         bookmarkSectionTitle.textColor = .whiteText()
         bookmarkSectionTitle.text = "Your Bookmarks"
         
@@ -179,7 +222,7 @@ class BookmarkedSection: UICollectionViewCell {
             make.width.equalTo(200)
             make.height.equalTo(30)
         }
-
+        
         let loginDesc = UILabel()
         loginDesc.font = UIFont.systemFont(ofSize: 12, weight: .medium)
         loginDesc.text = "Enjoy full experience with your Major VII account."
@@ -200,7 +243,7 @@ class BookmarkedSection: UICollectionViewCell {
         loginBtn.setTitleColor(UIColor(hexString: "#F37335"), for: .normal)
         loginBtn.backgroundColor = .white
         emptyLoginBgView.addSubview(loginBtn)
-        loginBtn.snp.makeConstraints { (make) in 
+        loginBtn.snp.makeConstraints { (make) in
             make.bottomMargin.equalTo(emptyLoginBgView.snp.bottom).offset(-25)
             make.rightMargin.equalTo(emptyLoginBgView.snp.right).offset(-25)
             make.width.equalTo(60)
@@ -209,7 +252,12 @@ class BookmarkedSection: UICollectionViewCell {
         
         loginBtn.addTarget(self, action: #selector(showLoginVC), for: .touchUpInside)
         addSubview(emptyLoginShadowView)
-
+        
+    }
+    
+    @objc private func showLoginVC(_ sender: UIButton) {
+        Animations.btnBounce(sender: sender)
+        delegate?.showLoginVC()
     }
     
     private func setupEmptyBookmarkView() {
@@ -234,7 +282,7 @@ class BookmarkedSection: UICollectionViewCell {
         emptyBookmarkGradientBg.animationDuration = 2.5
         emptyBookmarkGradientBg.setColors([UIColor(hexString: "#C06C84"), UIColor(hexString: "#6C5B7B"), UIColor(hexString: "#355C7D")])
         emptyBookmarkShadowView.layer.shadowColor = UIColor(hexString: "#6C5B7B").cgColor
-
+        
         emptyBookmarkGradientBg.startAnimation()
         
         emptyBookmarkBgView.insertSubview(emptyBookmarkGradientBg, at: 0)
@@ -272,30 +320,30 @@ class BookmarkedSection: UICollectionViewCell {
             make.width.equalTo(230)
         }
         
-//        let learnMoreBtn = UIButton()
-//        learnMoreBtn.titleLabel?.font = UIFont.systemFont(ofSize: 12, weight: .bold)
-//        learnMoreBtn.layer.cornerRadius = GlobalCornerRadius.value / 2
-//        learnMoreBtn.setTitle("Learn More", for: .normal)
-//        learnMoreBtn.setTitleColor(.darkPurple(), for: .normal)
-//        learnMoreBtn.backgroundColor = .white
-//        emptyBookmarkBgView.addSubview(learnMoreBtn)
-//        learnMoreBtn.snp.makeConstraints { (make) in
-//            make.bottomMargin.equalTo(emptyBookmarkBgView.snp.bottom).offset(-25)
-//            make.rightMargin.equalTo(emptyBookmarkBgView.snp.right).offset(-25)
-//            make.width.equalTo(120)
-//            make.height.equalTo(28)
-//        }
-//
-//        learnMoreBtn.addTarget(self, action: #selector(showLoginVC), for: .touchUpInside)
+        //        let learnMoreBtn = UIButton()
+        //        learnMoreBtn.titleLabel?.font = UIFont.systemFont(ofSize: 12, weight: .bold)
+        //        learnMoreBtn.layer.cornerRadius = GlobalCornerRadius.value / 2
+        //        learnMoreBtn.setTitle("Learn More", for: .normal)
+        //        learnMoreBtn.setTitleColor(.darkPurple(), for: .normal)
+        //        learnMoreBtn.backgroundColor = .white
+        //        emptyBookmarkBgView.addSubview(learnMoreBtn)
+        //        learnMoreBtn.snp.makeConstraints { (make) in
+        //            make.bottomMargin.equalTo(emptyBookmarkBgView.snp.bottom).offset(-25)
+        //            make.rightMargin.equalTo(emptyBookmarkBgView.snp.right).offset(-25)
+        //            make.width.equalTo(120)
+        //            make.height.equalTo(28)
+        //        }
+        //
+        //        learnMoreBtn.addTarget(self, action: #selector(showLoginVC), for: .touchUpInside)
         addSubview(emptyBookmarkShadowView)
+        
+    }
+    
 
-    }
-    
-      @objc private func showLoginVC(_ sender: UIButton) {
-        Animations.btnBounce(sender: sender)
-        delegate?.showLoginVC()
-    }
-    
+}
+
+//MARK: API Calls
+extension BookmarkedSection {
     func getBookmarkedEvents(completion: (() -> Void)? = nil) {
         UserService.getBookmarkedEvents().done { response in
             self.bookmarkedEvents = response.list.reversed()
@@ -321,44 +369,9 @@ class BookmarkedSection: UICollectionViewCell {
             }.catch { error in }
         
     }
-    
-    @objc private func refreshBookmarkedSection(_ notification: Notification) {
-        UIView.animate(withDuration: 0.2) {
-            if self.emptyBookmarkShadowView.alpha != 0 {
-                self.emptyBookmarkShadowView.alpha = 0
-            }
-            self.bookmarksCollectionView.alpha = 0
-            self.reloadIndicator.alpha = 1
-        }
-        
-        if let data = notification.userInfo {
-            if let eventID = data["add_id"] as? String {
-                print("Recieved event id: \(eventID), double checking BookmarkedSection's bookmarkedEventIdArray...")
-                if !self.bookmarkedEventIdArray.contains(eventID) {
-                    self.bookmarkedEventIdArray.append(eventID)
-                    print("\(eventID) is added to bookmarkedEventIdArray - bookmarkedEventIdArray: \(self.bookmarkedEventIdArray)\n")
-                }
-            } else if let eventID = data["remove_id"] as? String {
-                if self.bookmarkedEventIdArray.contains(eventID) {
-                    self.bookmarkedEventIdArray.remove(object: eventID)
-                    print("Recieved remove id: \(eventID) - bookmarkedEventIdArray: \(self.bookmarkedEventIdArray)\n")
-                }
-            }
-        }
-        
-        getBookmarkedEvents()
-    }
-    
-    @objc private func refreshBookmarkedSectionFromDetails(_ notification: Notification) {
-        getBookmarkedEvents()
-    }
-    
-    @objc private func removeAllObservers() {
-        NotificationCenter.default.removeObserver(self)
-    }
-    
 }
 
+//MARK: UICollectionView delegate
 extension BookmarkedSection: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if UserService.User.isLoggedIn() && !bookmarkedEvents.isEmpty {
@@ -408,6 +421,7 @@ extension BookmarkedSection: UICollectionViewDataSource, UICollectionViewDelegat
     }
 }
 
+//MARK: Bookmarked cell delegate
 extension BookmarkedSection: BookmarkedCellDelegate {
     func bookmarkBtnTapped(cell: BookmarkedCell, tappedIndex: IndexPath) {
         if let eventID = bookmarkedEvents[tappedIndex.row].targetEvent?.id {

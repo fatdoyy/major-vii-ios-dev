@@ -55,6 +55,8 @@ class UserService: BaseService {
                         //Optional?
                         //FB.logOut()
                         //Google.logOut()
+                        
+                        UIApplication.shared.isNetworkActivityIndicatorVisible = false
                     }.catch { error in
                         resolver.reject(error)
                 }
