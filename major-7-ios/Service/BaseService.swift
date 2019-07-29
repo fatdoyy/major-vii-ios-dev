@@ -13,20 +13,28 @@ import Reqres
 
 class BaseService: NSObject {
 
-    static let endpoint = "http://major7-api-dev.herokuapp.com/"
+    static let endpoint = "https://major7-api-dev.herokuapp.com/"
 
     static func getActionPath(_ actionPath: ActionPath) -> String {
         var actionPathStr = ""
         switch actionPath {
             
-        //Login | Register
+        //Auth
         case .fbLogin:
             actionPathStr = "auth/login/facebook"
         case .googleLogin:
             actionPathStr = "auth/login/google"
         case .emailLogin:
             actionPathStr = "auth/login/email"
-
+        case .logout:
+            actionPathStr = "auth/logout"
+        case .renewAcessToken:
+            actionPathStr = "auth/renewAccessToken"
+        case .resetPasswordEmail:
+            actionPathStr = "auth/resetPasswordEmail"
+        case .resetPasswordByToken:
+            actionPathStr = "auth/resetPasswordByToken"
+            
         //User
         case .currentUserInfo:
             actionPathStr = "users/me"
@@ -99,8 +107,8 @@ class BaseService: NSObject {
     }
     
     static private var manager : Alamofire.SessionManager = {
-        let configuration = URLSessionConfiguration.default
-        //let configuration = Reqres.defaultSessionConfiguration()
+        //let configuration = URLSessionConfiguration.default
+        let configuration = Reqres.defaultSessionConfiguration()
         
         configuration.httpAdditionalHeaders = Alamofire.SessionManager.defaultHTTPHeaders
         configuration.requestCachePolicy = .reloadIgnoringLocalCacheData
@@ -149,10 +157,14 @@ class BaseService: NSObject {
 extension BaseService {
     enum ActionPath{
         
-        //Auth | Login
+        //Auth
         case fbLogin
         case googleLogin
         case emailLogin
+        case logout
+        case renewAcessToken
+        case resetPasswordEmail
+        case resetPasswordByToken
         
         //User
         case currentUserInfo

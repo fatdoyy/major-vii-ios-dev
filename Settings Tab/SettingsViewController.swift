@@ -324,7 +324,7 @@ extension SettingsViewController {
     }
     
     @objc func logoutBtnTapped(_ sender: Any) {
-        UserService.User.logOut(fromVC: self)
+        UserService.User.logout(fromVC: self)
         UIView.animate(withDuration: 0.2) {
             self.emptyLoginShadowView.alpha = 1
             self.loginBtn.alpha = 1

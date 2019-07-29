@@ -42,15 +42,23 @@ class UserService: BaseService {
         }
         
         //logout
-        static func logOut(fromVC: UIViewController) {
-            UserDefaults.standard.removeObject(forKey: LOCAL_KEY.USER_ID)
-            UserDefaults.standard.removeObject(forKey: LOCAL_KEY.ACCESS_TOKEN)
-            UserDefaults.standard.removeObject(forKey: LOCAL_KEY.REFRESH_TOKEN)
-            UserDefaults.standard.removeObject(forKey: LOCAL_KEY.USERNAME)
-            
-            //Optional?
-            //FB.logOut()
-            //Google.logOut()
+        static func logout(fromVC: UIViewController) -> Promise<Any> {
+            return Promise { resolver in
+                BaseService.request(method: .post, url: BaseService.getActionPath(.logout)).done { response in
+                    resolver.fulfill(response)
+                    }.ensure{
+                        UserDefaults.standard.removeObject(forKey: LOCAL_KEY.USER_ID)
+                        UserDefaults.standard.removeObject(forKey: LOCAL_KEY.ACCESS_TOKEN)
+                        UserDefaults.standard.removeObject(forKey: LOCAL_KEY.REFRESH_TOKEN)
+                        UserDefaults.standard.removeObject(forKey: LOCAL_KEY.USERNAME)
+                        
+                        //Optional?
+                        //FB.logOut()
+                        //Google.logOut()
+                    }.catch { error in
+                        resolver.reject(error)
+                }
+            }
         }
         
         //check if has user id/tokens
@@ -469,13 +477,13 @@ extension UserService {
         }
         
         static func registerRequest(email: String, password: String) -> Promise<Any> {
-            var param: [String: Any] = [:]
+            var params: [String: Any] = [:]
             
-            param["email"]        = email
-            param["password"]     = password
+            params["email"]        = email
+            params["password"]     = password
             
             return Promise { resolver in
-                BaseService.request(method: .post, url: BaseService.getActionPath(.emailRegister), params: param).done { response in
+                BaseService.request(method: .post, url: BaseService.getActionPath(.emailRegister), params: params).done { response in
                     resolver.fulfill(response)
                     }.catch { error in
                         resolver.reject(error)
