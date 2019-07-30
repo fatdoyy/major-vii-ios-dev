@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -113,9 +113,11 @@
                 <outlet property="eventTitle" destination="ByJ-Or-Tlp" id="Oay-xu-mrs"/>
                 <outlet property="imageOverlay" destination="1KW-x2-uUH" id="xzc-38-0UD"/>
                 <outlet property="performerLabel" destination="ctj-La-Tnx" id="xgU-kY-lfp"/>
-                <outletCollection property="skeletonViews" destination="ctj-La-Tnx" collectionClass="NSMutableArray" id="BpZ-en-IY9"/>
-                <outletCollection property="skeletonViews" destination="yti-Ln-olh" collectionClass="NSMutableArray" id="Hdp-fp-WGD"/>
-                <outletCollection property="skeletonViews" destination="tTR-JB-VXG" collectionClass="NSMutableArray" id="ZmS-Ey-JBy"/>
+                <outletCollection property="viewsToShowLater" destination="tTR-JB-VXG" collectionClass="NSMutableArray" id="Lm0-di-2pw"/>
+                <outletCollection property="viewsToShowLater" destination="yti-Ln-olh" collectionClass="NSMutableArray" id="1Wr-HU-Cst"/>
+                <outletCollection property="viewsToShowLater" destination="ctj-La-Tnx" collectionClass="NSMutableArray" id="EpD-fv-Zdf"/>
+                <outletCollection property="skeletonViews" destination="ByJ-Or-Tlp" collectionClass="NSMutableArray" id="ttd-3P-9hX"/>
+                <outletCollection property="skeletonViews" destination="OAc-Po-34R" collectionClass="NSMutableArray" id="QVp-Jt-sb7"/>
             </connections>
             <point key="canvasLocation" x="131.19999999999999" y="153.37331334332833"/>
         </collectionViewCell>

@@ -27,9 +27,8 @@ class TrendingSection: UICollectionViewCell {
     @IBOutlet weak var trendingSectionLabel: UILabel!
     @IBOutlet weak var trendingCollectionView: UICollectionView!
     
-    var loginMsgView = MessageView.viewFromNib(layout: .cardView)
     
-    var bookmarkedEventArray: [String] = [] //IMPORTANT: Adding an array to local to control bookmarkBtn's state because of cell reuse issues
+    var bookmarkedEventIDArray: [String] = [] //IMPORTANT: Adding an array to local to control bookmarkBtn's state because of cell reuse issues
     
     var trendingEvents: [Event] = [] {
         didSet {
@@ -39,9 +38,22 @@ class TrendingSection: UICollectionViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        
+        NotificationCenter.default.setObserver(self, selector: #selector(showLoginVC), name: .showLoginVC, object: nil)
         NotificationCenter.default.setObserver(self, selector: #selector(refreshTrendingSectionCell(_:)), name: .refreshTrendingSectionCell, object: nil)
         
+        setupUI()
+    }
+    
+    //remove observers
+    @objc private func removeAllObservers() {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+}
+
+//MARK: UI related
+extension TrendingSection {
+    private func setupUI() {
         trendingSectionLabel.textColor = .whiteText()
         trendingSectionLabel.text = "Trending"
         
@@ -64,102 +76,10 @@ class TrendingSection: UICollectionViewCell {
         trendingCollectionView.register(UINib.init(nibName: "TrendingCell", bundle: nil), forCellWithReuseIdentifier: TrendingCell.reuseIdentifier)
         
         //getTrendingEvents()
-        setupLoginWarning()
     }
-    
-    private func setupLoginWarning() {
 
-        // Theme message elements with the warning style.
-        loginMsgView.configureTheme(.warning)
-        
-        // Add a drop shadow.
-        loginMsgView.configureDropShadow()
-        
-        // Set message title, body, and icon. Here, we're overriding the default warning
-        // image with an emoji character.
-        let iconText = "🤔"
-        loginMsgView.configureContent(title: "Oh-no!", body: "Please login first", iconText: iconText)
-        
-        loginMsgView.titleLabel?.font = UIFont.systemFont(ofSize: 12, weight: .bold)
-        loginMsgView.button?.setTitle("Login", for: .normal)
-        loginMsgView.button?.addTarget(self, action: #selector(showLoginVC), for: .touchUpInside)
-        
-        // Increase the external margin around the card. In general, the effect of this setting
-        // depends on how the given layout is constrained to the layout margins.
-        loginMsgView.layoutMarginAdditions = UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20)
-        
-        // Reduce the corner radius (applicable to layouts featuring rounded corners).
-        (loginMsgView.backgroundView as? CornerRoundingView)?.cornerRadius = GlobalCornerRadius.value
-    }
-    
-    
-    @objc private func showLoginVC(_ sender: UIButton) {
-        Animations.btnBounce(sender: sender)
+    @objc func showLoginVC() {
         delegate?.showLoginVC()
-    }
-    
-    //get trending events list
-    func getTrendingEvents() {
-        EventService.getTrendingEvents().done { response in
-            self.trendingEvents = response.list.reversed()
-            }.ensure {
-                UIApplication.shared.isNetworkActivityIndicatorVisible = false
-            }.catch { error in }
-    }
-    
-    //refresh bookmarkBtn state
-    @objc private func refreshTrendingSectionCell(_ notification: Notification) {
-        let visibleCells = trendingCollectionView.visibleCells as! [TrendingCell]
-        if let event = notification.userInfo {
-            if let removeId = event["remove_id"] as? String {  //Callback from Bookmarked Section
-                self.bookmarkedEventArray.remove(object: removeId) //remove id from local array
-                print(self.bookmarkedEventArray)
-                
-                for cell in visibleCells {
-                    if cell.eventID == removeId { //remove bookmark
-                        self.removeBookmarkAnimation(cell: cell)
-                    }
-                }
-                
-            } else if let checkID = event["check_id"] as? String { //Callback from Event Details
-                UserService.getBookmarkedEvents().done { response in
-                    if !response.list.isEmpty {
-                        if response.list.contains(where: { $0.targetEvent?.id == checkID }) { //check visible cell is bookmarked or not
-                            for cell in visibleCells { //check bookmarked list contains id
-                                if cell.eventID == checkID && (cell.bookmarkBtn.backgroundColor?.isEqual(UIColor.clear))! { //add bookmark
-                                    if !self.bookmarkedEventArray.contains(checkID) {
-                                        self.bookmarkedEventArray.append(checkID)
-                                        print("Callback from details array \(self.bookmarkedEventArray)")
-                                    }
-                                    self.addBookmarkAnimation(cell: cell)
-                                }
-                            }
-                            
-                        } else { //checkID is not in bookmarked list
-                            if self.bookmarkedEventArray.contains(checkID) {
-                                self.bookmarkedEventArray.remove(object: checkID)
-                            }
-                            
-                            for cell in visibleCells {
-                                if cell.eventID == checkID && (cell.bookmarkBtn.backgroundColor?.isEqual(UIColor.mintGreen()))! {
-                                    self.removeBookmarkAnimation(cell: cell)
-                                }
-                            }
-                        }
-                        
-                    } else { //bookmarked list is empty, remove id from array
-                        if self.bookmarkedEventArray.contains(checkID) {
-                            self.bookmarkedEventArray.remove(object: checkID)
-                        }
-                        
-                        for cell in visibleCells {
-                            self.removeBookmarkAnimation(cell: cell)
-                        }
-                    }
-                    }.ensure { UIApplication.shared.isNetworkActivityIndicatorVisible = false }.catch { error in }
-                
-            }
-        }
     }
     
     private func addBookmarkAnimation(cell: TrendingCell) {
@@ -209,15 +129,9 @@ class TrendingSection: UICollectionViewCell {
             cell.bookmarkBtn.isUserInteractionEnabled = true
         }
     }
-    
-    //remove observers
-    @objc private func removeAllObservers() {
-        NotificationCenter.default.removeObserver(self)
-    }
-    
 }
 
-// MARK: UICollectionView Data Source
+//MARK: UICollectionView Data Source
 extension TrendingSection: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         let count = trendingEvents.isEmpty ? 2 : trendingEvents.count
@@ -255,69 +169,7 @@ extension TrendingSection: UICollectionViewDataSource, UICollectionViewDelegate,
             cell.bookmarkBtn.backgroundColor = .clear
             
             //detemine bookmarkBtn bg color
-            if UserService.User.isLoggedIn() {
-                if let eventID = trendingEvents[indexPath.row].id {
-                    if !bookmarkedEventArray.contains(eventID) {
-                        /* Check if local array is holding this bookmarked cell
-                         NOTE: This check is to prevent cell reuse issues, all bookmarked events will be saved in server */
-                        
-                        UserService.getBookmarkedEvents().done { response in
-                            if !response.list.isEmpty {
-                                for event in response.list {
-                                    //check if bookmarked list contains id
-                                    let isBookmarked = event.targetEvent?.id == self.trendingEvents[indexPath.row].id
-                                    if isBookmarked {
-                                        self.bookmarkedEventArray.append(eventID) //add this cell to local array to avoid reuse
-                                        print(self.bookmarkedEventArray)
-                                        
-                                        //animate button state
-                                        UIView.transition(with: cell.bookmarkBtn, duration: 0.2, options: .transitionCrossDissolve, animations: {
-                                            cell.bookmarkBtn.setImage(UIImage(named: "bookmark"), for: .normal)
-                                        }, completion: nil)
-                                        
-                                        UIView.animate(withDuration: 0.2) {
-                                            cell.bookmarkBtnIndicator.alpha = 0
-                                            cell.bookmarkBtn.backgroundColor = .mintGreen()
-                                        }
-                                        
-                                    } else { //not bookmarked
-                                        //animate button state to default
-                                        UIView.animate(withDuration: 0.2) {
-                                            cell.bookmarkBtnIndicator.alpha = 0
-                                        }
-                                        
-                                        UIView.transition(with: cell.bookmarkBtn, duration: 0.2, options: .transitionCrossDissolve, animations: {
-                                            cell.bookmarkBtn.setImage(UIImage(named: "bookmark"), for: .normal)
-                                        }, completion: nil)
-                                    }
-                                }
-                            } else { //logged in user have no bookmarked events
-                                //animate button state to default
-                                UIView.animate(withDuration: 0.2) {
-                                    cell.bookmarkBtnIndicator.alpha = 0
-                                }
-                                
-                                UIView.transition(with: cell.bookmarkBtn, duration: 0.2, options: .transitionCrossDissolve, animations: {
-                                    cell.bookmarkBtn.setImage(UIImage(named: "bookmark"), for: .normal)
-                                }, completion: nil)
-                            }
-                            }.ensure {
-                                UIApplication.shared.isNetworkActivityIndicatorVisible = false
-                            }.catch { error in }
-                        
-                    } else { //this cell is bookmarked and held by local array, will bypass check from api
-                        //animate button state
-                        UIView.animate(withDuration: 0.2) {
-                            cell.bookmarkBtn.backgroundColor = .mintGreen()
-                            cell.bookmarkBtnIndicator.alpha = 0
-                        }
-                        
-                        UIView.transition(with: cell.bookmarkBtn, duration: 0.2, options: .transitionCrossDissolve, animations: {
-                            cell.bookmarkBtn.setImage(UIImage(named: "bookmark"), for: .normal)
-                        }, completion: nil)
-                    }
-                }
-            }
+            checkBookmarkBtnState(cell: cell, indexPath: indexPath)
         }
         
         return cell
@@ -328,10 +180,138 @@ extension TrendingSection: UICollectionViewDataSource, UICollectionViewDelegate,
     }
 }
 
-//Bookmark action
+//MARK: API Calls | Bookmark action | Bookmark btn state
 extension TrendingSection: TrendingCellDelegate {
+    func getTrendingEvents() { //get trending events list
+        EventService.getTrendingEvents().done { response in
+            self.trendingEvents = response.list.reversed()
+            }.ensure {
+                UIApplication.shared.isNetworkActivityIndicatorVisible = false
+            }.catch { error in }
+    }
+    
+    func checkBookmarkBtnState(cell: TrendingCell, indexPath: IndexPath) {
+        if UserService.User.isLoggedIn() {
+            if let eventID = trendingEvents[indexPath.row].id {
+                if !bookmarkedEventIDArray.contains(eventID) {
+                    /* Check if local array is holding this bookmarked cell
+                     NOTE: This check is to prevent cell reuse issues, all bookmarked events will be saved in server */
+                    
+                    UserService.getBookmarkedEvents().done { response in
+                        if !response.list.isEmpty {
+                            for event in response.list {
+                                //check if bookmarked list contains id
+                                let isBookmarked = event.targetEvent?.id == self.trendingEvents[indexPath.row].id
+                                if isBookmarked {
+                                    self.bookmarkedEventIDArray.append(eventID) //add this cell to local array to avoid reuse
+                                    print(self.bookmarkedEventIDArray)
+                                    
+                                    //animate button state
+                                    UIView.transition(with: cell.bookmarkBtn, duration: 0.2, options: .transitionCrossDissolve, animations: {
+                                        cell.bookmarkBtn.setImage(UIImage(named: "bookmark"), for: .normal)
+                                    }, completion: nil)
+                                    
+                                    UIView.animate(withDuration: 0.2) {
+                                        cell.bookmarkBtnIndicator.alpha = 0
+                                        cell.bookmarkBtn.backgroundColor = .mintGreen()
+                                    }
+                                    
+                                } else { //not bookmarked
+                                    //animate button state to default
+                                    UIView.animate(withDuration: 0.2) {
+                                        cell.bookmarkBtnIndicator.alpha = 0
+                                    }
+                                    
+                                    UIView.transition(with: cell.bookmarkBtn, duration: 0.2, options: .transitionCrossDissolve, animations: {
+                                        cell.bookmarkBtn.setImage(UIImage(named: "bookmark"), for: .normal)
+                                    }, completion: nil)
+                                }
+                            }
+                        } else { //logged in user have no bookmarked events
+                            //animate button state to default
+                            UIView.animate(withDuration: 0.2) {
+                                cell.bookmarkBtnIndicator.alpha = 0
+                            }
+                            
+                            UIView.transition(with: cell.bookmarkBtn, duration: 0.2, options: .transitionCrossDissolve, animations: {
+                                cell.bookmarkBtn.setImage(UIImage(named: "bookmark"), for: .normal)
+                            }, completion: nil)
+                        }
+                        }.ensure {
+                            UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                        }.catch { error in }
+                    
+                } else { //this cell is bookmarked and held by local array, will bypass check from api
+                    //animate button state
+                    UIView.animate(withDuration: 0.2) {
+                        cell.bookmarkBtn.backgroundColor = .mintGreen()
+                        cell.bookmarkBtnIndicator.alpha = 0
+                    }
+                    
+                    UIView.transition(with: cell.bookmarkBtn, duration: 0.2, options: .transitionCrossDissolve, animations: {
+                        cell.bookmarkBtn.setImage(UIImage(named: "bookmark"), for: .normal)
+                    }, completion: nil)
+                }
+            }
+        }
+    }
+    
+    //refresh bookmarkBtn state
+    @objc private func refreshTrendingSectionCell(_ notification: Notification) {
+        let visibleCells = trendingCollectionView.visibleCells as! [TrendingCell]
+        if let event = notification.userInfo {
+            if let removeID = event["remove_id"] as? String {  //Callback from Bookmarked Section
+                self.bookmarkedEventIDArray.remove(object: removeID) //remove id from local array
+                print(self.bookmarkedEventIDArray)
+                
+                for cell in visibleCells {
+                    if cell.eventID == removeID { //remove bookmark
+                        self.removeBookmarkAnimation(cell: cell)
+                    }
+                }
+                
+            } else if let checkID = event["check_id"] as? String { //Callback from Event Details
+                UserService.getBookmarkedEvents().done { response in
+                    if !response.list.isEmpty {
+                        if response.list.contains(where: { $0.targetEvent?.id == checkID }) { //check visible cell is bookmarked or not
+                            for cell in visibleCells { //check bookmarked list contains id
+                                if cell.eventID == checkID && (cell.bookmarkBtn.backgroundColor?.isEqual(UIColor.clear))! { //add bookmark
+                                    if !self.bookmarkedEventIDArray.contains(checkID) {
+                                        self.bookmarkedEventIDArray.append(checkID)
+                                        print("Callback from details array \(self.bookmarkedEventIDArray)")
+                                    }
+                                    self.addBookmarkAnimation(cell: cell)
+                                }
+                            }
+                            
+                        } else { //checkID is not in bookmarked list
+                            if self.bookmarkedEventIDArray.contains(checkID) {
+                                self.bookmarkedEventIDArray.remove(object: checkID)
+                            }
+                            
+                            for cell in visibleCells {
+                                if cell.eventID == checkID && (cell.bookmarkBtn.backgroundColor?.isEqual(UIColor.mintGreen()))! {
+                                    self.removeBookmarkAnimation(cell: cell)
+                                }
+                            }
+                        }
+                        
+                    } else { //bookmarked list is empty, remove id from array
+                        if self.bookmarkedEventIDArray.contains(checkID) {
+                            self.bookmarkedEventIDArray.remove(object: checkID)
+                        }
+                        
+                        for cell in visibleCells {
+                            self.removeBookmarkAnimation(cell: cell)
+                        }
+                    }
+                    }.ensure { UIApplication.shared.isNetworkActivityIndicatorVisible = false }.catch { error in }
+                
+            }
+        }
+    }
+    
     func bookmarkBtnTapped(cell: TrendingCell, tappedIndex: IndexPath) {
-        cell.checkShouldDisplayIndicator()
         if UserService.User.isLoggedIn() {
             if let eventID = self.trendingEvents[tappedIndex.row].id {
                 if (cell.bookmarkBtn.backgroundColor?.isEqual(UIColor.clear))! { //do bookmark action
@@ -361,9 +341,9 @@ extension TrendingSection: TrendingCellDelegate {
                             }, completion: nil)
                             
                             cell.bookmarkBtn.isUserInteractionEnabled = true
-                            if !self.bookmarkedEventArray.contains(eventID) {
-                                self.bookmarkedEventArray.append(eventID)
-                                print("Trending Section array: \(self.bookmarkedEventArray)\n")
+                            if !self.bookmarkedEventIDArray.contains(eventID) {
+                                self.bookmarkedEventIDArray.append(eventID)
+                                print("Trending Section array: \(self.bookmarkedEventIDArray)\n")
                             }
                             
                             NotificationCenter.default.post(name: .refreshBookmarkedSection, object: nil, userInfo: ["add_id": eventID]) //reload collection view in BookmarkedSection
@@ -402,9 +382,9 @@ extension TrendingSection: TrendingCellDelegate {
                             
                             cell.bookmarkBtn.isUserInteractionEnabled = true
                             
-                            if let index = self.bookmarkedEventArray.index(of: eventID) {
-                                self.bookmarkedEventArray.remove(at: index)
-                                print("Trending Section array: \(self.bookmarkedEventArray)\n")
+                            if let index = self.bookmarkedEventIDArray.firstIndex(of: eventID) {
+                                self.bookmarkedEventIDArray.remove(at: index)
+                                print("Trending Section array: \(self.bookmarkedEventIDArray)\n")
                             }
                             
                             NotificationCenter.default.post(name: .refreshBookmarkedSection, object: nil, userInfo: ["remove_id": eventID]) //reload collection view in BookmarkedSection
@@ -419,7 +399,7 @@ extension TrendingSection: TrendingCellDelegate {
             }
             
         } else { // not logged in
-            SwiftMessages.show(view: loginMsgView)
+            SwiftMessages.show(view: InAppNotifications.loginWarning())
         }
         
     }

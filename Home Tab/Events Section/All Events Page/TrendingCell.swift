@@ -66,6 +66,7 @@ class TrendingCell: UICollectionViewCell {
         }
         checkShouldDisplayIndicator()
         
+        //skeleton view
         let animation = SkeletonAnimationBuilder().makeSlidingAnimation(withDirection: .leftRight, duration: 2)
 
         SkeletonAppearance.default.multilineHeight = 15
@@ -97,11 +98,10 @@ class TrendingCell: UICollectionViewCell {
     
     override func prepareForReuse() {
         checkShouldDisplayIndicator()
-
         //bookmarkBtn.setImage(UIImage(named: "bookmark"), for: .normal)
-    
     }
     
+    //Hold cell animation
     override var isHighlighted: Bool {
         didSet { Animations.cellBounce(isHighlighted, view: self) }
     }

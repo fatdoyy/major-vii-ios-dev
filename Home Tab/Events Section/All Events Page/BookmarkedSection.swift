@@ -55,8 +55,6 @@ class BookmarkedSection: UICollectionViewCell {
             }
             bookmarksCountLabel.text = bookmarkedEvents.count == 1 ? "1 Event" : "\(bookmarkedEvents.count) Events"
             
-            bookmarksCollectionView.reloadData()
-            
             if bookmarksCollectionView.alpha == 0 && bookmarkedEvents.count != 0 {
                 UIView.animate(withDuration: 0.2) {
                     self.bookmarksCollectionView.alpha = 1
@@ -72,7 +70,7 @@ class BookmarkedSection: UICollectionViewCell {
                     self.bookmarksCollectionView.alpha = 0
                 }
                 
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                     self.emptyBookmarkGradientBg.startAnimation()
                     UIView.animate(withDuration: 0.2) {
                         self.emptyBookmarkShadowView.alpha = 1
@@ -358,6 +356,8 @@ extension BookmarkedSection {
             
             print("Bookmarked events list count: \(response.list.count)")
             print("Initial bookmarkedEventIdArray: \(self.bookmarkedEventIdArray)")
+            
+            self.bookmarksCollectionView.reloadData()
             }.ensure {
                 if self.reloadIndicator.alpha != 0 {
                     UIView.animate(withDuration: 0.2) {
@@ -374,11 +374,8 @@ extension BookmarkedSection {
 //MARK: UICollectionView delegate
 extension BookmarkedSection: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if UserService.User.isLoggedIn() && !bookmarkedEvents.isEmpty {
-            return bookmarkedEvents.count
-        } else {
-            return 3
-        }
+        let count = UserService.User.isLoggedIn() && !bookmarkedEvents.isEmpty ? bookmarkedEvents.count : 3
+        return count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {

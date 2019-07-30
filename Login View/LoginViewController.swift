@@ -43,7 +43,7 @@ class LoginViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         //NotificationCenter.default.removeObserver(self)
-        NotificationCenter.default.removeObserver(loginView) // also remove observer in LoginView.swift
+        NotificationCenter.default.removeObserver(loginView!) // also remove observer in LoginView.swift
         
         self.navigationController?.setNavigationBarHidden(false, animated: animated)
         

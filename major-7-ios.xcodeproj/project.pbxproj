@@ -136,6 +136,7 @@
 		96DEB1EE22378446005F87F4 /* BuskerProfileEventCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96DEB1EC22378446005F87F4 /* BuskerProfileEventCell.xib */; };
 		96DEB1F12237B08B005F87F4 /* BuskerProfilePostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96DEB1EF2237B08A005F87F4 /* BuskerProfilePostCell.swift */; };
 		96DEB1F22237B08B005F87F4 /* BuskerProfilePostCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96DEB1F02237B08B005F87F4 /* BuskerProfilePostCell.xib */; };
+		96E268A422F05A45006AE52A /* InAppNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96E268A322F05A45006AE52A /* InAppNotifications.swift */; };
 		96EA375321B528E900E9DB74 /* DetailsImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96EA375121B528E900E9DB74 /* DetailsImageCell.swift */; };
 		96EA375421B528E900E9DB74 /* DetailsImageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96EA375221B528E900E9DB74 /* DetailsImageCell.xib */; };
 		96EA375621B66BBC00E9DB74 /* ImageViewerHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96EA375521B66BBC00E9DB74 /* ImageViewerHelper.swift */; };
@@ -289,6 +290,7 @@
 		96DEB1EC22378446005F87F4 /* BuskerProfileEventCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BuskerProfileEventCell.xib; sourceTree = "<group>"; };
 		96DEB1EF2237B08A005F87F4 /* BuskerProfilePostCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuskerProfilePostCell.swift; sourceTree = "<group>"; };
 		96DEB1F02237B08B005F87F4 /* BuskerProfilePostCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BuskerProfilePostCell.xib; sourceTree = "<group>"; };
+		96E268A322F05A45006AE52A /* InAppNotifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InAppNotifications.swift; sourceTree = "<group>"; };
 		96EA375121B528E900E9DB74 /* DetailsImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsImageCell.swift; sourceTree = "<group>"; };
 		96EA375221B528E900E9DB74 /* DetailsImageCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DetailsImageCell.xib; sourceTree = "<group>"; };
 		96EA375521B66BBC00E9DB74 /* ImageViewerHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewerHelper.swift; sourceTree = "<group>"; };
@@ -496,6 +498,7 @@
 				96B3C80022D4D7FB00ED23BD /* UILabel.swift */,
 				96C9899D2220307600170609 /* TextHeight.swift */,
 				96B80C3322D3958700E932BA /* TextAttributes.swift */,
+				96E268A322F05A45006AE52A /* InAppNotifications.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -914,6 +917,7 @@
 				9643C498224DF76F00730DAB /* MapMarker.swift in Sources */,
 				96625F7B21C793DA0086A2B2 /* EventService.swift in Sources */,
 				965798B52226706C00A03BE9 /* BuskerProfileImgCell.swift in Sources */,
+				96E268A422F05A45006AE52A /* InAppNotifications.swift in Sources */,
 				960B54BE22437C0700FEA079 /* BuskersSearchViewController.swift in Sources */,
 				965838BE218317CE000FE8B0 /* NewsCellType4.swift in Sources */,
 				96FAF247223A1D7300DF23B9 /* BuskerService.swift in Sources */,

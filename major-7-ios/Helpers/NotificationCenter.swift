@@ -9,6 +9,7 @@
 import Foundation
 
 extension Notification.Name {
+    static let showLoginVC = Notification.Name("showLoginVC")
     static let loginCompleted = Notification.Name("loginCompleted")
     
     static let refreshEventListVC = Notification.Name("refreshEventListVC")

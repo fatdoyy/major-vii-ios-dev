@@ -32,6 +32,8 @@ class FollowingSection: UICollectionViewCell {
     var eventsLimit = 8 //event limit per request
     var gotMoreEvents = true //lazy loading
     
+    var bookmarkedEventIDArray: [String] = [] //IMPORTANT: Adding an array to local to control bookmarkBtn's state because of cell reuse issues
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         setupUI()
@@ -69,6 +71,7 @@ extension FollowingSection {
         EventService.getFollowingEvents().done { response in
             self.followingEvents = response.list
             
+            self.followingSectionCollectionView.reloadData()
             }.ensure {
                 UIApplication.shared.isNetworkActivityIndicatorVisible = false
             }.catch { error in }
@@ -78,16 +81,36 @@ extension FollowingSection {
 //MARK: UICollectionView delegate
 extension FollowingSection: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 4
+        let count = UserService.User.isLoggedIn() && !followingEvents.isEmpty ? followingEvents.count : 3
+        return count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = followingSectionCollectionView.dequeueReusableCell(withReuseIdentifier: FollowingCell.reuseIdentifier, for: indexPath) as! FollowingCell
-        cell.delegate = self
-        cell.eventTitle.text = "天星碼頭"
-        cell.dateLabel.text = "明天"
-        cell.performerLabel.text = "Billy Fung"
-        cell.bgImgView.image = UIImage(named: "cat")
+        if !followingEvents.isEmpty {
+            let event = followingEvents[indexPath.row]
+            
+            cell.delegate = self
+            cell.myIndexPath = indexPath
+            cell.eventTitle.text = event.title
+            cell.dateLabel.text = event.dateTime
+            cell.performerLabel.text = event.organizerProfile?.name
+            cell.bookmarkBtn.backgroundColor = .mintGreen()
+            if let url = URL(string: event.images[0].secureUrl!) {
+                cell.bgImgView.kf.setImage(with: url, options: [.transition(.fade(0.3))])
+            }
+            
+            for view in cell.skeletonViews { //hide all skeleton views
+                view.hideSkeleton()
+            }
+            
+            for view in cell.viewsToShowLater {
+                UIView.animate(withDuration: 0.3) {
+                    view.alpha = 1
+                }
+            }
+            
+        }
         return cell
     }
     
