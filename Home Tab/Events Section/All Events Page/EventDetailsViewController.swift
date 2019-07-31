@@ -112,8 +112,10 @@ class EventDetailsViewController: UIViewController {
             }
         }
 
+        //check if need to refresh after dismissing from this VC
         if UserService.User.isLoggedIn() {
             NotificationCenter.default.post(name: .refreshTrendingSectionCell, object: nil, userInfo: ["check_id": eventID])
+            NotificationCenter.default.post(name: .refreshFollowingSectionCell, object: nil, userInfo: ["check_id": eventID])
             NotificationCenter.default.post(name: .refreshBookmarkedSectionFromDetails, object: nil, userInfo: ["check_id": eventID])
         }
             

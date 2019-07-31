@@ -40,6 +40,7 @@ class TrendingSection: UICollectionViewCell {
         super.awakeFromNib()
         NotificationCenter.default.setObserver(self, selector: #selector(showLoginVC), name: .showLoginVC, object: nil)
         NotificationCenter.default.setObserver(self, selector: #selector(refreshTrendingSectionCell(_:)), name: .refreshTrendingSectionCell, object: nil)
+        NotificationCenter.default.setObserver(self, selector: #selector(removeAllObservers), name: .removeTrendingSectionObservers, object: nil)
         
         setupUI()
     }
@@ -180,7 +181,7 @@ extension TrendingSection: UICollectionViewDataSource, UICollectionViewDelegate,
     }
 }
 
-//MARK: API Calls | Bookmark action | Bookmark btn state
+//MARK: API Calls | Bookmark action | Bookmark btn state | Trending cell delegate
 extension TrendingSection: TrendingCellDelegate {
     func getTrendingEvents() { //get trending events list
         EventService.getTrendingEvents().done { response in
@@ -260,7 +261,17 @@ extension TrendingSection: TrendingCellDelegate {
     @objc private func refreshTrendingSectionCell(_ notification: Notification) {
         let visibleCells = trendingCollectionView.visibleCells as! [TrendingCell]
         if let event = notification.userInfo {
-            if let removeID = event["remove_id"] as? String {  //Callback from Bookmarked Section
+            if let addID = event["add_id"] as? String {
+                self.bookmarkedEventIDArray.remove(object: addID) //add id from local array
+                print(self.bookmarkedEventIDArray)
+                
+                for cell in visibleCells {
+                    if cell.eventID == addID { //add bookmark
+                        self.addBookmarkAnimation(cell: cell)
+                    }
+                }
+                
+            } else if let removeID = event["remove_id"] as? String {  //Callback from Bookmarked Section
                 self.bookmarkedEventIDArray.remove(object: removeID) //remove id from local array
                 print(self.bookmarkedEventIDArray)
                 
@@ -346,6 +357,7 @@ extension TrendingSection: TrendingCellDelegate {
                                 print("Trending Section array: \(self.bookmarkedEventIDArray)\n")
                             }
                             
+                            NotificationCenter.default.post(name: .refreshFollowingSectionCell, object: nil, userInfo: ["add_id": eventID]) //refresh bookmarkBtn state in FollowingSection
                             NotificationCenter.default.post(name: .refreshBookmarkedSection, object: nil, userInfo: ["add_id": eventID]) //reload collection view in BookmarkedSection
                             
                             UIApplication.shared.isNetworkActivityIndicatorVisible = false
@@ -387,6 +399,7 @@ extension TrendingSection: TrendingCellDelegate {
                                 print("Trending Section array: \(self.bookmarkedEventIDArray)\n")
                             }
                             
+                            NotificationCenter.default.post(name: .refreshFollowingSectionCell, object: nil, userInfo: ["remove_id": eventID]) //refresh bookmarkBtn state in FollowingSection
                             NotificationCenter.default.post(name: .refreshBookmarkedSection, object: nil, userInfo: ["remove_id": eventID]) //reload collection view in BookmarkedSection
                             
                             UIApplication.shared.isNetworkActivityIndicatorVisible = false

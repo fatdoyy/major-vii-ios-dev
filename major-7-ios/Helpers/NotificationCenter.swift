@@ -12,14 +12,18 @@ extension Notification.Name {
     static let showLoginVC = Notification.Name("showLoginVC")
     static let loginCompleted = Notification.Name("loginCompleted")
     
+    //Events
     static let refreshEventListVC = Notification.Name("refreshEventListVC")
+    
+    static let refreshTrendingSectionCell = Notification.Name("refreshTrendingSectionCell")
+    
+    static let refreshFollowingSectionCell = Notification.Name("refreshFollowingSectionCell")
     
     static let refreshBookmarkedSection = Notification.Name("refreshBookmarkedSection")
     static let refreshBookmarkedSectionFromDetails = Notification.Name("refreshBookmarkedSectionFromDetails")
     
-    static let refreshTrendingSectionCell = Notification.Name("refreshTrendingSectionCell")
-    
     static let removeBookmarkedSectionObservers = Notification.Name("removeBookmarkedSectionObservers")
+    static let removeFollowingSectionObservers = Notification.Name("removeFollowingSectionObservers")
     static let removeTrendingSectionObservers = Notification.Name("removeTrendingSectionObservers")
     
     //Search controller notifications

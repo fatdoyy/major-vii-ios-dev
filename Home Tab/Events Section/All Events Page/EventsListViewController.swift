@@ -99,6 +99,7 @@ class EventsListViewController: ScrollingNavigationViewController {
         
         if self.isMovingFromParent {
             NotificationCenter.default.post(name: .removeTrendingSectionObservers, object: nil)
+            NotificationCenter.default.post(name: .removeFollowingSectionObservers, object: nil)
             NotificationCenter.default.post(name: .removeBookmarkedSectionObservers, object: nil)
             NotificationCenter.default.removeObserver(self)
 

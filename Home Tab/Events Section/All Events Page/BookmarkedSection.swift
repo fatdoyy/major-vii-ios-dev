@@ -484,8 +484,10 @@ extension BookmarkedSection: BookmarkedCellDelegate {
                         cell.bookmarkBtn.isUserInteractionEnabled = true
                         
                         if let eventID = self.bookmarkedEvents[tappedIndex.row].targetEvent?.id {
-                            print("Sending id \(eventID) from BookmarkedSection to TrendingSection for removal\n")
+                            print("Sending id \(eventID) from BookmarkedSection to TrendingSection/FollowingSection for removal\n")
                             NotificationCenter.default.post(name: .refreshTrendingSectionCell, object: nil, userInfo: ["remove_id": eventID])
+                            NotificationCenter.default.post(name: .refreshFollowingSectionCell, object: nil, userInfo: ["remove_id": eventID])
+                            
                             self.bookmarkedEventIdArray.remove(object: eventID)
                             print("bookmarkedEventIdArray : \(self.bookmarkedEventIdArray)")
                         }

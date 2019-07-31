@@ -11,7 +11,7 @@ import SkeletonView
 import NVActivityIndicatorView
 
 protocol FollowingCellDelegate {
-    func bookmarkBtnTapped()
+    func bookmarkBtnTapped(cell: FollowingCell, tappedIndex: IndexPath)
 }
 
 class FollowingCell: UICollectionViewCell {
@@ -23,6 +23,8 @@ class FollowingCell: UICollectionViewCell {
     
     static let width: CGFloat = 138
     static let height: CGFloat = 166
+    
+    var eventID: String = ""
     
     @IBOutlet weak var bgImgView: UIImageView!
     @IBOutlet weak var imageOverlay: ImageOverlay!
@@ -101,6 +103,6 @@ class FollowingCell: UICollectionViewCell {
     }
     
     @IBAction func bookmarkBtnTapped(_ sender: Any) {
-        delegate?.bookmarkBtnTapped()
+        delegate?.bookmarkBtnTapped(cell: self, tappedIndex: myIndexPath)
     }
 }
