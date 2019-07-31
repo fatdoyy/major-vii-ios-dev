@@ -205,7 +205,6 @@ extension TrendingSection: TrendingCellDelegate {
                                 let isBookmarked = event.targetEvent?.id == self.trendingEvents[indexPath.row].id
                                 if isBookmarked {
                                     self.bookmarkedEventIDArray.append(eventID) //add this cell to local array to avoid reuse
-                                    print(self.bookmarkedEventIDArray)
                                     
                                     //animate button state
                                     UIView.transition(with: cell.bookmarkBtn, duration: 0.2, options: .transitionCrossDissolve, animations: {
@@ -263,7 +262,6 @@ extension TrendingSection: TrendingCellDelegate {
         if let event = notification.userInfo {
             if let addID = event["add_id"] as? String {
                 self.bookmarkedEventIDArray.remove(object: addID) //add id from local array
-                print(self.bookmarkedEventIDArray)
                 
                 for cell in visibleCells {
                     if cell.eventID == addID { //add bookmark
@@ -273,7 +271,6 @@ extension TrendingSection: TrendingCellDelegate {
                 
             } else if let removeID = event["remove_id"] as? String {  //Callback from Bookmarked Section
                 self.bookmarkedEventIDArray.remove(object: removeID) //remove id from local array
-                print(self.bookmarkedEventIDArray)
                 
                 for cell in visibleCells {
                     if cell.eventID == removeID { //remove bookmark
@@ -354,7 +351,6 @@ extension TrendingSection: TrendingCellDelegate {
                             cell.bookmarkBtn.isUserInteractionEnabled = true
                             if !self.bookmarkedEventIDArray.contains(eventID) {
                                 self.bookmarkedEventIDArray.append(eventID)
-                                print("Trending Section array: \(self.bookmarkedEventIDArray)\n")
                             }
                             
                             NotificationCenter.default.post(name: .refreshFollowingSectionCell, object: nil, userInfo: ["add_id": eventID]) //refresh bookmarkBtn state in FollowingSection
@@ -380,25 +376,22 @@ extension TrendingSection: TrendingCellDelegate {
                     
                     //remove bookmark action
                     EventService.removeBookmark(eventID: eventID).done { response in
-                        print(response)
+                        UIView.animate(withDuration: 0.2) {
+                            cell.bookmarkBtn.backgroundColor = .clear
+                            cell.bookmarkBtnIndicator.alpha = 0
+                        }
+                        
+                        UIView.transition(with: cell.bookmarkBtn, duration: 0.2, options: .transitionCrossDissolve, animations: {
+                            cell.bookmarkBtn.setImage(UIImage(named: "bookmark"), for: .normal)
+                        }, completion: nil)
+                        
+                        cell.bookmarkBtn.isUserInteractionEnabled = true
+                        
+                        if let index = self.bookmarkedEventIDArray.firstIndex(of: eventID) {
+                            self.bookmarkedEventIDArray.remove(at: index)
+                            print("Trending Section array: \(self.bookmarkedEventIDArray)\n")
+                        }
                         }.ensure {
-                            
-                            UIView.animate(withDuration: 0.2) {
-                                cell.bookmarkBtn.backgroundColor = .clear
-                                cell.bookmarkBtnIndicator.alpha = 0
-                            }
-                            
-                            UIView.transition(with: cell.bookmarkBtn, duration: 0.2, options: .transitionCrossDissolve, animations: {
-                                cell.bookmarkBtn.setImage(UIImage(named: "bookmark"), for: .normal)
-                            }, completion: nil)
-                            
-                            cell.bookmarkBtn.isUserInteractionEnabled = true
-                            
-                            if let index = self.bookmarkedEventIDArray.firstIndex(of: eventID) {
-                                self.bookmarkedEventIDArray.remove(at: index)
-                                print("Trending Section array: \(self.bookmarkedEventIDArray)\n")
-                            }
-                            
                             NotificationCenter.default.post(name: .refreshFollowingSectionCell, object: nil, userInfo: ["remove_id": eventID]) //refresh bookmarkBtn state in FollowingSection
                             NotificationCenter.default.post(name: .refreshBookmarkedSection, object: nil, userInfo: ["remove_id": eventID]) //reload collection view in BookmarkedSection
                             

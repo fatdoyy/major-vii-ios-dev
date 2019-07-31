@@ -9,6 +9,7 @@
 import UIKit
 import BouncyLayout
 import SwiftMessages
+import NVActivityIndicatorView
 
 protocol FollowingSectionDelegate{
     func followingCellTapped(eventID: String)
@@ -19,18 +20,15 @@ class FollowingSection: UICollectionViewCell {
     static let reuseIdentifier = "followingSection"
     
     var delegate: FollowingSectionDelegate?
+    var loadingIndicator: NVActivityIndicatorView!
     
     static let height: CGFloat = 238
     
     @IBOutlet weak var followingSectionTitle: UILabel!
     @IBOutlet weak var followingSectionCollectionView: UICollectionView!
     
-    var followingEvents: [Event] = [] {
-        didSet {
-            print("Sucessfully got following events:\n\(followingEvents)")
-        }
-    }
-    var eventsLimit = 8 //event limit per request
+    var followingEvents: [Event] = []
+    var eventsLimit = 6 //event limit per request
     var gotMoreEvents = true //lazy loading
     
     var bookmarkedEventIDArray: [String] = [] //IMPORTANT: Adding an array to local to control bookmarkBtn's state because of cell reuse issues
@@ -43,7 +41,7 @@ class FollowingSection: UICollectionViewCell {
         setupUI()
         
         //TODO: login check
-        getFollowingEvents()
+        getFollowingEvents(limit: eventsLimit)
     }
     
     //remove observers
@@ -72,6 +70,8 @@ extension FollowingSection {
         
         followingSectionCollectionView.backgroundColor = .m7DarkGray()
         followingSectionCollectionView.register(UINib.init(nibName: "FollowingCell", bundle: nil), forCellWithReuseIdentifier: FollowingCell.reuseIdentifier)
+        
+        setupLoadingIndicator()
     }
     
     private func addBookmarkAnimation(cell: FollowingCell) {
@@ -121,6 +121,18 @@ extension FollowingSection {
             cell.bookmarkBtn.isUserInteractionEnabled = true
         }
     }
+    
+    private func setupLoadingIndicator() {
+        loadingIndicator = NVActivityIndicatorView(frame: CGRect(origin: CGPoint.zero, size: CGSize(width: 15, height: 15)), type: .lineScale)
+        loadingIndicator.alpha = 0
+        loadingIndicator.startAnimating()
+        addSubview(loadingIndicator)
+        loadingIndicator.snp.makeConstraints { (make) in
+            make.left.equalTo(followingSectionTitle.snp.right).offset(10)
+            make.centerY.equalTo(followingSectionTitle)
+            make.size.equalTo(15)
+        }
+    }
 }
 
 //MARK: UICollectionView delegate
@@ -165,6 +177,21 @@ extension FollowingSection: UICollectionViewDataSource, UICollectionViewDelegate
         return cell
     }
     
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if (indexPath.row == followingEvents.count - 1) {
+            print("Fetching following events...")
+            if gotMoreEvents {
+                UIView.animate(withDuration: 0.2) {
+                    self.loadingIndicator.alpha = 1
+                }
+                getFollowingEvents(skip: followingEvents.count, limit: eventsLimit)
+            } else {
+                print("No more events to fetch!")
+            }
+
+        }
+    }
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: FollowingCell.width, height: FollowingCell.height)
     }
@@ -177,12 +204,19 @@ extension FollowingSection: UICollectionViewDataSource, UICollectionViewDelegate
 
 //MARK: API Calls | Bookmark action | Bookmark btn state | Following cell delegate
 extension FollowingSection: FollowingCellDelegate {
-    func getFollowingEvents(completion: (() -> Void)? = nil) {
-        EventService.getFollowingEvents().done { response in
-            self.followingEvents = response.list
-            
+    func getFollowingEvents(skip: Int? = nil, limit: Int? = nil) {
+        followingSectionCollectionView.isUserInteractionEnabled = false
+        EventService.getFollowingEvents(skip: skip, limit: limit).done { response in
+            self.followingEvents.append(contentsOf: response.list)
+            self.gotMoreEvents = response.list.count < self.eventsLimit || response.list.count == 0 ? false : true
             self.followingSectionCollectionView.reloadData()
             }.ensure {
+                if self.loadingIndicator.alpha != 0 {
+                    UIView.animate(withDuration: 0.2) {
+                        self.loadingIndicator.alpha = 0
+                    }
+                }
+                self.followingSectionCollectionView.isUserInteractionEnabled = true
                 UIApplication.shared.isNetworkActivityIndicatorVisible = false
             }.catch { error in }
     }
@@ -201,7 +235,6 @@ extension FollowingSection: FollowingCellDelegate {
                                 let isBookmarked = event.targetEvent?.id == self.followingEvents[indexPath.row].id
                                 if isBookmarked {
                                     self.bookmarkedEventIDArray.append(eventID) //add this cell to local array to avoid reuse
-                                    print(self.bookmarkedEventIDArray)
                                     
                                     //animate button state
                                     UIView.transition(with: cell.bookmarkBtn, duration: 0.2, options: .transitionCrossDissolve, animations: {
@@ -258,7 +291,6 @@ extension FollowingSection: FollowingCellDelegate {
         if let event = notification.userInfo {
             if let addID = event["add_id"] as? String {
                 self.bookmarkedEventIDArray.remove(object: addID) //add id from local array
-                print(self.bookmarkedEventIDArray)
                 
                 for cell in visibleCells {
                     if cell.eventID == addID { //add bookmark
@@ -268,7 +300,6 @@ extension FollowingSection: FollowingCellDelegate {
                 
             } else if let removeID = event["remove_id"] as? String {  //Callback from Bookmarked Section , check after removing bookmark
                 self.bookmarkedEventIDArray.remove(object: removeID) //remove id from local array
-                print(self.bookmarkedEventIDArray)
                 
                 for cell in visibleCells {
                     if cell.eventID == removeID { //remove bookmark
@@ -349,7 +380,6 @@ extension FollowingSection: FollowingCellDelegate {
                             cell.bookmarkBtn.isUserInteractionEnabled = true
                             if !self.bookmarkedEventIDArray.contains(eventID) {
                                 self.bookmarkedEventIDArray.append(eventID)
-                                print("Trending Section array: \(self.bookmarkedEventIDArray)\n")
                             }
                             
                             NotificationCenter.default.post(name: .refreshTrendingSectionCell, object: nil, userInfo: ["add_id": eventID]) //refresh bookmarkBtn state in TrendingSection
@@ -375,25 +405,22 @@ extension FollowingSection: FollowingCellDelegate {
                     
                     //remove bookmark action
                     EventService.removeBookmark(eventID: eventID).done { response in
-                        print(response)
+                        UIView.animate(withDuration: 0.2) {
+                            cell.bookmarkBtn.backgroundColor = .clear
+                            cell.bookmarkBtnIndicator.alpha = 0
+                        }
+                        
+                        UIView.transition(with: cell.bookmarkBtn, duration: 0.2, options: .transitionCrossDissolve, animations: {
+                            cell.bookmarkBtn.setImage(UIImage(named: "bookmark"), for: .normal)
+                        }, completion: nil)
+                        
+                        cell.bookmarkBtn.isUserInteractionEnabled = true
+                        
+                        if let index = self.bookmarkedEventIDArray.firstIndex(of: eventID) {
+                            self.bookmarkedEventIDArray.remove(at: index)
+                            print("Trending Section array: \(self.bookmarkedEventIDArray)\n")
+                        }
                         }.ensure {
-                            
-                            UIView.animate(withDuration: 0.2) {
-                                cell.bookmarkBtn.backgroundColor = .clear
-                                cell.bookmarkBtnIndicator.alpha = 0
-                            }
-                            
-                            UIView.transition(with: cell.bookmarkBtn, duration: 0.2, options: .transitionCrossDissolve, animations: {
-                                cell.bookmarkBtn.setImage(UIImage(named: "bookmark"), for: .normal)
-                            }, completion: nil)
-                            
-                            cell.bookmarkBtn.isUserInteractionEnabled = true
-                            
-                            if let index = self.bookmarkedEventIDArray.firstIndex(of: eventID) {
-                                self.bookmarkedEventIDArray.remove(at: index)
-                                print("Trending Section array: \(self.bookmarkedEventIDArray)\n")
-                            }
-                            
                             NotificationCenter.default.post(name: .refreshTrendingSectionCell, object: nil, userInfo: ["remove_id": eventID]) //refresh bookmarkBtn state in TrendingSection
                             NotificationCenter.default.post(name: .refreshBookmarkedSection, object: nil, userInfo: ["remove_id": eventID]) //reload collection view in BookmarkedSection
                             
