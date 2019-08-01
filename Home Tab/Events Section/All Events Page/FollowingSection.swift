@@ -10,6 +10,7 @@ import UIKit
 import BouncyLayout
 import SwiftMessages
 import NVActivityIndicatorView
+import Pastel
 
 protocol FollowingSectionDelegate{
     func followingCellTapped(eventID: String)
@@ -22,16 +23,49 @@ class FollowingSection: UICollectionViewCell {
     var delegate: FollowingSectionDelegate?
     var loadingIndicator: NVActivityIndicatorView!
     
-    static let height: CGFloat = 238
+    static let height: CGFloat = 244
     
     @IBOutlet weak var followingSectionTitle: UILabel!
     @IBOutlet weak var followingSectionCollectionView: UICollectionView!
+    @IBOutlet var layoutConstraints: Array<NSLayoutConstraint>! //disable constraints to hide this section if user is not logged in
     
-    var followingEvents: [Event] = []
+    var followingEvents: [Event] = [] {
+        didSet {
+            //Control empty following view
+            if followingSectionCollectionView.alpha == 0 && followingEvents.count != 0 {
+                UIView.animate(withDuration: 0.2) {
+                    self.followingSectionCollectionView.alpha = 1
+                    self.emptyFollowingShadowView.alpha = 0
+                }
+            } else if followingSectionCollectionView.alpha == 0 && (oldValue.count == 0 || followingEvents.count == 0) { //show empty view
+                emptyFollowingGradientBg.startAnimation()
+                UIView.animate(withDuration: 0.2) {
+                    self.emptyFollowingShadowView.alpha = 1
+                }
+            } else if followingSectionCollectionView.alpha != 0 && followingEvents.count == 0 {
+                UIView.animate(withDuration: 0.2) {
+                    self.followingSectionCollectionView.alpha = 0
+                }
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                    self.emptyFollowingGradientBg.startAnimation()
+                    UIView.animate(withDuration: 0.2) {
+                        self.emptyFollowingShadowView.alpha = 1
+                    }
+                }
+            }
+
+        }
+    }
     var eventsLimit = 6 //event limit per request
     var gotMoreEvents = true //lazy loading
     
     var bookmarkedEventIDArray: [String] = [] //IMPORTANT: Adding an array to local to control bookmarkBtn's state because of cell reuse issues
+    
+    //empty following view
+    var emptyFollowingBgView = UIView()
+    var emptyFollowingGradientBg = PastelView()
+    var emptyFollowingShadowView = UIView()
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -133,6 +167,84 @@ extension FollowingSection {
             make.size.equalTo(15)
         }
     }
+    
+    private func setupEmptyFollowingView() {
+        //empty view's drop shadow
+        emptyFollowingShadowView.alpha = 0
+        emptyFollowingShadowView.frame = CGRect(x: 20, y: 58, width: UIScreen.main.bounds.width - 40, height: followingSectionCollectionView.frame.height - 12)
+        emptyFollowingShadowView.clipsToBounds = false
+        emptyFollowingShadowView.layer.shadowOpacity = 0.5
+        emptyFollowingShadowView.layer.shadowOffset = CGSize(width: -1, height: -1)
+        emptyFollowingShadowView.layer.shadowRadius = GlobalCornerRadius.value
+        emptyFollowingShadowView.layer.shadowPath = UIBezierPath(roundedRect: emptyFollowingShadowView.bounds, cornerRadius: GlobalCornerRadius.value).cgPath
+        
+        //empty view
+        //bgView.alpha = 0
+        emptyFollowingBgView.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width - 40, height: followingSectionCollectionView.frame.height - 12)
+        emptyFollowingBgView.layer.cornerRadius = GlobalCornerRadius.value
+        emptyFollowingBgView.clipsToBounds = true
+        emptyFollowingBgView.backgroundColor = .darkGray
+        
+        //gradient bg
+        emptyFollowingGradientBg.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width - 40, height: followingSectionCollectionView.frame.height - 12)
+        emptyFollowingGradientBg.animationDuration = 3
+        emptyFollowingGradientBg.setColors([UIColor(hexString: "#3a7bd5"), UIColor(hexString: "#00d2ff")])
+        emptyFollowingShadowView.layer.shadowColor = UIColor(hexString: "#00d2ff").cgColor
+        
+        emptyFollowingGradientBg.startAnimation()
+        
+        emptyFollowingBgView.insertSubview(emptyFollowingGradientBg, at: 0)
+        emptyFollowingShadowView.addSubview(emptyFollowingBgView)
+        
+        let emptyFollowingImgView = UIImageView()
+        emptyFollowingImgView.image = UIImage(named: "icon_follow")
+        emptyFollowingBgView.addSubview(emptyFollowingImgView)
+        emptyFollowingImgView.snp.makeConstraints { (make) in
+            make.top.equalTo(15)
+            make.left.equalTo(25)
+        }
+        
+        let emptyFollowingDesc = UILabel()
+        emptyFollowingDesc.font = UIFont.systemFont(ofSize: 12, weight: .regular)
+        emptyFollowingDesc.text = "Go follow your favourite artists now!"
+        emptyFollowingDesc.textColor = .white
+        emptyFollowingDesc.numberOfLines = 2
+        emptyFollowingBgView.addSubview(emptyFollowingDesc)
+        emptyFollowingDesc.snp.makeConstraints { (make) in
+            make.bottom.equalToSuperview().offset(-16)
+            make.left.equalTo(25)
+            make.width.equalTo(230)
+        }
+        
+        let emptyFollowingTitle = UILabel()
+        emptyFollowingTitle.font = UIFont.systemFont(ofSize: 20, weight: .semibold)
+        emptyFollowingTitle.text = "It's empty..."
+        emptyFollowingTitle.textColor = .white
+        emptyFollowingBgView.addSubview(emptyFollowingTitle)
+        emptyFollowingTitle.snp.makeConstraints { (make) in
+            make.bottom.equalTo(emptyFollowingDesc.snp.top).offset(-5)
+            make.left.equalTo(25)
+            make.width.equalTo(200)
+        }
+        
+        //        let learnMoreBtn = UIButton()
+        //        learnMoreBtn.titleLabel?.font = UIFont.systemFont(ofSize: 12, weight: .bold)
+        //        learnMoreBtn.layer.cornerRadius = GlobalCornerRadius.value / 2
+        //        learnMoreBtn.setTitle("Learn More", for: .normal)
+        //        learnMoreBtn.setTitleColor(.darkPurple(), for: .normal)
+        //        learnMoreBtn.backgroundColor = .white
+        //        emptyBookmarkBgView.addSubview(learnMoreBtn)
+        //        learnMoreBtn.snp.makeConstraints { (make) in
+        //            make.bottomMargin.equalTo(emptyBookmarkBgView.snp.bottom).offset(-25)
+        //            make.rightMargin.equalTo(emptyBookmarkBgView.snp.right).offset(-25)
+        //            make.width.equalTo(120)
+        //            make.height.equalTo(28)
+        //        }
+        //
+        //        learnMoreBtn.addTarget(self, action: #selector(showLoginVC), for: .touchUpInside)
+        addSubview(emptyFollowingShadowView)
+        
+    }
 }
 
 //MARK: UICollectionView delegate
@@ -207,6 +319,7 @@ extension FollowingSection: FollowingCellDelegate {
     func getFollowingEvents(skip: Int? = nil, limit: Int? = nil) {
         followingSectionCollectionView.isUserInteractionEnabled = false
         EventService.getFollowingEvents(skip: skip, limit: limit).done { response in
+            if response.list.isEmpty { self.setupEmptyFollowingView() }
             self.followingEvents.append(contentsOf: response.list)
             self.gotMoreEvents = response.list.count < self.eventsLimit || response.list.count == 0 ? false : true
             self.followingSectionCollectionView.reloadData()

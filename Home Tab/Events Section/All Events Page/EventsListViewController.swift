@@ -212,7 +212,14 @@ extension EventsListViewController: UICollectionViewDelegate, UICollectionViewDe
             switch section {
             case .Following:
                 let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: FollowingSection.reuseIdentifier, for: indexPath) as! FollowingSection
-                cell.delegate = self
+                if UserService.User.isLoggedIn() {
+                    cell.delegate = self
+                } else {
+                    //hide following section if not logged in (i.e. disable constriants)
+                    for constraint in cell.layoutConstraints {
+                        constraint.isActive = false
+                    }
+                }
                 return cell
                 
             case .Bookmark:
@@ -257,7 +264,10 @@ extension EventsListViewController: UICollectionViewDelegate, UICollectionViewDe
         if let section = EventsListSection(rawValue: indexPath.section) {
             let width = self.view.frame.width
             switch section {
-            case .Following:    return CGSize(width: width, height: FollowingSection.height)
+            case .Following:
+                let size = UserService.User.isLoggedIn() ? CGSize(width: width, height: FollowingSection.height) : CGSize(width: width, height: 1)
+                return size
+                
             case .Bookmark:     return CGSize(width: width, height: BookmarkedSection.height)
             case .Featured:     return CGSize(width: FeaturedCell.width, height: FeaturedCell.height)
             default:            return CGSize(width: width, height: TrendingSection.height) //case 0, trending section
@@ -319,7 +329,7 @@ extension EventsListViewController: TrendingSectionDelegate{
 //MARK: Following Section Delegate
 extension EventsListViewController: FollowingSectionDelegate{
     func followingCellTapped(eventID: String) {
-        EventDetailsViewController.push(from: self, eventID: "")
+        EventDetailsViewController.push(from: self, eventID: eventID)
     }
 }
 

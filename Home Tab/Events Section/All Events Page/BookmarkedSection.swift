@@ -22,7 +22,7 @@ class BookmarkedSection: UICollectionViewCell {
     
     var delegate: BookmarkSectionDelegate?
     
-    static let height: CGFloat = 247
+    static let height: CGFloat = 250
     
     @IBOutlet weak var bookmarkSectionTitle: UILabel!
     @IBOutlet weak var bookmarksCountLabel: UILabel!
@@ -161,8 +161,6 @@ extension BookmarkedSection {
             make.centerY.equalTo(bookmarksCollectionView.snp.centerY)
         }
         
-        setupEmptyBookmarkView()
-        
         if UserService.User.isLoggedIn() {
             getBookmarkedEvents()
         } else {
@@ -204,8 +202,8 @@ extension BookmarkedSection {
         loginImgView.image = UIImage(named: "icon_login")
         emptyLoginBgView.addSubview(loginImgView)
         loginImgView.snp.makeConstraints { (make) in
-            make.topMargin.equalTo(15)
-            make.leftMargin.equalTo(15)
+            make.top.equalTo(15)
+            make.left.equalTo(15)
             make.size.equalTo(40)
         }
         
@@ -215,23 +213,10 @@ extension BookmarkedSection {
         loginTitle.textColor = .white
         emptyLoginBgView.addSubview(loginTitle)
         loginTitle.snp.makeConstraints { (make) in
-            make.topMargin.equalTo(20)
-            make.leftMargin.equalTo(loginImgView.snp.right).offset(12)
+            make.top.equalTo(20)
+            make.left.equalTo(loginImgView.snp.right).offset(12)
             make.width.equalTo(200)
             make.height.equalTo(30)
-        }
-        
-        let loginDesc = UILabel()
-        loginDesc.font = UIFont.systemFont(ofSize: 12, weight: .medium)
-        loginDesc.text = "Enjoy full experience with your Major VII account."
-        loginDesc.textColor = .white
-        loginDesc.numberOfLines = 2
-        emptyLoginBgView.addSubview(loginDesc)
-        loginDesc.snp.makeConstraints { (make) in
-            make.topMargin.equalTo(loginTitle.snp.bottom).offset(10)
-            make.leftMargin.equalTo(25)
-            make.width.equalTo(230)
-            make.height.equalTo(60)
         }
         
         let loginBtn = UIButton()
@@ -242,13 +227,25 @@ extension BookmarkedSection {
         loginBtn.backgroundColor = .white
         emptyLoginBgView.addSubview(loginBtn)
         loginBtn.snp.makeConstraints { (make) in
-            make.bottomMargin.equalTo(emptyLoginBgView.snp.bottom).offset(-25)
-            make.rightMargin.equalTo(emptyLoginBgView.snp.right).offset(-25)
+            make.bottom.equalToSuperview().offset(-20)
+            make.right.equalToSuperview().offset(-20)
             make.width.equalTo(60)
             make.height.equalTo(28)
         }
-        
         loginBtn.addTarget(self, action: #selector(showLoginVC), for: .touchUpInside)
+        
+        let loginDesc = UILabel()
+        loginDesc.font = UIFont.systemFont(ofSize: 12, weight: .medium)
+        loginDesc.text = "Enjoy full experience with your Major VII account."
+        loginDesc.textColor = .white
+        loginDesc.numberOfLines = 2
+        emptyLoginBgView.addSubview(loginDesc)
+        loginDesc.snp.makeConstraints { (make) in
+            make.top.equalTo(loginBtn.snp.top)
+            make.left.equalTo(25)
+            make.width.equalTo(200)
+        }
+        
         addSubview(emptyLoginShadowView)
         
     }
@@ -295,17 +292,6 @@ extension BookmarkedSection {
             make.size.equalTo(64)
         }
         
-        let emptyBookmarkTitle = UILabel()
-        emptyBookmarkTitle.font = UIFont.systemFont(ofSize: 20, weight: .semibold)
-        emptyBookmarkTitle.text = "What? Empty???"
-        emptyBookmarkTitle.textColor = .white
-        emptyBookmarkBgView.addSubview(emptyBookmarkTitle)
-        emptyBookmarkTitle.snp.makeConstraints { (make) in
-            make.top.equalTo(emptyBookmarkImgView.snp.bottom).offset(10)
-            make.left.equalTo(25)
-            make.width.equalTo(200)
-        }
-        
         let emptyBookmarkDesc = UILabel()
         emptyBookmarkDesc.font = UIFont.systemFont(ofSize: 12, weight: .regular)
         emptyBookmarkDesc.text = "Bookmark your instersted events now!"
@@ -313,9 +299,20 @@ extension BookmarkedSection {
         emptyBookmarkDesc.numberOfLines = 2
         emptyBookmarkBgView.addSubview(emptyBookmarkDesc)
         emptyBookmarkDesc.snp.makeConstraints { (make) in
-            make.topMargin.equalTo(emptyBookmarkTitle.snp.bottom).offset(12)
-            make.leftMargin.equalTo(25)
+            make.bottom.equalToSuperview().offset(-16)
+            make.left.equalTo(25)
             make.width.equalTo(230)
+        }
+        
+        let emptyBookmarkTitle = UILabel()
+        emptyBookmarkTitle.font = UIFont.systemFont(ofSize: 20, weight: .semibold)
+        emptyBookmarkTitle.text = "What? Empty???"
+        emptyBookmarkTitle.textColor = .white
+        emptyBookmarkBgView.addSubview(emptyBookmarkTitle)
+        emptyBookmarkTitle.snp.makeConstraints { (make) in
+            make.bottom.equalTo(emptyBookmarkDesc.snp.top).offset(-5)
+            make.left.equalTo(25)
+            make.width.equalTo(200)
         }
         
         //        let learnMoreBtn = UIButton()
@@ -326,8 +323,8 @@ extension BookmarkedSection {
         //        learnMoreBtn.backgroundColor = .white
         //        emptyBookmarkBgView.addSubview(learnMoreBtn)
         //        learnMoreBtn.snp.makeConstraints { (make) in
-        //            make.bottomMargin.equalTo(emptyBookmarkBgView.snp.bottom).offset(-25)
-        //            make.rightMargin.equalTo(emptyBookmarkBgView.snp.right).offset(-25)
+        //            make.bottom.equalTo(emptyBookmarkBgView.snp.bottom).offset(-25)
+        //            make.right.equalTo(emptyBookmarkBgView.snp.right).offset(-25)
         //            make.width.equalTo(120)
         //            make.height.equalTo(28)
         //        }
@@ -344,6 +341,7 @@ extension BookmarkedSection {
 extension BookmarkedSection {
     func getBookmarkedEvents(completion: (() -> Void)? = nil) {
         UserService.getBookmarkedEvents().done { response in
+            if response.list.isEmpty { self.setupEmptyBookmarkView() }
             self.bookmarkedEvents = response.list.reversed()
             
             for event in response.list {
@@ -389,6 +387,7 @@ extension BookmarkedSection: UICollectionViewDataSource, UICollectionViewDelegat
                 cell.dateLabel.text = event.dateTime
                 cell.performerLabel.text = event.organizerProfile?.name
                 cell.bookmarkBtn.backgroundColor = .mintGreen()
+                
                 if let url = URL(string: event.images[0].secureUrl!) {
                     cell.bgImgView.kf.setImage(with: url, options: [.transition(.fade(0.3))])
                 }

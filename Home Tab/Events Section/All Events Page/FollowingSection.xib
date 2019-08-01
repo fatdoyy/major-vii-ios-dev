@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -44,6 +44,12 @@
             <connections>
                 <outlet property="followingSectionCollectionView" destination="ksR-eM-H75" id="cSO-Fa-Nec"/>
                 <outlet property="followingSectionTitle" destination="YXT-wF-HkY" id="EWH-he-VVc"/>
+                <outletCollection property="layoutConstraints" destination="Bfw-a3-ixg" collectionClass="NSMutableArray" id="wl1-UU-NuI"/>
+                <outletCollection property="layoutConstraints" destination="Y7T-Ld-syn" collectionClass="NSMutableArray" id="7fg-D2-zRp"/>
+                <outletCollection property="layoutConstraints" destination="8lO-Sb-gkM" collectionClass="NSMutableArray" id="PDt-Ev-FfA"/>
+                <outletCollection property="layoutConstraints" destination="FjX-aJ-F91" collectionClass="NSMutableArray" id="3hs-Wu-zK4"/>
+                <outletCollection property="layoutConstraints" destination="gPK-l2-yCb" collectionClass="NSMutableArray" id="l8a-7d-P7U"/>
+                <outletCollection property="layoutConstraints" destination="kWP-WD-e1I" collectionClass="NSMutableArray" id="tc9-Ng-V79"/>
             </connections>
             <point key="canvasLocation" x="39.200000000000003" y="46.326836581709152"/>
         </collectionViewCell>
