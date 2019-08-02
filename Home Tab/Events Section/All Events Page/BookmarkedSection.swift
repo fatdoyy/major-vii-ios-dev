@@ -11,16 +11,15 @@ import BouncyLayout
 import NVActivityIndicatorView
 import Pastel
 
-protocol BookmarkSectionDelegate{
+protocol BookmarkSectionDelegate: class {
     func bookmarkedCellTapped(eventID: String)
     func showLoginVC()
 }
 
 class BookmarkedSection: UICollectionViewCell {
-    
     static let reuseIdentifier = "bookmarkSection"
     
-    var delegate: BookmarkSectionDelegate?
+    weak var delegate: BookmarkSectionDelegate?
     
     static let height: CGFloat = 250
     

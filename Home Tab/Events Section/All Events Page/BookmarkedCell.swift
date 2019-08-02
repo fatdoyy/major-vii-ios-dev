@@ -10,15 +10,14 @@ import UIKit
 import SkeletonView
 import NVActivityIndicatorView
 
-protocol BookmarkedCellDelegate {
+protocol BookmarkedCellDelegate: class {
     func bookmarkBtnTapped(cell: BookmarkedCell, tappedIndex: IndexPath)
 }
 
 class BookmarkedCell: UICollectionViewCell {
-
     static let reuseIdentifier = "bookmarkedCell"
     
-    var delegate: BookmarkedCellDelegate?
+    weak var delegate: BookmarkedCellDelegate?
     var myIndexPath: IndexPath!
     
     static let width: CGFloat = 138

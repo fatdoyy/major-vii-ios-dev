@@ -12,14 +12,15 @@ import SkeletonView
 import BouncyLayout
 import NVActivityIndicatorView
 
-protocol EventsDetailsViewDelegate {
+protocol EventsDetailsViewDelegate: class {
     func imageCellTapped(index: Int, displacementItem: UIImageView)
     func bookmarkBtnTapped(sender: UIButton)
     func performerLabelTapped(sender: Any)
 }
 
 class EventDetailsView: UIView {
-    
+    weak var delegate: EventsDetailsViewDelegate?
+
     @IBOutlet var contentView: UIView!
     
     @IBOutlet weak var bookmarkBtn: UIButton!
@@ -52,8 +53,6 @@ class EventDetailsView: UIView {
     
     @IBOutlet var skeletonViews: Array<UILabel>!
     @IBOutlet var viewsToShowLater: Array<UIView>!
-    
-    var delegate: EventsDetailsViewDelegate?
     
     var hashtagsArray: [String] = []
     
@@ -126,7 +125,7 @@ class EventDetailsView: UIView {
             imgCollectionView.removeFromSuperview()
             remarksTitleLabel.translatesAutoresizingMaskIntoConstraints = false
             
-            let verticalSpace = NSLayoutConstraint(item: remarksTitleLabel, attribute: .top, relatedBy: .equal, toItem: descLabel, attribute: .bottom, multiplier: 1, constant: 20)
+            let verticalSpace = NSLayoutConstraint(item: remarksTitleLabel!, attribute: .top, relatedBy: .equal, toItem: descLabel, attribute: .bottom, multiplier: 1, constant: 20)
             
             NSLayoutConstraint.activate([verticalSpace])
         } else if UIDevice.current.type == .iPhone_6_6S_7_8_PLUS || (!UIDevice.current.hasHomeButton && UIDevice.current.type != .iPhone_6_6S_7_8) {

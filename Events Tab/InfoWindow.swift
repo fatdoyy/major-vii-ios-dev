@@ -8,12 +8,12 @@
 
 import UIKit
 
-protocol InfoWindowDelegate {
+protocol InfoWindowDelegate: class {
     func infoWindowMoreBtnTapped()
 }
 
 class InfoWindow: UIView {
-    var delegate: InfoWindowDelegate?
+    weak var delegate: InfoWindowDelegate?
     
     static var width: CGFloat = UIScreen.main.bounds.width - 80
     static var aspectRatio: CGFloat = width / 190

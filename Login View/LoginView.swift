@@ -13,7 +13,7 @@ import Pastel
 import Localize_Swift
 import NVActivityIndicatorView
 
-protocol LoginViewDelegate{
+protocol LoginViewDelegate: class{
     func didTapDismissBtn()
     func didTapFbLogin()
     func didTapGoogleLogin()
@@ -24,8 +24,7 @@ protocol LoginViewDelegate{
 }
 
 class LoginView: UIView {
-    
-    var delegate: LoginViewDelegate?
+    weak var delegate: LoginViewDelegate?
     
     @IBOutlet var contentView: UIView!
     

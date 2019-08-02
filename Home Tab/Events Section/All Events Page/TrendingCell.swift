@@ -10,15 +10,14 @@ import UIKit
 import SkeletonView
 import NVActivityIndicatorView
 
-protocol TrendingCellDelegate {
+protocol TrendingCellDelegate: class {
     func bookmarkBtnTapped(cell: TrendingCell, tappedIndex: IndexPath)
 }
 
 class TrendingCell: UICollectionViewCell {
-
     static let reuseIdentifier = "trendingCell"
     
-    var delegate: TrendingCellDelegate?
+    weak var delegate: TrendingCellDelegate?
     var myIndexPath: IndexPath!
     
     private typealias `Self` = TrendingCell

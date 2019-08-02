@@ -8,13 +8,12 @@
 
 import UIKit
 
-protocol SearchHistoryCellDelegate {
+protocol SearchHistoryCellDelegate: class {
     func removeBtnTapped(cell: SearchHistoryCell)
 }
 
 class SearchHistoryCell: UITableViewCell {
-
-    var delegate: SearchHistoryCellDelegate?
+    weak var delegate: SearchHistoryCellDelegate?
     
     static let reuseIdentifier = "searchHistoryCell"
     

@@ -16,7 +16,6 @@ protocol EventsSectionDelegate: class {
 }
 
 class EventsSection: UICollectionViewCell {
-    
     weak var delegate: EventsSectionDelegate?
     
     static let reuseIdentifier: String = "eventsSection"

@@ -12,15 +12,14 @@ import SwiftMessages
 import NVActivityIndicatorView
 import Pastel
 
-protocol FollowingSectionDelegate{
+protocol FollowingSectionDelegate: class {
     func followingCellTapped(eventID: String)
 }
 
 class FollowingSection: UICollectionViewCell {
-
     static let reuseIdentifier = "followingSection"
     
-    var delegate: FollowingSectionDelegate?
+    weak var delegate: FollowingSectionDelegate?
     var loadingIndicator: NVActivityIndicatorView!
     
     static let height: CGFloat = 244

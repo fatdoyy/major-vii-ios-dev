@@ -9,15 +9,14 @@
 import UIKit
 import SkeletonView
 
-protocol FeaturedCellDelegate {
+protocol FeaturedCellDelegate: class {
     func bookmarkBtnTapped()
 }
 
 class FeaturedCell: UICollectionViewCell {
-
     static let reuseIdentifier = "featuredCell"
     
-    var delegate: FeaturedCellDelegate?
+    weak var delegate: FeaturedCellDelegate?
     
     static let width = TrendingSection.width
     static let height: CGFloat = 93

@@ -13,17 +13,16 @@ import PromiseKit
 import ObjectMapper
 import JGProgressHUD
 
-protocol UserServiceDelegate {
+protocol UserServiceDelegate: class {
     func googleLoginPresent(_ viewController: UIViewController)
     func googleLoginDismiss(_ viewController: UIViewController)
     func googleLoginWillDispatch()
 }
 
 class UserService: BaseService {
-    
     static var sharedInstance = UserService()
     
-    var delegate: UserServiceDelegate?
+    weak var delegate: UserServiceDelegate?
 
     static var hud = JGProgressHUD(style: .light)
 

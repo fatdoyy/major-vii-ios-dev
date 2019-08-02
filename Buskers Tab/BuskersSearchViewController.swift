@@ -10,12 +10,12 @@ import UIKit
 import BouncyLayout
 import NVActivityIndicatorView
 
-protocol BuskersSearchViewControllerDelegate {
+protocol BuskersSearchViewControllerDelegate: class {
     func reassureShowingVC()
 }
 
 class BuskersSearchViewController: UIViewController {
-    var delegate: BuskersSearchViewControllerDelegate?
+    weak var delegate: BuskersSearchViewControllerDelegate?
     
     var loadingIndicator = NVActivityIndicatorView(frame: CGRect(origin: CGPoint.zero, size: CGSize(width: 20, height: 20)), type: .lineScale)
     

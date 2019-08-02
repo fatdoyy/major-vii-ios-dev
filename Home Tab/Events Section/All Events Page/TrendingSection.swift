@@ -9,7 +9,7 @@
 import UIKit
 import SwiftMessages
 
-protocol TrendingSectionDelegate{
+protocol TrendingSectionDelegate: class {
     func trendingCellTapped(eventID: String)
     func showLoginVC()
 }
@@ -18,7 +18,7 @@ class TrendingSection: UICollectionViewCell {
     
     static let reuseIdentifier = "trendingSection"
     
-    var delegate: TrendingSectionDelegate?
+    weak var delegate: TrendingSectionDelegate?
     
     static let aspectRatio: CGFloat = 335.0 / 292.0 //ratio according to zeplin
     static let width = NewsCellType1.width

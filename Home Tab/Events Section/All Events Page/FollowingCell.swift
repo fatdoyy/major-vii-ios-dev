@@ -10,15 +10,14 @@ import UIKit
 import SkeletonView
 import NVActivityIndicatorView
 
-protocol FollowingCellDelegate {
+protocol FollowingCellDelegate: class {
     func bookmarkBtnTapped(cell: FollowingCell, tappedIndex: IndexPath)
 }
 
 class FollowingCell: UICollectionViewCell {
-
     static let reuseIdentifier = "followingCell"
     
-    var delegate: FollowingCellDelegate?
+    weak var delegate: FollowingCellDelegate?
     var myIndexPath: IndexPath!
     
     static let width: CGFloat = 138

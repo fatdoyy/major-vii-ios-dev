@@ -11,12 +11,12 @@ import BouncyLayout
 import Kingfisher
 import SwiftMessages
 
-protocol BookmarkedEventsViewControllerDelegate {
+protocol BookmarkedEventsViewControllerDelegate: class {
     func cellTapped(lat: Double, long: Double, iconUrl: String, name: String, id: String)
 }
 
 class BookmarkedEventsViewController: UIViewController {
-    var delegate: BookmarkedEventsViewControllerDelegate?
+    weak var delegate: BookmarkedEventsViewControllerDelegate?
     
     var eventsCollectionView: UICollectionView!
     var locationEmptyMsgView = MessageView.viewFromNib(layout: .cardView)

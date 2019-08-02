@@ -9,14 +9,13 @@
 import UIKit
 
 
-protocol NewsSectionHeaderDelegate {
+protocol NewsSectionHeaderDelegate: class {
     func newsBtnTapped(sender: UIButton)
     func postsBtnTapped(sender: UIButton)
 }
 
 class NewsSectionHeader: UICollectionReusableView {
-
-    var delegate: NewsSectionHeaderDelegate?
+    weak var delegate: NewsSectionHeaderDelegate?
     
     static let reuseIdentifier: String = "newsHeader"
     

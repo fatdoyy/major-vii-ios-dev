@@ -9,12 +9,12 @@
 import UIKit
 import SkeletonView
 
-protocol HomePostCellDelegate {
+protocol HomePostCellDelegate: class {
     func contentLabelTapped(indexPath: IndexPath)
 }
 
 class HomePostCell: UICollectionViewCell {
-    var delegate: HomePostCellDelegate?
+    weak var delegate: HomePostCellDelegate?
     var indexPath: IndexPath!
     
     static let width: CGFloat = UIScreen.main.bounds.width - 40
