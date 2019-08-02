@@ -11,7 +11,13 @@ import Kingfisher
 import Localize_Swift
 import NVActivityIndicatorView
 
+protocol HomeViewControllerDelegate: class {
+    func refreshUpcomingEvents()
+}
+
 class HomeViewController: UIViewController {
+    weak var delegate: HomeViewControllerDelegate?
+    
     weak var previousController: UIViewController? //for tabbar scroll to top
 
     // Remove when comments and image section API in Post are done
@@ -124,9 +130,10 @@ class HomeViewController: UIViewController {
         refreshView.startAnimation()
         print("refreshing")
         
-        //get events again... TODO
+        //First refresh upcoming events section
+        delegate?.refreshUpcomingEvents()
         
-        //refresh based on selected section
+        //Then refresh based on selected section
         switch selectedSection {
         case .News:
             newsList.removeAll()
@@ -222,7 +229,8 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
         if indexPath.section == 0 { //events section
             let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: EventsSection.reuseIdentifier, for: indexPath) as! EventsSection
             cell.delegate = self
-            cell.eventsCollectionView.reloadData()
+            cell.homeVCInstance = self //passed the correct instance for delegate
+            
             return cell
         } else { // news|posts section
             switch selectedSection {

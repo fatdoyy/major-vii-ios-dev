@@ -10,16 +10,25 @@ import UIKit
 import BouncyLayout
 import Kingfisher
 
-protocol EventsSectionDelegate {
+protocol EventsSectionDelegate: class {
     func viewAllBtnTapped()
     func cellTapped(eventID: String)
 }
 
 class EventsSection: UICollectionViewCell {
     
-    var delegate: EventsSectionDelegate?
+    weak var delegate: EventsSectionDelegate?
     
     static let reuseIdentifier: String = "eventsSection"
+    
+    //set delegate with HomeVC instance. (For refreshing)
+    var homeVCInstance: HomeViewController? {
+        didSet {
+            if let instance = homeVCInstance {
+                instance.delegate = self
+            }
+        }
+    }
     
     private typealias `Self` = EventsSection
     
@@ -30,18 +39,7 @@ class EventsSection: UICollectionViewCell {
     @IBOutlet weak var viewAllBtn: UIButton!
     
     var randomImgUrl: [URL] = []
-    var upcomingEvents: [Event] = [] {
-        didSet {
-            for event in upcomingEvents {
-                if let url = event.images.randomElement()?.secureUrl {
-                    randomImgUrl.append(URL(string: url)!)
-                }
-            }
-            
-            eventsCollectionView.isUserInteractionEnabled = true
-            eventsCollectionView.reloadData()
-        }
-    }
+    var upcomingEvents: [Event] = []
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -62,7 +60,6 @@ class EventsSection: UICollectionViewCell {
             layout.sectionInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
         }
         
-        eventsCollectionView.isUserInteractionEnabled = false
         eventsCollectionView.dataSource = self
         eventsCollectionView.delegate = self
         
@@ -79,17 +76,41 @@ class EventsSection: UICollectionViewCell {
         delegate?.viewAllBtnTapped()
     }
     
+}
+
+//MARK: API Calls | Home VC Delegate
+extension EventsSection: HomeViewControllerDelegate {
     //get upcoming events list
-    private func getUpcomingEvents() {
+    func getUpcomingEvents() {
+        eventsCollectionView.isUserInteractionEnabled = false
         EventService.getUpcomingEvents().done { response -> () in
             self.upcomingEvents = response.list.reversed()
+            
+            for event in self.upcomingEvents {
+                if let url = event.images.randomElement()?.secureUrl {
+                    self.randomImgUrl.append(URL(string: url)!)
+                }
+            }
+            
+            self.eventsCollectionView.isUserInteractionEnabled = true
+            self.eventsCollectionView.reloadData()
             }.ensure {
                 UIApplication.shared.isNetworkActivityIndicatorVisible = false
             }.catch { error in }
     }
+    
+    func refreshUpcomingEvents() {
+        //first clear data model
+        randomImgUrl.removeAll()
+        upcomingEvents.removeAll()
+        eventsCollectionView.setContentOffset(CGPoint.zero, animated: false)
+        eventsCollectionView.reloadData()
+        
+        getUpcomingEvents()
+    }
 }
 
-// MARK: UICollectionView Data Source
+//MARK: UICollectionView Data Source
 extension EventsSection: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         let count = upcomingEvents.isEmpty ? 2 : upcomingEvents.count
@@ -106,9 +127,11 @@ extension EventsSection: UICollectionViewDataSource, UICollectionViewDelegate, U
             }
             
             cell.backgroundColor = .white
-//            cell.bgView.layer.insertSublayer(GradientLayer.create(frame: cell.bgView!.bounds, colors: [.lightPurple(), .darkPurple()], startPoint: CGPoint(x: 0, y: 0.5), endPoint: CGPoint(x: 1, y: 0.5), cornerRadius: true), at: 0)
             
-            cell.bgView.layer.insertSublayer(GradientLayer.create(frame: cell.bgView!.bounds, colors: [.random, .random], startPoint: CGPoint(x: 0, y: 0.5), endPoint: CGPoint(x: 1, y: 0.5), cornerRadius: true), at: 0)
+            //cell.bgView.layer.insertSublayer(GradientLayer.create(frame: cell.bgView!.bounds, colors: [.lightPurple(), .darkPurple()], startPoint: CGPoint(x: 0, y: 0.5), endPoint: CGPoint(x: 1, y: 0.5), cornerRadius: true), at: 0)
+            let colorGradientLayer = GradientLayer.create(frame: cell.bgView!.bounds, colors: [.random, .random], startPoint: CGPoint(x: 0, y: 0.5), endPoint: CGPoint(x: 1, y: 0.5), cornerRadius: true)
+            colorGradientLayer.name = "colorGradientLayer"
+            cell.bgView.layer.insertSublayer(colorGradientLayer, at: 0)
 
             cell.bgView.alpha = 0.7
             cell.imgOverlay.isHidden = false

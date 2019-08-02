@@ -10,8 +10,8 @@ import UIKit
 import SkeletonView
 
 class EventsCell: UICollectionViewCell {
-
-    static let reuseIdentifier: String = "eventCell"
+    
+    static let reuseIdentifier: String = "upcomingEventCell"
     
     static let width: CGFloat = 198
     static let height: CGFloat = 96
@@ -30,8 +30,39 @@ class EventsCell: UICollectionViewCell {
         backgroundColor = .darkGray
         layer.cornerRadius = GlobalCornerRadius.value
         
-        setupViews()
+        setupUI()
+        setupSkeletonViews()
+    }
+    
+    override func prepareForReuse() {
+        backgroundColor = .darkGray
         
+        if let sublayers = bgView.layer.sublayers {
+            for sublayer in sublayers {
+                if sublayer.name == "colorGradientLayer" {
+                    sublayer.removeFromSuperlayer()
+                }
+            }
+        }
+        bgView.alpha = 1
+        bgImgView.image = nil
+        imgOverlay.isHidden = true
+        
+        setupSkeletonViews()
+    }
+}
+
+//MARK: UI related
+extension EventsCell {
+    private func setupUI() {
+        imgOverlay.isHidden = true
+        dateLabel.textColor = .whiteText()
+        eventLabel.textColor = .whiteText()
+        performerLabel.textColor = .whiteText()
+        imgOverlay.layer.insertSublayer(GradientLayer.create(frame: imgOverlay!.bounds, colors: [.white, UIColor.white.withAlphaComponent(0)], startPoint: CGPoint(x: 0, y: 0.5), endPoint: CGPoint(x: 1, y: 0.5)), at: 0)
+    }
+    
+    private func setupSkeletonViews() {
         let animation = SkeletonAnimationBuilder().makeSlidingAnimation(withDirection: .leftRight, duration: 2)
         dateLabel.tag = 1
         for view in skeletonViews {
@@ -43,14 +74,5 @@ class EventsCell: UICollectionViewCell {
             view.isSkeletonable = true
             view.showAnimatedGradientSkeleton(animation: animation)
         }
-    }
-
-    private func setupViews() {
-        imgOverlay.isHidden = true
-        dateLabel.textColor = .whiteText()
-        eventLabel.textColor = .whiteText()
-        performerLabel.textColor = .whiteText()
-        //bgImgView.image = UIImage(named: "cat")
-        imgOverlay.layer.insertSublayer(GradientLayer.create(frame: imgOverlay!.bounds, colors: [.white, UIColor.white.withAlphaComponent(0)], startPoint: CGPoint(x: 0, y: 0.5), endPoint: CGPoint(x: 1, y: 0.5)), at: 0)
     }
 }

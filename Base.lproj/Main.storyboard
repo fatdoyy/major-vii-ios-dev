@@ -233,7 +233,7 @@
         <!--Tab Bar View Controller-->
         <scene sceneID="DMq-wy-dzv">
             <objects>
-                <tabBarController storyboardIdentifier="homeVC" id="nPd-NX-Cc6" customClass="TabBarViewController" customModule="major_7_ios" customModuleProvider="target" sceneMemberID="viewController">
+                <tabBarController id="nPd-NX-Cc6" customClass="TabBarViewController" customModule="major_7_ios" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="dlg-U7-va2">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -254,7 +254,7 @@
         <!--Home View Controller-->
         <scene sceneID="Kim-5d-BVd">
             <objects>
-                <viewController id="sXn-Jw-JsF" customClass="HomeViewController" customModule="major_7_ios" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="homeVC" id="sXn-Jw-JsF" customClass="HomeViewController" customModule="major_7_ios" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="ENP-Qc-3Y5">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

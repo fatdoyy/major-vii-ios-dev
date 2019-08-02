@@ -37,11 +37,53 @@ class NewsCellType4: UICollectionViewCell {
         }
     }
     
+    override var isHighlighted: Bool { didSet { Animations.cellBounce(isHighlighted, view: self) } }
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         backgroundColor = .darkGray
         layer.cornerRadius = GlobalCornerRadius.value
         
+        setupUI()
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        setupSkeletonView()
+        
+        newsTitle.snp.removeConstraints()
+        newsTitleTopConstraint.isActive = true
+
+        hashtagsArray.removeAll()
+        gradientBg.isHidden = true
+    }
+}
+
+//MARK: UI related
+extension NewsCellType4 {
+    private func setupUI() {
+        //limiting the number of lines on iPhone SE because the screen is too small and will cause layout problems
+        newsTitle.numberOfLines = UIDevice.current.type == .iPhone_5_5S_5C_SE ? 1 : 2
+        
+        setupCollectionView()
+        setupPastelView()
+        setupSkeletonView()
+        
+        newsTitle.lineBreakMode = .byTruncatingTail
+        newsTitle.lastLineFillPercent = 70
+        newsTitle.textColor = .whiteText()
+        
+        subTitle.textColor = .whiteText()
+        
+        timeLabel.textColor = .lightGrayText()
+        
+        countLabel.textColor = .whiteText()
+        
+        viewsLabel.textColor = .whiteText()
+        viewsLabel.isHidden = true
+    }
+    
+    private func setupCollectionView() {
         hashtagsCollectionView.showsHorizontalScrollIndicator = false
         hashtagsCollectionView.delegate = self
         hashtagsCollectionView.dataSource = self
@@ -53,7 +95,9 @@ class NewsCellType4: UICollectionViewCell {
         hashtagsCollectionView.contentInsetAdjustmentBehavior = .always
         hashtagsCollectionView.backgroundColor = .clear
         hashtagsCollectionView.register(UINib.init(nibName: "HashtagCell", bundle: nil), forCellWithReuseIdentifier: HashtagCell.reuseIdentifier)
-        
+    }
+    
+    private func setupPastelView() {
         // Custom Direction
         gradientBg.startPastelPoint = .bottomLeft
         gradientBg.endPastelPoint = .topRight
@@ -77,10 +121,9 @@ class NewsCellType4: UICollectionViewCell {
             make.height.equalTo(NewsCellType3.height)
         }
         //gradientBg.isHidden = true
-        
-        //limiting the number of lines on iPhone SE because the screen is too small and will cause layout problems
-        newsTitle.numberOfLines = UIDevice.current.type == .iPhone_5_5S_5C_SE ? 1 : 2
-
+    }
+    
+    private func setupSkeletonView() {
         newsTitle.tag = 1
         dummyTagLabel.tag = 2
         for view in skeletonViews{
@@ -96,54 +139,10 @@ class NewsCellType4: UICollectionViewCell {
         for view in viewsToShowlater {
             view.isHidden = true
         }
-        
-        newsTitle.lineBreakMode = .byTruncatingTail
-        newsTitle.lastLineFillPercent = 70
-        newsTitle.textColor = .whiteText()
-        
-        subTitle.textColor = .whiteText()
-        
-        timeLabel.textColor = .lightGrayText()
-        
-        countLabel.textColor = .whiteText()
-        
-        viewsLabel.textColor = .whiteText()
-        viewsLabel.isHidden = true
-        
     }
-    
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        for view in skeletonViews{
-            if view.tag == 1 {
-                SkeletonAppearance.default.multilineHeight = 20
-            } else {
-                SkeletonAppearance.default.multilineHeight = 15
-            }
-            if view.tag == 2 { //show dummyTagLabel
-                view.isHidden = false
-            }
-            view.isSkeletonable = true
-            view.showAnimatedGradientSkeleton(animation: animation)
-        }
-        
-        for view in viewsToShowlater {
-            view.isHidden = true
-        }
-        
-        newsTitle.snp.removeConstraints()
-        newsTitleTopConstraint.isActive = true
-
-        hashtagsArray.removeAll()
-        gradientBg.isHidden = true
-    }
-    
-    override var isHighlighted: Bool {
-        didSet { Animations.cellBounce(isHighlighted, view: self) }
-    }
-    
 }
 
+//MARK: UICollectionView delegate
 extension NewsCellType4: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         let count = hashtagsArray.isEmpty ? 0 : hashtagsArray.count
