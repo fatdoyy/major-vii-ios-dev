@@ -26,6 +26,9 @@ class HomeViewController: UIViewController {
     var comments = ["呢個畫面真係好魔幻", "親眼見到居民對遊行支持 感謝", "Great show!"]
     var haveImages = [true, true, false]
     
+    //Custom refresh control
+    var refreshView: RefreshView!
+    var refreshIndicator: NVActivityIndicatorView?
     var customRefreshControl: UIRefreshControl = {
         let refreshControl = UIRefreshControl()
         refreshControl.backgroundColor = .clear
@@ -33,9 +36,7 @@ class HomeViewController: UIViewController {
         refreshControl.addTarget(self, action: #selector(refreshCollectionView), for: .valueChanged)
         return refreshControl
     }()
-    
-    var refreshView: RefreshView!
-    var refreshIndicator: NVActivityIndicatorView?
+
     var coverImagesUrl: [String] = []
     
     var selectedSection = HomeSelectedSection.News //default section is "News"
@@ -112,8 +113,11 @@ class HomeViewController: UIViewController {
             navigationController?.setNavigationBarHidden(false, animated: true)
         }
     }
-    
-    func getRefereshView() {
+}
+
+//MARK: Custom refresh control
+extension HomeViewController {
+    func setupRefreshView() {
         if let objOfRefreshView = Bundle.main.loadNibNamed("RefreshView", owner: self, options: nil)?.first as? RefreshView {
             // Initializing the 'refreshView'
             refreshView = objOfRefreshView
@@ -140,13 +144,13 @@ class HomeViewController: UIViewController {
             mainCollectionView.reloadData()
             gotMoreNews = true
             getNews(limit: newsLimit)
-
+            
         case .Posts:
             postsList.removeAll()
             mainCollectionView.reloadData()
             gotMorePosts = true
             getPosts(limit: postsLimit)
-
+            
         }
     }
 }
@@ -170,7 +174,7 @@ extension HomeViewController {
                     self.customRefreshControl.endRefreshing()
                     //HapticFeedback.createNotificationFeedback(style: .success)
                 } else {
-                    self.getRefereshView() //setup pull to refresh view
+                    self.setupRefreshView() //setup pull to refresh view
                 }
                 
             }.catch { error in }

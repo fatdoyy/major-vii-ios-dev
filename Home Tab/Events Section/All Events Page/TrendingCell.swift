@@ -65,12 +65,24 @@ class TrendingCell: UICollectionViewCell {
         }
         checkShouldDisplayIndicator()
         
+        setupSkeletonView()
+        
+        bookmarkCountLabel.textColor = .whiteText()
+        eventTitle.textColor = .whiteText()
+        performerTitle.textColor = .whiteText()
+        dateLabel.textColor = .whiteText()
+    }
+    
+    func setupSkeletonView() {
         //skeleton view
         let animation = SkeletonAnimationBuilder().makeSlidingAnimation(withDirection: .leftRight, duration: 2)
-
-        SkeletonAppearance.default.multilineHeight = 15
-        
+        eventTitle.tag = 1
         for view in skeletonViews{
+            if view.tag == 1 {
+                SkeletonAppearance.default.multilineHeight = 16
+            } else {
+                SkeletonAppearance.default.multilineHeight = 11
+            }
             view.isSkeletonable = true
             view.showAnimatedGradientSkeleton(animation: animation)
         }
@@ -79,11 +91,6 @@ class TrendingCell: UICollectionViewCell {
         for view in viewsToShowLater {
             view.alpha = 0
         }
-
-        bookmarkCountLabel.textColor = .whiteText()
-        eventTitle.textColor = .whiteText()
-        performerTitle.textColor = .whiteText()
-        dateLabel.textColor = .whiteText()
     }
     
     func checkShouldDisplayIndicator() {
@@ -96,6 +103,9 @@ class TrendingCell: UICollectionViewCell {
     }
     
     override func prepareForReuse() {
+        bookmarkBtn.backgroundColor = .clear
+        bgImgView.image = nil
+        setupSkeletonView()
         checkShouldDisplayIndicator()
         //bookmarkBtn.setImage(UIImage(named: "bookmark"), for: .normal)
     }

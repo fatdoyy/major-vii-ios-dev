@@ -9,12 +9,23 @@
 import UIKit
 import Localize_Swift
 import AMScrollingNavbar
+import NVActivityIndicatorView
 
 class EventsListViewController: ScrollingNavigationViewController {
-    
     static let storyboardId = "eventsVC"
     
     var isFromLoginView: Bool?
+    
+    //Custom refresh control
+    var refreshView: RefreshView!
+    var refreshIndicator: NVActivityIndicatorView?
+    var customRefreshControl: UIRefreshControl = {
+        let refreshControl = UIRefreshControl()
+        refreshControl.backgroundColor = .clear
+        refreshControl.tintColor = .clear
+        refreshControl.addTarget(self, action: #selector(refreshCollectionView), for: .valueChanged)
+        return refreshControl
+    }()
     
     @IBOutlet weak var mainCollectionView: UICollectionView!
     
@@ -31,6 +42,7 @@ class EventsListViewController: ScrollingNavigationViewController {
         mainCollectionView.backgroundColor = .m7DarkGray()
         mainCollectionView.showsVerticalScrollIndicator = false
         mainCollectionView.showsHorizontalScrollIndicator = false
+        mainCollectionView.refreshControl = customRefreshControl
         
         mainCollectionView.delegate = self
         mainCollectionView.dataSource = self
@@ -45,6 +57,8 @@ class EventsListViewController: ScrollingNavigationViewController {
         mainCollectionView.register(UINib.init(nibName: "FeaturedSectionHeader", bundle: nil), forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: FeaturedSectionHeader.reuseIdentifier)
         
         mainCollectionView.register(UINib.init(nibName: "FeaturedCell", bundle: nil), forCellWithReuseIdentifier: FeaturedCell.reuseIdentifier)
+        
+        setupRefreshView()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -86,7 +100,6 @@ class EventsListViewController: ScrollingNavigationViewController {
         if let navigationController = self.navigationController as? ScrollingNavigationController {
             navigationController.followScrollView(mainCollectionView, delay: 20.0)
         }
-
         tabBarController?.tabBar.isHidden = true
     }
     
@@ -105,7 +118,6 @@ class EventsListViewController: ScrollingNavigationViewController {
 
             tabBarController?.tabBar.isHidden = false
         }
-
         TabBar.show(from: self)
     }
     
@@ -121,11 +133,9 @@ class EventsListViewController: ScrollingNavigationViewController {
                 }
             }
         }
-        
     }
     
     @objc private func refreshEventListVC() {
-        print("CALLED")
         isFromLoginView = true
     }
     
@@ -158,7 +168,7 @@ class EventsListViewController: ScrollingNavigationViewController {
     private func setupRightBarItems() {
         let menuBtn = UIButton(type: .custom)
         menuBtn.frame = CGRect(x: 0.0, y: 0.0, width: 32, height: 32)
-        menuBtn.setImage(UIImage(named:"search"), for: .normal)
+        menuBtn.setImage(UIImage(named: "search"), for: .normal)
         menuBtn.addTarget(self, action: #selector(searchTapped), for: .touchUpInside)
         
         let menuBarItem = UIBarButtonItem(customView: menuBtn)
@@ -191,6 +201,42 @@ class EventsListViewController: ScrollingNavigationViewController {
     }
 }
 
+//MARK: Custom refresh control
+extension EventsListViewController {
+    func setupRefreshView() {
+        if let objOfRefreshView = Bundle.main.loadNibNamed("RefreshView", owner: self, options: nil)?.first as? RefreshView {
+            NotificationCenter.default.setObserver(self, selector: #selector(endRefreshing), name: .eventListEndRefreshing, object: nil)
+
+            // Initializing the 'refreshView'
+            refreshView = objOfRefreshView
+            // Giving the frame as per 'tableViewRefreshControl'
+            refreshView.frame = customRefreshControl.frame
+            // Adding the 'refreshView' to 'tableViewRefreshControl'
+            refreshView.setupUI()
+            customRefreshControl.addSubview(refreshView)
+        }
+    }
+    
+    @objc func refreshCollectionView() {
+        mainCollectionView.isUserInteractionEnabled = false
+        refreshView.startAnimation()
+        print("refreshing")
+        
+        //First refresh upcoming events section
+        NotificationCenter.default.post(name: .refreshTrendingSection, object: nil)
+        NotificationCenter.default.post(name: .refreshFollowingSection, object: nil)
+        NotificationCenter.default.post(name: .refreshBookmarkedSection, object: nil)
+        
+        //refresh featured ...TODO
+    }
+    
+    @objc func endRefreshing() {
+        mainCollectionView.isUserInteractionEnabled = true
+        customRefreshControl.endRefreshing()
+    }
+}
+
+//MARK: UICollectionView delegate
 extension EventsListViewController: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if let section = EventsListSection(rawValue: section) {
@@ -225,6 +271,7 @@ extension EventsListViewController: UICollectionViewDelegate, UICollectionViewDe
             case .Bookmark:
                 let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: BookmarkedSection.reuseIdentifier, for: indexPath) as! BookmarkedSection
                 cell.delegate = self
+
                 let count = cell.bookmarkedEvents.count
                 let isCountEqualsToOne = count == 1
                 

@@ -60,12 +60,12 @@
                         <rect key="frame" x="0.0" y="70" width="138" height="74"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OAc-Po-34R">
-                                <rect key="frame" x="12" y="52" width="26" height="12"/>
+                                <rect key="frame" x="12" y="52" width="118" height="12"/>
                                 <fontDescription key="fontDescription" type="system" weight="light" pointSize="10"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ByJ-Or-Tlp">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Event title" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ByJ-Or-Tlp">
                                 <rect key="frame" x="12" y="30" width="118" height="17"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="14"/>
                                 <nil key="textColor"/>
@@ -78,6 +78,7 @@
                             <constraint firstAttribute="bottom" secondItem="OAc-Po-34R" secondAttribute="bottom" constant="10" id="9hs-M3-Qsq"/>
                             <constraint firstItem="OAc-Po-34R" firstAttribute="top" secondItem="ByJ-Or-Tlp" secondAttribute="bottom" constant="5" id="DN7-jF-Ujp"/>
                             <constraint firstItem="ByJ-Or-Tlp" firstAttribute="leading" secondItem="1KW-x2-uUH" secondAttribute="leading" constant="12" id="Nbz-OQ-gJt"/>
+                            <constraint firstAttribute="trailing" secondItem="OAc-Po-34R" secondAttribute="trailing" constant="8" id="eKz-Ce-qkL"/>
                             <constraint firstItem="OAc-Po-34R" firstAttribute="leading" secondItem="1KW-x2-uUH" secondAttribute="leading" constant="12" id="o2Q-ex-Znu"/>
                         </constraints>
                     </view>

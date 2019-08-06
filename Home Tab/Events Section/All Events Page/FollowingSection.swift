@@ -20,6 +20,7 @@ class FollowingSection: UICollectionViewCell {
     static let reuseIdentifier = "followingSection"
     
     weak var delegate: FollowingSectionDelegate?
+
     var loadingIndicator: NVActivityIndicatorView!
     
     static let height: CGFloat = 244
@@ -28,53 +29,55 @@ class FollowingSection: UICollectionViewCell {
     @IBOutlet weak var followingSectionCollectionView: UICollectionView!
     @IBOutlet var layoutConstraints: Array<NSLayoutConstraint>! //disable constraints to hide this section if user is not logged in
     
-    var followingEvents: [Event] = [] {
+    var userFollowings: [OrganizerProfileObject] = [] {
         didSet {
-            //Control empty following view
-            if followingSectionCollectionView.alpha == 0 && followingEvents.count != 0 {
-                UIView.animate(withDuration: 0.2) {
-                    self.followingSectionCollectionView.alpha = 1
-                    self.emptyFollowingShadowView.alpha = 0
-                }
-            } else if followingSectionCollectionView.alpha == 0 && (oldValue.count == 0 || followingEvents.count == 0) { //show empty view
-                emptyFollowingGradientBg.startAnimation()
-                UIView.animate(withDuration: 0.2) {
-                    self.emptyFollowingShadowView.alpha = 1
-                }
-            } else if followingSectionCollectionView.alpha != 0 && followingEvents.count == 0 {
-                UIView.animate(withDuration: 0.2) {
-                    self.followingSectionCollectionView.alpha = 0
-                }
+            if userFollowings.isEmpty {
+                setupEmptyFollowingView()
                 
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                    self.emptyFollowingGradientBg.startAnimation()
-                    UIView.animate(withDuration: 0.2) {
-                        self.emptyFollowingShadowView.alpha = 1
-                    }
-                }
+                followingSectionCollectionView.alpha = 0
+                emptyFollowingShadowView.alpha = 1
             }
-
         }
     }
+    
+    var userFollowingsEvents: [Event] = [] {
+        didSet {
+            if userFollowingsEvents.isEmpty {
+                setupEmptyFollowingEventsView()
+                
+                followingSectionCollectionView.alpha = 0
+                emptyFollowingEventsShadowView.alpha = 1
+            }
+        }
+    }
+    
     var eventsLimit = 6 //event limit per request
     var gotMoreEvents = true //lazy loading
     
     var bookmarkedEventIDArray: [String] = [] //IMPORTANT: Adding an array to local to control bookmarkBtn's state because of cell reuse issues
     
-    //empty following view
+    //empty followings view (i.e. didn't follow any buskers)
     var emptyFollowingBgView = UIView()
     var emptyFollowingGradientBg = PastelView()
     var emptyFollowingShadowView = UIView()
     
+    //empty following events view (i.e. followed busker don't have any events)
+    var emptyFollowingEventsBgView = UIView()
+    var emptyFollowingEventsGradientBg = PastelView()
+    var emptyFollowingEventsShadowView = UIView()
+    
     override func awakeFromNib() {
         super.awakeFromNib()
+        NotificationCenter.default.setObserver(self, selector: #selector(refreshFollowingSection), name: .refreshFollowingSection, object: nil)
         NotificationCenter.default.setObserver(self, selector: #selector(refreshFollowingSectionCell(_:)), name: .refreshFollowingSectionCell, object: nil)
         NotificationCenter.default.setObserver(self, selector: #selector(removeAllObservers), name: .removeFollowingSectionObservers, object: nil)
         
         setupUI()
         
-        //TODO: login check
-        getFollowingEvents(limit: eventsLimit)
+        if UserService.User.isLoggedIn() {
+            getCurrentUserFollowings()
+            getCurrentUserFollowingsEvents(limit: eventsLimit)
+        }
     }
     
     //remove observers
@@ -170,7 +173,7 @@ extension FollowingSection {
     private func setupEmptyFollowingView() {
         //empty view's drop shadow
         emptyFollowingShadowView.alpha = 0
-        emptyFollowingShadowView.frame = CGRect(x: 20, y: 58, width: UIScreen.main.bounds.width - 40, height: followingSectionCollectionView.frame.height - 12)
+        emptyFollowingShadowView.frame = CGRect(x: 20, y: 59, width: UIScreen.main.bounds.width - 40, height: followingSectionCollectionView.frame.height - 12)
         emptyFollowingShadowView.clipsToBounds = false
         emptyFollowingShadowView.layer.shadowOpacity = 0.5
         emptyFollowingShadowView.layer.shadowOffset = CGSize(width: -1, height: -1)
@@ -244,19 +247,98 @@ extension FollowingSection {
         addSubview(emptyFollowingShadowView)
         
     }
+    
+    private func setupEmptyFollowingEventsView() {
+        //empty view's drop shadow
+        emptyFollowingEventsShadowView.alpha = 0
+        emptyFollowingEventsShadowView.frame = CGRect(x: 20, y: 59, width: UIScreen.main.bounds.width - 40, height: followingSectionCollectionView.frame.height - 12)
+        emptyFollowingEventsShadowView.clipsToBounds = false
+        emptyFollowingEventsShadowView.layer.shadowOpacity = 0.5
+        emptyFollowingEventsShadowView.layer.shadowOffset = CGSize(width: -1, height: -1)
+        emptyFollowingEventsShadowView.layer.shadowRadius = GlobalCornerRadius.value
+        emptyFollowingEventsShadowView.layer.shadowPath = UIBezierPath(roundedRect: emptyFollowingEventsShadowView.bounds, cornerRadius: GlobalCornerRadius.value).cgPath
+        
+        //empty view
+        //bgView.alpha = 0
+        emptyFollowingEventsBgView.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width - 40, height: followingSectionCollectionView.frame.height - 12)
+        emptyFollowingEventsBgView.layer.cornerRadius = GlobalCornerRadius.value
+        emptyFollowingEventsBgView.clipsToBounds = true
+        emptyFollowingEventsBgView.backgroundColor = .darkGray
+        
+        //gradient bg
+        emptyFollowingEventsGradientBg.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width - 40, height: followingSectionCollectionView.frame.height - 12)
+        emptyFollowingEventsGradientBg.animationDuration = 2.5
+        emptyFollowingEventsGradientBg.setColors([UIColor(hexString: "#753a88"), UIColor(hexString: "#cc2b5e")])
+        emptyFollowingEventsShadowView.layer.shadowColor = UIColor(hexString: "#cc2b5e").cgColor
+        
+        emptyFollowingEventsGradientBg.startAnimation()
+        
+        emptyFollowingEventsBgView.insertSubview(emptyFollowingEventsGradientBg, at: 0)
+        emptyFollowingEventsShadowView.addSubview(emptyFollowingEventsBgView)
+        
+        let emptyFollowingEventsImgView = UIImageView()
+        emptyFollowingEventsImgView.image = UIImage(named: "icon_music_production")
+        emptyFollowingEventsBgView.addSubview(emptyFollowingEventsImgView)
+        emptyFollowingEventsImgView.snp.makeConstraints { (make) in
+            make.top.equalTo(16)
+            make.left.equalTo(25)
+        }
+        
+        let emptyFollowingEventsDesc = UILabel()
+        emptyFollowingEventsDesc.font = UIFont.systemFont(ofSize: 12, weight: .regular)
+        emptyFollowingEventsDesc.text = "Maybe they're planning something big?"
+        emptyFollowingEventsDesc.textColor = .white
+        emptyFollowingEventsDesc.numberOfLines = 2
+        emptyFollowingEventsBgView.addSubview(emptyFollowingEventsDesc)
+        emptyFollowingEventsDesc.snp.makeConstraints { (make) in
+            make.bottom.equalToSuperview().offset(-16)
+            make.left.equalTo(25)
+            make.width.equalTo(230)
+        }
+        
+        let emptyFollowingEventsTitle = UILabel()
+        emptyFollowingEventsTitle.font = UIFont.systemFont(ofSize: 20, weight: .semibold)
+        emptyFollowingEventsTitle.text = "BUSKER_NAME currently don't have any events!"
+        emptyFollowingEventsTitle.textColor = .white
+        emptyFollowingEventsTitle.numberOfLines = 2
+        emptyFollowingEventsBgView.addSubview(emptyFollowingEventsTitle)
+        emptyFollowingEventsTitle.snp.makeConstraints { (make) in
+            make.bottom.equalTo(emptyFollowingEventsDesc.snp.top).offset(-6)
+            make.left.equalTo(25)
+            make.width.equalTo(UIScreen.main.bounds.width - 90)
+        }
+        
+        //        let learnMoreBtn = UIButton()
+        //        learnMoreBtn.titleLabel?.font = UIFont.systemFont(ofSize: 12, weight: .bold)
+        //        learnMoreBtn.layer.cornerRadius = GlobalCornerRadius.value / 2
+        //        learnMoreBtn.setTitle("Learn More", for: .normal)
+        //        learnMoreBtn.setTitleColor(.darkPurple(), for: .normal)
+        //        learnMoreBtn.backgroundColor = .white
+        //        emptyBookmarkBgView.addSubview(learnMoreBtn)
+        //        learnMoreBtn.snp.makeConstraints { (make) in
+        //            make.bottomMargin.equalTo(emptyBookmarkBgView.snp.bottom).offset(-25)
+        //            make.rightMargin.equalTo(emptyBookmarkBgView.snp.right).offset(-25)
+        //            make.width.equalTo(120)
+        //            make.height.equalTo(28)
+        //        }
+        //
+        //        learnMoreBtn.addTarget(self, action: #selector(showLoginVC), for: .touchUpInside)
+        addSubview(emptyFollowingEventsShadowView)
+        
+    }
 }
 
 //MARK: UICollectionView delegate
 extension FollowingSection: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        let count = UserService.User.isLoggedIn() && !followingEvents.isEmpty ? followingEvents.count : 3
+        let count = UserService.User.isLoggedIn() && !userFollowingsEvents.isEmpty ? userFollowingsEvents.count : 3
         return count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = followingSectionCollectionView.dequeueReusableCell(withReuseIdentifier: FollowingCell.reuseIdentifier, for: indexPath) as! FollowingCell
-        if !followingEvents.isEmpty {
-            let event = followingEvents[indexPath.row]
+        if !userFollowingsEvents.isEmpty {
+            let event = userFollowingsEvents[indexPath.row]
             
             cell.delegate = self
             cell.myIndexPath = indexPath
@@ -278,7 +360,7 @@ extension FollowingSection: UICollectionViewDataSource, UICollectionViewDelegate
                 }
             }
             
-            if let id = followingEvents[indexPath.row].id {
+            if let id = userFollowingsEvents[indexPath.row].id {
                 cell.eventID = id
             }
             
@@ -289,13 +371,13 @@ extension FollowingSection: UICollectionViewDataSource, UICollectionViewDelegate
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        if (indexPath.row == followingEvents.count - 1) {
+        if (indexPath.row == userFollowingsEvents.count - 1) {
             print("Fetching following events...")
             if gotMoreEvents {
                 UIView.animate(withDuration: 0.2) {
                     self.loadingIndicator.alpha = 1
                 }
-                getFollowingEvents(skip: followingEvents.count, limit: eventsLimit)
+                getCurrentUserFollowingsEvents(skip: userFollowingsEvents.count, limit: eventsLimit)
             } else {
                 print("No more events to fetch!")
             }
@@ -308,18 +390,25 @@ extension FollowingSection: UICollectionViewDataSource, UICollectionViewDelegate
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        delegate?.followingCellTapped(eventID: followingEvents[indexPath.row].id ?? "")
+        delegate?.followingCellTapped(eventID: userFollowingsEvents[indexPath.row].id ?? "")
     }
     
 }
 
 //MARK: API Calls | Bookmark action | Bookmark btn state | Following cell delegate
 extension FollowingSection: FollowingCellDelegate {
-    func getFollowingEvents(skip: Int? = nil, limit: Int? = nil) {
+    func getCurrentUserFollowings(skip: Int? = nil, limit: Int? = nil, targetProfile: OrganizerProfile? = nil, targetType: Int? = nil) {
+        UserService.getUserFollowings(skip: skip, limit: limit, targetProfile: targetProfile, targetType: targetType).done { response in
+            self.userFollowings.append(contentsOf: response.list)
+        }.ensure {
+            UIApplication.shared.isNetworkActivityIndicatorVisible = false
+        }.catch { error in }
+    }
+    
+    func getCurrentUserFollowingsEvents(skip: Int? = nil, limit: Int? = nil) {
         followingSectionCollectionView.isUserInteractionEnabled = false
         EventService.getFollowingEvents(skip: skip, limit: limit).done { response in
-            if response.list.isEmpty { self.setupEmptyFollowingView() }
-            self.followingEvents.append(contentsOf: response.list)
+            self.userFollowingsEvents.append(contentsOf: response.list)
             self.gotMoreEvents = response.list.count < self.eventsLimit || response.list.count == 0 ? false : true
             self.followingSectionCollectionView.reloadData()
             }.ensure {
@@ -329,13 +418,35 @@ extension FollowingSection: FollowingCellDelegate {
                     }
                 }
                 self.followingSectionCollectionView.isUserInteractionEnabled = true
+                NotificationCenter.default.post(name: .eventListEndRefreshing, object: nil)
                 UIApplication.shared.isNetworkActivityIndicatorVisible = false
             }.catch { error in }
     }
     
+    //pull to refresh
+    @objc func refreshFollowingSection() {
+        //first clear data model
+        bookmarkedEventIDArray.removeAll()
+        userFollowings.removeAll()
+        userFollowingsEvents.removeAll()
+        
+        if followingSectionCollectionView.alpha != 1 {
+            UIView.animate(withDuration: 0.2) {
+                self.followingSectionCollectionView.alpha = 1
+                self.emptyFollowingShadowView.alpha = 0
+                self.emptyFollowingEventsShadowView.alpha = 0
+            }
+        }
+        followingSectionCollectionView.setContentOffset(CGPoint.zero, animated: false)
+        followingSectionCollectionView.reloadData()
+        
+        getCurrentUserFollowings()
+        getCurrentUserFollowingsEvents()
+    }
+    
     func checkBookmarkBtnState(cell: FollowingCell, indexPath: IndexPath) {
         if UserService.User.isLoggedIn() {
-            if let eventID = followingEvents[indexPath.row].id {
+            if let eventID = userFollowingsEvents[indexPath.row].id {
                 if !bookmarkedEventIDArray.contains(eventID) {
                     /* Check if local array is holding this bookmarked cell
                      NOTE: This check is to prevent cell reuse issues, all bookmarked events will be saved in server */
@@ -344,7 +455,7 @@ extension FollowingSection: FollowingCellDelegate {
                         if !response.list.isEmpty {
                             for event in response.list {
                                 //check if bookmarked list contains id
-                                let isBookmarked = event.targetEvent?.id == self.followingEvents[indexPath.row].id
+                                let isBookmarked = event.targetEvent?.id == self.userFollowingsEvents[indexPath.row].id
                                 if isBookmarked {
                                     self.bookmarkedEventIDArray.append(eventID) //add this cell to local array to avoid reuse
                                     
@@ -462,7 +573,7 @@ extension FollowingSection: FollowingCellDelegate {
     
     func bookmarkBtnTapped(cell: FollowingCell, tappedIndex: IndexPath) {
         if UserService.User.isLoggedIn() {
-            if let eventID = self.followingEvents[tappedIndex.row].id {
+            if let eventID = self.userFollowingsEvents[tappedIndex.row].id {
                 if (cell.bookmarkBtn.backgroundColor?.isEqual(UIColor.clear))! { //do bookmark action
                     HapticFeedback.createImpact(style: .light)
                     cell.bookmarkBtn.isUserInteractionEnabled = false

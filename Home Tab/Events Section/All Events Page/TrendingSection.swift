@@ -15,7 +15,6 @@ protocol TrendingSectionDelegate: class {
 }
 
 class TrendingSection: UICollectionViewCell {
-    
     static let reuseIdentifier = "trendingSection"
     
     weak var delegate: TrendingSectionDelegate?
@@ -26,7 +25,6 @@ class TrendingSection: UICollectionViewCell {
     
     @IBOutlet weak var trendingSectionLabel: UILabel!
     @IBOutlet weak var trendingCollectionView: UICollectionView!
-    
     
     var bookmarkedEventIDArray: [String] = [] //IMPORTANT: Adding an array to local to control bookmarkBtn's state because of cell reuse issues
     
@@ -39,6 +37,7 @@ class TrendingSection: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         NotificationCenter.default.setObserver(self, selector: #selector(showLoginVC), name: .showLoginVC, object: nil)
+        NotificationCenter.default.setObserver(self, selector: #selector(refreshTrendingSection), name: .refreshTrendingSection, object: nil)
         NotificationCenter.default.setObserver(self, selector: #selector(refreshTrendingSectionCell(_:)), name: .refreshTrendingSectionCell, object: nil)
         NotificationCenter.default.setObserver(self, selector: #selector(removeAllObservers), name: .removeTrendingSectionObservers, object: nil)
         
@@ -184,11 +183,26 @@ extension TrendingSection: UICollectionViewDataSource, UICollectionViewDelegate,
 //MARK: API Calls | Bookmark action | Bookmark btn state | Trending cell delegate
 extension TrendingSection: TrendingCellDelegate {
     func getTrendingEvents() { //get trending events list
+        trendingCollectionView.isUserInteractionEnabled = false
         EventService.getTrendingEvents().done { response in
             self.trendingEvents = response.list.reversed()
             }.ensure {
+                self.trendingCollectionView.isUserInteractionEnabled = true
+
+                NotificationCenter.default.post(name: .eventListEndRefreshing, object: nil)
                 UIApplication.shared.isNetworkActivityIndicatorVisible = false
             }.catch { error in }
+    }
+    
+    //pull to refrsh
+    @objc func refreshTrendingSection() {
+        //first clear data model
+        bookmarkedEventIDArray.removeAll()
+        trendingEvents.removeAll()
+        trendingCollectionView.setContentOffset(CGPoint(x: -20, y: 0), animated: true)
+        trendingCollectionView.reloadData()
+        
+        getTrendingEvents()
     }
     
     func checkBookmarkBtnState(cell: TrendingCell, indexPath: IndexPath) {

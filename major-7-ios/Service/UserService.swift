@@ -497,9 +497,26 @@ extension UserService {
 //MARK: Other functions
 extension UserService {
     //get user followings
-    static func getUserFollowings() -> Promise<UserFollowings> {
+    static func getUserFollowings(skip: Int? = nil, limit: Int? = nil, targetProfile: OrganizerProfile? = nil, targetType: Int? = nil) -> Promise<UserFollowings> {
+        var params: [String: Any] = [:]
+        if let skip = skip {
+            params["skip"] = skip
+        }
+        
+        if let limit = limit {
+            params["limit"] = limit
+        }
+        
+        if let targetProfile = targetProfile {
+            params["target_profile"] = targetProfile
+        }
+        
+        if let targetType = targetType {
+            params["target_type"] = targetType
+        }
+        
         return Promise { resolver in
-            request(method: .get, url: getActionPath(.getCurrentUserFollowings)).done { response in
+            request(method: .get, url: getActionPath(.getCurrentUserFollowings), params: params).done { response in
                 guard let list = Mapper<UserFollowings>().map(JSONObject: response) else {
                     resolver.reject(PMKError.cancelled)
                     return

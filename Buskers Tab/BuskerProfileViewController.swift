@@ -34,6 +34,7 @@ class BuskerProfileViewController: UIViewController {
     
     var buskerID = "" {
         didSet {
+            checkIsFollowing(buskerID: buskerID)
             getProfileDetails(buskerID: buskerID)
             getBuskerEvents(buskerID: buskerID)
             getBuskerPosts(buskerID: buskerID)
@@ -173,7 +174,6 @@ class BuskerProfileViewController: UIViewController {
         setupHashtagsCollectionView()
         
         setupFollowBtn()
-        checkIsFollowing(buskerID: buskerID)
         
         setupStatsView()
         setupProfileSection()

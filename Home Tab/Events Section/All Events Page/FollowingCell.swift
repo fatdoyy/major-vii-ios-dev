@@ -64,22 +64,7 @@ class FollowingCell: UICollectionViewCell {
         }
         checkShouldDisplayIndicator()
         
-        //skeleton view
-        let animation = SkeletonAnimationBuilder().makeSlidingAnimation(withDirection: .leftRight, duration: 2)
-        eventTitle.tag = 1
-        for view in skeletonViews{
-            if view.tag == 1 {
-                SkeletonAppearance.default.multilineHeight = 15
-            } else {
-                SkeletonAppearance.default.multilineHeight = 12
-            }
-            view.isSkeletonable = true
-            view.showAnimatedGradientSkeleton(animation: animation)
-        }
-        
-        for view in viewsToShowLater {
-            view.alpha = 0
-        }
+        setupSkeletonView()
         
         eventTitle.textColor = .whiteText()
         byLabel.textColor = .whiteText()
@@ -96,7 +81,29 @@ class FollowingCell: UICollectionViewCell {
         }
     }
     
+    func setupSkeletonView() {
+        //skeleton view
+        let animation = SkeletonAnimationBuilder().makeSlidingAnimation(withDirection: .leftRight, duration: 2)
+        eventTitle.tag = 1
+        for view in skeletonViews{
+            if view.tag == 1 {
+                SkeletonAppearance.default.multilineHeight = 16
+            } else {
+                SkeletonAppearance.default.multilineHeight = 11
+            }
+            view.isSkeletonable = true
+            view.showAnimatedGradientSkeleton(animation: animation)
+        }
+        
+        for view in viewsToShowLater {
+            view.alpha = 0
+        }
+    }
+    
     override func prepareForReuse() {
+        bookmarkBtn.backgroundColor = .clear
+        bgImgView.image = nil
+        setupSkeletonView()
         checkShouldDisplayIndicator()
         //bookmarkBtn.setImage(UIImage(named: "bookmark"), for: .normal)
     }

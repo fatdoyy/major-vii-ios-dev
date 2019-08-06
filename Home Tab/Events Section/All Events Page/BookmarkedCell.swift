@@ -57,9 +57,9 @@ class BookmarkedCell: UICollectionViewCell {
         eventTitle.tag = 1
         for view in skeletonViews{
             if view.tag == 1 {
-                SkeletonAppearance.default.multilineHeight = 15
+                SkeletonAppearance.default.multilineHeight = 16
             } else {
-                SkeletonAppearance.default.multilineHeight = 12
+                SkeletonAppearance.default.multilineHeight = 11
             }
             view.isSkeletonable = true
             view.showAnimatedGradientSkeleton(animation: animation)

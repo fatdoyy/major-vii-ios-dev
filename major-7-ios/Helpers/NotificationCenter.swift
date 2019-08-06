@@ -14,10 +14,13 @@ extension Notification.Name {
     
     //Events
     static let refreshEventListVC = Notification.Name("refreshEventListVC")
+    static let eventListEndRefreshing = Notification.Name("eventListEndRefreshing")
     
-    static let refreshTrendingSectionCell = Notification.Name("refreshTrendingSectionCell")
+    static let refreshTrendingSection = Notification.Name("refreshTrendingSection") //pull to refresh
+    static let refreshTrendingSectionCell = Notification.Name("refreshTrendingSectionCell") //bookmarkbtn state
     
-    static let refreshFollowingSectionCell = Notification.Name("refreshFollowingSectionCell")
+    static let refreshFollowingSection = Notification.Name("refreshFollowSection") //pull to refresh
+    static let refreshFollowingSectionCell = Notification.Name("refreshFollowingSectionCell") //bookmarkbtn state
     
     static let refreshBookmarkedSection = Notification.Name("refreshBookmarkedSection")
     static let refreshBookmarkedSectionFromDetails = Notification.Name("refreshBookmarkedSectionFromDetails")
