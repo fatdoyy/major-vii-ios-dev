@@ -13,10 +13,10 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="FollowingSection" customModule="major_7_ios" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="335" height="238"/>
+            <rect key="frame" x="0.0" y="0.0" width="335" height="250"/>
             <autoresizingMask key="autoresizingMask"/>
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                <rect key="frame" x="0.0" y="0.0" width="335" height="238"/>
+                <rect key="frame" x="0.0" y="0.0" width="335" height="250"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YXT-wF-HkY">
@@ -26,10 +26,19 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="ksR-eM-H75">
-                        <rect key="frame" x="0.0" y="69" width="335" height="169"/>
+                        <rect key="frame" x="0.0" y="81" width="335" height="169"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="169" id="dBx-Uu-iyd"/>
+                        </constraints>
                         <collectionViewLayout key="collectionViewLayout" id="FQQ-aa-e7S" customClass="BouncyLayout" customModule="BouncyLayout"/>
                     </collectionView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qEP-P2-llF">
+                        <rect key="frame" x="20" y="53" width="32" height="15"/>
+                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="12"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                 </subviews>
             </view>
             <constraints>
@@ -37,19 +46,23 @@
                 <constraint firstItem="YXT-wF-HkY" firstAttribute="top" secondItem="ZTg-uK-7eu" secondAttribute="top" constant="20" id="Bfw-a3-ixg"/>
                 <constraint firstItem="ksR-eM-H75" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="FjX-aJ-F91"/>
                 <constraint firstItem="YXT-wF-HkY" firstAttribute="leading" secondItem="ZTg-uK-7eu" secondAttribute="leading" constant="20" id="Y7T-Ld-syn"/>
-                <constraint firstItem="ksR-eM-H75" firstAttribute="top" secondItem="YXT-wF-HkY" secondAttribute="bottom" constant="20" id="gPK-l2-yCb"/>
+                <constraint firstItem="qEP-P2-llF" firstAttribute="leading" secondItem="ZTg-uK-7eu" secondAttribute="leading" constant="20" id="c03-1S-zqH"/>
+                <constraint firstItem="qEP-P2-llF" firstAttribute="top" secondItem="YXT-wF-HkY" secondAttribute="bottom" constant="4" id="i4P-ud-Ury"/>
                 <constraint firstAttribute="trailing" secondItem="ksR-eM-H75" secondAttribute="trailing" id="kWP-WD-e1I"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
             <connections>
+                <outlet property="followingCount" destination="qEP-P2-llF" id="ihr-ju-67G"/>
                 <outlet property="followingSectionCollectionView" destination="ksR-eM-H75" id="cSO-Fa-Nec"/>
                 <outlet property="followingSectionTitle" destination="YXT-wF-HkY" id="EWH-he-VVc"/>
                 <outletCollection property="layoutConstraints" destination="Bfw-a3-ixg" collectionClass="NSMutableArray" id="wl1-UU-NuI"/>
                 <outletCollection property="layoutConstraints" destination="Y7T-Ld-syn" collectionClass="NSMutableArray" id="7fg-D2-zRp"/>
                 <outletCollection property="layoutConstraints" destination="8lO-Sb-gkM" collectionClass="NSMutableArray" id="PDt-Ev-FfA"/>
                 <outletCollection property="layoutConstraints" destination="FjX-aJ-F91" collectionClass="NSMutableArray" id="3hs-Wu-zK4"/>
-                <outletCollection property="layoutConstraints" destination="gPK-l2-yCb" collectionClass="NSMutableArray" id="l8a-7d-P7U"/>
                 <outletCollection property="layoutConstraints" destination="kWP-WD-e1I" collectionClass="NSMutableArray" id="tc9-Ng-V79"/>
+                <outletCollection property="layoutConstraints" destination="c03-1S-zqH" collectionClass="NSMutableArray" id="fKf-l0-LT4"/>
+                <outletCollection property="layoutConstraints" destination="i4P-ud-Ury" collectionClass="NSMutableArray" id="nNL-J6-XO9"/>
+                <outletCollection property="layoutConstraints" destination="dBx-Uu-iyd" collectionClass="NSMutableArray" id="GQ6-7J-Ysu"/>
             </connections>
             <point key="canvasLocation" x="39.200000000000003" y="46.326836581709152"/>
         </collectionViewCell>

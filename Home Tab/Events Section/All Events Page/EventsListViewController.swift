@@ -270,21 +270,11 @@ extension EventsListViewController: UICollectionViewDelegate, UICollectionViewDe
                 
             case .Bookmark:
                 let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: BookmarkedSection.reuseIdentifier, for: indexPath) as! BookmarkedSection
-                cell.delegate = self
-
-                let count = cell.bookmarkedEvents.count
-                let isCountEqualsToOne = count == 1
-                
-                UIView.animate(withDuration: 0.2) {
-                    cell.bookmarksCountLabel.alpha = 1
-                }
-                
                 if UserService.User.isLoggedIn() {
-                    cell.bookmarksCountLabel.text =  isCountEqualsToOne ? "1 Event" : "\(count) Events"
+                    cell.delegate = self
                 } else {
                     cell.bookmarksCountLabel.text = "No account? It's totally free to create one!"
                 }
-                
                 return cell
                 
             case .Featured:

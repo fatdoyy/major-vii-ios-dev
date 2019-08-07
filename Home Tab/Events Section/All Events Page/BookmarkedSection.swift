@@ -47,11 +47,6 @@ class BookmarkedSection: UICollectionViewCell {
                 }
             }
             
-            if bookmarksCountLabel.alpha == 0 {
-                UIView.animate(withDuration: 0.2) {
-                    self.bookmarksCountLabel.alpha = 1
-                }
-            }
             bookmarksCountLabel.text = bookmarkedEvents.count == 1 ? "1 Event" : "\(bookmarkedEvents.count) Events"
             
             if bookmarksCollectionView.alpha == 0 && bookmarkedEvents.count != 0 {
@@ -96,6 +91,7 @@ class BookmarkedSection: UICollectionViewCell {
                 self.emptyBookmarkShadowView.alpha = 0
             }
             self.bookmarksCollectionView.alpha = 0
+            self.bookmarksCountLabel.text = "Loading..."
             self.reloadIndicator.alpha = 1
         }
         
@@ -134,8 +130,7 @@ extension BookmarkedSection {
         bookmarkSectionTitle.text = "Your Bookmarks"
         
         bookmarksCountLabel.textColor = .purpleText()
-        bookmarksCountLabel.text = "4 Events"
-        bookmarksCountLabel.alpha = 0
+        bookmarksCountLabel.text = "Loading..."
         
         if let layout = bookmarksCollectionView.collectionViewLayout as? BouncyLayout {
             layout.scrollDirection = .horizontal

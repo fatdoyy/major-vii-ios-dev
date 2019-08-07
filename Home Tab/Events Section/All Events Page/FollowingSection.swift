@@ -23,19 +23,29 @@ class FollowingSection: UICollectionViewCell {
 
     var loadingIndicator: NVActivityIndicatorView!
     
-    static let height: CGFloat = 244
+    static let height: CGFloat = 250
     
     @IBOutlet weak var followingSectionTitle: UILabel!
+    @IBOutlet weak var followingCount: UILabel!
     @IBOutlet weak var followingSectionCollectionView: UICollectionView!
     @IBOutlet var layoutConstraints: Array<NSLayoutConstraint>! //disable constraints to hide this section if user is not logged in
     
     var userFollowings: [OrganizerProfileObject] = [] {
         didSet {
+            print("userFollowings.count = \(userFollowings.count)")
             if userFollowings.isEmpty {
                 setupEmptyFollowingView()
-                
                 followingSectionCollectionView.alpha = 0
                 emptyFollowingShadowView.alpha = 1
+                followingCount.text = "Following 0 buskers"
+            } else {
+                if userFollowings.count == 1 {
+                    followingCount.text = "\(userFollowings.first?.targetProfile!.name ?? "")"
+                } else if userFollowings.count == 2 {
+                    followingCount.text = "\(userFollowings.first?.targetProfile!.name ?? "") and \(userFollowings.last?.targetProfile!.name ?? "")"
+                } else if userFollowings.count > 2 && !userFollowings.isEmpty {
+                    followingCount.text = "\(userFollowings.first?.targetProfile!.name ?? ""), \(userFollowings.last?.targetProfile!.name ?? "") and \(userFollowings.count - 2) more!"
+                }
             }
         }
     }
@@ -44,6 +54,9 @@ class FollowingSection: UICollectionViewCell {
         didSet {
             if userFollowingsEvents.isEmpty {
                 setupEmptyFollowingEventsView()
+                if userFollowings.count == 1 && userFollowingsEvents.isEmpty {
+                    emptyFollowingEventsTitle.text = "\(userFollowings.first?.targetProfile?.name ?? "") currently don't have any events!"
+                }
                 
                 followingSectionCollectionView.alpha = 0
                 emptyFollowingEventsShadowView.alpha = 1
@@ -65,6 +78,7 @@ class FollowingSection: UICollectionViewCell {
     var emptyFollowingEventsBgView = UIView()
     var emptyFollowingEventsGradientBg = PastelView()
     var emptyFollowingEventsShadowView = UIView()
+    var emptyFollowingEventsTitle = UILabel() //control empty message text
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -91,6 +105,9 @@ extension FollowingSection {
     private func setupUI() {
         followingSectionTitle.textColor = .whiteText()
         followingSectionTitle.text = "Your Followings"
+        
+        followingCount.textColor = .purpleText()
+        followingCount.text = "Loading..."
         
         if let layout = followingSectionCollectionView.collectionViewLayout as? BouncyLayout {
             layout.scrollDirection = .horizontal
@@ -251,7 +268,7 @@ extension FollowingSection {
     private func setupEmptyFollowingEventsView() {
         //empty view's drop shadow
         emptyFollowingEventsShadowView.alpha = 0
-        emptyFollowingEventsShadowView.frame = CGRect(x: 20, y: 59, width: UIScreen.main.bounds.width - 40, height: followingSectionCollectionView.frame.height - 12)
+        emptyFollowingEventsShadowView.frame = CGRect(x: 20, y: 78, width: UIScreen.main.bounds.width - 40, height: followingSectionCollectionView.frame.height - 12)
         emptyFollowingEventsShadowView.clipsToBounds = false
         emptyFollowingEventsShadowView.layer.shadowOpacity = 0.5
         emptyFollowingEventsShadowView.layer.shadowOffset = CGSize(width: -1, height: -1)
@@ -286,7 +303,7 @@ extension FollowingSection {
         
         let emptyFollowingEventsDesc = UILabel()
         emptyFollowingEventsDesc.font = UIFont.systemFont(ofSize: 12, weight: .regular)
-        emptyFollowingEventsDesc.text = "Maybe they're planning something big?"
+        emptyFollowingEventsDesc.text = "Working hard building something..."
         emptyFollowingEventsDesc.textColor = .white
         emptyFollowingEventsDesc.numberOfLines = 2
         emptyFollowingEventsBgView.addSubview(emptyFollowingEventsDesc)
@@ -296,9 +313,7 @@ extension FollowingSection {
             make.width.equalTo(230)
         }
         
-        let emptyFollowingEventsTitle = UILabel()
         emptyFollowingEventsTitle.font = UIFont.systemFont(ofSize: 20, weight: .semibold)
-        emptyFollowingEventsTitle.text = "BUSKER_NAME currently don't have any events!"
         emptyFollowingEventsTitle.textColor = .white
         emptyFollowingEventsTitle.numberOfLines = 2
         emptyFollowingEventsBgView.addSubview(emptyFollowingEventsTitle)
@@ -430,11 +445,12 @@ extension FollowingSection: FollowingCellDelegate {
         userFollowings.removeAll()
         userFollowingsEvents.removeAll()
         
+        followingCount.text = "Loading..."
+        emptyFollowingShadowView.alpha = 0
+        emptyFollowingEventsShadowView.alpha = 0
         if followingSectionCollectionView.alpha != 1 {
             UIView.animate(withDuration: 0.2) {
                 self.followingSectionCollectionView.alpha = 1
-                self.emptyFollowingShadowView.alpha = 0
-                self.emptyFollowingEventsShadowView.alpha = 0
             }
         }
         followingSectionCollectionView.setContentOffset(CGPoint.zero, animated: false)
