@@ -35,7 +35,7 @@ class BookmarkedSection: UICollectionViewCell {
     var emptyBookmarkGradientBg = PastelView()
     var emptyBookmarkShadowView = UIView()
     
-    var bookmarkedEventIDArray: [String] = [] //to refresh TrendingCell bookmakrBtn state
+    var bookmarkedEventIDArray: [String] = [] //to refresh TrendingSectionCell bookmakrBtn state
     
     var reloadIndicator = NVActivityIndicatorView(frame: CGRect(origin: CGPoint.zero, size: CGSize(width: 30, height: 30)), type: .lineScale)
     
@@ -145,7 +145,7 @@ extension BookmarkedSection {
         bookmarksCollectionView.showsHorizontalScrollIndicator = false
         
         bookmarksCollectionView.backgroundColor = .m7DarkGray()
-        bookmarksCollectionView.register(UINib.init(nibName: "BookmarkedCell", bundle: nil), forCellWithReuseIdentifier: BookmarkedCell.reuseIdentifier)
+        bookmarksCollectionView.register(UINib.init(nibName: "BookmarkedSectionCell", bundle: nil), forCellWithReuseIdentifier: BookmarkedSectionCell.reuseIdentifier)
         
         reloadIndicator.startAnimating()
         reloadIndicator.alpha = 0
@@ -375,7 +375,7 @@ extension BookmarkedSection: UICollectionViewDataSource, UICollectionViewDelegat
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = bookmarksCollectionView.dequeueReusableCell(withReuseIdentifier: BookmarkedCell.reuseIdentifier, for: indexPath) as! BookmarkedCell
+        let cell = bookmarksCollectionView.dequeueReusableCell(withReuseIdentifier: BookmarkedSectionCell.reuseIdentifier, for: indexPath) as! BookmarkedSectionCell
         if !bookmarkedEvents.isEmpty {
             if let event = bookmarkedEvents[indexPath.row].targetEvent {
    
@@ -405,7 +405,7 @@ extension BookmarkedSection: UICollectionViewDataSource, UICollectionViewDelegat
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: BookmarkedCell.width, height: BookmarkedCell.height)
+        return CGSize(width: BookmarkedSectionCell.width, height: BookmarkedSectionCell.height)
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -416,8 +416,8 @@ extension BookmarkedSection: UICollectionViewDataSource, UICollectionViewDelegat
 }
 
 //MARK: Bookmarked cell delegate
-extension BookmarkedSection: BookmarkedCellDelegate {
-    func bookmarkBtnTapped(cell: BookmarkedCell, tappedIndex: IndexPath) {
+extension BookmarkedSection: BookmarkedSectionCellDelegate {
+    func bookmarkBtnTapped(cell: BookmarkedSectionCell, tappedIndex: IndexPath) {
         if let eventID = bookmarkedEvents[tappedIndex.row].targetEvent?.id {
             if (cell.bookmarkBtn.backgroundColor?.isEqual(UIColor.clear))! { //do bookmark action
                 HapticFeedback.createImpact(style: .light)

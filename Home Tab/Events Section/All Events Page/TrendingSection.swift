@@ -59,7 +59,7 @@ extension TrendingSection {
         
         if let layout = trendingCollectionView.collectionViewLayout as? PagedCollectionViewLayout {
             layout.scrollDirection = .horizontal
-            layout.itemSize = CGSize(width: TrendingCell.width, height: TrendingCell.height)
+            layout.itemSize = CGSize(width: TrendingSectionCell.width, height: TrendingSectionCell.height)
             layout.minimumLineSpacing = 10
         }
         
@@ -73,7 +73,7 @@ extension TrendingSection {
         trendingCollectionView.contentInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
         
         trendingCollectionView.backgroundColor = .m7DarkGray()
-        trendingCollectionView.register(UINib.init(nibName: "TrendingCell", bundle: nil), forCellWithReuseIdentifier: TrendingCell.reuseIdentifier)
+        trendingCollectionView.register(UINib.init(nibName: "TrendingSectionCell", bundle: nil), forCellWithReuseIdentifier: TrendingSectionCell.reuseIdentifier)
         
         //getTrendingEvents()
     }
@@ -82,7 +82,7 @@ extension TrendingSection {
         delegate?.showLoginVC()
     }
     
-    private func addBookmarkAnimation(cell: TrendingCell) {
+    private func addBookmarkAnimation(cell: TrendingSectionCell) {
         cell.bookmarkBtn.isUserInteractionEnabled = false
         
         cell.bookmarkBtnIndicator.startAnimating()
@@ -106,7 +106,7 @@ extension TrendingSection {
         }
     }
     
-    private func removeBookmarkAnimation(cell: TrendingCell) {
+    private func removeBookmarkAnimation(cell: TrendingSectionCell) {
         cell.bookmarkBtn.isUserInteractionEnabled = false
         
         cell.bookmarkBtnIndicator.startAnimating()
@@ -139,7 +139,7 @@ extension TrendingSection: UICollectionViewDataSource, UICollectionViewDelegate,
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = trendingCollectionView.dequeueReusableCell(withReuseIdentifier: TrendingCell.reuseIdentifier, for: indexPath) as! TrendingCell
+        let cell = trendingCollectionView.dequeueReusableCell(withReuseIdentifier: TrendingSectionCell.reuseIdentifier, for: indexPath) as! TrendingSectionCell
         
         if !trendingEvents.isEmpty {
             cell.delegate = self
@@ -181,7 +181,7 @@ extension TrendingSection: UICollectionViewDataSource, UICollectionViewDelegate,
 }
 
 //MARK: API Calls | Bookmark action | Bookmark btn state | Trending cell delegate
-extension TrendingSection: TrendingCellDelegate {
+extension TrendingSection: TrendingSectionCellDelegate {
     func getTrendingEvents() { //get trending events list
         trendingCollectionView.isUserInteractionEnabled = false
         EventService.getTrendingEvents().done { response in
@@ -205,7 +205,7 @@ extension TrendingSection: TrendingCellDelegate {
         getTrendingEvents()
     }
     
-    func checkBookmarkBtnState(cell: TrendingCell, indexPath: IndexPath) {
+    func checkBookmarkBtnState(cell: TrendingSectionCell, indexPath: IndexPath) {
         if UserService.User.isLoggedIn() {
             if let eventID = trendingEvents[indexPath.row].id {
                 if !bookmarkedEventIDArray.contains(eventID) {
@@ -272,7 +272,7 @@ extension TrendingSection: TrendingCellDelegate {
     
     //refresh bookmarkBtn state
     @objc private func refreshTrendingSectionCell(_ notification: Notification) {
-        let visibleCells = trendingCollectionView.visibleCells as! [TrendingCell]
+        let visibleCells = trendingCollectionView.visibleCells as! [TrendingSectionCell]
         if let event = notification.userInfo {
             if let addID = event["add_id"] as? String {
                 self.bookmarkedEventIDArray.remove(object: addID) //add id from local array
@@ -333,7 +333,7 @@ extension TrendingSection: TrendingCellDelegate {
         }
     }
     
-    func bookmarkBtnTapped(cell: TrendingCell, tappedIndex: IndexPath) {
+    func bookmarkBtnTapped(cell: TrendingSectionCell, tappedIndex: IndexPath) {
         if UserService.User.isLoggedIn() {
             if let eventID = self.trendingEvents[tappedIndex.row].id {
                 if (cell.bookmarkBtn.backgroundColor?.isEqual(UIColor.clear))! { //do bookmark action

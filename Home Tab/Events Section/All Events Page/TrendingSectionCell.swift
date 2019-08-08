@@ -1,8 +1,8 @@
 //
-//  FollowingCell.swift
+//  TrendingSectionCell.swift
 //  major-7-ios
 //
-//  Created by jason on 7/11/2018.
+//  Created by jason on 6/11/2018.
 //  Copyright © 2018 Major VII. All rights reserved.
 //
 
@@ -10,37 +10,40 @@ import UIKit
 import SkeletonView
 import NVActivityIndicatorView
 
-protocol FollowingCellDelegate: class {
-    func bookmarkBtnTapped(cell: FollowingCell, tappedIndex: IndexPath)
+protocol TrendingSectionCellDelegate: class {
+    func bookmarkBtnTapped(cell: TrendingSectionCell, tappedIndex: IndexPath)
 }
 
-class FollowingCell: UICollectionViewCell {
-    static let reuseIdentifier = "followingCell"
+class TrendingSectionCell: UICollectionViewCell {
+    static let reuseIdentifier = "trendingSectionCell"
     
-    weak var delegate: FollowingCellDelegate?
+    weak var delegate: TrendingSectionCellDelegate?
     var myIndexPath: IndexPath!
     
-    static let width: CGFloat = 138
-    static let height: CGFloat = 166
+    private typealias `Self` = TrendingSectionCell
+    
+    static let aspectRatio: CGFloat = 335.0 / 210.0 //ratio according to zeplin
+    static let width = UIScreen.main.bounds.width - 40
+    static var height: CGFloat = width / aspectRatio
     
     var eventID: String = ""
     
     @IBOutlet weak var bgImgView: UIImageView!
-    @IBOutlet weak var imageOverlay: ImageOverlay!
     @IBOutlet weak var eventTitle: UILabel!
+    @IBOutlet weak var performerTitle: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
-    @IBOutlet weak var byLabel: UILabel!
-    @IBOutlet weak var performerLabel: UILabel!
+    @IBOutlet weak var imageOverlay: ImageOverlay!
     @IBOutlet weak var bookmarkBtn: UIButton!
-    @IBOutlet weak var bookmarkCountLabel: UILabel!
     var bookmarkBtnIndicator = NVActivityIndicatorView(frame: CGRect(origin: CGPoint.zero, size: CGSize(width: 12, height: 12)), type: .lineScale)
+    @IBOutlet weak var bookmarkCountLabel: UILabel!
     
-    @IBOutlet var skeletonViews: Array<UIView>!
+    @IBOutlet var skeletonViews: Array<UILabel>!
     @IBOutlet var viewsToShowLater: Array<UIView>!
-    
+
     override func awakeFromNib() {
         super.awakeFromNib()
         backgroundColor = .m7DarkGray()
+        
         bgImgView.layer.cornerRadius = GlobalCornerRadius.value
         
         imageOverlay.clipsToBounds = true
@@ -53,8 +56,6 @@ class FollowingCell: UICollectionViewCell {
         bookmarkBtn.layer.shadowRadius = 5
         bookmarkBtn.layer.shadowOpacity = 0.7
         
-        bookmarkCountLabel.textColor = .whiteText()
-        
         //activity indicatior
         bookmarkBtnIndicator.startAnimating()
         bookmarkBtn.addSubview(bookmarkBtnIndicator)
@@ -66,19 +67,10 @@ class FollowingCell: UICollectionViewCell {
         
         setupSkeletonView()
         
+        bookmarkCountLabel.textColor = .whiteText()
         eventTitle.textColor = .whiteText()
-        byLabel.textColor = .whiteText()
-        performerLabel.textColor = .whiteText()
+        performerTitle.textColor = .whiteText()
         dateLabel.textColor = .whiteText()
-    }
-
-    func checkShouldDisplayIndicator() {
-        if UserService.User.isLoggedIn() {
-            bookmarkBtn.setImage(nil, for: .normal)
-            bookmarkBtnIndicator.alpha = 1
-        } else {
-            bookmarkBtnIndicator.alpha = 0
-        }
     }
     
     func setupSkeletonView() {
@@ -95,8 +87,18 @@ class FollowingCell: UICollectionViewCell {
             view.showAnimatedGradientSkeleton(animation: animation)
         }
         
+        //hide some views for later
         for view in viewsToShowLater {
             view.alpha = 0
+        }
+    }
+    
+    func checkShouldDisplayIndicator() {
+        if UserService.User.isLoggedIn() {
+            bookmarkBtn.setImage(nil, for: .normal)
+            bookmarkBtnIndicator.alpha = 1
+        } else {
+            bookmarkBtnIndicator.alpha = 0
         }
     }
     
@@ -106,6 +108,11 @@ class FollowingCell: UICollectionViewCell {
         setupSkeletonView()
         checkShouldDisplayIndicator()
         //bookmarkBtn.setImage(UIImage(named: "bookmark"), for: .normal)
+    }
+    
+    //Hold cell animation
+    override var isHighlighted: Bool {
+        didSet { Animations.cellBounce(isHighlighted, view: self) }
     }
     
     @IBAction func bookmarkBtnTapped(_ sender: Any) {

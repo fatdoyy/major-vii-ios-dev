@@ -102,10 +102,7 @@ class EventDetailsView: UIView {
             layout.scrollDirection = .horizontal
         }
         
-        if #available(iOS 11.0, *) {
-            hashtagsCollectionView.contentInsetAdjustmentBehavior = .always
-        }
-        
+        hashtagsCollectionView.contentInsetAdjustmentBehavior = .never
         hashtagsCollectionView.backgroundColor = .m7DarkGray()
         hashtagsCollectionView.register(UINib.init(nibName: "HashtagCell", bundle: nil), forCellWithReuseIdentifier: HashtagCell.reuseIdentifier)
         

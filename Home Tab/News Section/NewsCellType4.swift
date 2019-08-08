@@ -92,7 +92,7 @@ extension NewsCellType4 {
             layout.scrollDirection = .horizontal
         }
         
-        hashtagsCollectionView.contentInsetAdjustmentBehavior = .always
+        hashtagsCollectionView.contentInsetAdjustmentBehavior = .never
         hashtagsCollectionView.backgroundColor = .clear
         hashtagsCollectionView.register(UINib.init(nibName: "HashtagCell", bundle: nil), forCellWithReuseIdentifier: HashtagCell.reuseIdentifier)
     }
