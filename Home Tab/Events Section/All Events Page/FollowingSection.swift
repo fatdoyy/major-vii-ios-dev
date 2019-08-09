@@ -20,7 +20,7 @@ class FollowingSection: UICollectionViewCell {
     static let reuseIdentifier = "followingSection"
     
     weak var delegate: FollowingSectionDelegate?
-
+    
     var loadingIndicator: NVActivityIndicatorView!
     
     static let height: CGFloat = 264
@@ -31,33 +31,11 @@ class FollowingSection: UICollectionViewCell {
     @IBOutlet weak var followingSectionCollectionView: UICollectionView!
     @IBOutlet var layoutConstraints: Array<NSLayoutConstraint>! //disable constraints to hide this section if user is not logged in
     
-    var userFollowings: [OrganizerProfileObject] = [] {
-        didSet {
-            followingsCollectionView.reloadData()
-            
-            UIView.animate(withDuration: 0.2) {
-                self.followingSectionDesc.alpha = 0
-                self.followingsCollectionView.alpha = 1
-            }
-        }
-    }
-    
-    var userFollowingsEvents: [Event] = [] {
-        didSet {
-            if userFollowingsEvents.isEmpty {
-                setupEmptyFollowingEventsView()
-                if userFollowings.count == 1 && userFollowingsEvents.isEmpty {
-                    emptyFollowingEventsTitle.text = "\(userFollowings.first?.targetProfile?.name ?? "") currently don't have any events!"
-                }
-                
-                followingSectionCollectionView.alpha = 0
-                emptyFollowingEventsShadowView.alpha = 1
-            }
-        }
-    }
-    
+    var userFollowings: [OrganizerProfileObject] = []
+    var userFollowingsEvents: [Event] = []
     var eventsLimit = 6 //event limit per request
     var gotMoreEvents = true //lazy loading
+    var isSelectedSingleFollowing = false //lazy loading when followings filter is selected (i.e. selected sigle busker)
     
     var bookmarkedEventIDArray: [String] = [] //IMPORTANT: Adding an array to local to control bookmarkBtn's state because of cell reuse issues
     
@@ -370,7 +348,7 @@ extension FollowingSection: UICollectionViewDataSource, UICollectionViewDelegate
             
         default: return 0
         }
-
+        
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -439,7 +417,6 @@ extension FollowingSection: UICollectionViewDataSource, UICollectionViewDelegate
             
         default: print("error")
         }
-
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -448,27 +425,31 @@ extension FollowingSection: UICollectionViewDataSource, UICollectionViewDelegate
             let name = UserService.User.isLoggedIn() && !userFollowings.isEmpty ? userFollowings[indexPath.row].targetProfile?.name : "EMPTY"
             let size = (name! as NSString).size(withAttributes: nil)
             return CGSize(width: size.width + 32, height: FollowingsCell.height)
-
+            
         case followingSectionCollectionView:
             return CGSize(width: FollowingSectionCell.width, height: FollowingSectionCell.height)
             
         default:
             return CGSize(width: FollowingSectionCell.width, height: FollowingSectionCell.height)
         }
-
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         switch collectionView {
         case followingsCollectionView:
-            print("tapped")
+            let cell = followingsCollectionView.cellForItem(at: indexPath) as! FollowingsCell
+            //            cell.layer.borderWidth = 2.0
+            //            cell.layer.borderColor = UIColor.gray.cgColor
+            if let ID = userFollowings[indexPath.row].targetProfile?.id, let name = userFollowings[indexPath.row].targetProfile?.name {
+                getSelectedBuskerEvents(buskerID: ID, name: name, limit: eventsLimit)
+            }
+            
         case followingSectionCollectionView:
             delegate?.followingCellTapped(eventID: userFollowingsEvents[indexPath.row].id ?? "")
+            
         default: print("error")
         }
-
     }
-    
 }
 
 //MARK: API Calls | Bookmark action | Bookmark btn state | Following cell delegate
@@ -477,10 +458,17 @@ extension FollowingSection: FollowingSectionCellDelegate {
         followingsCollectionView.isUserInteractionEnabled = false
         UserService.getUserFollowings(skip: skip, limit: limit, targetProfile: targetProfile, targetType: targetType).done { response in
             self.userFollowings.append(contentsOf: response.list)
-        }.ensure {
-            self.followingsCollectionView.isUserInteractionEnabled = true
-            UIApplication.shared.isNetworkActivityIndicatorVisible = false
-        }.catch { error in }
+            
+            UIView.animate(withDuration: 0.2) {
+                self.followingSectionDesc.alpha = 0
+                self.followingsCollectionView.alpha = 1
+            }
+            }.ensure {
+                self.followingsCollectionView.reloadData()
+                self.followingsCollectionView.isUserInteractionEnabled = true
+                
+                UIApplication.shared.isNetworkActivityIndicatorVisible = false
+            }.catch { error in }
     }
     
     func getCurrentUserFollowingsEvents(skip: Int? = nil, limit: Int? = nil) {
@@ -488,13 +476,70 @@ extension FollowingSection: FollowingSectionCellDelegate {
         EventService.getFollowingEvents(skip: skip, limit: limit).done { response in
             self.userFollowingsEvents.append(contentsOf: response.list)
             self.gotMoreEvents = response.list.count < self.eventsLimit || response.list.count == 0 ? false : true
-            self.followingSectionCollectionView.reloadData()
+            
+            if self.userFollowingsEvents.isEmpty { //setup empty view
+                self.setupEmptyFollowingEventsView()
+                if self.userFollowings.count == 1 && self.userFollowingsEvents.isEmpty {
+                    self.emptyFollowingEventsTitle.text = "\(self.userFollowings.first?.targetProfile?.name ?? "") currently don't have any events!"
+                }
+                
+                UIView.animate(withDuration: 0.2, animations: {
+                    self.followingSectionCollectionView.alpha = 0
+                    self.emptyFollowingEventsShadowView.alpha = 1
+                })
+            }
             }.ensure {
                 if self.loadingIndicator.alpha != 0 {
                     UIView.animate(withDuration: 0.2) {
                         self.loadingIndicator.alpha = 0
                     }
                 }
+                self.followingSectionCollectionView.reloadData()
+                self.followingSectionCollectionView.isUserInteractionEnabled = true
+                NotificationCenter.default.post(name: .eventListEndRefreshing, object: nil)
+                
+                UIApplication.shared.isNetworkActivityIndicatorVisible = false
+            }.catch { error in }
+    }
+    
+    func getSelectedBuskerEvents(buskerID: String, name: String, skip: Int? = nil, limit: Int? = nil) {
+        followingsCollectionView.isUserInteractionEnabled = false
+        followingSectionCollectionView.isUserInteractionEnabled = false
+        
+        bookmarkedEventIDArray.removeAll()
+        userFollowingsEvents.removeAll()
+        
+        emptyFollowingEventsShadowView.alpha = 0
+        if followingSectionCollectionView.alpha != 1 {
+            UIView.animate(withDuration: 0.2) {
+                self.followingSectionCollectionView.alpha = 1
+            }
+        }
+        followingSectionCollectionView.setContentOffset(CGPoint.zero, animated: false)
+        followingSectionCollectionView.reloadData()
+        
+        BuskerService.getBuskerEvents(buskerID: buskerID).done { response -> () in
+            self.userFollowingsEvents.append(contentsOf: response.list)
+            self.gotMoreEvents = self.userFollowingsEvents.count < self.eventsLimit || self.userFollowingsEvents.count == 0 ? false : true
+            self.followingSectionCollectionView.reloadData()
+            
+            if self.userFollowingsEvents.isEmpty { //setup empty view
+                self.setupEmptyFollowingEventsView()
+                self.emptyFollowingEventsTitle.text = "\(name) currently don't have any events!"
+                
+                UIView.animate(withDuration: 0.2, animations: {
+                    self.followingSectionCollectionView.alpha = 0
+                    self.emptyFollowingEventsShadowView.alpha = 1
+                })
+            }
+            }.ensure {
+                if self.loadingIndicator.alpha != 0 {
+                    UIView.animate(withDuration: 0.2) {
+                        self.loadingIndicator.alpha = 0
+                    }
+                }
+                
+                self.followingsCollectionView.isUserInteractionEnabled = true
                 self.followingSectionCollectionView.isUserInteractionEnabled = true
                 NotificationCenter.default.post(name: .eventListEndRefreshing, object: nil)
                 UIApplication.shared.isNetworkActivityIndicatorVisible = false
@@ -503,11 +548,14 @@ extension FollowingSection: FollowingSectionCellDelegate {
     
     //pull to refresh
     @objc func refreshFollowingSection() {
+        gotMoreEvents = true
+        isSelectedSingleFollowing = false
+        
         //first clear data model
         bookmarkedEventIDArray.removeAll()
         userFollowings.removeAll()
         userFollowingsEvents.removeAll()
-
+        
         UIView.animate(withDuration: 0.2) {
             self.followingSectionDesc.alpha = 1
             self.followingsCollectionView.alpha = 0
@@ -528,6 +576,7 @@ extension FollowingSection: FollowingSectionCellDelegate {
     }
     
     func checkBookmarkBtnState(cell: FollowingSectionCell, indexPath: IndexPath) {
+        followingsCollectionView.isUserInteractionEnabled = false
         if UserService.User.isLoggedIn() {
             if let eventID = userFollowingsEvents[indexPath.row].id {
                 if !bookmarkedEventIDArray.contains(eventID) {
@@ -574,6 +623,7 @@ extension FollowingSection: FollowingSectionCellDelegate {
                             }, completion: nil)
                         }
                         }.ensure {
+                            self.followingsCollectionView.isUserInteractionEnabled = true
                             UIApplication.shared.isNetworkActivityIndicatorVisible = false
                         }.catch { error in }
                     

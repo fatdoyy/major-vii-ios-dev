@@ -31,9 +31,18 @@ extension BuskerService {
     }
     
     //busker events
-    static func getBuskerEvents(buskerID: String) -> Promise<BuskerEventsList> {
+    static func getBuskerEvents(buskerID: String, skip: Int? = nil, limit: Int? = nil) -> Promise<BuskerEventsList> {
+        var params: [String: Any] = [:]
+        if let skip = skip {
+            params["skip"] = skip
+        }
+        
+        if let limit = limit {
+            params["limit"] = limit
+        }
+        
         return Promise { resolver in
-            request(method: .get, url: getActionPath(.buskerEvents(buskerID: buskerID))).done { response in
+            request(method: .get, url: getActionPath(.buskerEvents(buskerID: buskerID)), params: params).done { response in
                 guard let events = Mapper<BuskerEventsList>().map(JSONObject: response) else {
                     resolver.reject(PMKError.cancelled)
                     return
@@ -47,9 +56,18 @@ extension BuskerService {
     }
     
     //busker posts
-    static func getBuskerPosts(buskerID: String) -> Promise<BuskerPostsList> {
+    static func getBuskerPosts(buskerID: String, skip: Int? = nil, limit: Int? = nil) -> Promise<BuskerPostsList> {
+        var params: [String: Any] = [:]
+        if let skip = skip {
+            params["skip"] = skip
+        }
+        
+        if let limit = limit {
+            params["limit"] = limit
+        }
+        
         return Promise { resolver in
-            request(method: .get, url: getActionPath(.buskerPosts(buskerID: buskerID))).done { response in
+            request(method: .get, url: getActionPath(.buskerPosts(buskerID: buskerID)), params: params).done { response in
                 guard let posts = Mapper<BuskerPostsList>().map(JSONObject: response) else {
                     resolver.reject(PMKError.cancelled)
                     return

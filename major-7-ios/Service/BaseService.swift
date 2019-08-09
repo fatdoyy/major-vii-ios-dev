@@ -59,6 +59,19 @@ class BaseService: NSObject {
         case .updatePassword:
             actionPathStr = "users/me/updatePassword"
             
+            
+        //Profile
+        case .buskerRanking:
+            actionPathStr = "profiles/trendRanking"
+        case .buskerProfile(let buskerID):
+            actionPathStr = "profiles/\(buskerID)"
+        case .buskerEvents(let buskerID):
+            actionPathStr = "profiles/\(buskerID)/events"
+        case .buskerPosts(let buskerID):
+            actionPathStr = "profiles/\(buskerID)/posts"
+        case .buskerFollowers(let buskerID):
+            actionPathStr = "profiles/\(buskerID)/followings"
+            
         //News
         case .getNews:
             actionPathStr = "news"
@@ -89,18 +102,6 @@ class BaseService: NSObject {
         case .bookmarkAction(let eventID):
             actionPathStr = "events/\(eventID)/bookmarks"
 
-            
-        //Busker profile
-        case .buskerRanking:
-            actionPathStr = "profiles/trendRanking"
-        case .buskerProfile(let buskerID):
-            actionPathStr = "profiles/\(buskerID)"
-        case .buskerEvents(let buskerID):
-            actionPathStr = "profiles/\(buskerID)/events"
-        case .buskerPosts(let buskerID):
-            actionPathStr = "profiles/\(buskerID)/posts"
-        case .buskerFollowers(let buskerID):
-            actionPathStr = "profiles/\(buskerID)/followings"
         }
         
         return endpoint + actionPathStr
