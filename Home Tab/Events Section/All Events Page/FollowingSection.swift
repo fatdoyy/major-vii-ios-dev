@@ -32,10 +32,13 @@ class FollowingSection: UICollectionViewCell {
     @IBOutlet var layoutConstraints: Array<NSLayoutConstraint>! //disable constraints to hide this section if user is not logged in
     
     var userFollowings: [OrganizerProfileObject] = []
+    var followingsLimit = 7 //followings limit per request
+    var gotMoreFollowings = true //lazy loading
+    
     var userFollowingsEvents: [Event] = []
     var eventsLimit = 6 //event limit per request
     var gotMoreEvents = true //lazy loading
-    var isSelectedSingleFollowing = false //lazy loading when followings filter is selected (i.e. selected sigle busker)
+    var selectedIndexPath: IndexPath? //control selected busker state
     
     var bookmarkedEventIDArray: [String] = [] //IMPORTANT: Adding an array to local to control bookmarkBtn's state because of cell reuse issues
     
@@ -59,7 +62,7 @@ class FollowingSection: UICollectionViewCell {
         setupUI()
         
         if UserService.User.isLoggedIn() {
-            getCurrentUserFollowings()
+            getCurrentUserFollowings(limit: followingsLimit)
             getCurrentUserFollowingsEvents(limit: eventsLimit)
         }
     }
@@ -356,6 +359,8 @@ extension FollowingSection: UICollectionViewDataSource, UICollectionViewDelegate
         case followingsCollectionView:
             let cell = followingsCollectionView.dequeueReusableCell(withReuseIdentifier: FollowingsCell.reuseIdentifier, for: indexPath) as! FollowingsCell
             cell.name.text = UserService.User.isLoggedIn() && !userFollowings.isEmpty ? userFollowings[indexPath.row].targetProfile?.name : "EMPTY"
+            cell.name.textColor = (self.selectedIndexPath != nil && indexPath == self.selectedIndexPath) ? .m7DarkGray() : .purpleText()
+            cell.backgroundColor = (self.selectedIndexPath != nil && indexPath == self.selectedIndexPath) ? .purpleText() : UIColor(hexString: "#7e7ecf").withAlphaComponent(0.2)
             return cell
             
         case followingSectionCollectionView:
@@ -399,7 +404,18 @@ extension FollowingSection: UICollectionViewDataSource, UICollectionViewDelegate
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         switch collectionView {
         case followingsCollectionView:
-            print("TODO")
+            if (indexPath.row == userFollowings.count - 1) {
+                print("Fetching followings...")
+                if gotMoreFollowings {
+                    UIView.animate(withDuration: 0.2) {
+                        self.loadingIndicator.alpha = 1
+                    }
+                    getCurrentUserFollowings(skip: userFollowings.count, limit: followingsLimit)
+                } else {
+                    print("No more followingss to fetch!")
+                }
+                
+            }
             
         case followingSectionCollectionView:
             if (indexPath.row == userFollowingsEvents.count - 1) {
@@ -438,16 +454,56 @@ extension FollowingSection: UICollectionViewDataSource, UICollectionViewDelegate
         switch collectionView {
         case followingsCollectionView:
             let cell = followingsCollectionView.cellForItem(at: indexPath) as! FollowingsCell
-            //            cell.layer.borderWidth = 2.0
-            //            cell.layer.borderColor = UIColor.gray.cgColor
+            
             if let ID = userFollowings[indexPath.row].targetProfile?.id, let name = userFollowings[indexPath.row].targetProfile?.name {
-                getSelectedBuskerEvents(buskerID: ID, name: name, limit: eventsLimit)
+                if selectedIndexPath != indexPath || selectedIndexPath == nil { //if not yet selected
+                    UIView.animate(withDuration: 0.2) {
+                        cell.backgroundColor = .purpleText()
+                        cell.name.textColor = .m7DarkGray()
+                    }
+                    
+                    selectedIndexPath = indexPath
+                    bookmarkedEventIDArray.removeAll()
+                    getSelectedBuskerEvents(buskerID: ID, name: name, limit: eventsLimit)
+                } else if selectedIndexPath == indexPath && selectedIndexPath != nil { //if selected same busker again, do diselect action (i.e show all events)
+                    UIView.animate(withDuration: 0.2) {
+                        cell.backgroundColor = UIColor(hexString: "#7e7ecf").withAlphaComponent(0.2)
+                        cell.name.textColor = .purpleText()
+                    }
+                    
+                    if emptyFollowingEventsShadowView.alpha != 0 { //ensure empty events view is hidden
+                        UIView.animate(withDuration: 0.2) {
+                            self.emptyFollowingEventsShadowView.alpha = 0
+                            self.followingSectionCollectionView.alpha = 1
+                        }
+                    }
+                    selectedIndexPath = nil
+                    bookmarkedEventIDArray.removeAll()
+                    userFollowingsEvents.removeAll()
+                    followingSectionCollectionView.reloadData()
+                    getCurrentUserFollowingsEvents(limit: eventsLimit)
+                }
+
             }
             
         case followingSectionCollectionView:
             delegate?.followingCellTapped(eventID: userFollowingsEvents[indexPath.row].id ?? "")
             
         default: print("error")
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
+        switch collectionView {
+        case followingsCollectionView:
+            let cell = followingsCollectionView.cellForItem(at: indexPath) as! FollowingsCell
+            UIView.animate(withDuration: 0.2) {
+                cell.backgroundColor = UIColor(hexString: "#7e7ecf").withAlphaComponent(0.2)
+                cell.name.textColor = .purpleText()
+            }
+            selectedIndexPath = nil
+
+        default: print("no action needed")
         }
     }
 }
@@ -458,12 +514,18 @@ extension FollowingSection: FollowingSectionCellDelegate {
         followingsCollectionView.isUserInteractionEnabled = false
         UserService.getUserFollowings(skip: skip, limit: limit, targetProfile: targetProfile, targetType: targetType).done { response in
             self.userFollowings.append(contentsOf: response.list)
+            self.gotMoreFollowings = response.list.count < self.followingsLimit || response.list.count == 0 ? false : true
             
             UIView.animate(withDuration: 0.2) {
                 self.followingSectionDesc.alpha = 0
                 self.followingsCollectionView.alpha = 1
             }
             }.ensure {
+                if self.loadingIndicator.alpha != 0 {
+                    UIView.animate(withDuration: 0.2) {
+                        self.loadingIndicator.alpha = 0
+                    }
+                }
                 self.followingsCollectionView.reloadData()
                 self.followingsCollectionView.isUserInteractionEnabled = true
                 
@@ -531,6 +593,9 @@ extension FollowingSection: FollowingSectionCellDelegate {
                     self.followingSectionCollectionView.alpha = 0
                     self.emptyFollowingEventsShadowView.alpha = 1
                 })
+                
+                /*enable here if busker no events, otherwise (i.e. busker got events) the state will be handled in checkBookmarkBtnState to avoid crashing */
+                self.followingsCollectionView.isUserInteractionEnabled = true
             }
             }.ensure {
                 if self.loadingIndicator.alpha != 0 {
@@ -539,7 +604,6 @@ extension FollowingSection: FollowingSectionCellDelegate {
                     }
                 }
                 
-                self.followingsCollectionView.isUserInteractionEnabled = true
                 self.followingSectionCollectionView.isUserInteractionEnabled = true
                 NotificationCenter.default.post(name: .eventListEndRefreshing, object: nil)
                 UIApplication.shared.isNetworkActivityIndicatorVisible = false
@@ -548,8 +612,8 @@ extension FollowingSection: FollowingSectionCellDelegate {
     
     //pull to refresh
     @objc func refreshFollowingSection() {
+        gotMoreFollowings = true
         gotMoreEvents = true
-        isSelectedSingleFollowing = false
         
         //first clear data model
         bookmarkedEventIDArray.removeAll()
