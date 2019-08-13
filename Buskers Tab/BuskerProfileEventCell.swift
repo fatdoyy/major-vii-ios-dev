@@ -18,7 +18,7 @@ class BuskerProfileEventCell: UICollectionViewCell {
     @IBOutlet weak var eventLabel: UILabel!
     @IBOutlet weak var locationLabel: UILabel!
     @IBOutlet weak var bookmarkCount: UILabel!
-    @IBOutlet weak var timeLabel: UILabel!
+    @IBOutlet weak var dateLabel: UILabel!
     
     
     override func awakeFromNib() {
@@ -29,7 +29,7 @@ class BuskerProfileEventCell: UICollectionViewCell {
         eventLabel.textColor = .white
         locationLabel.textColor = .white
         bookmarkCount.textColor = .white
-        timeLabel.textColor = .white
+        dateLabel.textColor = .white
     }
 
 }

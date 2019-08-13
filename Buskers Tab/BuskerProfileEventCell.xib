@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina4_7" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <dependencies>
-        <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -101,10 +97,10 @@
             <size key="customSize" width="295" height="200"/>
             <connections>
                 <outlet property="bookmarkCount" destination="WLK-Q1-f7s" id="BKc-mr-E1E"/>
+                <outlet property="dateLabel" destination="W3B-sH-nxz" id="Hwp-vP-lZS"/>
                 <outlet property="eventImg" destination="Rag-V5-88s" id="mP3-RU-MRU"/>
                 <outlet property="eventLabel" destination="IHh-B3-6me" id="JSf-e1-rbE"/>
                 <outlet property="locationLabel" destination="5cS-QO-UbP" id="LKa-pL-2kR"/>
-                <outlet property="timeLabel" destination="W3B-sH-nxz" id="Hwp-vP-lZS"/>
             </connections>
             <point key="canvasLocation" x="132" y="139.43028485757122"/>
         </collectionViewCell>

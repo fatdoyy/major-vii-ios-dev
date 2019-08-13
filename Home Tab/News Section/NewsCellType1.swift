@@ -18,7 +18,7 @@ class NewsCellType1: UICollectionViewCell {
     static let height = width / aspectRatio
     
     @IBOutlet weak var newsTitle: UILabel!
-    @IBOutlet weak var timeLabel: UILabel!
+    @IBOutlet weak var dateLabel: UILabel!
     //@IBOutlet weak var viewsLabel: UILabel!
     @IBOutlet weak var countLabel: UILabel!
     @IBOutlet weak var imageOverlay: ImageOverlay!
@@ -55,8 +55,7 @@ class NewsCellType1: UICollectionViewCell {
         newsTitle.numberOfLines = 0
         newsTitle.textColor = .whiteText()
         
-        timeLabel.text = "1 month ago"
-        timeLabel.textColor = .lightGrayText()
+        dateLabel.textColor = .lightGrayText()
         
         countLabel.text = "12,843"
         countLabel.textColor = .whiteText()

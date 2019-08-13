@@ -382,7 +382,12 @@ extension BookmarkedSection: UICollectionViewDataSource, UICollectionViewDelegat
                 cell.delegate = self
                 cell.myIndexPath = indexPath
                 cell.eventTitle.text = event.title
-                cell.dateLabel.text = event.dateTime
+                
+                if let eventDate = event.dateTime?.toDate(), let currentDate = Date().toISO().toDate() {
+                    let difference = DateTimeHelper.getEventInterval(from: currentDate, to: eventDate)
+                    cell.dateLabel.text = difference
+                }
+                
                 cell.performerLabel.text = event.organizerProfile?.name
                 cell.bookmarkBtn.backgroundColor = .mintGreen()
                 

@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina6_5" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -37,14 +33,14 @@
                                 <state key="normal" image="tabbar_more"/>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="This is some content. This is some content. This is some content." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hRo-W8-KXq">
-                                <rect key="frame" x="20" y="53" width="295" height="32.666666666666657"/>
+                                <rect key="frame" x="20" y="53" width="295" height="33"/>
                                 <gestureRecognizers/>
                                 <fontDescription key="fontDescription" name=".SFNSText" family=".SF NS Text" pointSize="14"/>
                                 <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2000個拍手" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tci-z6-yc9">
-                                <rect key="frame" x="20" y="304.66666666666669" width="67" height="14.333333333333314"/>
+                                <rect key="frame" x="20" y="304.5" width="67" height="14.5"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="14.33" id="AZf-vC-fSY"/>
                                 </constraints>
@@ -53,7 +49,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="06N-1J-jMo">
-                                <rect key="frame" x="20" y="329" width="137.66666666666666" height="40"/>
+                                <rect key="frame" x="20" y="329" width="137.5" height="40"/>
                                 <color key="backgroundColor" red="0.41568627450000001" green="0.6705882353" blue="0.22352941179999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="wRE-Qs-Xr4"/>
@@ -106,7 +102,7 @@
                                 </state>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="K9b-8k-2Ps">
-                                <rect key="frame" x="284" y="304.66666666666669" width="31" height="14.333333333333314"/>
+                                <rect key="frame" x="284" y="304.5" width="31" height="14.5"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="14.33" id="eLB-iD-jgw"/>
                                 </constraints>
@@ -115,7 +111,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4JC-Nh-uU6">
-                                <rect key="frame" x="177.66666666666663" y="329" width="137.33333333333337" height="40"/>
+                                <rect key="frame" x="177.5" y="329" width="137.5" height="40"/>
                                 <color key="backgroundColor" red="0.41568627450000001" green="0.6705882353" blue="0.22352941179999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="Xjl-aF-Sbn"/>
@@ -123,7 +119,7 @@
                                 <state key="normal" title="Button" image="icon_comment"/>
                             </button>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="ORV-hQ-Mnu">
-                                <rect key="frame" x="0.0" y="101" width="335" height="188"/>
+                                <rect key="frame" x="0.0" y="101.5" width="335" height="187.5"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <collectionViewLayout key="collectionViewLayout" id="IFb-s1-Uzw" customClass="PagedCollectionViewLayout" customModule="major_7_ios" customModuleProvider="target"/>
                             </collectionView>
@@ -191,11 +187,11 @@
                 <outlet property="commentBtn" destination="4JC-Nh-uU6" id="k1f-te-XEu"/>
                 <outlet property="commentSectionBg" destination="lV1-GJ-BZp" id="6vn-JB-PrI"/>
                 <outlet property="contentLabel" destination="hRo-W8-KXq" id="yFQ-OY-TNM"/>
+                <outlet property="dateLabel" destination="K9b-8k-2Ps" id="BHB-N7-dLJ"/>
                 <outlet property="imgCollectionView" destination="ORV-hQ-Mnu" id="VPb-do-bfd"/>
                 <outlet property="moreBtn" destination="Iqs-Eq-0ap" id="oBj-Hb-K5n"/>
                 <outlet property="showMoreBtn" destination="jAV-3c-DWz" id="brC-s0-zOw"/>
                 <outlet property="statsLabel" destination="tci-z6-yc9" id="IkL-4o-U2L"/>
-                <outlet property="timeLabel" destination="K9b-8k-2Ps" id="BHB-N7-dLJ"/>
                 <outlet property="userComment" destination="nLf-Qp-kSC" id="KO6-le-1em"/>
                 <outlet property="userIcon" destination="FQf-0Y-0uh" id="ZCP-fr-8Ln"/>
                 <outlet property="username" destination="ppj-qe-hcs" id="e3k-7Q-maj"/>

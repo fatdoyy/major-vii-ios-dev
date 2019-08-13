@@ -41,11 +41,11 @@ class HomeViewController: UIViewController {
     
     var selectedSection = HomeSelectedSection.News //default section is "News"
     
-    var newsList: [News] = []
+    var news: [News] = []
     var newsLimit = 5 //news limit per request
     var gotMoreNews = true //lazy loading, "true" because default section is News
     
-    var postsList: [Post] = []
+    var posts: [Post] = []
     var attrContentArr: [NSAttributedString] = [] //attributed string array
     var postsLimit = 3 //post limit per request
     var gotMorePosts = false //lazy loading, should be set to true when Posts section is selected
@@ -140,13 +140,13 @@ extension HomeViewController {
         //Then refresh based on selected section
         switch selectedSection {
         case .News:
-            newsList.removeAll()
+            news.removeAll()
             mainCollectionView.reloadData()
             gotMoreNews = true
             getNews(limit: newsLimit)
             
         case .Posts:
-            postsList.removeAll()
+            posts.removeAll()
             mainCollectionView.reloadData()
             gotMorePosts = true
             getPosts(limit: postsLimit)
@@ -161,7 +161,7 @@ extension HomeViewController {
         mainCollectionView.isUserInteractionEnabled = false
         NewsService.getList(skip: skip, limit: limit).done { response -> () in
             //self.newsList = response.list
-            self.newsList.append(contentsOf: response.list)
+            self.news.append(contentsOf: response.list)
             self.gotMoreNews = response.list.count < self.newsLimit || response.list.count == 0 ? false : true
             self.mainCollectionView.reloadData()
             }.ensure {
@@ -183,21 +183,21 @@ extension HomeViewController {
     private func getPosts(skip: Int? = nil, limit: Int? = nil) {
         mainCollectionView.isUserInteractionEnabled = false
         PostService.getList(skip: skip, limit: limit).done { response -> () in
-            self.postsList.append(contentsOf: response.list)
+            self.posts.append(contentsOf: response.list)
             //            if response.list.count < self.postsLimit || response.list.count == 0 {
             //                self.gotMorePosts = false
             //            }
             self.gotMorePosts = response.list.count < self.postsLimit || response.list.count == 0 ? false : true
             
             //set text attributes to content and add them to new array (i.e. attrContentArr)
-            for post in self.postsList {
+            for post in self.posts {
                 if let content = post.content {
                     let contentAttrString = NSAttributedString(string: content, attributes: TextAttributes.postContentConfig())
                     self.attrContentArr.append(contentAttrString)
                 }
             }
             
-            self.isPostCellExpanded = Array(repeating: false, count: self.postsList.count)
+            self.isPostCellExpanded = Array(repeating: false, count: self.posts.count)
             self.mainCollectionView.reloadData()
             }.ensure {
                 self.mainCollectionView.isUserInteractionEnabled = true
@@ -220,10 +220,10 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
         if section == 0 { return 1 } else { // News|Posts section
             switch selectedSection {
             case .News:
-                let count = newsList.isEmpty ? 3 : newsList.count
+                let count = news.isEmpty ? 3 : news.count
                 return count
             case .Posts:
-                let count = postsList.isEmpty ? 3 : postsList.count
+                let count = posts.isEmpty ? 3 : posts.count
                 return count
             }
         }
@@ -239,50 +239,65 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
         } else { // news|posts section
             switch selectedSection {
             case .News:
-                if !newsList.isEmpty {
-                    switch newsList[indexPath.row].cellType! {
+                if !news.isEmpty {
+                    switch news[indexPath.row].cellType! {
                     case 1:
                         let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: NewsCellType1.reuseIdentifier, for: indexPath) as! NewsCellType1
                         
                         //Hashtag.createAtCell(cell: cell, position: .cellTop, dataSource: newsList[indexPath.row].hashtags, multiLines: true, solidColor: true)
-                        let hashtagsArr = newsList[indexPath.row].hashtags
+                        let hashtagsArr = news[indexPath.row].hashtags
                         if !hashtagsArr.isEmpty { cell.hashtagsArray = hashtagsArr }
                         
-                        cell.newsTitle.text = newsList[indexPath.row].title
+                        cell.newsTitle.text = news[indexPath.row].title
                         //cell.bgImgView.sd_imageTransition = .fade
-                        if let url = URL(string: newsList[indexPath.row].coverImages[0].secureUrl!) {
+                        if let url = URL(string: news[indexPath.row].coverImages[0].secureUrl!) {
                             cell.bgImgView.kf.setImage(with: url, options: [.transition(.fade(0.3))])
+                        }
+                        
+                        if let newsDate = news[indexPath.row].publishTime?.toDate(), let currentDate = Date().toISO().toDate() {
+                            let difference = DateTimeHelper.getNewsOrPostInterval(from: currentDate, to: newsDate)
+                            cell.dateLabel.text = difference
                         }
                         
                         return cell
                     case 2:
                         let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: NewsCellType2.reuseIdentifier, for: indexPath) as! NewsCellType2
                         
-                        let hashtagsArr = newsList[indexPath.row].hashtags
+                        let hashtagsArr = news[indexPath.row].hashtags
                         if !hashtagsArr.isEmpty { cell.hashtagsArray = hashtagsArr }
                         
-                        cell.newsTitle.text = newsList[indexPath.row].title
+                        cell.newsTitle.text = news[indexPath.row].title
                         
-                        if let url = URL(string: newsList[indexPath.row].coverImages[0].secureUrl!) {
+                        if let url = URL(string: news[indexPath.row].coverImages[0].secureUrl!) {
                             cell.bgImgView.kf.setImage(with: url, options: [.transition(.fade(0.3))])
+                        }
+                        
+                        if let newsDate = news[indexPath.row].publishTime?.toDate(), let currentDate = Date().toISO().toDate() {
+                            let difference = DateTimeHelper.getNewsOrPostInterval(from: currentDate, to: newsDate)
+                            cell.dateLabel.text = difference
                         }
                         
                         return cell
                     case 3:
                         let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: NewsCellType3.reuseIdentifier, for: indexPath) as! NewsCellType3
                         
-                        let hashtagsArr = newsList[indexPath.row].hashtags
+                        let hashtagsArr = news[indexPath.row].hashtags
                         if !hashtagsArr.isEmpty { cell.hashtagsArray = hashtagsArr } else {
                             cell.newsTitleTopConstraint.isActive = false
                             cell.newsTitle.snp.remakeConstraints { (make) in
                                 make.top.equalTo(25)
                             }
                         }
-                        cell.newsTitle.text = newsList[indexPath.row].title
-                        cell.subTitle.text = newsList[indexPath.row].subTitle
+                        cell.newsTitle.text = news[indexPath.row].title
+                        cell.subTitle.text = news[indexPath.row].subTitle
                         
-                        if let url = URL(string: newsList[indexPath.row].coverImages[0].secureUrl!) {
+                        if let url = URL(string: news[indexPath.row].coverImages[0].secureUrl!) {
                             cell.bgImgView.kf.setImage(with: url, options: [.transition(.fade(0.3))])
+                        }
+                        
+                        if let newsDate = news[indexPath.row].publishTime?.toDate(), let currentDate = Date().toISO().toDate() {
+                            let difference = DateTimeHelper.getNewsOrPostInterval(from: currentDate, to: newsDate)
+                            cell.dateLabel.text = difference
                         }
                         
                         return cell
@@ -303,25 +318,35 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
                         cell.gradientBg.isHidden = false
                         cell.gradientBg.startAnimation()
                         
-                        let hashtagsArr = newsList[indexPath.row].hashtags
+                        let hashtagsArr = news[indexPath.row].hashtags
                         if !hashtagsArr.isEmpty { cell.hashtagsArray = hashtagsArr } else {
                             cell.newsTitleTopConstraint.isActive = false
                             cell.newsTitle.snp.remakeConstraints { (make) in
                                 make.top.equalTo(25)
                             }
                         }
-                        cell.newsTitle.text = newsList[indexPath.row].title
-                        cell.subTitle.text = newsList[indexPath.row].subTitle
+                        cell.newsTitle.text = news[indexPath.row].title
+                        cell.subTitle.text = news[indexPath.row].subTitle
+                        
+                        if let newsDate = news[indexPath.row].publishTime?.toDate(), let currentDate = Date().toISO().toDate() {
+                            let difference = DateTimeHelper.getNewsOrPostInterval(from: currentDate, to: newsDate)
+                            cell.dateLabel.text = difference
+                        }
                         
                         return cell
                     case 5:
                         let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: NewsCellType5.reuseIdentifier, for: indexPath) as! NewsCellType5
                         
-                        let hashtagsArr = newsList[indexPath.row].hashtags
+                        let hashtagsArr = news[indexPath.row].hashtags
                         if !hashtagsArr.isEmpty { cell.hashtagsArray = hashtagsArr }
                         
-                        cell.newsTitle.text = newsList[indexPath.row].title
-                        cell.subTitle.text = newsList[indexPath.row].subTitle
+                        cell.newsTitle.text = news[indexPath.row].title
+                        cell.subTitle.text = news[indexPath.row].subTitle
+                        
+                        if let newsDate = news[indexPath.row].publishTime?.toDate(), let currentDate = Date().toISO().toDate() {
+                            let difference = DateTimeHelper.getNewsOrPostInterval(from: currentDate, to: newsDate)
+                            cell.dateLabel.text = difference
+                        }
                         
                         return cell
                     default: //loading template
@@ -334,25 +359,28 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
                 }
                 
             case .Posts:
-                if !postsList.isEmpty {
+                if !posts.isEmpty {
                     let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: HomePostCell.reuseIdentifier, for: indexPath) as! HomePostCell
                     cell.delegate = self
                     
-                    if let url = URL(string: postsList[indexPath.row].authorProfile?.coverImages[0].secureUrl! ?? "") {
+                    if let url = URL(string: posts[indexPath.row].authorProfile?.coverImages[0].secureUrl! ?? "") {
                         cell.buskerIcon.kf.setImage(with: url, options: [.transition(.fade(0.3))])
                     }
                     
                     for view in cell.skeletonViews { view.hideSkeleton() }
                     for view in cell.viewsToShowLater { view.alpha = 1 }
                     
-                    cell.timeLabel.text = "3 days ago"
+                    if let postDate = posts[indexPath.row].publishTime?.toDate(), let currentDate = Date().toISO().toDate() {
+                        let difference = DateTimeHelper.getNewsOrPostInterval(from: currentDate, to: postDate)
+                        cell.dateLabel.text = difference
+                    }
                     
                     cell.contentLabel.snp.removeConstraints()
                     cell.statsLabel.snp.removeConstraints()
                     for constraint in cell.tempConstraints { constraint.isActive = true }
                     
                     cell.indexPath = indexPath
-                    cell.buskerName.text = postsList[indexPath.row].authorProfile?.name
+                    cell.buskerName.text = posts[indexPath.row].authorProfile?.name
                     cell.contentLabel.numberOfLines = isPostCellExpanded[indexPath.row] == true ? 0 : 2
                     cell.contentLabel.attributedText = attrContentArr[indexPath.row] //not getting from postsList because we need attributed text
                     cell.contentLabel.sizeToFit()
@@ -411,14 +439,14 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         switch selectedSection {
         case .News:
-            if (indexPath.row == newsList.count - 1 ) {
+            if (indexPath.row == news.count - 1 ) {
                 print("Fetching news...")
-                gotMoreNews ? getNews(skip: newsList.count, limit: newsLimit) : print("No more news to fetch!")
+                gotMoreNews ? getNews(skip: news.count, limit: newsLimit) : print("No more news to fetch!")
             }
         case .Posts:
-            if (indexPath.row == postsList.count - 1 ) {
+            if (indexPath.row == posts.count - 1 ) {
                 print("Fetching posts...")
-                gotMorePosts ? getPosts(skip: postsList.count, limit: postsLimit) : print("No more posts to fetch!")
+                gotMorePosts ? getPosts(skip: posts.count, limit: postsLimit) : print("No more posts to fetch!")
             }
         }
     }
@@ -427,8 +455,8 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
         if indexPath.section == 0 /* Upcoming events section */ { return CGSize(width: view.frame.width, height: EventsSection.height) } else {
             switch selectedSection {
             case .News:
-                if !newsList.isEmpty {
-                    switch newsList[indexPath.row].cellType! {
+                if !news.isEmpty {
+                    switch news[indexPath.row].cellType! {
                     case 1, 2:  return CGSize(width: NewsCellType1.width, height: NewsCellType1.height) //cell type 1,2 have same height
                     default:    return CGSize(width: NewsCellType3.width, height: NewsCellType3.height) //cell type 3,4,5 have same height
                     }
@@ -437,7 +465,7 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
                 }
                 
             case .Posts: //dynamic cell height (i.e. attributed text height)
-                if !postsList.isEmpty {
+                if !posts.isEmpty {
                     let attrTextHeight = attrContentArr[indexPath.row].height(withWidth: HomePostCell.width)
                     
                     let sizeWithText = CGSize(width: HomePostCell.width, height: HomePostCell.xibHeight - HomePostCell.commentSectionHeight - 188)
@@ -484,7 +512,7 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
             switch selectedSection {
             case .News:
                 print("News cell index: \(indexPath.row)")
-                NewsDetailViewController.push(fromView: self, newsID: newsList[indexPath.row].id!)
+                NewsDetailViewController.push(fromView: self, newsID: news[indexPath.row].id!)
                 
             case .Posts:
                 let currentCell = mainCollectionView.cellForItem(at: indexPath) as! HomePostCell
@@ -583,7 +611,7 @@ extension HomeViewController: NewsSectionHeaderDelegate {
         print("news btn tapped")
         
         if selectedSection != .News {
-            newsList.removeAll()
+            news.removeAll()
             mainCollectionView.reloadData()
             gotMoreNews = true
             getNews(limit: newsLimit)
@@ -597,7 +625,7 @@ extension HomeViewController: NewsSectionHeaderDelegate {
         print("post btn tapped")
         
         if selectedSection != .Posts {
-            postsList.removeAll()
+            posts.removeAll()
             mainCollectionView.reloadData()
             gotMorePosts = true
             getPosts(limit: postsLimit)

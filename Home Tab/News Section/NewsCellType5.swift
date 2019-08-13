@@ -15,7 +15,7 @@ class NewsCellType5: UICollectionViewCell {
     
     @IBOutlet weak var newsTitle: UILabel!
     @IBOutlet weak var subTitle: UILabel!
-    @IBOutlet weak var timeLabel: UILabel!
+    @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var viewsLabel: UILabel!
     @IBOutlet weak var countLabel: UILabel!
     @IBOutlet weak var hashtagsCollectionView: UICollectionView!
@@ -79,8 +79,7 @@ class NewsCellType5: UICollectionViewCell {
         subTitle.text = ""
         subTitle.textColor = .whiteText()
         
-        timeLabel.text = "3 days ago"
-        timeLabel.textColor = .lightGrayText()
+        dateLabel.textColor = .lightGrayText()
         
         countLabel.text = "2,636"
         countLabel.textColor = .whiteText()

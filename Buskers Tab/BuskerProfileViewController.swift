@@ -1162,7 +1162,11 @@ extension BuskerProfileViewController: UICollectionViewDelegateFlowLayout, UICol
                 cell.eventLabel.text = events[indexPath.row].title
                 cell.locationLabel.text = events[indexPath.row].address
                 cell.bookmarkCount.text = "123"
-                cell.timeLabel.text = events[indexPath.row].dateTime
+                
+                if let eventDate = events[indexPath.row].dateTime?.toDate(), let currentDate = Date().toISO().toDate() {
+                    let difference = DateTimeHelper.getEventInterval(from: currentDate, to: eventDate)
+                    cell.dateLabel.text = difference
+                }
             }
             
             return cell
@@ -1176,7 +1180,10 @@ extension BuskerProfileViewController: UICollectionViewDelegateFlowLayout, UICol
 //                }
                 cell.buskerIcon.image = UIImage(named: "cat")
                 cell.buskerLabel.text = posts[indexPath.row].authorProfile?.name
-                cell.timeLabel.text = posts[indexPath.row].publishTime
+                if let postDate = posts[indexPath.row].publishTime?.toDate(), let currentDate = Date().toISO().toDate() {
+                    let difference = DateTimeHelper.getNewsOrPostInterval(from: currentDate, to: postDate)
+                    cell.dateLabel.text = difference
+                }
                 
                 if let content = posts[indexPath.row].content {
                     cell.contentLabel.text = content

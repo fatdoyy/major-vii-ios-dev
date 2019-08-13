@@ -41,42 +41,54 @@ PODS:
     - Bolts (~> 1.9)
   - FBSDKLoginKit (4.38.1):
     - FBSDKCoreKit
-  - Firebase/Core (6.5.0):
+  - Firebase/Core (6.6.0):
     - Firebase/CoreOnly
-    - FirebaseAnalytics (= 6.0.4)
-  - Firebase/CoreOnly (6.5.0):
-    - FirebaseCore (= 6.1.0)
-  - FirebaseAnalytics (6.0.4):
-    - FirebaseCore (~> 6.1)
+    - FirebaseAnalytics (= 6.1.0)
+  - Firebase/CoreOnly (6.6.0):
+    - FirebaseCore (= 6.2.0)
+  - FirebaseAnalytics (6.1.0):
+    - FirebaseCore (~> 6.2)
     - FirebaseInstanceID (~> 4.2)
-    - GoogleAppMeasurement (= 6.0.4)
+    - GoogleAppMeasurement (= 6.1.0)
     - GoogleUtilities/AppDelegateSwizzler (~> 6.0)
     - GoogleUtilities/MethodSwizzler (~> 6.0)
     - GoogleUtilities/Network (~> 6.0)
     - "GoogleUtilities/NSData+zlib (~> 6.0)"
     - nanopb (~> 0.3)
-  - FirebaseCore (6.1.0):
-    - GoogleUtilities/Environment (~> 6.0)
-    - GoogleUtilities/Logger (~> 6.0)
-  - FirebaseInstanceID (4.2.2):
+  - FirebaseCore (6.2.0):
+    - FirebaseCoreDiagnostics (~> 1.0)
+    - FirebaseCoreDiagnosticsInterop (~> 1.0)
+    - GoogleUtilities/Environment (~> 6.2)
+    - GoogleUtilities/Logger (~> 6.2)
+  - FirebaseCoreDiagnostics (1.0.1):
+    - FirebaseCoreDiagnosticsInterop (~> 1.0)
+    - GoogleDataTransportCCTSupport (~> 1.0)
+    - GoogleUtilities/Environment (~> 6.2)
+    - GoogleUtilities/Logger (~> 6.2)
+  - FirebaseCoreDiagnosticsInterop (1.0.0)
+  - FirebaseInstanceID (4.2.3):
     - FirebaseCore (~> 6.0)
     - GoogleUtilities/Environment (~> 6.0)
     - GoogleUtilities/UserDefaults (~> 6.0)
-  - FloatingPanel (1.6.3)
+  - FloatingPanel (1.6.4)
   - Floaty (4.2.0)
   - fluid-slider (1.1.0):
     - pop
   - GlitchLabel (2.1.0)
-  - GoogleAppMeasurement (6.0.4):
+  - GoogleAppMeasurement (6.1.0):
     - GoogleUtilities/AppDelegateSwizzler (~> 6.0)
     - GoogleUtilities/MethodSwizzler (~> 6.0)
     - GoogleUtilities/Network (~> 6.0)
     - "GoogleUtilities/NSData+zlib (~> 6.0)"
     - nanopb (~> 0.3)
-  - GoogleMaps (3.2.0):
-    - GoogleMaps/Maps (= 3.2.0)
-  - GoogleMaps/Base (3.2.0)
-  - GoogleMaps/Maps (3.2.0):
+  - GoogleDataTransport (1.1.1)
+  - GoogleDataTransportCCTSupport (1.0.1):
+    - GoogleDataTransport (~> 1.1)
+    - nanopb
+  - GoogleMaps (3.3.0):
+    - GoogleMaps/Maps (= 3.3.0)
+  - GoogleMaps/Base (3.3.0)
+  - GoogleMaps/Maps (3.3.0):
     - GoogleMaps/Base
   - GoogleSignIn (4.4.0):
     - "GoogleToolboxForMac/NSDictionary+URLArguments (~> 2.1)"
@@ -90,23 +102,23 @@ PODS:
     - GoogleToolboxForMac/Defines (= 2.2.1)
     - "GoogleToolboxForMac/NSString+URLArguments (= 2.2.1)"
   - "GoogleToolboxForMac/NSString+URLArguments (2.2.1)"
-  - GoogleUtilities/AppDelegateSwizzler (6.2.3):
+  - GoogleUtilities/AppDelegateSwizzler (6.2.4):
     - GoogleUtilities/Environment
     - GoogleUtilities/Logger
     - GoogleUtilities/Network
-  - GoogleUtilities/Environment (6.2.3)
-  - GoogleUtilities/Logger (6.2.3):
+  - GoogleUtilities/Environment (6.2.4)
+  - GoogleUtilities/Logger (6.2.4):
     - GoogleUtilities/Environment
-  - GoogleUtilities/MethodSwizzler (6.2.3):
+  - GoogleUtilities/MethodSwizzler (6.2.4):
     - GoogleUtilities/Logger
-  - GoogleUtilities/Network (6.2.3):
+  - GoogleUtilities/Network (6.2.4):
     - GoogleUtilities/Logger
     - "GoogleUtilities/NSData+zlib"
     - GoogleUtilities/Reachability
-  - "GoogleUtilities/NSData+zlib (6.2.3)"
-  - GoogleUtilities/Reachability (6.2.3):
+  - "GoogleUtilities/NSData+zlib (6.2.4)"
+  - GoogleUtilities/Reachability (6.2.4):
     - GoogleUtilities/Logger
-  - GoogleUtilities/UserDefaults (6.2.3):
+  - GoogleUtilities/UserDefaults (6.2.4):
     - GoogleUtilities/Logger
   - GTMSessionFetcher/Core (1.2.2)
   - Hero (1.4.1)
@@ -116,11 +128,10 @@ PODS:
     - InfiniteLayout/Core (= 0.4.1)
   - InfiniteLayout/Core (0.4.1):
     - CocoaProxy (~> 0)
-  - JGProgressHUD (2.0.3)
-  - Kingfisher (5.7.0)
+  - JGProgressHUD (2.0.4)
+  - Kingfisher (5.7.1)
   - Localize-Swift (2.0.0)
   - MarqueeLabel (4.0.0)
-  - MXParallaxHeader (0.6.1)
   - nanopb (0.3.901):
     - nanopb/decode (= 0.3.901)
     - nanopb/encode (= 0.3.901)
@@ -139,13 +150,14 @@ PODS:
   - Reqres (3.1.0)
   - SkeletonView (1.6)
   - SkyFloatingLabelTextField (3.7.0)
-  - SnapKit (5.0.0)
+  - SnapKit (5.0.1)
+  - SwiftDate (6.0.3)
   - SwiftGifOrigin (1.7.0)
   - SwiftMessages (7.0.0):
     - SwiftMessages/App (= 7.0.0)
   - SwiftMessages/App (7.0.0)
   - Validator (3.2)
-  - XCDYouTubeKit (2.7.7)
+  - XCDYouTubeKit (2.7.8)
 
 DEPENDENCIES:
   - Alamofire (~> 4.8)
@@ -173,7 +185,6 @@ DEPENDENCIES:
   - Kingfisher
   - Localize-Swift (~> 2.0)
   - MarqueeLabel
-  - MXParallaxHeader
   - NVActivityIndicatorView
   - ObjectMapper
   - Parchment
@@ -185,6 +196,7 @@ DEPENDENCIES:
   - SkeletonView (= 1.6)
   - SkyFloatingLabelTextField (~> 3.0)
   - SnapKit
+  - SwiftDate
   - SwiftGifOrigin (~> 1.6)
   - SwiftMessages
   - Validator (from `https://github.com/kikikiktai/Validator.git`)
@@ -208,12 +220,16 @@ SPEC REPOS:
     - Firebase
     - FirebaseAnalytics
     - FirebaseCore
+    - FirebaseCoreDiagnostics
+    - FirebaseCoreDiagnosticsInterop
     - FirebaseInstanceID
     - FloatingPanel
     - Floaty
     - fluid-slider
     - GlitchLabel
     - GoogleAppMeasurement
+    - GoogleDataTransport
+    - GoogleDataTransportCCTSupport
     - GoogleMaps
     - GoogleSignIn
     - GoogleToolboxForMac
@@ -224,7 +240,6 @@ SPEC REPOS:
     - Kingfisher
     - Localize-Swift
     - MarqueeLabel
-    - MXParallaxHeader
     - nanopb
     - NVActivityIndicatorView
     - ObjectMapper
@@ -238,6 +253,7 @@ SPEC REPOS:
     - SkeletonView
     - SkyFloatingLabelTextField
     - SnapKit
+    - SwiftDate
     - SwiftGifOrigin
     - SwiftMessages
     - XCDYouTubeKit
@@ -276,28 +292,31 @@ SPEC CHECKSUMS:
   FacebookLogin: ebcf34714a1cb9f0759d9f071cfb01ed500996cf
   FBSDKCoreKit: 8d47857400e2f5bdea697a80daff882e91c84ef6
   FBSDKLoginKit: 4621c690d9dd8628031a4791497062183ea34b0d
-  Firebase: dedc9e48ea3f3649ad5f6b982f8a0c73508a14b5
-  FirebaseAnalytics: 3fb375bc9d13779add4039716f868d233a473fad
-  FirebaseCore: aecf02fb2274ec361b9bebeac112f5daa18273bd
-  FirebaseInstanceID: 662b8108a09fe9ed01aafdedba100fde8536b0f6
-  FloatingPanel: a318d2f98eeb44e09c336d920f0eabc7c7b1579d
+  Firebase: a2b5951f30ff38fd3b3bdae9c7d340f940fd3c51
+  FirebaseAnalytics: 48414ae5cbf6976d8a2f7177e0466540e5ab33ce
+  FirebaseCore: 8c9e08bce0c72a3affd83927d8184cf244918bc8
+  FirebaseCoreDiagnostics: 4c04ae09d0ab027c30179828c6bb47764df1bd13
+  FirebaseCoreDiagnosticsInterop: 6829da2b8d1fc795ff1bd99df751d3788035d2cb
+  FirebaseInstanceID: 8b42755db950682e7de0d167bc6fb26a57b244af
+  FloatingPanel: 062e0500e3b9848e3eb91595367fc6d579e428df
   Floaty: e2bd5a0f6f7f70899e26ff2da31081c8bee8d1b0
   fluid-slider: 68037ac7247f16a89f3e24ff5d0167c8eea6f50b
   GlitchLabel: b7970749cfdc780ef5489709726a60dd93c71e77
-  GoogleAppMeasurement: 183bd916af7f80deb67c01888368f1108d641832
-  GoogleMaps: 5046d7edfe381c1a0b20fdaf293915a375c3122b
+  GoogleAppMeasurement: 47285fa897e5a125df56b9ef8750a1d81e4598a8
+  GoogleDataTransport: ffbadce4ab93c88fb9dd8e6366c47bfcb4a32193
+  GoogleDataTransportCCTSupport: 3451e7d8ba19093e533362a6d78d6d9014c6a037
+  GoogleMaps: cfee83da305b9aaeccf92c24ac79df11c3003492
   GoogleSignIn: 7ff245e1a7b26d379099d3243a562f5747e23d39
   GoogleToolboxForMac: b3553629623a3b1bff17f555e736cd5a6d95ad55
-  GoogleUtilities: d2b0e277a95962e09bb27f5cd42f5f0b6a506c7d
+  GoogleUtilities: 64b5e3982b1b01bda26712affd5c523ef32563cf
   GTMSessionFetcher: 61bb0f61a4cb560030f1222021178008a5727a23
   Hero: 497b79bc3aca812a262128b18f1c78306e69e905
   ImageViewer: 997018c2f4f7f9830602349bbcc3b2b776424942
   InfiniteLayout: 458eadbcb94afc3d777141990fbfe7a804a35609
-  JGProgressHUD: 12b20a8f4ffe05258f8635c1ab92816e451f904d
-  Kingfisher: c7d211b54f1f30d8060aadab177d52b4349c825b
+  JGProgressHUD: 62658b14e72cccf179efc7a13bcb54d30b92fc22
+  Kingfisher: 176d377ad339113c99ad4980cbae687f807e20fe
   Localize-Swift: c798ec9286494866f7068f85f7c71283ac5bdab4
   MarqueeLabel: b55b26e690b6ad41faedd95cbf5eae6f1d1735b4
-  MXParallaxHeader: 858c403532ed933b381556a81ce333d7065ad182
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
   NVActivityIndicatorView: b19ddab2576f805cbe0fb2306cba3476e09a1dea
   ObjectMapper: 70187b8941977c62ccfb423caf6b50be405cabf0
@@ -310,12 +329,13 @@ SPEC CHECKSUMS:
   Reqres: da8d0497e660dc12c4db8285f30008c27c1800b7
   SkeletonView: 6c2bf622c352c7e36b4f3c8d73afc46d6c9360d6
   SkyFloatingLabelTextField: 4b46db0ab1ccde0919cded29c656e6b4805eda04
-  SnapKit: fd22d10eb9aff484d79a8724eab922c1ddf89bcf
+  SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
+  SwiftDate: 8d4f14bf1ef68e95094511504856547bf9e3e1a6
   SwiftGifOrigin: fbd6cf37afcfcf97a5c3db996ddc0492e5c5c145
   SwiftMessages: a952f7a9103d9aeab93730a2861d2d8fcdd8758f
   Validator: 9cfe0da15338f2e36fcf9e394f5bc1761888bec4
-  XCDYouTubeKit: ab0bd023c24c69a417c8beacda9502e99e23d6b4
+  XCDYouTubeKit: 43843b87c143120fdcbd908e031258ea60f7ba0a
 
-PODFILE CHECKSUM: 3f31f460d47b6f3271ed905c07cd3b84aa4932a3
+PODFILE CHECKSUM: d4634fc7642ed501a52edf8959cdeb31ad1ab238
 
 COCOAPODS: 1.7.2

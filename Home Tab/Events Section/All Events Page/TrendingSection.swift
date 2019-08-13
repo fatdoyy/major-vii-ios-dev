@@ -165,7 +165,12 @@ extension TrendingSection: UICollectionViewDataSource, UICollectionViewDelegate,
             
             cell.eventTitle.text = trendingEvents[indexPath.row].title
             cell.performerTitle.text = trendingEvents[indexPath.row].organizerProfile?.name
-            cell.dateLabel.text = trendingEvents[indexPath.row].dateTime
+            
+            if let eventDate = trendingEvents[indexPath.row].dateTime?.toDate(), let currentDate = Date().toISO().toDate() {
+                let difference = DateTimeHelper.getEventInterval(from: currentDate, to: eventDate)
+                cell.dateLabel.text = difference
+            }
+            
             cell.bookmarkBtn.backgroundColor = .clear
             
             //detemine bookmarkBtn bg color

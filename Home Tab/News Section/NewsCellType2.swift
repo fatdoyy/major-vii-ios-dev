@@ -14,7 +14,7 @@ class NewsCellType2: UICollectionViewCell {
     static let reuseIdentifier: String = "newsCell2"
     
     @IBOutlet weak var newsTitle: UILabel!
-    @IBOutlet weak var timeLabel: UILabel!
+    @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var viewsLabel: UILabel!
     @IBOutlet weak var countLabel: UILabel!
     @IBOutlet weak var imgOverlayTop: ImageOverlayRevert!
@@ -55,8 +55,7 @@ class NewsCellType2: UICollectionViewCell {
         newsTitle.numberOfLines = 0
         newsTitle.textColor = .whiteText()
         
-        timeLabel.text = "3 days ago"
-        timeLabel.textColor = .lightGrayText()
+        dateLabel.textColor = .lightGrayText()
         
         countLabel.text = "2,636"
         countLabel.textColor = .whiteText()

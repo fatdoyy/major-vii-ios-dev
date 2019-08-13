@@ -181,7 +181,12 @@ class EventDetailsViewController: UIViewController {
         bgView.hashtagsArray = (eventDetails?.item?.hashtags)!
         bgView.hashtagsCollectionView.reloadData()
         
-        bgView.dateLabel.text = eventDetails?.item?.dateTime
+        if let eventDate = eventDetails?.item?.dateTime?.toDate(), let currentDate = Date().toISO().toDate() {
+            let difference = DateTimeHelper.getEventInterval(from: currentDate, to: eventDate)
+            let formattedDate = eventDate.toFormat("yyyy-MM-dd")
+            bgView.dateLabel.text = "\(formattedDate) (\(difference))"
+        }
+
         bgView.venueLabel.text = eventDetails?.item?.venue
         
         // setup attributes for string

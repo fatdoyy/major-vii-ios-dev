@@ -16,7 +16,7 @@ class NewsCellType4: UICollectionViewCell {
     
     @IBOutlet weak var newsTitle: UILabel!
     @IBOutlet weak var subTitle: UILabel!
-    @IBOutlet weak var timeLabel: UILabel!
+    @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var viewsLabel: UILabel!
     @IBOutlet weak var eyeImgView: UIImageView!
     @IBOutlet weak var countLabel: UILabel!
@@ -75,7 +75,7 @@ extension NewsCellType4 {
         
         subTitle.textColor = .whiteText()
         
-        timeLabel.textColor = .lightGrayText()
+        dateLabel.textColor = .lightGrayText()
         
         countLabel.textColor = .whiteText()
         

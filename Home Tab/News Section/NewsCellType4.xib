@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina4_7" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -96,13 +92,13 @@
             <size key="customSize" width="191" height="123"/>
             <connections>
                 <outlet property="countLabel" destination="iH5-Q6-ok1" id="r63-Qt-xmK"/>
+                <outlet property="dateLabel" destination="GDe-vZ-uph" id="dOD-6d-KYZ"/>
                 <outlet property="dummyTagLabel" destination="BNJ-B9-Qmu" id="9zL-Gd-hU3"/>
                 <outlet property="eyeImgView" destination="dt2-ao-Yfa" id="e89-7f-ls5"/>
                 <outlet property="hashtagsCollectionView" destination="g6i-rL-PO5" id="K7O-RJ-j1K"/>
                 <outlet property="newsTitle" destination="OBg-lJ-YT9" id="xGd-b4-Ck8"/>
                 <outlet property="newsTitleTopConstraint" destination="nmC-0l-NDx" id="GJc-GE-Ry0"/>
                 <outlet property="subTitle" destination="OMb-4P-InM" id="BQg-Jh-g5H"/>
-                <outlet property="timeLabel" destination="GDe-vZ-uph" id="dOD-6d-KYZ"/>
                 <outlet property="viewsLabel" destination="bQK-He-l3L" id="nT4-2U-UQ1"/>
                 <outletCollection property="skeletonViews" destination="OBg-lJ-YT9" collectionClass="NSMutableArray" id="kWB-QH-e20"/>
                 <outletCollection property="skeletonViews" destination="OMb-4P-InM" collectionClass="NSMutableArray" id="XRm-o9-et5"/>

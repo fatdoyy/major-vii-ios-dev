@@ -17,7 +17,7 @@ class BuskerProfilePostCell: UICollectionViewCell {
     @IBOutlet weak var bgView: UIView!
     @IBOutlet weak var buskerIcon: UIImageView!
     @IBOutlet weak var buskerLabel: UILabel!
-    @IBOutlet weak var timeLabel: UILabel!
+    @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var moreIcon: UIImageView!
     @IBOutlet weak var contentLabel: UILabel!
     
@@ -34,7 +34,7 @@ class BuskerProfilePostCell: UICollectionViewCell {
         
         buskerIcon.layer.cornerRadius = 32
         buskerLabel.textColor = .white
-        timeLabel.textColor = .white
+        dateLabel.textColor = .white
         contentLabel.textColor = .white
         
         setupNonXibUI()

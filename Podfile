@@ -36,7 +36,7 @@ target 'major-7-ios' do
   pod 'SkeletonView', '1.6'                     # as title
   pod 'BouncyLayout'                            # UICollectionView animation
   pod 'AMScrollingNavbar'                       # UINavigationBar hiding
-  pod 'MXParallaxHeader'                        # parallax header
+  #pod 'MXParallaxHeader'                        # parallax header
   pod 'Floaty', '~> 4.1'                        # floating button
   pod 'JGProgressHUD'                           # progress hud
   pod 'SwiftGifOrigin', '~> 1.6'                # gif in UIImageView
@@ -54,6 +54,7 @@ target 'major-7-ios' do
   pod 'BetterSegmentedControl'                  # segmented control
   pod 'MarqueeLabel'                            # auto scrolling UILabel
   pod 'GlitchLabel'                             # as title
+  pod 'SwiftDate'                                 # as title
 #  pod 'ActiveLabel'                             # supporting Hashtags (#), Mentions (@), URLs (http:/)
 
   pod 'Hero', :git => 'https://github.com/kikikiktai/Hero.git'                                      # transitions

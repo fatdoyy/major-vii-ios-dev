@@ -100,6 +100,7 @@
 		96862EB9219ACE1F00F709B0 /* EventDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96862EB8219ACE1F00F709B0 /* EventDetailsViewController.swift */; };
 		96862EBB219AD8AC00F709B0 /* TabBarToggle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96862EBA219AD8AC00F709B0 /* TabBarToggle.swift */; };
 		9688DA8F22859D0100CCE925 /* PostService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9688DA8E22859D0100CCE925 /* PostService.swift */; };
+		96A34FF423027B2B000E46EE /* DateTimeHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96A34FF323027B2B000E46EE /* DateTimeHelper.swift */; };
 		96AC42F222327F9600F9D62C /* BuskerProfileMemberCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96AC42F022327F9600F9D62C /* BuskerProfileMemberCell.swift */; };
 		96AC42F322327F9600F9D62C /* BuskerProfileMemberCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96AC42F122327F9600F9D62C /* BuskerProfileMemberCell.xib */; };
 		96B0BE4021EDF452003C9BA5 /* HideKeyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B0BE3F21EDF452003C9BA5 /* HideKeyboard.swift */; };
@@ -256,6 +257,7 @@
 		96862EB8219ACE1F00F709B0 /* EventDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDetailsViewController.swift; sourceTree = "<group>"; };
 		96862EBA219AD8AC00F709B0 /* TabBarToggle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarToggle.swift; sourceTree = "<group>"; };
 		9688DA8E22859D0100CCE925 /* PostService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostService.swift; sourceTree = "<group>"; };
+		96A34FF323027B2B000E46EE /* DateTimeHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateTimeHelper.swift; sourceTree = "<group>"; };
 		96AC42F022327F9600F9D62C /* BuskerProfileMemberCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuskerProfileMemberCell.swift; sourceTree = "<group>"; };
 		96AC42F122327F9600F9D62C /* BuskerProfileMemberCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BuskerProfileMemberCell.xib; sourceTree = "<group>"; };
 		96B0BE3F21EDF452003C9BA5 /* HideKeyboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HideKeyboard.swift; sourceTree = "<group>"; };
@@ -503,6 +505,7 @@
 				96C9899D2220307600170609 /* TextHeight.swift */,
 				96B80C3322D3958700E932BA /* TextAttributes.swift */,
 				96E268A322F05A45006AE52A /* InAppNotifications.swift */,
+				96A34FF323027B2B000E46EE /* DateTimeHelper.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -913,6 +916,7 @@
 				96C5541F219199700065D70A /* TrendingSection.swift in Sources */,
 				96F37329224C9B280088E142 /* BookmarkedEventCell.swift in Sources */,
 				960A4760219AA8FE00780AD4 /* HapticFeedback.swift in Sources */,
+				96A34FF423027B2B000E46EE /* DateTimeHelper.swift in Sources */,
 				96C9899C221FFA4100170609 /* UIScrollView.swift in Sources */,
 				964761EF21870EE60004F58C /* NewsService.swift in Sources */,
 				96B3C80122D4D7FB00ED23BD /* UILabel.swift in Sources */,

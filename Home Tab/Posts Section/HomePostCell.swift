@@ -32,7 +32,7 @@ class HomePostCell: UICollectionViewCell {
     @IBOutlet weak var contentLabel: UILabel!
     @IBOutlet weak var imgCollectionView: UICollectionView!
     @IBOutlet weak var statsLabel: UILabel!
-    @IBOutlet weak var timeLabel: UILabel!
+    @IBOutlet weak var dateLabel: UILabel!
     
     @IBOutlet weak var clapBtn: UIButton!
     @IBOutlet weak var commentBtn: UIButton!
@@ -87,7 +87,7 @@ extension HomePostCell {
         contentLabel.translatesAutoresizingMaskIntoConstraints = false
         
         statsLabel.textColor = .whiteText50Alpha()
-        timeLabel.textColor = .whiteText50Alpha()
+        dateLabel.textColor = .whiteText50Alpha()
         
         clapBtn.layer.cornerRadius = GlobalCornerRadius.value / 2
         clapBtn.setTitleColor(.white, for: .normal)

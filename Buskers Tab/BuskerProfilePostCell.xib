@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina4_7" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <dependencies>
-        <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -86,8 +82,8 @@
                 <outlet property="buskerIcon" destination="cPY-ll-H8K" id="ecq-cg-Stp"/>
                 <outlet property="buskerLabel" destination="Shw-9q-tde" id="akM-Je-pGM"/>
                 <outlet property="contentLabel" destination="l7X-2b-Cs0" id="Vkq-sy-Fqt"/>
+                <outlet property="dateLabel" destination="3Rc-Un-Sg0" id="Oj5-w5-vF1"/>
                 <outlet property="moreIcon" destination="2eD-9j-Dys" id="5N0-aR-DAe"/>
-                <outlet property="timeLabel" destination="3Rc-Un-Sg0" id="Oj5-w5-vF1"/>
             </connections>
             <point key="canvasLocation" x="132" y="154.72263868065968"/>
         </collectionViewCell>

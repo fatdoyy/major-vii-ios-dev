@@ -371,7 +371,12 @@ extension FollowingSection: UICollectionViewDataSource, UICollectionViewDelegate
                 cell.delegate = self
                 cell.myIndexPath = indexPath
                 cell.eventTitle.text = event.title
-                cell.dateLabel.text = event.dateTime
+                
+                if let eventDate = event.dateTime?.toDate(), let currentDate = Date().toISO().toDate() {
+                    let difference = DateTimeHelper.getEventInterval(from: currentDate, to: eventDate)
+                    cell.dateLabel.text = difference
+                }
+
                 cell.performerLabel.text = event.organizerProfile?.name
                 cell.bookmarkBtn.backgroundColor = .clear
                 if let url = URL(string: event.images[0].secureUrl!) {
@@ -453,6 +458,7 @@ extension FollowingSection: UICollectionViewDataSource, UICollectionViewDelegate
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         switch collectionView {
         case followingsCollectionView:
+            HapticFeedback.createImpact(style: .medium)
             let cell = followingsCollectionView.cellForItem(at: indexPath) as! FollowingsCell
             
             if let ID = userFollowings[indexPath.row].targetProfile?.id, let name = userFollowings[indexPath.row].targetProfile?.name {
@@ -594,7 +600,7 @@ extension FollowingSection: FollowingSectionCellDelegate {
                     self.emptyFollowingEventsShadowView.alpha = 1
                 })
                 
-                /*enable here if busker no events, otherwise (i.e. busker got events) the state will be handled in checkBookmarkBtnState to avoid crashing */
+                /* enable here if busker no events, otherwise (i.e. busker got events) the state will be handled in checkBookmarkBtnState to avoid crashing */
                 self.followingsCollectionView.isUserInteractionEnabled = true
             }
             }.ensure {
