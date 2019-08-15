@@ -502,10 +502,14 @@ extension FollowingSection: UICollectionViewDataSource, UICollectionViewDelegate
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
         switch collectionView {
         case followingsCollectionView:
-            let cell = followingsCollectionView.cellForItem(at: indexPath) as! FollowingsCell
-            UIView.animate(withDuration: 0.2) {
-                cell.backgroundColor = UIColor(hexString: "#7e7ecf").withAlphaComponent(0.2)
-                cell.name.textColor = .purpleText()
+            if let selectedCell = followingsCollectionView.cellForItem(at: indexPath) {
+                let cell = selectedCell as! FollowingsCell
+                UIView.animate(withDuration: 0.2) {
+                    cell.backgroundColor = UIColor(hexString: "#7e7ecf").withAlphaComponent(0.2)
+                    cell.name.textColor = .purpleText()
+                }
+            } else {
+                
             }
             selectedIndexPath = nil
 

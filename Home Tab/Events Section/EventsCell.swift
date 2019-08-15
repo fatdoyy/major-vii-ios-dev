@@ -35,6 +35,7 @@ class EventsCell: UICollectionViewCell {
     }
     
     override func prepareForReuse() {
+        super.prepareForReuse()
         backgroundColor = .darkGray
         
         if let sublayers = bgView.layer.sublayers {

@@ -30,4 +30,9 @@ class FollowingsCell: UICollectionViewCell {
         }
     }
 
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        name.textColor = .purpleText()
+        backgroundColor = UIColor(hexString: "#7e7ecf").withAlphaComponent(0.2)
+    }
 }

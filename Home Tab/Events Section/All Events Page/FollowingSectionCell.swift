@@ -101,6 +101,7 @@ class FollowingSectionCell: UICollectionViewCell {
     }
     
     override func prepareForReuse() {
+        super.prepareForReuse()
         bookmarkBtn.backgroundColor = .clear
         bgImgView.image = nil
         setupSkeletonView()
