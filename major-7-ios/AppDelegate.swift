@@ -46,9 +46,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
 
         let fbDidHandle = FBSDKApplicationDelegate.sharedInstance().application(app, open: url, sourceApplication: options[.sourceApplication] as? String, annotation: options[.annotation])
-        let googleDidHandle = GIDSignIn.sharedInstance().handle(url as URL?, sourceApplication: options[.sourceApplication] as? String, annotation: options[.annotation])
+        //let googleDidHandle = GIDSignIn.sharedInstance().handle(url as URL?, sourceApplication: options[.sourceApplication] as? String, annotation: options[.annotation])
+        let googleDidHandle = GIDSignIn.sharedInstance()?.handle(url as URL?)
         
-        return fbDidHandle || googleDidHandle
+        return fbDidHandle || googleDidHandle!
     }
     
     func applicationWillResignActive(_ application: UIApplication) {

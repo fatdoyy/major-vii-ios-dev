@@ -11,6 +11,8 @@
 		96086BB322E1D3690016A0B8 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96086BB222E1D3690016A0B8 /* User.swift */; };
 		960A4760219AA8FE00780AD4 /* HapticFeedback.swift in Sources */ = {isa = PBXBuildFile; fileRef = 960A475F219AA8FE00780AD4 /* HapticFeedback.swift */; };
 		960B54BE22437C0700FEA079 /* BuskersSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 960B54BD22437C0700FEA079 /* BuskersSearchViewController.swift */; };
+		961EC5C5230A8CFE003EE66C /* SearchService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 961EC5C4230A8CFE003EE66C /* SearchService.swift */; };
+		961EC5C7230A8F2F003EE66C /* SearchResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 961EC5C6230A8F2F003EE66C /* SearchResult.swift */; };
 		9620021821DDFC320055D070 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9620021721DDFC320055D070 /* LoginViewController.swift */; };
 		9620021A21DDFDC20055D070 /* LoginView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9620021921DDFDC20055D070 /* LoginView.xib */; };
 		9620021C21DDFDED0055D070 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9620021B21DDFDED0055D070 /* LoginView.swift */; };
@@ -168,6 +170,8 @@
 		96086BB222E1D3690016A0B8 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		960A475F219AA8FE00780AD4 /* HapticFeedback.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticFeedback.swift; sourceTree = "<group>"; };
 		960B54BD22437C0700FEA079 /* BuskersSearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuskersSearchViewController.swift; sourceTree = "<group>"; };
+		961EC5C4230A8CFE003EE66C /* SearchService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchService.swift; sourceTree = "<group>"; };
+		961EC5C6230A8F2F003EE66C /* SearchResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResult.swift; sourceTree = "<group>"; };
 		9620021721DDFC320055D070 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		9620021921DDFDC20055D070 /* LoginView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LoginView.xib; sourceTree = "<group>"; };
 		9620021B21DDFDED0055D070 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
@@ -387,8 +391,9 @@
 				96625F7821C7859E0086A2B2 /* Event.swift */,
 				96625F7E21C8C8030086A2B2 /* EventDetails.swift */,
 				967BD33C223F800000469CF9 /* Post.swift */,
-				96FAF248223A287C00DF23B9 /* Busker.swift */,
 				96625F7621C785670086A2B2 /* Image.swift */,
+				96FAF248223A287C00DF23B9 /* Busker.swift */,
+				961EC5C6230A8F2F003EE66C /* SearchResult.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -402,6 +407,7 @@
 				9620021D21DF34B90055D070 /* UserService.swift */,
 				96625F7A21C793DA0086A2B2 /* EventService.swift */,
 				96FAF246223A1D7300DF23B9 /* BuskerService.swift */,
+				961EC5C4230A8CFE003EE66C /* SearchService.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -955,7 +961,9 @@
 				96C5542E2192C6730065D70A /* FollowingSectionCell.swift in Sources */,
 				967B562B2244B68D006F0AF9 /* GenreCell.swift in Sources */,
 				963A9EDA22FC2609006D4065 /* FollowingsCell.swift in Sources */,
+				961EC5C5230A8CFE003EE66C /* SearchService.swift in Sources */,
 				96C55447219408410065D70A /* FeaturedSectionHeader.swift in Sources */,
+				961EC5C7230A8F2F003EE66C /* SearchResult.swift in Sources */,
 				96625F7921C7859E0086A2B2 /* Event.swift in Sources */,
 				CA550AAE21706A65008E493D /* major_7_ios.xcdatamodeld in Sources */,
 				96625F7721C785670086A2B2 /* Image.swift in Sources */,

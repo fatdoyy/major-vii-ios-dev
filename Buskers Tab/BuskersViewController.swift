@@ -7,9 +7,15 @@
 //
 
 import UIKit
+import Kingfisher
+
+protocol BuskersViewControllerDelegate: class {
+    func searchWith(query: String)
+}
 
 class BuskersViewController: UIViewController {
     //weak var previousController: UIViewController? //for tabbar scroll to top
+    weak var delegate: BuskersViewControllerDelegate?
     
     var screenWidth: CGFloat = UIScreen.main.bounds.width
     var screenHeight: CGFloat = UIScreen.main.bounds.height
@@ -100,6 +106,7 @@ extension BuskersViewController {
 extension BuskersViewController {
     private func setupSearchController() {
         searchResultsVC.delegate = self
+        searchResultsVC.buskerVCInstance = self
         searchController = UISearchController(searchResultsController: searchResultsVC)
         searchController.delegate = self
         searchController.searchResultsUpdater = searchResultsVC
@@ -114,15 +121,26 @@ extension BuskersViewController {
         UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).defaultTextAttributes = [.foregroundColor: UIColor.white]
         
         if let textfield = searchController.searchBar.value(forKey: "searchField") as? UITextField {
+            //setup UI
             if let backgroundview = textfield.subviews.first {
                 // Rounded corner
                 backgroundview.layer.cornerRadius = GlobalCornerRadius.value / 1.2
                 backgroundview.clipsToBounds = true
             }
+            
+            //add target to detect input in real time
+            textfield.addTarget(self, action: #selector(searchWithQuery), for: .editingChanged)
         }
         
         navigationItem.searchController = searchController
         navigationItem.hidesSearchBarWhenScrolling = false
+    }
+    
+    //Do search action whenever user types
+    @objc func searchWithQuery() {
+        if let string = searchController.searchBar.text {
+            delegate?.searchWith(query: string)
+        }
     }
     
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
@@ -204,7 +222,11 @@ extension BuskersViewController: UISearchControllerDelegate, UISearchBarDelegate
     }
     
     func searchBarShouldEndEditing(_ searchBar: UISearchBar) -> Bool {
+        //Do search action when user tap search button
         print("Ended search?")
+//        if let string = searchController.searchBar.text {
+//            delegate?.searchWith(query: string, instance: self)
+//        }
         return true
     }
     

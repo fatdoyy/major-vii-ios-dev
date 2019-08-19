@@ -400,7 +400,7 @@ class LoginView: UIView {
     }
     
     @IBAction func didTapGoogleLogin(_ sender: Any) {
-        delegate?.didTapGoogleLogin()
+        //delegate?.didTapGoogleLogin()
     }
     
     @IBAction func didTapRegisterBtn(_ sender: UIButton) {

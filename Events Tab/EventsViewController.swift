@@ -11,7 +11,7 @@ import GoogleMaps
 import FloatingPanel
 import fluid_slider
 import NVActivityIndicatorView
-
+	
 class EventsViewController: UIViewController {
     
     @IBOutlet weak var mapView: GMSMapView!

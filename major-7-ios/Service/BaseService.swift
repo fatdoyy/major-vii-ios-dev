@@ -38,7 +38,7 @@ class BaseService: NSObject {
         //User
         case .currentUserInfo:
             actionPathStr = "users/me"
-        case .userInfo(let userID):
+        case .getUserInfo(let userID):
             actionPathStr = "users/\(userID)"
         case .getCurrentUserSettings:
             actionPathStr = "users/me/settings"
@@ -46,8 +46,10 @@ class BaseService: NSObject {
             actionPathStr = "users/me/followings"
         case .getCurrentUserBookmarkedEvents:
             actionPathStr = "users/me/bookmarks"
-        case .currentUserBrowseHistory:
+        case .getCurrentUserBrowseHistory:
             actionPathStr = "users/me/browseHistory"
+        case .postCurrentUserBrowseHistory(let objectType, let objectID):
+            actionPathStr = "users/me/browseHistory/\(objectType)/\(objectID)"
         case .emailRegister:
             actionPathStr = "users/register/email"
         case .pushNotificationToken:
@@ -78,14 +80,6 @@ class BaseService: NSObject {
         case .getNewsDetails(let newsID):
             actionPathStr = "news/\(newsID)"
             
-        //Posts
-        case .getPosts:
-            actionPathStr = "posts"
-        case .getPostDetails(let postID):
-            actionPathStr = "posts/\(postID)"
-        case .commentAction(let postID):
-            actionPathStr = "posts/\(postID)/comments"
-            
         //Events
         case .getUpcomingEvents:
             actionPathStr = "events/upcoming"
@@ -101,7 +95,37 @@ class BaseService: NSObject {
             actionPathStr = "events/\(eventID)"
         case .bookmarkAction(let eventID):
             actionPathStr = "events/\(eventID)/bookmarks"
-
+        case .eventReminders(let eventID):
+            actionPathStr = "events/\(eventID)/reminders"
+            
+            
+        //Posts
+        case .getPosts:
+            actionPathStr = "posts"
+        case .getPostDetails(let postID):
+            actionPathStr = "posts/\(postID)"
+        case .commentAction(let postID):
+            actionPathStr = "posts/\(postID)/comments"
+        case .getPostsReactionSummary(let postID):
+            actionPathStr = "posts/\(postID)/reactions/summary"
+        case .postsReaction(let postID):
+            actionPathStr = "posts/\(postID)/reactions"
+            
+        //Comment | Reactions
+        case .commentDetails(let commentID):
+            actionPathStr = "comments/\(commentID)"
+        case .reactionDetails(let reactionID):
+            actionPathStr = "reactions/\(reactionID)"
+            
+        //Search
+        case .searchByPopularKeywords:
+            actionPathStr = "search/popularKeywords"
+        case .searchByBuskers:
+            actionPathStr = "search/buskers"
+        case .searchByEvents:
+            actionPathStr = "search/events"
+        case .searchByHashtags:
+            actionPathStr = "search/hashtags"
         }
         
         return endpoint + actionPathStr
@@ -169,25 +193,28 @@ extension BaseService {
         
         //User
         case currentUserInfo
-        case userInfo(userID: String)
+        case getUserInfo(userID: String)
         case getCurrentUserSettings
         case getCurrentUserFollowings
         case getCurrentUserBookmarkedEvents
-        case currentUserBrowseHistory
+        case getCurrentUserBrowseHistory
+        case postCurrentUserBrowseHistory(objectType: Int, objectID: String)
         case emailRegister
         case pushNotificationToken
         case requestVerifyEmail
         case verifyEmail
         case updatePassword
         
+        //Busker
+        case buskerRanking
+        case buskerProfile(buskerID: String)
+        case buskerEvents(buskerID: String)
+        case buskerPosts(buskerID: String)
+        case buskerFollowers(buskerID: String)
+        
         //News
         case getNews
         case getNewsDetails(newsID: String)
-        
-        //Posts
-        case getPosts
-        case getPostDetails(postID: String)
-        case commentAction(postID: String)
         
         //Events
         case getUpcomingEvents
@@ -197,12 +224,24 @@ extension BaseService {
         case getNearbyEvents
         case getEventDetails(eventID: String)
         case bookmarkAction(eventID: String)
+        case eventReminders(eventID: String)
         
-        //Busker
-        case buskerRanking
-        case buskerProfile(buskerID: String)
-        case buskerEvents(buskerID: String)
-        case buskerPosts(buskerID: String)
-        case buskerFollowers(buskerID: String)
+        //Posts
+        case getPosts
+        case getPostDetails(postID: String)
+        case commentAction(postID: String)
+        case getPostsReactionSummary(postID: String)
+        case postsReaction(postID: String)
+        
+        //Comment | Reactions
+        case commentDetails(commentID: String)
+        case reactionDetails(reactionID: String)
+        
+        //Search
+        case searchByPopularKeywords
+        case searchByBuskers
+        case searchByEvents
+        case searchByHashtags
+
     }
 }

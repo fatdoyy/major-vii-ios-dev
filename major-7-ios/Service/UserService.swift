@@ -30,7 +30,7 @@ class UserService: BaseService {
         super.init()
         UserService.hud.vibrancyEnabled = true
         GIDSignIn.sharedInstance().delegate = self
-        GIDSignIn.sharedInstance().uiDelegate = self
+        //GIDSignIn.sharedInstance().uiDelegate = self
     }
     
     struct User {
@@ -207,7 +207,7 @@ extension UserService {
 }
 
 //MARK: Google login
-extension UserService: GIDSignInDelegate, GIDSignInUIDelegate {
+extension UserService: GIDSignInDelegate/*, GIDSignInUIDelegate*/ {
     struct Google {
         static func logIn(fromVC: UIViewController) {
             
@@ -221,10 +221,10 @@ extension UserService: GIDSignInDelegate, GIDSignInUIDelegate {
         
         //Google logout, NOTE: NOT Major VII logout
         static func logOut() {
-            if GIDSignIn.sharedInstance()?.hasAuthInKeychain() == true {
+            //if GIDSignIn.sharedInstance()?.hasAuthInKeychain() == true {
                 GIDSignIn.sharedInstance()?.signOut()
                 GIDSignIn.sharedInstance()?.disconnect()
-            }
+            //}
         }
     }
     
