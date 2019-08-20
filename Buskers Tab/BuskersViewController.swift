@@ -117,7 +117,7 @@ extension BuskersViewController {
         searchController.searchBar.backgroundImage = UIImage()
         searchController.searchBar.backgroundColor = UIColor.m7DarkGray().withAlphaComponent(0.8)
         searchController.searchResultsController?.view.addObserver(self, forKeyPath: "hidden", options: [], context: nil)
-        
+        setupKeyboardToolbar()
         UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).defaultTextAttributes = [.foregroundColor: UIColor.white]
         
         if let textfield = searchController.searchBar.value(forKey: "searchField") as? UITextField {
@@ -134,6 +134,27 @@ extension BuskersViewController {
         
         navigationItem.searchController = searchController
         navigationItem.hidesSearchBarWhenScrolling = false
+    }
+    
+    private func setupKeyboardToolbar() {
+        let numberToolbar = UIToolbar(frame:CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 50))
+        numberToolbar.barStyle = .black
+        let backBtn = UIButton(type: .custom)
+        backBtn.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
+        backBtn.setImage(UIImage(named: "back"), for: .normal)
+        backBtn.addTarget(self, action: #selector(doneWithNumberPad), for: .touchUpInside)
+        numberToolbar.items = [
+            UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
+            UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(doneWithNumberPad))]
+        numberToolbar.sizeToFit()
+        searchController.searchBar.inputAccessoryView = numberToolbar
+    }
+    
+    @objc func cancelNumberPad() {
+        //Cancel with number pad
+    }
+    @objc func doneWithNumberPad() {
+        //Done with number pad
     }
     
     //Do search action whenever user types
@@ -232,7 +253,7 @@ extension BuskersViewController: UISearchControllerDelegate, UISearchBarDelegate
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         if (searchText.count == 0) {
-            searchController.searchResultsController?.view.isHidden = false
+            //searchController.searchResultsController?.view.isHidden = false
             NotificationCenter.default.post(name: .showSCViews, object: nil)
         } else {
             NotificationCenter.default.post(name: .hideSCViews, object: nil)

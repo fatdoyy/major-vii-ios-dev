@@ -30,11 +30,6 @@ class BuskersSearchViewController: UIViewController {
     var loadingIndicator = NVActivityIndicatorView(frame: CGRect(origin: CGPoint.zero, size: CGSize(width: 20, height: 20)), type: .lineScale)
     
     let screenWidth: CGFloat = UIScreen.main.bounds.width
-    
-    let genreLabel = UILabel()
-    var genreCollectionView: UICollectionView!
-
-    let perfomers: [String] = ["jamistry", "水曜日のカンパネラ", "Anomalie", "鄧小巧", "陳奕迅", "Mr.", "RubberBand", "Postman", "Zeplin", "SourceTree", "Xcode", "August", "VIRT"]
 
     let imgArray: [UIImage] = [UIImage(named: "gif9_thumbnail")!, UIImage(named: "gif10_thumbnail")!, UIImage(named: "gif11_thumbnail")!, UIImage(named: "cat")!, UIImage(named: "gif0_thumbnail")!, UIImage(named: "gif1_thumbnail")!, UIImage(named: "gif2_thumbnail")!, UIImage(named: "gif3_thumbnail")!, UIImage(named: "gif4_thumbnail")!, UIImage(named: "gif5_thumbnail")!, UIImage(named: "gif6_thumbnail")!, UIImage(named: "gif7_thumbnail")!, UIImage(named: "gif8_thumbnail")!]
     
@@ -46,16 +41,21 @@ class BuskersSearchViewController: UIViewController {
     var boolArr = [Int]()
     var boolArr2 = [Int]()
     
-    var searchResults = [OrganizerProfile]()
-    var searchResultsLimit = 7
-    var gotMoreResults = true
-    
+    //Initial view without typing
+    let genreLabel = UILabel()
+    var genreCollectionView: UICollectionView!
     let historyLabel = UILabel()
     let clearHistoryBtn = UIButton()
     var historyTableView: UITableView!
     
+    //search results view
     let resultsLabel = UILabel()
     var resultsCollectionView: UICollectionView!
+
+    var searchResults = [OrganizerProfile]()
+    var searchResultsLimit = 7
+    var gotMoreResults = true //lazy loading
+    var emptyResultsLabel = UILabel()
     
     var viewsToHide = [UIView]()
     
@@ -68,7 +68,7 @@ class BuskersSearchViewController: UIViewController {
             grayscaleImgArray2.append(img.tonalFilter!)
             boolArr2.append(Int.random(in: 0 ... 1))
         }
-        
+        hideKeyboardWhenTappedAround()
         setupGenreSection()
         setupLoadingIndicator()
         setupHistorySection()
@@ -77,6 +77,7 @@ class BuskersSearchViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        self.view.layoutIfNeeded()
         NotificationCenter.default.setObserver(self, selector: #selector(showViews), name: .showSCViews, object: nil)
         NotificationCenter.default.setObserver(self, selector: #selector(hideViews), name: .hideSCViews, object: nil)
     }
@@ -196,7 +197,6 @@ extension BuskersSearchViewController {
 extension BuskersSearchViewController {
     private func setupResultsSection() {
         resultsLabel.textColor = .white
-        resultsLabel.text = "Search results"
         resultsLabel.font = UIFont.systemFont(ofSize: 24, weight: .bold)
         resultsLabel.alpha = 0
         view.addSubview(resultsLabel)
@@ -233,7 +233,7 @@ extension BuskersSearchViewController {
 //MARK: Notification Center functions
 extension BuskersSearchViewController {
     @objc private func showViews() {
-        //if genreCollectionView.alpha != 1 {
+        if genreCollectionView.alpha != 1 {
             UIView.animate(withDuration: 0.2) {
                 self.loadingIndicator.alpha = 0
                 
@@ -244,13 +244,13 @@ extension BuskersSearchViewController {
                 self.resultsLabel.alpha = 0
                 self.resultsCollectionView.alpha = 0
             }
-        //}
+        }
     }
     
     @objc private func hideViews() {
-        //if genreCollectionView.alpha != 0 {
+        if genreCollectionView.alpha != 0 {
             UIView.animate(withDuration: 0.2) {
-                //self.loadingIndicator.alpha = 1
+                self.loadingIndicator.alpha = 1
                 
                 for view in self.viewsToHide {
                     view.alpha = 0
@@ -259,38 +259,28 @@ extension BuskersSearchViewController {
                 self.resultsLabel.alpha = 1
                 self.resultsCollectionView.alpha = 1
             }
-        //}
+        }
     }
 }
 
-//MARK: BuskersViewController Delegate
+//MARK: API Calls | BuskersViewController Delegate
 extension BuskersSearchViewController: BuskersViewControllerDelegate {
     func searchWith(query: String) {
-
+        resultsLabel.text = "Searching for \"\(query)\""
         searchResults.removeAll()
+        resultsCollectionView.reloadData()
+        
         SearchService.byBuskers(query: query).done { response in
-            self.searchResults = response.list
+            if !response.list.isEmpty {
+                self.searchResults = response.list
+                self.resultsLabel.text = "Search results for \"\(query)\""
+            } else {
+                self.resultsLabel.shake()
+                self.resultsLabel.text = "No results for \"\(query)\"\nTry another keywords?"
+            }
             //self.searchResults.append(contentsOf: response.list)
-            
-            //Handle image
-//            DispatchQueue.main.async {
-//                for busker in response.list {
-//                    let url = URL(string: busker.coverImages.first?.secureUrl ?? "")
-//                    let resource = ImageResource(downloadURL: url!)
-//
-//                    KingfisherManager.shared.retrieveImage(with: resource) { result in
-//                        let image = try? result.get().image
-//                        if let image = image {
-//                            self.grayscaleImgArray.append(image.tonalFilter!)
-//                            self.boolArr.append(Int.random(in: 0 ... 1))
-//                        }
-//                    }
-//                }
-//            }
-
             }.ensure {
                 self.resultsCollectionView.reloadData()
-                
                 UIApplication.shared.isNetworkActivityIndicatorVisible = false
             }.catch { error in }
     }
@@ -302,7 +292,7 @@ extension BuskersSearchViewController: UICollectionViewDelegate, UICollectionVie
         switch collectionView {
         case genreCollectionView:       return grayscaleImgArray2.count
         case resultsCollectionView:     return searchResults.isEmpty ? 0 : searchResults.count
-        default:                        return 10
+        default:                        return 0
         }
     }
     
@@ -324,7 +314,9 @@ extension BuskersSearchViewController: UICollectionViewDelegate, UICollectionVie
             if !searchResults.isEmpty {
                 cell.performerLabel.text = searchResults[indexPath.row].name
                 if let url = URL(string: searchResults[indexPath.row].coverImages[0].secureUrl!) {
-                    cell.bgImgView.kf.setImage(with: url, options: [.transition(.fade(0.3))])
+                    var urlArr = url.absoluteString.components(separatedBy: "upload/")
+                    let grayscaleUrl = URL(string: "\(urlArr[0])upload/e_grayscale/\(urlArr[1])") //apply grayscale filter by Cloudinary
+                    cell.bgImgView.kf.setImage(with: grayscaleUrl, options: [.transition(.fade(0.3))])
                 }
                 
                 if searchResults[indexPath.row].musicTypes.count > 1 && !searchResults[indexPath.row].musicTypes.isEmpty {
@@ -341,7 +333,7 @@ extension BuskersSearchViewController: UICollectionViewDelegate, UICollectionVie
                     cell.genre.text = ""
                 }
                 
-                if let _ = searchResults[indexPath.row].verfied { cell.verifiedBg.alpha = 1 } else { cell.verifiedBg.alpha = 1 }
+                cell.verifiedBg.alpha = searchResults[indexPath.row].verified == nil ? 0 : 1
                 cell.premiumBadge.alpha = boolArr2[indexPath.row] == 1 ? 1 : 0
             }
             
@@ -367,7 +359,7 @@ extension BuskersSearchViewController: UICollectionViewDelegate, UICollectionVie
         case genreCollectionView:
             print("tapped genre cell")
         case resultsCollectionView:
-            BuskerProfileViewController.present(from: self, buskerName: perfomers[indexPath.row], buskerID: "5be7f512d92f1257fd2a530e")
+            BuskerProfileViewController.present(from: self, buskerName: searchResults[indexPath.row].name ?? "", buskerID: searchResults[indexPath.row].id ?? "")
         default:
             print("error")
         }

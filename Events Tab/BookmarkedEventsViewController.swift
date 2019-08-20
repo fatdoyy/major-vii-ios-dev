@@ -104,9 +104,8 @@ extension BookmarkedEventsViewController {
     }
 }
 
-//MARK: Collection
+//MARK: CollectionView dekegate
 extension BookmarkedEventsViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         let count = bookmarkedEvents.isEmpty ? 3 : bookmarkedEvents.count
         return count
@@ -114,14 +113,12 @@ extension BookmarkedEventsViewController: UICollectionViewDelegate, UICollection
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = eventsCollectionView.dequeueReusableCell(withReuseIdentifier: BookmarkedEventCell.reuseIdentifier, for: indexPath) as! BookmarkedEventCell
-        
         if !bookmarkedEvents.isEmpty {
             if let event = bookmarkedEvents[indexPath.row].targetEvent {
+                var urlArr = randomImgUrl[indexPath.row].absoluteString.components(separatedBy: "upload/")
+                let grayscaleUrl = URL(string: "\(urlArr[0])upload/e_grayscale/\(urlArr[1])") //apply grayscale filter by Cloudinary
+                cell.bgImgView.kf.setImage(with: grayscaleUrl, options: [.transition(.fade(0.4))])
                 
-                cell.bgImgView.kf.setImage(with: randomImgUrl[indexPath.row], options: [.transition(.fade(0.4))])
-//                DispatchQueue.main.async {
-//                    cell.bgImgView.kf.setImage(with: self.randomImgUrl[indexPath.row], options: [.transition(.fade(0.4)), .processor(tonalFilter())])
-//                }
                 cell.eventTitle.text = event.title
                 cell.performerName.text = event.organizerProfile?.name
                 cell.bookmarkCount.text = "468" //bookmark.count
@@ -134,7 +131,6 @@ extension BookmarkedEventsViewController: UICollectionViewDelegate, UICollection
                 }
             }
         }
-        
         return cell
     }
     

@@ -105,7 +105,7 @@ class OrganizerProfile: Mappable {
     var id: String?
     var name: String?
     var type: Int?
-    var verfied: Bool?
+    var verified: Bool?
     
     required init?(map: Map) {}
     
@@ -115,6 +115,6 @@ class OrganizerProfile: Mappable {
         id              <- map["_id"]
         name            <- map["name"]
         type            <- map["type"]
-        verfied         <- map["verfied"]
+        verified         <- map["verified"]
     }
 }
