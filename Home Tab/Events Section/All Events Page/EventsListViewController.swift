@@ -12,9 +12,12 @@ import AMScrollingNavbar
 import NVActivityIndicatorView
 
 class EventsListViewController: ScrollingNavigationViewController {
-    static let storyboardId = "eventsVC"
+    static let storyboardID = "eventsListVC"
     
     var isFromLoginView: Bool?
+    
+    let searchResultsVC = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "buskersSearchVC") as! BuskersSearchViewController
+    var searchController: UISearchController!
     
     //Custom refresh control
     var refreshView: RefreshView!
@@ -38,26 +41,10 @@ class EventsListViewController: ScrollingNavigationViewController {
         view.backgroundColor = .m7DarkGray()
         
         isFromLoginView = false
-        
-        mainCollectionView.backgroundColor = .m7DarkGray()
-        mainCollectionView.showsVerticalScrollIndicator = false
-        mainCollectionView.showsHorizontalScrollIndicator = false
-        mainCollectionView.refreshControl = customRefreshControl
-        
-        mainCollectionView.delegate = self
-        mainCollectionView.dataSource = self
-        
+
         setupLeftBarItems()
         setupRightBarItems()
-        
-        mainCollectionView.register(UINib.init(nibName: "TrendingSection", bundle: nil), forCellWithReuseIdentifier: TrendingSection.reuseIdentifier)
-        mainCollectionView.register(UINib.init(nibName: "FollowingSection", bundle: nil), forCellWithReuseIdentifier: FollowingSection.reuseIdentifier)
-        mainCollectionView.register(UINib.init(nibName: "BookmarkedSection", bundle: nil), forCellWithReuseIdentifier: BookmarkedSection.reuseIdentifier)
-        
-        mainCollectionView.register(UINib.init(nibName: "FeaturedSectionHeader", bundle: nil), forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: FeaturedSectionHeader.reuseIdentifier)
-        
-        mainCollectionView.register(UINib.init(nibName: "FeaturedCell", bundle: nil), forCellWithReuseIdentifier: FeaturedCell.reuseIdentifier)
-        
+        setupMainCollectionView()
         setupRefreshView()
     }
 
@@ -100,6 +87,17 @@ class EventsListViewController: ScrollingNavigationViewController {
         if let navigationController = self.navigationController as? ScrollingNavigationController {
             navigationController.followScrollView(mainCollectionView, delay: 20.0)
         }
+        
+        let bookmarkedSection = mainCollectionView.visibleCells //hide bookmark section when view did disappear
+        for cell in bookmarkedSection {
+            if let cell = cell as? BookmarkedSection {
+                if cell.bookmarksCollectionView.alpha == 0 {
+                    cell.bookmarksCollectionView.alpha = 1
+                    cell.reloadIndicator.alpha = 0
+                }
+            }
+        }
+        
         tabBarController?.tabBar.isHidden = true
     }
     
@@ -138,9 +136,42 @@ class EventsListViewController: ScrollingNavigationViewController {
     @objc private func refreshEventListVC() {
         isFromLoginView = true
     }
+
+    func showLoginVC() {
+        let loginVC = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "loginVC") as! LoginViewController
+        
+        loginVC.hero.isEnabled = true
+
+        self.navigationItem.title = ""
+        self.navigationController?.hero.navigationAnimationType = .autoReverse(presenting: .cover(direction: .up))
+        self.navigationController?.pushViewController(loginVC, animated: true)
+        
+        //self.present(loginVC, animated: true, completion: nil)
+    }
+}
+
+//MARK: UI related
+extension EventsListViewController {
+    private func setupMainCollectionView() {
+        
+        mainCollectionView.backgroundColor = .m7DarkGray()
+        mainCollectionView.showsVerticalScrollIndicator = false
+        mainCollectionView.showsHorizontalScrollIndicator = false
+        mainCollectionView.refreshControl = customRefreshControl
+        
+        mainCollectionView.delegate = self
+        mainCollectionView.dataSource = self
+        
+        mainCollectionView.register(UINib.init(nibName: "TrendingSection", bundle: nil), forCellWithReuseIdentifier: TrendingSection.reuseIdentifier)
+        mainCollectionView.register(UINib.init(nibName: "FollowingSection", bundle: nil), forCellWithReuseIdentifier: FollowingSection.reuseIdentifier)
+        mainCollectionView.register(UINib.init(nibName: "BookmarkedSection", bundle: nil), forCellWithReuseIdentifier: BookmarkedSection.reuseIdentifier)
+        mainCollectionView.register(UINib.init(nibName: "FeaturedSectionHeader", bundle: nil), forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: FeaturedSectionHeader.reuseIdentifier)
+        
+        mainCollectionView.register(UINib.init(nibName: "FeaturedCell", bundle: nil), forCellWithReuseIdentifier: FeaturedCell.reuseIdentifier)
+    }
     
     private func setupLeftBarItems() {
-        let customView = UIView(frame: CGRect(x: 15, y: 10, width: 110, height: 30.0))
+        let customView = UIView(frame: CGRect(x: 15, y: 10, width: UIScreen.main.bounds.width, height: 30))
         customView.backgroundColor = .clear
         
         let backBtn = UIButton(type: .custom)
@@ -150,7 +181,7 @@ class EventsListViewController: ScrollingNavigationViewController {
         customView.addSubview(backBtn)
         
         let titleLabel = UILabel()
-        titleLabel.frame = CGRect(x: backBtn.frame.maxX + 20, y: -7, width: 90, height: 44)
+        titleLabel.frame = CGRect(x: backBtn.frame.maxX + 20, y: -7, width: UIScreen.main.bounds.width - 30, height: 44)
         titleLabel.backgroundColor = .clear
         titleLabel.textColor = .whiteText()
         titleLabel.font = UIFont.systemFont(ofSize: 24, weight: .bold)
@@ -158,11 +189,16 @@ class EventsListViewController: ScrollingNavigationViewController {
         customView.addSubview(titleLabel)
         
         let menuBarItem = UIBarButtonItem(customView: customView)
-        let currWidth = menuBarItem.customView?.widthAnchor.constraint(equalToConstant: 110)
+        let currWidth = menuBarItem.customView?.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width - 32 - 40)
         currWidth?.isActive = true
         let currHeight = menuBarItem.customView?.heightAnchor.constraint(equalToConstant: 30)
         currHeight?.isActive = true
         self.navigationItem.leftBarButtonItem = menuBarItem
+    }
+    
+    @objc private func popView() {
+        //navigationController?.hero.navigationAnimationType = .uncover(direction: .down)
+        navigationController?.popViewController(animated: true)
     }
     
     private func setupRightBarItems() {
@@ -180,24 +216,12 @@ class EventsListViewController: ScrollingNavigationViewController {
     }
     
     @objc private func searchTapped() {
-        print("tapped")
-    }
-    
-    @objc private func popView() {
-        //navigationController?.hero.navigationAnimationType = .uncover(direction: .down)
-        navigationController?.popViewController(animated: true)
-    }
-
-    func showLoginVC() {
-        let loginVC = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "loginVC") as! LoginViewController
+        let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+        let searchVC = storyboard.instantiateViewController(withIdentifier: EventSearchViewController.storyboardID)
         
-        loginVC.hero.isEnabled = true
-
-        self.navigationItem.title = ""
-        self.navigationController?.hero.navigationAnimationType = .autoReverse(presenting: .cover(direction: .up))
-        self.navigationController?.pushViewController(loginVC, animated: true)
-        
-        //self.present(loginVC, animated: true, completion: nil)
+        self.navigationController?.hero.navigationAnimationType = .autoReverse(presenting: .slide(direction: .right))
+        self.navigationController?.pushViewController(searchVC, animated: true)
+        print("search tapped")
     }
 }
 
@@ -237,7 +261,7 @@ extension EventsListViewController {
 }
 
 //MARK: UICollectionView delegate
-extension EventsListViewController: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource{
+extension EventsListViewController: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if let section = EventsListSection(rawValue: section) {
             switch section {
@@ -356,7 +380,7 @@ extension EventsListViewController: UICollectionViewDelegate, UICollectionViewDe
 }
 
 //MARK: Trending Section Delegate
-extension EventsListViewController: TrendingSectionDelegate{
+extension EventsListViewController: TrendingSectionDelegate {
     func trendingCellTapped(eventID: String) {
         EventDetailsViewController.push(from: self, eventID: eventID)
     }
@@ -364,21 +388,21 @@ extension EventsListViewController: TrendingSectionDelegate{
 }
 
 //MARK: Following Section Delegate
-extension EventsListViewController: FollowingSectionDelegate{
+extension EventsListViewController: FollowingSectionDelegate {
     func followingCellTapped(eventID: String) {
         EventDetailsViewController.push(from: self, eventID: eventID)
     }
 }
 
 //MARK: Bookmark Section Delegate
-extension EventsListViewController: BookmarkSectionDelegate{
+extension EventsListViewController: BookmarkSectionDelegate {
     func bookmarkedCellTapped(eventID: String) {
         EventDetailsViewController.push(from: self, eventID: eventID)
     }
 }
 
 //MARK: Featured Section bookmark btn
-extension EventsListViewController: FeaturedCellDelegate{
+extension EventsListViewController: FeaturedCellDelegate {
     func bookmarkBtnTapped() {
         
     }

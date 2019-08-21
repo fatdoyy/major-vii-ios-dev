@@ -296,7 +296,7 @@
         <!--Events List View Controller-->
         <scene sceneID="OQ6-Fa-v8w">
             <objects>
-                <viewController storyboardIdentifier="eventsVC" id="C84-6i-1Og" customClass="EventsListViewController" customModule="major_7_ios" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="eventsListVC" id="C84-6i-1Og" customClass="EventsListViewController" customModule="major_7_ios" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="ZTv-ls-liq">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -437,6 +437,24 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Scu-FI-UHM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3429.5999999999999" y="-1675.1231527093596"/>
+        </scene>
+        <!--Event Search View Controller-->
+        <scene sceneID="ZQq-Wv-rUh">
+            <objects>
+                <viewController storyboardIdentifier="eventsSearchVC" id="nrg-fp-jgh" customClass="EventSearchViewController" customModule="major_7_ios" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="m7I-sp-zni">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="J7W-C5-zEy"/>
+                    </view>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="isHeroEnabled" value="YES"/>
+                    </userDefinedRuntimeAttributes>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="c8p-xg-slt" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4234" y="-1675"/>
         </scene>
         <!--Scrolling Navigation Controller-->
         <scene sceneID="jwi-gD-kLw">

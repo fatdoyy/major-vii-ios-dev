@@ -32,7 +32,7 @@ class TabBar {
                 from.tabBarController?.tabBar.frame = frame!
             })
             
-        } else{
+        } else {
             frame?.origin.y = originY
             // print(frame?.origin.y)
             print("frame resetted")

@@ -53,4 +53,9 @@ class SearchResultCell: UICollectionViewCell {
         premiumBadge.alpha = 0
     }
 
+    override func prepareForReuse() {
+        verifiedBg.alpha = 0
+        premiumBadge.alpha = 0
+        bgImgView.image = nil
+    }
 }

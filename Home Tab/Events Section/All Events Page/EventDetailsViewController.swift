@@ -27,7 +27,7 @@ struct ImgViewerItem {
 
 class EventDetailsViewController: UIViewController {
     
-    static let storyboardId = "eventDetails"
+    static let storyboardID = "eventDetails"
     
     @IBOutlet weak var headerImg: UIImageView!
     @IBOutlet weak var mainScrollView: UIScrollView!
@@ -325,12 +325,12 @@ class EventDetailsViewController: UIViewController {
 }
 
 // MARK: scrollview delegate
-extension EventDetailsViewController: UIScrollViewDelegate{
+extension EventDetailsViewController: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {}
 }
 
 // MARK: Events Details View Delegate
-extension EventDetailsViewController: EventsDetailsViewDelegate{
+extension EventDetailsViewController: EventsDetailsViewDelegate {
     func bookmarkBtnTapped(sender: UIButton) {
         if UserService.User.isLoggedIn() {
             sender.isUserInteractionEnabled = false
@@ -403,7 +403,7 @@ extension EventDetailsViewController: EventsDetailsViewDelegate{
 }
 
 // MARK: present image viewer when imgCollectionView cell is tapped
-extension EventDetailsViewController{
+extension EventDetailsViewController {
     func showImageViewer(atIndex: Int) {
         let frame = CGRect(x: 0, y: 0, width: 200, height: 24)
         let footerView = CounterView(frame: frame, currentIndex: atIndex, count: imgViewerItems.count)
@@ -469,17 +469,17 @@ extension EventDetailsViewController: FloatyDelegate {
 
 
 // MARK: swipe pop gesture
-extension EventDetailsViewController: UIGestureRecognizerDelegate{
+extension EventDetailsViewController: UIGestureRecognizerDelegate {
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return true
     }
 }
 
 // MARK: function to push this view controller
-extension EventDetailsViewController{
+extension EventDetailsViewController {
     static func push(from view: UIViewController, eventID: String) {
         let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
-        let detailsVC = storyboard.instantiateViewController(withIdentifier: EventDetailsViewController.storyboardId) as! EventDetailsViewController
+        let detailsVC = storyboard.instantiateViewController(withIdentifier: EventDetailsViewController.storyboardID) as! EventDetailsViewController
         
         detailsVC.eventID = eventID
         
@@ -490,7 +490,7 @@ extension EventDetailsViewController{
     
     static func present(from view: UIViewController, eventID: String) {
         let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
-        let detailsVC = storyboard.instantiateViewController(withIdentifier: EventDetailsViewController.storyboardId) as! EventDetailsViewController
+        let detailsVC = storyboard.instantiateViewController(withIdentifier: EventDetailsViewController.storyboardID) as! EventDetailsViewController
         
         detailsVC.eventID = eventID
         

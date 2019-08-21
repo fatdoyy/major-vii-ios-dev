@@ -45,7 +45,7 @@ class UserService: BaseService {
             return Promise { resolver in
                 BaseService.request(method: .post, url: BaseService.getActionPath(.logout)).done { response in
                     resolver.fulfill(response)
-                    }.ensure{
+                    }.ensure {
                         UserDefaults.standard.removeObject(forKey: LOCAL_KEY.USER_ID)
                         UserDefaults.standard.removeObject(forKey: LOCAL_KEY.ACCESS_TOKEN)
                         UserDefaults.standard.removeObject(forKey: LOCAL_KEY.REFRESH_TOKEN)

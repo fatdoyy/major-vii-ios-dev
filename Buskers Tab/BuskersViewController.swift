@@ -128,7 +128,7 @@ extension BuskersViewController {
                 backgroundview.clipsToBounds = true
             }
             
-            //add target to detect input in real time
+            //add target to detect input and search in real time
             textfield.addTarget(self, action: #selector(searchWithQuery), for: .editingChanged)
         }
         
@@ -137,24 +137,22 @@ extension BuskersViewController {
     }
     
     private func setupKeyboardToolbar() {
-        let numberToolbar = UIToolbar(frame:CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 50))
-        numberToolbar.barStyle = .black
-        let backBtn = UIButton(type: .custom)
-        backBtn.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
-        backBtn.setImage(UIImage(named: "back"), for: .normal)
-        backBtn.addTarget(self, action: #selector(doneWithNumberPad), for: .touchUpInside)
-        numberToolbar.items = [
-            UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
-            UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(doneWithNumberPad))]
-        numberToolbar.sizeToFit()
-        searchController.searchBar.inputAccessoryView = numberToolbar
+        let toolbar = UIToolbar(frame:CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 40))
+        toolbar.barStyle = .black
+        
+        let dismissBtn = UIButton(type: .custom)
+        dismissBtn.setImage(UIImage(named: "imagename"), for: .normal)
+        dismissBtn.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
+        dismissBtn.setImage(UIImage(named: "icon_dismiss_keyboard"), for: .normal)
+        dismissBtn.addTarget(self, action: #selector(doneWithNumberPad), for: .touchUpInside)
+        
+        let item = UIBarButtonItem(customView: dismissBtn)
+        toolbar.items = [item]
+        searchController.searchBar.inputAccessoryView = toolbar
     }
-    
-    @objc func cancelNumberPad() {
-        //Cancel with number pad
-    }
+
     @objc func doneWithNumberPad() {
-        //Done with number pad
+        searchController.searchBar.endEditing(true)
     }
     
     //Do search action whenever user types

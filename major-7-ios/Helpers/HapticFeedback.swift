@@ -12,7 +12,7 @@ class HapticFeedback {
     
     //impact
     static func createImpact(style: UIImpactFeedbackGenerator.FeedbackStyle) {
-        switch style{
+        switch style {
         case .light:
             let impact = UIImpactFeedbackGenerator(style: .light)
             impact.impactOccurred()
@@ -34,7 +34,7 @@ class HapticFeedback {
     //notification
     static func createNotificationFeedback(style: UINotificationFeedbackGenerator.FeedbackType) {
         let notification = UINotificationFeedbackGenerator()
-        switch style{
+        switch style {
         case .warning:  notification.notificationOccurred(.warning)
         case .error:    notification.notificationOccurred(.error)
         default:        notification.notificationOccurred(.success)

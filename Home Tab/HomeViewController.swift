@@ -590,13 +590,11 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
 
 //MARK: Event sectopm view all btn/cell tapped
 extension HomeViewController: EventsSectionDelegate {
-    
     func viewAllBtnTapped() {
         let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
-        let eventsVc = storyboard.instantiateViewController(withIdentifier: EventsListViewController.storyboardId)
+        let eventsVc = storyboard.instantiateViewController(withIdentifier: EventsListViewController.storyboardID)
         
-        self.navigationItem.title = "Events"
-        self.navigationController?.hero.navigationAnimationType = .cover(direction: .up)
+        self.navigationController?.hero.navigationAnimationType = .autoReverse(presenting: .cover(direction: .up))
         self.navigationController?.pushViewController(eventsVc, animated: true)
     }
     

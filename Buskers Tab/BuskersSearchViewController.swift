@@ -273,12 +273,13 @@ extension BuskersSearchViewController: BuskersViewControllerDelegate {
         SearchService.byBuskers(query: query).done { response in
             if !response.list.isEmpty {
                 self.searchResults = response.list
+                //self.searchResults.append(contentsOf: response.list)
                 self.resultsLabel.text = "Search results for \"\(query)\""
             } else {
                 self.resultsLabel.shake()
+                HapticFeedback.createNotificationFeedback(style: .error)
                 self.resultsLabel.text = "No results for \"\(query)\"\nTry another keywords?"
             }
-            //self.searchResults.append(contentsOf: response.list)
             }.ensure {
                 self.resultsCollectionView.reloadData()
                 UIApplication.shared.isNetworkActivityIndicatorVisible = false

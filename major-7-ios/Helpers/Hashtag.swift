@@ -29,7 +29,7 @@ class Hashtag {
         
         if allLabels.isEmpty { // avoid adding the same hashtags multiple times
             if !dataSource.isEmpty{
-                for tag in dataSource{
+                for tag in dataSource {
                     let tagLabel = TagLabel()
                     
                     if position == .cellTop {

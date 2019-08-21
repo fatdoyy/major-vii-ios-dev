@@ -1329,7 +1329,7 @@ extension BuskerProfileViewController {
 }
 
 //MARK: Swipe pop gesture
-extension BuskerProfileViewController: UIGestureRecognizerDelegate{
+extension BuskerProfileViewController: UIGestureRecognizerDelegate {
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return true
     }
