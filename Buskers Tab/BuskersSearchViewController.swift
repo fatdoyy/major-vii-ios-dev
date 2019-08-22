@@ -84,7 +84,7 @@ class BuskersSearchViewController: UIViewController {
 
 }
 
-//MARK: UI - Genre Section
+//MARK: - UI - Genre Section
 extension BuskersSearchViewController {
     private func setupGenreSection() {
         genreLabel.textColor = .white
@@ -133,7 +133,7 @@ extension BuskersSearchViewController {
     }
 }
 
-//MARK: UI - Search History Section
+//MARK: - UI - Search History Section
 extension BuskersSearchViewController {
     private func setupHistorySection() {
         historyLabel.textColor = .white
@@ -193,7 +193,7 @@ extension BuskersSearchViewController {
     }
 }
 
-//MARK: UI - Search Results Section
+//MARK: - UI - Search Results Section
 extension BuskersSearchViewController {
     private func setupResultsSection() {
         resultsLabel.textColor = .white
@@ -230,7 +230,7 @@ extension BuskersSearchViewController {
     }
 }
 
-//MARK: Notification Center functions
+//MARK: - Notification Center functions
 extension BuskersSearchViewController {
     @objc private func showViews() {
         if genreCollectionView.alpha != 1 {
@@ -263,7 +263,7 @@ extension BuskersSearchViewController {
     }
 }
 
-//MARK: API Calls | BuskersViewController Delegate
+//MARK: - API Calls | BuskersViewController Delegate
 extension BuskersSearchViewController: BuskersViewControllerDelegate {
     func searchWith(query: String) {
         resultsLabel.text = "Searching for \"\(query)\""
@@ -287,7 +287,7 @@ extension BuskersSearchViewController: BuskersViewControllerDelegate {
     }
 }
 
-//MARK: UICollectionView Delegate
+//MARK: - UICollectionView Delegate
 extension BuskersSearchViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         switch collectionView {
@@ -368,7 +368,7 @@ extension BuskersSearchViewController: UICollectionViewDelegate, UICollectionVie
     
 }
 
-//MARK: UITableView Delegate
+//MARK: - UITableView Delegate
 extension BuskersSearchViewController: UITableViewDelegate, UITableViewDataSource, SearchHistoryCellDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return history.count
@@ -395,7 +395,7 @@ extension BuskersSearchViewController: UITableViewDelegate, UITableViewDataSourc
     }
 }
 
-//MARK: UISearchResultsUpdating Delegate
+//MARK: - UISearchResultsUpdating Delegate
 extension BuskersSearchViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
         let query = searchController.searchBar.text

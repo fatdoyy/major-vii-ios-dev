@@ -81,7 +81,7 @@ class BuskersViewController: UIViewController {
     
 }
 
-//MARK: UINavigation Bar setup
+//MARK: - UINavigation Bar setup
 extension BuskersViewController {
     private func setupNavBar() {
         definesPresentationContext = true
@@ -97,12 +97,12 @@ extension BuskersViewController {
         navigationController?.navigationBar.isTranslucent = true
         //navigationController?.navigationBar.barTintColor = .darkGray()
         
-        self.navigationController?.navigationBar.backgroundColor = UIColor.m7DarkGray().withAlphaComponent(0.8)
+        navigationController?.navigationBar.backgroundColor = UIColor.m7DarkGray().withAlphaComponent(0.8)
     }
     
 }
 
-//MARK: Search Controller setup
+//MARK: - Search Controller setup
 extension BuskersViewController {
     private func setupSearchController() {
         searchResultsVC.delegate = self
@@ -172,7 +172,7 @@ extension BuskersViewController {
     
 }
 
-//MARK: UI setup
+//MARK: - UI setup
 extension BuskersViewController {
     private func setupUI() {
         setupSearchController()
@@ -194,7 +194,7 @@ extension BuskersViewController {
     }
 }
 
-//MARK: UICollectionview delegate
+//MARK: - UICollectionview delegate
 extension BuskersViewController: UICollectionViewDelegate, UICollectionViewDataSource, PinterestLayoutDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return scaledImgArray.count
@@ -221,7 +221,7 @@ extension BuskersViewController: UICollectionViewDelegate, UICollectionViewDataS
     
 }
 
-//MARK: UISearchResultsUpdating Delegate
+//MARK: - UISearchControllerDelegate Delegate
 extension BuskersViewController: UISearchControllerDelegate, UISearchBarDelegate, BuskersSearchViewControllerDelegate {
     func reassureShowingVC() {
         searchController.searchResultsController?.view.isHidden = false
@@ -270,7 +270,7 @@ extension BuskersViewController: UISearchControllerDelegate, UISearchBarDelegate
     }
 }
 
-//MARK: UIScrollView Delegate
+//MARK: - UIScrollView Delegate
 extension BuskersViewController: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         //toggle tab bar
@@ -286,14 +286,14 @@ extension BuskersViewController: UIScrollViewDelegate {
     }
 }
 
-//MARK: UIGestureRecognizerDelegate (i.e. swipe pop gesture)
+//MARK: - UIGestureRecognizerDelegate (i.e. swipe pop gesture)
 extension BuskersViewController: UIGestureRecognizerDelegate {
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return true
     }
 }
 
-//MARK: Scroll to top when tabbar icon is tapped
+//MARK: - Scroll to top when tabbar icon is tapped
 //extension BuskersViewController: UITabBarControllerDelegate {
 //    func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
 //        if previousController == viewController || previousController == nil {

@@ -115,7 +115,7 @@ class HomeViewController: UIViewController {
     }
 }
 
-//MARK: Custom refresh control
+//MARK: - Custom refresh control
 extension HomeViewController {
     func setupRefreshView() {
         if let objOfRefreshView = Bundle.main.loadNibNamed("RefreshView", owner: self, options: nil)?.first as? RefreshView {
@@ -155,7 +155,7 @@ extension HomeViewController {
     }
 }
 
-//MARK: API Calls
+//MARK: - API Calls
 extension HomeViewController {
     private func getNews(skip: Int? = nil, limit: Int? = nil) {
         mainCollectionView.isUserInteractionEnabled = false
@@ -588,7 +588,7 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
     }
 }
 
-//MARK: Event sectopm view all btn/cell tapped
+//MARK: - Event sectopm view all btn/cell tapped
 extension HomeViewController: EventsSectionDelegate {
     func viewAllBtnTapped() {
         let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
@@ -603,7 +603,7 @@ extension HomeViewController: EventsSectionDelegate {
     }
 }
 
-//MARK: NewsHeaderSection delegate
+//MARK: - NewsHeaderSection delegate
 extension HomeViewController: NewsSectionHeaderDelegate {
     func newsBtnTapped(sender: UIButton) {
         print("news btn tapped")
@@ -633,7 +633,7 @@ extension HomeViewController: NewsSectionHeaderDelegate {
     }
 }
 
-//MARK: HomePostCell delegate
+//MARK: - HomePostCell delegate
 extension HomeViewController: HomePostCellDelegate {
     func contentLabelTapped(indexPath: IndexPath) {
         isPostCellExpanded[indexPath.row] = !isPostCellExpanded[indexPath.row]
@@ -644,7 +644,7 @@ extension HomeViewController: HomePostCellDelegate {
     }
 }
 
-//MARK: UIScrollView Delegate {
+//MARK: - UIScrollView Delegate {
 extension HomeViewController: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         //toggle tab bar
@@ -660,7 +660,7 @@ extension HomeViewController: UIScrollViewDelegate {
     }
 }
 
-//MARK: Scroll to top when tabbar icon is tapped
+//MARK: - Scroll to top when tabbar icon is tapped
 extension HomeViewController: UITabBarControllerDelegate {
     func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
         if previousController == viewController || previousController == nil {
@@ -696,14 +696,14 @@ extension UICollectionView {
     }
 }
 
-//MARK: UIGestureRecognizerDelegate (i.e. swipe pop gesture)
+//MARK: - UIGestureRecognizerDelegate (i.e. swipe pop gesture)
 extension HomeViewController: UIGestureRecognizerDelegate {
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return true
     }
 }
 
-//MARK: Selected section enum
+//MARK: - Selected section enum
 enum HomeSelectedSection {
     case News
     case Posts

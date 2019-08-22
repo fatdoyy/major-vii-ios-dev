@@ -10,19 +10,47 @@ import UIKit
 
 class EventSearchViewController: UIViewController {
     static let storyboardID = "eventsSearchVC"
+
+    let searchController = UISearchController(searchResultsController: nil)
+    
+    var keywordsCollectionView: UICollectionView!
+    var mainCollectionView: UICollectionView!
     
     override var preferredStatusBarStyle: UIStatusBarStyle { return .lightContent }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .pumpkin
-        setupLeftBarItems()
+        view.backgroundColor = .m7DarkGray()
+        setupUI()
     }
     
 }
 
-//MARK: UI related
+//MARK: - UI related
 extension EventSearchViewController {
+    private func setupUI() {
+        setupNavBar()
+        setupLeftBarItems()
+        setupSearchController()
+        setupKeywordsCollectionView()
+        setupMainCollectionView()
+    }
+    
+    private func setupKeywordsCollectionView() {
+        keywordsCollectionView = UICollectionView(frame: CGRect(origin: .zero, size: .zero), collectionViewLayout: HashtagsFlowLayout())
+        keywordsCollectionView.backgroundColor = .pumpkin
+        view.addSubview(keywordsCollectionView)
+        keywordsCollectionView.snp.makeConstraints { (make) in
+            make.height.equalTo(24)
+            make.width.equalTo(UIScreen.main.bounds.width)
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
+        }
+    }
+    
+    private func setupMainCollectionView() {
+        
+    }
+    
     private func setupLeftBarItems() {
         let customView = UIView(frame: CGRect(x: 15, y: 10, width: UIScreen.main.bounds.width, height: 30))
         customView.backgroundColor = .clear
@@ -56,7 +84,140 @@ extension EventSearchViewController {
 
 }
 
-// MARK: function to push this view controller
+//MARK: - UINavigation Bar setup
+extension EventSearchViewController {
+    private func setupNavBar() {
+        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        navigationController?.navigationBar.shadowImage = UIImage()
+        navigationController?.navigationBar.isTranslucent = true
+        //navigationController?.navigationBar.barTintColor = .darkGray()
+        
+        navigationController?.navigationBar.backgroundColor = .m7DarkGray()
+    }
+}
+
+//MARK: - Search Controller setup
+extension EventSearchViewController {
+    private func setupSearchController() {
+        searchController.delegate = self
+        searchController.searchResultsUpdater = self
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.delegate = self
+        searchController.searchBar.tintColor = .white
+        searchController.searchBar.barTintColor = .white
+        searchController.searchBar.isTranslucent = true
+        searchController.searchBar.backgroundImage = UIImage()
+        searchController.searchBar.backgroundColor = UIColor.m7DarkGray().withAlphaComponent(0.8)
+        definesPresentationContext = true
+        searchController.searchResultsController?.view.addObserver(self, forKeyPath: "hidden", options: [], context: nil)
+        setupKeyboardToolbar()
+        UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).defaultTextAttributes = [.foregroundColor: UIColor.white]
+        
+        if let textfield = searchController.searchBar.value(forKey: "searchField") as? UITextField {
+            //setup UI
+            if let backgroundview = textfield.subviews.first {
+                // Rounded corner
+                backgroundview.layer.cornerRadius = GlobalCornerRadius.value / 1.2
+                backgroundview.clipsToBounds = true
+            }
+            
+            //add target to detect input and search in real time
+            textfield.addTarget(self, action: #selector(searchWithQuery), for: .editingChanged)
+        }
+        
+        navigationItem.searchController = searchController
+        navigationItem.hidesSearchBarWhenScrolling = false
+    }
+    
+    private func setupKeyboardToolbar() {
+        let toolbar = UIToolbar(frame:CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 40))
+        toolbar.barStyle = .black
+        
+        let dismissBtn = UIButton(type: .custom)
+        dismissBtn.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
+        dismissBtn.setImage(UIImage(named: "icon_dismiss_keyboard"), for: .normal)
+        dismissBtn.addTarget(self, action: #selector(doneWithNumberPad), for: .touchUpInside)
+        
+        let item = UIBarButtonItem(customView: dismissBtn)
+        toolbar.items = [item]
+        searchController.searchBar.inputAccessoryView = toolbar
+    }
+    
+    @objc func doneWithNumberPad() {
+        searchController.searchBar.endEditing(true)
+    }
+    
+    //Do search action whenever user types
+    @objc func searchWithQuery() {
+        if let string = searchController.searchBar.text {
+            print(string)
+            //delegate?.searchWith(query: string)
+        }
+    }
+    
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        if let someView: UIView = object as! UIView? {
+            if (someView == self.searchController.searchResultsController?.view && (keyPath == "hidden") && (searchController.searchResultsController?.view.isHidden)! && searchController.searchBar.isFirstResponder) {
+                searchController.searchResultsController?.view.isHidden = false
+            }
+        }
+    }
+    
+}
+
+//MARK: - UISearchControllerDelegate Delegate
+extension EventSearchViewController: UISearchControllerDelegate, UISearchBarDelegate {
+    func reassureShowingVC() {
+        searchController.searchResultsController?.view.isHidden = false
+    }
+    
+    func willPresentSearchController(_ searchController: UISearchController) {
+        searchController.searchResultsController?.view.isHidden = false
+    }
+    
+    func didPresentSearchController(_ searchController: UISearchController) {
+        //TabBar.hide(from: self)
+    }
+    
+    func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
+        print("Tapped search bar")
+        return true
+    }
+    
+    func searchBarShouldEndEditing(_ searchBar: UISearchBar) -> Bool {
+        print("Ended search?")
+        return true
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if (searchText.count == 0) {
+            //searchController.searchResultsController?.view.isHidden = false
+            //NotificationCenter.default.post(name: .showSCViews, object: nil)
+        } else {
+            //NotificationCenter.default.post(name: .hideSCViews, object: nil)
+        }
+        
+    }
+    
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+        //searchBar.text = ""
+        //searchController.searchResultsController?.view.isHidden = true
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        NotificationCenter.default.post(name: .showSCViews, object: nil)
+    }
+}
+
+//MARK: - UISearchResultsUpdating Delegate
+extension EventSearchViewController: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        // TODO
+    }
+}
+
+
+//MARK: - function to push this view controller
 extension EventSearchViewController {
     static func push(from view: UIViewController, eventID: String) {
         let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)

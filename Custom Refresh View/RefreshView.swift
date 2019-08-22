@@ -9,22 +9,18 @@
 import UIKit
 import NVActivityIndicatorView
 
-/// RefreshView
 class RefreshView: UIView {
     
-    /// IBOutlets
     @IBOutlet weak var refreshBg: UIImageView!
     @IBOutlet weak var logo: UIImageView!
     var indicator: NVActivityIndicatorView!
     var view: UIView!
     
-    /// Variable Declarations
     var gradientView: UIView!
 }
 
 // MARK: - UI Related
 extension RefreshView {
-    
     fileprivate func initializeGradientView() {
         gradientView = UIView(frame: CGRect(x: -30, y: 0, width: 100, height: 60))
         logo.addSubview(gradientView)
