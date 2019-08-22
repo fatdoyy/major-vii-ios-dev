@@ -11,6 +11,8 @@ import UIKit
 class EventSearchViewController: UIViewController {
     static let storyboardID = "eventsSearchVC"
     
+    override var preferredStatusBarStyle: UIStatusBarStyle { return .lightContent }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .pumpkin

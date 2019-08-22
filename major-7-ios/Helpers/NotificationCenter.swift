@@ -23,7 +23,6 @@ extension Notification.Name {
     static let refreshFollowingSectionCell = Notification.Name("refreshFollowingSectionCell") //bookmarkbtn state
     
     static let refreshBookmarkedSection = Notification.Name("refreshBookmarkedSection")
-    static let refreshBookmarkedSectionFromDetails = Notification.Name("refreshBookmarkedSectionFromDetails")
     
     static let removeBookmarkedSectionObservers = Notification.Name("removeBookmarkedSectionObservers")
     static let removeFollowingSectionObservers = Notification.Name("removeFollowingSectionObservers")

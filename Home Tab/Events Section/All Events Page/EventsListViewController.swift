@@ -119,20 +119,6 @@ class EventsListViewController: ScrollingNavigationViewController {
         TabBar.show(from: self)
     }
     
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        
-        if !self.isMovingFromParent {
-            let bookmarkedSection = mainCollectionView.visibleCells //hide bookmark section when view did disappear
-            for cell in bookmarkedSection {
-                if let cell = cell as? BookmarkedSection {
-                    cell.bookmarksCollectionView.alpha = 0
-                    cell.reloadIndicator.alpha = 1
-                }
-            }
-        }
-    }
-    
     @objc private func refreshEventListVC() {
         isFromLoginView = true
     }
@@ -292,7 +278,7 @@ extension EventsListViewController: UICollectionViewDelegate, UICollectionViewDe
                 }
                 return cell
                 
-            case .Bookmark:
+            case .Bookmarked:
                 let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: BookmarkedSection.reuseIdentifier, for: indexPath) as! BookmarkedSection
                 if UserService.User.isLoggedIn() {
                     cell.delegate = self
@@ -329,7 +315,7 @@ extension EventsListViewController: UICollectionViewDelegate, UICollectionViewDe
                 let size = UserService.User.isLoggedIn() ? CGSize(width: width, height: FollowingSection.height) : CGSize(width: width, height: 1)
                 return size
                 
-            case .Bookmark:     return CGSize(width: width, height: BookmarkedSection.height)
+            case .Bookmarked:     return CGSize(width: width, height: BookmarkedSection.height)
             case .Featured:     return CGSize(width: FeaturedCell.width, height: FeaturedCell.height)
             default:            return CGSize(width: width, height: TrendingSection.height) //case 0, trending section
             }
@@ -397,7 +383,7 @@ extension EventsListViewController: FollowingSectionDelegate {
 //MARK: Bookmark Section Delegate
 extension EventsListViewController: BookmarkSectionDelegate {
     func bookmarkedCellTapped(eventID: String) {
-        EventDetailsViewController.push(from: self, eventID: eventID)
+        EventDetailsViewController.push(from: self, eventID: eventID, isFromBookmarkedSection: true)
     }
 }
 
@@ -409,5 +395,5 @@ extension EventsListViewController: FeaturedCellDelegate {
 }
 
 enum EventsListSection: Int {
-    case Trending = 0, Following, Bookmark, Featured
+    case Trending = 0, Following, Bookmarked, Featured
 }

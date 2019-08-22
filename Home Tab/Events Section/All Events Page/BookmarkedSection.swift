@@ -79,7 +79,6 @@ class BookmarkedSection: UICollectionViewCell {
         super.awakeFromNib()
         
         NotificationCenter.default.setObserver(self, selector: #selector(refreshBookmarkedSection(_:)), name: .refreshBookmarkedSection, object: nil)
-        NotificationCenter.default.setObserver(self, selector: #selector(refreshBookmarkedSectionFromDetails(_:)), name: .refreshBookmarkedSectionFromDetails, object: nil)
         NotificationCenter.default.setObserver(self, selector: #selector(removeAllObservers), name: .removeBookmarkedSectionObservers, object: nil)
         
         setupUI()
@@ -110,10 +109,6 @@ class BookmarkedSection: UICollectionViewCell {
             }
         }
         
-        getBookmarkedEvents()
-    }
-    
-    @objc private func refreshBookmarkedSectionFromDetails(_ notification: Notification) {
         getBookmarkedEvents()
     }
     
