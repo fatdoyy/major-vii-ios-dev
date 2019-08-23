@@ -73,7 +73,7 @@ class FollowingSection: UICollectionViewCell {
     }
 }
 
-//MARK: UI related
+//MARK: - UI related
 extension FollowingSection {
     private func setupUI() {
         followingSectionTitle.textColor = .whiteText()
@@ -337,8 +337,8 @@ extension FollowingSection {
     }
 }
 
-//MARK: UICollectionView delegate
-extension FollowingSection: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout{
+//MARK: - UICollectionView delegate
+extension FollowingSection: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         switch collectionView {
         case followingsCollectionView:
@@ -518,7 +518,7 @@ extension FollowingSection: UICollectionViewDataSource, UICollectionViewDelegate
     }
 }
 
-//MARK: API Calls | Bookmark action | Bookmark btn state | Following cell delegate
+//MARK: - API Calls | Bookmark action | Bookmark btn state | Following cell delegate
 extension FollowingSection: FollowingSectionCellDelegate {
     func getCurrentUserFollowings(skip: Int? = nil, limit: Int? = nil, targetProfile: OrganizerProfile? = nil, targetType: Int? = nil) {
         followingsCollectionView.isUserInteractionEnabled = false

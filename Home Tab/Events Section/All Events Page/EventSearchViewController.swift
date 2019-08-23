@@ -11,6 +11,8 @@ import UIKit
 class EventSearchViewController: UIViewController {
     static let storyboardID = "eventsSearchVC"
 
+    let keywords: [String] = ["canto-pop", "j-pop", "blues", "alternative rock", "punk", "country", "house", "edm", "electronic", "dance", "k-pop", "acid jazz", "downtempo"]
+
     let searchController = UISearchController(searchResultsController: nil)
     
     var keywordsCollectionView: UICollectionView!
@@ -37,8 +39,18 @@ extension EventSearchViewController {
     }
     
     private func setupKeywordsCollectionView() {
-        keywordsCollectionView = UICollectionView(frame: CGRect(origin: .zero, size: .zero), collectionViewLayout: HashtagsFlowLayout())
-        keywordsCollectionView.backgroundColor = .pumpkin
+        let layout = HashtagsFlowLayout()
+        layout.scrollDirection = .horizontal
+        
+        keywordsCollectionView = UICollectionView(frame: CGRect(origin: .zero, size: .zero), collectionViewLayout: layout)
+        keywordsCollectionView.backgroundColor = .m7DarkGray()
+        keywordsCollectionView.dataSource = self
+        keywordsCollectionView.delegate = self
+        
+        keywordsCollectionView.showsVerticalScrollIndicator = false
+        keywordsCollectionView.showsHorizontalScrollIndicator = false
+        keywordsCollectionView.register(UINib.init(nibName: "SearchViewKeywordCell", bundle: nil), forCellWithReuseIdentifier: SearchViewKeywordCell.reuseIdentifier)
+
         view.addSubview(keywordsCollectionView)
         keywordsCollectionView.snp.makeConstraints { (make) in
             make.height.equalTo(24)
@@ -216,6 +228,59 @@ extension EventSearchViewController: UISearchResultsUpdating {
     }
 }
 
+//MARK: - UICollectionView delegate
+extension EventSearchViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        switch collectionView {
+        case keywordsCollectionView:    return keywords.count
+        case mainCollectionView:        return 10 //TODO
+        default:                        return 0
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        switch collectionView {
+        case keywordsCollectionView:
+            let cell = keywordsCollectionView.dequeueReusableCell(withReuseIdentifier: SearchViewKeywordCell.reuseIdentifier, for: indexPath) as! SearchViewKeywordCell
+            cell.keyword.text = keywords[indexPath.row]
+            return cell
+
+        case mainCollectionView:
+            let cell = keywordsCollectionView.dequeueReusableCell(withReuseIdentifier: SearchViewKeywordCell.reuseIdentifier, for: indexPath) as! SearchViewKeywordCell
+            return cell
+            
+        default: return UICollectionViewCell()
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        switch collectionView {
+        case keywordsCollectionView:
+            let keyword = keywords[indexPath.row]
+            let size = (keyword as NSString).size(withAttributes: nil)
+            return CGSize(width: size.width + 32, height: SearchViewKeywordCell.height)
+            
+        case mainCollectionView:
+            return CGSize(width: FollowingSectionCell.width, height: FollowingSectionCell.height)
+            
+        default:
+            return CGSize(width: FollowingSectionCell.width, height: FollowingSectionCell.height)
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        switch collectionView {
+        case keywordsCollectionView:
+            print("tapped") //TODO
+            
+        case mainCollectionView:
+            print("tapped")
+
+        default: print("error")
+
+        }
+    }
+}
 
 //MARK: - function to push this view controller
 extension EventSearchViewController {
