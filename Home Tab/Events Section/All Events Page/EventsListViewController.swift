@@ -136,7 +136,7 @@ class EventsListViewController: ScrollingNavigationViewController {
     }
 }
 
-//MARK: UI related
+//MARK: - UI related
 extension EventsListViewController {
     private func setupMainCollectionView() {
         
@@ -211,7 +211,7 @@ extension EventsListViewController {
     }
 }
 
-//MARK: Custom refresh control
+//MARK: - Custom refresh control
 extension EventsListViewController {
     func setupRefreshView() {
         if let objOfRefreshView = Bundle.main.loadNibNamed("RefreshView", owner: self, options: nil)?.first as? RefreshView {
@@ -246,13 +246,13 @@ extension EventsListViewController {
     }
 }
 
-//MARK: UICollectionView delegate
+//MARK: - UICollectionView delegate
 extension EventsListViewController: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if let section = EventsListSection(rawValue: section) {
             switch section {
-            case .Featured:  return 7 //featuredEvents.count
-            default: return 1 //return the cell contains horizontal collection view
+            case .Featured: return 7 //featuredEvents.count
+            default:        return 1 //return the cell contains horizontal collection view
             }
         } else {
             fatalError("numberOfItemsInSection section error!")
@@ -315,7 +315,7 @@ extension EventsListViewController: UICollectionViewDelegate, UICollectionViewDe
                 let size = UserService.User.isLoggedIn() ? CGSize(width: width, height: FollowingSection.height) : CGSize(width: width, height: 1)
                 return size
                 
-            case .Bookmarked:     return CGSize(width: width, height: BookmarkedSection.height)
+            case .Bookmarked:   return CGSize(width: width, height: BookmarkedSection.height)
             case .Featured:     return CGSize(width: FeaturedCell.width, height: FeaturedCell.height)
             default:            return CGSize(width: width, height: TrendingSection.height) //case 0, trending section
             }
@@ -365,29 +365,28 @@ extension EventsListViewController: UICollectionViewDelegate, UICollectionViewDe
     
 }
 
-//MARK: Trending Section Delegate
+//MARK: - Trending Section Delegate
 extension EventsListViewController: TrendingSectionDelegate {
     func trendingCellTapped(eventID: String) {
         EventDetailsViewController.push(from: self, eventID: eventID)
     }
-
 }
 
-//MARK: Following Section Delegate
+//MARK: - Following Section Delegate
 extension EventsListViewController: FollowingSectionDelegate {
     func followingCellTapped(eventID: String) {
         EventDetailsViewController.push(from: self, eventID: eventID)
     }
 }
 
-//MARK: Bookmark Section Delegate
+//MARK: - Bookmark Section Delegate
 extension EventsListViewController: BookmarkSectionDelegate {
     func bookmarkedCellTapped(eventID: String) {
         EventDetailsViewController.push(from: self, eventID: eventID, isFromBookmarkedSection: true)
     }
 }
 
-//MARK: Featured Section bookmark btn
+//MARK: - Featured Section bookmark btn
 extension EventsListViewController: FeaturedCellDelegate {
     func bookmarkBtnTapped() {
         

@@ -17,8 +17,6 @@ class BuskersViewController: UIViewController {
     //weak var previousController: UIViewController? //for tabbar scroll to top
     weak var delegate: BuskersViewControllerDelegate?
     
-    var screenWidth: CGFloat = UIScreen.main.bounds.width
-    var screenHeight: CGFloat = UIScreen.main.bounds.height
     var mainCollectionView: UICollectionView!
     
     let searchResultsVC = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "buskersSearchVC") as! BuskersSearchViewController
@@ -180,7 +178,7 @@ extension BuskersViewController {
         let layout = PinterestLayout()
         layout.delegate = self
         
-        mainCollectionView = UICollectionView(frame: CGRect(origin: CGPoint.zero, size: CGSize(width: screenWidth, height: screenHeight)), collectionViewLayout: layout)
+        mainCollectionView = UICollectionView(frame: CGRect(origin: .zero, size: .zero), collectionViewLayout: layout)
         mainCollectionView.showsVerticalScrollIndicator = false
         mainCollectionView.contentInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
         mainCollectionView.backgroundColor = .m7DarkGray()

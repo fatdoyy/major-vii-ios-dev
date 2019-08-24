@@ -60,7 +60,20 @@ extension EventSearchViewController {
     }
     
     private func setupMainCollectionView() {
+        let layout = UICollectionViewFlowLayout()
         
+        mainCollectionView = UICollectionView(frame: CGRect(origin: .zero, size: .zero), collectionViewLayout: layout)
+        mainCollectionView.showsVerticalScrollIndicator = false
+        mainCollectionView.contentInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
+        mainCollectionView.backgroundColor = .m7DarkGray()
+        mainCollectionView.dataSource = self
+        mainCollectionView.delegate = self
+        mainCollectionView.register(UINib.init(nibName: "FeaturedCell", bundle: nil), forCellWithReuseIdentifier: FeaturedCell.reuseIdentifier)
+        view.addSubview(mainCollectionView)
+        mainCollectionView.snp.makeConstraints { (make) -> Void in
+            make.top.equalTo(keywordsCollectionView.snp.bottom).offset(20)
+            make.left.right.bottom.equalTo(0)
+        }
     }
     
     private func setupLeftBarItems() {
@@ -104,7 +117,7 @@ extension EventSearchViewController {
         navigationController?.navigationBar.isTranslucent = true
         //navigationController?.navigationBar.barTintColor = .darkGray()
         
-        navigationController?.navigationBar.backgroundColor = .m7DarkGray()
+        navigationController?.navigationBar.backgroundColor = .clear
     }
 }
 
@@ -246,7 +259,12 @@ extension EventSearchViewController: UICollectionViewDataSource, UICollectionVie
             return cell
 
         case mainCollectionView:
-            let cell = keywordsCollectionView.dequeueReusableCell(withReuseIdentifier: SearchViewKeywordCell.reuseIdentifier, for: indexPath) as! SearchViewKeywordCell
+            let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: FeaturedCell.reuseIdentifier, for: indexPath) as! FeaturedCell
+            //cell.delegate = self
+            cell.eventTitle.text = "Music on the Habour"
+            cell.performerLabel.text = "Music ABC"
+            cell.bookmarkCountLabel.text = "201"
+            cell.bgImgView.image = UIImage(named: "cat")
             return cell
             
         default: return UICollectionViewCell()
@@ -261,7 +279,7 @@ extension EventSearchViewController: UICollectionViewDataSource, UICollectionVie
             return CGSize(width: size.width + 32, height: SearchViewKeywordCell.height)
             
         case mainCollectionView:
-            return CGSize(width: FollowingSectionCell.width, height: FollowingSectionCell.height)
+            return CGSize(width: FeaturedCell.width, height: FeaturedCell.height)
             
         default:
             return CGSize(width: FollowingSectionCell.width, height: FollowingSectionCell.height)

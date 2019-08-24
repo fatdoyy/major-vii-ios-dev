@@ -49,8 +49,8 @@ class EventsSection: UICollectionViewCell {
         eventsLabel.textColor = .whiteText()
         
         viewAllBtn.setTitle("VIEW ALL", for: .normal)
-        viewAllBtn.setTitleColor(.whiteText75Alpha(), for: .normal)
-        viewAllBtn.backgroundColor = UIColor.darkGray
+        viewAllBtn.setTitleColor(.purpleText(), for: .normal)
+        viewAllBtn.backgroundColor = UIColor(hexString: "#7e7ecf").withAlphaComponent(0.2)
         viewAllBtn.layer.cornerRadius = 13.5
         
         if let layout = eventsCollectionView.collectionViewLayout as? BouncyLayout {
@@ -77,7 +77,7 @@ class EventsSection: UICollectionViewCell {
     
 }
 
-//MARK: API Calls | Home VC Delegate
+//MARK: - API Calls | Home VC Delegate
 extension EventsSection: HomeViewControllerDelegate {
     //get upcoming events list
     func getUpcomingEvents() {
@@ -109,8 +109,8 @@ extension EventsSection: HomeViewControllerDelegate {
     }
 }
 
-//MARK: UICollectionView Data Source
-extension EventsSection: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout{
+//MARK: - UICollectionView Data Source
+extension EventsSection: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         let count = upcomingEvents.isEmpty ? 2 : upcomingEvents.count
         return count
