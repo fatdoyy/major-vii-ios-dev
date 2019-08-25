@@ -8,16 +8,18 @@
 
 import UIKit
 import SkeletonView
+import NVActivityIndicatorView
 
 protocol FeaturedCellDelegate: class {
-    func bookmarkBtnTapped()
+    func bookmarkBtnTapped(cell: FeaturedCell, tappedIndex: IndexPath)
 }
 
 class FeaturedCell: UICollectionViewCell {
     static let reuseIdentifier = "featuredCell"
     
     weak var delegate: FeaturedCellDelegate?
-    
+    var myIndexPath: IndexPath!
+
     static let width = TrendingSection.width
     static let height: CGFloat = 93
     
@@ -27,15 +29,18 @@ class FeaturedCell: UICollectionViewCell {
     @IBOutlet weak var performerLabel: UILabel!
     @IBOutlet weak var bookmarkCountLabel: UILabel!
     @IBOutlet weak var bookmarkBtn: UIButton!
-    
-    @IBOutlet var skeletonViews: Array<UILabel>!
+    var bookmarkBtnIndicator = NVActivityIndicatorView(frame: CGRect(origin: CGPoint.zero, size: CGSize(width: 12, height: 12)), type: .lineScale)
+
+    @IBOutlet var skeletonViews: Array<UIView>!
+    @IBOutlet var viewsToShowLater: Array<UIView>!
     
     override func awakeFromNib() {
         super.awakeFromNib()
         backgroundColor = .m7DarkGray()
-        bgView.backgroundColor = .charcoal()
+        bgView.backgroundColor = .m7Charcoal()
         bgView.layer.cornerRadius = GlobalCornerRadius.value
-         
+        bgImgView.backgroundColor = .darkGray
+        
         bookmarkBtn.backgroundColor = .clear
         bookmarkBtn.layer.cornerRadius = GlobalCornerRadius.value / 3
         bookmarkBtn.layer.shadowColor = UIColor.black.cgColor
@@ -50,36 +55,60 @@ class FeaturedCell: UICollectionViewCell {
         maskLayer.path = path.cgPath
         bgImgView.layer.mask = maskLayer
         
-        //        let animation = SkeletonAnimationBuilder().makeSlidingAnimation(withDirection: .leftRight, duration: 2)
-        //        eventTitle.tag = 1
-        //        for view in skeletonViews{
-        //            if view.tag == 1 {
-        //                SkeletonAppearance.default.multilineHeight = 20
-        //            } else {
-        //                SkeletonAppearance.default.multilineHeight = 15
-        //            }
-        //            view.isSkeletonable = true
-        //            view.showAnimatedGradientSkeleton(animation: animation)
-        //        }
+        //activity indicatior
+        bookmarkBtnIndicator.startAnimating()
+        bookmarkBtn.addSubview(bookmarkBtnIndicator)
+        bookmarkBtnIndicator.snp.makeConstraints { (make) -> Void in
+            make.center.equalToSuperview()
+        }
+        checkShouldDisplayIndicator()
+        
+        setupSkeletonViews()
         
         eventTitle.textColor = .whiteText()
         performerLabel.textColor = .whiteText()
         bookmarkCountLabel.textColor = .whiteText()
     }
-
-    @IBAction func bookmarkBtnTapped(_ sender: Any) {
-        if (self.bookmarkBtn.backgroundColor?.isEqual(UIColor.clear))! { //bookmarked
-            HapticFeedback.createImpact(style: .heavy)
-            UIView.animate(withDuration: 0.2, animations: {
-                self.bookmarkBtn.backgroundColor = .mintGreen()
-            })
-        } else { //remove bookmark
-            HapticFeedback.createImpact(style: .light)
-            UIView.animate(withDuration: 0.2, animations: {
-                self.bookmarkBtn.backgroundColor = .clear
-            })
+    
+    func setupSkeletonViews() {
+        //skeleton view
+        let animation = SkeletonAnimationBuilder().makeSlidingAnimation(withDirection: .leftRight, duration: 2)
+        eventTitle.tag = 1
+        for view in skeletonViews{
+            if view.tag == 1 {
+                SkeletonAppearance.default.multilineHeight = 16
+            } else {
+                SkeletonAppearance.default.multilineHeight = 11
+            }
+            view.isSkeletonable = true
+            view.showAnimatedGradientSkeleton(animation: animation)
         }
-        delegate?.bookmarkBtnTapped()
+        
+        for view in viewsToShowLater {
+            view.alpha = 0
+        }
+    }
+    
+    func checkShouldDisplayIndicator() {
+        if UserService.User.isLoggedIn() {
+            bookmarkBtn.setImage(nil, for: .normal)
+            bookmarkBtnIndicator.alpha = 1
+        } else {
+            bookmarkBtnIndicator.alpha = 0
+        }
+    }
+    
+    @IBAction func bookmarkBtnTapped(_ sender: Any) {
+        delegate?.bookmarkBtnTapped(cell: self, tappedIndex: myIndexPath)
+    }
+    
+    override func prepareForReuse() {
+        setupSkeletonViews()
+        checkShouldDisplayIndicator()
+        eventTitle.text = ""
+        //performerLabel.text = ""
+        bookmarkBtn.backgroundColor = .clear
+        bgImgView.image = nil
     }
     
     override var isHighlighted: Bool {

@@ -24,3 +24,20 @@ class BuskersSearchResult: Mappable {
     }
     
 }
+
+class EventsSearchResult: Mappable {
+    var keywords = [String]()
+    var skip: Int?
+    var limit: Int?
+    var list = [Event]()
+    
+    required init?(map: Map) {}
+    
+    func mapping(map: Map) {
+        keywords    <- map["keywords"]
+        skip        <- map["skip"]
+        limit       <- map["limit"]
+        list        <- map["list"]
+    }
+    
+}

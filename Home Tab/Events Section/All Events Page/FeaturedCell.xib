@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -100,6 +100,8 @@
                 <outletCollection property="skeletonViews" destination="MeS-8f-6mZ" collectionClass="NSMutableArray" id="33H-IZ-DIr"/>
                 <outletCollection property="skeletonViews" destination="vIu-SJ-7sk" collectionClass="NSMutableArray" id="3yz-f5-hjb"/>
                 <outletCollection property="skeletonViews" destination="Uhx-zG-5WN" collectionClass="NSMutableArray" id="vep-Sh-1oH"/>
+                <outletCollection property="viewsToShowLater" destination="uut-SG-FZx" collectionClass="NSMutableArray" id="M5k-vG-xLb"/>
+                <outletCollection property="viewsToShowLater" destination="Uhx-zG-5WN" collectionClass="NSMutableArray" id="Bic-oi-hLM"/>
             </connections>
             <point key="canvasLocation" x="39.200000000000003" y="46.326836581709152"/>
         </collectionViewCell>

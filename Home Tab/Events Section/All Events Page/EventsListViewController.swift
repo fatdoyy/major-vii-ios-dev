@@ -291,7 +291,7 @@ extension EventsListViewController: UICollectionViewDelegate, UICollectionViewDe
                 let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: FeaturedCell.reuseIdentifier, for: indexPath) as! FeaturedCell
                 cell.delegate = self
                 cell.eventTitle.text = "Music on the Habour"
-                cell.performerLabel.text = "Music ABC"
+                //cell.performerLabel.text = "Music ABC"
                 cell.bookmarkCountLabel.text = "201"
                 cell.bgImgView.image = UIImage(named: "cat")
                 return cell
@@ -388,9 +388,10 @@ extension EventsListViewController: BookmarkSectionDelegate {
 
 //MARK: - Featured Section bookmark btn
 extension EventsListViewController: FeaturedCellDelegate {
-    func bookmarkBtnTapped() {
+    func bookmarkBtnTapped(cell: FeaturedCell, tappedIndex: IndexPath) {
         
     }
+
 }
 
 enum EventsListSection: Int {

@@ -60,8 +60,7 @@ class TrendingSectionCell: UICollectionViewCell {
         bookmarkBtnIndicator.startAnimating()
         bookmarkBtn.addSubview(bookmarkBtnIndicator)
         bookmarkBtnIndicator.snp.makeConstraints { (make) -> Void in
-            make.centerX.equalToSuperview()
-            make.centerY.equalToSuperview()
+            make.center.equalToSuperview()
         }
         checkShouldDisplayIndicator()
         

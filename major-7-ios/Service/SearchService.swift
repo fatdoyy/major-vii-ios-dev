@@ -41,4 +41,31 @@ extension SearchService {
             }
         }
     }
+    
+    static func byEvents(query: String, skip: Int? = nil, limit: Int? = nil) -> Promise<EventsSearchResult> {
+        var params: [String: Any] = [:]
+        
+        params["q"] = query
+        
+        if let skip = skip {
+            params["skip"] = skip
+        }
+        
+        if let limit = limit {
+            params["limit"] = limit
+        }
+        
+        return Promise { resolver in
+            request(method: .get, url: getActionPath(.searchByEvents), params: params).done { response in
+                guard let results = Mapper<EventsSearchResult>().map(JSONObject: response) else {
+                    resolver.reject(PMKError.cancelled)
+                    return
+                }
+                
+                resolver.fulfill(results)
+                }.catch { error in
+                    resolver.reject(error)
+            }
+        }
+    }
 }

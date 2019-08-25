@@ -51,7 +51,7 @@ class TrendingSection: UICollectionViewCell {
     
 }
 
-//MARK: UI related
+//MARK: - UI related
 extension TrendingSection {
     private func setupUI() {
         trendingSectionLabel.textColor = .whiteText()
@@ -131,7 +131,7 @@ extension TrendingSection {
     }
 }
 
-//MARK: UICollectionView Data Source
+//MARK: - UICollectionView Data Source
 extension TrendingSection: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         let count = trendingEvents.isEmpty ? 2 : trendingEvents.count
@@ -150,13 +150,13 @@ extension TrendingSection: UICollectionViewDataSource, UICollectionViewDelegate,
             }
             
             for view in cell.viewsToShowLater { //show hidden view
-                UIView.animate(withDuration: 0.75) {
+                UIView.animate(withDuration: 0.3) {
                     view.alpha = 1.0
                 }
             }
             
             if let imgUrl = URL(string: (trendingEvents[indexPath.row].images.first?.secureUrl)!) {
-                cell.bgImgView.kf.setImage(with: imgUrl, options: [.transition(.fade(0.4))])
+                cell.bgImgView.kf.setImage(with: imgUrl, options: [.transition(.fade(0.2))])
             }
             
             if let id = trendingEvents[indexPath.row].id {
@@ -185,7 +185,7 @@ extension TrendingSection: UICollectionViewDataSource, UICollectionViewDelegate,
     }
 }
 
-//MARK: API Calls | Bookmark action | Bookmark btn state | Trending cell delegate
+//MARK: - API Calls | Bookmark action | Bookmark btn state | Trending cell delegate
 extension TrendingSection: TrendingSectionCellDelegate {
     func getTrendingEvents() { //get trending events list
         trendingCollectionView.isUserInteractionEnabled = false
@@ -338,6 +338,7 @@ extension TrendingSection: TrendingSectionCellDelegate {
         }
     }
     
+    //bookmarkBtn tapped
     func bookmarkBtnTapped(cell: TrendingSectionCell, tappedIndex: IndexPath) {
         if UserService.User.isLoggedIn() {
             if let eventID = self.trendingEvents[tappedIndex.row].id {
