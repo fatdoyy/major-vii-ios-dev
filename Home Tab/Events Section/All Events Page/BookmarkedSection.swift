@@ -118,7 +118,7 @@ class BookmarkedSection: UICollectionViewCell {
     
 }
 
-//MARK: UI related
+//MARK: - UI related
 extension BookmarkedSection {
     private func setupUI() {
         bookmarkSectionTitle.textColor = .whiteText()
@@ -141,6 +141,24 @@ extension BookmarkedSection {
         
         bookmarksCollectionView.backgroundColor = .m7DarkGray()
         bookmarksCollectionView.register(UINib.init(nibName: "BookmarkedSectionCell", bundle: nil), forCellWithReuseIdentifier: BookmarkedSectionCell.reuseIdentifier)
+        
+        let overlayLeft = UIImageView(image: UIImage(named: "collectionview_overlay_left_to_right"))
+        addSubview(overlayLeft)
+        overlayLeft.snp.makeConstraints { (make) in
+            make.height.equalTo(bookmarksCollectionView.snp.height)
+            make.width.equalTo(20)
+            make.top.equalTo(bookmarksCollectionView.snp.top)
+            make.left.equalTo(bookmarksCollectionView.snp.left)
+        }
+        
+        let overlayRight = UIImageView(image: UIImage(named: "collectionview_overlay_right_to_left"))
+        addSubview(overlayRight)
+        overlayRight.snp.makeConstraints { (make) in
+            make.height.equalTo(bookmarksCollectionView.snp.height)
+            make.width.equalTo(20)
+            make.top.equalTo(bookmarksCollectionView.snp.top)
+            make.right.equalTo(bookmarksCollectionView.snp.right)
+        }
         
         reloadIndicator.startAnimating()
         reloadIndicator.alpha = 0
@@ -326,7 +344,7 @@ extension BookmarkedSection {
 
 }
 
-//MARK: API Calls
+//MARK: - API Calls
 extension BookmarkedSection {
     func getBookmarkedEvents(completion: (() -> Void)? = nil) {
         bookmarksCollectionView.isUserInteractionEnabled = false
@@ -362,7 +380,7 @@ extension BookmarkedSection {
     }
 }
 
-//MARK: UICollectionView delegate
+//MARK: - UICollectionView delegate
 extension BookmarkedSection: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         let count = UserService.User.isLoggedIn() && !bookmarkedEvents.isEmpty ? bookmarkedEvents.count : 3
@@ -415,7 +433,7 @@ extension BookmarkedSection: UICollectionViewDataSource, UICollectionViewDelegat
     }
 }
 
-//MARK: Bookmarked cell delegate
+//MARK: - Bookmarked cell delegate
 extension BookmarkedSection: BookmarkedSectionCellDelegate {
     func bookmarkBtnTapped(cell: BookmarkedSectionCell, tappedIndex: IndexPath) {
         if let eventID = bookmarkedEvents[tappedIndex.row].targetEvent?.id {

@@ -45,6 +45,19 @@ class EventsSection: UICollectionViewCell {
         // Initialization code
         backgroundColor = .m7DarkGray()
         
+        setupUI()
+        getUpcomingEvents()
+    }
+    
+    @IBAction func viewAllBtnTapped(_ sender: Any) {
+        delegate?.viewAllBtnTapped()
+    }
+    
+}
+
+//MARK: - UI related
+extension EventsSection {
+    private func setupUI() {
         eventsLabel.text = "Upcoming Events"
         eventsLabel.textColor = .whiteText()
         
@@ -68,11 +81,23 @@ class EventsSection: UICollectionViewCell {
         eventsCollectionView.backgroundColor = .m7DarkGray()
         eventsCollectionView.register(UINib.init(nibName: "EventsCell", bundle: nil), forCellWithReuseIdentifier: EventsCell.reuseIdentifier)
         
-        getUpcomingEvents()
-    }
-    
-    @IBAction func viewAllBtnTapped(_ sender: Any) {
-        delegate?.viewAllBtnTapped()
+        let overlayLeft = UIImageView(image: UIImage(named: "collectionview_overlay_left_to_right"))
+        addSubview(overlayLeft)
+        overlayLeft.snp.makeConstraints { (make) in
+            make.height.equalTo(eventsCollectionView.snp.height)
+            make.width.equalTo(20)
+            make.top.equalTo(eventsCollectionView.snp.top)
+            make.left.equalTo(eventsCollectionView.snp.left)
+        }
+        
+        let overlayRight = UIImageView(image: UIImage(named: "collectionview_overlay_right_to_left"))
+        addSubview(overlayRight)
+        overlayRight.snp.makeConstraints { (make) in
+            make.height.equalTo(eventsCollectionView.snp.height)
+            make.width.equalTo(20)
+            make.top.equalTo(eventsCollectionView.snp.top)
+            make.right.equalTo(eventsCollectionView.snp.right)
+        }
     }
     
 }

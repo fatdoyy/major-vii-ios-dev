@@ -102,6 +102,24 @@ extension FollowingSection {
         
         followingsCollectionView.backgroundColor = .m7DarkGray()
         followingsCollectionView.register(UINib.init(nibName: "FollowingsCell", bundle: nil), forCellWithReuseIdentifier: FollowingsCell.reuseIdentifier)
+        
+        let overlayLeft = UIImageView(image: UIImage(named: "collectionview_overlay_left_to_right"))
+        addSubview(overlayLeft)
+        overlayLeft.snp.makeConstraints { (make) in
+            make.height.equalTo(followingsCollectionView.snp.height)
+            make.width.equalTo(20)
+            make.top.equalTo(followingsCollectionView.snp.top)
+            make.left.equalTo(followingsCollectionView.snp.left)
+        }
+        
+        let overlayRight = UIImageView(image: UIImage(named: "collectionview_overlay_right_to_left"))
+        addSubview(overlayRight)
+        overlayRight.snp.makeConstraints { (make) in
+            make.height.equalTo(followingsCollectionView.snp.height)
+            make.width.equalTo(20)
+            make.top.equalTo(followingsCollectionView.snp.top)
+            make.right.equalTo(followingsCollectionView.snp.right)
+        }
     }
     
     private func setupFollowingSectionCollectionView() {
@@ -119,6 +137,24 @@ extension FollowingSection {
         
         followingSectionCollectionView.backgroundColor = .m7DarkGray()
         followingSectionCollectionView.register(UINib.init(nibName: "FollowingSectionCell", bundle: nil), forCellWithReuseIdentifier: FollowingSectionCell.reuseIdentifier)
+        
+        let overlayLeft = UIImageView(image: UIImage(named: "collectionview_overlay_left_to_right"))
+        addSubview(overlayLeft)
+        overlayLeft.snp.makeConstraints { (make) in
+            make.height.equalTo(followingSectionCollectionView.snp.height)
+            make.width.equalTo(20)
+            make.top.equalTo(followingSectionCollectionView.snp.top)
+            make.left.equalTo(followingSectionCollectionView.snp.left)
+        }
+        
+        let overlayRight = UIImageView(image: UIImage(named: "collectionview_overlay_right_to_left"))
+        addSubview(overlayRight)
+        overlayRight.snp.makeConstraints { (make) in
+            make.height.equalTo(followingSectionCollectionView.snp.height)
+            make.width.equalTo(20)
+            make.top.equalTo(followingSectionCollectionView.snp.top)
+            make.right.equalTo(followingSectionCollectionView.snp.right)
+        }
     }
     
     private func addBookmarkAnimation(cell: FollowingSectionCell) {

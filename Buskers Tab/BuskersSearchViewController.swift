@@ -129,6 +129,25 @@ extension BuskersSearchViewController {
             make.left.right.equalTo(0)
             make.height.equalTo(GenreCell.height)
         }
+        
+        let overlayLeft = UIImageView(image: UIImage(named: "collectionview_overlay_left_to_right"))
+        view.addSubview(overlayLeft)
+        overlayLeft.snp.makeConstraints { (make) in
+            make.height.equalTo(genreCollectionView.snp.height)
+            make.width.equalTo(20)
+            make.top.equalTo(genreCollectionView.snp.top)
+            make.left.equalTo(genreCollectionView.snp.left)
+        }
+        
+        let overlayRight = UIImageView(image: UIImage(named: "collectionview_overlay_right_to_left"))
+        view.addSubview(overlayRight)
+        overlayRight.snp.makeConstraints { (make) in
+            make.height.equalTo(genreCollectionView.snp.height)
+            make.width.equalTo(20)
+            make.top.equalTo(genreCollectionView.snp.top)
+            make.right.equalTo(genreCollectionView.snp.right)
+        }
+        
         viewsToHide.append(genreCollectionView)
     }
 }

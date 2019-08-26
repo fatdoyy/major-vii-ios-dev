@@ -475,7 +475,7 @@ extension BuskerProfileViewController {
         mainScrollView.addSubview(closeBtn)
         mainScrollView.bringSubviewToFront(closeBtn)
         closeBtn.snp.makeConstraints { (make) -> Void in
-            make.size.equalTo(32)
+            make.size.equalTo(30)
             make.left.equalTo(20)
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
         }

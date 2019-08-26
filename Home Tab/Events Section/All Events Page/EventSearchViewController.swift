@@ -68,7 +68,8 @@ extension EventSearchViewController: FeaturedCellDelegate {
                     }
                 }
             } else {
-                self.searchController.searchBar.shake()
+                self.emptySearchResultsLabel.shake()
+                HapticFeedback.createNotificationFeedback(style: .error)
                 self.emptySearchResultsLabel.text = "No results for \"\(self.searchController.searchBar.text ?? "")\""
                 UIView.animate(withDuration: 0.2) {
                     self.mainCollectionView.alpha = 0
@@ -257,12 +258,28 @@ extension EventSearchViewController {
         keywordsCollectionView.showsVerticalScrollIndicator = false
         keywordsCollectionView.showsHorizontalScrollIndicator = false
         keywordsCollectionView.register(UINib.init(nibName: "SearchViewKeywordCell", bundle: nil), forCellWithReuseIdentifier: SearchViewKeywordCell.reuseIdentifier)
-
+        
         view.addSubview(keywordsCollectionView)
         keywordsCollectionView.snp.makeConstraints { (make) in
             make.height.equalTo(24)
             make.width.equalTo(UIScreen.main.bounds.width)
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
+        }
+        
+        let overlayLeft = UIImageView(image: UIImage(named: "collectionview_overlay_left_to_right"))
+        view.addSubview(overlayLeft)
+        overlayLeft.snp.makeConstraints { (make) in
+            make.height.equalTo(24)
+            make.width.equalTo(20)
+            make.top.left.equalTo(keywordsCollectionView)
+        }
+        
+        let overlayRight = UIImageView(image: UIImage(named: "collectionview_overlay_right_to_left"))
+        view.addSubview(overlayRight)
+        overlayRight.snp.makeConstraints { (make) in
+            make.height.equalTo(24)
+            make.width.equalTo(20)
+            make.top.right.equalTo(keywordsCollectionView)
         }
     }
     
@@ -295,13 +312,22 @@ extension EventSearchViewController {
         }
     }
     
+    private func setupNavBar() {
+        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        navigationController?.navigationBar.shadowImage = UIImage()
+        navigationController?.navigationBar.isTranslucent = true
+        //navigationController?.navigationBar.barTintColor = .darkGray()
+        
+        navigationController?.navigationBar.backgroundColor = .clear
+    }
+    
     private func setupLeftBarItems() {
         let customView = UIView(frame: CGRect(x: 15, y: 10, width: UIScreen.main.bounds.width, height: 30))
         customView.backgroundColor = .clear
         
         let backBtn = UIButton(type: .custom)
         backBtn.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
-        backBtn.setImage(UIImage(named: "back"), for: .normal)
+        backBtn.setImage(UIImage(named: "icon_close"), for: .normal)
         backBtn.addTarget(self, action: #selector(popView), for: .touchUpInside)
         customView.addSubview(backBtn)
         
@@ -326,18 +352,6 @@ extension EventSearchViewController {
         navigationController?.popViewController(animated: true)
     }
 
-}
-
-//MARK: - UINavigation Bar setup
-extension EventSearchViewController {
-    private func setupNavBar() {
-        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-        navigationController?.navigationBar.shadowImage = UIImage()
-        navigationController?.navigationBar.isTranslucent = true
-        //navigationController?.navigationBar.barTintColor = .darkGray()
-        
-        navigationController?.navigationBar.backgroundColor = .clear
-    }
 }
 
 //MARK: - Search Controller setup
@@ -431,6 +445,15 @@ extension EventSearchViewController: UISearchControllerDelegate, UISearchBarDele
         mainCollectionView.reloadData()
         //getTrendingEvents()
         return true
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        if mainCollectionView.alpha != 1 {
+            UIView.animate(withDuration: 0.2) {
+                self.mainCollectionView.alpha = 1
+                self.emptySearchResultsLabel.alpha = 0
+            }
+        }
     }
 }
 

@@ -205,7 +205,7 @@ extension EventsListViewController {
         let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
         let searchVC = storyboard.instantiateViewController(withIdentifier: EventSearchViewController.storyboardID)
         
-        self.navigationController?.hero.navigationAnimationType = .autoReverse(presenting: .slide(direction: .right))
+        self.navigationController?.hero.navigationAnimationType = .autoReverse(presenting: .cover(direction: .down))
         self.navigationController?.pushViewController(searchVC, animated: true)
         print("search tapped")
     }
