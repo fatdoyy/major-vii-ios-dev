@@ -40,6 +40,7 @@ class FollowingSection: UICollectionViewCell {
     var gotMoreEvents = true //lazy loading
     var selectedIndexPath: IndexPath? //control selected busker state
     
+    var boolArr = [Int]()
     var bookmarkedEventIDArray: [String] = [] //IMPORTANT: Adding an array to local to control bookmarkBtn's state because of cell reuse issues
     
     //empty followings view (i.e. didn't follow any buskers)
@@ -404,6 +405,10 @@ extension FollowingSection: UICollectionViewDataSource, UICollectionViewDelegate
             if !userFollowingsEvents.isEmpty {
                 let event = userFollowingsEvents[indexPath.row]
                 
+                if let id = userFollowingsEvents[indexPath.row].id {
+                    cell.eventID = id
+                }
+                
                 cell.delegate = self
                 cell.myIndexPath = indexPath
                 cell.eventTitle.text = event.title
@@ -429,8 +434,11 @@ extension FollowingSection: UICollectionViewDataSource, UICollectionViewDelegate
                     }
                 }
                 
-                if let id = userFollowingsEvents[indexPath.row].id {
-                    cell.eventID = id
+                UIView.animate(withDuration: 0.4) {
+                    cell.premiumBadge.alpha = self.boolArr[indexPath.row] == 1 ? 1 : 0
+                }
+                UIView.animate(withDuration: 0.4) {
+                    cell.verifiedIcon.alpha = self.userFollowingsEvents[indexPath.row].organizerProfile?.verified ?? true ? 1 : 0
                 }
                 
                 //detemine bookmarkBtn bg color
@@ -584,7 +592,9 @@ extension FollowingSection: FollowingSectionCellDelegate {
         EventService.getFollowingEvents(skip: skip, limit: limit).done { response in
             self.userFollowingsEvents.append(contentsOf: response.list)
             self.gotMoreEvents = response.list.count < self.eventsLimit || response.list.count == 0 ? false : true
-            
+            for _ in 0 ..< self.userFollowingsEvents.count {
+                self.boolArr.append(Int.random(in: 0 ... 1))
+            }
             if self.userFollowingsEvents.isEmpty { //setup empty view
                 self.setupEmptyFollowingEventsView()
                 if self.userFollowings.count == 1 && self.userFollowingsEvents.isEmpty {
@@ -639,9 +649,6 @@ extension FollowingSection: FollowingSectionCellDelegate {
                     self.followingSectionCollectionView.alpha = 0
                     self.emptyFollowingEventsShadowView.alpha = 1
                 })
-                
-                /* enable here if busker no events, otherwise (i.e. busker got events) the state will be handled in checkBookmarkBtnState to avoid crashing */
-                self.followingsCollectionView.isUserInteractionEnabled = true
             }
             }.ensure {
                 if self.loadingIndicator.alpha != 0 {
@@ -650,6 +657,7 @@ extension FollowingSection: FollowingSectionCellDelegate {
                     }
                 }
                 
+                self.followingsCollectionView.isUserInteractionEnabled = true
                 self.followingSectionCollectionView.isUserInteractionEnabled = true
                 NotificationCenter.default.post(name: .eventListEndRefreshing, object: nil)
                 UIApplication.shared.isNetworkActivityIndicatorVisible = false
@@ -686,7 +694,6 @@ extension FollowingSection: FollowingSectionCellDelegate {
     }
     
     func checkBookmarkBtnState(cell: FollowingSectionCell, indexPath: IndexPath) {
-        followingsCollectionView.isUserInteractionEnabled = false
         if UserService.User.isLoggedIn() {
             if let eventID = userFollowingsEvents[indexPath.row].id {
                 if !bookmarkedEventIDArray.contains(eventID) {
@@ -697,7 +704,7 @@ extension FollowingSection: FollowingSectionCellDelegate {
                         if !response.list.isEmpty {
                             for event in response.list {
                                 //check if bookmarked list contains id
-                                let isBookmarked = event.targetEvent?.id == self.userFollowingsEvents[indexPath.row].id
+                                let isBookmarked = event.targetEvent?.id == eventID
                                 if isBookmarked {
                                     self.bookmarkedEventIDArray.append(eventID) //add this cell to local array to avoid reuse
                                     
@@ -732,10 +739,7 @@ extension FollowingSection: FollowingSectionCellDelegate {
                                 cell.bookmarkBtn.setImage(UIImage(named: "bookmark"), for: .normal)
                             }, completion: nil)
                         }
-                        }.ensure {
-                            self.followingsCollectionView.isUserInteractionEnabled = true
-                            UIApplication.shared.isNetworkActivityIndicatorVisible = false
-                        }.catch { error in }
+                        }.ensure { UIApplication.shared.isNetworkActivityIndicatorVisible = false }.catch { error in }
                     
                 } else { //this cell is bookmarked and held by local array, will bypass check from api
                     //animate button state
@@ -756,20 +760,20 @@ extension FollowingSection: FollowingSectionCellDelegate {
         let visibleCells = followingSectionCollectionView.visibleCells as! [FollowingSectionCell]
         if let event = notification.userInfo {
             if let addID = event["add_id"] as? String {
-                self.bookmarkedEventIDArray.remove(object: addID) //add id from local array
+                bookmarkedEventIDArray.remove(object: addID) //add id from local array
                 
                 for cell in visibleCells {
                     if cell.eventID == addID { //add bookmark
-                        self.addBookmarkAnimation(cell: cell)
+                        addBookmarkAnimation(cell: cell)
                     }
                 }
                 
             } else if let removeID = event["remove_id"] as? String {  //Callback from Bookmarked Section , check after removing bookmark
-                self.bookmarkedEventIDArray.remove(object: removeID) //remove id from local array
+                bookmarkedEventIDArray.remove(object: removeID) //remove id from local array
                 
                 for cell in visibleCells {
                     if cell.eventID == removeID { //remove bookmark
-                        self.removeBookmarkAnimation(cell: cell)
+                        removeBookmarkAnimation(cell: cell)
                     }
                 }
                 
@@ -850,6 +854,7 @@ extension FollowingSection: FollowingSectionCellDelegate {
                             
                             NotificationCenter.default.post(name: .refreshTrendingSectionCell, object: nil, userInfo: ["add_id": eventID]) //refresh bookmarkBtn state in TrendingSection
                             NotificationCenter.default.post(name: .refreshBookmarkedSection, object: nil, userInfo: ["add_id": eventID]) //reload collection view in BookmarkedSection
+                            NotificationCenter.default.post(name: .refreshFeaturedSectionCell, object: nil, userInfo: ["add_id": eventID]) //refresh bookmarkBtn state in FeaturedSection
                             
                             UIApplication.shared.isNetworkActivityIndicatorVisible = false
                             HapticFeedback.createNotificationFeedback(style: .success)
@@ -889,6 +894,7 @@ extension FollowingSection: FollowingSectionCellDelegate {
                         }.ensure {
                             NotificationCenter.default.post(name: .refreshTrendingSectionCell, object: nil, userInfo: ["remove_id": eventID]) //refresh bookmarkBtn state in TrendingSection
                             NotificationCenter.default.post(name: .refreshBookmarkedSection, object: nil, userInfo: ["remove_id": eventID]) //reload collection view in BookmarkedSection
+                            NotificationCenter.default.post(name: .refreshFeaturedSectionCell, object: nil, userInfo: ["remove_id": eventID]) //refresh bookmarkBtn state in FeaturedSection
                             
                             UIApplication.shared.isNetworkActivityIndicatorVisible = false
                             HapticFeedback.createNotificationFeedback(style: .success)

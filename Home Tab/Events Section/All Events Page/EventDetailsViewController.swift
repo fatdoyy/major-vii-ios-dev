@@ -122,6 +122,7 @@ class EventDetailsViewController: UIViewController {
         if UserService.User.isLoggedIn() {
             NotificationCenter.default.post(name: .refreshTrendingSectionCell, object: nil, userInfo: ["check_id": eventID])
             NotificationCenter.default.post(name: .refreshFollowingSectionCell, object: nil, userInfo: ["check_id": eventID])
+            NotificationCenter.default.post(name: .refreshFeaturedSectionCell, object: nil, userInfo: ["check_id": eventID])
             
             if didChangeBookmarkBtnState { //only refresh Bookmarked Section if true
                 NotificationCenter.default.post(name: .refreshBookmarkedSection, object: nil, userInfo: ["check_id": eventID])

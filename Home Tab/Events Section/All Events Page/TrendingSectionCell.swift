@@ -37,6 +37,9 @@ class TrendingSectionCell: UICollectionViewCell {
     var bookmarkBtnIndicator = NVActivityIndicatorView(frame: CGRect(origin: CGPoint.zero, size: CGSize(width: 12, height: 12)), type: .lineScale)
     @IBOutlet weak var bookmarkCountLabel: UILabel!
     
+    @IBOutlet weak var premiumBadge: UIImageView!
+    @IBOutlet weak var verifiedIcon: UIImageView!
+
     @IBOutlet var skeletonViews: Array<UILabel>!
     @IBOutlet var viewsToShowLater: Array<UIView>!
 
@@ -44,6 +47,7 @@ class TrendingSectionCell: UICollectionViewCell {
         super.awakeFromNib()
         backgroundColor = .m7DarkGray()
         
+        bgImgView.backgroundColor = .darkGray
         bgImgView.layer.cornerRadius = GlobalCornerRadius.value
         
         imageOverlay.clipsToBounds = true
@@ -65,6 +69,9 @@ class TrendingSectionCell: UICollectionViewCell {
         checkShouldDisplayIndicator()
         
         setupSkeletonView()
+        
+        premiumBadge.alpha = 0
+        verifiedIcon.alpha = 0
         
         bookmarkCountLabel.textColor = .whiteText()
         eventTitle.textColor = .whiteText()
@@ -105,6 +112,8 @@ class TrendingSectionCell: UICollectionViewCell {
         super.prepareForReuse()
         bookmarkBtn.backgroundColor = .clear
         bgImgView.image = nil
+        premiumBadge.alpha = 0
+        verifiedIcon.alpha = 0
         setupSkeletonView()
         checkShouldDisplayIndicator()
         //bookmarkBtn.setImage(UIImage(named: "bookmark"), for: .normal)

@@ -28,7 +28,7 @@
                         <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </view>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qhg-RU-2Ym">
-                        <rect key="frame" x="20" y="156.5" width="295" height="21.5"/>
+                        <rect key="frame" x="20" y="156.33333333333334" width="295" height="21.666666666666657"/>
                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
@@ -61,16 +61,30 @@
                         </connections>
                     </button>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2k+" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3nZ-qi-Tls">
-                        <rect key="frame" x="310.5" y="39" width="19.5" height="12"/>
+                        <rect key="frame" x="310.66666666666669" y="39" width="19.333333333333314" height="12"/>
                         <fontDescription key="fontDescription" type="boldSystem" pointSize="10"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_premium_badge" translatesAutoresizingMaskIntoConstraints="NO" id="Ee4-h8-0ve">
+                        <rect key="frame" x="15" y="13" width="71" height="32"/>
+                        <constraints>
+                            <constraint firstAttribute="width" secondItem="Ee4-h8-0ve" secondAttribute="height" multiplier="71:32" id="wPh-Cl-PAf"/>
+                        </constraints>
+                    </imageView>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_verified_green" translatesAutoresizingMaskIntoConstraints="NO" id="4nq-Bo-eQi">
+                        <rect key="frame" x="198" y="185" width="12" height="12"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="12" id="13t-dT-zk2"/>
+                            <constraint firstAttribute="width" constant="12" id="jOB-s5-6qC"/>
+                        </constraints>
+                    </imageView>
                 </subviews>
             </view>
             <constraints>
                 <constraint firstAttribute="bottom" secondItem="n3B-l6-b2t" secondAttribute="bottom" id="9ax-g6-2zR"/>
                 <constraint firstAttribute="trailing" secondItem="dmZ-an-gda" secondAttribute="trailing" id="ALp-8q-Q0M"/>
+                <constraint firstItem="Ee4-h8-0ve" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="13" id="Csj-oK-FWn"/>
                 <constraint firstItem="3nZ-qi-Tls" firstAttribute="top" secondItem="dmZ-an-gda" secondAttribute="bottom" constant="3" id="DNE-Vv-glD"/>
                 <constraint firstItem="dmZ-an-gda" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="DQ5-0l-8W2"/>
                 <constraint firstAttribute="trailing" secondItem="drF-P2-f2Q" secondAttribute="trailing" constant="20" id="DbR-Za-FRK"/>
@@ -79,7 +93,10 @@
                 <constraint firstItem="SXq-rG-gIC" firstAttribute="top" secondItem="Qhg-RU-2Ym" secondAttribute="bottom" constant="5" id="K6X-JS-a7a"/>
                 <constraint firstAttribute="trailing" secondItem="n3B-l6-b2t" secondAttribute="trailing" id="LeI-mf-Xxe"/>
                 <constraint firstItem="SXq-rG-gIC" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="20" id="NFy-vi-hoU"/>
+                <constraint firstItem="4nq-Bo-eQi" firstAttribute="leading" secondItem="SXq-rG-gIC" secondAttribute="trailing" constant="4" id="fz5-lZ-jg7"/>
+                <constraint firstItem="Ee4-h8-0ve" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="15" id="gcD-Am-Axv"/>
                 <constraint firstItem="fCN-bM-XLd" firstAttribute="centerX" secondItem="Qhg-RU-2Ym" secondAttribute="centerX" id="hSN-jY-nNv"/>
+                <constraint firstItem="4nq-Bo-eQi" firstAttribute="top" secondItem="SXq-rG-gIC" secondAttribute="top" constant="2" id="iyk-2C-iah"/>
                 <constraint firstItem="fCN-bM-XLd" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="jBm-XZ-dQa"/>
                 <constraint firstAttribute="bottom" secondItem="drF-P2-f2Q" secondAttribute="bottom" constant="15" id="kxW-HK-vd5"/>
                 <constraint firstItem="Qhg-RU-2Ym" firstAttribute="leading" secondItem="ZTg-uK-7eu" secondAttribute="leading" constant="20" id="lS7-aO-rja"/>
@@ -98,16 +115,21 @@
                 <outlet property="eventTitle" destination="Qhg-RU-2Ym" id="jXA-YA-Fdg"/>
                 <outlet property="imageOverlay" destination="fCN-bM-XLd" id="LQx-TF-3KC"/>
                 <outlet property="performerTitle" destination="SXq-rG-gIC" id="Min-lP-ItA"/>
+                <outlet property="premiumBadge" destination="Ee4-h8-0ve" id="e1q-8I-is2"/>
+                <outlet property="verifiedIcon" destination="4nq-Bo-eQi" id="E13-bm-9aG"/>
                 <outletCollection property="viewsToShowLater" destination="3nZ-qi-Tls" collectionClass="NSMutableArray" id="wIT-DZ-7vB"/>
                 <outletCollection property="viewsToShowLater" destination="drF-P2-f2Q" collectionClass="NSMutableArray" id="jHt-kU-2v6"/>
                 <outletCollection property="viewsToShowLater" destination="drF-P2-f2Q" collectionClass="NSMutableArray" id="NCc-eD-dvY"/>
                 <outletCollection property="skeletonViews" destination="Qhg-RU-2Ym" collectionClass="NSMutableArray" id="tX6-Ek-RFY"/>
                 <outletCollection property="skeletonViews" destination="SXq-rG-gIC" collectionClass="NSMutableArray" id="G2e-MN-vFx"/>
+                <outletCollection property="viewsToShowLater" destination="fCN-bM-XLd" collectionClass="NSMutableArray" id="zwy-GW-0Ay"/>
             </connections>
-            <point key="canvasLocation" x="40.799999999999997" y="46.326836581709152"/>
+            <point key="canvasLocation" x="39.855072463768117" y="45.870535714285715"/>
         </collectionViewCell>
     </objects>
     <resources>
         <image name="bookmark" width="10" height="13"/>
+        <image name="icon_premium_badge" width="71" height="32"/>
+        <image name="icon_verified_green" width="12" height="12"/>
     </resources>
 </document>

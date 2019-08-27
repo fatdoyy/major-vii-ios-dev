@@ -180,6 +180,9 @@ extension EventsSection: UICollectionViewDataSource, UICollectionViewDelegate, U
             
             cell.eventLabel.text = upcomingEvents[indexPath.row].title
             cell.performerLabel.text = upcomingEvents[indexPath.row].organizerProfile?.name
+            UIView.animate(withDuration: 0.4) {
+                cell.verifiedIcon.alpha = self.upcomingEvents[indexPath.row].organizerProfile?.verified ?? true ? 1 : 0
+            }
         }
         
         return cell

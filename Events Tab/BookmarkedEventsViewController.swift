@@ -51,7 +51,7 @@ class BookmarkedEventsViewController: UIViewController {
 }
 
 
-//MARK: UI Setup
+//MARK: - UI Setup
 extension BookmarkedEventsViewController {
     private func setupUI() {
         let layout = UICollectionViewFlowLayout()
@@ -104,7 +104,7 @@ extension BookmarkedEventsViewController {
     }
 }
 
-//MARK: CollectionView dekegate
+//MARK: - CollectionView dekegate
 extension BookmarkedEventsViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         let count = bookmarkedEvents.isEmpty ? 3 : bookmarkedEvents.count

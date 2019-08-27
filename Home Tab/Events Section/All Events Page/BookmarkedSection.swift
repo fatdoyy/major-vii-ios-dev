@@ -36,6 +36,7 @@ class BookmarkedSection: UICollectionViewCell {
     var emptyBookmarkShadowView = UIView()
     
     var bookmarkedEventIDArray: [String] = [] //to refresh TrendingSectionCell bookmakrBtn state
+    var boolArr = [Int]()
     
     var reloadIndicator = NVActivityIndicatorView(frame: CGRect(origin: CGPoint.zero, size: CGSize(width: 30, height: 30)), type: .lineScale)
     
@@ -60,15 +61,10 @@ class BookmarkedSection: UICollectionViewCell {
                     self.emptyBookmarkShadowView.alpha = 1
                 }
             } else if bookmarksCollectionView.alpha != 0 && bookmarkedEvents.count == 0 {
+                self.emptyBookmarkGradientBg.startAnimation()
                 UIView.animate(withDuration: 0.2) {
                     self.bookmarksCollectionView.alpha = 0
-                }
-                
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                    self.emptyBookmarkGradientBg.startAnimation()
-                    UIView.animate(withDuration: 0.2) {
-                        self.emptyBookmarkShadowView.alpha = 1
-                    }
+                    self.emptyBookmarkShadowView.alpha = 1
                 }
             }
             
@@ -351,7 +347,9 @@ extension BookmarkedSection {
         UserService.getBookmarkedEvents().done { response in
             if response.list.isEmpty { self.setupEmptyBookmarkView() }
             self.bookmarkedEvents = response.list.reversed()
-            
+            for _ in 0 ..< self.bookmarkedEvents.count {
+                self.boolArr.append(Int.random(in: 0 ... 1))
+            }
             for event in response.list {
                 if let eventID = event.targetEvent!.id {
                     if !self.bookmarkedEventIDArray.contains(eventID) {
@@ -416,6 +414,13 @@ extension BookmarkedSection: UICollectionViewDataSource, UICollectionViewDelegat
                     UIView.animate(withDuration: 0.3) {
                         view.alpha = 1
                     }
+                }
+                
+                UIView.animate(withDuration: 0.4) {
+                    cell.premiumBadge.alpha = self.boolArr[indexPath.row] == 1 ? 1 : 0
+                }
+                UIView.animate(withDuration: 0.4) {
+                    cell.verifiedIcon.alpha = self.bookmarkedEvents[indexPath.row].targetEvent?.organizerProfile?.verified ?? true ? 1 : 0
                 }
             }
         }
@@ -499,9 +504,9 @@ extension BookmarkedSection: BookmarkedSectionCellDelegate {
                         cell.bookmarkBtn.isUserInteractionEnabled = true
                         
                         if let eventID = self.bookmarkedEvents[tappedIndex.row].targetEvent?.id {
-                            print("Sending id \(eventID) from BookmarkedSection to TrendingSection/FollowingSection for removal\n")
                             NotificationCenter.default.post(name: .refreshTrendingSectionCell, object: nil, userInfo: ["remove_id": eventID])
                             NotificationCenter.default.post(name: .refreshFollowingSectionCell, object: nil, userInfo: ["remove_id": eventID])
+                            NotificationCenter.default.post(name: .refreshFeaturedSectionCell, object: nil, userInfo: ["remove_id": eventID])
                             
                             self.bookmarkedEventIDArray.remove(object: eventID)
                             print("bookmarkedEventIDArray : \(self.bookmarkedEventIDArray)")

@@ -27,12 +27,12 @@ class TrendingSection: UICollectionViewCell {
     @IBOutlet weak var trendingCollectionView: UICollectionView!
     
     var bookmarkedEventIDArray: [String] = [] //IMPORTANT: Adding an array to local to control bookmarkBtn's state because of cell reuse issues
-    
     var trendingEvents: [Event] = [] {
         didSet {
             trendingCollectionView.reloadData()
         }
     }
+    var boolArr = [Int]()
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -40,6 +40,8 @@ class TrendingSection: UICollectionViewCell {
         NotificationCenter.default.setObserver(self, selector: #selector(refreshTrendingSection), name: .refreshTrendingSection, object: nil)
         NotificationCenter.default.setObserver(self, selector: #selector(refreshTrendingSectionCell(_:)), name: .refreshTrendingSectionCell, object: nil)
         NotificationCenter.default.setObserver(self, selector: #selector(removeAllObservers), name: .removeTrendingSectionObservers, object: nil)
+        
+        
         
         setupUI()
     }
@@ -75,7 +77,7 @@ extension TrendingSection {
         trendingCollectionView.backgroundColor = .m7DarkGray()
         trendingCollectionView.register(UINib.init(nibName: "TrendingSectionCell", bundle: nil), forCellWithReuseIdentifier: TrendingSectionCell.reuseIdentifier)
         
-        //getTrendingEvents()
+        getTrendingEvents()
     }
 
     @objc func showLoginVC() {
@@ -166,6 +168,13 @@ extension TrendingSection: UICollectionViewDataSource, UICollectionViewDelegate,
             cell.eventTitle.text = trendingEvents[indexPath.row].title
             cell.performerTitle.text = trendingEvents[indexPath.row].organizerProfile?.name
             
+            UIView.animate(withDuration: 0.4) {
+                cell.premiumBadge.alpha = self.boolArr[indexPath.row] == 1 ? 1 : 0
+            }
+            UIView.animate(withDuration: 0.4) {
+                cell.verifiedIcon.alpha = self.trendingEvents[indexPath.row].organizerProfile?.verified ?? true ? 1 : 0
+            }
+            
             if let eventDate = trendingEvents[indexPath.row].dateTime?.toDate(), let currentDate = Date().toISO().toDate() {
                 let difference = DateTimeHelper.getEventInterval(from: currentDate, to: eventDate)
                 cell.dateLabel.text = difference
@@ -187,10 +196,13 @@ extension TrendingSection: UICollectionViewDataSource, UICollectionViewDelegate,
 
 //MARK: - API Calls | Bookmark action | Bookmark btn state | Trending cell delegate
 extension TrendingSection: TrendingSectionCellDelegate {
-    func getTrendingEvents() { //get trending events list
+    private func getTrendingEvents() { //get trending events list
         trendingCollectionView.isUserInteractionEnabled = false
         EventService.getTrendingEvents().done { response in
             self.trendingEvents = response.list.reversed()
+            for _ in 0 ..< self.trendingEvents.count {
+                self.boolArr.append(Int.random(in: 0 ... 1))
+            }
             }.ensure {
                 self.trendingCollectionView.isUserInteractionEnabled = true
 
@@ -221,7 +233,7 @@ extension TrendingSection: TrendingSectionCellDelegate {
                         if !response.list.isEmpty {
                             for event in response.list {
                                 //check if bookmarked list contains id
-                                let isBookmarked = event.targetEvent?.id == self.trendingEvents[indexPath.row].id
+                                let isBookmarked = event.targetEvent?.id == eventID
                                 if isBookmarked {
                                     self.bookmarkedEventIDArray.append(eventID) //add this cell to local array to avoid reuse
                                     
@@ -280,20 +292,20 @@ extension TrendingSection: TrendingSectionCellDelegate {
         let visibleCells = trendingCollectionView.visibleCells as! [TrendingSectionCell]
         if let event = notification.userInfo {
             if let addID = event["add_id"] as? String {
-                self.bookmarkedEventIDArray.remove(object: addID) //add id from local array
+                bookmarkedEventIDArray.remove(object: addID) //add id from local array
                 
                 for cell in visibleCells {
                     if cell.eventID == addID { //add bookmark
-                        self.addBookmarkAnimation(cell: cell)
+                        addBookmarkAnimation(cell: cell)
                     }
                 }
                 
             } else if let removeID = event["remove_id"] as? String {  //Callback from Bookmarked Section
-                self.bookmarkedEventIDArray.remove(object: removeID) //remove id from local array
+                bookmarkedEventIDArray.remove(object: removeID) //remove id from local array
                 
                 for cell in visibleCells {
                     if cell.eventID == removeID { //remove bookmark
-                        self.removeBookmarkAnimation(cell: cell)
+                        removeBookmarkAnimation(cell: cell)
                     }
                 }
                 
@@ -375,6 +387,7 @@ extension TrendingSection: TrendingSectionCellDelegate {
                             
                             NotificationCenter.default.post(name: .refreshFollowingSectionCell, object: nil, userInfo: ["add_id": eventID]) //refresh bookmarkBtn state in FollowingSection
                             NotificationCenter.default.post(name: .refreshBookmarkedSection, object: nil, userInfo: ["add_id": eventID]) //reload collection view in BookmarkedSection
+                            NotificationCenter.default.post(name: .refreshFeaturedSectionCell, object: nil, userInfo: ["add_id": eventID]) //refresh bookmarkBtn state in FeaturedSection
                             
                             UIApplication.shared.isNetworkActivityIndicatorVisible = false
                             HapticFeedback.createNotificationFeedback(style: .success)
@@ -414,6 +427,7 @@ extension TrendingSection: TrendingSectionCellDelegate {
                         }.ensure {
                             NotificationCenter.default.post(name: .refreshFollowingSectionCell, object: nil, userInfo: ["remove_id": eventID]) //refresh bookmarkBtn state in FollowingSection
                             NotificationCenter.default.post(name: .refreshBookmarkedSection, object: nil, userInfo: ["remove_id": eventID]) //reload collection view in BookmarkedSection
+                            NotificationCenter.default.post(name: .refreshFeaturedSectionCell, object: nil, userInfo: ["remove_id": eventID]) //refresh bookmarkBtn state in FeaturedSection
                             
                             UIApplication.shared.isNetworkActivityIndicatorVisible = false
                             HapticFeedback.createNotificationFeedback(style: .success)

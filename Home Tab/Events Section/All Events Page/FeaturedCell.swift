@@ -19,6 +19,7 @@ class FeaturedCell: UICollectionViewCell {
     
     weak var delegate: FeaturedCellDelegate?
     var myIndexPath: IndexPath!
+    var eventID: String = ""
 
     static let width = TrendingSection.width
     static let height: CGFloat = 93
@@ -31,6 +32,9 @@ class FeaturedCell: UICollectionViewCell {
     @IBOutlet weak var bookmarkBtn: UIButton!
     var bookmarkBtnIndicator = NVActivityIndicatorView(frame: CGRect(origin: CGPoint.zero, size: CGSize(width: 12, height: 12)), type: .lineScale)
 
+    @IBOutlet weak var premiumBadge: UIImageView!
+    @IBOutlet weak var verifiedIcon: UIImageView!
+    
     @IBOutlet var skeletonViews: Array<UIView>!
     @IBOutlet var viewsToShowLater: Array<UIView>!
     
@@ -64,6 +68,9 @@ class FeaturedCell: UICollectionViewCell {
         checkShouldDisplayIndicator()
         
         setupSkeletonViews()
+        
+        premiumBadge.alpha = 0
+        verifiedIcon.alpha = 0
         
         eventTitle.textColor = .whiteText()
         performerLabel.textColor = .whiteText()
@@ -106,9 +113,11 @@ class FeaturedCell: UICollectionViewCell {
         setupSkeletonViews()
         checkShouldDisplayIndicator()
         eventTitle.text = ""
-        //performerLabel.text = ""
+        performerLabel.text = ""
         bookmarkBtn.backgroundColor = .clear
         bgImgView.image = nil
+        premiumBadge.alpha = 0
+        verifiedIcon.alpha = 0
     }
     
     override var isHighlighted: Bool {

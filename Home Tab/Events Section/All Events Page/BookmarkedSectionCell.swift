@@ -33,18 +33,23 @@ class BookmarkedSectionCell: UICollectionViewCell {
     @IBOutlet weak var bookmarkCountLabel: UILabel!
     var bookmarkBtnIndicator = NVActivityIndicatorView(frame: CGRect(origin: CGPoint.zero, size: CGSize(width: 12, height: 12)), type: .lineScale)
     
+    @IBOutlet weak var premiumBadge: UIImageView!
+    @IBOutlet weak var verifiedIcon: UIImageView!
+    
     @IBOutlet var skeletonViews: Array<UIView>!
     @IBOutlet var viewsToShowLater: Array<UIView>!
     
     override func awakeFromNib() {
         super.awakeFromNib()
         backgroundColor = .m7DarkGray()
+        
+        bgImgView.backgroundColor = .darkGray
         bgImgView.layer.cornerRadius = GlobalCornerRadius.value
         
         imageOverlay.clipsToBounds = true
         imageOverlay.layer.cornerRadius = GlobalCornerRadius.value
         
-        bookmarkBtn.backgroundColor = .clear
+        bookmarkBtn.backgroundColor = .mintGreen()
         bookmarkBtn.layer.cornerRadius = GlobalCornerRadius.value / 3
         bookmarkBtn.layer.shadowColor = UIColor.black.cgColor
         bookmarkBtn.layer.shadowOffset = CGSize(width: 0, height: 5)
@@ -52,7 +57,27 @@ class BookmarkedSectionCell: UICollectionViewCell {
         bookmarkBtn.layer.shadowOpacity = 0.7
         
         bookmarkCountLabel.textColor = .whiteText()
-                
+        premiumBadge.alpha = 0
+        verifiedIcon.alpha = 0
+        
+        setupSkeletonViews()
+        
+        //activity indicatior
+        bookmarkBtnIndicator.alpha = 0
+        bookmarkBtnIndicator.startAnimating()
+        bookmarkBtn.addSubview(bookmarkBtnIndicator)
+        bookmarkBtnIndicator.snp.makeConstraints { (make) -> Void in
+            make.centerX.equalToSuperview()
+            make.centerY.equalToSuperview()
+        }
+        
+        eventTitle.textColor = .whiteText()
+        byLabel.textColor = .whiteText()
+        performerLabel.textColor = .whiteText()
+        dateLabel.textColor = .whiteText()
+    }
+    
+    func setupSkeletonViews() {
         let animation = SkeletonAnimationBuilder().makeSlidingAnimation(withDirection: .leftRight, duration: 2)
         eventTitle.tag = 1
         for view in skeletonViews{
@@ -68,20 +93,17 @@ class BookmarkedSectionCell: UICollectionViewCell {
         for view in viewsToShowLater {
             view.alpha = 0
         }
-        
-        //activity indicatior
-        bookmarkBtnIndicator.alpha = 0
-        bookmarkBtnIndicator.startAnimating()
-        bookmarkBtn.addSubview(bookmarkBtnIndicator)
-        bookmarkBtnIndicator.snp.makeConstraints { (make) -> Void in
-            make.centerX.equalToSuperview()
-            make.centerY.equalToSuperview()
-        }
-        
-        eventTitle.textColor = .whiteText()
-        byLabel.textColor = .whiteText()
-        performerLabel.textColor = .whiteText()
-        dateLabel.textColor = .whiteText()
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        bookmarkBtn.backgroundColor = .mintGreen()
+        bgImgView.image = nil
+        premiumBadge.alpha = 0
+        verifiedIcon.alpha = 0
+        setupSkeletonViews()
+        //checkShouldDisplayIndicator()
+        //bookmarkBtn.setImage(UIImage(named: "bookmark"), for: .normal)
     }
     
     @IBAction func bookmarkBtnTapped(_ sender: Any) {

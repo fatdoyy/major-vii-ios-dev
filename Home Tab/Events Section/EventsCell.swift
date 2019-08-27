@@ -22,6 +22,7 @@ class EventsCell: UICollectionViewCell {
     @IBOutlet weak var performerLabel: UILabel!
     @IBOutlet weak var imgOverlay: UIView!
     @IBOutlet weak var bgImgView: UIImageView!
+    @IBOutlet weak var verifiedIcon: UIImageView!
     
     @IBOutlet var skeletonViews: Array<UIView>!
     
@@ -48,7 +49,8 @@ class EventsCell: UICollectionViewCell {
         bgView.alpha = 1
         bgImgView.image = nil
         imgOverlay.isHidden = true
-        
+        verifiedIcon.alpha = 0
+
         setupSkeletonViews()
     }
 }
@@ -61,6 +63,7 @@ extension EventsCell {
         eventLabel.textColor = .whiteText()
         performerLabel.textColor = .whiteText()
         imgOverlay.layer.insertSublayer(GradientLayer.create(frame: imgOverlay!.bounds, colors: [.white, UIColor.white.withAlphaComponent(0)], startPoint: CGPoint(x: 0, y: 0.5), endPoint: CGPoint(x: 1, y: 0.5)), at: 0)
+        verifiedIcon.alpha = 0
     }
     
     private func setupSkeletonViews() {
@@ -70,7 +73,7 @@ extension EventsCell {
             if view.tag == 1 {
                 SkeletonAppearance.default.multilineHeight = 18
             } else {
-                SkeletonAppearance.default.multilineHeight = 14
+                SkeletonAppearance.default.multilineHeight = 13
             }
             view.isSkeletonable = true
             view.showAnimatedGradientSkeleton(animation: animation)

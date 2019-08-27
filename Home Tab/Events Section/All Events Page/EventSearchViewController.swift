@@ -17,7 +17,8 @@ class EventSearchViewController: UIViewController {
     
     var trendingEvents: [Event] = []
     var bookmarkedEventIDArray: [String] = [] //IMPORTANT: Adding an array to local to control bookmarkBtn's state because of cell reuse issues
-
+    var boolArr = [Int]()
+    
     var searchResults: [Event] = []
     var isSearching = false
 
@@ -43,7 +44,10 @@ extension EventSearchViewController: FeaturedCellDelegate {
     private func getTrendingEvents() { //get trending events list
         mainCollectionView.isUserInteractionEnabled = false
         EventService.getTrendingEvents().done { response in
-            self.trendingEvents = response.list
+            self.trendingEvents = response.list.shuffled()
+            for _ in 0 ..< self.trendingEvents.count {
+                self.boolArr.append(Int.random(in: 0 ... 1))
+            }
             }.ensure {
                 self.mainCollectionView.isUserInteractionEnabled = true
                 self.mainCollectionView.reloadData()
@@ -61,6 +65,9 @@ extension EventSearchViewController: FeaturedCellDelegate {
             if !response.list.isEmpty {
                 self.searchResults = response.list
                 //self.searchResults.append(contentsOf: response.list)
+                for _ in 0 ..< self.searchResults.count {
+                    self.boolArr.append(Int.random(in: 0 ... 1))
+                }
                 if self.mainCollectionView.alpha == 0 {
                     UIView.animate(withDuration: 0.2) {
                         self.mainCollectionView.alpha = 1
@@ -97,7 +104,7 @@ extension EventSearchViewController: FeaturedCellDelegate {
                         if !response.list.isEmpty {
                             for event in response.list {
                                 //check if bookmarked list contains id
-                                let isBookmarked = event.targetEvent?.id == self.trendingEvents[indexPath.row].id
+                                let isBookmarked = event.targetEvent?.id == eventID
                                 if isBookmarked {
                                     self.bookmarkedEventIDArray.append(eventID) //add this cell to local array to avoid reuse
                                     
@@ -151,6 +158,71 @@ extension EventSearchViewController: FeaturedCellDelegate {
         }
     }
     
+    func searchResultCheckBookmarkBtnState(cell: FeaturedCell, indexPath: IndexPath) {
+        if UserService.User.isLoggedIn() {
+            if let eventID = searchResults[indexPath.row].id {
+                if !bookmarkedEventIDArray.contains(eventID) {
+                    /* Check if local array is holding this bookmarked cell
+                     NOTE: This check is to prevent cell reuse issues, all bookmarked events will be saved in server */
+                    
+                    UserService.getBookmarkedEvents().done { response in
+                        if !response.list.isEmpty {
+                            for event in response.list {
+                                //check if bookmarked list contains id
+                                let isBookmarked = event.targetEvent?.id == eventID
+                                if isBookmarked {
+                                    self.bookmarkedEventIDArray.append(eventID) //add this cell to local array to avoid reuse
+                                    
+                                    //animate button state
+                                    UIView.transition(with: cell.bookmarkBtn, duration: 0.2, options: .transitionCrossDissolve, animations: {
+                                        cell.bookmarkBtn.setImage(UIImage(named: "bookmark"), for: .normal)
+                                    }, completion: nil)
+                                    
+                                    UIView.animate(withDuration: 0.2) {
+                                        cell.bookmarkBtnIndicator.alpha = 0
+                                        cell.bookmarkBtn.backgroundColor = .mintGreen()
+                                    }
+                                    
+                                } else { //not bookmarked
+                                    //animate button state to default
+                                    UIView.animate(withDuration: 0.2) {
+                                        cell.bookmarkBtnIndicator.alpha = 0
+                                    }
+                                    
+                                    UIView.transition(with: cell.bookmarkBtn, duration: 0.2, options: .transitionCrossDissolve, animations: {
+                                        cell.bookmarkBtn.setImage(UIImage(named: "bookmark"), for: .normal)
+                                    }, completion: nil)
+                                }
+                            }
+                        } else { //logged in user have no bookmarked events
+                            //animate button state to default
+                            UIView.animate(withDuration: 0.2) {
+                                cell.bookmarkBtnIndicator.alpha = 0
+                            }
+                            
+                            UIView.transition(with: cell.bookmarkBtn, duration: 0.2, options: .transitionCrossDissolve, animations: {
+                                cell.bookmarkBtn.setImage(UIImage(named: "bookmark"), for: .normal)
+                            }, completion: nil)
+                        }
+                        }.ensure {
+                            UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                        }.catch { error in }
+                    
+                } else { //this cell is bookmarked and held by local array, will bypass check from api
+                    //animate button state
+                    UIView.animate(withDuration: 0.2) {
+                        cell.bookmarkBtn.backgroundColor = .mintGreen()
+                        cell.bookmarkBtnIndicator.alpha = 0
+                    }
+                    
+                    UIView.transition(with: cell.bookmarkBtn, duration: 0.2, options: .transitionCrossDissolve, animations: {
+                        cell.bookmarkBtn.setImage(UIImage(named: "bookmark"), for: .normal)
+                    }, completion: nil)
+                }
+            }
+        }
+    }
+
     func bookmarkBtnTapped(cell: FeaturedCell, tappedIndex: IndexPath) {
         if UserService.User.isLoggedIn() {
             if let eventID = self.trendingEvents[tappedIndex.row].id {
@@ -432,22 +504,21 @@ extension EventSearchViewController {
 //MARK: - UISearchControllerDelegate Delegate
 extension EventSearchViewController: UISearchControllerDelegate, UISearchBarDelegate {
     func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
-        print("Tapped search bar")
         isSearching = true
         return true
     }
     
     func searchBarShouldEndEditing(_ searchBar: UISearchBar) -> Bool {
         print("Ended search?")
-        isSearching = false
-        searchResults.removeAll()
-        bookmarkedEventIDArray.removeAll()
-        mainCollectionView.reloadData()
-        //getTrendingEvents()
         return true
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        isSearching = false
+        searchResults.removeAll()
+        bookmarkedEventIDArray.removeAll()
+        mainCollectionView.reloadData()
+        
         if mainCollectionView.alpha != 1 {
             UIView.animate(withDuration: 0.2) {
                 self.mainCollectionView.alpha = 1
@@ -515,7 +586,14 @@ extension EventSearchViewController: UICollectionViewDataSource, UICollectionVie
                         }
                     }
                     
-                    checkBookmarkBtnState(cell: cell, indexPath: indexPath)
+                    UIView.animate(withDuration: 0.4) {
+                        cell.premiumBadge.alpha = self.boolArr[indexPath.row] == 1 ? 1 : 0
+                    }
+                    UIView.animate(withDuration: 0.4) {
+                        cell.verifiedIcon.alpha = self.searchResults[indexPath.row].organizerProfile?.verified ?? true ? 1 : 0
+                    }
+                    
+                    searchResultCheckBookmarkBtnState(cell: cell, indexPath: indexPath)
                 }
             } else {
                 if !trendingEvents.isEmpty {
@@ -537,6 +615,13 @@ extension EventSearchViewController: UICollectionViewDataSource, UICollectionVie
                         UIView.animate(withDuration: 0.2) {
                             view.alpha = 1
                         }
+                    }
+                    
+                    UIView.animate(withDuration: 0.4) {
+                        cell.premiumBadge.alpha = self.boolArr[indexPath.row] == 1 ? 1 : 0
+                    }
+                    UIView.animate(withDuration: 0.4) {
+                        cell.verifiedIcon.alpha = self.trendingEvents[indexPath.row].organizerProfile?.verified ?? true ? 1 : 0
                     }
                     
                     checkBookmarkBtnState(cell: cell, indexPath: indexPath)
@@ -570,7 +655,7 @@ extension EventSearchViewController: UICollectionViewDataSource, UICollectionVie
             print("tapped") //TODO
             
         case mainCollectionView:
-            print("tapped")
+            isSearching ? EventDetailsViewController.push(from: self, eventID: searchResults[indexPath.row].id ?? "") : EventDetailsViewController.push(from: self, eventID: trendingEvents[indexPath.row].id ?? "")
 
         default: print("error")
 

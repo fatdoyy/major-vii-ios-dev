@@ -35,12 +35,17 @@ class FollowingSectionCell: UICollectionViewCell {
     @IBOutlet weak var bookmarkCountLabel: UILabel!
     var bookmarkBtnIndicator = NVActivityIndicatorView(frame: CGRect(origin: CGPoint.zero, size: CGSize(width: 12, height: 12)), type: .lineScale)
     
+    @IBOutlet weak var premiumBadge: UIImageView!
+    @IBOutlet weak var verifiedIcon: UIImageView!
+    
     @IBOutlet var skeletonViews: Array<UIView>!
     @IBOutlet var viewsToShowLater: Array<UIView>!
     
     override func awakeFromNib() {
         super.awakeFromNib()
         backgroundColor = .m7DarkGray()
+        
+        bgImgView.backgroundColor = .darkGray
         bgImgView.layer.cornerRadius = GlobalCornerRadius.value
         
         imageOverlay.clipsToBounds = true
@@ -65,6 +70,9 @@ class FollowingSectionCell: UICollectionViewCell {
         checkShouldDisplayIndicator()
         
         setupSkeletonView()
+        
+        premiumBadge.alpha = 0
+        verifiedIcon.alpha = 0
         
         eventTitle.textColor = .whiteText()
         byLabel.textColor = .whiteText()
@@ -104,6 +112,8 @@ class FollowingSectionCell: UICollectionViewCell {
         super.prepareForReuse()
         bookmarkBtn.backgroundColor = .clear
         bgImgView.image = nil
+        premiumBadge.alpha = 0
+        verifiedIcon.alpha = 0
         setupSkeletonView()
         checkShouldDisplayIndicator()
         //bookmarkBtn.setImage(UIImage(named: "bookmark"), for: .normal)
