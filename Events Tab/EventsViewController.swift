@@ -46,13 +46,13 @@ class EventsViewController: UIViewController {
     var swipeUpImg = UIImageView()
     var swipeDownImg = UIImageView()
     
-    var bookmarkedEvents: [BookmarkedEvent] = [] {
+    var bookmarkedEvents = [BookmarkedEvent]() {
         didSet {
             eventsVC.bookmarkedEvents = bookmarkedEvents
         }
     }
     
-    var nearbyEvents: [NearbyEvent] = [] {
+    var nearbyEvents = [NearbyEvent]() {
         didSet {
             UIView.transition(with: nearbyEventsCountLabel, duration: 0.3, options: .transitionFlipFromLeft, animations: {
                 self.nearbyEventsCountLabel.text = self.nearbyEvents.count == 1 ? "1 nearby event" : "\(self.nearbyEvents.count) nearby events"
@@ -112,7 +112,7 @@ class EventsViewController: UIViewController {
     
 }
 
-//MARK: Network calls
+//MARK: - API calls
 extension EventsViewController {
     private func getBookmarkedEvents() {
         UserService.getBookmarkedEvents().done { response in
@@ -200,7 +200,7 @@ extension EventsViewController {
     }
 }
 
-//MARK: UISetup
+//MARK: - UISetup
 extension EventsViewController {
     private func setupUI() {
         nearbyEventsCountLabel = UILabel()
@@ -310,7 +310,7 @@ extension EventsViewController {
     }
 }
 
-//MARK: Filter Dropdown menu
+//MARK: - Filter Dropdown menu
 extension EventsViewController {
     private func setupFilterMenu() {
         let width = nearbyEventsCountLabel.intrinsicContentSize.width + 31 // 31 = filterBtn offset + width
@@ -414,7 +414,7 @@ extension EventsViewController {
     }
 }
 
-//MARK: Google Maps
+//MARK: - Google Maps
 extension EventsViewController: GMSMapViewDelegate, InfoWindowDelegate, BookmarkedEventsViewControllerDelegate {
     private func addMarker(id: String, lat: Double, long: Double, performerName: String, iconUrl: String) {
         DispatchQueue.main.async {
@@ -580,7 +580,7 @@ extension EventsViewController: GMSMapViewDelegate, InfoWindowDelegate, Bookmark
     }
 }
 
-//MARK: Floating Panel
+//MARK: - Floating Panel
 extension EventsViewController: FloatingPanelControllerDelegate {
     private func setupFPC() {
         // Initialize FloatingPanelController
@@ -660,7 +660,7 @@ extension EventsViewController: FloatingPanelControllerDelegate {
     }
 }
 
-//MARK: CLLocationManager Delegate
+//MARK: - CLLocationManager Delegate
 extension EventsViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         guard status == .authorizedWhenInUse else { return }
@@ -675,7 +675,7 @@ extension EventsViewController: CLLocationManagerDelegate {
     }
 }
 
-//MARK: UIGestureRecognizerDelegate (i.e. swipe pop gesture)
+//MARK: - UIGestureRecognizerDelegate (i.e. swipe pop gesture)
 extension EventsViewController: UIGestureRecognizerDelegate {
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return true

@@ -20,7 +20,6 @@ class BuskerProfileEventCell: UICollectionViewCell {
     @IBOutlet weak var bookmarkCount: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
     
-    
     override func awakeFromNib() {
         super.awakeFromNib()
         

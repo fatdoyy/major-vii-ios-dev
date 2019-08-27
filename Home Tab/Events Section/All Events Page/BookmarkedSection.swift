@@ -35,12 +35,12 @@ class BookmarkedSection: UICollectionViewCell {
     var emptyBookmarkGradientBg = PastelView()
     var emptyBookmarkShadowView = UIView()
     
-    var bookmarkedEventIDArray: [String] = [] //to refresh TrendingSectionCell bookmakrBtn state
+    var bookmarkedEventIDArray = [String]() //to refresh TrendingSectionCell bookmakrBtn state
     var boolArr = [Int]()
     
     var reloadIndicator = NVActivityIndicatorView(frame: CGRect(origin: CGPoint.zero, size: CGSize(width: 30, height: 30)), type: .lineScale)
     
-    var bookmarkedEvents: [BookmarkedEvent] = [] {
+    var bookmarkedEvents = [BookmarkedEvent]() {
         didSet {
             if emptyLoginShadowView.alpha == 1 { //ensure empty login view is hidden
                 UIView.animate(withDuration: 0.2) {

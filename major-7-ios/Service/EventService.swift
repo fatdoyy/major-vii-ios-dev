@@ -13,7 +13,6 @@ import ObjectMapper
 class EventService: BaseService {}
 
 extension EventService {
-    
     //upcoming events
     static func getUpcomingEvents() -> Promise<Events> {
         return Promise { resolver in

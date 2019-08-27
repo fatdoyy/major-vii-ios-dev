@@ -13,13 +13,13 @@ import NVActivityIndicatorView
 class EventSearchViewController: UIViewController {
     static let storyboardID = "eventsSearchVC"
 
-    let keywords: [String] = ["canto-pop", "j-pop", "blues", "alternative rock", "punk", "country", "house", "edm", "electronic", "dance", "k-pop", "acid jazz", "downtempo"]
+    let keywords = ["canto-pop", "j-pop", "blues", "alternative rock", "punk", "country", "house", "edm", "electronic", "dance", "k-pop", "acid jazz", "downtempo"]
     
-    var trendingEvents: [Event] = []
-    var bookmarkedEventIDArray: [String] = [] //IMPORTANT: Adding an array to local to control bookmarkBtn's state because of cell reuse issues
+    var trendingEvents = [Event]()
+    var bookmarkedEventIDArray = [String]() //IMPORTANT: Adding an array to local to control bookmarkBtn's state because of cell reuse issues
     var boolArr = [Int]()
     
-    var searchResults: [Event] = []
+    var searchResults = [Event]()
     var isSearching = false
 
     let searchController = UISearchController(searchResultsController: nil)

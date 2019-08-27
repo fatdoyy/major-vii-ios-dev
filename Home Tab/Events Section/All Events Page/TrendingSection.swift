@@ -26,8 +26,8 @@ class TrendingSection: UICollectionViewCell {
     @IBOutlet weak var trendingSectionLabel: UILabel!
     @IBOutlet weak var trendingCollectionView: UICollectionView!
     
-    var bookmarkedEventIDArray: [String] = [] //IMPORTANT: Adding an array to local to control bookmarkBtn's state because of cell reuse issues
-    var trendingEvents: [Event] = [] {
+    var bookmarkedEventIDArray = [String]() //IMPORTANT: Adding an array to local to control bookmarkBtn's state because of cell reuse issues
+    var trendingEvents = [Event]() {
         didSet {
             trendingCollectionView.reloadData()
         }
@@ -40,9 +40,7 @@ class TrendingSection: UICollectionViewCell {
         NotificationCenter.default.setObserver(self, selector: #selector(refreshTrendingSection), name: .refreshTrendingSection, object: nil)
         NotificationCenter.default.setObserver(self, selector: #selector(refreshTrendingSectionCell(_:)), name: .refreshTrendingSectionCell, object: nil)
         NotificationCenter.default.setObserver(self, selector: #selector(removeAllObservers), name: .removeTrendingSectionObservers, object: nil)
-        
-        
-        
+
         setupUI()
     }
     
@@ -50,7 +48,6 @@ class TrendingSection: UICollectionViewCell {
     @objc private func removeAllObservers() {
         NotificationCenter.default.removeObserver(self)
     }
-    
 }
 
 //MARK: - UI related

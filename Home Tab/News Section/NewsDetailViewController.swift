@@ -24,7 +24,7 @@ class NewsDetailViewController: UIViewController {
     }
     
     //news details
-    var details : NewsDetails? {
+    var details: NewsDetails? {
         didSet {
             imgCollectionView.reloadData()
             loadUpperDetails()
@@ -148,7 +148,7 @@ class NewsDetailViewController: UIViewController {
 
 }
 
-//MARK: Upper view UI
+//MARK: - Upper view UI
 extension NewsDetailViewController {
     private func setupUpperViewUI() {
         detailUpperView.backgroundColor = .m7DarkGray()
@@ -308,7 +308,7 @@ extension NewsDetailViewController {
     }
 }
 
-//MARK: Content View UI
+//MARK: - Content View UI
 extension NewsDetailViewController {
 
     private func setupLowerViewUI() {
@@ -397,6 +397,7 @@ extension NewsDetailViewController {
     }
 }
 
+//MARK: - UICollectionViewDelegate
 extension NewsDetailViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         let count = (details != nil) ? (details?.item?.coverImages.count)! : 3
@@ -418,6 +419,7 @@ extension NewsDetailViewController: UICollectionViewDelegateFlowLayout, UICollec
 
 }
 
+//MARK: - UIScrollViewDelegate
 extension NewsDetailViewController: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         //print("current y offset = \(mainScrollView.contentOffset.y)")
@@ -446,7 +448,7 @@ extension NewsDetailViewController: UIScrollViewDelegate {
     }
 }
 
-// MARK: function to push this view controller
+//MARK: - function to push this view controller
 extension NewsDetailViewController {
     static func push(fromView: UIViewController, newsID: String) {
         let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)

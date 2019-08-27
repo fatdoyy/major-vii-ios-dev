@@ -61,7 +61,7 @@ class HomePostCell: UICollectionViewCell {
 
 }
 
-//MARK: UI related
+//MARK: -  UI related
 extension HomePostCell {
     func setupUI() {
         backgroundColor = .m7DarkGray()
@@ -178,14 +178,14 @@ extension HomePostCell {
     }
 }
 
-//MARK: Content Label tapped
+//MARK: -  Content Label tapped
 extension HomePostCell {
     @objc func contentLabelTapped(_ sender: Any) {
         delegate?.contentLabelTapped(indexPath: indexPath)
     }
 }
 
-//MARK: UICollectionView delegate/datasource
+//MARK: -  UICollectionView delegate/datasource
 extension HomePostCell: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 5

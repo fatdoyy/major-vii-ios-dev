@@ -24,7 +24,7 @@ class NewsCellType1: UICollectionViewCell {
     @IBOutlet weak var imageOverlay: ImageOverlay!
     @IBOutlet weak var hashtagsCollectionView: UICollectionView!
     
-    var hashtagsArray: [String] = [] {
+    var hashtagsArray = [String]() {
         didSet {
             hashtagsCollectionView.reloadData()
         }
@@ -89,6 +89,7 @@ class NewsCellType1: UICollectionViewCell {
     }
 }
 
+//MARK: - UICollectionView delegate
 extension NewsCellType1: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         let count = hashtagsArray.isEmpty ? 0 : hashtagsArray.count

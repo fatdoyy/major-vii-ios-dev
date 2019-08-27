@@ -164,7 +164,7 @@ class SettingsViewController: UIViewController {
     }
 }
 
-//MARK: Header Section
+//MARK: - Header Section
 extension SettingsViewController {
     private func setupHeaderSection() {
         setupLoggedInHeader()
@@ -333,7 +333,7 @@ extension SettingsViewController {
     }
 }
 
-//MARK: General Settings Section
+//MARK: - General Settings Section
 extension SettingsViewController {
     private func setupGeneralSection() {
         generalSectionTitle = UILabel()
@@ -473,7 +473,7 @@ extension SettingsViewController {
     }
 }
 
-//MARK: Busker/Finder Section
+//MARK: - Busker/Finder Section
 extension SettingsViewController {
     private func setupBuskerSection() {
         buskerSectionTitle = UILabel()
@@ -608,7 +608,7 @@ extension SettingsViewController {
     }
 }
 
-//MARK: Other Section
+//MARK: - Other Section
 extension SettingsViewController {
     private func setupOthersSection() {
         othersSectionTitle = UILabel()
@@ -813,14 +813,14 @@ extension SettingsViewController {
     }
 }
 
-//MARK: UIGestureRecognizerDelegate (i.e. swipe pop gesture)
+//MARK: - UIGestureRecognizerDelegate (i.e. swipe pop gesture)
 extension SettingsViewController: UIGestureRecognizerDelegate {
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return true
     }
 }
 
-//MARK: Scroll to top when tabbar icon is tapped
+//MARK: - Scroll to top when tabbar icon is tapped
 extension SettingsViewController: UITabBarControllerDelegate {
     func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
         if previousController == viewController || previousController == nil {

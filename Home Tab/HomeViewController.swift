@@ -37,16 +37,16 @@ class HomeViewController: UIViewController {
         return refreshControl
     }()
 
-    var coverImagesUrl: [String] = []
+    var coverImagesUrl = [String]()
     
     var selectedSection = HomeSelectedSection.News //default section is "News"
     
-    var news: [News] = []
+    var news = [News]()
     var newsLimit = 5 //news limit per request
     var gotMoreNews = true //lazy loading, "true" because default section is News
     
-    var posts: [Post] = []
-    var attrContentArr: [NSAttributedString] = [] //attributed string array
+    var posts = [Post]()
+    var attrContentArr = [NSAttributedString]() //attributed string array
     var postsLimit = 3 //post limit per request
     var gotMorePosts = false //lazy loading, should be set to true when Posts section is selected
     var isPostCellExpanded = [Bool]()

@@ -209,7 +209,7 @@ class BuskerProfileViewController: UIViewController {
     
 }
 
-//MARK: API Calling
+//MARK: - API Calling
 extension BuskerProfileViewController {
     private func getProfileDetails(buskerID: String) {
         BuskerService.getProfileDetails(buskerID: buskerID).done { details -> () in
@@ -386,7 +386,7 @@ extension BuskerProfileViewController {
     }
 }
 
-//MARK: UI functions
+//MARK: - UI related
 extension BuskerProfileViewController {
     private func setupImgCollectionView() {
 
@@ -749,7 +749,7 @@ extension BuskerProfileViewController {
     }
 }
 
-//MARK: Profile section
+//MARK: - Profile section
 extension BuskerProfileViewController {
     private func setupProfileSection() {
         profileBgView.layer.cornerRadius = GlobalCornerRadius.value
@@ -795,7 +795,7 @@ extension BuskerProfileViewController {
  
 }
 
-//MARK: Members Section
+//MARK: - Members Section
 extension BuskerProfileViewController {
     private func setupMembersSection() {
         membersBgView.layer.cornerRadius = GlobalCornerRadius.value
@@ -856,7 +856,7 @@ extension BuskerProfileViewController {
     }
 }
 
-//MARK: Perfomrnace/Songs section
+//MARK: - Perfomrnace/Songs section
 extension BuskerProfileViewController {
     private func setupPerformancesSection() {
         liveBgView.layer.cornerRadius = GlobalCornerRadius.value
@@ -933,7 +933,7 @@ extension BuskerProfileViewController {
     
 }
 
-//MARK: Events Section
+//MARK: - Events Section
 extension BuskerProfileViewController {
     private func setupEventsSection() {
         eventsBgView.layer.cornerRadius = GlobalCornerRadius.value
@@ -996,7 +996,7 @@ extension BuskerProfileViewController {
     
 }
 
-//MARK: Posts Section
+//MARK: - Posts Section
 extension BuskerProfileViewController {
     private func setupPostSection() {
         postsBgView.layer.cornerRadius = GlobalCornerRadius.value
@@ -1058,7 +1058,7 @@ extension BuskerProfileViewController {
     }
 }
 
-//MARK: Footer Section
+//MARK: - Footer Section
 extension BuskerProfileViewController {
     private func setupFooter() {
         sepLine.backgroundColor = UIColor.white.withAlphaComponent(0.1)
@@ -1087,7 +1087,7 @@ extension BuskerProfileViewController {
     }
 }
 
-//MARK: Collection View Delegate
+//MARK: - Collection View Delegate
 extension BuskerProfileViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         switch collectionView {
@@ -1264,7 +1264,7 @@ extension BuskerProfileViewController: UICollectionViewDelegateFlowLayout, UICol
     }
 }
 
-//MARK: UIScrollView Delegate
+//MARK: - UIScrollView Delegate
 extension BuskerProfileViewController: UIScrollViewDelegate {
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         if (!decelerate) {
@@ -1302,7 +1302,7 @@ extension BuskerProfileViewController: UIScrollViewDelegate {
     }
 }
 
-//MARK: Function to push/present this view controller
+//MARK: - Function to push/present this view controller
 extension BuskerProfileViewController {
     static func push(from view: UIViewController, buskerName: String, buskerID: String) {
         let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
@@ -1328,7 +1328,7 @@ extension BuskerProfileViewController {
     }
 }
 
-//MARK: Swipe pop gesture
+//MARK: - Swipe pop gesture
 extension BuskerProfileViewController: UIGestureRecognizerDelegate {
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return true

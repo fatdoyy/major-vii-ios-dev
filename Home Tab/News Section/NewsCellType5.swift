@@ -20,7 +20,7 @@ class NewsCellType5: UICollectionViewCell {
     @IBOutlet weak var countLabel: UILabel!
     @IBOutlet weak var hashtagsCollectionView: UICollectionView!
     
-    var hashtagsArray: [String] = [] {
+    var hashtagsArray = [String]() {
         didSet {
             hashtagsCollectionView.reloadData()
         }
@@ -99,6 +99,7 @@ class NewsCellType5: UICollectionViewCell {
     }
 }
 
+//MARK: - UICollectionView delegate
 extension NewsCellType5: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         let count = hashtagsArray.isEmpty ? 0 : hashtagsArray.count

@@ -12,7 +12,6 @@ import ObjectMapper
 class PostService: BaseService {}
 
 extension PostService {
-
     static func getList(skip: Int? = nil, limit: Int? = nil) -> Promise<Posts> {
         var params: [String: Any] = [:]
         if let skip = skip {

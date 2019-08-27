@@ -21,8 +21,8 @@ class BookmarkedEventsViewController: UIViewController {
     var eventsCollectionView: UICollectionView!
     var locationEmptyMsgView = MessageView.viewFromNib(layout: .cardView)
     
-    var randomImgUrl: [URL] = []
-    var bookmarkedEvents: [BookmarkedEvent] = [] {
+    var randomImgUrl = [URL]()
+    var bookmarkedEvents = [BookmarkedEvent]() {
         didSet {
             for item in bookmarkedEvents {
                 if let event = item.targetEvent {

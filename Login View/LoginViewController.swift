@@ -73,7 +73,7 @@ class LoginViewController: UIViewController {
     }
 }
 
-//MARK: Login / Register Delegate
+//MARK: - Login / Register Delegate
 extension LoginViewController: LoginViewDelegate, UserServiceDelegate {
     
     func didTapDismissBtn() {

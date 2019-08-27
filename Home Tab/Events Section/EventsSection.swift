@@ -37,8 +37,8 @@ class EventsSection: UICollectionViewCell {
     @IBOutlet weak var eventsLabel: UILabel!
     @IBOutlet weak var viewAllBtn: UIButton!
     
-    var randomImgUrl: [URL] = []
-    var upcomingEvents: [Event] = []
+    var randomImgUrl = [URL]()
+    var upcomingEvents = [Event]()
     
     override func awakeFromNib() {
         super.awakeFromNib()

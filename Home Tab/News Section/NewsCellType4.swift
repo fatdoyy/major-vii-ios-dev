@@ -31,7 +31,7 @@ class NewsCellType4: UICollectionViewCell {
     var gradientBg = PastelView()
     let animation = SkeletonAnimationBuilder().makeSlidingAnimation(withDirection: .leftRight, duration: 2)
     
-    var hashtagsArray: [String] = [] {
+    var hashtagsArray = [String]() {
         didSet {
             hashtagsCollectionView.reloadData()
         }
@@ -59,7 +59,7 @@ class NewsCellType4: UICollectionViewCell {
     }
 }
 
-//MARK: UI related
+//MARK: - UI related
 extension NewsCellType4 {
     private func setupUI() {
         //limiting the number of lines on iPhone SE because the screen is too small and will cause layout problems
@@ -142,7 +142,7 @@ extension NewsCellType4 {
     }
 }
 
-//MARK: UICollectionView delegate
+//MARK: - UICollectionView delegate
 extension NewsCellType4: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         let count = hashtagsArray.isEmpty ? 0 : hashtagsArray.count

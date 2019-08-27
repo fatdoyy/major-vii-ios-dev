@@ -31,17 +31,17 @@ class FollowingSection: UICollectionViewCell {
     @IBOutlet weak var followingSectionCollectionView: UICollectionView!
     @IBOutlet var layoutConstraints: Array<NSLayoutConstraint>! //disable constraints to hide this section if user is not logged in
     
-    var userFollowings: [OrganizerProfileObject] = []
+    var userFollowings = [OrganizerProfileObject]()
     var followingsLimit = 7 //followings limit per request
     var gotMoreFollowings = true //lazy loading
     
-    var userFollowingsEvents: [Event] = []
+    var userFollowingsEvents = [Event]()
     var eventsLimit = 6 //event limit per request
     var gotMoreEvents = true //lazy loading
     var selectedIndexPath: IndexPath? //control selected busker state
     
     var boolArr = [Int]()
-    var bookmarkedEventIDArray: [String] = [] //IMPORTANT: Adding an array to local to control bookmarkBtn's state because of cell reuse issues
+    var bookmarkedEventIDArray = [String]() //IMPORTANT: Adding an array to local to control bookmarkBtn's state because of cell reuse issues
     
     //empty followings view (i.e. didn't follow any buskers)
     var emptyFollowingBgView = UIView()
@@ -657,7 +657,7 @@ extension FollowingSection: FollowingSectionCellDelegate {
                     }
                 }
                 
-                self.followingsCollectionView.isUserInteractionEnabled = true
+                self.followingsCollectionView.isUserInteractionEnabled = true   
                 self.followingSectionCollectionView.isUserInteractionEnabled = true
                 NotificationCenter.default.post(name: .eventListEndRefreshing, object: nil)
                 UIApplication.shared.isNetworkActivityIndicatorVisible = false

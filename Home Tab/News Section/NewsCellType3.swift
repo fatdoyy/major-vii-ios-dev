@@ -28,7 +28,7 @@ class NewsCellType3: UICollectionViewCell {
     
     @IBOutlet var newsTitleTopConstraint: NSLayoutConstraint!
     
-    var hashtagsArray: [String] = [] {
+    var hashtagsArray = [String]() {
         didSet {
             hashtagsCollectionView.reloadData()
         }
@@ -105,6 +105,7 @@ class NewsCellType3: UICollectionViewCell {
     }
 }
 
+//MARK: - UICollectionView delegate
 extension NewsCellType3: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         let count = hashtagsArray.isEmpty ? 0 : hashtagsArray.count

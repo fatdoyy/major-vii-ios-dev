@@ -38,7 +38,7 @@ class LoginView: UIView {
     @IBOutlet weak var logo: UIImageView!
     @IBOutlet weak var descLabel: UILabel!
     
-    //MARK: Social Login Elements
+    //MARK: - Social Login Elements
     @IBOutlet weak var fbLoginBtn: UIButton!
     @IBOutlet weak var googleLoginBtn: UIButton!
     @IBOutlet weak var emailLoginLabel: UILabel!

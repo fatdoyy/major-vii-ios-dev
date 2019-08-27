@@ -13,7 +13,6 @@ import ObjectMapper
 class BuskerService: BaseService {}
 
 extension BuskerService {
-    
     //busker profile details
     static func getProfileDetails(buskerID: String) -> Promise<BuskerProfile> {
         return Promise { resolver in
