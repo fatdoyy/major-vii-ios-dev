@@ -225,7 +225,7 @@ extension EventSearchViewController: FeaturedCellDelegate {
 
     func bookmarkBtnTapped(cell: FeaturedCell, tappedIndex: IndexPath) {
         if UserService.User.isLoggedIn() {
-            if let eventID = self.trendingEvents[tappedIndex.row].id {
+            if let eventID = isSearching ? self.searchResults[tappedIndex.row].id : self.trendingEvents[tappedIndex.row].id {
                 if (cell.bookmarkBtn.backgroundColor?.isEqual(UIColor.clear))! { //do bookmark action
                     HapticFeedback.createImpact(style: .light)
                     cell.bookmarkBtn.isUserInteractionEnabled = false
@@ -360,15 +360,23 @@ extension EventSearchViewController {
         
         mainCollectionView = UICollectionView(frame: CGRect(origin: .zero, size: .zero), collectionViewLayout: layout)
         mainCollectionView.showsVerticalScrollIndicator = false
-        mainCollectionView.contentInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
+        mainCollectionView.contentInset = UIEdgeInsets(top: 10, left: 10, bottom: 0, right: 10)
         mainCollectionView.backgroundColor = .m7DarkGray()
         mainCollectionView.dataSource = self
         mainCollectionView.delegate = self
         mainCollectionView.register(UINib.init(nibName: "FeaturedCell", bundle: nil), forCellWithReuseIdentifier: FeaturedCell.reuseIdentifier)
         view.addSubview(mainCollectionView)
         mainCollectionView.snp.makeConstraints { (make) -> Void in
-            make.top.equalTo(keywordsCollectionView.snp.bottom).offset(20)
+            make.top.equalTo(keywordsCollectionView.snp.bottom).offset(10)
             make.left.right.bottom.equalTo(0)
+        }
+        
+        let overlayTop = UIImageView(image: UIImage(named: "collectionview_overlay_top_to_bottom"))
+        view.addSubview(overlayTop)
+        overlayTop.snp.makeConstraints { (make) in
+            make.height.equalTo(10)
+            make.width.equalTo(UIScreen.main.bounds.width)
+            make.top.equalTo(mainCollectionView.snp.top)
         }
     }
     

@@ -18,14 +18,26 @@ class BuskersViewController: UIViewController {
     weak var delegate: BuskersViewControllerDelegate?
     
     var mainCollectionView: UICollectionView!
+    var fakeCollectionView: UICollectionView!
     
     let searchResultsVC = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "buskersSearchVC") as! BuskersSearchViewController
     var searchController: UISearchController!
     
-    let img = [UIImage(named: "gif9_thumbnail")!, UIImage(named: "gif10_thumbnail")!, UIImage(named: "gif11_thumbnail")!, UIImage(named: "cat")!, UIImage(named: "gif0_thumbnail")!, UIImage(named: "gif1_thumbnail")!, UIImage(named: "gif2_thumbnail")!, UIImage(named: "gif3_thumbnail")!, UIImage(named: "gif4_thumbnail")!, UIImage(named: "gif5_thumbnail")!, UIImage(named: "gif6_thumbnail")!, UIImage(named: "gif7_thumbnail")!, UIImage(named: "gif8_thumbnail")!]
-    
-    let names = ["jamistry", "水曜日のカンパネラ", "Anomalie", "鄧小巧", "陳奕迅", "Mr.", "RubberBand", "Postman", "Zeplin", "SourceTree", "Xcode", "August", "VIRT"]
-    let genres = ["canto-pop", "j-pop", "blues", "alternative rock", "punk", "country", "house", "edm", "electronic", "dance", "k-pop", "acid jazz", "downtempo"]
+    var buskers = [OrganizerProfileObject]() {
+        didSet {
+            for busker in buskers {
+                imgHeight.append(busker.targetProfile?.coverImages[0].height ?? 220)
+            }
+            print(imgHeight)
+            setupMainCollectionView()
+            //mainCollectionView.setContentOffset(.zero, animated: true)
+            fakeCollectionView.removeFromSuperview()
+            //mainCollectionView.reloadData()
+        }
+    }
+    var imgHeight = [CGFloat]()
+    var buskersLimit = 8
+    var gotMoreBuskers = true
     
     var scaledImgArray = [UIImage]()
     var randomColor = [UIColor]()
@@ -41,12 +53,8 @@ class BuskersViewController: UIViewController {
         navigationController?.interactivePopGestureRecognizer?.delegate = self
         //tabBarController?.delegate = self
         
-        for image in img {
-            scaledImgArray.append(image.scaleImage(maxWidth: 220))
-            randomColor.append(UIColor.random)
-        }
-        
         setupUI()
+        getCurrentUserFollowings()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -79,23 +87,22 @@ class BuskersViewController: UIViewController {
     
 }
 
-//MARK: - UINavigation Bar setup
+//MARK: - API Calls
 extension BuskersViewController {
-    private func setupNavBar() {
-        definesPresentationContext = true
-        navigationItem.title = "Performers"
-        let textAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
-        navigationController?.navigationBar.titleTextAttributes = textAttributes
-        navigationController?.navigationBar.largeTitleTextAttributes = textAttributes
-        
-        navigationController?.navigationBar.prefersLargeTitles = true
-        
-        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-        navigationController?.navigationBar.shadowImage = UIImage()
-        navigationController?.navigationBar.isTranslucent = true
-        //navigationController?.navigationBar.barTintColor = .darkGray()
-        
-        navigationController?.navigationBar.backgroundColor = UIColor.m7DarkGray().withAlphaComponent(0.8)
+    func getCurrentUserFollowings(skip: Int? = nil, limit: Int? = nil, targetProfile: OrganizerProfile? = nil, targetType: Int? = nil) {
+        //mainCollectionView.isUserInteractionEnabled = false
+        UserService.getUserFollowings(skip: skip, limit: limit, targetProfile: targetProfile, targetType: targetType).done { response in
+            let randomArr = response.list.shuffled()
+            self.buskers.append(contentsOf: randomArr)
+            for _ in 0 ..< self.buskers.count {
+                self.randomColor.append(UIColor.random)
+            }
+            self.gotMoreBuskers = response.list.count < self.buskersLimit || response.list.count == 0 ? false : true
+            }.ensure {
+                //self.mainCollectionView.isUserInteractionEnabled = true
+                
+                UIApplication.shared.isNetworkActivityIndicatorVisible = false
+            }.catch { error in }
     }
     
 }
@@ -103,6 +110,7 @@ extension BuskersViewController {
 //MARK: - Search Controller setup
 extension BuskersViewController {
     private func setupSearchController() {
+        print("setting up searchController...")
         searchResultsVC.delegate = self
         searchResultsVC.buskerVCInstance = self
         searchController = UISearchController(searchResultsController: searchResultsVC)
@@ -170,18 +178,49 @@ extension BuskersViewController {
     
 }
 
-//MARK: - UI setup
+//MARK: - UI related
 extension BuskersViewController {
     private func setupUI() {
-        setupSearchController()
+        DispatchQueue.background(background: {
+            self.setupSearchController()
+        }, completion:{
+            print("loaded searchController")
+            UIView.animate(withDuration: 0.2, animations: {
+                self.view.layoutIfNeeded()
+            })
+        })
+
+        setupFakeCollectionView()
+    }
+    
+    private func setupFakeCollectionView() {
+        let layout = PinterestLayout()
+        layout.delegate = self
         
+        fakeCollectionView = UICollectionView(frame: CGRect(origin: .zero, size: .zero), collectionViewLayout: layout)
+        fakeCollectionView.showsVerticalScrollIndicator = false
+        fakeCollectionView.isUserInteractionEnabled = false
+        fakeCollectionView.contentInset = UIEdgeInsets(top: 0, left: 10, bottom: 10, right: 10)
+        fakeCollectionView.backgroundColor = .m7DarkGray()
+        fakeCollectionView.dataSource = self
+        fakeCollectionView.delegate = self
+        fakeCollectionView.register(UINib.init(nibName: "BuskerCell", bundle: nil), forCellWithReuseIdentifier: BuskerCell.reuseIdentifier)
+        view.addSubview(fakeCollectionView)
+        fakeCollectionView.snp.makeConstraints { (make) -> Void in
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
+            make.left.right.bottom.equalTo(0)
+        }
+    }
+    
+    private func setupMainCollectionView() {
         let layout = PinterestLayout()
         layout.delegate = self
         
         mainCollectionView = UICollectionView(frame: CGRect(origin: .zero, size: .zero), collectionViewLayout: layout)
         mainCollectionView.showsVerticalScrollIndicator = false
-        mainCollectionView.contentInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
+        mainCollectionView.contentInset = UIEdgeInsets(top: 0, left: 10, bottom: 10, right: 10)
         mainCollectionView.backgroundColor = .m7DarkGray()
+        mainCollectionView.contentInsetAdjustmentBehavior = .always
         mainCollectionView.dataSource = self
         mainCollectionView.delegate = self
         mainCollectionView.register(UINib.init(nibName: "BuskerCell", bundle: nil), forCellWithReuseIdentifier: BuskerCell.reuseIdentifier)
@@ -190,31 +229,94 @@ extension BuskersViewController {
             make.edges.equalTo(0)
         }
     }
+    
+    private func setupNavBar() {
+        definesPresentationContext = true
+        navigationItem.title = "Performers"
+        let textAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+        navigationController?.navigationBar.titleTextAttributes = textAttributes
+        navigationController?.navigationBar.largeTitleTextAttributes = textAttributes
+        
+        navigationController?.navigationBar.prefersLargeTitles = true
+        
+        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        navigationController?.navigationBar.shadowImage = UIImage()
+        navigationController?.navigationBar.isTranslucent = true
+        //navigationController?.navigationBar.barTintColor = .darkGray()
+        
+        navigationController?.navigationBar.backgroundColor = UIColor.m7DarkGray().withAlphaComponent(0.8)
+    }
 }
 
 //MARK: - UICollectionview delegate
 extension BuskersViewController: UICollectionViewDelegate, UICollectionViewDataSource, PinterestLayoutDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return scaledImgArray.count
+        switch collectionView {
+        case fakeCollectionView:    return 6
+        case mainCollectionView:    return buskers.count
+        default:                    return 6
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: BuskerCell.reuseIdentifier, for: indexPath) as! BuskerCell
-        cell.imgView.image = scaledImgArray[indexPath.row]
-        cell.buskerName.text = names[indexPath.row]
-        cell.genre.textColor = randomColor[indexPath.row]
-        cell.genre.text = genres[indexPath.row]
-        
-        return cell
+        switch collectionView {
+        case fakeCollectionView:
+            let cell = fakeCollectionView.dequeueReusableCell(withReuseIdentifier: BuskerCell.reuseIdentifier, for: indexPath) as! BuskerCell
+            return cell
+            
+        case mainCollectionView:
+            let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: BuskerCell.reuseIdentifier, for: indexPath) as! BuskerCell
+            if !buskers.isEmpty {
+                for view in cell.skeletonViews { //hide all skeleton views
+                    view.hideSkeleton()
+                }
+                
+                if let profile = buskers[indexPath.row].targetProfile {
+                    if let url = URL(string: profile.coverImages[0].secureUrl!) {
+                        cell.imgView.kf.setImage(with: url, options: [.transition(.fade(0.3))])
+                    }
+                    
+                    cell.buskerName.text = profile.name
+                    
+                    if profile.musicTypes.count > 1 && !profile.musicTypes.isEmpty {
+                        var genreStr = "\(profile.musicTypes.first ?? "")" //assign the first genre to string first
+                        var genres = profile.musicTypes
+                        genres.removeFirst() //then remove first genre and append the remainings
+                        for genre in genres {
+                            genreStr.append(", \(genre)")
+                        }
+                        cell.genre.text = genreStr.lowercased()
+                    } else if profile.musicTypes.count == 1 {
+                        cell.genre.text = profile.musicTypes.first?.lowercased()
+                    } else if profile.musicTypes.isEmpty {
+                        cell.genre.text = ""
+                    }
+                    
+                    cell.genre.textColor = randomColor[indexPath.row]
+                    UIView.animate(withDuration: 0.4) {
+                        cell.verifiedIcon.alpha = profile.verified ?? true ? 1 : 0
+                    }
+                }
+            }
+            return cell
+            
+        default: return UICollectionViewCell()
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        BuskerProfileViewController.push(from: self, buskerName: names[indexPath.row], buskerID: "5be7f512d92f1257fd2a530e")
+        if collectionView == mainCollectionView {
+            BuskerProfileViewController.push(from: self, buskerName: buskers[indexPath.row].targetProfile?.name ?? "", buskerID: buskers[indexPath.row].targetProfile?.id ?? "")
+        }
     }
     
     //PinterestLayout delegate
     func collectionView(_ collectionView: UICollectionView, heightForPhotoAtIndexPath indexPath: IndexPath) -> CGFloat {
-        return scaledImgArray[indexPath.row].size.height
+        switch collectionView {
+        case fakeCollectionView:    return 220
+        case mainCollectionView:    return imgHeight[indexPath.row] / 1.7
+        default:                    return 220
+        }
     }
     
 }

@@ -115,6 +115,6 @@ class OrganizerProfile: Mappable {
         id              <- map["_id"]
         name            <- map["name"]
         type            <- map["type"]
-        verified         <- map["verified"]
+        verified        <- map["verified"]
     }
 }

@@ -15,6 +15,8 @@ class Image: Mappable {
     var resourceType: String?
     var url: String?
     var secureUrl: String?
+    var width: CGFloat?
+    var height: CGFloat?
     
     required init?(map: Map) {}
     
@@ -25,5 +27,7 @@ class Image: Mappable {
         resourceType    <- map["resource_type"]
         url             <- map["url"]
         secureUrl       <- map["secure_url"]
+        width           <- map["width"]
+        height          <- map["height"]
     }
 }

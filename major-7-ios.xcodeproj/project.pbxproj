@@ -139,6 +139,7 @@
 		96C9899A2216C98C00170609 /* NewsDetailImageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96C989982216C98C00170609 /* NewsDetailImageCell.xib */; };
 		96C9899C221FFA4100170609 /* UIScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96C9899B221FFA4100170609 /* UIScrollView.swift */; };
 		96C9899E2220307600170609 /* TextHeight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96C9899D2220307600170609 /* TextHeight.swift */; };
+		96DCCBCA2316915B00C6707C /* DispatchQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96DCCBC92316915B00C6707C /* DispatchQueue.swift */; };
 		96DEB1EA2236471E005F87F4 /* VideoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96DEB1E92236471E005F87F4 /* VideoView.swift */; };
 		96DEB1ED22378446005F87F4 /* BuskerProfileEventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96DEB1EB22378446005F87F4 /* BuskerProfileEventCell.swift */; };
 		96DEB1EE22378446005F87F4 /* BuskerProfileEventCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96DEB1EC22378446005F87F4 /* BuskerProfileEventCell.xib */; };
@@ -301,6 +302,7 @@
 		96C989982216C98C00170609 /* NewsDetailImageCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewsDetailImageCell.xib; sourceTree = "<group>"; };
 		96C9899B221FFA4100170609 /* UIScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIScrollView.swift; sourceTree = "<group>"; };
 		96C9899D2220307600170609 /* TextHeight.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextHeight.swift; sourceTree = "<group>"; };
+		96DCCBC92316915B00C6707C /* DispatchQueue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DispatchQueue.swift; sourceTree = "<group>"; };
 		96DEB1E92236471E005F87F4 /* VideoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoView.swift; sourceTree = "<group>"; };
 		96DEB1EB22378446005F87F4 /* BuskerProfileEventCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuskerProfileEventCell.swift; sourceTree = "<group>"; };
 		96DEB1EC22378446005F87F4 /* BuskerProfileEventCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BuskerProfileEventCell.xib; sourceTree = "<group>"; };
@@ -518,6 +520,7 @@
 				96B80C3322D3958700E932BA /* TextAttributes.swift */,
 				96E268A322F05A45006AE52A /* InAppNotifications.swift */,
 				96A34FF323027B2B000E46EE /* DateTimeHelper.swift */,
+				96DCCBC92316915B00C6707C /* DispatchQueue.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -1003,6 +1006,7 @@
 				CA550AA621706A65008E493D /* AppDelegate.swift in Sources */,
 				965838C221831866000FE8B0 /* NewsCellType5.swift in Sources */,
 				96B0BE4221EF2235003C9BA5 /* ValidationRules.swift in Sources */,
+				96DCCBCA2316915B00C6707C /* DispatchQueue.swift in Sources */,
 				96DEB1F12237B08B005F87F4 /* BuskerProfilePostCell.swift in Sources */,
 				9620021C21DDFDED0055D070 /* LoginView.swift in Sources */,
 				96625F7F21C8C8030086A2B2 /* EventDetails.swift in Sources */,
