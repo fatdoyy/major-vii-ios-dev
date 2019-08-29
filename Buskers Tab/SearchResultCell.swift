@@ -9,7 +9,6 @@
 import UIKit
 
 class SearchResultCell: UICollectionViewCell {
-    
     private typealias `Self` = SearchResultCell
     
     static let reuseIdentifier = "searchResultCell"

@@ -20,19 +20,17 @@ class BuskersViewController: UIViewController {
     var mainCollectionView: UICollectionView!
     var fakeCollectionView: UICollectionView!
     
-    let searchResultsVC = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "buskersSearchVC") as! BuskersSearchViewController
     var searchController: UISearchController!
     
     var buskers = [OrganizerProfileObject]() {
         didSet {
             for busker in buskers {
-                imgHeight.append(busker.targetProfile?.coverImages[0].height ?? 220)
+                let height = (busker.targetProfile?.coverImages[0].height)! / 2.5
+                imgHeight.append(height)
             }
-            print(imgHeight)
+            print("imgHeight = \(imgHeight)")
             setupMainCollectionView()
-            //mainCollectionView.setContentOffset(.zero, animated: true)
             fakeCollectionView.removeFromSuperview()
-            //mainCollectionView.reloadData()
         }
     }
     var imgHeight = [CGFloat]()
@@ -110,6 +108,8 @@ extension BuskersViewController {
 //MARK: - Search Controller setup
 extension BuskersViewController {
     private func setupSearchController() {
+        let searchResultsVC = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "buskersSearchVC") as! BuskersSearchViewController
+
         print("setting up searchController...")
         searchResultsVC.delegate = self
         searchResultsVC.buskerVCInstance = self
@@ -181,14 +181,16 @@ extension BuskersViewController {
 //MARK: - UI related
 extension BuskersViewController {
     private func setupUI() {
-        DispatchQueue.background(background: {
-            self.setupSearchController()
-        }, completion:{
-            print("loaded searchController")
-            UIView.animate(withDuration: 0.2, animations: {
-                self.view.layoutIfNeeded()
-            })
-        })
+        self.setupSearchController()
+
+//        DispatchQueue.background(background: {
+//            self.setupSearchController()
+//        }, completion:{
+//            print("loaded searchController")
+//            UIView.animate(withDuration: 0.2, animations: {
+//                self.view.setNeedsDisplay()
+//            })
+//        })
 
         setupFakeCollectionView()
     }
@@ -271,8 +273,13 @@ extension BuskersViewController: UICollectionViewDelegate, UICollectionViewDataS
                     view.hideSkeleton()
                 }
                 
+                //Gradient.createOverlay(cell: cell, imgHeight: imgHeight[indexPath.row])
+                
                 if let profile = buskers[indexPath.row].targetProfile {
                     if let url = URL(string: profile.coverImages[0].secureUrl!) {
+//                        var urlArr = url.absoluteString.components(separatedBy: "upload/")
+//                        let desaturatedUrl = URL(string: "\(urlArr[0])upload/e_saturation:-60/\(urlArr[1])") //apply saturation effect by Cloudinary
+//                        cell.imgView.kf.setImage(with: desaturatedUrl, options: [.transition(.fade(0.3))])
                         cell.imgView.kf.setImage(with: url, options: [.transition(.fade(0.3))])
                     }
                     
@@ -314,7 +321,7 @@ extension BuskersViewController: UICollectionViewDelegate, UICollectionViewDataS
     func collectionView(_ collectionView: UICollectionView, heightForPhotoAtIndexPath indexPath: IndexPath) -> CGFloat {
         switch collectionView {
         case fakeCollectionView:    return 220
-        case mainCollectionView:    return imgHeight[indexPath.row] / 1.7
+        case mainCollectionView:    return imgHeight[indexPath.row]
         default:                    return 220
         }
     }

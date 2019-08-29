@@ -116,8 +116,8 @@ extension BookmarkedEventsViewController: UICollectionViewDelegate, UICollection
         if !bookmarkedEvents.isEmpty {
             if let event = bookmarkedEvents[indexPath.row].targetEvent {
                 var urlArr = randomImgUrl[indexPath.row].absoluteString.components(separatedBy: "upload/")
-                let grayscaleUrl = URL(string: "\(urlArr[0])upload/e_grayscale/\(urlArr[1])") //apply grayscale filter by Cloudinary
-                cell.bgImgView.kf.setImage(with: grayscaleUrl, options: [.transition(.fade(0.4))])
+                let desaturatedUrl = URL(string: "\(urlArr[0])upload/e_saturation:-60/\(urlArr[1])") //apply saturation effect by Cloudinary
+                cell.bgImgView.kf.setImage(with: desaturatedUrl, options: [.transition(.fade(0.3))])
                 
                 cell.eventTitle.text = event.title
                 cell.performerName.text = event.organizerProfile?.name

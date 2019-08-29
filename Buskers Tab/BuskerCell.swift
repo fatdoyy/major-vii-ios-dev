@@ -20,6 +20,8 @@ class BuskerCell: UICollectionViewCell {
     
     @IBOutlet var skeletonViews: Array<UIView>!
     
+    var didCreateOverlay = false
+
     override func awakeFromNib() {
         super.awakeFromNib()
         layer.cornerRadius = GlobalCornerRadius.value
@@ -33,6 +35,7 @@ class BuskerCell: UICollectionViewCell {
         buskerName.text = ""
         genre.text = ""
         imgView.image = nil
+        didCreateOverlay = false
         verifiedIcon.alpha = 0
     }
 }

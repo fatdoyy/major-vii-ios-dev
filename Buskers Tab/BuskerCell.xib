@@ -31,35 +31,33 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_verified_green" translatesAutoresizingMaskIntoConstraints="NO" id="Nm3-r5-d1O">
-                                <rect key="frame" x="114" y="141" width="12" height="12"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="12" id="LCT-0p-6CE"/>
-                                    <constraint firstAttribute="width" constant="12" id="yDS-YK-abg"/>
-                                </constraints>
-                            </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="genre is" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="b9v-d4-kLc">
                                 <rect key="frame" x="5" y="157" width="44" height="13.5"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="11"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_verified_green" translatesAutoresizingMaskIntoConstraints="NO" id="Nm3-r5-d1O">
+                                <rect key="frame" x="114" y="141" width="12" height="12"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="12" id="9xA-HU-FUi"/>
+                                    <constraint firstAttribute="width" constant="12" id="BX0-XO-he0"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" red="0.43529412150000002" green="0.4431372583" blue="0.47450980539999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstAttribute="bottom" secondItem="f8n-J2-7Ig" secondAttribute="bottom" constant="47" id="15e-OT-5v6"/>
                             <constraint firstItem="b9v-d4-kLc" firstAttribute="top" secondItem="LhH-uI-Seh" secondAttribute="bottom" constant="2" id="2II-C0-fG3"/>
-                            <constraint firstItem="f8n-J2-7Ig" firstAttribute="top" secondItem="xWl-RN-nTj" secondAttribute="top" id="3Hw-rm-v9P"/>
+                            <constraint firstItem="Nm3-r5-d1O" firstAttribute="top" secondItem="LhH-uI-Seh" secondAttribute="top" constant="3" id="2Wh-CA-jMt"/>
                             <constraint firstItem="LhH-uI-Seh" firstAttribute="leading" secondItem="xWl-RN-nTj" secondAttribute="leading" constant="5" id="3gK-fe-uiV"/>
+                            <constraint firstItem="f8n-J2-7Ig" firstAttribute="leading" secondItem="xWl-RN-nTj" secondAttribute="leading" id="4Ya-kU-fc9"/>
                             <constraint firstAttribute="bottom" secondItem="b9v-d4-kLc" secondAttribute="bottom" constant="9.5" id="6Nx-z3-1A3"/>
+                            <constraint firstAttribute="trailing" secondItem="f8n-J2-7Ig" secondAttribute="trailing" id="AV6-9b-rjk"/>
                             <constraint firstItem="b9v-d4-kLc" firstAttribute="leading" secondItem="xWl-RN-nTj" secondAttribute="leading" constant="5" id="FtW-52-6OU"/>
-                            <constraint firstItem="Nm3-r5-d1O" firstAttribute="leading" secondItem="LhH-uI-Seh" secondAttribute="trailing" constant="4" id="FuM-2T-nr5"/>
-                            <constraint firstAttribute="trailing" secondItem="f8n-J2-7Ig" secondAttribute="trailing" id="Uns-nb-sRw"/>
-                            <constraint firstItem="LhH-uI-Seh" firstAttribute="top" secondItem="f8n-J2-7Ig" secondAttribute="bottom" constant="5" id="VTs-C6-WZs"/>
-                            <constraint firstItem="f8n-J2-7Ig" firstAttribute="leading" secondItem="xWl-RN-nTj" secondAttribute="leading" id="VmC-e9-aJQ"/>
-                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Nm3-r5-d1O" secondAttribute="trailing" constant="5" id="hDe-GT-GUm"/>
+                            <constraint firstItem="f8n-J2-7Ig" firstAttribute="top" secondItem="xWl-RN-nTj" secondAttribute="top" id="JW9-QB-9Sg"/>
+                            <constraint firstItem="Nm3-r5-d1O" firstAttribute="leading" secondItem="LhH-uI-Seh" secondAttribute="trailing" constant="4" id="ViD-2G-17L"/>
                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="b9v-d4-kLc" secondAttribute="trailing" constant="5" id="iCu-UZ-2lv"/>
-                            <constraint firstItem="Nm3-r5-d1O" firstAttribute="leading" secondItem="LhH-uI-Seh" secondAttribute="trailing" constant="4" id="lNt-rV-Zay"/>
-                            <constraint firstItem="Nm3-r5-d1O" firstAttribute="top" secondItem="f8n-J2-7Ig" secondAttribute="bottom" constant="8" id="uOu-73-LaG"/>
                         </constraints>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
@@ -82,8 +80,8 @@
                 <outlet property="genre" destination="b9v-d4-kLc" id="Gkw-Jx-SR2"/>
                 <outlet property="imgView" destination="f8n-J2-7Ig" id="9XN-sQ-Q4k"/>
                 <outlet property="verifiedIcon" destination="Nm3-r5-d1O" id="85W-UQ-qTA"/>
-                <outletCollection property="skeletonViews" destination="LhH-uI-Seh" collectionClass="NSMutableArray" id="nGb-jJ-y2F"/>
-                <outletCollection property="skeletonViews" destination="b9v-d4-kLc" collectionClass="NSMutableArray" id="K5N-HC-dmJ"/>
+                <outletCollection property="skeletonViews" destination="LhH-uI-Seh" collectionClass="NSMutableArray" id="yCq-le-WnE"/>
+                <outletCollection property="skeletonViews" destination="b9v-d4-kLc" collectionClass="NSMutableArray" id="bqv-bf-MGN"/>
             </connections>
             <point key="canvasLocation" x="110.40000000000001" y="111.54422788605699"/>
         </collectionViewCell>
