@@ -48,8 +48,8 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PUq-vQ-38D">
-                                <rect key="frame" x="17" y="70" width="31" height="15"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="busker" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PUq-vQ-38D">
+                                <rect key="frame" x="16" y="70" width="38.5" height="15"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="15" id="0nV-g2-XgF"/>
                                 </constraints>
@@ -58,7 +58,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_verified" translatesAutoresizingMaskIntoConstraints="NO" id="1fr-rx-Ldw">
-                                <rect key="frame" x="52" y="72" width="12" height="12"/>
+                                <rect key="frame" x="59.5" y="72" width="12" height="12"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="12" id="6k6-D2-O8M"/>
                                     <constraint firstAttribute="height" constant="12" id="nU4-fq-TAL"/>
@@ -68,11 +68,11 @@
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="qD7-JP-4DW" firstAttribute="leading" secondItem="5ff-jC-kHw" secondAttribute="leading" constant="16" id="8Ts-rJ-P7w"/>
-                            <constraint firstItem="PUq-vQ-38D" firstAttribute="leading" secondItem="5ff-jC-kHw" secondAttribute="leading" constant="17" id="FIs-Zn-JMv"/>
+                            <constraint firstItem="PUq-vQ-38D" firstAttribute="leading" secondItem="5ff-jC-kHw" secondAttribute="leading" constant="16" id="FIs-Zn-JMv"/>
                             <constraint firstItem="B3h-qY-iOj" firstAttribute="top" secondItem="5ff-jC-kHw" secondAttribute="top" constant="12" id="L3n-qj-QdB"/>
                             <constraint firstAttribute="bottom" secondItem="PUq-vQ-38D" secondAttribute="bottom" constant="11" id="L5c-rL-2UZ"/>
                             <constraint firstAttribute="trailing" secondItem="qD7-JP-4DW" secondAttribute="trailing" constant="16" id="MjL-Nl-NKp"/>
-                            <constraint firstItem="1fr-rx-Ldw" firstAttribute="leading" secondItem="PUq-vQ-38D" secondAttribute="trailing" constant="4" id="Xkh-Lw-Jfu"/>
+                            <constraint firstItem="1fr-rx-Ldw" firstAttribute="leading" secondItem="PUq-vQ-38D" secondAttribute="trailing" constant="5" id="Xkh-Lw-Jfu"/>
                             <constraint firstItem="PUq-vQ-38D" firstAttribute="top" secondItem="qD7-JP-4DW" secondAttribute="bottom" constant="3" id="aKU-o3-oO7"/>
                             <constraint firstAttribute="trailing" secondItem="B3h-qY-iOj" secondAttribute="trailing" constant="72" id="bm0-Hb-4kN"/>
                             <constraint firstItem="qD7-JP-4DW" firstAttribute="top" secondItem="B3h-qY-iOj" secondAttribute="bottom" constant="9" id="boh-vJ-WLy"/>

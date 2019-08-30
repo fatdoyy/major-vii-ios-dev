@@ -453,7 +453,7 @@ extension FollowingSection: UICollectionViewDataSource, UICollectionViewDelegate
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         switch collectionView {
         case followingsCollectionView:
-            if (indexPath.row == userFollowings.count - 1) {
+            if (indexPath.row == userFollowings.count - 2) {
                 print("Fetching followings...")
                 if gotMoreFollowings {
                     UIView.animate(withDuration: 0.2) {
@@ -657,7 +657,7 @@ extension FollowingSection: FollowingSectionCellDelegate {
                     }
                 }
                 
-                self.followingsCollectionView.isUserInteractionEnabled = true   
+                self.followingsCollectionView.isUserInteractionEnabled = true
                 self.followingSectionCollectionView.isUserInteractionEnabled = true
                 NotificationCenter.default.post(name: .eventListEndRefreshing, object: nil)
                 UIApplication.shared.isNetworkActivityIndicatorVisible = false

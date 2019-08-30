@@ -1140,7 +1140,9 @@ extension BuskerProfileViewController: UICollectionViewDelegateFlowLayout, UICol
             let cell = membersCollectionView.dequeueReusableCell(withReuseIdentifier: BuskerProfileMemberCell.reuseIdentifier, for: indexPath) as! BuskerProfileMemberCell
             if let profile = buskerDetails?.item {
                 if let url = URL(string: profile.members[indexPath.row].icon!.secureUrl!) {
-                    cell.icon.kf.setImage(with: url, options: [.transition(.fade(0.3))])
+                    var urlArr = url.absoluteString.components(separatedBy: "upload/")
+                    let faceUrl = URL(string: "\(urlArr[0])upload/w_200,h_200,c_thumb,g_face/\(urlArr[1])") //apply crop and detect face by Cloudinary
+                    cell.icon.kf.setImage(with: faceUrl, options: [.transition(.fade(0.3))])
                 }
                 cell.nameLabel.text = profile.members[indexPath.row].name
                 cell.roleLabel.text = profile.members[indexPath.row].role

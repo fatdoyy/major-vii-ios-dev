@@ -24,17 +24,24 @@ class BuskersViewController: UIViewController {
     
     var buskers = [OrganizerProfileObject]() {
         didSet {
+            imgHeight.removeAll()
             for busker in buskers {
-                let height = (busker.targetProfile?.coverImages[0].height)! / 2.5
+                let height = (busker.targetProfile?.coverImages[0].height)! / 2
                 imgHeight.append(height)
             }
             print("imgHeight = \(imgHeight)")
-            setupMainCollectionView()
+
+            if mainCollectionView == nil {
+                setupMainCollectionView()
+            } else {
+                mainCollectionView.reloadData()
+            }
+            
             fakeCollectionView.removeFromSuperview()
         }
     }
     var imgHeight = [CGFloat]()
-    var buskersLimit = 8
+    var buskersLimit = 5
     var gotMoreBuskers = true
     
     var scaledImgArray = [UIImage]()
@@ -52,7 +59,7 @@ class BuskersViewController: UIViewController {
         //tabBarController?.delegate = self
         
         setupUI()
-        getCurrentUserFollowings()
+        getCurrentUserFollowings(limit: 5)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -207,6 +214,7 @@ extension BuskersViewController {
         fakeCollectionView.dataSource = self
         fakeCollectionView.delegate = self
         fakeCollectionView.register(UINib.init(nibName: "BuskerCell", bundle: nil), forCellWithReuseIdentifier: BuskerCell.reuseIdentifier)
+        fakeCollectionView.register(UINib.init(nibName: "NewsSectionFooter", bundle: nil), forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: NewsSectionFooter.reuseIdentifier)
         view.addSubview(fakeCollectionView)
         fakeCollectionView.snp.makeConstraints { (make) -> Void in
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
@@ -217,6 +225,7 @@ extension BuskersViewController {
     private func setupMainCollectionView() {
         let layout = PinterestLayout()
         layout.delegate = self
+        //layout.footerReferenceSize = CGSize(width: UIScreen.main.bounds.width, height: NewsSectionFooter.height)
         
         mainCollectionView = UICollectionView(frame: CGRect(origin: .zero, size: .zero), collectionViewLayout: layout)
         mainCollectionView.showsVerticalScrollIndicator = false
@@ -226,6 +235,7 @@ extension BuskersViewController {
         mainCollectionView.dataSource = self
         mainCollectionView.delegate = self
         mainCollectionView.register(UINib.init(nibName: "BuskerCell", bundle: nil), forCellWithReuseIdentifier: BuskerCell.reuseIdentifier)
+        mainCollectionView.register(UINib.init(nibName: "NewsSectionFooter", bundle: nil), forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: NewsSectionFooter.reuseIdentifier)
         view.addSubview(mainCollectionView)
         mainCollectionView.snp.makeConstraints { (make) -> Void in
             make.edges.equalTo(0)
@@ -251,7 +261,7 @@ extension BuskersViewController {
 }
 
 //MARK: - UICollectionview delegate
-extension BuskersViewController: UICollectionViewDelegate, UICollectionViewDataSource, PinterestLayoutDelegate {
+extension BuskersViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, PinterestLayoutDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         switch collectionView {
         case fakeCollectionView:    return 6
@@ -277,9 +287,6 @@ extension BuskersViewController: UICollectionViewDelegate, UICollectionViewDataS
                 
                 if let profile = buskers[indexPath.row].targetProfile {
                     if let url = URL(string: profile.coverImages[0].secureUrl!) {
-//                        var urlArr = url.absoluteString.components(separatedBy: "upload/")
-//                        let desaturatedUrl = URL(string: "\(urlArr[0])upload/e_saturation:-60/\(urlArr[1])") //apply saturation effect by Cloudinary
-//                        cell.imgView.kf.setImage(with: desaturatedUrl, options: [.transition(.fade(0.3))])
                         cell.imgView.kf.setImage(with: url, options: [.transition(.fade(0.3))])
                     }
                     
@@ -311,6 +318,39 @@ extension BuskersViewController: UICollectionViewDelegate, UICollectionViewDataS
         }
     }
     
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if collectionView == mainCollectionView {
+            if (indexPath.row == buskers.count - 1) {
+                print("Fetching buskers...")
+                gotMoreBuskers ? getCurrentUserFollowings(skip: buskers.count, limit: buskersLimit) : print("No more buskers to fetch!")
+                if gotMoreBuskers {
+
+                } else {
+                    print("No more buskers to fetch!")
+                }
+
+            }
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        switch kind {
+        case UICollectionView.elementKindSectionFooter:
+            let footer = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: NewsSectionFooter.reuseIdentifier, for: indexPath) as! NewsSectionFooter
+            footer.sepLine.alpha = gotMoreBuskers ? 0 : 1
+            footer.copyrightLabel.alpha = gotMoreBuskers ? 0 : 1
+            footer.loadingIndicator.alpha = gotMoreBuskers ? 1 : 0
+            
+            return footer
+        default: return UICollectionReusableView()
+        }
+    }
+
+
+//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
+//        return CGSize(width: UIScreen.main.bounds.width, height: NewsSectionFooter.height)
+//    }
+
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if collectionView == mainCollectionView {
             BuskerProfileViewController.push(from: self, buskerName: buskers[indexPath.row].targetProfile?.name ?? "", buskerID: buskers[indexPath.row].targetProfile?.id ?? "")

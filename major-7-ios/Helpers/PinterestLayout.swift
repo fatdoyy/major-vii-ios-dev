@@ -12,7 +12,7 @@ protocol PinterestLayoutDelegate: class {
     func collectionView(_ collectionView: UICollectionView, heightForPhotoAtIndexPath indexPath: IndexPath) -> CGFloat
 }
 
-class PinterestLayout: UICollectionViewLayout {
+class PinterestLayout: UICollectionViewFlowLayout {
     // Keeps reference to the delegate
     weak var delegate: PinterestLayoutDelegate?
     
@@ -40,7 +40,7 @@ class PinterestLayout: UICollectionViewLayout {
     
     override func prepare() {
         // calculate layout attributes if cache is empty and CV exists
-        guard cache.isEmpty == true, let collectionView = collectionView else { return }
+        guard let collectionView = collectionView else { return }
         
         // Declare & fill xOffset array for every column based on widths
         let columnWidth = contentWidth / CGFloat(numberOfColumns)
@@ -78,6 +78,11 @@ class PinterestLayout: UICollectionViewLayout {
             // Advance column so that next item will be placed in next column
             column = column < (numberOfColumns - 1) ? (column + 1) : 0
         }
+        
+        // Add Attributes for section footer
+//        let footerAtrributes = UICollectionViewLayoutAttributes(forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, with: IndexPath(item: 0, section: 0))
+//        footerAtrributes.frame = CGRect(x: 0, y: collectionView.bounds.maxY, width: UIScreen.main.bounds.width, height: NewsSectionFooter.height)
+//        cache.append(footerAtrributes)
     }
     
     // MARK: Override Attribute Methods
@@ -94,6 +99,10 @@ class PinterestLayout: UICollectionViewLayout {
         
         return visibleLayoutAttributes
     }
+    
+//    override func shouldInvalidateLayout(forBoundsChange newBounds: CGRect) -> Bool {
+//        return true
+//    }
     
     // Retrieve and return from cache the layout attributes which correspond to requested indexPath
     override func layoutAttributesForItem(at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {

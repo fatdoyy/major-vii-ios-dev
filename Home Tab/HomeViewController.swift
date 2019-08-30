@@ -184,9 +184,6 @@ extension HomeViewController {
         mainCollectionView.isUserInteractionEnabled = false
         PostService.getList(skip: skip, limit: limit).done { response -> () in
             self.posts.append(contentsOf: response.list)
-            //            if response.list.count < self.postsLimit || response.list.count == 0 {
-            //                self.gotMorePosts = false
-            //            }
             self.gotMorePosts = response.list.count < self.postsLimit || response.list.count == 0 ? false : true
             
             //set text attributes to content and add them to new array (i.e. attrContentArr)
@@ -219,12 +216,8 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if section == 0 { return 1 } else { // News|Posts section
             switch selectedSection {
-            case .News:
-                let count = news.isEmpty ? 3 : news.count
-                return count
-            case .Posts:
-                let count = posts.isEmpty ? 3 : posts.count
-                return count
+            case .News:     return news.isEmpty ? 3 : news.count
+            case .Posts:    return posts.isEmpty ? 3 : posts.count
             }
         }
     }
@@ -537,13 +530,13 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
             let section = indexPath.section
             switch section {
             case 1: //News/Post Section
-                let reusableView = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: NewsSectionHeader.reuseIdentifier, for: indexPath) as! NewsSectionHeader
-                reusableView.delegate = self
-                return reusableView
+                let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: NewsSectionHeader.reuseIdentifier, for: indexPath) as! NewsSectionHeader
+                headerView.delegate = self
+                return headerView
                 
             default: //case 0 i.e. App Title
-                let reusableView = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HomeHeaderView.reuseIdentifier, for: indexPath) as! HomeHeaderView
-                return reusableView
+                let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HomeHeaderView.reuseIdentifier, for: indexPath) as! HomeHeaderView
+                return headerView
             }
             
         case UICollectionView.elementKindSectionFooter:
