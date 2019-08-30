@@ -13,6 +13,31 @@ import ObjectMapper
 class BuskerService: BaseService {}
 
 extension BuskerService {
+    //get buskers by trend
+    static func getBuskersByTrend(skip: Int? = nil, limit: Int? = nil) -> Promise<BuskerList> {
+        var params: [String: Any] = [:]
+        if let skip = skip {
+            params["skip"] = skip
+        }
+        
+        if let limit = limit {
+            params["limit"] = limit
+        }
+        
+        return Promise { resolver in
+            request(method: .get, url: getActionPath(.buskersByTrend), params: params).done { response in
+                guard let list = Mapper<BuskerList>().map(JSONObject: response) else {
+                    resolver.reject(PMKError.cancelled)
+                    return
+                }
+                
+                resolver.fulfill(list)
+                }.catch { error in
+                    resolver.reject(error)
+            }
+        }
+    }
+    
     //busker profile details
     static func getProfileDetails(buskerID: String) -> Promise<BuskerProfile> {
         return Promise { resolver in

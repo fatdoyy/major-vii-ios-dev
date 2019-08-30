@@ -275,7 +275,9 @@ extension BuskerProfileViewController {
                 
                 pageControl.numberOfPages = profile.coverImages.count
                 
-                self.hashtagsCollectionView.snp.updateConstraints { (make) -> Void in
+                buskerTaglineLabel.text = profile.tagline
+                
+                hashtagsCollectionView.snp.updateConstraints { (make) -> Void in
                     make.height.equalTo(28)
                 }
 
@@ -503,10 +505,10 @@ extension BuskerProfileViewController {
         buskerTaglineLabel.numberOfLines = 1
         buskerTaglineLabel.font = UIFont.systemFont(ofSize: 16, weight: .light)
         buskerTaglineLabel.textColor = .lightGrayText()
-        buskerTaglineLabel.text = "Two men and a guitar?"
         mainScrollView.insertSubview(buskerTaglineLabel, aboveSubview: imgOverlay)
         buskerTaglineLabel.snp.makeConstraints { (make) -> Void in
             //make.width.equalToSuperview().inset(UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20))
+            make.width.equalTo(UIScreen.main.bounds.width - 40)
             make.left.equalToSuperview().offset(20)
             make.bottom.equalTo(buskerLabel.snp.top).offset(-5)
         }

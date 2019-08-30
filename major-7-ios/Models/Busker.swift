@@ -8,6 +8,20 @@
 
 import ObjectMapper
 
+class BuskerList: Mappable {
+    var skip: Int?
+    var limit: Int?
+    var list = [OrganizerProfile]()
+    
+    required init?(map: Map) {}
+    
+    func mapping(map: Map) {
+        skip    <- map["skip"]
+        limit   <- map["limit"]
+        list    <- map ["list"]
+    }
+}
+
 class BuskerProfile: Mappable {
     var requestUserIsAdmin: Bool?
     var item: BuskerProfileDetails?
@@ -23,6 +37,7 @@ class BuskerProfile: Mappable {
 class BuskerProfileDetails: Mappable {
     var type: Int?
     var name: String?
+    var tagline: String?
     var hashtags = [String]()
     var verified: Bool?
     var desc: String?
@@ -37,6 +52,7 @@ class BuskerProfileDetails: Mappable {
     func mapping(map: Map) {
         type        <- map["type"]
         name        <- map["name"]
+        tagline     <- map["tagline"]
         hashtags    <- map["hashtags"]
         verified    <- map["verified"]
         desc        <- map["desc"]
@@ -106,6 +122,7 @@ class OrganizerProfile: Mappable {
     var name: String?
     var type: Int?
     var verified: Bool?
+    var tagline: String?
     
     required init?(map: Map) {}
     
@@ -116,5 +133,6 @@ class OrganizerProfile: Mappable {
         name            <- map["name"]
         type            <- map["type"]
         verified        <- map["verified"]
+        tagline         <- map["tagline"]
     }
 }

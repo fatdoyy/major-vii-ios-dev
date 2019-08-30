@@ -22,11 +22,11 @@ class BuskersViewController: UIViewController {
     
     var searchController: UISearchController!
     
-    var buskers = [OrganizerProfileObject]() {
+    var buskers = [OrganizerProfile]() {
         didSet {
             imgHeight.removeAll()
             for busker in buskers {
-                let height = (busker.targetProfile?.coverImages[0].height)! / 2
+                let height = (busker.coverImages[0].height)! / 2
                 imgHeight.append(height)
             }
             print("imgHeight = \(imgHeight)")
@@ -41,7 +41,7 @@ class BuskersViewController: UIViewController {
         }
     }
     var imgHeight = [CGFloat]()
-    var buskersLimit = 5
+    var buskersLimit = 6
     var gotMoreBuskers = true
     
     var scaledImgArray = [UIImage]()
@@ -59,7 +59,7 @@ class BuskersViewController: UIViewController {
         //tabBarController?.delegate = self
         
         setupUI()
-        getCurrentUserFollowings(limit: 5)
+        getBuskersByTrend(limit: buskersLimit)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -94,9 +94,9 @@ class BuskersViewController: UIViewController {
 
 //MARK: - API Calls
 extension BuskersViewController {
-    func getCurrentUserFollowings(skip: Int? = nil, limit: Int? = nil, targetProfile: OrganizerProfile? = nil, targetType: Int? = nil) {
+    func getBuskersByTrend(skip: Int? = nil, limit: Int? = nil) {
         //mainCollectionView.isUserInteractionEnabled = false
-        UserService.getUserFollowings(skip: skip, limit: limit, targetProfile: targetProfile, targetType: targetType).done { response in
+        BuskerService.getBuskersByTrend(skip: skip, limit: limit).done { response in
             let randomArr = response.list.shuffled()
             self.buskers.append(contentsOf: randomArr)
             for _ in 0 ..< self.buskers.count {
@@ -285,32 +285,32 @@ extension BuskersViewController: UICollectionViewDelegate, UICollectionViewDataS
                 
                 //Gradient.createOverlay(cell: cell, imgHeight: imgHeight[indexPath.row])
                 
-                if let profile = buskers[indexPath.row].targetProfile {
-                    if let url = URL(string: profile.coverImages[0].secureUrl!) {
-                        cell.imgView.kf.setImage(with: url, options: [.transition(.fade(0.3))])
-                    }
-                    
-                    cell.buskerName.text = profile.name
-                    
-                    if profile.musicTypes.count > 1 && !profile.musicTypes.isEmpty {
-                        var genreStr = "\(profile.musicTypes.first ?? "")" //assign the first genre to string first
-                        var genres = profile.musicTypes
-                        genres.removeFirst() //then remove first genre and append the remainings
-                        for genre in genres {
-                            genreStr.append(", \(genre)")
-                        }
-                        cell.genre.text = genreStr.lowercased()
-                    } else if profile.musicTypes.count == 1 {
-                        cell.genre.text = profile.musicTypes.first?.lowercased()
-                    } else if profile.musicTypes.isEmpty {
-                        cell.genre.text = ""
-                    }
-                    
-                    cell.genre.textColor = randomColor[indexPath.row]
-                    UIView.animate(withDuration: 0.4) {
-                        cell.verifiedIcon.alpha = profile.verified ?? true ? 1 : 0
-                    }
+                let profile = buskers[indexPath.row]
+                if let url = URL(string: profile.coverImages[0].secureUrl!) {
+                    cell.imgView.kf.setImage(with: url, options: [.transition(.fade(0.3))])
                 }
+                
+                cell.buskerName.text = profile.name
+                
+                if profile.musicTypes.count > 1 && !profile.musicTypes.isEmpty {
+                    var genreStr = "\(profile.musicTypes.first ?? "")" //assign the first genre to string first
+                    var genres = profile.musicTypes
+                    genres.removeFirst() //then remove first genre and append the remainings
+                    for genre in genres {
+                        genreStr.append(", \(genre)")
+                    }
+                    cell.genre.text = genreStr.lowercased()
+                } else if profile.musicTypes.count == 1 {
+                    cell.genre.text = profile.musicTypes.first?.lowercased()
+                } else if profile.musicTypes.isEmpty {
+                    cell.genre.text = ""
+                }
+                
+                cell.genre.textColor = randomColor[indexPath.row]
+                UIView.animate(withDuration: 0.4) {
+                    cell.verifiedIcon.alpha = profile.verified ?? true ? 1 : 0
+                }
+                
             }
             return cell
             
@@ -322,12 +322,7 @@ extension BuskersViewController: UICollectionViewDelegate, UICollectionViewDataS
         if collectionView == mainCollectionView {
             if (indexPath.row == buskers.count - 1) {
                 print("Fetching buskers...")
-                gotMoreBuskers ? getCurrentUserFollowings(skip: buskers.count, limit: buskersLimit) : print("No more buskers to fetch!")
-                if gotMoreBuskers {
-
-                } else {
-                    print("No more buskers to fetch!")
-                }
+                gotMoreBuskers ? getBuskersByTrend(skip: buskers.count, limit: buskersLimit) : print("No more buskers to fetch!")
 
             }
         }
@@ -353,7 +348,7 @@ extension BuskersViewController: UICollectionViewDelegate, UICollectionViewDataS
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if collectionView == mainCollectionView {
-            BuskerProfileViewController.push(from: self, buskerName: buskers[indexPath.row].targetProfile?.name ?? "", buskerID: buskers[indexPath.row].targetProfile?.id ?? "")
+            BuskerProfileViewController.push(from: self, buskerName: buskers[indexPath.row].name ?? "", buskerID: buskers[indexPath.row].id ?? "")
         }
     }
     

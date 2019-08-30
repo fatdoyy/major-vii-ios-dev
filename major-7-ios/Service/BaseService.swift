@@ -63,8 +63,8 @@ class BaseService: NSObject {
             
             
         //Profile
-        case .buskerRanking:
-            actionPathStr = "profiles/trendRanking"
+        case .buskersByTrend:
+            actionPathStr = "profiles/trend"
         case .buskerProfile(let buskerID):
             actionPathStr = "profiles/\(buskerID)"
         case .buskerEvents(let buskerID):
@@ -206,7 +206,7 @@ extension BaseService {
         case updatePassword
         
         //Busker
-        case buskerRanking
+        case buskersByTrend
         case buskerProfile(buskerID: String)
         case buskerEvents(buskerID: String)
         case buskerPosts(buskerID: String)
