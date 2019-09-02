@@ -26,11 +26,7 @@ enum isFollowingBusker {
 class BuskerProfileViewController: UIViewController {
     static let storyboardId = "buskerProfileVC"
     
-    var buskerName = "" {
-        didSet {
-            print("buskerName is set! \(buskerName)")
-        }
-    }
+    var buskerName = ""
     
     var buskerID = "" {
         didSet {
@@ -43,7 +39,6 @@ class BuskerProfileViewController: UIViewController {
     
     var buskerDetails: BuskerProfile? {
         didSet {
-            print("Details arrived!!!\n\(String(describing: buskerDetails?.item?.name))")
             imgCollectionView.infiniteLayout.isEnabled = (buskerDetails?.item?.coverImages.count)! > 1
             loadProfileDetails()
         }
@@ -79,14 +74,20 @@ class BuskerProfileViewController: UIViewController {
     let imgOverlay = UIView()
     
     let pageControl = CHIPageControlJaloro(frame: CGRect(x: 0, y: 0, width: 100, height: 10))
-    var buskerLabel = UILabel()
+    
     var buskerTaglineLabel = UILabel()
+    var buskerLabel = UILabel()
+    
+    var verifiedBg = UIView()
+    var verifiedIcon = UIImageView()
+    var verifiedText = UIImageView()
     
     var hashtagsCollectionView: UICollectionView!
     
     var followBtn = UIButton()
     var isFollowing = isFollowingBusker.No //default no
     
+    //stats section
     var statsBgView = UIView()
     var statsGradientBg = PastelView()
     var statsFollowersCount = UILabel()
@@ -169,7 +170,7 @@ class BuskerProfileViewController: UIViewController {
         
         setupImgCollectionView()
         setupOverlay()
-        setupLabels()
+        setupBuskerLabels()
         setupPageControl()
         setupHashtagsCollectionView()
         
@@ -226,7 +227,6 @@ extension BuskerProfileViewController {
                 for object in response.list {
                     if object.targetProfile?.id == self.buskerID {
                         self.isFollowing = .Yes
-                        print("Busker \(self.buskerID) is already followed")
                         self.followBtn.backgroundColor = .mintGreen()
                         self.followBtn.setTitle("Following", for: .normal)
                         
@@ -238,7 +238,6 @@ extension BuskerProfileViewController {
             }
             }.ensure {
                 if self.isFollowing == .No {
-                    print("not following")
                     self.followBtn.setTitle("Follow", for: .normal)
                     
                     UIView.animate(withDuration: 0.3, animations: {
@@ -277,6 +276,12 @@ extension BuskerProfileViewController {
                 
                 buskerTaglineLabel.text = profile.tagline
                 
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
+                    UIView.animate(withDuration: 0.2) {
+                        self.verifiedBg.alpha = profile.verified ?? true ? 1 : 0
+                    }
+                }
+
                 hashtagsCollectionView.snp.updateConstraints { (make) -> Void in
                     make.height.equalTo(28)
                 }
@@ -361,11 +366,11 @@ extension BuskerProfileViewController {
                 }
                 
                 //adjust mainScrollView height on different screen size
-                /*  height =   imgCollectionViewHeight + hashtagsCollecitonViewHeight (with top padding) +
-                    actionBtnHeight (with top padding) + statsHeight (with top padding) +
-                    profileHeight (with top padding) + membersSectionHeight (with top padding) +
-                    liveHeight (with top padding) + eventsHeight (with top padding) +
-                    postsHeight (with top padding) + footerHeight (with top padding) + bottom padding   */
+                /*  height =    imgCollectionViewHeight + hashtagsCollecitonViewHeight (with top padding) +
+                                actionBtnHeight (with top padding) + statsHeight (with top padding) +
+                                profileHeight (with top padding) + membersSectionHeight (with top padding) +
+                                liveHeight (with top padding) + eventsHeight (with top padding) +
+                                postsHeight (with top padding) + footerHeight (with top padding) + bottom padding   */
                 if UIDevice.current.hasHomeButton {
                     if profile.members.isEmpty {
                         let height = imgCollectionViewHeight + 43 + 60 + 100 + (profileBgViewHeight + 20) + 140 + 294 + 520 + 86
@@ -487,7 +492,7 @@ extension BuskerProfileViewController {
         dismiss(animated: true, completion: nil)
     }
     
-    private func setupLabels() {
+    private func setupBuskerLabels() {
         buskerLabel.textAlignment = .left
         buskerLabel.numberOfLines = 1
         buskerLabel.font = UIFont.systemFont(ofSize: 28, weight: .bold)
@@ -513,6 +518,34 @@ extension BuskerProfileViewController {
             make.bottom.equalTo(buskerLabel.snp.top).offset(-5)
         }
         viewsToShowLater.append(buskerTaglineLabel)
+        
+        verifiedIcon.image = UIImage(named: "icon_verified")
+        verifiedBg.addSubview(verifiedIcon)
+        verifiedIcon.snp.makeConstraints { (make) in
+            make.size.equalTo(18)
+            make.centerY.equalToSuperview()
+            make.left.equalTo(5)
+        }
+
+        verifiedText.image = UIImage(named: "icon_verified_text")
+        verifiedBg.addSubview(verifiedText)
+        verifiedText.snp.makeConstraints { (make) in
+            make.centerY.equalToSuperview()
+            make.width.equalTo(51)
+            make.height.equalTo(11)
+            make.left.equalTo(verifiedIcon.snp.right).offset(6)
+        }
+        
+        verifiedBg.alpha = 0
+        verifiedBg.layer.cornerRadius = 14
+        verifiedBg.backgroundColor = UIColor(hexString: "#6aab39")
+        mainScrollView.insertSubview(verifiedBg, aboveSubview: imgOverlay)
+        verifiedBg.snp.makeConstraints { (make) in
+            make.centerY.equalTo(buskerLabel)
+            make.width.equalTo(86)
+            make.height.equalTo(28)
+            make.left.equalTo(buskerLabel.snp.right).offset(6)
+        }
     }
     
     private func setupPageControl() {
@@ -823,7 +856,6 @@ extension BuskerProfileViewController {
         
         membersLabel.textColor = .white
         membersLabel.font = UIFont.systemFont(ofSize: 20, weight: .semibold)
-        membersLabel.text = "Members (6)"
         membersBgView.addSubview(membersLabel)
         membersLabel.snp.makeConstraints { (make) -> Void in
             make.top.equalTo(14)
