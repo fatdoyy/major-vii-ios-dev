@@ -48,12 +48,18 @@ class BuskerProfileViewController: UIViewController {
     
     var buskerEvents: BuskerEventsList? {
         didSet {
+            if let count = buskerEvents?.list.count {
+                statsEventsCount.text = String(describing: count)
+            }
             eventsCollectionView.reloadData()
         }
     }
     
     var buskerPosts: BuskerPostsList?  {
         didSet {
+            if let count = buskerPosts?.list.count {
+                statsPostsCount.text = String(describing: count)
+            }
             postsCollectionView.reloadData()
         }
     }
@@ -83,9 +89,11 @@ class BuskerProfileViewController: UIViewController {
     var verifiedText = UIImageView()
     
     var hashtagsCollectionView: UICollectionView!
+    var hashtagsCollecitonViewHeightWithTopPadding: CGFloat = 43
     
     var followBtn = UIButton()
     var isFollowing = isFollowingBusker.No //default no
+    var btnHeightWithTopPadding: CGFloat = 60
     
     //stats section
     var statsBgView = UIView()
@@ -96,6 +104,7 @@ class BuskerProfileViewController: UIViewController {
     var statsPostsLabel = UILabel()
     var statsEventsCount = UILabel()
     var statsEventsLabel = UILabel()
+    var statsSectionHeightWithTopPadding: CGFloat = 100
     
     //profile section
     var profileBgView = UIView()
@@ -110,28 +119,33 @@ class BuskerProfileViewController: UIViewController {
     var membersLabel = UILabel()
     var membersLineView = UIView()
     var membersCollectionView: UICollectionView!
+    var membersSectionHeightWithTopPadding: CGFloat = 213
    
     //live/works section
     var liveBgView = UIView()
     var liveLabel = UILabel()
     var liveLineView = UIView()
     var liveCollectionView: UICollectionView!
+    var liveSectionHeightWithTopPadding: CGFloat = 140
     
     //events section
     var eventsBgView = UIView()
     var eventsLabel = UILabel()
     var eventsLineView = UIView()
     var eventsCollectionView: UICollectionView!
+    var eventsSectionHeightWithTopPadding: CGFloat = 294
     
     //posts section
     var postsBgView = UIView()
     var postsLabel = UILabel()
     var postsLineView = UIView()
     var postsCollectionView: UICollectionView!
+    var postsSectionHeightWithTopPadding: CGFloat = 520
     
     //footer section
     var copyrightLabel = UILabel()
     var sepLine = UIView()
+    var footerSectionHeight: CGFloat = 86
     
     //views to show later array
     var viewsToShowLater = [UIView]()
@@ -161,9 +175,6 @@ class BuskerProfileViewController: UIViewController {
         super.viewDidLoad()
         
         gesture?.delegate = self
-        followBtnLoadingIndicator.startAnimating()
-        statsLoadingIndicator.startAnimating()
-        profileLoadingIndicator.startAnimating()
         
         updatesStatusBarAppearanceAutomatically = true
         view.backgroundColor = .m7DarkGray()
@@ -194,6 +205,10 @@ class BuskerProfileViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        followBtnLoadingIndicator.startAnimating()
+        statsLoadingIndicator.startAnimating()
+        profileLoadingIndicator.startAnimating()
+        
         if !isModal {
             TabBar.hide(from: self)
         } else {
@@ -270,32 +285,34 @@ extension BuskerProfileViewController {
     private func loadProfileDetails() {
         if let details = buskerDetails {
             if let profile = details.item {
+                //load images
                 imgCollectionView.reloadData()
                 
+                //setup img page control
                 pageControl.numberOfPages = profile.coverImages.count
                 
+                //tagline
                 buskerTaglineLabel.text = profile.tagline
                 
+                //verified state
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
-                    UIView.animate(withDuration: 0.2) {
+                    UIView.animate(withDuration: 0.3) {
                         self.verifiedBg.alpha = profile.verified ?? true ? 1 : 0
                     }
                 }
 
+                //hashtags
                 hashtagsCollectionView.snp.updateConstraints { (make) -> Void in
                     make.height.equalTo(28)
                 }
-
-                for genre in profile.genres {
-                    hashtagsArray.append(genre)
-                }
-                
-                for hashtag in profile.hashtags {
-                    hashtagsArray.append(hashtag)
-                }
-                
+                for genre in profile.genres { hashtagsArray.append(genre) }
+                for hashtag in profile.hashtags { hashtagsArray.append(hashtag) }
                 hashtagsCollectionView.reloadData()
                 
+                //stats
+
+                
+                //busker description
                 descString = profile.desc!
                 
                 let paragraphStyle = NSMutableParagraphStyle()
@@ -328,6 +345,7 @@ extension BuskerProfileViewController {
                     make.height.equalTo(profileBgViewHeight)
                 }
                 
+                //members
                 if !profile.members.isEmpty {
                     membersLabel.text = "Members (\(profile.members.count))"
                     membersCollectionView.reloadData()
@@ -341,16 +359,6 @@ extension BuskerProfileViewController {
                         make.centerX.equalToSuperview()
                         make.width.equalTo(screenWidth - 40)
                         make.height.equalTo(120)
-                    }
-                }
-                
-                UIView.animate(withDuration: 0.3) {
-                    self.view.layoutIfNeeded()
-                }
-                
-                for view in viewsToShowLater {
-                    UIView.animate(withDuration: 0.3) {
-                        view.alpha = 1
                     }
                 }
                 
@@ -373,19 +381,29 @@ extension BuskerProfileViewController {
                                 postsHeight (with top padding) + footerHeight (with top padding) + bottom padding   */
                 if UIDevice.current.hasHomeButton {
                     if profile.members.isEmpty {
-                        let height = imgCollectionViewHeight + 43 + 60 + 100 + (profileBgViewHeight + 20) + 140 + 294 + 520 + 86
+                        let height = imgCollectionViewHeight + hashtagsCollecitonViewHeightWithTopPadding + btnHeightWithTopPadding + statsSectionHeightWithTopPadding + (profileBgViewHeight + 20) + liveSectionHeightWithTopPadding + eventsSectionHeightWithTopPadding + postsSectionHeightWithTopPadding + footerSectionHeight
                         mainScrollView.contentSize = CGSize(width: screenWidth, height: height)
                     } else {
-                        let height = imgCollectionViewHeight + 43 + 60 + 100 + (profileBgViewHeight + 20) + 213 + 140 + 294 + 520 + 86
+                        let height = imgCollectionViewHeight + hashtagsCollecitonViewHeightWithTopPadding + btnHeightWithTopPadding + statsSectionHeightWithTopPadding + (profileBgViewHeight + 20) + membersSectionHeightWithTopPadding + liveSectionHeightWithTopPadding + eventsSectionHeightWithTopPadding + postsSectionHeightWithTopPadding + footerSectionHeight
                         mainScrollView.contentSize = CGSize(width: screenWidth, height: height)
                     }
-                } else {
+                } else { //add extra 20 padding if device is iPhone X/XR/XS/XS Max
                     if profile.members.isEmpty {
-                        let height = imgCollectionViewHeight + 43 + 60 + 100 + (profileBgViewHeight + 20) + 140 + 294 + 520 + 106
+                        let height = imgCollectionViewHeight + hashtagsCollecitonViewHeightWithTopPadding + btnHeightWithTopPadding + statsSectionHeightWithTopPadding + (profileBgViewHeight + 20) + liveSectionHeightWithTopPadding + eventsSectionHeightWithTopPadding + postsSectionHeightWithTopPadding + footerSectionHeight + 20
                         mainScrollView.contentSize = CGSize(width: screenWidth, height: height)
                     } else {
-                        let height = imgCollectionViewHeight + 43 + 60 + 100 + (profileBgViewHeight + 20) + 213 + 140 + 294 + 520 + 106
+                        let height = imgCollectionViewHeight + hashtagsCollecitonViewHeightWithTopPadding + btnHeightWithTopPadding + statsSectionHeightWithTopPadding + (profileBgViewHeight + 20) + membersSectionHeightWithTopPadding + liveSectionHeightWithTopPadding + eventsSectionHeightWithTopPadding + postsSectionHeightWithTopPadding + footerSectionHeight + 20
                         mainScrollView.contentSize = CGSize(width: screenWidth, height: height)
+                    }
+                }
+                
+                UIView.animate(withDuration: 0.3) {
+                    self.view.layoutIfNeeded()
+                }
+                
+                for view in viewsToShowLater {
+                    UIView.animate(withDuration: 0.3) {
+                        view.alpha = 1
                     }
                 }
             }
@@ -674,14 +692,7 @@ extension BuskerProfileViewController {
         
         statsGradientBg.frame = CGRect(x: 0, y: 0, width: screenWidth - 40, height: 80)
         statsGradientBg.animationDuration = 2.5
-        statsGradientBg.setColors([UIColor(red: 156/255, green: 39/255, blue: 176/255, alpha: 1.0),
-                              UIColor(red: 255/255, green: 64/255, blue: 129/255, alpha: 1.0),
-                              UIColor(red: 123/255, green: 31/255, blue: 162/255, alpha: 1.0),
-                              UIColor(red: 32/255, green: 76/255, blue: 255/255, alpha: 1.0),
-                              UIColor(red: 32/255, green: 158/255, blue: 255/255, alpha: 1.0),
-                              UIColor(red: 90/255, green: 120/255, blue: 127/255, alpha: 1.0),
-                              UIColor(red: 58/255, green: 255/255, blue: 217/255, alpha: 1.0)])
-        
+        statsGradientBg.setColors([UIColor(hexString:"#3c1053"), UIColor(hexString:"#c94b4b")])
         statsGradientBg.startAnimation()
         
         statsBgView.insertSubview(statsGradientBg, at: 0)
@@ -699,7 +710,7 @@ extension BuskerProfileViewController {
         
         statsFollowersCount.alpha = 0
         statsFollowersCount.textColor = .white
-        statsFollowersCount.text = "12k+"
+        statsFollowersCount.text = "0"
         statsFollowersCount.textAlignment = .center
         statsFollowersCount.font = UIFont.systemFont(ofSize: 21, weight: .semibold)
         statsBgView.addSubview(statsFollowersCount)
@@ -727,7 +738,7 @@ extension BuskerProfileViewController {
         
         statsPostsCount.alpha = 0
         statsPostsCount.textColor = .white
-        statsPostsCount.text = "65"
+        statsPostsCount.text = "0"
         statsPostsCount.textAlignment = .center
         statsPostsCount.font = UIFont.systemFont(ofSize: 21, weight: .semibold)
         statsBgView.addSubview(statsPostsCount)
@@ -755,7 +766,7 @@ extension BuskerProfileViewController {
 
         statsEventsCount.alpha = 0
         statsEventsCount.textColor = .white
-        statsEventsCount.text = "10"
+        statsEventsCount.text = "0"
         statsEventsCount.textAlignment = .center
         statsEventsCount.font = UIFont.systemFont(ofSize: 21, weight: .semibold)
         statsBgView.addSubview(statsEventsCount)
@@ -855,6 +866,7 @@ extension BuskerProfileViewController {
         }
         
         membersLabel.textColor = .white
+        membersLabel.text = "Members"
         membersLabel.font = UIFont.systemFont(ofSize: 20, weight: .semibold)
         membersBgView.addSubview(membersLabel)
         membersLabel.snp.makeConstraints { (make) -> Void in
@@ -866,7 +878,6 @@ extension BuskerProfileViewController {
         
         setupMembersCollectionView()
     }
-    
     
     private func setupMembersCollectionView() {
         let layout: UICollectionViewFlowLayout = BouncyLayout()

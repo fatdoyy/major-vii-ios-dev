@@ -307,9 +307,7 @@ extension BuskersViewController: UICollectionViewDelegate, UICollectionViewDataS
                 }
                 
                 cell.genre.textColor = randomColor[indexPath.row]
-                UIView.animate(withDuration: 0.4) {
-                    cell.verifiedIcon.alpha = profile.verified ?? true ? 1 : 0
-                }
+                cell.verifiedIcon.alpha = profile.verified ?? true ? 1 : 0
                 
             }
             return cell
@@ -323,7 +321,6 @@ extension BuskersViewController: UICollectionViewDelegate, UICollectionViewDataS
             if (indexPath.row == buskers.count - 1) {
                 print("Fetching buskers...")
                 gotMoreBuskers ? getBuskersByTrend(skip: buskers.count, limit: buskersLimit) : print("No more buskers to fetch!")
-
             }
         }
     }

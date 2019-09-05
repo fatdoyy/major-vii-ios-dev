@@ -437,9 +437,7 @@ extension FollowingSection: UICollectionViewDataSource, UICollectionViewDelegate
                 UIView.animate(withDuration: 0.4) {
                     cell.premiumBadge.alpha = self.boolArr[indexPath.row] == 1 ? 1 : 0
                 }
-                UIView.animate(withDuration: 0.4) {
-                    cell.verifiedIcon.alpha = self.userFollowingsEvents[indexPath.row].organizerProfile?.verified ?? true ? 1 : 0
-                }
+                cell.verifiedIcon.alpha = self.userFollowingsEvents[indexPath.row].organizerProfile?.verified ?? true ? 1 : 0
                 
                 //detemine bookmarkBtn bg color
                 checkBookmarkBtnState(cell: cell, indexPath: indexPath)

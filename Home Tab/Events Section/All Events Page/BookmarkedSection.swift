@@ -419,9 +419,8 @@ extension BookmarkedSection: UICollectionViewDataSource, UICollectionViewDelegat
                 UIView.animate(withDuration: 0.4) {
                     cell.premiumBadge.alpha = self.boolArr[indexPath.row] == 1 ? 1 : 0
                 }
-                UIView.animate(withDuration: 0.4) {
-                    cell.verifiedIcon.alpha = self.bookmarkedEvents[indexPath.row].targetEvent?.organizerProfile?.verified ?? true ? 1 : 0
-                }
+                cell.verifiedIcon.alpha = self.bookmarkedEvents[indexPath.row].targetEvent?.organizerProfile?.verified ?? true ? 1 : 0
+                
             }
         }
         return cell

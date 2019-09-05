@@ -29,6 +29,7 @@
                 <outlet property="titleLabel" destination="eW8-AA-gTc" id="bsU-fl-V5J"/>
                 <outlet property="venueLabel" destination="DRX-o6-eb2" id="Fi6-x5-xfX"/>
                 <outlet property="venueTitleLabel" destination="Cia-k0-s8d" id="fiV-7N-eef"/>
+                <outlet property="verifiedIcon" destination="gEB-cK-fs3" id="irL-VP-05U"/>
                 <outlet property="webLabel" destination="IcA-O6-2P0" id="Vyj-rr-tc7"/>
                 <outlet property="webTitleLabel" destination="rFO-Jx-a7a" id="8fV-ws-eoa"/>
                 <outletCollection property="viewsToShowLater" destination="ayP-3G-BSj" collectionClass="NSMutableArray" id="iKG-hj-EzD"/>
@@ -69,6 +70,13 @@
                         <outletCollection property="gestureRecognizers" destination="whr-Yp-YU5" appends="YES" id="giH-T7-sWo"/>
                     </connections>
                 </label>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_verified_green" translatesAutoresizingMaskIntoConstraints="NO" id="gEB-cK-fs3">
+                    <rect key="frame" x="60" y="77" width="12" height="12"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="12" id="Kju-KA-Q2J"/>
+                        <constraint firstAttribute="width" constant="12" id="vim-QM-j4I"/>
+                    </constraints>
+                </imageView>
                 <collectionView multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="ayP-3G-BSj">
                     <rect key="frame" x="0.0" y="104" width="375" height="28"/>
                     <constraints>
@@ -210,6 +218,7 @@
                 <constraint firstItem="r6D-gr-ciZ" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="20" id="Yto-Wj-7lW"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="a4D-dS-swh" secondAttribute="trailing" constant="20" id="Z4U-oo-X1T"/>
                 <constraint firstItem="eW8-AA-gTc" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="20" id="cxa-fZ-aPr"/>
+                <constraint firstItem="gEB-cK-fs3" firstAttribute="top" secondItem="eW8-AA-gTc" secondAttribute="bottom" constant="13" id="daL-u0-u8K"/>
                 <constraint firstItem="eW8-AA-gTc" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="20" id="dvB-WU-otU"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="eW8-AA-gTc" secondAttribute="trailing" constant="89" id="eKv-Kx-psA"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="8h0-lt-YzF" secondAttribute="trailing" constant="24" id="eP4-Hn-bZW"/>
@@ -222,6 +231,7 @@
                 <constraint firstItem="ayP-3G-BSj" firstAttribute="trailing" secondItem="vUN-kp-3ea" secondAttribute="trailing" id="nqs-oM-ZQK"/>
                 <constraint firstItem="IcA-O6-2P0" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="20" id="p4P-JT-CTt"/>
                 <constraint firstItem="dqa-dI-bS4" firstAttribute="top" secondItem="eW8-AA-gTc" secondAttribute="top" constant="15" id="pXT-SF-NdT"/>
+                <constraint firstItem="gEB-cK-fs3" firstAttribute="leading" secondItem="ntD-tk-Z5d" secondAttribute="trailing" constant="4" id="shk-a5-Rom"/>
                 <constraint firstItem="i2a-JN-Gcd" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="20" id="tCr-Ky-Jz7"/>
                 <constraint firstItem="Cia-k0-s8d" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="20" id="tv1-nT-XcP"/>
                 <constraint firstItem="IcA-O6-2P0" firstAttribute="top" secondItem="rFO-Jx-a7a" secondAttribute="bottom" constant="5" id="x7P-Sz-21k"/>
@@ -240,5 +250,6 @@
     <resources>
         <image name="eventdetails_bookmarked_1" width="64" height="64"/>
         <image name="eventdetails_user" width="16" height="16"/>
+        <image name="icon_verified_green" width="12" height="12"/>
     </resources>
 </document>

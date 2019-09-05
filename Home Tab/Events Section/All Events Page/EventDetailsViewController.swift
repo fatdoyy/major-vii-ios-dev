@@ -197,6 +197,7 @@ class EventDetailsViewController: UIViewController {
 
         bgView.titleLabel.text = eventDetails!.item?.title
         bgView.performerLabel.text = eventDetails!.item?.organizerProfile?.name
+        bgView.verifiedIcon.alpha = eventDetails!.item?.organizerProfile?.verified ?? true ? 1 : 0
         
         bgView.hashtagsArray = (eventDetails?.item?.hashtags)!
         bgView.hashtagsCollectionView.reloadData()

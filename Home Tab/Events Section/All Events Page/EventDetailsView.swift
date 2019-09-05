@@ -30,6 +30,7 @@ class EventDetailsView: UIView {
     
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var performerLabel: UILabel!
+    @IBOutlet weak var verifiedIcon: UIImageView!
     
     @IBOutlet weak var hashtagsCollectionView: UICollectionView!
     @IBOutlet weak var dummyTagLabel: UILabel! //a dummy view to show skeleton view, will removeFromSuperview later
@@ -75,6 +76,7 @@ class EventDetailsView: UIView {
         addSubview(contentView)
         contentView.frame = self.bounds
         contentView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        verifiedIcon.alpha = 0
         
         contentView.backgroundColor = .m7DarkGray()
         contentView.layer.cornerRadius = GlobalCornerRadius.value + 4
