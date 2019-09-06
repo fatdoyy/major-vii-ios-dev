@@ -104,16 +104,16 @@ extension BuskerService {
         }
     }
     
-    //busker profile follower list
-    static func getBuskerFollowings(buskerID: String) -> Promise<BuskerPostsList> {
+    //busker profile followers list
+    static func getBuskerFollowings(buskerID: String) -> Promise<BuskerFollowingsList> {
         return Promise { resolver in
             request(method: .get, url: getActionPath(.buskerFollowers(buskerID: buskerID))).done { response in
-                guard let upcomingEvent = Mapper<BuskerPostsList>().map(JSONObject: response) else {
+                guard let list = Mapper<BuskerFollowingsList>().map(JSONObject: response) else {
                     resolver.reject(PMKError.cancelled)
                     return
                 }
                 
-                resolver.fulfill(upcomingEvent)
+                resolver.fulfill(list)
                 }.catch { error in
                     resolver.reject(error)
             }

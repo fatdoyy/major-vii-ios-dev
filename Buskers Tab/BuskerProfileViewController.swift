@@ -32,6 +32,7 @@ class BuskerProfileViewController: UIViewController {
         didSet {
             checkIsFollowing(buskerID: buskerID)
             getProfileDetails(buskerID: buskerID)
+            getBuskerFollowings(buskerID: buskerID)
             getBuskerEvents(buskerID: buskerID)
             getBuskerPosts(buskerID: buskerID)
         }
@@ -250,6 +251,14 @@ extension BuskerProfileViewController {
             }.catch { error in }
     }
 
+    private func getBuskerFollowings(buskerID: String) {
+        BuskerService.getBuskerFollowings(buskerID: buskerID).done { response -> () in
+                self.statsFollowersCount.text = "\(response.list.count)"
+            }.ensure {
+                UIApplication.shared.isNetworkActivityIndicatorVisible = false
+            }.catch { error in }
+    }
+    
     private func getBuskerEvents(buskerID: String) {
         BuskerService.getBuskerEvents(buskerID: buskerID).done { events -> () in
             if !events.list.isEmpty {
@@ -274,7 +283,7 @@ extension BuskerProfileViewController {
             }
             self.statsEventsCount.text = String(describing: events.list.count)
             self.eventsLabel.text = "Events (\(events.list.count))"
-
+            
             }.ensure {
                 UIApplication.shared.isNetworkActivityIndicatorVisible = false
             }.catch { error in }

@@ -136,3 +136,48 @@ class OrganizerProfile: Mappable {
         tagline         <- map["tagline"]
     }
 }
+
+//Busker Followings
+class BuskerFollowingsList: Mappable {
+    var profileID: String?
+    var skip: Int?
+    var limit: Int?
+    var list = [BuskerFollowingsObject]()
+    
+    required init?(map: Map) {}
+    
+    func mapping(map: Map) {
+        profileID   <- map["profile_id"]
+        skip        <- map["skip"]
+        limit       <- map["limit"]
+        list        <- map["list"]
+    }
+}
+
+class BuskerFollowingsObject: Mappable {
+    var id: String?
+    var user: FollowingUser?
+    var createTime: String?
+    
+    required init?(map: Map) {}
+    
+    func mapping(map: Map) {
+        id          <- map["_id"]
+        user        <- map["user"]
+        createTime  <- map["create_time"]
+    }
+}
+
+class FollowingUser: Mappable {
+    var id: String?
+    var username: String?
+    var displayName: String?
+    
+    required init?(map: Map) {}
+    
+    func mapping(map: Map) {
+        id          <- map["_id"]
+        username    <- map["username"]
+        displayName <- map["display_name"]
+    }
+}
