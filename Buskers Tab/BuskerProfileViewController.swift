@@ -46,23 +46,9 @@ class BuskerProfileViewController: UIViewController {
     
     var hashtagsArray = [String]()
     
-    var buskerEvents: BuskerEventsList? {
-        didSet {
-            if let count = buskerEvents?.list.count {
-                statsEventsCount.text = String(describing: count)
-            }
-            eventsCollectionView.reloadData()
-        }
-    }
+    var buskerEvents: BuskerEventsList?
     
-    var buskerPosts: BuskerPostsList?  {
-        didSet {
-            if let count = buskerPosts?.list.count {
-                statsPostsCount.text = String(describing: count)
-            }
-            postsCollectionView.reloadData()
-        }
-    }
+    var buskerPosts: BuskerPostsList?
     
     //gesture for swipe-pop
     var gesture: UIGestureRecognizer?
@@ -266,8 +252,29 @@ extension BuskerProfileViewController {
 
     private func getBuskerEvents(buskerID: String) {
         BuskerService.getBuskerEvents(buskerID: buskerID).done { events -> () in
-            self.buskerEvents = events
-            
+            if !events.list.isEmpty {
+                self.buskerEvents = events
+                self.eventsCollectionView.reloadData()
+            } else {
+                self.eventsCollectionView.alpha = 0
+                let emptyLabel = UILabel()
+                emptyLabel.text = "No Events"
+                emptyLabel.font = UIFont.systemFont(ofSize: 16, weight: .semibold)
+                emptyLabel.textColor = .darkGray
+                self.eventsBgView.addSubview(emptyLabel)
+                emptyLabel.snp.makeConstraints({ (make) in
+                    make.centerX.equalToSuperview()
+                    make.centerY.equalToSuperview().offset(15)
+                })
+                self.eventsSectionHeightWithTopPadding = 120
+                
+                self.eventsBgView.snp.updateConstraints({ (make) in
+                    make.height.equalTo(100)
+                })
+            }
+            self.statsEventsCount.text = String(describing: events.list.count)
+            self.eventsLabel.text = "Events (\(events.list.count))"
+
             }.ensure {
                 UIApplication.shared.isNetworkActivityIndicatorVisible = false
             }.catch { error in }
@@ -275,7 +282,28 @@ extension BuskerProfileViewController {
     
     private func getBuskerPosts(buskerID: String) {
         BuskerService.getBuskerPosts(buskerID: buskerID).done { posts -> () in
-            self.buskerPosts = posts
+            if !posts.list.isEmpty {
+                self.buskerPosts = posts
+                self.postsCollectionView.reloadData()
+            } else {
+                self.postsCollectionView.alpha = 0
+                let emptyLabel = UILabel()
+                emptyLabel.text = "No Posts"
+                emptyLabel.font = UIFont.systemFont(ofSize: 16, weight: .semibold)
+                emptyLabel.textColor = .darkGray
+                self.postsBgView.addSubview(emptyLabel)
+                emptyLabel.snp.makeConstraints({ (make) in
+                    make.centerX.equalToSuperview()
+                    make.centerY.equalToSuperview().offset(15)
+                })
+                self.postsSectionHeightWithTopPadding = 120
+                
+                self.postsBgView.snp.updateConstraints({ (make) in
+                    make.height.equalTo(100)
+                })
+            }
+            self.statsPostsCount.text = String(describing: posts.list.count)
+            self.postsLabel.text = "Posts (\(posts.list.count))"
             
             }.ensure {
                 UIApplication.shared.isNetworkActivityIndicatorVisible = false
