@@ -148,6 +148,7 @@
 		96EA375321B528E900E9DB74 /* DetailsImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96EA375121B528E900E9DB74 /* DetailsImageCell.swift */; };
 		96EA375421B528E900E9DB74 /* DetailsImageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96EA375221B528E900E9DB74 /* DetailsImageCell.xib */; };
 		96EA375621B66BBC00E9DB74 /* ImageViewerHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96EA375521B66BBC00E9DB74 /* ImageViewerHelper.swift */; };
+		96EFC1CD232BA33000D65C0A /* UIStatusBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96EFC1CC232BA33000D65C0A /* UIStatusBar.swift */; };
 		96F37324224B96AC0088E142 /* BookmarkedEventsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96F37323224B96AC0088E142 /* BookmarkedEventsViewController.swift */; };
 		96F37326224BA1610088E142 /* FloatingPanelSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96F37325224BA1610088E142 /* FloatingPanelSettings.swift */; };
 		96F37329224C9B280088E142 /* BookmarkedEventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96F37327224C9B280088E142 /* BookmarkedEventCell.swift */; };
@@ -261,7 +262,7 @@
 		967BD33E2240C00300469CF9 /* PinterestLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinterestLayout.swift; sourceTree = "<group>"; };
 		967BD3402240E60200469CF9 /* BuskerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuskerCell.swift; sourceTree = "<group>"; };
 		967BD3412240E60200469CF9 /* BuskerCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BuskerCell.xib; sourceTree = "<group>"; };
-		9680373522509E8700A9C65F /* CREDC___.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = CREDC___.ttf; sourceTree = "<group>"; };
+		9680373522509E8700A9C65F /* CREDC___.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "CREDC___.ttf"; sourceTree = "<group>"; };
 		96862EB8219ACE1F00F709B0 /* EventDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDetailsViewController.swift; sourceTree = "<group>"; };
 		96862EBA219AD8AC00F709B0 /* TabBarToggle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarToggle.swift; sourceTree = "<group>"; };
 		9688DA8E22859D0100CCE925 /* PostService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostService.swift; sourceTree = "<group>"; };
@@ -312,6 +313,7 @@
 		96EA375121B528E900E9DB74 /* DetailsImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsImageCell.swift; sourceTree = "<group>"; };
 		96EA375221B528E900E9DB74 /* DetailsImageCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DetailsImageCell.xib; sourceTree = "<group>"; };
 		96EA375521B66BBC00E9DB74 /* ImageViewerHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewerHelper.swift; sourceTree = "<group>"; };
+		96EFC1CC232BA33000D65C0A /* UIStatusBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIStatusBar.swift; sourceTree = "<group>"; };
 		96F37323224B96AC0088E142 /* BookmarkedEventsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkedEventsViewController.swift; sourceTree = "<group>"; };
 		96F37325224BA1610088E142 /* FloatingPanelSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingPanelSettings.swift; sourceTree = "<group>"; };
 		96F37327224C9B280088E142 /* BookmarkedEventCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkedEventCell.swift; sourceTree = "<group>"; };
@@ -512,6 +514,7 @@
 				96E268A322F05A45006AE52A /* InAppNotifications.swift */,
 				96A34FF323027B2B000E46EE /* DateTimeHelper.swift */,
 				96DCCBC92316915B00C6707C /* DispatchQueue.swift */,
+				96EFC1CC232BA33000D65C0A /* UIStatusBar.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -738,7 +741,6 @@
 				13CF82892BD484C1E6B6B5E3 /* Pods-major-7-ios.debug.xcconfig */,
 				39AD2FFA52521DC5DE58C128 /* Pods-major-7-ios.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -1002,6 +1004,7 @@
 				965838B32181C5A4000FE8B0 /* News.swift in Sources */,
 				96B0BE4021EDF452003C9BA5 /* HideKeyboard.swift in Sources */,
 				96DEB1EA2236471E005F87F4 /* VideoView.swift in Sources */,
+				96EFC1CD232BA33000D65C0A /* UIStatusBar.swift in Sources */,
 				966A6CBF217DBD7F00DF872F /* BuskersViewController.swift in Sources */,
 				9662425621F25F1900EF7695 /* NotificationCenter.swift in Sources */,
 				966A6CE021808BB100DF872F /* NewsCellType1.swift in Sources */,

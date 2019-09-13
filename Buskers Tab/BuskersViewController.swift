@@ -69,27 +69,13 @@ class BuskersViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        //status bar color
-        if let statusBar = UIApplication.shared.value(forKeyPath: "statusBarWindow.statusBar") as? UIView {
-            statusBar.backgroundColor = UIColor.m7DarkGray().withAlphaComponent(0.8)
-        } else {
-            print("Can't get status bar?")
-        }
+        UIApplication.shared.statusBarUIView?.backgroundColor = .m7DarkGray()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        UIView.animate(withDuration: 0.2) {
-            self.navigationController?.navigationBar.backgroundColor = .clear
-            if let statusBar = UIApplication.shared.value(forKeyPath: "statusBarWindow.statusBar") as? UIView {
-                statusBar.backgroundColor = .clear
-            } else {
-                print("Can't get status bar?")
-            }
-        }
+        UIApplication.shared.statusBarUIView?.backgroundColor = .clear
     }
-    
-    
 }
 
 //MARK: - API Calls

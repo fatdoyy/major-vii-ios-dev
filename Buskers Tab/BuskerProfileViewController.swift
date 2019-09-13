@@ -34,7 +34,7 @@ class BuskerProfileViewController: UIViewController {
             getProfileDetails(buskerID: buskerID)
             getBuskerFollowings(buskerID: buskerID)
             getBuskerEvents(buskerID: buskerID)
-            //getBuskerPosts(buskerID: buskerID)
+            getBuskerPosts(buskerID: buskerID)
         }
     }
     
@@ -312,8 +312,7 @@ extension BuskerProfileViewController {
                 })
             }
             self.statsPostsCount.text = String(describing: posts.list.count)
-            //self.postsLabel.text = "Posts (\(posts.list.count))"
-            self.postsLabel.text = "Coming Soon"
+            self.postsLabel.text = "Posts (\(posts.list.count))"
             
             }.ensure {
                 UIApplication.shared.isNetworkActivityIndicatorVisible = false

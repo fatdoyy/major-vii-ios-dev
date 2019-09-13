@@ -113,12 +113,7 @@ class SettingsViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setupNavBar()
-        
-        if let statusBar = UIApplication.shared.value(forKeyPath: "statusBarWindow.statusBar") as? UIView {
-            statusBar.backgroundColor = .m7DarkGray()
-        } else {
-            print("Can't get status bar?")
-        }
+        UIApplication.shared.statusBarUIView?.backgroundColor = .m7DarkGray()
         
         //show OR hide header
         if UserService.User.isLoggedIn() { //update username
@@ -133,11 +128,7 @@ class SettingsViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        if let statusBar = UIApplication.shared.value(forKeyPath: "statusBarWindow.statusBar") as? UIView {
-            statusBar.backgroundColor = .clear
-        } else {
-            print("Can't get status bar?")
-        }
+        UIApplication.shared.statusBarUIView?.backgroundColor = .clear
     }
     
     override func viewDidLayoutSubviews() {
