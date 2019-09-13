@@ -14,6 +14,7 @@ import FBSDKCoreKit
 import GoogleSignIn
 import GoogleMaps
 import SkeletonView
+import AuthenticationServices
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -21,6 +22,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        //Apple sign in
+        if #available(iOS 13.0, *) {
+            NotificationCenter.default.setObserver(self, selector: #selector(appleIDStateChanged), name: ASAuthorizationAppleIDProvider.credentialRevokedNotification, object: nil)
+        }
+        
         //firebase
         FirebaseApp.configure()
         
@@ -43,6 +49,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
 
+    @available(iOS 13.0, *)
+    @objc func appleIDStateChanged() {
+        let provider = ASAuthorizationAppleIDProvider()
+        provider.getCredentialState(forUserID: "12345") { (credentialState, error) in
+            switch credentialState {
+            case .authorized:
+                print()
+            case .revoked:
+                //UserService.User.logout(fromVC: self)
+                print()
+            case .notFound:
+                print()
+            default: break
+            }
+        }
+    }
+    
     func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
 
         let fbDidHandle = FBSDKApplicationDelegate.sharedInstance().application(app, open: url, sourceApplication: options[.sourceApplication] as? String, annotation: options[.annotation])

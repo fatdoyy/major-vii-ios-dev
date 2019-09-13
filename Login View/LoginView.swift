@@ -12,11 +12,13 @@ import SkyFloatingLabelTextField
 import Pastel
 import Localize_Swift
 import NVActivityIndicatorView
+import AuthenticationServices
 
 protocol LoginViewDelegate: class{
     func didTapDismissBtn()
     func didTapFbLogin()
     func didTapGoogleLogin()
+    func didTapAppleSignIn()
     func didTapRegisterBtn()
     func didTapEmailLogin()
     func didTapLoginAction()
@@ -45,9 +47,8 @@ class LoginView: UIView {
     var regActionBtnGradientBg = PastelView()
     @IBOutlet weak var regBtn: UIButton!
     
-    /*MARK: Email Login Elements
-     Note: all view's hierarchy is below Social Login Elements
-     */
+    //MARK: - Email Login Elements
+    /*Note: all view's hierarchy is below Social Login Element */
     @IBOutlet weak var emailTextFieldBg: UIView!
     @IBOutlet weak var emailTextField: SkyFloatingLabelTextField!
     @IBOutlet weak var pwTextFieldBg: UIView!
@@ -57,9 +58,8 @@ class LoginView: UIView {
     @IBOutlet weak var loginActionBtn: UIButton!
     var loginActivityIndicator = NVActivityIndicatorView(frame: CGRect(origin: CGPoint.zero, size: CGSize(width: 20, height: 20)))
     
-    /*MARK: Register Elements
-     Note: all view's hierarchy is below Social Login Elements
-     */
+    //MARK: - Register Elements
+     /*Note: all view's hierarchy is below Social Login Elements*/
     @IBOutlet weak var regEmailTextFieldBg: UIView!
     @IBOutlet weak var regEmailTextField: SkyFloatingLabelTextField!
     @IBOutlet weak var regPwTextFieldBg: UIView!
@@ -136,6 +136,13 @@ class LoginView: UIView {
         googleLoginBtn.layer.cornerRadius = GlobalCornerRadius.value
         googleLoginBtn.setTitleColor(.darkGrayText(), for: .normal)
         
+        //apple sign in
+        if #available(iOS 13.0, *) {
+            let signInBtn = ASAuthorizationAppleIDButton()
+            signInBtn.cornerRadius = GlobalCornerRadius.value
+            signInBtn.addTarget(self, action: #selector(appleSingInBtnTapped), for: .touchUpInside)
+        }
+        
         emailLoginLabel.textColor = .whiteText()
         
         //create blur effect for register button
@@ -158,6 +165,10 @@ class LoginView: UIView {
             regPwRefillTextFieldBottomConstraint.constant = 45
             layoutIfNeeded()
         }
+    }
+    
+    @objc func appleSingInBtnTapped() {
+        delegate?.didTapAppleSignIn()
     }
     
     private func setupEmailLoginElements() {
@@ -229,7 +240,7 @@ class LoginView: UIView {
             make.centerX.equalToSuperview()
             make.centerY.equalToSuperview()
         }
-
+        
         //gradient for loginActionBtn
         loginActionBtnGradientBg.startPastelPoint = .topLeft
         loginActionBtnGradientBg.endPastelPoint = .bottomRight
@@ -390,6 +401,7 @@ class LoginView: UIView {
             view.isUserInteractionEnabled = false
         }
     }
+
     
     @IBAction func didTapDismissBtn(_ sender: Any) {
         delegate?.didTapDismissBtn()
@@ -427,7 +439,7 @@ class LoginView: UIView {
             
             //animate the constraint's constant change
             UIView.animate(withDuration: 0.3) {
- 
+                
                 let keyboardTopPlus40 = self.loginActionBtn.frame.minY - keyboardMinY + 40
                 self.pwTextFieldBgBottomConstraint.constant = keyboardTopPlus40
                 self.regPwRefillTextFieldBottomConstraint.constant = keyboardTopPlus40
@@ -457,6 +469,7 @@ class LoginView: UIView {
     
 }
 
+//MARK: - UITextfield delegate
 extension LoginView: UITextFieldDelegate {
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {

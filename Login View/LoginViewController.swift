@@ -11,6 +11,7 @@ import Bartinter
 import GoogleSignIn
 import NVActivityIndicatorView
 import Validator
+import AuthenticationServices
 
 class LoginViewController: UIViewController {
     
@@ -75,7 +76,6 @@ class LoginViewController: UIViewController {
 
 //MARK: - Login / Register Delegate
 extension LoginViewController: LoginViewDelegate, UserServiceDelegate {
-    
     func didTapDismissBtn() {
         if self.isModal {
             self.dismiss(animated: true, completion: nil)
@@ -93,6 +93,29 @@ extension LoginViewController: LoginViewDelegate, UserServiceDelegate {
     func didTapGoogleLogin() {
         userService.delegate = self
         UserService.Google.logIn(fromVC: self)
+    }
+    
+    func didTapAppleSignIn() {
+        if #available(iOS 13.0, *) {
+            let request = ASAuthorizationAppleIDProvider().createRequest()
+            request.requestedScopes = [.fullName, .email]
+            
+            let controller = ASAuthorizationController(authorizationRequests: [request])
+            controller.delegate = self
+            controller.presentationContextProvider = self
+            controller.performRequests()
+        }
+    }
+    
+    func performExistingAccountSetupFlows() {
+        if #available(iOS 13.0, *) {
+            let requests = [ASAuthorizationAppleIDProvider().createRequest(), ASAuthorizationPasswordProvider().createRequest()]
+            
+            let controller = ASAuthorizationController(authorizationRequests: requests)
+            controller.delegate = self
+            controller.presentationContextProvider = self
+            controller.performRequests()
+        }
     }
     
     func googleLoginPresent(_ viewController: UIViewController) {
@@ -372,3 +395,27 @@ extension LoginViewController: LoginViewDelegate, UserServiceDelegate {
     }
     
 }
+
+//MARK: - Apple Sign in delegate
+extension LoginViewController: ASAuthorizationControllerDelegate, ASAuthorizationControllerPresentationContextProviding {
+    @available(iOS 13.0, *)
+    func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
+        switch authorization.credential {
+        case let credential as ASAuthorizationAppleIDCredential:
+            if let email = credential.email {
+                print(email)
+            }
+        case let credential as ASPasswordCredential:
+            let userID = credential.user
+            print(userID)
+            
+        default: break
+        }
+    }
+    
+    @available(iOS 13.0, *)
+    func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
+        return self.view.window!
+    }
+}
+
