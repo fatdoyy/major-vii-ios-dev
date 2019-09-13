@@ -34,7 +34,7 @@ class BuskerProfileViewController: UIViewController {
             getProfileDetails(buskerID: buskerID)
             getBuskerFollowings(buskerID: buskerID)
             getBuskerEvents(buskerID: buskerID)
-            getBuskerPosts(buskerID: buskerID)
+            //getBuskerPosts(buskerID: buskerID)
         }
     }
     
@@ -312,7 +312,8 @@ extension BuskerProfileViewController {
                 })
             }
             self.statsPostsCount.text = String(describing: posts.list.count)
-            self.postsLabel.text = "Posts (\(posts.list.count))"
+            //self.postsLabel.text = "Posts (\(posts.list.count))"
+            self.postsLabel.text = "Coming Soon"
             
             }.ensure {
                 UIApplication.shared.isNetworkActivityIndicatorVisible = false
@@ -973,22 +974,31 @@ extension BuskerProfileViewController {
             make.height.equalTo(25)
         }
         
-        let btn = VidButton()
-        btn.backgroundColor = UIColor.white.withAlphaComponent(0.05)
-        btn.setTitle("TEST", for: .normal)
-        btn.setTitleColor(.white, for: .normal)
-        btn.titleLabel?.font = UIFont.systemFont(ofSize: 12, weight: .semibold)
-        btn.layer.cornerRadius = GlobalCornerRadius.value / 2
-        btn.videoIdentifier = "NdLZ76bYNy8"
-        btn.addTarget(self, action: #selector(playVideo), for: .touchUpInside)
-        liveBgView.addSubview(btn)
-        btn.snp.makeConstraints { (make) -> Void in
-            make.bottom.equalToSuperview().offset(-20)
-            make.width.equalTo(screenWidth - 80)
-            make.height.equalTo(40)
-            make.centerX.equalToSuperview()
-        }
+//        let btn = VidButton()
+//        btn.backgroundColor = UIColor.white.withAlphaComponent(0.05)
+//        btn.setTitle("TEST", for: .normal)
+//        btn.setTitleColor(.white, for: .normal)
+//        btn.titleLabel?.font = UIFont.systemFont(ofSize: 12, weight: .semibold)
+//        btn.layer.cornerRadius = GlobalCornerRadius.value / 2
+//        btn.videoIdentifier = "NdLZ76bYNy8"
+//        btn.addTarget(self, action: #selector(playVideo), for: .touchUpInside)
+//        liveBgView.addSubview(btn)
+//        btn.snp.makeConstraints { (make) -> Void in
+//            make.bottom.equalToSuperview().offset(-20)
+//            make.width.equalTo(screenWidth - 80)
+//            make.height.equalTo(40)
+//            make.centerX.equalToSuperview()
+//        }
         
+        let emptyLabel = UILabel()
+        emptyLabel.text = "Coming Soon"
+        emptyLabel.font = UIFont.systemFont(ofSize: 16, weight: .semibold)
+        emptyLabel.textColor = .darkGray
+        liveBgView.addSubview(emptyLabel)
+        emptyLabel.snp.makeConstraints({ (make) in
+            make.centerX.equalToSuperview()
+            make.centerY.equalToSuperview().offset(15)
+        })
     }
     
     struct YouTubeVideoQuality {
