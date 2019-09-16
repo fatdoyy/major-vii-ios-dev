@@ -123,8 +123,7 @@ extension Hashtag {
 }
 
 extension UIView {
-    /** This is the function to get subViews of a view of a particular type
-     */
+    /** This is the function to get subViews of a view of a particular type */
     func subViews<T : UIView>(type : T.Type) -> [T]{
         var all = [T]()
         for view in self.subviews {

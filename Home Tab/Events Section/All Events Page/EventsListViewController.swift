@@ -169,8 +169,8 @@ extension EventsListViewController: FeaturedCellDelegate {
         if UserService.User.isLoggedIn() {
             if let eventID = featuredEvents[indexPath.row].id {
                 if !bookmarkedEventIDArray.contains(eventID) {
-                    /* Check if local array is holding this bookmarked cell
-                     NOTE: This check is to prevent cell reuse issues, all bookmarked events will be saved in server */
+                    /// Check if local array is holding this bookmarked cell
+                    /// NOTE: This check is to prevent cell reuse issues, all bookmarked events will be saved in server
                     
                     UserService.getBookmarkedEvents().done { response in
                         if !response.list.isEmpty {

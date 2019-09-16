@@ -48,7 +48,7 @@ class LoginView: UIView {
     @IBOutlet weak var regBtn: UIButton!
     
     //MARK: - Email Login Elements
-    /*Note: all view's hierarchy is below Social Login Element */
+    ///Note: all view's hierarchy is below Social Login Element
     @IBOutlet weak var emailTextFieldBg: UIView!
     @IBOutlet weak var emailTextField: SkyFloatingLabelTextField!
     @IBOutlet weak var pwTextFieldBg: UIView!
@@ -59,7 +59,7 @@ class LoginView: UIView {
     var loginActivityIndicator = NVActivityIndicatorView(frame: CGRect(origin: CGPoint.zero, size: CGSize(width: 20, height: 20)))
     
     //MARK: - Register Elements
-     /*Note: all view's hierarchy is below Social Login Elements*/
+    ///Note: all view's hierarchy is below Social Login Elements
     @IBOutlet weak var regEmailTextFieldBg: UIView!
     @IBOutlet weak var regEmailTextField: SkyFloatingLabelTextField!
     @IBOutlet weak var regPwTextFieldBg: UIView!
@@ -138,9 +138,16 @@ class LoginView: UIView {
         
         //apple sign in
         if #available(iOS 13.0, *) {
-            let signInBtn = ASAuthorizationAppleIDButton()
+            let signInBtn = ASAuthorizationAppleIDButton(type: .signIn, style: .white)
             signInBtn.cornerRadius = GlobalCornerRadius.value
             signInBtn.addTarget(self, action: #selector(appleSingInBtnTapped), for: .touchUpInside)
+            addSubview(signInBtn)
+            signInBtn.snp.makeConstraints { (make) in
+                make.bottom.equalTo(fbLoginBtn.snp.top).offset(-20)
+                make.height.equalTo(46)
+                make.left.equalToSuperview().offset(40)
+                make.right.equalToSuperview().offset(-40)
+            }
         }
         
         emailLoginLabel.textColor = .whiteText()

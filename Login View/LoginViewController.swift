@@ -41,6 +41,11 @@ class LoginViewController: UIViewController {
         self.navigationController?.setNavigationBarHidden(true, animated: animated)
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        performExistingAccountSetupFlows()
+    }
+    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         //NotificationCenter.default.removeObserver(self)
@@ -107,14 +112,18 @@ extension LoginViewController: LoginViewDelegate, UserServiceDelegate {
         }
     }
     
+    /// Prompts the user if an existing iCloud Keychain credential or Apple ID credential is found.
     func performExistingAccountSetupFlows() {
         if #available(iOS 13.0, *) {
-            let requests = [ASAuthorizationAppleIDProvider().createRequest(), ASAuthorizationPasswordProvider().createRequest()]
+            // Prepare requests for both Apple ID and password providers.
+            let requests = [ASAuthorizationAppleIDProvider().createRequest(),
+                            ASAuthorizationPasswordProvider().createRequest()]
             
-            let controller = ASAuthorizationController(authorizationRequests: requests)
-            controller.delegate = self
-            controller.presentationContextProvider = self
-            controller.performRequests()
+            // Create an authorization controller with the given requests.
+            let authorizationController = ASAuthorizationController(authorizationRequests: requests)
+            authorizationController.delegate = self
+            authorizationController.presentationContextProvider = self
+            authorizationController.performRequests()
         }
     }
     
@@ -403,7 +412,7 @@ extension LoginViewController: ASAuthorizationControllerDelegate, ASAuthorizatio
         switch authorization.credential {
         case let credential as ASAuthorizationAppleIDCredential:
             if let email = credential.email {
-                print(email)
+                print("apple id email: \(email)")
             }
         case let credential as ASPasswordCredential:
             let userID = credential.user

@@ -374,7 +374,7 @@ extension NewsDetailViewController {
         
         //assign contentLabelHeight
         if UIDevice.current.hasHomeButton {
-            /* contentLabelHeight + bottomPadding + topPadding */
+            ///contentLabelHeight + bottomPadding + topPadding 
             let labelHeight = contentLabel.attributedTextHeight(withWidth: UIScreen.main.bounds.width - 40) + 120 + 80
             contentLabelHeight = labelHeight > UIScreen.main.bounds.height ? labelHeight : UIScreen.main.bounds.height
         } else {

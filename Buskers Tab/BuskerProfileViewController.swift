@@ -411,7 +411,7 @@ extension BuskerProfileViewController {
                 }
                 
                 //adjust mainScrollView height on different screen size
-                /*  height =    imgCollectionViewHeight + hashtagsCollecitonViewHeight (with top padding) +
+                /**  height =    imgCollectionViewHeight + hashtagsCollecitonViewHeight (with top padding) +
                                 actionBtnHeight (with top padding) + statsHeight (with top padding) +
                                 profileHeight (with top padding) + membersSectionHeight (with top padding) +
                                 liveHeight (with top padding) + eventsHeight (with top padding) +

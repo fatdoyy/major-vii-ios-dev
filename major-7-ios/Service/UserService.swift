@@ -129,7 +129,7 @@ extension UserService {
                             if let apiResponse = response as? [String: Any] {
                                 print(apiResponse)
                                 if apiResponse["success"] != nil { //200 OK
-                                    /* NOTE: We can't get the response's HTTPStatusCode here because of the way we handle http request (Alamofire + PromiseKit), by the way here the response must be 200 OK from Alamofire, so we need to check the content(key) of the response (i.e. success = 1; error: "message") */
+                                    /// NOTE: We can't get the response's HTTPStatusCode here because of the way we handle http request (Alamofire + PromiseKit), by the way here the response must be 200 OK from Alamofire, so we need to check the content(key) of the response (i.e. success = 1; error: "message")
                                     print("Sucecssfully created MajorVII account")
                                     HapticFeedback.createNotificationFeedback(style: .success)
                                     
@@ -244,7 +244,7 @@ extension UserService: GIDSignInDelegate/*, GIDSignInUIDelegate*/ {
                     if let apiResponse = response as? [String: Any] {
                         print(apiResponse)
                         if apiResponse["success"] != nil { //200 OK
-                            /* NOTE: We can't get the response's HTTPStatusCode here because of the way we handle http request (Alamofire + PromiseKit), by the way here the response must be 200 OK from Alamofire, so we need to check the content(key) of the response (i.e. success = 1; error: "message") */
+                            ///NOTE: We can't get the response's HTTPStatusCode here because of the way we handle http request (Alamofire + PromiseKit), by the way here the response must be 200 OK from Alamofire, so we need to check the content(key) of the response (i.e. success = 1; error: "message")
                             print("Sucecssfully created MajorVII account")
                             HapticFeedback.createNotificationFeedback(style: .success)
 
@@ -333,7 +333,7 @@ extension UserService {
                 print(response)
                 if let apiResponse = response as? [String: Any] {
                     if apiResponse["success"] != nil { //200 OK
-                        /* NOTE: We can't get the response's HTTPStatusCode here because of the way we handle http request (Alamofire + PromiseKit), by the way here the response must be 200 OK from Alamofire, so we need to check the content(key) of the response (i.e. success = 1; error: "message") */
+                        ///NOTE: We can't get the response's HTTPStatusCode here because of the way we handle http request (Alamofire + PromiseKit), by the way here the response must be 200 OK from Alamofire, so we need to check the content(key) of the response (i.e. success = 1; error: "message")
                         print("Sucecssfully logged in MajorVII account")
                         HapticFeedback.createNotificationFeedback(style: .success)
                         
@@ -401,7 +401,7 @@ extension UserService {
                 print(response)
                 if let apiResponse = response as? [String: Any] {
                     if apiResponse["success"] != nil { //200 OK
-                        /* NOTE: We can't get the response's HTTPStatusCode here because of the way we handle http request (Alamofire + PromiseKit), by the way here the response must be 200 OK from Alamofire, so we need to check the content(key) of the response (i.e. success = 1; error: "message") */
+                        ///NOTE: We can't get the response's HTTPStatusCode here because of the way we handle http request (Alamofire + PromiseKit), by the way here the response must be 200 OK from Alamofire, so we need to check the content(key) of the response (i.e. success = 1; error: "message")
                         print("Sucecssfully created MajorVII account")
                         HapticFeedback.createNotificationFeedback(style: .success)
                         
