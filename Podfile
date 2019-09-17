@@ -44,7 +44,7 @@ target 'major-7-ios' do
   pod 'SkyFloatingLabelTextField', '~> 3.0'     # floating label above textfield
   pod 'NVActivityIndicatorView'                 # as title
   pod 'SwiftMessages'                           # in-app notifications/empty states of tableview/collectionview etc...
-  pod 'CHIPageControl', '~> 0.1.3'              # UIPageControl
+  pod 'CHIPageControl'                          # UIPageControl
   pod 'Parchment'                               # Paging menu
   pod 'XCDYouTubeKit', '~> 2.7.3'               # Youtube AVPlayer
   pod 'PIPKit'                                  # picture in picture mode
