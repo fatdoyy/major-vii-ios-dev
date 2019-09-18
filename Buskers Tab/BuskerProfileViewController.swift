@@ -95,9 +95,10 @@ class BuskerProfileViewController: UIViewController {
     
     //profile section
     var profileBgView = UIView()
-    var profileLabel = UILabel()
     var profileLineView = UIView()
-    var profileDesc = UILabel()
+    var profileLabel = UILabel()
+    var profileEditBtn = UIButton()
+    var profileDesc = UITextView()
     var profileBgViewHeight: CGFloat = 0
     var descString = ""
 
@@ -346,43 +347,56 @@ extension BuskerProfileViewController {
                 for hashtag in profile.hashtags { hashtagsArray.append(hashtag) }
                 hashtagsCollectionView.reloadData()
                 
-                //stats
-
+                //stats TODO
                 
                 //busker description
                 descString = profile.desc!
                 
                 let paragraphStyle = NSMutableParagraphStyle()
                 paragraphStyle.lineSpacing = 8
-                paragraphStyle.lineBreakMode = .byTruncatingTail
+                //paragraphStyle.lineBreakMode = .byTruncatingTail
                 
                 let myAttribute = [NSAttributedString.Key.foregroundColor: UIColor.whiteText(), NSAttributedString.Key.paragraphStyle: paragraphStyle]
                 
                 // create attributed string
                 let descAttrString = NSAttributedString(string: descString, attributes: myAttribute)
                 
-                // set attributed text on a UILabel
+                //set attributed text to UITextView
                 profileDesc.alpha = 0
+                profileDesc.backgroundColor = .clear
+                profileDesc.isEditable = false
+                profileDesc.isSelectable = false
                 profileDesc.attributedText = descAttrString
+                profileDesc.isScrollEnabled = false
                 profileDesc.sizeToFit()
                 profileDesc.font = UIFont.systemFont(ofSize: 14, weight: .regular)
-                profileDesc.numberOfLines = 0
-                profileDesc.lineBreakMode = .byWordWrapping
                 profileBgView.addSubview(profileDesc)
                 profileDesc.snp.makeConstraints { (make) -> Void in
                     make.top.equalTo(profileLineView.snp.bottom).offset(16)
-                    make.leftMargin.equalToSuperview().offset(20)
-                    make.rightMargin.equalToSuperview().offset(-20)
+                    make.left.equalToSuperview().offset(20)
+                    make.right.equalToSuperview().offset(-20)
                 }
+                profileDesc.layoutIfNeeded()
                 viewsToShowLater.append(profileDesc)
                 
-                profileBgViewHeight = profileDesc.attributedTextHeight(withWidth: screenWidth - 80) + 54 + 20 //textHeight + topPadding(including "Profile" label) + bottomPadding
+                let sizeThatFitsTextView = profileDesc.sizeThatFits(CGSize(width: profileDesc.frame.size.width, height: CGFloat(MAXFLOAT)))
+                let heightOfText = sizeThatFitsTextView.height
+                profileBgViewHeight = heightOfText + 54 + 20 ///textHeight + topPadding(including "Profile" label) + bottomPadding
                 
                 profileBgView.snp.updateConstraints { (make) -> Void in
                     make.height.equalTo(profileBgViewHeight)
                 }
                 
-                //members
+                //show desc edit button
+                if details.requestUserIsAdmin ?? false {
+                    DispatchQueue.main.asyncAfter(deadline :.now() + 0.5) {
+                        UIView.animate(withDuration: 0.2) {
+                            self.profileEditBtn.alpha = 1
+                        }
+                    }
+                }
+                
+                //members section
                 if !profile.members.isEmpty {
                     membersLabel.text = "Members (\(profile.members.count))"
                     membersCollectionView.reloadData()
@@ -634,8 +648,6 @@ extension BuskerProfileViewController {
             make.top.equalTo(buskerLabel.snp.bottom).offset(15)
             make.width.equalTo(screenWidth)
             make.height.equalTo(0)
-            make.leftMargin.equalTo(0)
-            make.rightMargin.equalTo(0)
         }
     }
     
@@ -752,7 +764,7 @@ extension BuskerProfileViewController {
         statsFollowersCount.font = UIFont.systemFont(ofSize: 21, weight: .semibold)
         statsBgView.addSubview(statsFollowersCount)
         statsFollowersCount.snp.makeConstraints { (make) -> Void in
-            make.leftMargin.equalTo(10)
+            make.left.equalTo(10)
             make.centerY.equalToSuperview().offset(-10)
             make.width.equalTo((screenWidth - 40) / 3)
             make.height.equalTo(24)
@@ -766,7 +778,7 @@ extension BuskerProfileViewController {
         statsFollowersLabel.font = UIFont.systemFont(ofSize: 11, weight: .light)
         statsBgView.addSubview(statsFollowersLabel)
         statsFollowersLabel.snp.makeConstraints { (make) -> Void in
-            make.leftMargin.equalTo(10)
+            make.left.equalTo(10)
             make.centerY.equalToSuperview().offset(10)
             make.width.equalTo((screenWidth - 40) / 3)
             make.height.equalTo(12)
@@ -808,7 +820,7 @@ extension BuskerProfileViewController {
         statsEventsCount.font = UIFont.systemFont(ofSize: 21, weight: .semibold)
         statsBgView.addSubview(statsEventsCount)
         statsEventsCount.snp.makeConstraints { (make) -> Void in
-            make.rightMargin.equalTo(-10)
+            make.right.equalTo(-10)
             make.width.equalTo((screenWidth - 40) / 3)
             make.centerY.equalToSuperview().offset(-10)
             make.height.equalTo(24)
@@ -822,7 +834,7 @@ extension BuskerProfileViewController {
         statsEventsLabel.font = UIFont.systemFont(ofSize: 11, weight: .light)
         statsBgView.addSubview(statsEventsLabel)
         statsEventsLabel.snp.makeConstraints { (make) -> Void in
-            make.rightMargin.equalTo(-10)
+            make.right.equalTo(-10)
             make.width.equalTo((screenWidth - 40) / 3)
             make.centerY.equalToSuperview().offset(10)
             make.height.equalTo(12)
@@ -858,7 +870,7 @@ extension BuskerProfileViewController {
         profileBgView.addSubview(profileLineView)
         profileLineView.snp.makeConstraints { (make) -> Void in
             make.top.equalTo(14)
-            make.leftMargin.equalTo(16)
+            make.left.equalTo(16)
             make.width.equalTo(4)
             make.height.equalTo(24)
         }
@@ -870,12 +882,22 @@ extension BuskerProfileViewController {
         profileLabel.snp.makeConstraints { (make) -> Void in
             make.top.equalTo(14)
             make.left.equalTo(profileLineView.snp.right).offset(10)
-            make.width.equalTo(100)
             make.height.equalTo(25)
         }
         
+        profileEditBtn.alpha = 0
+        profileEditBtn.setImage(UIImage(named: "icon_edit"), for: .normal)
+        profileBgView.addSubview(profileEditBtn)
+        profileEditBtn.snp.makeConstraints { (make) in
+            make.size.equalTo(18)
+            make.left.equalTo(profileLabel.snp.right).offset(8)
+            make.centerY.equalTo(profileLabel)
+        }
     }
- 
+    
+    @objc func editDesc() {
+        //TODO
+    }
 }
 
 //MARK: - Members Section
@@ -897,7 +919,7 @@ extension BuskerProfileViewController {
         membersBgView.addSubview(membersLineView)
         membersLineView.snp.makeConstraints { (make) -> Void in
             make.top.equalTo(14)
-            make.leftMargin.equalTo(16)
+            make.left.equalTo(16)
             make.width.equalTo(4)
             make.height.equalTo(24)
         }
@@ -932,8 +954,6 @@ extension BuskerProfileViewController {
             make.top.equalTo(membersLineView.snp.bottom).offset(16)
             make.width.equalTo(screenWidth - 40)
             make.height.equalTo(120)
-            make.leftMargin.equalTo(0)
-            make.rightMargin.equalTo(0)
         }
     }
 }
@@ -957,7 +977,7 @@ extension BuskerProfileViewController {
         liveBgView.addSubview(liveLineView)
         liveLineView.snp.makeConstraints { (make) -> Void in
             make.top.equalTo(14)
-            make.leftMargin.equalTo(16)
+            make.left.equalTo(16)
             make.width.equalTo(4)
             make.height.equalTo(24)
         }
@@ -1043,7 +1063,7 @@ extension BuskerProfileViewController {
         eventsBgView.addSubview(eventsLineView)
         eventsLineView.snp.makeConstraints { (make) -> Void in
             make.top.equalTo(14)
-            make.leftMargin.equalTo(16)
+            make.left.equalTo(16)
             make.width.equalTo(4)
             make.height.equalTo(24)
         }
@@ -1080,11 +1100,8 @@ extension BuskerProfileViewController {
             make.top.equalTo(eventsLineView.snp.bottom).offset(16)
             make.width.equalTo(screenWidth - 40)
             make.height.equalTo(BuskerProfileEventCell.height)
-            make.leftMargin.equalTo(0)
-            make.rightMargin.equalTo(0)
         }
     }
-    
 }
 
 //MARK: - Posts Section
@@ -1106,7 +1123,7 @@ extension BuskerProfileViewController {
         postsBgView.addSubview(postsLineView)
         postsLineView.snp.makeConstraints { (make) -> Void in
             make.top.equalTo(14)
-            make.leftMargin.equalTo(16)
+            make.left.equalTo(16)
             make.width.equalTo(4)
             make.height.equalTo(24)
         }
@@ -1143,8 +1160,6 @@ extension BuskerProfileViewController {
             make.top.equalTo(postsLineView.snp.bottom).offset(16)
             make.width.equalTo(screenWidth - 40)
             make.height.equalTo(BuskerProfilePostCell.height)
-            make.leftMargin.equalTo(0)
-            make.rightMargin.equalTo(0)
         }
     }
 }
@@ -1231,7 +1246,7 @@ extension BuskerProfileViewController: UICollectionViewDelegateFlowLayout, UICol
             let cell = membersCollectionView.dequeueReusableCell(withReuseIdentifier: BuskerProfileMemberCell.reuseIdentifier, for: indexPath) as! BuskerProfileMemberCell
             if let profile = buskerDetails?.item {
                 if let url = URL(string: profile.members[indexPath.row].icon!.secureUrl!) {
-                    var urlArr = url.absoluteString.components(separatedBy: "upload/")
+                    let urlArr = url.absoluteString.components(separatedBy: "upload/")
                     let faceUrl = URL(string: "\(urlArr[0])upload/w_200,h_200,c_thumb,g_face/\(urlArr[1])") //apply crop and detect face by Cloudinary
                     cell.icon.kf.setImage(with: faceUrl, options: [.transition(.fade(0.3))])
                 }

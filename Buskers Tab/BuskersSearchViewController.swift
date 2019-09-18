@@ -334,7 +334,7 @@ extension BuskersSearchViewController: UICollectionViewDelegate, UICollectionVie
             if !searchResults.isEmpty {
                 cell.performerLabel.text = searchResults[indexPath.row].name
                 if let url = URL(string: searchResults[indexPath.row].coverImages[0].secureUrl!) {
-                    var urlArr = url.absoluteString.components(separatedBy: "upload/")
+                    let urlArr = url.absoluteString.components(separatedBy: "upload/")
                     let desaturatedUrl = URL(string: "\(urlArr[0])upload/e_saturation:-60/\(urlArr[1])") //apply saturation effect by Cloudinary
                     cell.bgImgView.kf.setImage(with: desaturatedUrl, options: [.transition(.fade(0.3))])
                 }

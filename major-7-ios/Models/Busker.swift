@@ -44,8 +44,8 @@ class BuskerProfileDetails: Mappable {
     var genres = [String]()
     var coverImages = [Image]()
     var members = [BuskerMember]()
-    var igId: String?
-    var fbId: String?
+    var igID: String?
+    var fbID: String?
     
     required init?(map: Map) {}
     
@@ -59,8 +59,8 @@ class BuskerProfileDetails: Mappable {
         genres      <- map["music_types"]
         coverImages <- map["cover_images"]
         members     <- map["members"]
-        igId        <- map["instagram_id"]
-        fbId        <- map["facebook_id"]
+        igID        <- map["instagram_id"]
+        fbID        <- map["facebook_id"]
     }
 }
 

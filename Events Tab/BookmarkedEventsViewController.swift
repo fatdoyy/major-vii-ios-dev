@@ -115,7 +115,7 @@ extension BookmarkedEventsViewController: UICollectionViewDelegate, UICollection
         let cell = eventsCollectionView.dequeueReusableCell(withReuseIdentifier: BookmarkedEventCell.reuseIdentifier, for: indexPath) as! BookmarkedEventCell
         if !bookmarkedEvents.isEmpty {
             if let event = bookmarkedEvents[indexPath.row].targetEvent {
-                var urlArr = randomImgUrl[indexPath.row].absoluteString.components(separatedBy: "upload/")
+                let urlArr = randomImgUrl[indexPath.row].absoluteString.components(separatedBy: "upload/")
                 let desaturatedUrl = URL(string: "\(urlArr[0])upload/e_saturation:-60/\(urlArr[1])") //apply saturation effect by Cloudinary
                 cell.bgImgView.kf.setImage(with: desaturatedUrl, options: [.transition(.fade(0.3))])
                 
