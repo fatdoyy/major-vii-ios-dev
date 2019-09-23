@@ -7,12 +7,8 @@
 //
 
 import UIKit
-import GlitchLabel
 
-class AgentsViewController: UIViewController {
-
-    @IBOutlet weak var label: GlitchLabel!
-    
+class AgentsViewController: UIViewController {    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .m7DarkGray()

@@ -24,7 +24,7 @@ enum isFollowingBusker {
 }
 
 class BuskerProfileViewController: UIViewController {
-    static let storyboardId = "buskerProfileVC"
+    static let storyboardID = "buskerProfileVC"
     
     var buskerName = ""
     
@@ -97,7 +97,6 @@ class BuskerProfileViewController: UIViewController {
     var profileBgView = UIView()
     var profileLineView = UIView()
     var profileLabel = UILabel()
-    var profileEditBtn = UIButton()
     var profileDesc = UITextView()
     var profileBgViewHeight: CGFloat = 0
     var descString = ""
@@ -389,11 +388,7 @@ extension BuskerProfileViewController {
                 
                 //show desc edit button
                 if details.requestUserIsAdmin ?? false {
-                    DispatchQueue.main.asyncAfter(deadline :.now() + 0.5) {
-                        UIView.animate(withDuration: 0.2) {
-                            self.profileEditBtn.alpha = 1
-                        }
-                    }
+                    self.setupRightBarItems()
                 }
                 
                 //members section
@@ -504,7 +499,6 @@ extension BuskerProfileViewController {
 //            make.height.equalTo(imgCollectionViewHeight)
 //            make.bottom.equalTo(imgContainerView.snp.bottom)
 //        }
-
         
     }
     
@@ -541,6 +535,28 @@ extension BuskerProfileViewController {
     @objc private func popView() {
         navigationController?.hero.navigationAnimationType = .zoomOut
         navigationController?.popViewController(animated: true)
+    }
+    
+    private func setupRightBarItems() {
+        let customView = UIView(frame: CGRect(x: 15, y: 10, width: 30, height: 30))
+        customView.backgroundColor = .clear
+        
+        let menuBtn = UIButton(type: .custom)
+        menuBtn.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
+        menuBtn.setImage(UIImage(named: "icon_edit"), for: .normal)
+        menuBtn.addTarget(self, action: #selector(presentEditView), for: .touchUpInside)
+        customView.addSubview(menuBtn)
+        
+        customView.snp.makeConstraints { (make) -> Void in
+            make.size.equalTo(30)
+        }
+        
+        let menuBarItem = UIBarButtonItem(customView: customView)
+        self.navigationItem.rightBarButtonItem = menuBarItem
+    }
+    
+    @objc private func presentEditView() {
+        BuskerProfileEditViewController.present(from: self, buskerName: "", buskerID: "")
     }
     
     private func setupCloseBtn() {
@@ -883,15 +899,6 @@ extension BuskerProfileViewController {
             make.top.equalTo(14)
             make.left.equalTo(profileLineView.snp.right).offset(10)
             make.height.equalTo(25)
-        }
-        
-        profileEditBtn.alpha = 0
-        profileEditBtn.setImage(UIImage(named: "icon_edit"), for: .normal)
-        profileBgView.addSubview(profileEditBtn)
-        profileEditBtn.snp.makeConstraints { (make) in
-            make.size.equalTo(18)
-            make.left.equalTo(profileLabel.snp.right).offset(8)
-            make.centerY.equalTo(profileLabel)
         }
     }
     
@@ -1413,8 +1420,8 @@ extension BuskerProfileViewController: UIScrollViewDelegate {
 //MARK: - Function to push/present this view controller
 extension BuskerProfileViewController {
     static func push(from view: UIViewController, buskerName: String, buskerID: String) {
-        let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
-        let profileVC = storyboard.instantiateViewController(withIdentifier: BuskerProfileViewController.storyboardId) as! BuskerProfileViewController
+        let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let profileVC = storyboard.instantiateViewController(withIdentifier: BuskerProfileViewController.storyboardID) as! BuskerProfileViewController
         
         profileVC.buskerID = buskerID
         profileVC.buskerName = buskerName
@@ -1424,8 +1431,8 @@ extension BuskerProfileViewController {
     }
     
     static func present(from view: UIViewController, buskerName: String, buskerID: String) {
-        let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
-        let profileVC = storyboard.instantiateViewController(withIdentifier: BuskerProfileViewController.storyboardId) as! BuskerProfileViewController
+        let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let profileVC = storyboard.instantiateViewController(withIdentifier: BuskerProfileViewController.storyboardID) as! BuskerProfileViewController
         
         profileVC.buskerID = buskerID
         profileVC.buskerName = buskerName

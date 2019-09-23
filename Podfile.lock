@@ -78,7 +78,6 @@ PODS:
   - Floaty (4.2.0)
   - fluid-slider (1.1.0):
     - pop
-  - GlitchLabel (2.1.0)
   - GoogleAppMeasurement (6.1.1):
     - GoogleUtilities/AppDelegateSwizzler (~> 6.0)
     - GoogleUtilities/MethodSwizzler (~> 6.0)
@@ -178,7 +177,6 @@ DEPENDENCIES:
   - FloatingPanel
   - Floaty (~> 4.1)
   - fluid-slider
-  - GlitchLabel
   - GoogleMaps
   - GoogleSignIn
   - Hero (from `https://github.com/kikikiktai/Hero.git`)
@@ -229,7 +227,6 @@ SPEC REPOS:
     - FloatingPanel
     - Floaty
     - fluid-slider
-    - GlitchLabel
     - GoogleAppMeasurement
     - GoogleDataTransport
     - GoogleDataTransportCCTSupport
@@ -304,7 +301,6 @@ SPEC CHECKSUMS:
   FloatingPanel: f4a89a848e21415e2e2697ee8f61847178445aa7
   Floaty: e2bd5a0f6f7f70899e26ff2da31081c8bee8d1b0
   fluid-slider: 68037ac7247f16a89f3e24ff5d0167c8eea6f50b
-  GlitchLabel: b7970749cfdc780ef5489709726a60dd93c71e77
   GoogleAppMeasurement: 86a82f0e1f20b8eedf8e20326530138fd71409de
   GoogleDataTransport: 8f9897b8e073687f24ca8d3c3a8013dec7d2d1cc
   GoogleDataTransportCCTSupport: 7455d07b98851aa63e4c05a34dad356ca588479e
@@ -339,6 +335,6 @@ SPEC CHECKSUMS:
   Validator: 9cfe0da15338f2e36fcf9e394f5bc1761888bec4
   XCDYouTubeKit: 43843b87c143120fdcbd908e031258ea60f7ba0a
 
-PODFILE CHECKSUM: 3f933fc336e0a5883b2d742ac9896a5fbf3e9619
+PODFILE CHECKSUM: 71c39316c9c5dc22690d692842a915f4fa7e6942
 
 COCOAPODS: 1.7.2

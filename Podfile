@@ -53,7 +53,6 @@ target 'major-7-ios' do
   pod 'InfiniteLayout'                          # infinite scrolling uicollectionview
   pod 'BetterSegmentedControl'                  # segmented control
   pod 'MarqueeLabel'                            # auto scrolling UILabel
-  pod 'GlitchLabel'                             # as title
   pod 'SwiftDate'                                 # as title
 #  pod 'ActiveLabel'                             # supporting Hashtags (#), Mentions (@), URLs (http:/)
 

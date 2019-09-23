@@ -61,6 +61,7 @@
 		96625F7B21C793DA0086A2B2 /* EventService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96625F7A21C793DA0086A2B2 /* EventService.swift */; };
 		96625F7D21C7ABFE0086A2B2 /* GradientLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96625F7C21C7ABFE0086A2B2 /* GradientLayer.swift */; };
 		96625F7F21C8C8030086A2B2 /* EventDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96625F7E21C8C8030086A2B2 /* EventDetails.swift */; };
+		9664088A2338B29C005E3985 /* BuskerProfileEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 966408892338B29C005E3985 /* BuskerProfileEditViewController.swift */; };
 		96642E6B22CCA436003A9188 /* RefreshView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96642E6922CCA434003A9188 /* RefreshView.xib */; };
 		96642E6C22CCA436003A9188 /* RefreshView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96642E6A22CCA435003A9188 /* RefreshView.swift */; };
 		966A6CB8217DB5F500DF872F /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 966A6CB7217DB5F500DF872F /* TabBarViewController.swift */; };
@@ -226,6 +227,7 @@
 		96625F7A21C793DA0086A2B2 /* EventService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventService.swift; sourceTree = "<group>"; };
 		96625F7C21C7ABFE0086A2B2 /* GradientLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientLayer.swift; sourceTree = "<group>"; };
 		96625F7E21C8C8030086A2B2 /* EventDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDetails.swift; sourceTree = "<group>"; };
+		966408892338B29C005E3985 /* BuskerProfileEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuskerProfileEditViewController.swift; sourceTree = "<group>"; };
 		96642E6922CCA434003A9188 /* RefreshView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RefreshView.xib; sourceTree = "<group>"; };
 		96642E6A22CCA435003A9188 /* RefreshView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RefreshView.swift; sourceTree = "<group>"; };
 		966A6CB7217DB5F500DF872F /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
@@ -417,6 +419,8 @@
 		965798B022266B0700A03BE9 /* Buskers Tab */ = {
 			isa = PBXGroup;
 			children = (
+				966408882338B26B005E3985 /* Busker Profile Edit View */,
+				965798B72227B20300A03BE9 /* Busker Profile View */,
 				966A6CBE217DBD7F00DF872F /* BuskersViewController.swift */,
 				967BD3402240E60200469CF9 /* BuskerCell.swift */,
 				967BD3412240E60200469CF9 /* BuskerCell.xib */,
@@ -446,7 +450,6 @@
 				96DEB1F02237B08B005F87F4 /* BuskerProfilePostCell.xib */,
 			);
 			name = "Busker Profile View";
-			path = "Buskers Tab";
 			sourceTree = "<group>";
 		};
 		965838B12181C4B9000FE8B0 /* Cell Types */ = {
@@ -466,6 +469,14 @@
 			name = "Cell Types";
 			sourceTree = "<group>";
 		};
+		966408882338B26B005E3985 /* Busker Profile Edit View */ = {
+			isa = PBXGroup;
+			children = (
+				966408892338B29C005E3985 /* BuskerProfileEditViewController.swift */,
+			);
+			name = "Busker Profile Edit View";
+			sourceTree = "<group>";
+		};
 		966A6CBD217DBC2C00DF872F /* UI */ = {
 			isa = PBXGroup;
 			children = (
@@ -474,7 +485,6 @@
 				966A6CB7217DB5F500DF872F /* TabBarViewController.swift */,
 				966A6CC9217DE6AC00DF872F /* Home Tab */,
 				965798B022266B0700A03BE9 /* Buskers Tab */,
-				965798B72227B20300A03BE9 /* Busker Profile View */,
 				966A6CC0217DBD9F00DF872F /* AgentsViewController.swift */,
 				96F37322224B95850088E142 /* Events Tab */,
 				9611CD76225B226A00ACA937 /* Settings Tab */,
@@ -1004,6 +1014,7 @@
 				96C9899E2220307600170609 /* TextHeight.swift in Sources */,
 				966A6CD0217F096700DF872F /* HomeHeaderView.swift in Sources */,
 				965838B32181C5A4000FE8B0 /* News.swift in Sources */,
+				9664088A2338B29C005E3985 /* BuskerProfileEditViewController.swift in Sources */,
 				96B0BE4021EDF452003C9BA5 /* HideKeyboard.swift in Sources */,
 				96DEB1EA2236471E005F87F4 /* VideoView.swift in Sources */,
 				96EFC1CD232BA33000D65C0A /* UIStatusBar.swift in Sources */,
