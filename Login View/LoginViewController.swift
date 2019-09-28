@@ -414,6 +414,15 @@ extension LoginViewController: ASAuthorizationControllerDelegate, ASAuthorizatio
             if let email = credential.email {
                 print("apple id email: \(email)")
             }
+            
+            if let authCode = credential.authorizationCode {
+                print("auth code: \(String(data: authCode, encoding: .utf8) ?? "")")
+            }
+            
+            if let identityToken = credential.identityToken {
+                print("identityToken: \(String(data: identityToken, encoding: .utf8) ?? "")")
+            }
+            
         case let credential as ASPasswordCredential:
             let userID = credential.user
             print(userID)
