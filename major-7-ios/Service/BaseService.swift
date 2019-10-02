@@ -24,6 +24,8 @@ class BaseService: NSObject {
             actionPathStr = "auth/login/facebook"
         case .googleLogin:
             actionPathStr = "auth/login/google"
+        case .appleSignIn:
+            actionPathStr = "auth/login/apple"
         case .emailLogin:
             actionPathStr = "auth/login/email"
         case .logout:
@@ -185,6 +187,7 @@ extension BaseService {
         //Auth
         case fbLogin
         case googleLogin
+        case appleSignIn
         case emailLogin
         case logout
         case renewAcessToken

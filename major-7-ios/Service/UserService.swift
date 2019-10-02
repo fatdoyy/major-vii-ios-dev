@@ -82,9 +82,9 @@ class UserService: BaseService {
 
 }
 
-//MARK: Facebook login
+//MARK: - Facebook login
 extension UserService {
-    struct FB{
+    struct FB {
         static func logIn(fromVC: UIViewController) {
             
             let loginManager = LoginManager()
@@ -146,6 +146,7 @@ extension UserService {
                                     UserDefaults.standard.set(apiResponse["refresh_token"], forKey: LOCAL_KEY.REFRESH_TOKEN)
                                     UserDefaults.standard.set(name, forKey: LOCAL_KEY.USERNAME)
                                     
+                                    //hide login view
                                     NotificationCenter.default.post(name: .loginCompleted, object: nil)
                                     
                                 } else { //api respond error
@@ -206,7 +207,7 @@ extension UserService {
     }
 }
 
-//MARK: Google login
+//MARK: - Google login
 extension UserService: GIDSignInDelegate/*, GIDSignInUIDelegate*/ {
     struct Google {
         static func logIn(fromVC: UIViewController) {
@@ -261,6 +262,7 @@ extension UserService: GIDSignInDelegate/*, GIDSignInUIDelegate*/ {
                             UserDefaults.standard.set(apiResponse["refresh_token"], forKey: LOCAL_KEY.REFRESH_TOKEN)
                             UserDefaults.standard.set(name, forKey: LOCAL_KEY.USERNAME)
                             
+                            //hide login view
                             NotificationCenter.default.post(name: .loginCompleted, object: nil)
 
                         } else { //api respond error
@@ -291,7 +293,7 @@ extension UserService: GIDSignInDelegate/*, GIDSignInUIDelegate*/ {
         }
     }
     
-    //Login to Major VII using google
+    //Login to Major VII (get token from major vii)
     private func loginRequest(token: String, userId: String, email: String, name: String) -> Promise<Any> {
         var params: [String: Any] = [:]
         params["idToken"]    = token
@@ -325,7 +327,81 @@ extension UserService: GIDSignInDelegate/*, GIDSignInUIDelegate*/ {
     
 }
 
-//MARK: Email login
+//MARK: - Apple Sign in
+extension UserService {
+    struct Apple {
+        static func login(identityToken: String, authCode: String, userID: String, email: String, userName: String, fromVC: LoginViewController) {
+            loginRequest(identityToken: identityToken, authCode: authCode, userID: userID, email: email, userName: userName).done { response in
+                if let apiResponse = response as? [String: Any] {
+                    print(apiResponse)
+                    if apiResponse["success"] != nil { //200 OK
+                        /// NOTE: We can't get the response's HTTPStatusCode here because of the way we handle http request (Alamofire + PromiseKit), by the way here the response must be 200 OK from Alamofire, so we need to check the content(key) of the response (i.e. success = 1; error: "message")
+                        print("Sucecssfully created MajorVII account")
+                        HapticFeedback.createNotificationFeedback(style: .success)
+                        
+                        //animate hud change
+                        UIView.animate(withDuration: 0.25, animations: {
+                            fromVC.hud.indicatorView = JGProgressHUDSuccessIndicatorView()
+                            fromVC.hud.textLabel.text = "Hello \(userName)! (ᵔᴥᵔ)"
+                            fromVC.hud.detailTextLabel.text = nil
+                        })
+                        
+                        //save tokens/user id to local
+                        UserDefaults.standard.set(apiResponse["user_id"], forKey: LOCAL_KEY.USER_ID)
+                        UserDefaults.standard.set(apiResponse["access_token"], forKey: LOCAL_KEY.ACCESS_TOKEN)
+                        UserDefaults.standard.set(apiResponse["refresh_token"], forKey: LOCAL_KEY.REFRESH_TOKEN)
+                        UserDefaults.standard.set(userName, forKey: LOCAL_KEY.USERNAME)
+                        
+                        //hide login view
+                        NotificationCenter.default.post(name: .loginCompleted, object: nil)
+                        
+                    } else { //api respond error
+                        HapticFeedback.createNotificationFeedback(style: .error)
+
+                        if let errorObj = apiResponse["error"] as? [String: Any] {
+                            if let errorMsg = errorObj["msg"] {
+                                UIView.animate(withDuration: 0.25, animations: {
+                                    fromVC.hud.indicatorView = JGProgressHUDErrorIndicatorView()
+                                    fromVC.hud.textLabel.text = "Error: \(errorMsg)"
+                                    fromVC.hud.detailTextLabel.text = nil
+                                })
+                            }
+                        } else {
+                            UIView.animate(withDuration: 0.25, animations: {
+                                fromVC.hud.indicatorView = JGProgressHUDErrorIndicatorView()
+                                fromVC.hud.textLabel.text = "Unknown Error"
+                                fromVC.hud.detailTextLabel.text = nil
+                            })
+                        }
+                    }
+                }
+            }.ensure {
+                fromVC.hud.dismiss(afterDelay: 0.75)
+                UIApplication.shared.isNetworkActivityIndicatorVisible = false
+            }.catch { error in }
+        }
+    }
+    
+    //send params to MajorVII API and get response
+    static func loginRequest(identityToken: String, authCode: String, userID: String, email: String, userName: String) -> Promise<Any> {
+        var params: [String: Any] = [:]
+        params["identityToken"] = identityToken
+        params["authCode"]      = authCode
+        params["userId"]        = userID
+        params["email"]         = email
+        params["userName"]      = userName
+        
+        return Promise { resolver in
+            BaseService.request(method: .post, url: BaseService.getActionPath(.appleSignIn), params: params).done { response in
+                resolver.fulfill(response)
+                }.catch { error in
+                    resolver.reject(error)
+            }
+        }
+    }
+}
+
+//MARK: - Email login
 extension UserService {
     struct Email {
         static func login(email: String, password: String, loginView: LoginView) {
@@ -355,6 +431,7 @@ extension UserService {
                             loginView.loginActionBtn.setTitleColor(.whiteText50Alpha(), for: .normal)
                         }, completion: nil)
                         
+                        //hide login view
                         NotificationCenter.default.post(name: .loginCompleted, object: nil)
                         
                     } else { //api respond error
@@ -423,6 +500,7 @@ extension UserService {
                             loginView.regActionBtn.setTitleColor(.whiteText75Alpha(), for: .normal)
                         }, completion: nil)
                         
+                        //hide login view
                         NotificationCenter.default.post(name: .loginCompleted, object: nil)
 
                     } else {
@@ -494,7 +572,7 @@ extension UserService {
     }
 }
 
-//MARK: Other functions
+//MARK: - Other functions
 extension UserService {
     //get user followings
     static func getUserFollowings(skip: Int? = nil, limit: Int? = nil, targetProfile: OrganizerProfile? = nil, targetType: Int? = nil) -> Promise<UserFollowings> {

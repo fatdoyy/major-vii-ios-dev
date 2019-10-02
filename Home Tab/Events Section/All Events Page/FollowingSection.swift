@@ -218,7 +218,7 @@ extension FollowingSection {
         }
     }
     
-    private func setupEmptyFollowingView() {
+    private func setupEmptyFollowingsView() {
         //empty view's drop shadow
         emptyFollowingShadowView.alpha = 0
         emptyFollowingShadowView.frame = CGRect(x: 20, y: 91, width: UIScreen.main.bounds.width - 40, height: followingSectionCollectionView.frame.height - 11)
@@ -565,45 +565,56 @@ extension FollowingSection: FollowingSectionCellDelegate {
     func getCurrentUserFollowings(skip: Int? = nil, limit: Int? = nil, targetProfile: OrganizerProfile? = nil, targetType: Int? = nil) {
         followingsCollectionView.isUserInteractionEnabled = false
         UserService.getUserFollowings(skip: skip, limit: limit, targetProfile: targetProfile, targetType: targetType).done { response in
-            self.userFollowings.append(contentsOf: response.list)
-            self.gotMoreFollowings = response.list.count < self.followingsLimit || response.list.count == 0 ? false : true
-            
-            UIView.animate(withDuration: 0.2) {
-                self.followingSectionDesc.alpha = 0
-                self.followingsCollectionView.alpha = 1
-            }
-            }.ensure {
-                if self.loadingIndicator.alpha != 0 {
-                    UIView.animate(withDuration: 0.2) {
-                        self.loadingIndicator.alpha = 0
-                    }
-                }
-                self.followingsCollectionView.reloadData()
-                self.followingsCollectionView.isUserInteractionEnabled = true
+            if !response.list.isEmpty {
+                self.userFollowings.append(contentsOf: response.list)
+                self.gotMoreFollowings = response.list.count < self.followingsLimit || response.list.count == 0 ? false : true
                 
-                UIApplication.shared.isNetworkActivityIndicatorVisible = false
-            }.catch { error in }
+                UIView.animate(withDuration: 0.2) {
+                    self.followingSectionDesc.alpha = 0
+                    self.followingsCollectionView.alpha = 1
+                    self.emptyFollowingShadowView.alpha = 0
+                }
+            } else {
+                self.followingSectionDesc.text = "0 followers"
+                self.setupEmptyFollowingsView()
+                self.emptyFollowingShadowView.alpha = 1
+                self.followingsCollectionView.alpha = 0
+                self.followingSectionCollectionView.alpha = 0
+            }
+        }.ensure {
+            if self.loadingIndicator.alpha != 0 {
+                UIView.animate(withDuration: 0.2) {
+                    self.loadingIndicator.alpha = 0
+                }
+            }
+            self.followingsCollectionView.reloadData()
+            self.followingsCollectionView.isUserInteractionEnabled = true
+            
+            UIApplication.shared.isNetworkActivityIndicatorVisible = false
+        }.catch { error in }
     }
     
     func getCurrentUserFollowingsEvents(skip: Int? = nil, limit: Int? = nil) {
-        followingSectionCollectionView.isUserInteractionEnabled = false
-        EventService.getFollowingEvents(skip: skip, limit: limit).done { response in
-            self.userFollowingsEvents.append(contentsOf: response.list)
-            self.gotMoreEvents = response.list.count < self.eventsLimit || response.list.count == 0 ? false : true
-            for _ in 0 ..< self.userFollowingsEvents.count {
-                self.boolArr.append(Int.random(in: 0 ... 1))
-            }
-            if self.userFollowingsEvents.isEmpty { //setup empty view
-                self.setupEmptyFollowingEventsView()
-                if self.userFollowings.count == 1 && self.userFollowingsEvents.isEmpty {
-                    self.emptyFollowingEventsTitle.text = "\(self.userFollowings.first?.targetProfile?.name ?? "") currently don't have any events!"
+        print(userFollowings.count)
+        if userFollowings.count != 0 {
+            followingSectionCollectionView.isUserInteractionEnabled = false
+            EventService.getFollowingEvents(skip: skip, limit: limit).done { response in
+                self.userFollowingsEvents.append(contentsOf: response.list)
+                self.gotMoreEvents = response.list.count < self.eventsLimit || response.list.count == 0 ? false : true
+                for _ in 0 ..< self.userFollowingsEvents.count {
+                    self.boolArr.append(Int.random(in: 0 ... 1))
                 }
-                
-                UIView.animate(withDuration: 0.2, animations: {
-                    self.followingSectionCollectionView.alpha = 0
-                    self.emptyFollowingEventsShadowView.alpha = 1
-                })
-            }
+                if self.userFollowingsEvents.isEmpty { //setup empty view
+                    self.setupEmptyFollowingEventsView()
+                    if self.userFollowings.count == 1 && self.userFollowingsEvents.isEmpty {
+                        self.emptyFollowingEventsTitle.text = "\(self.userFollowings.first?.targetProfile?.name ?? "") currently don't have any events!"
+                    }
+                    
+                    UIView.animate(withDuration: 0.2, animations: {
+                        self.followingSectionCollectionView.alpha = 0
+                        self.emptyFollowingEventsShadowView.alpha = 1
+                    })
+                }
             }.ensure {
                 if self.loadingIndicator.alpha != 0 {
                     UIView.animate(withDuration: 0.2) {
@@ -616,6 +627,7 @@ extension FollowingSection: FollowingSectionCellDelegate {
                 
                 UIApplication.shared.isNetworkActivityIndicatorVisible = false
             }.catch { error in }
+        }
     }
     
     func getSelectedBuskerEvents(buskerID: String, name: String, skip: Int? = nil, limit: Int? = nil) {
@@ -677,6 +689,8 @@ extension FollowingSection: FollowingSectionCellDelegate {
             self.followingsCollectionView.alpha = 0
         }
         
+        
+        followingSectionDesc.text = "Loading"
         emptyFollowingShadowView.alpha = 0
         emptyFollowingEventsShadowView.alpha = 0
         if followingSectionCollectionView.alpha != 1 {

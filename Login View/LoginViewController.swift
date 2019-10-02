@@ -12,6 +12,7 @@ import GoogleSignIn
 import NVActivityIndicatorView
 import Validator
 import AuthenticationServices
+import JGProgressHUD
 
 class LoginViewController: UIViewController {
     
@@ -20,7 +21,7 @@ class LoginViewController: UIViewController {
 //    }
     
     @IBOutlet weak var loginView: LoginView!
-    
+    var hud = JGProgressHUD(style: .dark)
     let userService = UserService()
     
     override func viewDidLoad() {
@@ -409,25 +410,45 @@ extension LoginViewController: LoginViewDelegate, UserServiceDelegate {
 extension LoginViewController: ASAuthorizationControllerDelegate, ASAuthorizationControllerPresentationContextProviding {
     @available(iOS 13.0, *)
     func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
-        switch authorization.credential {
-        case let credential as ASAuthorizationAppleIDCredential:
-            if let email = credential.email {
-                print("apple id email: \(email)")
+        if let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential {
+            
+            let userID = appleIDCredential.user
+
+            if let identityToken = appleIDCredential.identityToken, let authCode = appleIDCredential.authorizationCode, let userName = appleIDCredential.fullName?.givenName, let email = appleIDCredential.email {
+                print("Successfully got data from Apple, proceeding to request JWT...")
+                
+                //show hud
+                hud.indicatorView = JGProgressHUDIndeterminateIndicatorView()
+                hud.textLabel.text = "Working hard..."
+                hud.detailTextLabel.text = "eating Apple (づ￣ ³￣)づ"
+                hud.layoutMargins = UIEdgeInsets.init(top: 10.0, left: 10.0, bottom: 10.0, right: 10.0)
+                hud.show(in: self.view)
+                
+                UserService.Apple.login(identityToken: String(data: identityToken, encoding: .utf8) ?? "", authCode: String(data: authCode, encoding: .utf8) ?? "", userID: userID, email: email, userName: userName, fromVC: self)
             }
+
+            // Create an account in your system.
+            // store the userIdentifier in the keychain.
+//            do {
+//                try KeychainItem(service: "app.major7.ios", account: "userIdentifier").saveItem(userIdentifier)
+//            } catch {
+//                print("Unable to save userIdentifier to keychain.")
+//            }
             
-            if let authCode = credential.authorizationCode {
-                print("auth code: \(String(data: authCode, encoding: .utf8) ?? "")")
-            }
-            
-            if let identityToken = credential.identityToken {
-                print("identityToken: \(String(data: identityToken, encoding: .utf8) ?? "")")
-            }
-            
-        case let credential as ASPasswordCredential:
-            let userID = credential.user
-            print(userID)
-            
-        default: break
+        } else if let passwordCredential = authorization.credential as? ASPasswordCredential {
+            // Sign in using an existing iCloud Keychain credential.
+            let username = passwordCredential.user
+            let password = passwordCredential.password
+            print("\(username), \(password)")
+            // For the purpose of this demo app, show the password credential as an alert.
+//            DispatchQueue.main.async {
+//                let message = "The app has received your selected credential from the keychain. \n\n Username: \(username)\n Password: \(password)"
+//                let alertController = UIAlertController(title: "Keychain Credential Received",
+//                                                        message: message,
+//                                                        preferredStyle: .alert)
+//                alertController.addAction(UIAlertAction(title: "Dismiss", style: .cancel, handler: nil))
+//                self.present(alertController, animated: true, completion: nil)
+//            }
         }
     }
     
