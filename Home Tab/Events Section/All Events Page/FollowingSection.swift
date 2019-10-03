@@ -64,7 +64,6 @@ class FollowingSection: UICollectionViewCell {
         
         if UserService.User.isLoggedIn() {
             getCurrentUserFollowings(limit: followingsLimit)
-            getCurrentUserFollowingsEvents(limit: eventsLimit)
         }
     }
     
@@ -569,6 +568,8 @@ extension FollowingSection: FollowingSectionCellDelegate {
                 self.userFollowings.append(contentsOf: response.list)
                 self.gotMoreFollowings = response.list.count < self.followingsLimit || response.list.count == 0 ? false : true
                 
+                self.getCurrentUserFollowingsEvents(limit: self.eventsLimit)
+                
                 UIView.animate(withDuration: 0.2) {
                     self.followingSectionDesc.alpha = 0
                     self.followingsCollectionView.alpha = 1
@@ -595,39 +596,36 @@ extension FollowingSection: FollowingSectionCellDelegate {
     }
     
     func getCurrentUserFollowingsEvents(skip: Int? = nil, limit: Int? = nil) {
-        print(userFollowings.count)
-        if userFollowings.count != 0 {
-            followingSectionCollectionView.isUserInteractionEnabled = false
-            EventService.getFollowingEvents(skip: skip, limit: limit).done { response in
-                self.userFollowingsEvents.append(contentsOf: response.list)
-                self.gotMoreEvents = response.list.count < self.eventsLimit || response.list.count == 0 ? false : true
-                for _ in 0 ..< self.userFollowingsEvents.count {
-                    self.boolArr.append(Int.random(in: 0 ... 1))
+        followingSectionCollectionView.isUserInteractionEnabled = false
+        EventService.getFollowingEvents(skip: skip, limit: limit).done { response in
+            self.userFollowingsEvents.append(contentsOf: response.list)
+            self.gotMoreEvents = response.list.count < self.eventsLimit || response.list.count == 0 ? false : true
+            for _ in 0 ..< self.userFollowingsEvents.count {
+                self.boolArr.append(Int.random(in: 0 ... 1))
+            }
+            if self.userFollowingsEvents.isEmpty { //setup empty view
+                self.setupEmptyFollowingEventsView()
+                if self.userFollowings.count == 1 && self.userFollowingsEvents.isEmpty {
+                    self.emptyFollowingEventsTitle.text = "\(self.userFollowings.first?.targetProfile?.name ?? "") currently don't have any events!"
                 }
-                if self.userFollowingsEvents.isEmpty { //setup empty view
-                    self.setupEmptyFollowingEventsView()
-                    if self.userFollowings.count == 1 && self.userFollowingsEvents.isEmpty {
-                        self.emptyFollowingEventsTitle.text = "\(self.userFollowings.first?.targetProfile?.name ?? "") currently don't have any events!"
-                    }
-                    
-                    UIView.animate(withDuration: 0.2, animations: {
-                        self.followingSectionCollectionView.alpha = 0
-                        self.emptyFollowingEventsShadowView.alpha = 1
-                    })
-                }
-            }.ensure {
-                if self.loadingIndicator.alpha != 0 {
-                    UIView.animate(withDuration: 0.2) {
-                        self.loadingIndicator.alpha = 0
-                    }
-                }
-                self.followingSectionCollectionView.reloadData()
-                self.followingSectionCollectionView.isUserInteractionEnabled = true
-                NotificationCenter.default.post(name: .eventListEndRefreshing, object: nil)
                 
-                UIApplication.shared.isNetworkActivityIndicatorVisible = false
-            }.catch { error in }
-        }
+                UIView.animate(withDuration: 0.2, animations: {
+                    self.followingSectionCollectionView.alpha = 0
+                    self.emptyFollowingEventsShadowView.alpha = 1
+                })
+            }
+        }.ensure {
+            if self.loadingIndicator.alpha != 0 {
+                UIView.animate(withDuration: 0.2) {
+                    self.loadingIndicator.alpha = 0
+                }
+            }
+            self.followingSectionCollectionView.reloadData()
+            self.followingSectionCollectionView.isUserInteractionEnabled = true
+            NotificationCenter.default.post(name: .eventListEndRefreshing, object: nil)
+            
+            UIApplication.shared.isNetworkActivityIndicatorVisible = false
+        }.catch { error in }
     }
     
     func getSelectedBuskerEvents(buskerID: String, name: String, skip: Int? = nil, limit: Int? = nil) {
@@ -701,8 +699,7 @@ extension FollowingSection: FollowingSectionCellDelegate {
         followingSectionCollectionView.setContentOffset(CGPoint.zero, animated: false)
         followingSectionCollectionView.reloadData()
         
-        getCurrentUserFollowings()
-        getCurrentUserFollowingsEvents()
+        getCurrentUserFollowings(limit: followingsLimit)
     }
     
     func checkBookmarkBtnState(cell: FollowingSectionCell, indexPath: IndexPath) {
