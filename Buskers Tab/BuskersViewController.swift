@@ -58,23 +58,30 @@ class BuskersViewController: UIViewController {
         navigationController?.interactivePopGestureRecognizer?.delegate = self
         //tabBarController?.delegate = self
         
+        setupNavBar()
         setupUI()
         getBuskersByTrend(limit: buskersLimit)
     }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        setupNavBar()
-    }
-    
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        UIApplication.shared.statusBarUIView?.backgroundColor = .m7DarkGray()
+        //status bar color
+        UIApplication.shared.statusBarUIView?.backgroundColor = UIColor.m7DarkGray().withAlphaComponent(0.8)
+        
+        //nav bar handle
+        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        navigationController?.navigationBar.shadowImage = UIImage()
+        navigationController?.navigationBar.isTranslucent = true
+        navigationController?.navigationBar.backgroundColor = UIColor.m7DarkGray().withAlphaComponent(0.8)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        //status bar color
         UIApplication.shared.statusBarUIView?.backgroundColor = .clear
+        
+        //nav bar handle
+        navigationController?.navigationBar.backgroundColor = .clear
     }
 }
 
@@ -236,13 +243,6 @@ extension BuskersViewController {
         navigationController?.navigationBar.largeTitleTextAttributes = textAttributes
         
         navigationController?.navigationBar.prefersLargeTitles = true
-        
-        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-        navigationController?.navigationBar.shadowImage = UIImage()
-        navigationController?.navigationBar.isTranslucent = true
-        //navigationController?.navigationBar.barTintColor = .darkGray()
-        
-        navigationController?.navigationBar.backgroundColor = UIColor.m7DarkGray().withAlphaComponent(0.8)
     }
 }
 
