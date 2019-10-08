@@ -425,6 +425,13 @@ extension LoginViewController: ASAuthorizationControllerDelegate, ASAuthorizatio
                 hud.show(in: self.view)
                 
                 UserService.Apple.login(identityToken: String(data: identityToken, encoding: .utf8) ?? "", authCode: String(data: authCode, encoding: .utf8) ?? "", userID: userID, email: email, userName: userName, fromVC: self)
+                
+                //save apple credentials to local
+                UserDefaults.standard.set(userID, forKey: LOCAL_KEY.APPLE_USER_ID)
+                UserDefaults.standard.set(String(data: identityToken, encoding: .utf8) ?? "", forKey: LOCAL_KEY.APPLE_IDENTITY_TOKEN)
+                UserDefaults.standard.set(String(data: authCode, encoding: .utf8) ?? "", forKey: LOCAL_KEY.APPLE_AUTH_CODE)
+                UserDefaults.standard.set(userName, forKey: LOCAL_KEY.APPLE_USERNAME)
+                UserDefaults.standard.set(email, forKey: LOCAL_KEY.APPLE_EMAIL)
             }
 
             // Create an account in your system.
@@ -449,6 +456,20 @@ extension LoginViewController: ASAuthorizationControllerDelegate, ASAuthorizatio
 //                alertController.addAction(UIAlertAction(title: "Dismiss", style: .cancel, handler: nil))
 //                self.present(alertController, animated: true, completion: nil)
 //            }
+        }
+        
+        //Temp fix for re-login
+        if !UserService.User.isLoggedIn() {
+            if
+                let userID = UserDefaults.standard.string(forKey: LOCAL_KEY.APPLE_USER_ID),
+                let identityToken = UserDefaults.standard.string(forKey: LOCAL_KEY.APPLE_IDENTITY_TOKEN),
+                let authCode = UserDefaults.standard.string(forKey: LOCAL_KEY.APPLE_AUTH_CODE),
+                let userName = UserDefaults.standard.string(forKey: LOCAL_KEY.APPLE_USERNAME),
+                let email = UserDefaults.standard.string(forKey: LOCAL_KEY.APPLE_EMAIL) {
+                
+                //print("userID = \(userID)\nidentityToken = \(identityToken)\nauthCode = \(authCode)\nuserName = \(userName)\nemail = \(email)")
+                UserService.Apple.login(identityToken: identityToken, authCode: authCode, userID: userID, email: email, userName: userName, fromVC: self)
+            }
         }
     }
     

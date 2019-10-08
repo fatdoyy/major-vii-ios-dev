@@ -346,7 +346,7 @@ extension UserService {
                             fromVC.hud.detailTextLabel.text = nil
                         })
                         
-                        //save tokens/user id to local
+                        //save m7 credentials to local
                         UserDefaults.standard.set(apiResponse["user_id"], forKey: LOCAL_KEY.USER_ID)
                         UserDefaults.standard.set(apiResponse["access_token"], forKey: LOCAL_KEY.ACCESS_TOKEN)
                         UserDefaults.standard.set(apiResponse["refresh_token"], forKey: LOCAL_KEY.REFRESH_TOKEN)
@@ -621,13 +621,6 @@ extension UserService {
                     resolver.reject(error)
             }
         }
-    }
-}
-
-//check key has value
-extension UserDefaults {
-    func hasValue(_ key: String) -> Bool {
-        return nil != object(forKey: key)
     }
 }
 
