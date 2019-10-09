@@ -100,12 +100,14 @@ class EventsListViewController: ScrollingNavigationViewController {
             navigationController.followScrollView(mainCollectionView, delay: 20.0)
         }
         
-        let bookmarkedSection = mainCollectionView.visibleCells //hide bookmark section when view did disappear
-        for cell in bookmarkedSection {
-            if let cell = cell as? BookmarkedSection {
-                if cell.bookmarksCollectionView.alpha == 0 {
-                    cell.bookmarksCollectionView.alpha = 1
-                    cell.reloadIndicator.alpha = 0
+        if UserService.User.isLoggedIn() {
+            let bookmarkedSection = mainCollectionView.visibleCells //hide bookmark section when view did disappear
+            for cell in bookmarkedSection {
+                if let cell = cell as? BookmarkedSection {
+                    if cell.bookmarksCollectionView.alpha == 0 {
+                        cell.bookmarksCollectionView.alpha = 1
+                        cell.reloadIndicator.alpha = 0
+                    }
                 }
             }
         }
@@ -134,17 +136,10 @@ class EventsListViewController: ScrollingNavigationViewController {
     @objc private func refreshEventListVC() {
         isFromLoginView = true
     }
-
+    
     func showLoginVC() {
         let loginVC = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "loginVC") as! LoginViewController
-        
-        loginVC.hero.isEnabled = true
-
-        self.navigationItem.title = ""
-        self.navigationController?.hero.navigationAnimationType = .autoReverse(presenting: .cover(direction: .up))
-        self.navigationController?.pushViewController(loginVC, animated: true)
-        
-        //self.present(loginVC, animated: true, completion: nil)
+        self.present(loginVC, animated: true, completion: nil)
     }
 }
 
@@ -589,9 +584,8 @@ extension EventsListViewController: UICollectionViewDelegate, UICollectionViewDe
                 
             case .Bookmarked:
                 let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: BookmarkedSection.reuseIdentifier, for: indexPath) as! BookmarkedSection
-                if UserService.User.isLoggedIn() {
-                    cell.delegate = self
-                } else {
+                cell.delegate = self
+                if !UserService.User.isLoggedIn() {
                     cell.bookmarksCountLabel.text = "No account? It's totally free to create one!"
                 }
                 return cell

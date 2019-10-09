@@ -14,7 +14,7 @@ import Localize_Swift
 import NVActivityIndicatorView
 import AuthenticationServices
 
-protocol LoginViewDelegate: class{
+protocol LoginViewDelegate: class {
     func didTapDismissBtn()
     func didTapFbLogin()
     func didTapGoogleLogin()
@@ -32,10 +32,6 @@ class LoginView: UIView {
     
     @IBOutlet weak var videoBg: UIImageView!
     @IBOutlet weak var videoOverlay: UIView!
-    
-    @IBOutlet weak var dismissBtn: UIButton!
-    @IBOutlet weak var dismissBtnTopConstraint: NSLayoutConstraint!
-    @IBOutlet weak var dismissBtnLeadingConstraint: NSLayoutConstraint!
     
     @IBOutlet weak var logo: UIImageView!
     @IBOutlet weak var descLabel: UILabel!
@@ -110,11 +106,6 @@ class LoginView: UIView {
         
         descLabel.textColor = .whiteText()
         
-        if UIScreen.main.nativeBounds.height != 1792 || UIScreen.main.nativeBounds.height != 2436 || UIScreen.main.nativeBounds.height != 2688 { //if device is not iPhone X, XR, XS, XS Max
-            self.dismissBtnTopConstraint.constant = -20
-            self.dismissBtnLeadingConstraint.constant = 12.5
-        }
-        
         setupSocialLoginElements()
         setupEmailLoginElements()
         setupRegisterElements()
@@ -125,8 +116,25 @@ class LoginView: UIView {
         emailLoginBtn.setTitleColor(.white, for: .selected)
         
         tcLabel.textColor = .whiteText50Alpha()
+        
+        if #available(iOS 13.0, *) {} else {
+            let dismissBtn2 = UIButton()
+            dismissBtn2.setImage(UIImage(named: "icon_close"), for: .normal)
+            dismissBtn2.addTarget(self, action: #selector(didTapDismissBtn), for: .touchUpInside)
+            addSubview(dismissBtn2)
+            dismissBtn2.snp.makeConstraints { (make) in
+                if UIScreen.main.nativeBounds.height != 1792 || UIScreen.main.nativeBounds.height != 2436 || UIScreen.main.nativeBounds.height != 2688 { //if device is not iPhone X, XR, XS, XS Max
+                    make.top.equalToSuperview().offset(20)
+                    make.left.equalToSuperview().offset(12.5)
+                } else {
+                    make.top.equalToSuperview().offset(45)
+                    make.left.equalToSuperview().offset(20)
+                }
+                make.size.equalTo(40)
+            }
+        }
     }
-    
+
     private func setupSocialLoginElements() {
         fbLoginBtn.backgroundColor = .fbBlue()
         fbLoginBtn.layer.cornerRadius = GlobalCornerRadius.value
@@ -410,7 +418,7 @@ class LoginView: UIView {
     }
 
     
-    @IBAction func didTapDismissBtn(_ sender: Any) {
+    @objc func didTapDismissBtn(_ sender: Any) {
         delegate?.didTapDismissBtn()
     }
     

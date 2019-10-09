@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina5_5" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14868" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina5_5" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14824"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -14,9 +12,6 @@
             <connections>
                 <outlet property="contentView" destination="iN0-l3-epB" id="hRf-p0-LJs"/>
                 <outlet property="descLabel" destination="Av8-wg-AL5" id="Q1r-mw-ci0"/>
-                <outlet property="dismissBtn" destination="dfM-5N-TVV" id="ETz-s7-u2b"/>
-                <outlet property="dismissBtnLeadingConstraint" destination="J4B-gC-aMI" id="vAb-Ml-dUS"/>
-                <outlet property="dismissBtnTopConstraint" destination="k3R-JD-TWG" id="2N1-1H-bec"/>
                 <outlet property="emailLoginBtn" destination="4cn-r7-Q7a" id="9LN-el-nvx"/>
                 <outlet property="emailLoginLabel" destination="Xdd-F5-hak" id="Esh-hG-B3H"/>
                 <outlet property="emailTextField" destination="2Iw-bI-Rcw" id="V32-s5-DZU"/>
@@ -67,19 +62,8 @@
                     <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                     <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 </view>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dfM-5N-TVV">
-                    <rect key="frame" x="20" y="20" width="32" height="32"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="32" id="LRN-1w-GyU"/>
-                        <constraint firstAttribute="width" constant="32" id="iRu-qU-JHr"/>
-                    </constraints>
-                    <state key="normal" image="icon_close"/>
-                    <connections>
-                        <action selector="didTapDismissBtn:" destination="-1" eventType="touchUpInside" id="nf1-dW-Bcb"/>
-                    </connections>
-                </button>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo_white" translatesAutoresizingMaskIntoConstraints="NO" id="66Y-6q-Qmz">
-                    <rect key="frame" x="142" y="70" width="130" height="54"/>
+                    <rect key="frame" x="142" y="50" width="130" height="54"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="54" id="FUW-8a-no4"/>
@@ -87,7 +71,7 @@
                     </constraints>
                 </imageView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="為香港Buskers同觀眾提供嘅互動交流平台" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Av8-wg-AL5">
-                    <rect key="frame" x="0.0" y="154" width="414" height="17"/>
+                    <rect key="frame" x="0.0" y="134" width="414" height="17"/>
                     <fontDescription key="fontDescription" type="system" weight="medium" pointSize="14"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
@@ -97,7 +81,6 @@
                     <subviews>
                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="bezel" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="P1G-ce-yGe" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
                             <rect key="frame" x="14" y="5" width="306" height="30"/>
-                            <nil key="textColor"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
                             <userDefinedRuntimeAttributes>
@@ -121,7 +104,6 @@
                     <subviews>
                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="bezel" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="TVe-JL-Ua5" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
                             <rect key="frame" x="14" y="5" width="306" height="30"/>
-                            <nil key="textColor"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
                             <userDefinedRuntimeAttributes>
@@ -145,7 +127,6 @@
                     <subviews>
                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="bezel" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="gVk-OE-Qmh" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
                             <rect key="frame" x="14" y="5" width="306" height="30"/>
-                            <nil key="textColor"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
                             <userDefinedRuntimeAttributes>
@@ -181,7 +162,6 @@
                     <subviews>
                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="bezel" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="2Iw-bI-Rcw" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
                             <rect key="frame" x="14" y="5" width="306" height="30"/>
-                            <nil key="textColor"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
                             <userDefinedRuntimeAttributes>
@@ -205,7 +185,6 @@
                     <subviews>
                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="bezel" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Wf4-m9-IGA" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
                             <rect key="frame" x="14" y="5" width="306" height="30"/>
-                            <nil key="textColor"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
                             <userDefinedRuntimeAttributes>
@@ -327,7 +306,6 @@
                 <constraint firstItem="Av8-wg-AL5" firstAttribute="top" secondItem="66Y-6q-Qmz" secondAttribute="bottom" constant="30" id="Det-4v-DJj"/>
                 <constraint firstItem="TKw-iF-RFC" firstAttribute="top" secondItem="EmF-Vw-BqZ" secondAttribute="bottom" constant="16" id="Gco-Vi-q17"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="pvl-KV-uGc" secondAttribute="trailing" constant="40" id="Hd9-uk-Tuu"/>
-                <constraint firstItem="dfM-5N-TVV" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="20" id="J4B-gC-aMI"/>
                 <constraint firstItem="8KV-0b-tPw" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="LJ0-Td-gS1"/>
                 <constraint firstItem="Xdd-F5-hak" firstAttribute="top" secondItem="aYn-8n-H8i" secondAttribute="bottom" constant="33" id="MA5-hk-xGP"/>
                 <constraint firstItem="66Y-6q-Qmz" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="50" id="Ppb-5w-l9b"/>
@@ -360,7 +338,6 @@
                 <constraint firstItem="v18-0O-7do" firstAttribute="top" secondItem="Xdd-F5-hak" secondAttribute="bottom" constant="25" id="hW0-ZL-H6O"/>
                 <constraint firstItem="8fz-G0-a6L" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="40" id="iv8-zM-YXh"/>
                 <constraint firstItem="TKw-iF-RFC" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="40" id="jXn-S4-NpV"/>
-                <constraint firstItem="vUN-kp-3ea" firstAttribute="top" secondItem="dfM-5N-TVV" secondAttribute="top" id="k3R-JD-TWG"/>
                 <constraint firstItem="v18-0O-7do" firstAttribute="top" secondItem="TKw-iF-RFC" secondAttribute="bottom" constant="75" id="kEc-NI-W7v"/>
                 <constraint firstItem="4cn-r7-Q7a" firstAttribute="top" secondItem="aUA-Pq-5Vt" secondAttribute="bottom" constant="25" id="nEg-Dm-rgG"/>
                 <constraint firstItem="EmF-Vw-BqZ" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="40" id="obS-zB-lAC"/>
@@ -376,7 +353,6 @@
         </view>
     </objects>
     <resources>
-        <image name="icon_close" width="32" height="32"/>
         <image name="icon_facebook_white" width="40" height="40"/>
         <image name="icon_google" width="40" height="40"/>
         <image name="logo_white" width="641" height="272"/>

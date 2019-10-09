@@ -20,6 +20,8 @@ class LoginViewController: UIViewController {
 //        return true
 //    }
     
+    var identityToken: String? //Apple sign in identityToken
+    
     @IBOutlet weak var loginView: LoginView!
     var hud = JGProgressHUD(style: .dark)
     let userService = UserService()
@@ -117,8 +119,10 @@ extension LoginViewController: LoginViewDelegate, UserServiceDelegate {
     func performExistingAccountSetupFlows() {
         if #available(iOS 13.0, *) {
             // Prepare requests for both Apple ID and password providers.
-            let requests = [ASAuthorizationAppleIDProvider().createRequest(),
-                            ASAuthorizationPasswordProvider().createRequest()]
+            let req1 = ASAuthorizationAppleIDProvider().createRequest()
+            req1.requestedScopes = [.fullName, .email]
+            
+            let requests = [req1, ASAuthorizationPasswordProvider().createRequest()]
             
             // Create an authorization controller with the given requests.
             let authorizationController = ASAuthorizationController(authorizationRequests: requests)
@@ -413,25 +417,45 @@ extension LoginViewController: ASAuthorizationControllerDelegate, ASAuthorizatio
         if let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential {
             
             let userID = appleIDCredential.user
-
+            //refresh expired tokens
+            if let newIdentityToken = appleIDCredential.identityToken, let newAuthCode = appleIDCredential.authorizationCode {
+                let identityTokenStr = String(data: newIdentityToken, encoding: .utf8) ?? ""
+                let authCodeStr = String(data: newAuthCode, encoding: .utf8) ?? ""
+                
+                //check existing identity token
+                if UserDefaults.standard.hasValue(LOCAL_KEY.APPLE_IDENTITY_TOKEN) {
+                    print("refreshing token")
+                    if UserDefaults.standard.string(forKey: LOCAL_KEY.APPLE_IDENTITY_TOKEN) != identityTokenStr {
+                        UserDefaults.standard.set(identityTokenStr, forKey: LOCAL_KEY.APPLE_IDENTITY_TOKEN)
+                        self.identityToken = identityTokenStr
+                        print("identityToken = \(identityTokenStr)")
+                    }
+                }
+                
+                //check existing auth code
+                if UserDefaults.standard.hasValue(LOCAL_KEY.APPLE_AUTH_CODE) {
+                    print("refreshing auth code")
+                    if UserDefaults.standard.string(forKey: LOCAL_KEY.APPLE_AUTH_CODE) != authCodeStr {
+                        UserDefaults.standard.set(authCodeStr, forKey: LOCAL_KEY.APPLE_AUTH_CODE)
+                        print("authCodeStr = \(authCodeStr)")
+                    }
+                }
+            }
+            
+            //first time apple sign in
             if let identityToken = appleIDCredential.identityToken, let authCode = appleIDCredential.authorizationCode, let userName = appleIDCredential.fullName?.givenName, let email = appleIDCredential.email {
                 print("Successfully got data from Apple, proceeding to request JWT...")
+                showHud()
                 
-                //show hud
-                hud.indicatorView = JGProgressHUDIndeterminateIndicatorView()
-                hud.textLabel.text = "Working hard..."
-                hud.detailTextLabel.text = "eating Apple (づ￣ ³￣)づ"
-                hud.layoutMargins = UIEdgeInsets.init(top: 10.0, left: 10.0, bottom: 10.0, right: 10.0)
-                hud.show(in: self.view)
-                
-                UserService.Apple.login(identityToken: String(data: identityToken, encoding: .utf8) ?? "", authCode: String(data: authCode, encoding: .utf8) ?? "", userID: userID, email: email, userName: userName, fromVC: self)
-                
-                //save apple credentials to local
+                //save apple credentials to local, NOTICE: store all as String type
                 UserDefaults.standard.set(userID, forKey: LOCAL_KEY.APPLE_USER_ID)
                 UserDefaults.standard.set(String(data: identityToken, encoding: .utf8) ?? "", forKey: LOCAL_KEY.APPLE_IDENTITY_TOKEN)
                 UserDefaults.standard.set(String(data: authCode, encoding: .utf8) ?? "", forKey: LOCAL_KEY.APPLE_AUTH_CODE)
                 UserDefaults.standard.set(userName, forKey: LOCAL_KEY.APPLE_USERNAME)
                 UserDefaults.standard.set(email, forKey: LOCAL_KEY.APPLE_EMAIL)
+                
+                //m7 login
+                UserService.Apple.login(identityToken: String(data: identityToken, encoding: .utf8) ?? "", authCode: String(data: authCode, encoding: .utf8) ?? "", userID: userID, email: email, userName: userName, fromVC: self)
             }
 
             // Create an account in your system.
@@ -441,25 +465,17 @@ extension LoginViewController: ASAuthorizationControllerDelegate, ASAuthorizatio
 //            } catch {
 //                print("Unable to save userIdentifier to keychain.")
 //            }
-            
+            print("state: \(appleIDCredential.state)")
         } else if let passwordCredential = authorization.credential as? ASPasswordCredential {
             // Sign in using an existing iCloud Keychain credential.
             let username = passwordCredential.user
             let password = passwordCredential.password
             print("\(username), \(password)")
-            // For the purpose of this demo app, show the password credential as an alert.
-//            DispatchQueue.main.async {
-//                let message = "The app has received your selected credential from the keychain. \n\n Username: \(username)\n Password: \(password)"
-//                let alertController = UIAlertController(title: "Keychain Credential Received",
-//                                                        message: message,
-//                                                        preferredStyle: .alert)
-//                alertController.addAction(UIAlertAction(title: "Dismiss", style: .cancel, handler: nil))
-//                self.present(alertController, animated: true, completion: nil)
-//            }
         }
         
         //Temp fix for re-login
         if !UserService.User.isLoggedIn() {
+            print("re-login using Apple...")
             if
                 let userID = UserDefaults.standard.string(forKey: LOCAL_KEY.APPLE_USER_ID),
                 let identityToken = UserDefaults.standard.string(forKey: LOCAL_KEY.APPLE_IDENTITY_TOKEN),
@@ -468,6 +484,7 @@ extension LoginViewController: ASAuthorizationControllerDelegate, ASAuthorizatio
                 let email = UserDefaults.standard.string(forKey: LOCAL_KEY.APPLE_EMAIL) {
                 
                 //print("userID = \(userID)\nidentityToken = \(identityToken)\nauthCode = \(authCode)\nuserName = \(userName)\nemail = \(email)")
+                showHud()
                 UserService.Apple.login(identityToken: identityToken, authCode: authCode, userID: userID, email: email, userName: userName, fromVC: self)
             }
         }
@@ -476,6 +493,15 @@ extension LoginViewController: ASAuthorizationControllerDelegate, ASAuthorizatio
     @available(iOS 13.0, *)
     func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
         return self.view.window!
+    }
+    
+    func showHud() {
+        //show hud
+        hud.indicatorView = JGProgressHUDIndeterminateIndicatorView()
+        hud.textLabel.text = "Working hard..."
+        hud.detailTextLabel.text = "eating Apple (づ￣ ³￣)づ"
+        hud.layoutMargins = UIEdgeInsets.init(top: 10.0, left: 10.0, bottom: 10.0, right: 10.0)
+        hud.show(in: self.view)
     }
 }
 

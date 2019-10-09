@@ -129,6 +129,7 @@ extension BookmarkedSection {
             layout.sectionInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
         }
         
+        bookmarksCollectionView.isUserInteractionEnabled = false
         bookmarksCollectionView.dataSource = self
         bookmarksCollectionView.delegate = self
         
@@ -250,7 +251,6 @@ extension BookmarkedSection {
         }
         
         addSubview(emptyLoginShadowView)
-        
     }
     
     @objc private func showLoginVC(_ sender: UIButton) {
@@ -336,14 +336,11 @@ extension BookmarkedSection {
         addSubview(emptyBookmarkShadowView)
         
     }
-    
-
 }
 
 //MARK: - API Calls
 extension BookmarkedSection {
     func getBookmarkedEvents(completion: (() -> Void)? = nil) {
-        bookmarksCollectionView.isUserInteractionEnabled = false
         UserService.getBookmarkedEvents().done { response in
             if response.list.isEmpty { self.setupEmptyBookmarkView() }
             self.bookmarkedEvents = response.list.reversed()
