@@ -20,6 +20,7 @@ class BuskersViewController: UIViewController {
     var mainCollectionView: UICollectionView!
     var fakeCollectionView: UICollectionView!
     
+    var searchTask: DispatchWorkItem? //avoid live search throttle
     var searchController: UISearchController!
     
     var buskers = [OrganizerProfile]() {
@@ -164,7 +165,17 @@ extension BuskersViewController {
     //Do search action whenever user types
     @objc func searchWithQuery() {
         if let string = searchController.searchBar.text {
-            delegate?.searchWith(query: string)
+            //Cancel previous task if any
+            self.searchTask?.cancel()
+            
+            //Replace previous task with a new one
+            let newTask = DispatchWorkItem { [weak self] in
+                self?.delegate?.searchWith(query: string)
+            }
+            self.searchTask = newTask
+            
+            //Execute task in 0.3 seconds (if not cancelled !)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: newTask)
         }
     }
     

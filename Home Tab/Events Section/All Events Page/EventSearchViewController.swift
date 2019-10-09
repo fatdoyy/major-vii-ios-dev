@@ -19,6 +19,7 @@ class EventSearchViewController: UIViewController {
     var bookmarkedEventIDArray = [String]() //IMPORTANT: Adding an array to local to control bookmarkBtn's state because of cell reuse issues
     var boolArr = [Int]()
     
+    var searchTask: DispatchWorkItem? //avoid live search throttle
     var searchResults = [Event]()
     var isSearching = false
 
@@ -488,13 +489,18 @@ extension EventSearchViewController {
     //Do search action whenever user types
     @objc func searchWithQuery() {
         if let string = searchController.searchBar.text {
-            if string.isEmpty {
-//                isSearching = false
-//                searchResults.removeAll()
-//                bookmarkedEventIDArray.removeAll()
-//                mainCollectionView.reloadData()
-            } else {
-                searchWith(query: string)
+            if !string.isEmpty {
+                //Cancel previous task if any
+                self.searchTask?.cancel()
+                
+                //Replace previous task with a new one
+                let newTask = DispatchWorkItem { [weak self] in
+                    self?.searchWith(query: string)
+                }
+                self.searchTask = newTask
+                
+                //Execute task in 0.3 seconds (if not cancelled !)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: newTask)
             }
         }
     }
