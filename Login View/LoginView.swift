@@ -37,6 +37,11 @@ class LoginView: UIView {
     @IBOutlet weak var descLabel: UILabel!
     
     //MARK: - Social Login Elements
+    var appleSignInBtn: Any? = {
+        if #available(iOS 13.0, *) {
+            return ASAuthorizationAppleIDButton(type: .signIn, style: .white)
+        } else { return nil }
+    }()
     @IBOutlet weak var fbLoginBtn: UIButton!
     @IBOutlet weak var googleLoginBtn: UIButton!
     @IBOutlet weak var emailLoginLabel: UILabel!
@@ -146,15 +151,16 @@ class LoginView: UIView {
         
         //apple sign in
         if #available(iOS 13.0, *) {
-            let signInBtn = ASAuthorizationAppleIDButton(type: .signIn, style: .white)
-            signInBtn.cornerRadius = GlobalCornerRadius.value
-            signInBtn.addTarget(self, action: #selector(appleSingInBtnTapped), for: .touchUpInside)
-            addSubview(signInBtn)
-            signInBtn.snp.makeConstraints { (make) in
-                make.bottom.equalTo(fbLoginBtn.snp.top).offset(-20)
-                make.height.equalTo(46)
-                make.left.equalToSuperview().offset(40)
-                make.right.equalToSuperview().offset(-40)
+            if let appleSignInBtn = appleSignInBtn as! ASAuthorizationAppleIDButton? {
+                appleSignInBtn.cornerRadius = GlobalCornerRadius.value
+                appleSignInBtn.addTarget(self, action: #selector(appleSignInBtnTapped), for: .touchUpInside)
+                addSubview(appleSignInBtn)
+                appleSignInBtn.snp.makeConstraints { (make) in
+                    make.bottom.equalTo(fbLoginBtn.snp.top).offset(-20)
+                    make.height.equalTo(46)
+                    make.left.equalToSuperview().offset(40)
+                    make.right.equalToSuperview().offset(-40)
+                }
             }
         }
         
@@ -182,7 +188,7 @@ class LoginView: UIView {
         }
     }
     
-    @objc func appleSingInBtnTapped() {
+    @objc func appleSignInBtnTapped() {
         delegate?.didTapAppleSignIn()
     }
     

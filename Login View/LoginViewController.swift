@@ -147,6 +147,14 @@ extension LoginViewController: LoginViewDelegate, UserServiceDelegate {
     //register btn, NOTE: NOT register action
     func didTapRegisterBtn() {
         //hide social login elements
+        if #available(iOS 13.0, *) {
+            if let appleSignInBtn = loginView.appleSignInBtn as! ASAuthorizationAppleIDButton? {
+                UIView.animate(withDuration: 0.2) {
+                    appleSignInBtn.alpha = 0
+                }
+                appleSignInBtn.isUserInteractionEnabled = false
+            }
+        }
         for view in loginView.socialLoginElements {
             loginView.emailLoginBtn.setTitle("使用其他方法登入", for: .normal)
             UIView.animate(withDuration: 0.2) {
@@ -169,6 +177,14 @@ extension LoginViewController: LoginViewDelegate, UserServiceDelegate {
     func didTapEmailLogin() {
         if loginView.emailLoginBtn.title(for: .normal) == "已經有Account? 立即登入！" {
             //hide social login elements
+            if #available(iOS 13.0, *) {
+                if let appleSignInBtn = loginView.appleSignInBtn as! ASAuthorizationAppleIDButton? {
+                    UIView.animate(withDuration: 0.2) {
+                        appleSignInBtn.alpha = 0
+                    }
+                    appleSignInBtn.isUserInteractionEnabled = false
+                }
+            }
             for view in loginView.socialLoginElements {
                 UIView.animate(withDuration: 0.2) {
                     view.alpha = 0
@@ -204,6 +220,14 @@ extension LoginViewController: LoginViewDelegate, UserServiceDelegate {
             }
             
             //show social login elements
+            if #available(iOS 13.0, *) {
+                if let appleSignInBtn = loginView.appleSignInBtn as! ASAuthorizationAppleIDButton? {
+                    UIView.animate(withDuration: 0.2) {
+                        appleSignInBtn.alpha = 1
+                    }
+                    appleSignInBtn.isUserInteractionEnabled = true
+                }
+            }
             for view in loginView.socialLoginElements {
                 UIView.animate(withDuration: 0.2) {
                     view.alpha = 1

@@ -58,6 +58,7 @@ extension EventSearchViewController: FeaturedCellDelegate {
     }
     
     private func searchWith(query: String) {
+        emptySearchResultsLabel.text = "Searching for \"\(query)\""
         searchResults.removeAll()
         bookmarkedEventIDArray.removeAll()
         mainCollectionView.reloadData()

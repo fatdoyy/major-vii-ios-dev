@@ -10,6 +10,7 @@ import UIKit
 import Hero
 import ImageViewer
 import Floaty
+import SwiftMessages
 
 //rounded view in header's bottom (i.e. the red view in IB)
 class roundedView: UIView {
@@ -409,7 +410,7 @@ extension EventDetailsViewController: EventsDetailsViewDelegate {
             }
             
         } else { // not logged in action
-            print("not logged in")
+            SwiftMessages.show(view: InAppNotifications.loginWarning())
         }
     }
     
