@@ -17,7 +17,7 @@ protocol HomeViewControllerDelegate: class {
 
 class HomeViewController: UIViewController {
     weak var delegate: HomeViewControllerDelegate?
-    
+    let network = NetworkManager.sharedInstance
     weak var previousController: UIViewController? //for tabbar scroll to top
 
     // Remove when comments and image section API in Post are done
@@ -55,10 +55,17 @@ class HomeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .m7DarkGray()
-        navigationController?.interactivePopGestureRecognizer?.delegate = self
-        tabBarController?.delegate = self
-        mainCollectionView.refreshControl = customRefreshControl
+        
+        
+        NetworkManager.isUnreachable { _ in
+            self.mainCollectionView.alpha = 0
+            print("unreachable!!")
+        }
+        
+        network.reachability.whenReachable = { _ in
+            self.mainCollectionView.alpha = 1
+            print("reachable now")
+        }
         
         //check if we need to present loginVC
         if !UserService.User.isLoggedIn() {
@@ -68,6 +75,43 @@ class HomeViewController: UIViewController {
             self.present(loginVC, animated: true, completion: nil)
         }
         
+        setupUI()
+        getNews(limit: newsLimit)
+    }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationItem.title = ""
+        navigationController?.setNavigationBarHidden(true, animated: true)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        if (navigationController?.topViewController != self) {
+            let bounds = self.navigationController!.navigationBar.bounds
+            navigationController?.navigationBar.frame = CGRect(x: 0, y: 0, width: bounds.width, height: bounds.height + 100)
+            navigationController?.setNavigationBarHidden(false, animated: true)
+        }
+    }
+}
+
+//MARK: - UI related
+extension HomeViewController {
+    func setupUI() {
+        view.backgroundColor = .m7DarkGray()
+        navigationController?.interactivePopGestureRecognizer?.delegate = self
+        tabBarController?.delegate = self
+        mainCollectionView.refreshControl = customRefreshControl
+        
+        setupMainCollectionView()
+    }
+    
+    func setupMainCollectionView() {
         mainCollectionView.dataSource = self
         mainCollectionView.delegate = self
         
@@ -90,28 +134,6 @@ class HomeViewController: UIViewController {
         mainCollectionView.register(UINib.init(nibName: "HomePostCell", bundle: nil), forCellWithReuseIdentifier: HomePostCell.reuseIdentifier)
         
         mainCollectionView.register(UINib.init(nibName: "NewsSectionFooter", bundle: nil), forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: NewsSectionFooter.reuseIdentifier)
-        
-        getNews(limit: newsLimit)
-    }
-    
-    override var preferredStatusBarStyle: UIStatusBarStyle {
-        return .lightContent
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        navigationItem.title = ""
-        navigationController?.setNavigationBarHidden(true, animated: true)
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        
-        if (navigationController?.topViewController != self) {
-            let bounds = self.navigationController!.navigationBar.bounds
-            navigationController?.navigationBar.frame = CGRect(x: 0, y: 0, width: bounds.width, height: bounds.height + 100)
-            navigationController?.setNavigationBarHidden(false, animated: true)
-        }
     }
 }
 
