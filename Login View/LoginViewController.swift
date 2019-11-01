@@ -97,12 +97,23 @@ extension LoginViewController: LoginViewDelegate, UserServiceDelegate {
         UserService.FB.logIn(fromVC: self)
     }
     
-    //google login
+    //Google login (Disabled)
     func didTapGoogleLogin() {
-        userService.delegate = self
-        UserService.Google.logIn(fromVC: self)
+//        userService.delegate = self
+//        UserService.Google.logIn(fromVC: self)
     }
     
+    func googleLoginPresent(_ viewController: UIViewController) {
+        self.present(viewController, animated: true, completion: nil)
+    }
+    
+    func googleLoginDismiss(_ viewController: UIViewController) {
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+    func googleLoginWillDispatch() {}
+    
+    //Apple sign in
     func didTapAppleSignIn() {
         if #available(iOS 13.0, *) {
             let request = ASAuthorizationAppleIDProvider().createRequest()
@@ -130,18 +141,6 @@ extension LoginViewController: LoginViewDelegate, UserServiceDelegate {
             authorizationController.presentationContextProvider = self
             authorizationController.performRequests()
         }
-    }
-    
-    func googleLoginPresent(_ viewController: UIViewController) {
-        self.present(viewController, animated: true, completion: nil)
-    }
-    
-    func googleLoginDismiss(_ viewController: UIViewController) {
-        self.dismiss(animated: true, completion: nil)
-    }
-    
-    func googleLoginWillDispatch() {
-        print("1234567")
     }
     
     //register btn, NOTE: NOT register action
@@ -321,7 +320,7 @@ extension LoginViewController: LoginViewDelegate, UserServiceDelegate {
         }
     }
     
-    //register action
+    //email register action
     func didTapRegAction() {
         if let inputtedEmail = loginView.regEmailTextField.text, let inputtedPw = loginView.regPwTextField.text, let inputtedPwRefill = loginView.regPwRefillTextField.text {
             loginView.regActionBtn.isUserInteractionEnabled = false

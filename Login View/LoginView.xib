@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14868" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15400" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina5_5" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14824"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15404"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -215,19 +215,6 @@
                         <action selector="didTapLoginAction:" destination="-1" eventType="touchUpInside" id="NMi-bW-tXE"/>
                     </connections>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TBD-MH-1vl">
-                    <rect key="frame" x="40" y="381" width="334" height="46"/>
-                    <color key="backgroundColor" red="0.59607843140000005" green="0.80000000000000004" blue="0.31764705879999999" alpha="1" colorSpace="calibratedRGB"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="46" id="FvP-kX-QGv"/>
-                    </constraints>
-                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="13"/>
-                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="-1" maxY="0.0"/>
-                    <state key="normal" title="Facebook Login" image="icon_facebook_white"/>
-                    <connections>
-                        <action selector="didTapFbLogin:" destination="-1" eventType="touchUpInside" id="9Vd-lb-ub8"/>
-                    </connections>
-                </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aYn-8n-H8i">
                     <rect key="frame" x="40" y="443" width="334" height="46"/>
                     <color key="backgroundColor" red="0.59607843140000005" green="0.80000000000000004" blue="0.31764705879999999" alpha="1" colorSpace="calibratedRGB"/>
@@ -239,6 +226,19 @@
                     <state key="normal" title="Google Login" image="icon_google"/>
                     <connections>
                         <action selector="didTapGoogleLogin:" destination="-1" eventType="touchUpInside" id="v70-yo-ps1"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TBD-MH-1vl">
+                    <rect key="frame" x="40" y="443" width="334" height="46"/>
+                    <color key="backgroundColor" red="0.59607843140000005" green="0.80000000000000004" blue="0.31764705879999999" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="46" id="FvP-kX-QGv"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="13"/>
+                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="-1" maxY="0.0"/>
+                    <state key="normal" title="Facebook Login" image="icon_facebook_white"/>
+                    <connections>
+                        <action selector="didTapFbLogin:" destination="-1" eventType="touchUpInside" id="9Vd-lb-ub8"/>
                     </connections>
                 </button>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="或您可以使用電郵註冊" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xdd-F5-hak">
@@ -307,10 +307,10 @@
                 <constraint firstItem="TKw-iF-RFC" firstAttribute="top" secondItem="EmF-Vw-BqZ" secondAttribute="bottom" constant="16" id="Gco-Vi-q17"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="pvl-KV-uGc" secondAttribute="trailing" constant="40" id="Hd9-uk-Tuu"/>
                 <constraint firstItem="8KV-0b-tPw" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="LJ0-Td-gS1"/>
+                <constraint firstItem="Xdd-F5-hak" firstAttribute="top" secondItem="TBD-MH-1vl" secondAttribute="bottom" constant="33" id="Lqs-sD-NBg"/>
                 <constraint firstItem="Xdd-F5-hak" firstAttribute="top" secondItem="aYn-8n-H8i" secondAttribute="bottom" constant="33" id="MA5-hk-xGP"/>
                 <constraint firstItem="66Y-6q-Qmz" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="50" id="Ppb-5w-l9b"/>
                 <constraint firstItem="aUA-Pq-5Vt" firstAttribute="top" secondItem="aUe-7W-A5d" secondAttribute="bottom" constant="20" id="QtO-o7-Tyl"/>
-                <constraint firstItem="aYn-8n-H8i" firstAttribute="top" secondItem="TBD-MH-1vl" secondAttribute="bottom" constant="16" id="SJH-cF-jdt"/>
                 <constraint firstItem="3EJ-Br-OxY" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="40" id="SZY-va-8ye"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="TBD-MH-1vl" secondAttribute="trailing" constant="40" id="Sde-ta-BcD"/>
                 <constraint firstItem="Xdd-F5-hak" firstAttribute="centerX" secondItem="i76-Ax-cPT" secondAttribute="centerX" id="U8b-pR-bh9"/>

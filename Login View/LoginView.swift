@@ -145,6 +145,7 @@ class LoginView: UIView {
         fbLoginBtn.layer.cornerRadius = GlobalCornerRadius.value
         fbLoginBtn.setTitleColor(.white, for: .normal)
         
+        googleLoginBtn.alpha = 0
         googleLoginBtn.backgroundColor = .white
         googleLoginBtn.layer.cornerRadius = GlobalCornerRadius.value
         googleLoginBtn.setTitleColor(.darkGrayText(), for: .normal)

@@ -133,7 +133,7 @@ class SettingsViewController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        mainScrollView.contentSize = CGSize(width: screenWidth, height: UIScreen.main.bounds.height + 400)
+        mainScrollView.contentSize = CGSize(width: screenWidth, height: UIScreen.main.bounds.height + 600)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -198,7 +198,7 @@ extension SettingsViewController {
         logoutBtn.titleLabel?.font = UIFont.systemFont(ofSize: 12, weight: .medium)
         logoutBtn.backgroundColor = UIColor.white.withAlphaComponent(0.3)
         logoutBtn.layer.cornerRadius = 3
-        logoutBtn.addTarget(self, action: #selector(logoutBtnTapped), for: .touchUpInside)
+        logoutBtn.addTarget(self, action: #selector(didTapLogoutBtn), for: .touchUpInside)
         mainScrollView.addSubview(logoutBtn)
         logoutBtn.snp.makeConstraints { (make) in
             make.top.equalTo(accountTypeLabel.snp.bottom).offset(10)
@@ -314,11 +314,12 @@ extension SettingsViewController {
         self.present(loginVC, animated: true, completion: nil)
     }
     
-    @objc func logoutBtnTapped(_ sender: Any) {
+    @objc func didTapLogoutBtn(_ sender: Any) {
         UserService.User.logout(fromVC: self).done { _ -> () in
             UIView.animate(withDuration: 0.2) {
                 self.emptyLoginShadowView.alpha = 1
                 self.loginBtn.alpha = 1
+                self.logoutBtn.setTitle("Logging out...", for: .normal)
             }
         }.catch { error in }
     }

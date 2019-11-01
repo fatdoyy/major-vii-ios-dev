@@ -427,7 +427,7 @@ extension NewsDetailViewController: UIScrollViewDelegate {
     
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         if (!decelerate) {
-            HapticFeedback.createImpact(style: .medium)
+            //HapticFeedback.createImpact(style: .medium)
             if mainScrollView.currentVerticalPage == 1 && mainScrollView.contentOffset.y < UIScreen.main.bounds.height {
                 self.mainScrollView.setContentOffset(.zero, animated: true)
             }
@@ -442,7 +442,7 @@ extension NewsDetailViewController: UIScrollViewDelegate {
             pageControl.set(progress: indexPath.row, animated: true)
             //pageControl.set(progress: Int(scrollView.contentOffset.x) / Int(scrollView.frame.width), animated: true)
         } else {
-            HapticFeedback.createImpact(style: .medium)
+            //HapticFeedback.createImpact(style: .medium)
         }
         mainScrollView.isPagingEnabled = mainScrollView.currentVerticalPage != 0 ? false : true
     }

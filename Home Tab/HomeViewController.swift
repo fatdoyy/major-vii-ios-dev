@@ -56,7 +56,6 @@ class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
         NetworkManager.isUnreachable { _ in
             self.mainCollectionView.alpha = 0
             print("unreachable!!")

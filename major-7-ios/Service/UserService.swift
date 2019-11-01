@@ -207,7 +207,7 @@ extension UserService {
     }
 }
 
-//MARK: - Google login
+//MARK: - Google login (Disabled)
 extension UserService: GIDSignInDelegate/*, GIDSignInUIDelegate*/ {
     struct Google {
         static func logIn(fromVC: UIViewController) {

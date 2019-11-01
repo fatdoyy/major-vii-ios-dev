@@ -28,7 +28,7 @@ target 'major-7-ios' do
   pod 'Reqres'                                  # network activity logger
   
   #General Pods
-  pod 'Localize-Swift', '~> 2.0'                # localization
+  pod 'Localize-Swift'                          # localization
   pod 'DynamicColor', '~> 4.1'                  # UIColor extension
   pod 'SnapKit'                                 # layout constaints
   pod 'Pastel'                                  # dynamic gradient background
