@@ -11,13 +11,13 @@
 		960A4760219AA8FE00780AD4 /* HapticFeedback.swift in Sources */ = {isa = PBXBuildFile; fileRef = 960A475F219AA8FE00780AD4 /* HapticFeedback.swift */; };
 		960B54BE22437C0700FEA079 /* BuskersSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 960B54BD22437C0700FEA079 /* BuskersSearchViewController.swift */; };
 		961D87A223618FC300AB8CBE /* NetworkReachbility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 961D87A123618FC300AB8CBE /* NetworkReachbility.swift */; };
+		961D87A623700FB000AB8CBE /* PushNotificationsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 961D87A523700FB000AB8CBE /* PushNotificationsManager.swift */; };
 		961EC5C5230A8CFE003EE66C /* SearchService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 961EC5C4230A8CFE003EE66C /* SearchService.swift */; };
 		961EC5C7230A8F2F003EE66C /* SearchResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 961EC5C6230A8F2F003EE66C /* SearchResult.swift */; };
 		9620021821DDFC320055D070 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9620021721DDFC320055D070 /* LoginViewController.swift */; };
 		9620021A21DDFDC20055D070 /* LoginView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9620021921DDFDC20055D070 /* LoginView.xib */; };
 		9620021C21DDFDED0055D070 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9620021B21DDFDED0055D070 /* LoginView.swift */; };
 		9620021E21DF34B90055D070 /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9620021D21DF34B90055D070 /* UserService.swift */; };
-		9620022121E3B17A0055D070 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9620022021E3B17A0055D070 /* GoogleService-Info.plist */; };
 		9620022321E4ACED0055D070 /* gif1.gif in Resources */ = {isa = PBXBuildFile; fileRef = 9620022221E4ACED0055D070 /* gif1.gif */; };
 		9620022B21E4AF000055D070 /* gif3.gif in Resources */ = {isa = PBXBuildFile; fileRef = 9620022521E4AEFE0055D070 /* gif3.gif */; };
 		9620022D21E4AF000055D070 /* gif2.gif in Resources */ = {isa = PBXBuildFile; fileRef = 9620022721E4AEFF0055D070 /* gif2.gif */; };
@@ -103,6 +103,7 @@
 		96862EB9219ACE1F00F709B0 /* EventDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96862EB8219ACE1F00F709B0 /* EventDetailsViewController.swift */; };
 		96862EBB219AD8AC00F709B0 /* TabBarToggle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96862EBA219AD8AC00F709B0 /* TabBarToggle.swift */; };
 		9688DA8F22859D0100CCE925 /* PostService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9688DA8E22859D0100CCE925 /* PostService.swift */; };
+		969C2A112370209F006C93C4 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 969C2A102370209E006C93C4 /* GoogleService-Info.plist */; };
 		96A34FF423027B2B000E46EE /* DateTimeHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96A34FF323027B2B000E46EE /* DateTimeHelper.swift */; };
 		96AC42F222327F9600F9D62C /* BuskerProfileMemberCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96AC42F022327F9600F9D62C /* BuskerProfileMemberCell.swift */; };
 		96AC42F322327F9600F9D62C /* BuskerProfileMemberCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96AC42F122327F9600F9D62C /* BuskerProfileMemberCell.xib */; };
@@ -178,13 +179,13 @@
 		960A475F219AA8FE00780AD4 /* HapticFeedback.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticFeedback.swift; sourceTree = "<group>"; };
 		960B54BD22437C0700FEA079 /* BuskersSearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuskersSearchViewController.swift; sourceTree = "<group>"; };
 		961D87A123618FC300AB8CBE /* NetworkReachbility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkReachbility.swift; sourceTree = "<group>"; };
+		961D87A523700FB000AB8CBE /* PushNotificationsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationsManager.swift; sourceTree = "<group>"; };
 		961EC5C4230A8CFE003EE66C /* SearchService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchService.swift; sourceTree = "<group>"; };
 		961EC5C6230A8F2F003EE66C /* SearchResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResult.swift; sourceTree = "<group>"; };
 		9620021721DDFC320055D070 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		9620021921DDFDC20055D070 /* LoginView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LoginView.xib; sourceTree = "<group>"; };
 		9620021B21DDFDED0055D070 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		9620021D21DF34B90055D070 /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
-		9620022021E3B17A0055D070 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		9620022221E4ACED0055D070 /* gif1.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = gif1.gif; sourceTree = "<group>"; };
 		9620022521E4AEFE0055D070 /* gif3.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = gif3.gif; sourceTree = "<group>"; };
 		9620022721E4AEFF0055D070 /* gif2.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = gif2.gif; sourceTree = "<group>"; };
@@ -270,6 +271,7 @@
 		96862EB8219ACE1F00F709B0 /* EventDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDetailsViewController.swift; sourceTree = "<group>"; };
 		96862EBA219AD8AC00F709B0 /* TabBarToggle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarToggle.swift; sourceTree = "<group>"; };
 		9688DA8E22859D0100CCE925 /* PostService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostService.swift; sourceTree = "<group>"; };
+		969C2A102370209E006C93C4 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		96A34FF323027B2B000E46EE /* DateTimeHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateTimeHelper.swift; sourceTree = "<group>"; };
 		96AC42F022327F9600F9D62C /* BuskerProfileMemberCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuskerProfileMemberCell.swift; sourceTree = "<group>"; };
 		96AC42F122327F9600F9D62C /* BuskerProfileMemberCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BuskerProfileMemberCell.xib; sourceTree = "<group>"; };
@@ -529,6 +531,7 @@
 				96DCCBC92316915B00C6707C /* DispatchQueue.swift */,
 				96EFC1CC232BA33000D65C0A /* UIStatusBar.swift */,
 				961D87A123618FC300AB8CBE /* NetworkReachbility.swift */,
+				961D87A523700FB000AB8CBE /* PushNotificationsManager.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -739,8 +742,8 @@
 				CA550AB121706A66008E493D /* LaunchScreen.storyboard */,
 				967B562F2244E80A006F0AF9 /* Assets.xcassets */,
 				CA550AB421706A66008E493D /* Info.plist */,
+				969C2A102370209E006C93C4 /* GoogleService-Info.plist */,
 				CA550AAC21706A65008E493D /* major_7_ios.xcdatamodeld */,
-				9620022021E3B17A0055D070 /* GoogleService-Info.plist */,
 				964761EB2186FA7C0004F58C /* Service */,
 				964761EA2186F6D30004F58C /* Models */,
 				966A6CC8217DC27500DF872F /* Helpers */,
@@ -835,7 +838,6 @@
 				967B5634224898A2006F0AF9 /* SearchHistoryCell.xib in Resources */,
 				9620025821E4F58E0055D070 /* gif11.gif in Resources */,
 				963A9EDB22FC2609006D4065 /* FollowingsCell.xib in Resources */,
-				9620022121E3B17A0055D070 /* GoogleService-Info.plist in Resources */,
 				967BD3432240E60200469CF9 /* BuskerCell.xib in Resources */,
 				96F3732E224CBD850088E142 /* BookmarkedEventCollectionHeaderView.xib in Resources */,
 				96C5542F2192C6730065D70A /* FollowingSectionCell.xib in Resources */,
@@ -868,6 +870,7 @@
 				96642E6B22CCA436003A9188 /* RefreshView.xib in Resources */,
 				96C5544D219408580065D70A /* FeaturedCell.xib in Resources */,
 				96DEB1F22237B08B005F87F4 /* BuskerProfilePostCell.xib in Resources */,
+				969C2A112370209F006C93C4 /* GoogleService-Info.plist in Resources */,
 				9620021A21DDFDC20055D070 /* LoginView.xib in Resources */,
 				9620023C21E4B3A80055D070 /* gif5.gif in Resources */,
 				9620023421E4B13A0055D070 /* gif8.gif in Resources */,
@@ -979,6 +982,7 @@
 				965798B52226706C00A03BE9 /* BuskerProfileImgCell.swift in Sources */,
 				96E268A422F05A45006AE52A /* InAppNotifications.swift in Sources */,
 				960B54BE22437C0700FEA079 /* BuskersSearchViewController.swift in Sources */,
+				961D87A623700FB000AB8CBE /* PushNotificationsManager.swift in Sources */,
 				965838BE218317CE000FE8B0 /* NewsCellType4.swift in Sources */,
 				96FAF247223A1D7300DF23B9 /* BuskerService.swift in Sources */,
 				96C5541B21918CB90065D70A /* TrendingSectionCell.swift in Sources */,
@@ -1211,7 +1215,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = app.major7.ios;
+				PRODUCT_BUNDLE_IDENTIFIER = app.major7.ios.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -1232,7 +1236,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = app.major7.ios;
+				PRODUCT_BUNDLE_IDENTIFIER = app.major7.ios.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;

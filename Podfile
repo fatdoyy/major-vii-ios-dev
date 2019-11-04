@@ -7,16 +7,16 @@ target 'major-7-ios' do
 
   # Pods for major-7-ios
   
-  #Firebase
-  pod 'Firebase/Core'
-  
   #Facebook
   pod 'FacebookCore', '0.5.0'
   pod 'FacebookLogin', '0.5.0'
   pod 'FBSDKCoreKit', '~> 4.38.0'
   pod 'FBSDKLoginKit', '~> 4.38.0'
   
-  #Google
+  #Google / Firebase
+  pod 'Firebase/Core'
+  pod 'Firebase/Analytics'
+  pod 'Firebase/Messaging'
   pod 'GoogleSignIn'
   pod 'GoogleMaps'
   

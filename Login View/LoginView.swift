@@ -128,7 +128,7 @@ class LoginView: UIView {
             dismissBtn2.addTarget(self, action: #selector(didTapDismissBtn), for: .touchUpInside)
             addSubview(dismissBtn2)
             dismissBtn2.snp.makeConstraints { (make) in
-                if UIScreen.main.nativeBounds.height != 1792 || UIScreen.main.nativeBounds.height != 2436 || UIScreen.main.nativeBounds.height != 2688 { //if device is not iPhone X, XR, XS, XS Max
+                if UIDevice.current.hasHomeButton { //if device is not iPhone X, XR, XS, XS Max
                     make.top.equalToSuperview().offset(20)
                     make.left.equalToSuperview().offset(12.5)
                 } else {
