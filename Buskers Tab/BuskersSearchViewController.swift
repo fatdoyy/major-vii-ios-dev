@@ -26,20 +26,16 @@ class BuskersSearchViewController: UIViewController {
             }
         }
     }
-    
-    var loadingIndicator = NVActivityIndicatorView(frame: CGRect(origin: CGPoint.zero, size: CGSize(width: 20, height: 20)), type: .lineScale)
-    
     let screenWidth: CGFloat = UIScreen.main.bounds.width
 
-    let imgArray = [UIImage(named: "gif9_thumbnail")!, UIImage(named: "gif10_thumbnail")!, UIImage(named: "gif11_thumbnail")!, UIImage(named: "cat")!, UIImage(named: "gif0_thumbnail")!, UIImage(named: "gif1_thumbnail")!, UIImage(named: "gif2_thumbnail")!, UIImage(named: "gif3_thumbnail")!, UIImage(named: "gif4_thumbnail")!, UIImage(named: "gif5_thumbnail")!, UIImage(named: "gif6_thumbnail")!, UIImage(named: "gif7_thumbnail")!, UIImage(named: "gif8_thumbnail")!]
-    
-    var grayscaleImgArray = [UIImage]()
-    var grayscaleImgArray2 = [UIImage]()
+    let bgImgCount = 13 //gifX_thumbnail (currently have 13)
+    let bgImgArrCount = 30 //will subtract based on number of genres
+    var bgImgArray = [UIImage]()
+    var grayscaleImgArray = [UIImage]() //handle image filter before cellForItemAt
 
-    let genres: [String] = ["canto-pop", "j-pop", "blues", "alternative rock", "punk", "country", "house", "edm", "electronic", "dance", "k-pop", "acid jazz", "downtempo"]
+    var genres = [Genre]()
     var history: [String] = ["canto-pop", "j-pop", "blues", "alternative rock"]
     var boolArr = [Int]()
-    var boolArr2 = [Int]()
     
     //Initial view without typing
     let genreLabel = UILabel()
@@ -53,7 +49,7 @@ class BuskersSearchViewController: UIViewController {
     var resultsCollectionView: UICollectionView!
 
     var searchResults = [OrganizerProfile]()
-    var searchResultsLimit = 7
+    var searchResultsLimit = 5
     var gotMoreResults = true //lazy loading
     var emptyResultsLabel = UILabel()
     
@@ -64,22 +60,27 @@ class BuskersSearchViewController: UIViewController {
         definesPresentationContext = true
         view.backgroundColor = .m7DarkGray()
         
-        for img in imgArray {
-            grayscaleImgArray2.append(img.tonalFilter!)
-            boolArr2.append(Int.random(in: 0 ... 1))
+        for _ in 0 ..< self.bgImgArrCount {
+            self.bgImgArray.append(UIImage(named: "gif\(Int.random(in: 0 ... self.bgImgCount))_thumbnail")!)
         }
+        
+        for img in self.bgImgArray { //apply filter
+            self.grayscaleImgArray.append(img.tonalFilter!)
+        }
+        
         hideKeyboardWhenTappedAround()
         setupGenreSection()
-        setupLoadingIndicator()
         setupHistorySection()
         setupResultsSection()
+        
+        getGenres()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.view.layoutIfNeeded()
-        NotificationCenter.default.setObserver(self, selector: #selector(showViews), name: .showSCViews, object: nil)
-        NotificationCenter.default.setObserver(self, selector: #selector(hideViews), name: .hideSCViews, object: nil)
+        NotificationCenter.default.setObserver(self, selector: #selector(showSCViews), name: .showSCViews, object: nil)
+        NotificationCenter.default.setObserver(self, selector: #selector(hideSCViews), name: .hideSCViews, object: nil)
     }
 
 }
@@ -97,17 +98,6 @@ extension BuskersSearchViewController {
         }
         viewsToHide.append(genreLabel)
         setupGenreCollectionView()
-    }
-    
-    private func setupLoadingIndicator() {
-        loadingIndicator.alpha = 0
-        loadingIndicator.startAnimating()
-        view.addSubview(loadingIndicator)
-        loadingIndicator.snp.makeConstraints { (make) -> Void in
-            make.top.equalTo(genreLabel.snp.bottom).offset(20)
-            make.size.equalTo(20)
-            make.centerX.equalToSuperview()
-        }
     }
     
     private func setupGenreCollectionView() {
@@ -251,11 +241,9 @@ extension BuskersSearchViewController {
 
 //MARK: - Notification Center functions
 extension BuskersSearchViewController {
-    @objc private func showViews() {
+    @objc private func showSCViews() {
         if genreCollectionView.alpha != 1 {
             UIView.animate(withDuration: 0.2) {
-                self.loadingIndicator.alpha = 0
-                
                 for view in self.viewsToHide {
                     view.alpha = 1
                 }
@@ -266,11 +254,9 @@ extension BuskersSearchViewController {
         }
     }
     
-    @objc private func hideViews() {
+    @objc private func hideSCViews() {
         if genreCollectionView.alpha != 0 {
-            UIView.animate(withDuration: 0.2) {
-                self.loadingIndicator.alpha = 1
-                
+            UIView.animate(withDuration: 0.2) {                
                 for view in self.viewsToHide {
                     view.alpha = 0
                 }
@@ -284,7 +270,24 @@ extension BuskersSearchViewController {
 
 //MARK: - API Calls | BuskersViewController Delegate
 extension BuskersSearchViewController: BuskersViewControllerDelegate {
-    func searchWith(query: String) {
+    func getGenres() {
+        self.genreCollectionView.isUserInteractionEnabled = false
+        OtherService.getGenres().done { response -> () in
+            self.genres.append(contentsOf: response.list.shuffled())
+            self.genreCollectionView.reloadData()
+            
+            self.grayscaleImgArray.removeSubrange(0 ..< self.bgImgArrCount - response.list.count) //update count, was 30()
+
+            for _ in 0 ..< response.list.count {
+                self.boolArr.append(Int.random(in: 0 ... 1)) //trending icon boolean
+            }
+            }.ensure {
+                self.genreCollectionView.isUserInteractionEnabled = true
+                UIApplication.shared.isNetworkActivityIndicatorVisible = false
+            }.catch { error in }
+    }
+    
+    func searchWithQuery(_ query: String) {
         resultsLabel.text = "Searching for \"\(query)\""
         searchResults.removeAll()
         resultsCollectionView.reloadData()
@@ -301,16 +304,37 @@ extension BuskersSearchViewController: BuskersViewControllerDelegate {
             }
             }.ensure {
                 self.resultsCollectionView.reloadData()
+                NotificationCenter.default.post(name: .hideSearchBarIndicator, object: nil)
                 UIApplication.shared.isNetworkActivityIndicatorVisible = false
             }.catch { error in }
     }
+    
+    func searchWithGenre(_ genre: String) {
+        SearchService.byBuskers(genre: genre).done { response in
+            if !response.list.isEmpty {
+                self.searchResults = response.list
+                //self.searchResults.append(contentsOf: response.list)
+                self.resultsLabel.text = "Search results for \"\(genre)\""
+            } else {
+                self.resultsLabel.shake()
+                HapticFeedback.createNotificationFeedback(style: .error)
+                self.resultsLabel.text = "No results for \"\(genre)\"\nTry another keywords?"
+            }
+            }.ensure {
+                self.resultsCollectionView.reloadData()
+                self.hideSCViews()
+                NotificationCenter.default.post(name: .hideSearchBarIndicator, object: nil)
+                UIApplication.shared.isNetworkActivityIndicatorVisible = false
+            }.catch { error in }
+    }
+    
 }
 
 //MARK: - UICollectionView Delegate
 extension BuskersSearchViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         switch collectionView {
-        case genreCollectionView:       return grayscaleImgArray2.count
+        case genreCollectionView:       return genres.isEmpty ? 0 : genres.count
         case resultsCollectionView:     return searchResults.isEmpty ? 0 : searchResults.count
         default:                        return 0
         }
@@ -321,10 +345,12 @@ extension BuskersSearchViewController: UICollectionViewDelegate, UICollectionVie
         case genreCollectionView:
             let cell = genreCollectionView.dequeueReusableCell(withReuseIdentifier: GenreCell.reuseIdentifier, for: indexPath) as! GenreCell
             
-            cell.bgImgView.image = grayscaleImgArray2.reversed()[indexPath.row]
-            cell.genre.text = genres.reversed()[indexPath.row]
+            cell.bgImgView.image = grayscaleImgArray[indexPath.row]
+            cell.trendingIcon.image = boolArr[indexPath.row] == 1 ? UIImage(named: "icon_trending") : nil
             
-            cell.trendingIcon.image = boolArr2[indexPath.row] == 1 ? UIImage(named: "icon_trending") : nil
+            if !genres.isEmpty {
+                cell.genre.text = genres[indexPath.row].titleEN?.lowercased()
+            }
             
             return cell
             
@@ -339,22 +365,22 @@ extension BuskersSearchViewController: UICollectionViewDelegate, UICollectionVie
                     cell.bgImgView.kf.setImage(with: desaturatedUrl, options: [.transition(.fade(0.3))])
                 }
                 
-                if searchResults[indexPath.row].musicTypes.count > 1 && !searchResults[indexPath.row].musicTypes.isEmpty {
-                    var genreStr = "\(searchResults[indexPath.row].musicTypes.first ?? "")" //assign the first genre to string first
-                    var genres = searchResults[indexPath.row].musicTypes
+                if searchResults[indexPath.row].genres.count > 1 && !searchResults[indexPath.row].genres.isEmpty {
+                    var genreStr = "\(searchResults[indexPath.row].genres.first ?? "")" //assign the first genre to string first
+                    var genres = searchResults[indexPath.row].genres
                     genres.removeFirst() //then remove first genre and append the remainings
                     for genre in genres {
                         genreStr.append(", \(genre)")
                     }
                     cell.genre.text = genreStr.lowercased()
-                } else if searchResults[indexPath.row].musicTypes.count == 1 {
-                    cell.genre.text = searchResults[indexPath.row].musicTypes.first?.lowercased()
-                } else if searchResults[indexPath.row].musicTypes.isEmpty {
+                } else if searchResults[indexPath.row].genres.count == 1 {
+                    cell.genre.text = searchResults[indexPath.row].genres.first?.lowercased()
+                } else if searchResults[indexPath.row].genres.isEmpty {
                     cell.genre.text = ""
                 }
                 
                 cell.verifiedBg.alpha = searchResults[indexPath.row].verified == nil ? 0 : 1
-                cell.premiumBadge.alpha = boolArr2[indexPath.row] == 1 ? 1 : 0
+                cell.premiumBadge.alpha = boolArr[indexPath.row] == 1 ? 1 : 0
             }
             
             return cell
@@ -377,9 +403,15 @@ extension BuskersSearchViewController: UICollectionViewDelegate, UICollectionVie
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         switch collectionView {
         case genreCollectionView:
-            print("tapped genre cell")
+            let cell = genreCollectionView.cellForItem(at: indexPath) as! GenreCell
+            if let genre = cell.genre.text {
+                NotificationCenter.default.post(name: .updateSearchBarText, object: nil, userInfo: ["text": genre])
+                searchWithGenre(genre)
+            }
+            
         case resultsCollectionView:
             BuskerProfileViewController.present(from: self, buskerName: searchResults[indexPath.row].name ?? "", buskerID: searchResults[indexPath.row].id ?? "")
+            
         default:
             print("error")
         }

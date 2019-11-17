@@ -139,7 +139,7 @@ PODS:
   - GTMSessionFetcher/Core (1.3.0)
   - GTMSessionFetcher/Full (1.3.0):
     - GTMSessionFetcher/Core (= 1.3.0)
-  - Hero (1.4.1)
+  - Hero (1.5.0)
   - ImageViewer (5.0.0)
   - InfiniteLayout (0.4.2):
     - InfiniteLayout/Core (= 0.4.2)
@@ -200,7 +200,7 @@ DEPENDENCIES:
   - fluid-slider
   - GoogleMaps
   - GoogleSignIn
-  - Hero (from `https://github.com/kikikiktai/Hero.git`)
+  - Hero
   - ImageViewer (from `https://github.com/Nabeatsu/ImageViewer`, branch `master`)
   - InfiniteLayout
   - JGProgressHUD
@@ -258,6 +258,7 @@ SPEC REPOS:
     - GoogleUtilities
     - GTMAppAuth
     - GTMSessionFetcher
+    - Hero
     - InfiniteLayout
     - JGProgressHUD
     - Kingfisher
@@ -283,8 +284,6 @@ SPEC REPOS:
     - XCDYouTubeKit
 
 EXTERNAL SOURCES:
-  Hero:
-    :git: https://github.com/kikikiktai/Hero.git
   ImageViewer:
     :branch: master
     :git: https://github.com/Nabeatsu/ImageViewer
@@ -292,9 +291,6 @@ EXTERNAL SOURCES:
     :git: https://github.com/kikikiktai/Validator.git
 
 CHECKOUT OPTIONS:
-  Hero:
-    :commit: c2abd1d19c21cf58a0c80b8b9a5f391d5ecae08c
-    :git: https://github.com/kikikiktai/Hero.git
   ImageViewer:
     :commit: 16388ac42603b295d6270ef8d32bb8a42dd8ff43
     :git: https://github.com/Nabeatsu/ImageViewer
@@ -335,7 +331,7 @@ SPEC CHECKSUMS:
   GoogleUtilities: f895fde57977df4e0233edda0dbeac490e3703b6
   GTMAppAuth: 4deac854479704f348309e7b66189e604cf5e01e
   GTMSessionFetcher: 43b8b64263023d4f32caa0b40f4c8bfa3c5f36d8
-  Hero: 497b79bc3aca812a262128b18f1c78306e69e905
+  Hero: b7385b75e7259da62f4f85462f59a5082d66b058
   ImageViewer: 997018c2f4f7f9830602349bbcc3b2b776424942
   InfiniteLayout: de51cfad9ed480a3e3a0af7d28242d3257c606d9
   JGProgressHUD: aa403e9a5b45cae98903c4600cccdd98c0c3ec90
@@ -362,6 +358,6 @@ SPEC CHECKSUMS:
   Validator: 9cfe0da15338f2e36fcf9e394f5bc1761888bec4
   XCDYouTubeKit: 43843b87c143120fdcbd908e031258ea60f7ba0a
 
-PODFILE CHECKSUM: 1c14222f61d04dd3f4a85b1cd513dcdf5789b0e5
+PODFILE CHECKSUM: 532fd5860d9f5757f130a51e4443c5c0b24e9e82
 
 COCOAPODS: 1.7.2

@@ -1436,6 +1436,7 @@ extension BuskerProfileViewController {
         
         profileVC.buskerID = buskerID
         profileVC.buskerName = buskerName
+        profileVC.modalPresentationStyle = .fullScreen /// iOS 13 modal default is card view, so we need to change to .fullscreen (old behaviour) here to prevent conflict with Hero library
         
         profileVC.hero.isEnabled = true
         profileVC.hero.modalAnimationType = .autoReverse(presenting: .zoom)

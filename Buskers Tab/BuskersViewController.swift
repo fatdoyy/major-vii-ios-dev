@@ -8,14 +8,17 @@
 
 import UIKit
 import Kingfisher
+import NVActivityIndicatorView
 
 protocol BuskersViewControllerDelegate: class {
-    func searchWith(query: String)
+    func searchWithQuery(_ query: String)
 }
 
 class BuskersViewController: UIViewController {
     //weak var previousController: UIViewController? //for tabbar scroll to top
     weak var delegate: BuskersViewControllerDelegate?
+    
+    var indicator = NVActivityIndicatorView(frame: CGRect(origin: CGPoint.zero, size: CGSize(width: 5, height: 5)), type: .lineScale)
     
     var mainCollectionView: UICollectionView!
     var fakeCollectionView: UICollectionView!
@@ -64,6 +67,12 @@ class BuskersViewController: UIViewController {
         getBuskersByTrend(limit: buskersLimit)
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        NotificationCenter.default.setObserver(self, selector: #selector(updateSearchBarText), name: .updateSearchBarText, object: nil)
+        NotificationCenter.default.setObserver(self, selector: #selector(hideSearchBarIndicator), name: .hideSearchBarIndicator, object: nil)
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         //status bar color
@@ -164,13 +173,18 @@ extension BuskersViewController {
     
     //Do search action whenever user types
     @objc func searchWithQuery() {
-        if let string = searchController.searchBar.text {
+        if let query = searchController.searchBar.text {
+            //show indicator
+            if !query.isEmpty {
+                searchController.searchBar.isLoading = true
+            }
+            
             //Cancel previous task if any
             self.searchTask?.cancel()
             
             //Replace previous task with a new one
             let newTask = DispatchWorkItem { [weak self] in
-                self?.delegate?.searchWith(query: string)
+                self?.delegate?.searchWithQuery(query)
             }
             self.searchTask = newTask
             
@@ -187,6 +201,20 @@ extension BuskersViewController {
         }
     }
     
+}
+
+//MARK: - Update Search Bar State
+extension BuskersViewController {
+    @objc func updateSearchBarText(_ notification: Notification) {
+        if let userInfo = notification.userInfo {
+            searchController.searchBar.text = userInfo["text"] as? String
+            searchController.searchBar.isLoading = true
+        }
+    }
+    
+    @objc func hideSearchBarIndicator() {
+        searchController.searchBar.isLoading = false
+    }
 }
 
 //MARK: - UI related
@@ -289,17 +317,17 @@ extension BuskersViewController: UICollectionViewDelegate, UICollectionViewDataS
                 
                 cell.buskerName.text = profile.name
                 
-                if profile.musicTypes.count > 1 && !profile.musicTypes.isEmpty {
-                    var genreStr = "\(profile.musicTypes.first ?? "")" //assign the first genre to string first
-                    var genres = profile.musicTypes
+                if profile.genres.count > 1 && !profile.genres.isEmpty {
+                    var genreStr = "\(profile.genres.first ?? "")" //assign the first genre to string first
+                    var genres = profile.genres
                     genres.removeFirst() //then remove first genre and append the remainings
                     for genre in genres {
                         genreStr.append(", \(genre)")
                     }
                     cell.genre.text = genreStr.lowercased()
-                } else if profile.musicTypes.count == 1 {
-                    cell.genre.text = profile.musicTypes.first?.lowercased()
-                } else if profile.musicTypes.isEmpty {
+                } else if profile.genres.count == 1 {
+                    cell.genre.text = profile.genres.first?.lowercased()
+                } else if profile.genres.isEmpty {
                     cell.genre.text = ""
                 }
                 
@@ -379,6 +407,7 @@ extension BuskersViewController: UISearchControllerDelegate, UISearchBarDelegate
     func searchBarShouldEndEditing(_ searchBar: UISearchBar) -> Bool {
         //Do search action when user tap search button
         print("Ended search?")
+        searchController.searchBar.isLoading = false
 //        if let string = searchController.searchBar.text {
 //            delegate?.searchWith(query: string, instance: self)
 //        }
@@ -392,7 +421,6 @@ extension BuskersViewController: UISearchControllerDelegate, UISearchBarDelegate
         } else {
             NotificationCenter.default.post(name: .hideSCViews, object: nil)
         }
-        
     }
     
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
@@ -402,7 +430,6 @@ extension BuskersViewController: UISearchControllerDelegate, UISearchBarDelegate
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         NotificationCenter.default.post(name: .showSCViews, object: nil)
-        
     }
 }
 

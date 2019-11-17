@@ -53,10 +53,10 @@ target 'major-7-ios' do
   pod 'InfiniteLayout'                          # infinite scrolling uicollectionview
   pod 'BetterSegmentedControl'                  # segmented control
   pod 'MarqueeLabel'                            # auto scrolling UILabel
-  pod 'SwiftDate'                                 # as title
+  pod 'SwiftDate'                               # as title
+  pod 'Hero'                                    # transitions
 #  pod 'ActiveLabel'                             # supporting Hashtags (#), Mentions (@), URLs (http:/)
 
-  pod 'Hero', :git => 'https://github.com/kikikiktai/Hero.git'                                      # transitions
   pod 'Validator', :git => 'https://github.com/kikikiktai/Validator.git'                            # UITextField validation
   #  pod 'ImageViewer', :inhibit_warnings => true, :git=> 'https://github.com/mezhevikin/ImageViewer'  # as title
   pod 'ImageViewer', :git=> 'https://github.com/Nabeatsu/ImageViewer', :branch=> 'master'           # as title

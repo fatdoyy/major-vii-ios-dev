@@ -20,7 +20,7 @@ class UserFollowings: Mappable {
 
 class OrganizerProfileObject: Mappable {
     var targetProfile: OrganizerProfile?
-    var targetType: Int?
+    var targetType: String?
     var createTime: String?
     
     required init?(map: Map) {}

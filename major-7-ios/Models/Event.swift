@@ -45,7 +45,7 @@ class Events: Mappable {
 //MARK: Bookmarked events
 class BookmarkedEvent: Mappable {
     var targetEvent: Event?
-    var targetType: Int?
+    var targetType: String?
     var createTime: String?
     
     required init?(map: Map) {}

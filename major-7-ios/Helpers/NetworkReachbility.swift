@@ -16,7 +16,6 @@ class NetworkManager: NSObject {
     // Create a singleton instance
     static let sharedInstance: NetworkManager = { return NetworkManager() }()
     
-    
     override init() {
         super.init()
         

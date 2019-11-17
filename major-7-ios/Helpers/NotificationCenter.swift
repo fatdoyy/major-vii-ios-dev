@@ -33,6 +33,8 @@ extension Notification.Name {
     //Search controller notifications
     static let showSCViews = Notification.Name("showSCViews")
     static let hideSCViews = Notification.Name("hideSCViews")
+    static let updateSearchBarText = Notification.Name("updateSearchBarText")
+    static let hideSearchBarIndicator = Notification.Name("hideSearchBarIndicator")
     
 }
 

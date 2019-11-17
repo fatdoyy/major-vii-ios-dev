@@ -36,7 +36,7 @@ class News: Mappable {
     var id: String?
     var isPublished: Bool?
     var publishTime: String?
-    var type: Int?
+    var type: String?
     var cellType: Int?
     var title: String?
     var subTitle: String?

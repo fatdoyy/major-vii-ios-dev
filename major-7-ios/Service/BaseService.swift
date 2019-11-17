@@ -118,7 +118,7 @@ class BaseService: NSObject {
             actionPathStr = "comments/\(commentID)"
         case .reactionDetails(let reactionID):
             actionPathStr = "reactions/\(reactionID)"
-            
+
         //Search
         case .searchByPopularKeywords:
             actionPathStr = "search/popularKeywords"
@@ -128,6 +128,20 @@ class BaseService: NSObject {
             actionPathStr = "search/events"
         case .searchByHashtags:
             actionPathStr = "search/hashtags"
+            
+        //Statistics
+        case .userViewContent:
+            actionPathStr = "statistics/views"
+            
+        //Others
+        case .locationSearch:
+            actionPathStr = "others/locations/search"
+        case .reverseGeocoding:
+            actionPathStr = "others/locations/reverse"
+        case .listOfMusicGenres:
+            actionPathStr = "others/music-genres"
+        case .ping:
+            actionPathStr = "others/ping"
         }
         
         return endpoint + actionPathStr
@@ -246,5 +260,13 @@ extension BaseService {
         case searchByEvents
         case searchByHashtags
 
+        //Statistics
+        case userViewContent
+        
+        //Others
+        case locationSearch
+        case reverseGeocoding
+        case listOfMusicGenres
+        case ping
     }
 }

@@ -15,10 +15,16 @@ class SearchService: BaseService {}
 extension SearchService {
     static func byKeywords() {} //TODO
     
-    static func byBuskers(query: String, skip: Int? = nil, limit: Int? = nil) -> Promise<BuskersSearchResult> {
+    static func byBuskers(query: String? = nil, genre: String? = nil, skip: Int? = nil, limit: Int? = nil) -> Promise<BuskersSearchResult> {
         var params: [String: Any] = [:]
         
-        params["q"] = query
+        if let query = query {
+            params["q"] = query
+        }
+        
+        if let genre = genre {
+            params["genre"] = genre
+        }
         
         if let skip = skip {
             params["skip"] = skip

@@ -27,7 +27,7 @@ class Post: Mappable {
     var id: String?
     var content: String?
     var authorProfile: OrganizerProfile?
-    var creatorType: Int?
+    var creatorType: String?
     var publishTime: String?
     
     required init?(map: Map) {}

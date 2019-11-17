@@ -44,7 +44,6 @@ extension RefreshView {
             make.center.equalToSuperview()
             make.size.equalTo(20)
         }
-
     }
     
     func startAnimation() {
