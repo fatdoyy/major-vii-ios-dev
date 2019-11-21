@@ -56,16 +56,6 @@ class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        NetworkManager.isUnreachable { _ in
-            self.mainCollectionView.alpha = 0
-            print("unreachable!!")
-        }
-        
-        network.reachability.whenReachable = { _ in
-            self.mainCollectionView.alpha = 1
-            print("reachable now")
-        }
-        
         //check if we need to present loginVC
         if !UserService.User.isLoggedIn() {
             let loginVC = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "loginVC") as! LoginViewController
@@ -180,6 +170,8 @@ extension HomeViewController {
 extension HomeViewController {
     private func getNews(skip: Int? = nil, limit: Int? = nil) {
         mainCollectionView.isUserInteractionEnabled = false
+        checkNetworkReachability()
+
         NewsService.getList(skip: skip, limit: limit).done { response -> () in
             //self.newsList = response.list
             self.news.append(contentsOf: response.list)
@@ -721,4 +713,50 @@ extension HomeViewController: UIGestureRecognizerDelegate {
 enum HomeSelectedSection {
     case News
     case Posts
+}
+
+//MARK: - Network Reachability
+extension HomeViewController {
+    var offlineLabel: UILabel? {
+        return UILabel()
+    }
+    
+    func checkNetworkReachability() {
+        network.reachability.whenUnreachable = { reachability in
+            if let offlineLabel = self.offlineLabel {
+                offlineLabel.font = UIFont.systemFont(ofSize: 24, weight: .bold)
+                offlineLabel.textColor = .lightGray
+                offlineLabel.backgroundColor = .m7DarkGray()
+                offlineLabel.alpha = 0
+                offlineLabel.tag = 333
+                offlineLabel.numberOfLines = 0
+                offlineLabel.text = "You're offline! \nPlease check your network settings."
+                offlineLabel.textAlignment = .center
+                self.view.addSubview(offlineLabel)
+                offlineLabel.snp.makeConstraints { (make) in
+                    make.center.equalToSuperview()
+                    make.size.equalToSuperview()
+                }
+                
+                UIView.animate(withDuration: 0.2) {
+                    offlineLabel.alpha = 1
+                    self.mainCollectionView.alpha = 0
+                }
+            }
+        }
+        
+        network.reachability.whenReachable = { _ in
+            self.getNews(limit: self.newsLimit)
+            self.delegate?.refreshUpcomingEvents()
+
+            if let offlineLabel = self.view.viewWithTag(333) {
+                UIView.animate(withDuration: 0.2) {
+                    offlineLabel.alpha = 0
+                    self.mainCollectionView.alpha = 1
+                }
+                offlineLabel.removeFromSuperview()
+            }
+        }
+    }
+
 }

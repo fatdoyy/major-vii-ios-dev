@@ -36,6 +36,8 @@ extension Notification.Name {
     static let updateSearchBarText = Notification.Name("updateSearchBarText")
     static let hideSearchBarIndicator = Notification.Name("hideSearchBarIndicator")
     
+    //dismiss keyboard
+    static let dismissKeyboard = Notification.Name("dismissKeyboard")
 }
 
 extension NotificationCenter {

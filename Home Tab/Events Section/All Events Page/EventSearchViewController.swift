@@ -8,7 +8,6 @@
 
 import UIKit
 import SwiftMessages
-import NVActivityIndicatorView
 
 class EventSearchViewController: UIViewController {
     static let storyboardID = "eventsSearchVC"
@@ -21,7 +20,7 @@ class EventSearchViewController: UIViewController {
     
     var searchTask: DispatchWorkItem? //avoid live search throttle
     var searchResults = [Event]()
-    var isSearching = false
+    var isSearching = false //determine what to show (i.e. default list(trendingEvents) / searchResults)
 
     let searchController = UISearchController(searchResultsController: nil)
     
@@ -38,6 +37,10 @@ class EventSearchViewController: UIViewController {
         getTrendingEvents()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        NotificationCenter.default.setObserver(self, selector: #selector(hideSearchBarIndicator), name: .hideSearchBarIndicator, object: nil)
+    }
 }
 
 //MARK: - API Calls | Featured Cell delegate | Bookmark btn action
@@ -90,6 +93,7 @@ extension EventSearchViewController: FeaturedCellDelegate {
             }.ensure {
                 self.mainCollectionView.reloadData()
                 self.isSearching = true
+                NotificationCenter.default.post(name: .hideSearchBarIndicator, object: nil)
                 UIApplication.shared.isNetworkActivityIndicatorVisible = false
             }.catch { error in }
 
@@ -476,27 +480,29 @@ extension EventSearchViewController {
         let dismissBtn = UIButton(type: .custom)
         dismissBtn.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
         dismissBtn.setImage(UIImage(named: "icon_dismiss_keyboard"), for: .normal)
-        dismissBtn.addTarget(self, action: #selector(doneWithNumberPad), for: .touchUpInside)
+        dismissBtn.addTarget(self, action: #selector(dismissSearchBarKeyboard), for: .touchUpInside)
         
         let item = UIBarButtonItem(customView: dismissBtn)
         toolbar.items = [item]
         searchController.searchBar.inputAccessoryView = toolbar
     }
     
-    @objc func doneWithNumberPad() {
+    @objc func dismissSearchBarKeyboard() {
         searchController.searchBar.endEditing(true)
     }
     
     //Do search action whenever user types
     @objc func searchWithQuery() {
-        if let string = searchController.searchBar.text {
-            if !string.isEmpty {
+        if let query = searchController.searchBar.text {
+            if !query.isEmpty {
+                searchController.searchBar.isLoading = true //show indicator
+
                 //Cancel previous task if any
                 self.searchTask?.cancel()
                 
                 //Replace previous task with a new one
                 let newTask = DispatchWorkItem { [weak self] in
-                    self?.searchWith(query: string)
+                    self?.searchWith(query: query)
                 }
                 self.searchTask = newTask
                 
@@ -513,7 +519,10 @@ extension EventSearchViewController {
             }
         }
     }
-    
+ 
+    @objc func hideSearchBarIndicator() {
+        searchController.searchBar.isLoading = false
+    }
 }
 
 //MARK: - UISearchControllerDelegate Delegate

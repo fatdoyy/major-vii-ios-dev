@@ -10,7 +10,7 @@
 		96086BB322E1D3690016A0B8 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96086BB222E1D3690016A0B8 /* User.swift */; };
 		960A4760219AA8FE00780AD4 /* HapticFeedback.swift in Sources */ = {isa = PBXBuildFile; fileRef = 960A475F219AA8FE00780AD4 /* HapticFeedback.swift */; };
 		960B54BE22437C0700FEA079 /* BuskersSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 960B54BD22437C0700FEA079 /* BuskersSearchViewController.swift */; };
-		961D87A223618FC300AB8CBE /* NetworkReachbility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 961D87A123618FC300AB8CBE /* NetworkReachbility.swift */; };
+		961D87A223618FC300AB8CBE /* NetworkReachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 961D87A123618FC300AB8CBE /* NetworkReachability.swift */; };
 		961D87A623700FB000AB8CBE /* PushNotificationsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 961D87A523700FB000AB8CBE /* PushNotificationsManager.swift */; };
 		961EC5C5230A8CFE003EE66C /* SearchService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 961EC5C4230A8CFE003EE66C /* SearchService.swift */; };
 		961EC5C7230A8F2F003EE66C /* SearchResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 961EC5C6230A8F2F003EE66C /* SearchResult.swift */; };
@@ -181,7 +181,7 @@
 		96086BB222E1D3690016A0B8 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		960A475F219AA8FE00780AD4 /* HapticFeedback.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticFeedback.swift; sourceTree = "<group>"; };
 		960B54BD22437C0700FEA079 /* BuskersSearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuskersSearchViewController.swift; sourceTree = "<group>"; };
-		961D87A123618FC300AB8CBE /* NetworkReachbility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkReachbility.swift; sourceTree = "<group>"; };
+		961D87A123618FC300AB8CBE /* NetworkReachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkReachability.swift; sourceTree = "<group>"; };
 		961D87A523700FB000AB8CBE /* PushNotificationsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationsManager.swift; sourceTree = "<group>"; };
 		961EC5C4230A8CFE003EE66C /* SearchService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchService.swift; sourceTree = "<group>"; };
 		961EC5C6230A8F2F003EE66C /* SearchResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResult.swift; sourceTree = "<group>"; };
@@ -524,7 +524,7 @@
 				96799FE5218C5A270074C828 /* ImageOverlay.swift */,
 				96EA375521B66BBC00E9DB74 /* ImageViewerHelper.swift */,
 				96E268A322F05A45006AE52A /* InAppNotifications.swift */,
-				961D87A123618FC300AB8CBE /* NetworkReachbility.swift */,
+				961D87A123618FC300AB8CBE /* NetworkReachability.swift */,
 				9662425521F25F1900EF7695 /* NotificationCenter.swift */,
 				96C5544F219438F00065D70A /* PagedCollectionViewLayout.swift */,
 				967BD33E2240C00300469CF9 /* PinterestLayout.swift */,
@@ -536,11 +536,11 @@
 				967B562D2244D42E006F0AF9 /* UIImage.swift */,
 				96B3C80022D4D7FB00ED23BD /* UILabel.swift */,
 				96C9899B221FFA4100170609 /* UIScrollView.swift */,
+				96AF5CE62381796A00DAE9DA /* UISearchBar.swift */,
 				96EFC1CC232BA33000D65C0A /* UIStatusBar.swift */,
 				9620025D21E5E5480055D070 /* UIView+Xib.swift */,
 				96F5308421EC68FD007BCCB0 /* UIVisualEffectView.swift */,
 				96B0BE4121EF2235003C9BA5 /* ValidationRules.swift */,
-				96AF5CE62381796A00DAE9DA /* UISearchBar.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -1010,7 +1010,7 @@
 				966A6CB8217DB5F500DF872F /* TabBarViewController.swift in Sources */,
 				964761ED2186FAAD0004F58C /* BaseService.swift in Sources */,
 				96FAF249223A287C00DF23B9 /* Busker.swift in Sources */,
-				961D87A223618FC300AB8CBE /* NetworkReachbility.swift in Sources */,
+				961D87A223618FC300AB8CBE /* NetworkReachability.swift in Sources */,
 				96799FE6218C5A280074C828 /* ImageOverlay.swift in Sources */,
 				96EA375621B66BBC00E9DB74 /* ImageViewerHelper.swift in Sources */,
 				96EA375321B528E900E9DB74 /* DetailsImageCell.swift in Sources */,

@@ -71,6 +71,7 @@ class BuskersViewController: UIViewController {
         super.viewWillAppear(animated)
         NotificationCenter.default.setObserver(self, selector: #selector(updateSearchBarText), name: .updateSearchBarText, object: nil)
         NotificationCenter.default.setObserver(self, selector: #selector(hideSearchBarIndicator), name: .hideSearchBarIndicator, object: nil)
+        NotificationCenter.default.setObserver(self, selector: #selector(dismissSearchBarKeyboard), name: .dismissKeyboard, object: nil)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -160,36 +161,35 @@ extension BuskersViewController {
         dismissBtn.setImage(UIImage(named: "imagename"), for: .normal)
         dismissBtn.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
         dismissBtn.setImage(UIImage(named: "icon_dismiss_keyboard"), for: .normal)
-        dismissBtn.addTarget(self, action: #selector(doneWithNumberPad), for: .touchUpInside)
+        dismissBtn.addTarget(self, action: #selector(dismissSearchBarKeyboard), for: .touchUpInside)
         
         let item = UIBarButtonItem(customView: dismissBtn)
         toolbar.items = [item]
         searchController.searchBar.inputAccessoryView = toolbar
     }
 
-    @objc func doneWithNumberPad() {
+    @objc func dismissSearchBarKeyboard() {
         searchController.searchBar.endEditing(true)
     }
     
     //Do search action whenever user types
     @objc func searchWithQuery() {
         if let query = searchController.searchBar.text {
-            //show indicator
             if !query.isEmpty {
-                searchController.searchBar.isLoading = true
+                searchController.searchBar.isLoading = true //show indicator
+                
+                //Cancel previous task if any
+                self.searchTask?.cancel()
+                
+                //Replace previous task with a new one
+                let newTask = DispatchWorkItem { [weak self] in
+                    self?.delegate?.searchWithQuery(query)
+                }
+                self.searchTask = newTask
+                
+                //Execute task in 0.3 seconds (if not cancelled !)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: newTask)
             }
-            
-            //Cancel previous task if any
-            self.searchTask?.cancel()
-            
-            //Replace previous task with a new one
-            let newTask = DispatchWorkItem { [weak self] in
-                self?.delegate?.searchWithQuery(query)
-            }
-            self.searchTask = newTask
-            
-            //Execute task in 0.3 seconds (if not cancelled !)
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: newTask)
         }
     }
     

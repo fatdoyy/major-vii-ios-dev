@@ -148,7 +148,7 @@ extension UserService {
                                     
                                     //hide login view
                                     NotificationCenter.default.post(name: .loginCompleted, object: nil)
-                                    
+                                    hud.dismiss(afterDelay: 0.75)
                                 } else { //api respond error
                                     HapticFeedback.createNotificationFeedback(style: .error)
 
@@ -168,9 +168,9 @@ extension UserService {
                                         })
                                     }
                                 }
+                                hud.dismiss(afterDelay: 2)
                             }
                             }.ensure  {
-                                hud.dismiss(afterDelay: 0.75)
                                 UIApplication.shared.isNetworkActivityIndicatorVisible = false
                             }.catch { error in }
                     }

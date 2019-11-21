@@ -256,7 +256,7 @@ extension BuskersSearchViewController {
     
     @objc private func hideSCViews() {
         if genreCollectionView.alpha != 0 {
-            UIView.animate(withDuration: 0.2) {                
+            UIView.animate(withDuration: 0.2) {
                 for view in self.viewsToHide {
                     view.alpha = 0
                 }
@@ -297,6 +297,7 @@ extension BuskersSearchViewController: BuskersViewControllerDelegate {
                 self.searchResults = response.list
                 //self.searchResults.append(contentsOf: response.list)
                 self.resultsLabel.text = "Search results for \"\(query)\""
+                NotificationCenter.default.post(name: .dismissKeyboard, object: nil) //hide keyboard
             } else {
                 self.resultsLabel.shake()
                 HapticFeedback.createNotificationFeedback(style: .error)
@@ -310,11 +311,15 @@ extension BuskersSearchViewController: BuskersViewControllerDelegate {
     }
     
     func searchWithGenre(_ genre: String) {
+        searchResults.removeAll()
+        resultsCollectionView.reloadData()
+        
         SearchService.byBuskers(genre: genre).done { response in
             if !response.list.isEmpty {
                 self.searchResults = response.list
                 //self.searchResults.append(contentsOf: response.list)
                 self.resultsLabel.text = "Search results for \"\(genre)\""
+                NotificationCenter.default.post(name: .dismissKeyboard, object: nil) //hide keyboard
             } else {
                 self.resultsLabel.shake()
                 HapticFeedback.createNotificationFeedback(style: .error)
