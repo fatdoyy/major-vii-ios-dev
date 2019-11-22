@@ -181,7 +181,8 @@ class BaseService: NSObject {
     
     static func request(method: Alamofire.HTTPMethod, url: String, params: [String: Any]? = nil) -> Promise<Any> {
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
-        
+        NetworkManager.checkNetworkReachability()
+
         return Promise { resolver in
             manager.request(url, method: method, parameters: params, encoding: URLEncoding.methodDependent, headers: sharedHeaders()).responseJSON { response in
                 switch response.result {

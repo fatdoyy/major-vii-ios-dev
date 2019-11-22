@@ -170,7 +170,6 @@ extension HomeViewController {
 extension HomeViewController {
     private func getNews(skip: Int? = nil, limit: Int? = nil) {
         mainCollectionView.isUserInteractionEnabled = false
-        checkNetworkReachability()
 
         NewsService.getList(skip: skip, limit: limit).done { response -> () in
             //self.newsList = response.list
@@ -721,42 +720,42 @@ extension HomeViewController {
         return UILabel()
     }
     
-    func checkNetworkReachability() {
-        network.reachability.whenUnreachable = { reachability in
-            if let offlineLabel = self.offlineLabel {
-                offlineLabel.font = UIFont.systemFont(ofSize: 24, weight: .bold)
-                offlineLabel.textColor = .lightGray
-                offlineLabel.backgroundColor = .m7DarkGray()
-                offlineLabel.alpha = 0
-                offlineLabel.tag = 333
-                offlineLabel.numberOfLines = 0
-                offlineLabel.text = "You're offline! \nPlease check your network settings."
-                offlineLabel.textAlignment = .center
-                self.view.addSubview(offlineLabel)
-                offlineLabel.snp.makeConstraints { (make) in
-                    make.center.equalToSuperview()
-                    make.size.equalToSuperview()
-                }
-                
-                UIView.animate(withDuration: 0.2) {
-                    offlineLabel.alpha = 1
-                    self.mainCollectionView.alpha = 0
-                }
-            }
-        }
-        
-        network.reachability.whenReachable = { _ in
-            self.getNews(limit: self.newsLimit)
-            self.delegate?.refreshUpcomingEvents()
-
-            if let offlineLabel = self.view.viewWithTag(333) {
-                UIView.animate(withDuration: 0.2) {
-                    offlineLabel.alpha = 0
-                    self.mainCollectionView.alpha = 1
-                }
-                offlineLabel.removeFromSuperview()
-            }
-        }
-    }
+//    func checkNetworkReachability() {
+//        network.reachability.whenUnreachable = { reachability in
+//            if let offlineLabel = self.offlineLabel {
+//                offlineLabel.font = UIFont.systemFont(ofSize: 24, weight: .bold)
+//                offlineLabel.textColor = .lightGray
+//                offlineLabel.backgroundColor = .m7DarkGray()
+//                offlineLabel.alpha = 0
+//                offlineLabel.tag = 333
+//                offlineLabel.numberOfLines = 0
+//                offlineLabel.text = "You're offline! \nPlease check your network settings."
+//                offlineLabel.textAlignment = .center
+//                self.view.addSubview(offlineLabel)
+//                offlineLabel.snp.makeConstraints { (make) in
+//                    make.center.equalToSuperview()
+//                    make.size.equalToSuperview()
+//                }
+//
+//                UIView.animate(withDuration: 0.2) {
+//                    offlineLabel.alpha = 1
+//                    self.mainCollectionView.alpha = 0
+//                }
+//            }
+//        }
+//
+//        network.reachability.whenReachable = { _ in
+//            self.getNews(limit: self.newsLimit)
+//            self.delegate?.refreshUpcomingEvents()
+//
+//            if let offlineLabel = self.view.viewWithTag(333) {
+//                UIView.animate(withDuration: 0.2) {
+//                    offlineLabel.alpha = 0
+//                    self.mainCollectionView.alpha = 1
+//                }
+//                offlineLabel.removeFromSuperview()
+//            }
+//        }
+//    }
 
 }

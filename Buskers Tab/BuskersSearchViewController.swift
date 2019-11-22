@@ -384,7 +384,7 @@ extension BuskersSearchViewController: UICollectionViewDelegate, UICollectionVie
                     cell.genre.text = ""
                 }
                 
-                cell.verifiedBg.alpha = searchResults[indexPath.row].verified == nil ? 0 : 1
+                cell.verifiedBg.alpha = searchResults[indexPath.row].verified == false ? 0 : 1
                 cell.premiumBadge.alpha = boolArr[indexPath.row] == 1 ? 1 : 0
             }
             
