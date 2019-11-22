@@ -781,6 +781,7 @@
 				CF3704140FA5CCDF4E50A18B /* [CP] Check Pods Manifest.lock */,
 				CA550A9E21706A65008E493D /* Sources */,
 				CA550A9F21706A65008E493D /* Frameworks */,
+				960A05C62387D9B6005990DE /* ShellScript */,
 				CA550AA021706A65008E493D /* Resources */,
 				351B7D0E82315AC1B245613B /* [CP] Embed Pods Frameworks */,
 				D8BC21858E805778ED04E3FE /* [CP] Copy Pods Resources */,
@@ -916,6 +917,23 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-major-7-ios/Pods-major-7-ios-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		960A05C62387D9B6005990DE /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/bash;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nbuildNumber=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"$INFOPLIST_FILE\")\nbuildNumber=$(($buildNumber + 1))\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $buildNumber\" \"$INFOPLIST_FILE\"\n";
 		};
 		CF3704140FA5CCDF4E50A18B /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1227,6 +1245,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 0.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = app.major7.ios.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -1248,6 +1267,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 0.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = app.major7.ios.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;

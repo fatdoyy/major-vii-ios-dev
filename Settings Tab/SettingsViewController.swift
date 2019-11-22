@@ -74,6 +74,12 @@ class SettingsViewController: UIViewController {
     var othersSectionAboutBtn: UIButton!
     var othersSectionAboutIcon: UIImageView!
     
+    //Footer Section
+    let appName: String = Bundle.main.object(forInfoDictionaryKey: "CFBundleDisplayName") as! String
+    let appVersion: String = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String
+    let buildNumber: String = Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as! String
+    var versionLabel: UILabel!
+    
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
@@ -108,6 +114,7 @@ class SettingsViewController: UIViewController {
         setupGeneralSection()
         setupBuskerSection()
         setupOthersSection()
+        setupFooterSetction()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -133,7 +140,7 @@ class SettingsViewController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        mainScrollView.contentSize = CGSize(width: screenWidth, height: UIScreen.main.bounds.height + 600)
+        mainScrollView.contentSize = CGSize(width: screenWidth, height: UIScreen.main.bounds.height + 500)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -369,7 +376,7 @@ extension SettingsViewController {
         generalSectionNotiBtn.backgroundColor = UIColor.white.withAlphaComponent(0.05)
         generalSectionNotiBtn.contentHorizontalAlignment = .left
         generalSectionNotiBtn.setTitle("Notifications", for: .normal)
-        generalSectionNotiBtn.setTitleColor(.white, for: .normal)
+        generalSectionNotiBtn.setTitleColor(.darkGray, for: .normal)
         generalSectionNotiBtn.titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
         generalSectionNotiBtn.titleEdgeInsets = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 0)
         generalSectionNotiBtn.addTarget(self, action: #selector(notiBtnTapped), for: .touchUpInside)
@@ -381,7 +388,8 @@ extension SettingsViewController {
         }
 
         generalSectionNotiIcon = UIImageView()
-        generalSectionNotiIcon.image = UIImage(named: "settings_icon_noti")
+        generalSectionNotiIcon.image = UIImage(named: "settings_icon_noti")?.withRenderingMode(.alwaysTemplate)
+        generalSectionNotiIcon.tintColor = .darkGray
         generalSectionBg.addSubview(generalSectionNotiIcon)
         generalSectionNotiIcon.snp.makeConstraints { (make) in
             make.centerY.equalTo(generalSectionNotiBtn)
@@ -404,7 +412,7 @@ extension SettingsViewController {
         generalSectionBuskerRegBtn.backgroundColor = UIColor.white.withAlphaComponent(0.05)
         generalSectionBuskerRegBtn.contentHorizontalAlignment = .left
         generalSectionBuskerRegBtn.setTitle("Become a MajorVII performer!", for: .normal)
-        generalSectionBuskerRegBtn.setTitleColor(.white, for: .normal)
+        generalSectionBuskerRegBtn.setTitleColor(.darkGray, for: .normal)
         generalSectionBuskerRegBtn.titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
         generalSectionBuskerRegBtn.titleEdgeInsets = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 0)
         generalSectionBg.addSubview(generalSectionBuskerRegBtn)
@@ -416,7 +424,8 @@ extension SettingsViewController {
         }
         
         generalSectionRegIcon = UIImageView()
-        generalSectionRegIcon.image = UIImage(named: "settings_icon_performer")
+        generalSectionRegIcon.image = UIImage(named: "settings_icon_performer")?.withRenderingMode(.alwaysTemplate)
+        generalSectionRegIcon.tintColor = .darkGray
         generalSectionBg.addSubview(generalSectionRegIcon)
         generalSectionRegIcon.snp.makeConstraints { (make) in
             make.centerY.equalTo(generalSectionBuskerRegBtn)
@@ -439,7 +448,7 @@ extension SettingsViewController {
         generalSectionSettingsBtn.backgroundColor = UIColor.white.withAlphaComponent(0.05)
         generalSectionSettingsBtn.contentHorizontalAlignment = .left
         generalSectionSettingsBtn.setTitle("Settings", for: .normal)
-        generalSectionSettingsBtn.setTitleColor(.white, for: .normal)
+        generalSectionSettingsBtn.setTitleColor(.darkGray, for: .normal)
         generalSectionSettingsBtn.titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
         generalSectionSettingsBtn.titleEdgeInsets = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 0)
         generalSectionBg.addSubview(generalSectionSettingsBtn)
@@ -451,7 +460,8 @@ extension SettingsViewController {
         }
         
         generalSectionSettingsIcon = UIImageView()
-        generalSectionSettingsIcon.image = UIImage(named: "settings_icon_settings")
+        generalSectionSettingsIcon.image = UIImage(named: "settings_icon_settings")?.withRenderingMode(.alwaysTemplate)
+        generalSectionSettingsIcon.tintColor = .darkGray
         generalSectionBg.addSubview(generalSectionSettingsIcon)
         generalSectionSettingsIcon.snp.makeConstraints { (make) in
             make.centerY.equalTo(generalSectionSettingsBtn)
@@ -509,7 +519,7 @@ extension SettingsViewController {
         buskerSectionProfileBtn.backgroundColor = UIColor.white.withAlphaComponent(0.05)
         buskerSectionProfileBtn.contentHorizontalAlignment = .left
         buskerSectionProfileBtn.setTitle("Edit your profile", for: .normal)
-        buskerSectionProfileBtn.setTitleColor(.white, for: .normal)
+        buskerSectionProfileBtn.setTitleColor(.darkGray, for: .normal)
         buskerSectionProfileBtn.titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
         buskerSectionProfileBtn.titleEdgeInsets = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 0)
         buskerSectionBg.addSubview(buskerSectionProfileBtn)
@@ -520,7 +530,8 @@ extension SettingsViewController {
         }
         
         buskerSectionProfileIcon = UIImageView()
-        buskerSectionProfileIcon.image = UIImage(named: "settings_icon_profile")
+        buskerSectionProfileIcon.image = UIImage(named: "settings_icon_profile")?.withRenderingMode(.alwaysTemplate)
+        buskerSectionProfileIcon.tintColor = .darkGray
         buskerSectionBg.addSubview(buskerSectionProfileIcon)
         buskerSectionProfileIcon.snp.makeConstraints { (make) in
             make.centerY.equalTo(buskerSectionProfileBtn)
@@ -543,7 +554,7 @@ extension SettingsViewController {
         buskerSectionEventBtn.backgroundColor = UIColor.white.withAlphaComponent(0.05)
         buskerSectionEventBtn.contentHorizontalAlignment = .left
         buskerSectionEventBtn.setTitle("Edit your events?", for: .normal)
-        buskerSectionEventBtn.setTitleColor(.white, for: .normal)
+        buskerSectionEventBtn.setTitleColor(.darkGray, for: .normal)
         buskerSectionEventBtn.titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
         buskerSectionEventBtn.titleEdgeInsets = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 0)
         buskerSectionBg.addSubview(buskerSectionEventBtn)
@@ -555,7 +566,8 @@ extension SettingsViewController {
         }
         
         buskerSectionEventIcon = UIImageView()
-        buskerSectionEventIcon.image = UIImage(named: "settings_icon_events")
+        buskerSectionEventIcon.image = UIImage(named: "settings_icon_events")?.withRenderingMode(.alwaysTemplate)
+        buskerSectionEventIcon.tintColor = .darkGray
         buskerSectionBg.addSubview(buskerSectionEventIcon)
         buskerSectionEventIcon.snp.makeConstraints { (make) in
             make.centerY.equalTo(buskerSectionEventBtn)
@@ -578,7 +590,7 @@ extension SettingsViewController {
         buskerSectionPostBtn.backgroundColor = UIColor.white.withAlphaComponent(0.05)
         buskerSectionPostBtn.contentHorizontalAlignment = .left
         buskerSectionPostBtn.setTitle("Edit your posts", for: .normal)
-        buskerSectionPostBtn.setTitleColor(.white, for: .normal)
+        buskerSectionPostBtn.setTitleColor(.darkGray, for: .normal)
         buskerSectionPostBtn.titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
         buskerSectionPostBtn.titleEdgeInsets = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 0)
         buskerSectionBg.addSubview(buskerSectionPostBtn)
@@ -590,7 +602,8 @@ extension SettingsViewController {
         }
         
         buskerSectionPostIcon = UIImageView()
-        buskerSectionPostIcon.image = UIImage(named: "settings_icon_posts")
+        buskerSectionPostIcon.image = UIImage(named: "settings_icon_posts")?.withRenderingMode(.alwaysTemplate)
+        buskerSectionPostIcon.tintColor = .darkGray
         buskerSectionBg.addSubview(buskerSectionPostIcon)
         buskerSectionPostIcon.snp.makeConstraints { (make) in
             make.centerY.equalTo(buskerSectionPostBtn)
@@ -644,7 +657,7 @@ extension SettingsViewController {
         othersSectionTermsBtn.backgroundColor = UIColor.white.withAlphaComponent(0.05)
         othersSectionTermsBtn.contentHorizontalAlignment = .left
         othersSectionTermsBtn.setTitle("Terms & Conditions", for: .normal)
-        othersSectionTermsBtn.setTitleColor(.white, for: .normal)
+        othersSectionTermsBtn.setTitleColor(.darkGray, for: .normal)
         othersSectionTermsBtn.titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
         othersSectionTermsBtn.titleEdgeInsets = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 0)
         othersSectionBg.addSubview(othersSectionTermsBtn)
@@ -655,7 +668,8 @@ extension SettingsViewController {
         }
         
         othersSectionTermsIcon = UIImageView()
-        othersSectionTermsIcon.image = UIImage(named: "settings_icon_terms")
+        othersSectionTermsIcon.image = UIImage(named: "settings_icon_terms")?.withRenderingMode(.alwaysTemplate)
+        othersSectionTermsIcon.tintColor = .darkGray
         othersSectionBg.addSubview(othersSectionTermsIcon)
         othersSectionTermsIcon.snp.makeConstraints { (make) in
             make.centerY.equalTo(othersSectionTermsBtn)
@@ -678,7 +692,7 @@ extension SettingsViewController {
         othersSectionPrivacyBtn.backgroundColor = UIColor.white.withAlphaComponent(0.05)
         othersSectionPrivacyBtn.contentHorizontalAlignment = .left
         othersSectionPrivacyBtn.setTitle("Privacy Policy", for: .normal)
-        othersSectionPrivacyBtn.setTitleColor(.white, for: .normal)
+        othersSectionPrivacyBtn.setTitleColor(.darkGray, for: .normal)
         othersSectionPrivacyBtn.titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
         othersSectionPrivacyBtn.titleEdgeInsets = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 0)
         othersSectionBg.addSubview(othersSectionPrivacyBtn)
@@ -690,7 +704,8 @@ extension SettingsViewController {
         }
         
         othersSectionPrivacyIcon = UIImageView()
-        othersSectionPrivacyIcon.image = UIImage(named: "settings_icon_privacy")
+        othersSectionPrivacyIcon.image = UIImage(named: "settings_icon_privacy")?.withRenderingMode(.alwaysTemplate)
+        othersSectionPrivacyIcon.tintColor = .darkGray
         othersSectionBg.addSubview(othersSectionPrivacyIcon)
         othersSectionPrivacyIcon.snp.makeConstraints { (make) in
             make.centerY.equalTo(othersSectionPrivacyBtn)
@@ -725,7 +740,8 @@ extension SettingsViewController {
         }
         
         othersSectionFeedbackIcon = UIImageView()
-        othersSectionFeedbackIcon.image = UIImage(named: "settings_icon_feedback")
+        othersSectionFeedbackIcon.image = UIImage(named: "settings_icon_feedback")?.withRenderingMode(.alwaysTemplate)
+        othersSectionFeedbackIcon.tintColor = .white
         othersSectionBg.addSubview(othersSectionFeedbackIcon)
         othersSectionFeedbackIcon.snp.makeConstraints { (make) in
             make.centerY.equalTo(othersSectionFeedbackBtn)
@@ -748,7 +764,7 @@ extension SettingsViewController {
         othersSectionRateBtn.backgroundColor = UIColor.white.withAlphaComponent(0.05)
         othersSectionRateBtn.contentHorizontalAlignment = .left
         othersSectionRateBtn.setTitle("Rate us on App Store!", for: .normal)
-        othersSectionRateBtn.setTitleColor(.white, for: .normal)
+        othersSectionRateBtn.setTitleColor(.darkGray, for: .normal)
         othersSectionRateBtn.titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
         othersSectionRateBtn.titleEdgeInsets = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 0)
         othersSectionBg.addSubview(othersSectionRateBtn)
@@ -760,7 +776,8 @@ extension SettingsViewController {
         }
         
         othersSectionRateIcon = UIImageView()
-        othersSectionRateIcon.image = UIImage(named: "settings_icon_rate")
+        othersSectionRateIcon.image = UIImage(named: "settings_icon_rate")?.withRenderingMode(.alwaysTemplate)
+        othersSectionRateIcon.tintColor = .darkGray
         othersSectionBg.addSubview(othersSectionRateIcon)
         othersSectionRateIcon.snp.makeConstraints { (make) in
             make.centerY.equalTo(othersSectionRateBtn)
@@ -783,7 +800,7 @@ extension SettingsViewController {
         othersSectionAboutBtn.backgroundColor = UIColor.white.withAlphaComponent(0.05)
         othersSectionAboutBtn.contentHorizontalAlignment = .left
         othersSectionAboutBtn.setTitle("About", for: .normal)
-        othersSectionAboutBtn.setTitleColor(.white, for: .normal)
+        othersSectionAboutBtn.setTitleColor(.darkGray, for: .normal)
         othersSectionAboutBtn.titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
         othersSectionAboutBtn.titleEdgeInsets = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 0)
         othersSectionBg.addSubview(othersSectionAboutBtn)
@@ -795,12 +812,28 @@ extension SettingsViewController {
         }
 
         othersSectionAboutIcon = UIImageView()
-        othersSectionAboutIcon.image = UIImage(named: "settings_icon_about")
+        othersSectionAboutIcon.image = UIImage(named: "settings_icon_about")?.withRenderingMode(.alwaysTemplate)
+        othersSectionAboutIcon.tintColor = .darkGray
         othersSectionBg.addSubview(othersSectionAboutIcon)
         othersSectionAboutIcon.snp.makeConstraints { (make) in
             make.centerY.equalTo(othersSectionAboutBtn)
             make.size.equalTo(24)
             make.right.equalTo(-20)
+        }
+    }
+}
+
+//MARK: - Footer Section
+extension SettingsViewController {
+    private func setupFooterSetction() {
+        versionLabel = UILabel()
+        versionLabel.text = "\(appName) \(appVersion) (\(buildNumber))"
+        versionLabel.textColor = .pumpkin
+        versionLabel.font = UIFont.systemFont(ofSize: 12, weight: .semibold)
+        mainScrollView.addSubview(versionLabel)
+        versionLabel.snp.makeConstraints { (make) in
+            make.top.equalTo(othersSectionBg.snp.bottom).offset(6)
+            make.centerX.equalToSuperview()
         }
     }
 }
