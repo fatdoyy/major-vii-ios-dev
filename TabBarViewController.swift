@@ -20,6 +20,19 @@ class TabBarViewController: UITabBarController {
         return .lightContent
     }
 
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        /// iOS 13 auto adjusts image insets if tab bar doesn't have a title, so we disable the image insets on iOS 13
+        if #available(iOS 13.0, *) {
+            if let items = self.tabBar.items {
+                for item in items {
+                    item.imageInsets = .zero
+                }
+            }
+        }
+    }
+    
     /*
     // MARK: - Navigation
 
