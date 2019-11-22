@@ -71,7 +71,7 @@ class BuskerProfileViewController: UIViewController {
     var buskerTaglineLabel = UILabel()
     var buskerLabel = UILabel()
     
-    var verifiedBg = UIView()
+    var verifiedBadge = UIView()
     var verifiedIcon = UIImageView()
     var verifiedText = UIImageView()
     
@@ -334,7 +334,7 @@ extension BuskerProfileViewController {
                 //verified state
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
                     UIView.animate(withDuration: 0.3) {
-                        self.verifiedBg.alpha = profile.verified ?? true ? 1 : 0
+                        self.verifiedBadge.alpha = profile.verified ?? true ? 1 : 0
                     }
                 }
 
@@ -342,7 +342,10 @@ extension BuskerProfileViewController {
                 hashtagsCollectionView.snp.updateConstraints { (make) -> Void in
                     make.height.equalTo(28)
                 }
-                for genre in profile.genres { hashtagsArray.append(genre) }
+                for genreCode in profile.genreCodes {
+                    let genre = genreCode.replacingOccurrences(of: "_", with: "-")
+                    hashtagsArray.append(genre.lowercased())
+                }
                 for hashtag in profile.hashtags { hashtagsArray.append(hashtag) }
                 hashtagsCollectionView.reloadData()
                 
@@ -605,7 +608,7 @@ extension BuskerProfileViewController {
         viewsToShowLater.append(buskerTaglineLabel)
         
         verifiedIcon.image = UIImage(named: "icon_verified")
-        verifiedBg.addSubview(verifiedIcon)
+        verifiedBadge.addSubview(verifiedIcon)
         verifiedIcon.snp.makeConstraints { (make) in
             make.size.equalTo(18)
             make.centerY.equalToSuperview()
@@ -613,7 +616,7 @@ extension BuskerProfileViewController {
         }
 
         verifiedText.image = UIImage(named: "icon_verified_text")
-        verifiedBg.addSubview(verifiedText)
+        verifiedBadge.addSubview(verifiedText)
         verifiedText.snp.makeConstraints { (make) in
             make.centerY.equalToSuperview()
             make.width.equalTo(51)
@@ -621,11 +624,11 @@ extension BuskerProfileViewController {
             make.left.equalTo(verifiedIcon.snp.right).offset(6)
         }
         
-        verifiedBg.alpha = 0
-        verifiedBg.layer.cornerRadius = 14
-        verifiedBg.backgroundColor = UIColor(hexString: "#6aab39")
-        mainScrollView.insertSubview(verifiedBg, aboveSubview: imgOverlay)
-        verifiedBg.snp.makeConstraints { (make) in
+        verifiedBadge.alpha = 0
+        verifiedBadge.layer.cornerRadius = 14
+        verifiedBadge.backgroundColor = UIColor(hexString: "#6aab39")
+        mainScrollView.insertSubview(verifiedBadge, aboveSubview: imgOverlay)
+        verifiedBadge.snp.makeConstraints { (make) in
             make.centerY.equalTo(buskerLabel)
             make.width.equalTo(86)
             make.height.equalTo(28)

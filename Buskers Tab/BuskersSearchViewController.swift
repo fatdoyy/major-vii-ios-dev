@@ -370,21 +370,22 @@ extension BuskersSearchViewController: UICollectionViewDelegate, UICollectionVie
                     cell.bgImgView.kf.setImage(with: desaturatedUrl, options: [.transition(.fade(0.3))])
                 }
                 
-                if searchResults[indexPath.row].genres.count > 1 && !searchResults[indexPath.row].genres.isEmpty {
-                    var genreStr = "\(searchResults[indexPath.row].genres.first ?? "")" //assign the first genre to string first
-                    var genres = searchResults[indexPath.row].genres
-                    genres.removeFirst() //then remove first genre and append the remainings
-                    for genre in genres {
+                if searchResults[indexPath.row].genreCodes.count > 1 && !searchResults[indexPath.row].genreCodes.isEmpty {
+                    var genreStr = "\(searchResults[indexPath.row].genreCodes.first?.replacingOccurrences(of: "_", with: "-") ?? "")" //assign the first genre to string first
+                    var genreCodes = searchResults[indexPath.row].genreCodes
+                    genreCodes.removeFirst() //then remove first genre and append the remainings
+                    for genreCode in genreCodes {
+                        let genre = genreCode.replacingOccurrences(of: "_", with: "-")
                         genreStr.append(", \(genre)")
                     }
                     cell.genre.text = genreStr.lowercased()
-                } else if searchResults[indexPath.row].genres.count == 1 {
-                    cell.genre.text = searchResults[indexPath.row].genres.first?.lowercased()
-                } else if searchResults[indexPath.row].genres.isEmpty {
+                } else if searchResults[indexPath.row].genreCodes.count == 1 {
+                    cell.genre.text = searchResults[indexPath.row].genreCodes.first?.replacingOccurrences(of: "_", with: "-").lowercased()
+                } else if searchResults[indexPath.row].genreCodes.isEmpty {
                     cell.genre.text = ""
                 }
                 
-                cell.verifiedBg.alpha = searchResults[indexPath.row].verified == false ? 0 : 1
+                cell.verifiedBadge.alpha = searchResults[indexPath.row].verified == false ? 0 : 1
                 cell.premiumBadge.alpha = boolArr[indexPath.row] == 1 ? 1 : 0
             }
             

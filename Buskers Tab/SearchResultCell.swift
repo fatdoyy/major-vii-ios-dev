@@ -20,7 +20,7 @@ class SearchResultCell: UICollectionViewCell {
     @IBOutlet weak var bgImgView: UIImageView!
     @IBOutlet weak var gradientBg: UIView!
     
-    @IBOutlet weak var verifiedBg: UIView!
+    @IBOutlet weak var verifiedBadge: UIView!
     @IBOutlet weak var verifiedIcon: UIImageView!
     
     @IBOutlet weak var followerCount: UILabel!
@@ -46,14 +46,14 @@ class SearchResultCell: UICollectionViewCell {
         bgImgView.contentMode = .scaleAspectFill
         bgImgView.clipsToBounds = true
         
-        verifiedBg.alpha = 0
-        verifiedBg.layer.cornerRadius = 14
+        verifiedBadge.alpha = 0
+        verifiedBadge.layer.cornerRadius = 14
         
         premiumBadge.alpha = 0
     }
 
     override func prepareForReuse() {
-        verifiedBg.alpha = 0
+        verifiedBadge.alpha = 0
         premiumBadge.alpha = 0
         bgImgView.image = nil
     }

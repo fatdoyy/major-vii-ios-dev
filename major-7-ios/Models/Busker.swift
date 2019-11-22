@@ -41,7 +41,7 @@ class BuskerProfileDetails: Mappable {
     var hashtags = [String]()
     var verified: Bool?
     var desc: String?
-    var genres = [String]()
+    var genreCodes = [String]()
     var coverImages = [Image]()
     var members = [BuskerMember]()
     var igID: String?
@@ -56,7 +56,7 @@ class BuskerProfileDetails: Mappable {
         hashtags    <- map["hashtags"]
         verified    <- map["verified"]
         desc        <- map["desc"]
-        genres      <- map["music_genres"]
+        genreCodes  <- map["music_genres"]
         coverImages <- map["cover_images"]
         members     <- map["members"]
         igID        <- map["instagram_id"]
@@ -116,7 +116,7 @@ class BuskerPostsList: Mappable {
 }
 
 class OrganizerProfile: Mappable {
-    var genres = [String]()
+    var genreCodes = [String]()
     var coverImages = [Image]()
     var id: String?
     var name: String?
@@ -127,7 +127,7 @@ class OrganizerProfile: Mappable {
     required init?(map: Map) {}
     
     func mapping(map: Map) {
-        genres          <- map["music_genres"]
+        genreCodes      <- map["music_genres"]
         coverImages     <- map["cover_images"]
         id              <- map["_id"]
         name            <- map["name"]

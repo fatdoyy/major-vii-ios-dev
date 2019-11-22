@@ -21,7 +21,7 @@ class BuskersViewController: UIViewController {
     var indicator = NVActivityIndicatorView(frame: CGRect(origin: CGPoint.zero, size: CGSize(width: 5, height: 5)), type: .lineScale)
     
     var mainCollectionView: UICollectionView!
-    var fakeCollectionView: UICollectionView!
+    var skeletonCollectionView: UICollectionView!
     
     var searchTask: DispatchWorkItem? //avoid live search throttle
     var searchController: UISearchController!
@@ -41,7 +41,7 @@ class BuskersViewController: UIViewController {
                 mainCollectionView.reloadData()
             }
             
-            fakeCollectionView.removeFromSuperview()
+            skeletonCollectionView.removeFromSuperview()
         }
     }
     var imgHeight = [CGFloat]()
@@ -238,17 +238,17 @@ extension BuskersViewController {
         let layout = PinterestLayout()
         layout.delegate = self
         
-        fakeCollectionView = UICollectionView(frame: CGRect(origin: .zero, size: .zero), collectionViewLayout: layout)
-        fakeCollectionView.showsVerticalScrollIndicator = false
-        fakeCollectionView.isUserInteractionEnabled = false
-        fakeCollectionView.contentInset = UIEdgeInsets(top: 0, left: 10, bottom: 10, right: 10)
-        fakeCollectionView.backgroundColor = .m7DarkGray()
-        fakeCollectionView.dataSource = self
-        fakeCollectionView.delegate = self
-        fakeCollectionView.register(UINib.init(nibName: "BuskerCell", bundle: nil), forCellWithReuseIdentifier: BuskerCell.reuseIdentifier)
-        fakeCollectionView.register(UINib.init(nibName: "NewsSectionFooter", bundle: nil), forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: NewsSectionFooter.reuseIdentifier)
-        view.addSubview(fakeCollectionView)
-        fakeCollectionView.snp.makeConstraints { (make) -> Void in
+        skeletonCollectionView = UICollectionView(frame: CGRect(origin: .zero, size: .zero), collectionViewLayout: layout)
+        skeletonCollectionView.showsVerticalScrollIndicator = false
+        skeletonCollectionView.isUserInteractionEnabled = false
+        skeletonCollectionView.contentInset = UIEdgeInsets(top: 0, left: 10, bottom: 10, right: 10)
+        skeletonCollectionView.backgroundColor = .m7DarkGray()
+        skeletonCollectionView.dataSource = self
+        skeletonCollectionView.delegate = self
+        skeletonCollectionView.register(UINib.init(nibName: "BuskerCell", bundle: nil), forCellWithReuseIdentifier: BuskerCell.reuseIdentifier)
+        skeletonCollectionView.register(UINib.init(nibName: "NewsSectionFooter", bundle: nil), forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: NewsSectionFooter.reuseIdentifier)
+        view.addSubview(skeletonCollectionView)
+        skeletonCollectionView.snp.makeConstraints { (make) -> Void in
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
             make.left.right.bottom.equalTo(0)
         }
@@ -289,7 +289,7 @@ extension BuskersViewController {
 extension BuskersViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, PinterestLayoutDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         switch collectionView {
-        case fakeCollectionView:    return 6
+        case skeletonCollectionView:    return 6
         case mainCollectionView:    return buskers.count
         default:                    return 6
         }
@@ -297,8 +297,8 @@ extension BuskersViewController: UICollectionViewDelegate, UICollectionViewDataS
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         switch collectionView {
-        case fakeCollectionView:
-            let cell = fakeCollectionView.dequeueReusableCell(withReuseIdentifier: BuskerCell.reuseIdentifier, for: indexPath) as! BuskerCell
+        case skeletonCollectionView:
+            let cell = skeletonCollectionView.dequeueReusableCell(withReuseIdentifier: BuskerCell.reuseIdentifier, for: indexPath) as! BuskerCell
             return cell
             
         case mainCollectionView:
@@ -317,17 +317,18 @@ extension BuskersViewController: UICollectionViewDelegate, UICollectionViewDataS
                 
                 cell.buskerName.text = profile.name
                 
-                if profile.genres.count > 1 && !profile.genres.isEmpty {
-                    var genreStr = "\(profile.genres.first ?? "")" //assign the first genre to string first
-                    var genres = profile.genres
-                    genres.removeFirst() //then remove first genre and append the remainings
-                    for genre in genres {
+                if profile.genreCodes.count > 1 && !profile.genreCodes.isEmpty { //more than one genre
+                    var genreStr = "\(profile.genreCodes.first?.replacingOccurrences(of: "_", with: "-") ?? "")" //assign the first genre to string first
+                    var genreCodes = profile.genreCodes
+                    genreCodes.removeFirst() //then remove first genre and append the remainings
+                    for genreCode in genreCodes {
+                        let genre = genreCode.replacingOccurrences(of: "_", with: "-")
                         genreStr.append(", \(genre)")
                     }
                     cell.genre.text = genreStr.lowercased()
-                } else if profile.genres.count == 1 {
-                    cell.genre.text = profile.genres.first?.lowercased()
-                } else if profile.genres.isEmpty {
+                } else if profile.genreCodes.count == 1 {
+                    cell.genre.text = profile.genreCodes.first?.replacingOccurrences(of: "_", with: "-").lowercased()
+                } else if profile.genreCodes.isEmpty {
                     cell.genre.text = ""
                 }
                 
@@ -377,7 +378,7 @@ extension BuskersViewController: UICollectionViewDelegate, UICollectionViewDataS
     //PinterestLayout delegate
     func collectionView(_ collectionView: UICollectionView, heightForPhotoAtIndexPath indexPath: IndexPath) -> CGFloat {
         switch collectionView {
-        case fakeCollectionView:    return 220
+        case skeletonCollectionView:    return 220
         case mainCollectionView:    return imgHeight[indexPath.row]
         default:                    return 220
         }

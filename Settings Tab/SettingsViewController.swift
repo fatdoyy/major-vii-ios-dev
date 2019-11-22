@@ -23,11 +23,11 @@ class SettingsViewController: UIViewController {
     var logoutBtn: UIButton!
     var buskerIcon: UIImageView!
     var loggedInHeaderViews = [UIView]()
-    
     var emptyLoginBgView: UIView!
     var emptyLoginGradientBg: PastelView!
-    var emptyLoginShadowView: UIView!
+    var loginShadowView: UIView!
     var loginBtn: UIButton!
+    var headerSectionTotalHeight: CGFloat!
     
     //Genereal Section
     var generalSectionTitle: UILabel!
@@ -41,6 +41,7 @@ class SettingsViewController: UIViewController {
     var generalSectionSepLine2: UIView!
     var generalSectionSettingsBtn: UIButton!
     var generalSectionSettingsIcon: UIImageView!
+    var generalSectionTotalHeight: CGFloat!
     
     //Busker Section
     var buskerSectionTitle: UILabel!
@@ -54,6 +55,7 @@ class SettingsViewController: UIViewController {
     var buskerSectionSepLine2: UIView!
     var buskerSectionPostBtn: UIButton!
     var buskerSectionPostIcon: UIImageView!
+    var buskerSectionTotalHeight: CGFloat!
     
     //Others Section
     var othersSectionTitle: UILabel!
@@ -73,6 +75,7 @@ class SettingsViewController: UIViewController {
     var othersSectionSepLine4: UIView!
     var othersSectionAboutBtn: UIButton!
     var othersSectionAboutIcon: UIImageView!
+    var othersSectionTotalHeight: CGFloat!
     
     //Footer Section
     let appName: String = Bundle.main.object(forInfoDictionaryKey: "CFBundleDisplayName") as! String
@@ -90,14 +93,6 @@ class SettingsViewController: UIViewController {
         navigationController?.interactivePopGestureRecognizer?.delegate = self
         //contentView.backgroundColor = .darkGray()
 
-        
-//        logInOrOutBtn.isHidden = true
-//        if UserService.User.isLoggedIn() {
-//            logInOrOutBtn.setTitle("Log Out", for: .normal)
-//        } else {
-//            logInOrOutBtn.setTitle("Log In", for: .normal)
-//        }
-//
         mainScrollView = UIScrollView()
         mainScrollView.showsVerticalScrollIndicator = false
         mainScrollView.contentInsetAdjustmentBehavior = .never
@@ -129,7 +124,7 @@ class SettingsViewController: UIViewController {
         for view in loggedInHeaderViews {
             view.alpha = UserService.User.isLoggedIn() ? 1 : 0
         }
-        emptyLoginShadowView.alpha = UserService.User.isLoggedIn() ? 0 : 1
+        loginShadowView.alpha = UserService.User.isLoggedIn() ? 0 : 1
         loginBtn.alpha = UserService.User.isLoggedIn() ? 0 : 1
     }
     
@@ -140,7 +135,9 @@ class SettingsViewController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        mainScrollView.contentSize = CGSize(width: screenWidth, height: UIScreen.main.bounds.height + 500)
+        //mainScrollView.contentSize = CGSize(width: screenWidth, height: UIScreen.main.bounds.height + 800)
+        let height = headerSectionTotalHeight + generalSectionTotalHeight + buskerSectionTotalHeight + othersSectionTotalHeight
+        mainScrollView.contentSize = CGSize(width: screenWidth, height: height)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -171,7 +168,7 @@ extension SettingsViewController {
         for view in loggedInHeaderViews {
             view.alpha = UserService.User.isLoggedIn() ? 1 : 0
         }
-        emptyLoginShadowView.alpha = UserService.User.isLoggedIn() ? 0 : 1
+        loginShadowView.alpha = UserService.User.isLoggedIn() ? 0 : 1
         loginBtn.alpha = UserService.User.isLoggedIn() ? 0 : 1
     }
     
@@ -227,18 +224,19 @@ extension SettingsViewController {
         }
         loggedInHeaderViews.append(buskerIcon)
         
+        headerSectionTotalHeight = 306 //padding
     }
     
     private func setupLoginHeader() {
         //empty view's drop shadow
-        emptyLoginShadowView = UIView()
-        emptyLoginShadowView.alpha = 1
-        emptyLoginShadowView.frame = CGRect(x: 20, y: 78, width: UIScreen.main.bounds.width - 40, height: 106)
-        emptyLoginShadowView.clipsToBounds = false
-        emptyLoginShadowView.layer.shadowOpacity = 0.5
-        emptyLoginShadowView.layer.shadowOffset = CGSize(width: -1, height: -1)
-        emptyLoginShadowView.layer.shadowRadius = GlobalCornerRadius.value
-        emptyLoginShadowView.layer.shadowPath = UIBezierPath(roundedRect: emptyLoginShadowView.bounds, cornerRadius: GlobalCornerRadius.value).cgPath
+        loginShadowView = UIView()
+        loginShadowView.alpha = 1
+        loginShadowView.frame = CGRect(x: 20, y: 78, width: UIScreen.main.bounds.width - 40, height: 106)
+        loginShadowView.clipsToBounds = false
+        loginShadowView.layer.shadowOpacity = 0.5
+        loginShadowView.layer.shadowOffset = CGSize(width: -1, height: -1)
+        loginShadowView.layer.shadowRadius = GlobalCornerRadius.value
+        loginShadowView.layer.shadowPath = UIBezierPath(roundedRect: loginShadowView.bounds, cornerRadius: GlobalCornerRadius.value).cgPath
         
         //empty view
         //bgView.alpha = 0
@@ -253,12 +251,12 @@ extension SettingsViewController {
         emptyLoginGradientBg.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width - 40, height: 106)
         emptyLoginGradientBg.animationDuration = 2.5
         emptyLoginGradientBg.setColors([UIColor(hexString: "#FDC830"), UIColor(hexString: "#F37335")])
-        emptyLoginShadowView.layer.shadowColor = UIColor(hexString: "#FDC830").cgColor
+        loginShadowView.layer.shadowColor = UIColor(hexString: "#FDC830").cgColor
         
         emptyLoginGradientBg.startAnimation()
         
         emptyLoginBgView.insertSubview(emptyLoginGradientBg, at: 0)
-        emptyLoginShadowView.addSubview(emptyLoginBgView)
+        loginShadowView.addSubview(emptyLoginBgView)
         
         let loginImgView = UIImageView()
         loginImgView.image = UIImage(named: "icon_login")
@@ -306,9 +304,9 @@ extension SettingsViewController {
             make.height.equalTo(28)
         }
         
-        mainScrollView.addSubview(emptyLoginShadowView)
+        mainScrollView.addSubview(loginShadowView)
         mainScrollView.bringSubviewToFront(loginBtn)
-        emptyLoginShadowView.snp.makeConstraints { (make) in
+        loginShadowView.snp.makeConstraints { (make) in
             make.top.equalToSuperview().offset(98)
             make.left.equalToSuperview().offset(20)
             make.width.equalTo(screenWidth - 40)
@@ -322,12 +320,13 @@ extension SettingsViewController {
     }
     
     @objc func didTapLogoutBtn(_ sender: Any) {
+        logoutBtn.setTitle("Logging out...", for: .normal)
         UserService.User.logout(fromVC: self).done { _ -> () in
             UIView.animate(withDuration: 0.2) {
-                self.emptyLoginShadowView.alpha = 1
+                self.loginShadowView.alpha = 1
                 self.loginBtn.alpha = 1
-                self.logoutBtn.setTitle("Logging out...", for: .normal)
             }
+            self.logoutBtn.setTitle("Logout", for: .normal) //reset title
         }.catch { error in }
     }
 }
@@ -340,7 +339,7 @@ extension SettingsViewController {
         generalSectionTitle.textColor = .white
         generalSectionTitle.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
         mainScrollView.addSubview(generalSectionTitle)
-        let generalSectionTitleHeight = 21
+        let generalSectionTitleHeight: CGFloat = 21
         generalSectionTitle.snp.makeConstraints { (make) in
             make.top.equalTo(logoutBtn.snp.bottom).offset(44)
             make.left.equalToSuperview().offset(20)
@@ -352,11 +351,11 @@ extension SettingsViewController {
         generalSettingsDesc.textColor = .white
         generalSettingsDesc.font = UIFont.systemFont(ofSize: 12, weight: .regular)
         mainScrollView.addSubview(generalSettingsDesc)
-        let generalSettingsDescHeight = 14
+        let generalSectionDescHeight: CGFloat = 14
         generalSettingsDesc.snp.makeConstraints { (make) in
             make.top.equalTo(generalSectionTitle.snp.bottom).offset(4)
             make.left.equalToSuperview().offset(20)
-            make.height.equalTo(generalSettingsDescHeight)
+            make.height.equalTo(generalSectionDescHeight)
         }
         
         generalSectionBg = UIView()
@@ -364,7 +363,7 @@ extension SettingsViewController {
         generalSectionBg.clipsToBounds = true
         generalSectionBg.layer.cornerRadius = GlobalCornerRadius.value
         mainScrollView.addSubview(generalSectionBg)
-        let generalSectionBgHeight = 64 * 3
+        let generalSectionBgHeight: CGFloat = 64 * 3
         generalSectionBg.snp.makeConstraints { (make) in
             make.height.equalTo(generalSectionBgHeight)
             make.width.equalTo(screenWidth - 40)
@@ -468,6 +467,8 @@ extension SettingsViewController {
             make.size.equalTo(24)
             make.right.equalTo(-20)
         }
+        
+        generalSectionTotalHeight = generalSectionTitleHeight + generalSectionDescHeight + generalSectionBgHeight + 63 //padding
     }
     
     @objc func notiBtnTapped() {
@@ -475,7 +476,7 @@ extension SettingsViewController {
     }
 }
 
-//MARK: - Busker/Finder Section
+//MARK: - Account Details (Busker) Section
 extension SettingsViewController {
     private func setupBuskerSection() {
         buskerSectionTitle = UILabel()
@@ -483,7 +484,7 @@ extension SettingsViewController {
         buskerSectionTitle.textColor = .white
         buskerSectionTitle.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
         mainScrollView.addSubview(buskerSectionTitle)
-        let buskerSectionTitleHeight = 21
+        let buskerSectionTitleHeight: CGFloat = 21
         buskerSectionTitle.snp.makeConstraints { (make) in
             make.top.equalTo(generalSectionBg.snp.bottom).offset(30)
             make.left.equalToSuperview().offset(20)
@@ -495,7 +496,7 @@ extension SettingsViewController {
         buskerSectionDesc.textColor = .white
         buskerSectionDesc.font = UIFont.systemFont(ofSize: 12, weight: .regular)
         mainScrollView.addSubview(buskerSectionDesc)
-        let buskerSectionDescHeight = 14
+        let buskerSectionDescHeight: CGFloat = 14
         buskerSectionDesc.snp.makeConstraints { (make) in
             make.top.equalTo(buskerSectionTitle.snp.bottom).offset(4)
             make.left.equalToSuperview().offset(20)
@@ -507,9 +508,9 @@ extension SettingsViewController {
         buskerSectionBg.clipsToBounds = true
         buskerSectionBg.layer.cornerRadius = GlobalCornerRadius.value
         mainScrollView.addSubview(buskerSectionBg)
-        let generalSectionBgHeight = 64 * 3 //depends on how many row
+        let buskerSectionBgHeight: CGFloat = 64 * 3 //depends on how many row
         buskerSectionBg.snp.makeConstraints { (make) in
-            make.height.equalTo(generalSectionBgHeight)
+            make.height.equalTo(buskerSectionBgHeight)
             make.width.equalTo(screenWidth - 40)
             make.left.equalToSuperview().offset(20)
             make.top.equalTo(buskerSectionDesc.snp.bottom).offset(15)
@@ -610,6 +611,8 @@ extension SettingsViewController {
             make.size.equalTo(24)
             make.right.equalTo(-20)
         }
+        
+        buskerSectionTotalHeight = buskerSectionTitleHeight + buskerSectionDescHeight + buskerSectionBgHeight + 49 //padding
     }
 }
 
@@ -621,7 +624,7 @@ extension SettingsViewController {
         othersSectionTitle.textColor = .white
         othersSectionTitle.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
         mainScrollView.addSubview(othersSectionTitle)
-        let othersSectionTitleHeight = 21
+        let othersSectionTitleHeight: CGFloat = 21
         othersSectionTitle.snp.makeConstraints { (make) in
             make.top.equalTo(buskerSectionBg.snp.bottom).offset(30)
             make.left.equalToSuperview().offset(20)
@@ -633,7 +636,7 @@ extension SettingsViewController {
         othersSectionDesc.textColor = .white
         othersSectionDesc.font = UIFont.systemFont(ofSize: 12, weight: .regular)
         mainScrollView.addSubview(othersSectionDesc)
-        let othersSectionDescHeight = 14
+        let othersSectionDescHeight: CGFloat = 14
         othersSectionDesc.snp.makeConstraints { (make) in
             make.top.equalTo(othersSectionTitle.snp.bottom).offset(4)
             make.left.equalToSuperview().offset(20)
@@ -645,7 +648,7 @@ extension SettingsViewController {
         othersSectionBg.clipsToBounds = true
         othersSectionBg.layer.cornerRadius = GlobalCornerRadius.value
         mainScrollView.addSubview(othersSectionBg)
-        let othersSectionBgHeight = 64 * 5 //depends on how many row
+        let othersSectionBgHeight: CGFloat = 64 * 5 //depends on how many row
         othersSectionBg.snp.makeConstraints { (make) in
             make.height.equalTo(othersSectionBgHeight)
             make.width.equalTo(screenWidth - 40)
@@ -820,6 +823,8 @@ extension SettingsViewController {
             make.size.equalTo(24)
             make.right.equalTo(-20)
         }
+        
+        othersSectionTotalHeight = othersSectionTitleHeight + othersSectionDescHeight + othersSectionBgHeight + 49 /* padding */
     }
 }
 
@@ -827,9 +832,9 @@ extension SettingsViewController {
 extension SettingsViewController {
     private func setupFooterSetction() {
         versionLabel = UILabel()
-        versionLabel.text = "\(appName) \(appVersion) (\(buildNumber))"
+        versionLabel.text = "\(appName) v\(appVersion) (\(buildNumber))"
         versionLabel.textColor = .pumpkin
-        versionLabel.font = UIFont.systemFont(ofSize: 12, weight: .semibold)
+        versionLabel.font = UIFont.systemFont(ofSize: 12, weight: .regular)
         mainScrollView.addSubview(versionLabel)
         versionLabel.snp.makeConstraints { (make) in
             make.top.equalTo(othersSectionBg.snp.bottom).offset(6)

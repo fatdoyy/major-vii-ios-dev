@@ -35,6 +35,7 @@ class LoginView: UIView {
     
     @IBOutlet weak var logo: UIImageView!
     @IBOutlet weak var descLabel: UILabel!
+    var isKeyboardPresent = false
     
     //MARK: - Social Login Elements
     var appleSignInBtn: Any? = {
@@ -83,7 +84,7 @@ class LoginView: UIView {
     
     var gifIndex: String?
     
-    //Note: these thumbnails are in the .xcassets file, not "GIFs" folder, since these are JPGs
+    //Note: these thumbnails are in the .xcassets file, not "GIFs" folder, since these are static images
     let gifThumbnail: [UIImage] = [UIImage(named: "gif0_thumbnail")!, UIImage(named: "gif1_thumbnail")!, UIImage(named: "gif2_thumbnail")!, UIImage(named: "gif3_thumbnail")!, UIImage(named: "gif4_thumbnail")!, UIImage(named: "gif5_thumbnail")!, UIImage(named: "gif6_thumbnail")!, UIImage(named: "gif7_thumbnail")!, UIImage(named: "gif8_thumbnail")!, UIImage(named: "gif9_thumbnail")!, UIImage(named: "gif10_thumbnail")!, UIImage(named: "gif11_thumbnail")!]
     
     override init(frame: CGRect) {
@@ -455,37 +456,48 @@ class LoginView: UIView {
     
     @objc func keyboardWillAppear(_ notification: Notification) {
         //Get keyboard height
-        if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
-            let keyboardRectangle = keyboardFrame.cgRectValue
-            let keyboardMinY = keyboardRectangle.minY
-            
-            //animate the constraint's constant change
-            UIView.animate(withDuration: 0.3) {
-                
-                let keyboardTopPlus40 = self.loginActionBtn.frame.minY - keyboardMinY + 40
-                self.pwTextFieldBgBottomConstraint.constant = keyboardTopPlus40
-                self.regPwRefillTextFieldBottomConstraint.constant = keyboardTopPlus40
-                
-                if UIDevice.current.type == .iPhone_5_5S_5C_SE && self.regEmailTextFieldBg.alpha != 0 { //hide descLabel on iPhone SE
-                    self.descLabel.alpha = 0
+        if !isKeyboardPresent {
+            print("keyboard will appear")
+            if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+                let keyboardRectangle = keyboardFrame.cgRectValue
+                let keyboardMinY = keyboardRectangle.minY
+                var keyboardTopPlusPadding = self.loginActionBtn.frame.minY - keyboardMinY
+                if #available(iOS 13.0, *) {
+                    keyboardTopPlusPadding += 80
+                } else {
+                    keyboardTopPlusPadding += 40
                 }
                 
-                self.layoutIfNeeded()
+                //animate the constraint's constant change
+                UIView.animate(withDuration: 0.3) {
+                    self.pwTextFieldBgBottomConstraint.constant = keyboardTopPlusPadding
+                    self.regPwRefillTextFieldBottomConstraint.constant = keyboardTopPlusPadding
+                    
+                    if UIDevice.current.type == .iPhone_5_5S_5C_SE && self.regEmailTextFieldBg.alpha != 0 { //hide descLabel on iPhone SE
+                        self.descLabel.alpha = 0
+                    }
+                    
+                    self.layoutIfNeeded()
+                }
             }
+            isKeyboardPresent = true
         }
     }
     
     @objc func keyboardWillDisappear() {
-        print("keyboard hidden")
-        UIView.animate(withDuration: 0.3) {
-            if UIDevice.current.type == .iPhone_5_5S_5C_SE { //show descLabel on iPhone SE
-                self.descLabel.alpha = 1
-                self.regPwRefillTextFieldBottomConstraint.constant = 45
-            } else {
-                self.regPwRefillTextFieldBottomConstraint.constant = 75
+        if isKeyboardPresent {
+            print("keyboard hidden")
+            UIView.animate(withDuration: 0.3) {
+                if UIDevice.current.type == .iPhone_5_5S_5C_SE { //show descLabel on iPhone SE
+                    self.descLabel.alpha = 1
+                    self.regPwRefillTextFieldBottomConstraint.constant = 45
+                } else {
+                    self.regPwRefillTextFieldBottomConstraint.constant = 75
+                }
+                self.pwTextFieldBgBottomConstraint.constant = 75 //default is 75
+                self.layoutIfNeeded()
             }
-            self.pwTextFieldBgBottomConstraint.constant = 75 //default is 75
-            self.layoutIfNeeded()
+            isKeyboardPresent = false
         }
     }
     

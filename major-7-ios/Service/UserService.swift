@@ -401,7 +401,7 @@ extension UserService {
     }
 }
 
-//MARK: - Email login
+//MARK: - Email login / register
 extension UserService {
     struct Email {
         static func login(email: String, password: String, loginView: LoginView) {
@@ -436,6 +436,7 @@ extension UserService {
                         
                     } else { //api respond error
                         HapticFeedback.createNotificationFeedback(style: .error)
+                        loginView.loginActionBtn.shake()
                         
                         //hide indicator
                         UIView.animate(withDuration: 0.2) {
@@ -447,7 +448,7 @@ extension UserService {
                         UIView.transition(with: loginView.loginActionBtn, duration: 0.2, options: .transitionCrossDissolve, animations: {
                             if let errorObj = apiResponse["error"] as? [String: Any] {
                                 if let errorMsg = errorObj["msg"] {
-                                    loginView.loginActionBtn.setTitle("\(errorMsg)!", for: .normal)
+                                    loginView.loginActionBtn.setTitle("\(errorMsg)", for: .normal)
                                 }
                             } else {
                                 loginView.loginActionBtn.setTitle("Unknown Error", for: .normal)
@@ -456,12 +457,11 @@ extension UserService {
                         }, completion: nil)
                         
                         //reset button state
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                             UIView.transition(with: loginView.loginActionBtn, duration: 0.2, options: .transitionCrossDissolve, animations: {
                                 loginView.loginActionBtn.setTitle("登入", for: .normal)
                                 loginView.loginActionBtn.setTitleColor(.whiteText(), for: .normal)
                             }, completion: nil)
-                            
                             loginView.loginActionBtn.isUserInteractionEnabled = true
                         }
                     }
@@ -505,6 +505,7 @@ extension UserService {
 
                     } else {
                         HapticFeedback.createNotificationFeedback(style: .error)
+                        loginView.regActionBtn.shake()
                         
                         //hide indicator
                         UIView.animate(withDuration: 0.2) {
@@ -524,7 +525,7 @@ extension UserService {
                             loginView.regActionBtn.setTitleColor(.whiteText75Alpha(), for: .normal)
                         }, completion: nil)
                         
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                             UIView.transition(with: loginView.regActionBtn, duration: 0.2, options: .transitionCrossDissolve, animations: {
                                 loginView.regActionBtn.setTitle("註冊", for: .normal)
                                 loginView.regActionBtn.setTitleColor(.whiteText(), for: .normal)
