@@ -69,7 +69,7 @@
 		966A6CBC217DB86D00DF872F /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 966A6CBB217DB86D00DF872F /* HomeViewController.swift */; };
 		966A6CBF217DBD7F00DF872F /* BuskersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 966A6CBE217DBD7F00DF872F /* BuskersViewController.swift */; };
 		966A6CC1217DBD9F00DF872F /* AgentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 966A6CC0217DBD9F00DF872F /* AgentsViewController.swift */; };
-		966A6CC3217DBDAF00DF872F /* EventsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 966A6CC2217DBDAF00DF872F /* EventsViewController.swift */; };
+		966A6CC3217DBDAF00DF872F /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 966A6CC2217DBDAF00DF872F /* MapViewController.swift */; };
 		966A6CC5217DBDC400DF872F /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 966A6CC4217DBDC400DF872F /* SettingsViewController.swift */; };
 		966A6CC7217DC16500DF872F /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 966A6CC6217DC16500DF872F /* Colors.swift */; };
 		966A6CCC217DE6DD00DF872F /* EventsSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 966A6CCA217DE6DD00DF872F /* EventsSection.swift */; };
@@ -99,6 +99,7 @@
 		967BD33F2240C00300469CF9 /* PinterestLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 967BD33E2240C00300469CF9 /* PinterestLayout.swift */; };
 		967BD3422240E60200469CF9 /* BuskerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 967BD3402240E60200469CF9 /* BuskerCell.swift */; };
 		967BD3432240E60200469CF9 /* BuskerCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 967BD3412240E60200469CF9 /* BuskerCell.xib */; };
+		967E9D99238932520010E85F /* GoogleMapsStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 967E9D98238932510010E85F /* GoogleMapsStyle.swift */; };
 		9680373622509EA300A9C65F /* CREDC___.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9680373522509E8700A9C65F /* CREDC___.ttf */; };
 		96862EB9219ACE1F00F709B0 /* EventDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96862EB8219ACE1F00F709B0 /* EventDetailsViewController.swift */; };
 		96862EBB219AD8AC00F709B0 /* TabBarToggle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96862EBA219AD8AC00F709B0 /* TabBarToggle.swift */; };
@@ -240,7 +241,7 @@
 		966A6CBB217DB86D00DF872F /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		966A6CBE217DBD7F00DF872F /* BuskersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuskersViewController.swift; sourceTree = "<group>"; };
 		966A6CC0217DBD9F00DF872F /* AgentsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgentsViewController.swift; sourceTree = "<group>"; };
-		966A6CC2217DBDAF00DF872F /* EventsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsViewController.swift; sourceTree = "<group>"; };
+		966A6CC2217DBDAF00DF872F /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		966A6CC4217DBDC400DF872F /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		966A6CC6217DC16500DF872F /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		966A6CCA217DE6DD00DF872F /* EventsSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsSection.swift; sourceTree = "<group>"; };
@@ -270,6 +271,7 @@
 		967BD33E2240C00300469CF9 /* PinterestLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinterestLayout.swift; sourceTree = "<group>"; };
 		967BD3402240E60200469CF9 /* BuskerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuskerCell.swift; sourceTree = "<group>"; };
 		967BD3412240E60200469CF9 /* BuskerCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BuskerCell.xib; sourceTree = "<group>"; };
+		967E9D98238932510010E85F /* GoogleMapsStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleMapsStyle.swift; sourceTree = "<group>"; };
 		9680373522509E8700A9C65F /* CREDC___.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "CREDC___.ttf"; sourceTree = "<group>"; };
 		96862EB8219ACE1F00F709B0 /* EventDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDetailsViewController.swift; sourceTree = "<group>"; };
 		96862EBA219AD8AC00F709B0 /* TabBarToggle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarToggle.swift; sourceTree = "<group>"; };
@@ -498,7 +500,7 @@
 				966A6CC9217DE6AC00DF872F /* Home Tab */,
 				965798B022266B0700A03BE9 /* Buskers Tab */,
 				966A6CC0217DBD9F00DF872F /* AgentsViewController.swift */,
-				96F37322224B95850088E142 /* Events Tab */,
+				96F37322224B95850088E142 /* Events (Map) Tab */,
 				9611CD76225B226A00ACA937 /* Settings Tab */,
 				CA550AA921706A65008E493D /* Main.storyboard */,
 			);
@@ -517,6 +519,7 @@
 				96F37325224BA1610088E142 /* FloatingPanelSettings.swift */,
 				9658789B21C0FC70005B491A /* FloatyBtn.swift */,
 				96C554302192CBCE0065D70A /* GlobalCornerRadius.swift */,
+				967E9D98238932510010E85F /* GoogleMapsStyle.swift */,
 				96625F7C21C7ABFE0086A2B2 /* GradientLayer.swift */,
 				960A475F219AA8FE00780AD4 /* HapticFeedback.swift */,
 				96799FE3218AF8E60074C828 /* Hashtag.swift */,
@@ -602,6 +605,22 @@
 				9620021921DDFDC20055D070 /* LoginView.xib */,
 			);
 			path = "Login View";
+			sourceTree = "<group>";
+		};
+		967E9D9A238933A80010E85F /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				9680373422509E6C00A9C65F /* Font */,
+				967E9D9B238933C50010E85F /* GoogleMaps style */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		967E9D9B238933C50010E85F /* GoogleMaps style */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "GoogleMaps style";
 			sourceTree = "<group>";
 		};
 		9680373422509E6C00A9C65F /* Font */ = {
@@ -707,10 +726,10 @@
 			name = "Event Details Page";
 			sourceTree = "<group>";
 		};
-		96F37322224B95850088E142 /* Events Tab */ = {
+		96F37322224B95850088E142 /* Events (Map) Tab */ = {
 			isa = PBXGroup;
 			children = (
-				966A6CC2217DBDAF00DF872F /* EventsViewController.swift */,
+				966A6CC2217DBDAF00DF872F /* MapViewController.swift */,
 				96F37323224B96AC0088E142 /* BookmarkedEventsViewController.swift */,
 				96F37327224C9B280088E142 /* BookmarkedEventCell.swift */,
 				96F37328224C9B280088E142 /* BookmarkedEventCell.xib */,
@@ -721,7 +740,7 @@
 				9643C497224DF76F00730DAB /* MapMarker.swift */,
 				96B34DE9224E257B00D9F236 /* InfoWindow.swift */,
 			);
-			path = "Events Tab";
+			path = "Events (Map) Tab";
 			sourceTree = "<group>";
 		};
 		CA550A9921706A65008E493D = {
@@ -756,7 +775,7 @@
 				964761EB2186FA7C0004F58C /* Service */,
 				964761EA2186F6D30004F58C /* Models */,
 				966A6CC8217DC27500DF872F /* Helpers */,
-				9680373422509E6C00A9C65F /* Font */,
+				967E9D9A238933A80010E85F /* Resources */,
 				9620022421E4AE0B0055D070 /* GIFs */,
 			);
 			path = "major-7-ios";
@@ -1003,7 +1022,7 @@
 				966A6CC7217DC16500DF872F /* Colors.swift in Sources */,
 				96C5544C219408580065D70A /* FeaturedCell.swift in Sources */,
 				965798B222266BC500A03BE9 /* BuskerProfileViewController.swift in Sources */,
-				966A6CC3217DBDAF00DF872F /* EventsViewController.swift in Sources */,
+				966A6CC3217DBDAF00DF872F /* MapViewController.swift in Sources */,
 				9620025E21E5E5490055D070 /* UIView+Xib.swift in Sources */,
 				9643C498224DF76F00730DAB /* MapMarker.swift in Sources */,
 				96625F7B21C793DA0086A2B2 /* EventService.swift in Sources */,
@@ -1036,6 +1055,7 @@
 				966A6CC1217DBD9F00DF872F /* AgentsViewController.swift in Sources */,
 				96C55450219438F10065D70A /* PagedCollectionViewLayout.swift in Sources */,
 				96DEB1ED22378446005F87F4 /* BuskerProfileEventCell.swift in Sources */,
+				967E9D99238932520010E85F /* GoogleMapsStyle.swift in Sources */,
 				96C5542E2192C6730065D70A /* FollowingSectionCell.swift in Sources */,
 				967B562B2244B68D006F0AF9 /* GenreCell.swift in Sources */,
 				963A9EDA22FC2609006D4065 /* FollowingsCell.swift in Sources */,
@@ -1238,6 +1258,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "major-7-ios/major-7-ios.entitlements";
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = PAL4UT34MD;
 				INFOPLIST_FILE = "major-7-ios/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
@@ -1245,7 +1266,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.1.0;
+				MARKETING_VERSION = 0.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = app.major7.ios.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -1260,6 +1281,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "major-7-ios/major-7-ios.entitlements";
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = PAL4UT34MD;
 				INFOPLIST_FILE = "major-7-ios/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
@@ -1267,7 +1289,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.1.0;
+				MARKETING_VERSION = 0.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = app.major7.ios.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;

@@ -17,6 +17,10 @@ extension UIColor {
         return UIColor(hexString: "#1E1E24")
     }
     
+    class func m7LightGray() -> UIColor {
+        return UIColor(hexString: "#6F7179")
+    }
+    
     class func m7Charcoal() -> UIColor {
         return UIColor(hexString: "#292b32")
     }

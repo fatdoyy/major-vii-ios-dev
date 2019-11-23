@@ -66,7 +66,6 @@ class MapMarker: GMSMarker {
             make.centerX.equalToSuperview()
         }
         
-        
         self.iconView = iconView
     }
 }

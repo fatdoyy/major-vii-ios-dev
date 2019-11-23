@@ -1,5 +1,5 @@
 //
-//  EventsViewController.swift
+//  MapViewController.swift
 //  major-7-ios
 //
 //  Created by jason on 22/10/2018.
@@ -12,9 +12,16 @@ import FloatingPanel
 import fluid_slider
 import NVActivityIndicatorView
 	
-class EventsViewController: UIViewController {
+//MARK: Google Maps Style
+enum GoogleMapsDefaultStyle: String {
+    case Standard = "Standard"
+    case Night = "Night"
+}
+
+class MapViewController: UIViewController {
     
     @IBOutlet weak var mapView: GMSMapView!
+    var mapStyle = GoogleMapsDefaultStyle.Standard //default is standard style
     private let locationManager = CLLocationManager()
     
     var eventsTitle: UILabel!
@@ -33,11 +40,12 @@ class EventsViewController: UIViewController {
         }
     }
     
+    //settings btn
     var filterBtn: UIButton!
     var filterMenuView: UIView!
     var loadingIndicator: NVActivityIndicatorView!
     var radiusSlider = Slider()
-    
+    var mapStyleBtn: UIButton!
     var myLocationBtn: UIButton!
     
     var fpc: FloatingPanelController!
@@ -46,30 +54,8 @@ class EventsViewController: UIViewController {
     var swipeUpImg = UIImageView()
     var swipeDownImg = UIImageView()
     
-    var bookmarkedEvents = [BookmarkedEvent]() {
-        didSet {
-            eventsVC.bookmarkedEvents = bookmarkedEvents
-        }
-    }
-    
-    var nearbyEvents = [NearbyEvent]() {
-        didSet {
-            UIView.transition(with: nearbyEventsCountLabel, duration: 0.3, options: .transitionFlipFromLeft, animations: {
-                self.nearbyEventsCountLabel.text = self.nearbyEvents.count == 1 ? "1 nearby event" : "\(self.nearbyEvents.count) nearby events"
-                self.nearbyEventsCountLabel.snp.updateConstraints({ (make) in
-                    make.width.equalTo(self.nearbyEventsCountLabel.intrinsicContentSize.width)
-                })
-            }, completion: { _ in
-                if self.filterBtn == nil && self.filterMenuView == nil && self.myLocationBtn == nil {
-                    self.setupFilterMenu()
-                    self.setupFilterBtn()
-                    self.setupMyLocationBtn()
-                }
-            })
-            
-            loadNearbyMarkers()
-        }
-    }
+    var bookmarkedEvents = [BookmarkedEvent]()
+    var nearbyEvents = [NearbyEvent]()
     
     var eventDetails: EventDetails?
     
@@ -90,6 +76,13 @@ class EventsViewController: UIViewController {
         
         mapView.delegate = self
         mapView.isMyLocationEnabled = true
+        
+        //set map to standard style
+        if !UserDefaults.standard.hasValue(LOCAL_KEY.GOOGLE_MAPS_STYLE) {
+            setMapToStandardStyle()
+        } else {
+            UserDefaults.standard.string(forKey: LOCAL_KEY.GOOGLE_MAPS_STYLE) == GoogleMapsDefaultStyle.Night.rawValue ? setMapToNightStyle() : setMapToStandardStyle()
+        }
         
         setupUI()
         setupFPC()
@@ -113,10 +106,13 @@ class EventsViewController: UIViewController {
 }
 
 //MARK: - API calls
-extension EventsViewController {
+extension MapViewController {
     private func getBookmarkedEvents() {
         UserService.getBookmarkedEvents().done { response in
             self.bookmarkedEvents = response.list.reversed()
+            
+            //parse data to eventsVC
+            self.eventsVC.bookmarkedEvents = self.bookmarkedEvents
             }.ensure {
                 UIApplication.shared.isNetworkActivityIndicatorVisible = false
                 //if let completion = completion { completion() }
@@ -126,6 +122,24 @@ extension EventsViewController {
     private func getNearbyEvents(lat: Double, long: Double, radius: Int) {
         EventService.getNearbyEvents(lat: lat, long: long, radius: radius).done { response in
             self.nearbyEvents = response.list
+            
+            //animate label state and setup buttons
+            UIView.transition(with: self.nearbyEventsCountLabel, duration: 0.3, options: .transitionFlipFromLeft, animations: {
+                self.nearbyEventsCountLabel.text = self.nearbyEvents.count == 1 ? "1 nearby event" : "\(self.nearbyEvents.count) nearby events"
+                self.nearbyEventsCountLabel.snp.updateConstraints({ (make) in
+                    make.width.equalTo(self.nearbyEventsCountLabel.intrinsicContentSize.width)
+                })
+            }, completion: { _ in
+                if self.filterBtn == nil && self.filterMenuView == nil && self.myLocationBtn == nil {
+                    self.setupFilterMenu()
+                    self.setupFilterBtn()
+                    self.setupMapStyleBtn()
+                    self.setupMyLocationBtn()
+                }
+            })
+            
+            //load markers
+            self.loadNearbyMarkers()
             }.ensure {
                 
                 if self.loadingIndicator != nil {
@@ -201,10 +215,10 @@ extension EventsViewController {
 }
 
 //MARK: - UISetup
-extension EventsViewController {
+extension MapViewController {
     private func setupUI() {
         nearbyEventsCountLabel = UILabel()
-        nearbyEventsCountLabel.textColor = UIColor(hexString: "#6F7179")
+        nearbyEventsCountLabel.textColor = mapStyle == .Standard ? .m7LightGray() : .lightGray
         nearbyEventsCountLabel.font = UIFont.systemFont(ofSize: 24, weight: .bold)
         nearbyEventsCountLabel.text = "Loading..."
         view.insertSubview(nearbyEventsCountLabel, aboveSubview: mapView)
@@ -223,7 +237,7 @@ extension EventsViewController {
         }
         
         eventsTitle = UILabel()
-        eventsTitle.textColor = .m7DarkGray()
+        eventsTitle.textColor = mapStyle == .Standard ? .m7DarkGray() : .white
         eventsTitle.font = UIFont.systemFont(ofSize: 30, weight: .bold)
         eventsTitle.text = "Events"
         view.insertSubview(eventsTitle, aboveSubview: mapView)
@@ -239,7 +253,7 @@ extension EventsViewController {
         let moreImg = UIImage(named: "icon_more")
         let tintedImg = moreImg!.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
         filterBtn.setImage(tintedImg, for: .normal)
-        filterBtn.tintColor = UIColor(hexString: "#6F7179")
+        filterBtn.tintColor = mapStyle == .Standard ? .m7LightGray() : .lightGray
         filterBtn.setTitle("", for: .normal)
         filterBtn.addTarget(self, action: #selector(filterBtnTapped), for: .touchUpInside)
         view.insertSubview(filterBtn, aboveSubview: mapView)
@@ -248,7 +262,6 @@ extension EventsViewController {
             make.size.equalTo(27)
             make.left.equalTo(nearbyEventsCountLabel.snp.right).offset(4)
         }
-        
     }
     
     @objc func filterBtnTapped() {
@@ -257,21 +270,40 @@ extension EventsViewController {
         }
     }
     
+    private func setupMapStyleBtn() {
+        mapStyleBtn = UIButton()
+        let styleImg = mapStyle == .Standard ? UIImage(named: "icon_dark_mode_diselect") : UIImage(named: "icon_dark_mode")
+        let tintedImg = styleImg!.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+        mapStyleBtn.setImage(tintedImg, for: .normal)
+        mapStyleBtn.tintColor = mapStyle == .Standard ? .m7LightGray() : .lightGray
+        mapStyleBtn.setTitle("", for: .normal)
+        mapStyleBtn.addTarget(self, action: #selector(mapStyleBtnTapped), for: .touchUpInside)
+        view.insertSubview(mapStyleBtn, aboveSubview: mapView)
+        mapStyleBtn.snp.makeConstraints { (make) in
+            make.bottom.equalTo(nearbyEventsCountLabel.snp.bottom).offset(1)
+            make.size.equalTo(27)
+            make.left.equalTo(filterBtn.snp.right).offset(4)
+        }
+    }
+    
+    @objc func mapStyleBtnTapped() {
+        changeMapStyle()
+    }
+    
     private func setupMyLocationBtn() {
         myLocationBtn = UIButton()
         let locationIcon = UIImage(named: "icon_locationBtn")
         let tintedImg = locationIcon!.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
         myLocationBtn.setImage(tintedImg, for: .normal)
-        myLocationBtn.tintColor = UIColor(hexString: "#6F7179")
+        myLocationBtn.tintColor = mapStyle == .Standard ? .m7LightGray() : .lightGray
         myLocationBtn.setTitle("", for: .normal)
         myLocationBtn.addTarget(self, action: #selector(myLocationBtnTapped), for: .touchUpInside)
         view.insertSubview(myLocationBtn, aboveSubview: mapView)
         myLocationBtn.snp.makeConstraints { (make) in
             make.bottom.equalTo(nearbyEventsCountLabel.snp.bottom).offset(1)
             make.size.equalTo(27)
-            make.left.equalTo(filterBtn.snp.right).offset(4)
+            make.left.equalTo(mapStyleBtn.snp.right).offset(4)
         }
-        
     }
     
     @objc func myLocationBtnTapped() {
@@ -311,7 +343,7 @@ extension EventsViewController {
 }
 
 //MARK: - Filter Dropdown menu
-extension EventsViewController {
+extension MapViewController {
     private func setupFilterMenu() {
         let width = nearbyEventsCountLabel.intrinsicContentSize.width + 31 // 31 = filterBtn offset + width
         filterMenuView = UIView(frame: CGRect(origin: .zero, size: CGSize(width: width, height: 100)))
@@ -415,14 +447,18 @@ extension EventsViewController {
 }
 
 //MARK: - Google Maps
-extension EventsViewController: GMSMapViewDelegate, InfoWindowDelegate, BookmarkedEventsViewControllerDelegate {
+extension MapViewController: GMSMapViewDelegate, InfoWindowDelegate, BookmarkedEventsViewControllerDelegate {
     private func addMarker(id: String, lat: Double, long: Double, performerName: String, iconUrl: String) {
         DispatchQueue.main.async {
             print("Creating \(id) marker...")
             let position = CLLocationCoordinate2DMake(lat, long)
             let marker = MapMarker(name: performerName)
             marker.opacity = 0
-            marker.performerIcon.kf.setImage(with: URL(string: iconUrl)) { result in
+            
+            //apply filter to icon
+            let urlArr = iconUrl.components(separatedBy: "upload/")
+            let filteredUrl = URL(string: "\(urlArr[0])upload/w_100,h_100,c_thumb,g_faces/\(urlArr[1])") //apply face detection by Cloudinary
+            marker.performerIcon.kf.setImage(with: filteredUrl) { result in
                 switch result {
                 case .success(_):
                     marker.title = id //set id as title for tapped action
@@ -578,10 +614,53 @@ extension EventsViewController: GMSMapViewDelegate, InfoWindowDelegate, Bookmark
             infoWindow?.center.y -= 190
         }
     }
+    
+    //map style
+    private func changeMapStyle() {
+        mapStyle == .Standard ? setMapToNightStyle() : setMapToStandardStyle()
+    }
+    
+    private func setMapToStandardStyle() {
+        if let eventsTitle = eventsTitle, let nearbyEventsCountLabel = nearbyEventsCountLabel, let filterBtn = filterBtn, let mapStyleBtn = mapStyleBtn, let myLocationBtn = myLocationBtn {
+            eventsTitle.textColor = .m7DarkGray()
+            nearbyEventsCountLabel.textColor = .m7LightGray()
+            filterBtn.tintColor = .m7LightGray()
+            mapStyleBtn.setImage(UIImage(named: "icon_dark_mode_diselect")!.withRenderingMode(UIImage.RenderingMode.alwaysTemplate), for: .normal)
+            mapStyleBtn.tintColor = .m7LightGray()
+            myLocationBtn.tintColor = .m7LightGray()
+        }
+        
+        do {
+            mapView.mapStyle = try GMSMapStyle(jsonString: GoogleMapsStyle.standard)
+            mapStyle = .Standard
+            UserDefaults.standard.set(mapStyle.rawValue, forKey: LOCAL_KEY.GOOGLE_MAPS_STYLE)
+        } catch {
+            NSLog("One or more of the map styles failed to load. \(error)")
+        }
+    }
+    
+    private func setMapToNightStyle() {
+        if let eventsTitle = eventsTitle, let nearbyEventsCountLabel = nearbyEventsCountLabel, let filterBtn = filterBtn, let mapStyleBtn = mapStyleBtn, let myLocationBtn = myLocationBtn {
+            eventsTitle.textColor = .white
+            nearbyEventsCountLabel.textColor = .lightGray
+            filterBtn.tintColor = .lightGray
+            mapStyleBtn.setImage(UIImage(named: "icon_dark_mode")!.withRenderingMode(UIImage.RenderingMode.alwaysTemplate), for: .normal)
+            mapStyleBtn.tintColor = .lightGray
+            myLocationBtn.tintColor = .lightGray
+        }
+        
+        do {
+            mapView.mapStyle = try GMSMapStyle(jsonString: GoogleMapsStyle.night)
+            mapStyle = .Night
+            UserDefaults.standard.set(mapStyle.rawValue, forKey: LOCAL_KEY.GOOGLE_MAPS_STYLE)
+        } catch {
+            NSLog("One or more of the map styles failed to load. \(error)")
+        }
+    }
 }
 
 //MARK: - Floating Panel
-extension EventsViewController: FloatingPanelControllerDelegate {
+extension MapViewController: FloatingPanelControllerDelegate {
     private func setupFPC() {
         // Initialize FloatingPanelController
         fpc = FloatingPanelController()
@@ -630,7 +709,6 @@ extension EventsViewController: FloatingPanelControllerDelegate {
         
         switch vc.position {
         case .full:
-            print("full now!")
             if self.bookmarkedEvents.isEmpty {
                 DispatchQueue.main.async { self.getBookmarkedEvents() }
             }
@@ -643,7 +721,6 @@ extension EventsViewController: FloatingPanelControllerDelegate {
             eventsVC.eventsCollectionView.alpha = 1
             
         case .tip:
-            print("tip now!")
             eventsVC.eventsCollectionView.alpha = 0
         default:
             print("unknown position?")
@@ -661,7 +738,7 @@ extension EventsViewController: FloatingPanelControllerDelegate {
 }
 
 //MARK: - CLLocationManager Delegate
-extension EventsViewController: CLLocationManagerDelegate {
+extension MapViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         guard status == .authorizedWhenInUse else { return }
     }
@@ -676,7 +753,7 @@ extension EventsViewController: CLLocationManagerDelegate {
 }
 
 //MARK: - UIGestureRecognizerDelegate (i.e. swipe pop gesture)
-extension EventsViewController: UIGestureRecognizerDelegate {
+extension MapViewController: UIGestureRecognizerDelegate {
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return true
     }

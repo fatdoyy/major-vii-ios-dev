@@ -21,6 +21,9 @@ struct LOCAL_KEY {
     static var APPLE_AUTH_CODE = "apple_auth_code"
     static var APPLE_USERNAME = "apple_username"
     static var APPLE_EMAIL = "apple_email"
+    
+    //User Settings
+    static var GOOGLE_MAPS_STYLE = "google_maps_style"
 }
 
 //check key has value

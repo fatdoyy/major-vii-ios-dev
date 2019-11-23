@@ -391,7 +391,7 @@ extension BuskerProfileViewController {
                 
                 //show desc edit button
                 if details.requestUserIsAdmin ?? false {
-                    self.setupRightBarItems()
+                    //self.setupRightBarItems()
                 }
                 
                 //members section
@@ -544,11 +544,11 @@ extension BuskerProfileViewController {
         let customView = UIView(frame: CGRect(x: 15, y: 10, width: 30, height: 30))
         customView.backgroundColor = .clear
         
-        let menuBtn = UIButton(type: .custom)
-        menuBtn.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
-        menuBtn.setImage(UIImage(named: "icon_edit"), for: .normal)
-        menuBtn.addTarget(self, action: #selector(presentEditView), for: .touchUpInside)
-        customView.addSubview(menuBtn)
+        let editBtn = UIButton(type: .custom)
+        editBtn.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
+        editBtn.setImage(UIImage(named: "icon_edit"), for: .normal)
+        editBtn.addTarget(self, action: #selector(presentEditView), for: .touchUpInside)
+        customView.addSubview(editBtn)
         
         customView.snp.makeConstraints { (make) -> Void in
             make.size.equalTo(30)
@@ -712,6 +712,16 @@ extension BuskerProfileViewController {
                         self.followBtn.backgroundColor = UIColor.white.withAlphaComponent(0.05)
                     }, completion: nil)
                     self.followBtn.setTitle("Follow", for: .normal)
+                    
+                    //instant count decrement (UI only)
+                    if let countStr = self.statsFollowersCount.text {
+                        if var count = Int(countStr) {
+                            if count != 0 {
+                                count -= 1
+                                self.statsFollowersCount.text = "\(count)"
+                            }
+                        }
+                    }
                     }.ensure {
                         self.isFollowing = .No
                         self.followBtn.isUserInteractionEnabled = true
@@ -731,6 +741,14 @@ extension BuskerProfileViewController {
                         self.followBtn.backgroundColor = .mintGreen()
                     }, completion: nil)
                     self.followBtn.setTitle("Following", for: .normal)
+                    
+                    //instant count increment (UI only)
+                    if let countStr = self.statsFollowersCount.text {
+                        if var count = Int(countStr) {
+                            count += 1
+                            self.statsFollowersCount.text = "\(count)"
+                        }
+                    }
                     }.ensure {
                         self.isFollowing = .Yes
                         self.followBtn.isUserInteractionEnabled = true
