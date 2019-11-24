@@ -24,16 +24,35 @@ class BookmarkedEventsViewController: UIViewController {
     var randomImgUrl = [URL]()
     var bookmarkedEvents = [BookmarkedEvent]() {
         didSet {
-            for item in bookmarkedEvents {
-                if let event = item.targetEvent {
-                    if let url = event.images.randomElement()?.secureUrl {
-                        randomImgUrl.append(URL(string: url)!)
+            if !bookmarkedEvents.isEmpty {
+                for item in bookmarkedEvents {
+                    if let event = item.targetEvent {
+                        if let url = event.images.randomElement()?.secureUrl {
+                            randomImgUrl.append(URL(string: url)!)
+                        }
                     }
                 }
+                
+                eventsCollectionView.isUserInteractionEnabled = true
+                eventsCollectionView.reloadData()
+            } else {
+                let emptyLabel = UILabel()
+                emptyLabel.text = "You don't have any bookmakred events!🙃"
+                emptyLabel.font = UIFont.systemFont(ofSize: 15, weight: .medium)
+                emptyLabel.tag = 224
+                emptyLabel.backgroundColor = .darkGray
+                emptyLabel.clipsToBounds = true
+                emptyLabel.layer.cornerRadius = GlobalCornerRadius.value / 3
+                emptyLabel.textColor = .lightGray
+                emptyLabel.textAlignment = .center
+                view.addSubview(emptyLabel)
+                emptyLabel.snp.makeConstraints { (make) in
+                    make.top.equalTo(eventsCollectionView.snp.top).offset(85)
+                    make.width.equalTo(UIScreen.main.bounds.width - 80)
+                    make.height.equalTo(30)
+                    make.centerX.equalToSuperview()
+                }
             }
-            
-            eventsCollectionView.isUserInteractionEnabled = true
-            eventsCollectionView.reloadData()
         }
     }
     
@@ -107,7 +126,7 @@ extension BookmarkedEventsViewController {
 //MARK: - CollectionView dekegate
 extension BookmarkedEventsViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        let count = bookmarkedEvents.isEmpty ? 3 : bookmarkedEvents.count
+        let count = bookmarkedEvents.isEmpty ? 0 : bookmarkedEvents.count
         return count
     }
     
