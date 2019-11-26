@@ -9,6 +9,7 @@
 import Foundation
 
 extension Notification.Name {
+    //login
     static let showLoginVC = Notification.Name("showLoginVC")
     static let loginCompleted = Notification.Name("loginCompleted")
     
@@ -38,6 +39,9 @@ extension Notification.Name {
     
     //dismiss keyboard
     static let dismissKeyboard = Notification.Name("dismissKeyboard")
+    
+    //animation
+    static let pauseAnimationOnBookmarkedEventsVC = Notification.Name("pauseAnimationOnBookmarkedEventsVC")
 }
 
 extension NotificationCenter {

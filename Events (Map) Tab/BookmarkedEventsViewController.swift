@@ -12,6 +12,7 @@ import Kingfisher
 import SwiftMessages
 
 protocol BookmarkedEventsViewControllerDelegate: class {
+    func refreshBtnTapped()
     func cellTapped(lat: Double, long: Double, iconUrl: String, name: String, id: String)
 }
 
@@ -20,38 +21,47 @@ class BookmarkedEventsViewController: UIViewController {
     
     var eventsCollectionView: UICollectionView!
     var locationEmptyMsgView = MessageView.viewFromNib(layout: .cardView)
+    var emptyLabel: UILabel!
     
-    var randomImgUrl = [URL]()
+    var isRefreshing = false
     var bookmarkedEvents = [BookmarkedEvent]() {
         didSet {
             if !bookmarkedEvents.isEmpty {
-                for item in bookmarkedEvents {
-                    if let event = item.targetEvent {
-                        if let url = event.images.randomElement()?.secureUrl {
-                            randomImgUrl.append(URL(string: url)!)
-                        }
+                //hide empty state label
+                if let emptyLabel = self.emptyLabel {
+                    UIView.animate(withDuration: 0.2) {
+                        emptyLabel.alpha = 0
                     }
                 }
                 
-                eventsCollectionView.isUserInteractionEnabled = true
+                isRefreshing = false
                 eventsCollectionView.reloadData()
-            } else {
-                let emptyLabel = UILabel()
-                emptyLabel.text = "You don't have any bookmakred events!🙃"
-                emptyLabel.font = UIFont.systemFont(ofSize: 15, weight: .medium)
-                emptyLabel.tag = 224
-                emptyLabel.backgroundColor = .darkGray
-                emptyLabel.clipsToBounds = true
-                emptyLabel.layer.cornerRadius = GlobalCornerRadius.value / 3
-                emptyLabel.textColor = .lightGray
-                emptyLabel.textAlignment = .center
-                view.addSubview(emptyLabel)
-                emptyLabel.snp.makeConstraints { (make) in
-                    make.top.equalTo(eventsCollectionView.snp.top).offset(85)
-                    make.width.equalTo(UIScreen.main.bounds.width - 80)
-                    make.height.equalTo(30)
-                    make.centerX.equalToSuperview()
+            } else { //bookmarked events is empty
+                if (emptyLabel == nil || emptyLabel.alpha == 0) && !isRefreshing {
+                    emptyLabel = UILabel()
+                    emptyLabel.alpha = 0
+                    emptyLabel.text = "You don't have any bookmakred events!🙃"
+                    emptyLabel.font = UIFont.systemFont(ofSize: 15, weight: .medium)
+                    emptyLabel.backgroundColor = .darkGray
+                    emptyLabel.clipsToBounds = true
+                    emptyLabel.layer.cornerRadius = GlobalCornerRadius.value / 3
+                    emptyLabel.textColor = .lightGray
+                    emptyLabel.textAlignment = .center
+                    view.addSubview(emptyLabel)
+                    emptyLabel.snp.makeConstraints { (make) in
+                        make.top.equalTo(eventsCollectionView.snp.top).offset(85)
+                        make.width.equalTo(UIScreen.main.bounds.width - 80)
+                        make.height.equalTo(30)
+                        make.centerX.equalToSuperview()
+                    }
+                    
+                    UIView.animate(withDuration: 0.2) {
+                        self.emptyLabel.alpha = 1
+                    }
                 }
+                
+                isRefreshing = false
+                eventsCollectionView.reloadData()
             }
         }
     }
@@ -81,7 +91,6 @@ extension BookmarkedEventsViewController {
         
         eventsCollectionView = UICollectionView(frame: CGRect(origin: CGPoint.zero, size: CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)), collectionViewLayout: layout)
         eventsCollectionView.alpha = 0
-        eventsCollectionView.isUserInteractionEnabled = false
         eventsCollectionView.showsVerticalScrollIndicator = false
         eventsCollectionView.contentInset = UIEdgeInsets(top: 0, left: 10, bottom: 20, right: 10)
         eventsCollectionView.backgroundColor = .m7DarkGray()
@@ -123,7 +132,7 @@ extension BookmarkedEventsViewController {
     }
 }
 
-//MARK: - CollectionView dekegate
+//MARK: - CollectionView delegate
 extension BookmarkedEventsViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         let count = bookmarkedEvents.isEmpty ? 0 : bookmarkedEvents.count
@@ -133,8 +142,13 @@ extension BookmarkedEventsViewController: UICollectionViewDelegate, UICollection
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = eventsCollectionView.dequeueReusableCell(withReuseIdentifier: BookmarkedEventCell.reuseIdentifier, for: indexPath) as! BookmarkedEventCell
         if !bookmarkedEvents.isEmpty {
+            if cell.containerView.alpha == 0 {
+                UIView.animate(withDuration: 0.2) {
+                    cell.containerView.alpha = 1
+                }
+            }
             if let event = bookmarkedEvents[indexPath.row].targetEvent {
-                let urlArr = randomImgUrl[indexPath.row].absoluteString.components(separatedBy: "upload/")
+                let urlArr = event.images.randomElement()!.secureUrl!.components(separatedBy: "upload/")
                 let desaturatedUrl = URL(string: "\(urlArr[0])upload/e_saturation:-60/\(urlArr[1])") //apply saturation effect by Cloudinary
                 cell.bgImgView.kf.setImage(with: desaturatedUrl, options: [.transition(.fade(0.3))])
                 
@@ -176,6 +190,7 @@ extension BookmarkedEventsViewController: UICollectionViewDelegate, UICollection
             if section == 0 {
                 let reusableView = eventsCollectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: BookmarkedEventCollectionHeaderView.reuseIdentifier, for: indexPath) as! BookmarkedEventCollectionHeaderView
                 reusableView.eventCount.text = bookmarkedEvents.count == 1 ? "1 Event" : "\(bookmarkedEvents.count) Events"
+                reusableView.delegate = self
                 
                 return reusableView
             } else {
@@ -203,5 +218,11 @@ extension BookmarkedEventsViewController: UICollectionViewDelegate, UICollection
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
         return CGSize(width: UIScreen.main.bounds.width, height: BookmarkedEventCollectionFooterView.height)
     }
-    
+}
+
+//MARK: - BookmarkedEventCollectionHeaderViewDelegate (refreshBtn)
+extension BookmarkedEventsViewController: BookmarkedEventCollectionHeaderViewDelegate {
+    func refreshBtnTapped() {
+        delegate?.refreshBtnTapped()
+    }
 }

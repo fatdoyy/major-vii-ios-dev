@@ -114,8 +114,8 @@ extension MapViewController {
             //parse data to eventsVC
             self.eventsVC.bookmarkedEvents = self.bookmarkedEvents
             }.ensure {
+                NotificationCenter.default.post(name: .pauseAnimationOnBookmarkedEventsVC, object: nil)
                 UIApplication.shared.isNetworkActivityIndicatorVisible = false
-                //if let completion = completion { completion() }
             }.catch { error in }
     }
     
@@ -503,38 +503,6 @@ extension MapViewController: GMSMapViewDelegate, InfoWindowDelegate, BookmarkedE
         }
     }
     
-    func cellTapped(lat: Double, long: Double, iconUrl: String, name: String, id: String) {
-        let position = CLLocationCoordinate2DMake(lat, long)
-        let camera = GMSCameraPosition.camera(withTarget: position, zoom: 15.5, bearing: 0, viewingAngle: 60)
-        
-        currentMarkerPosition = position
-        tappedMarker = nil
-        
-        CATransaction.begin()
-        CATransaction.setAnimationDuration(0.75)
-        CATransaction.setAnimationTimingFunction(CAMediaTimingFunction(name: .easeInEaseOut))
-        mapView.animate(to: camera)
-        CATransaction.commit()
-        
-        if !currentVisibleMarkersEventId.contains(id) {
-            addMarker(id: id, lat: lat, long: long, performerName: name, iconUrl: iconUrl)
-        } else {
-            print("Marker is already visible on map")
-        }
-        
-        if filterMenuView.alpha != 0 {
-            UIView.animate(withDuration: 0.2) {
-                self.filterMenuView.alpha = 0
-            }
-        }
-        
-        if infoWindow?.alpha == 0 || (infoWindow?.eventID != id) {
-            showInfoWindow(withId: id, position: position)
-        }
-        
-        fpc.move(to: .half, animated: true)
-    }
-    
     func infoWindowMoreBtnTapped() {
         if let id = self.infoWindow?.eventID {
             EventDetailsViewController.push(from: self, eventID: id)
@@ -613,6 +581,56 @@ extension MapViewController: GMSMapViewDelegate, InfoWindowDelegate, BookmarkedE
             infoWindow?.center = mapView.projection.point(for: currentMarkerPosition)
             infoWindow?.center.y -= 190
         }
+    }
+    
+    //BookmarkedEventsViewControllerDelegate
+    func cellTapped(lat: Double, long: Double, iconUrl: String, name: String, id: String) {
+        let position = CLLocationCoordinate2DMake(lat, long)
+        let camera = GMSCameraPosition.camera(withTarget: position, zoom: 15.5, bearing: 0, viewingAngle: 60)
+        
+        currentMarkerPosition = position
+        tappedMarker = nil
+        
+        CATransaction.begin()
+        CATransaction.setAnimationDuration(0.75)
+        CATransaction.setAnimationTimingFunction(CAMediaTimingFunction(name: .easeInEaseOut))
+        mapView.animate(to: camera)
+        CATransaction.commit()
+        
+        if !currentVisibleMarkersEventId.contains(id) {
+            addMarker(id: id, lat: lat, long: long, performerName: name, iconUrl: iconUrl)
+        } else {
+            print("Marker is already visible on map")
+        }
+        
+        if filterMenuView.alpha != 0 {
+            UIView.animate(withDuration: 0.2) {
+                self.filterMenuView.alpha = 0
+            }
+        }
+        
+        if infoWindow?.alpha == 0 || (infoWindow?.eventID != id) {
+            showInfoWindow(withId: id, position: position)
+        }
+        
+        fpc.move(to: .half, animated: true)
+    }
+    
+    func refreshBtnTapped() {
+        eventsVC.isRefreshing = true
+        
+        if let visibleCells = eventsVC.eventsCollectionView!.visibleCells as? [BookmarkedEventCell] {
+            UIView.animate(withDuration: 0.2, animations: {
+                for cell in visibleCells {
+                    cell.containerView.alpha = 0
+                }
+            }, completion: { _ in
+                self.eventsVC.bookmarkedEvents.removeAll()
+                self.eventsVC.eventsCollectionView.reloadData()
+            })
+        }
+        
+        getBookmarkedEvents()
     }
     
     //map style

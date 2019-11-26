@@ -75,4 +75,33 @@ extension UIView {
         animation.duration = duration
         layer.add(animation, forKey: CATransitionType.fade.rawValue)
     }
+    
+    //rotate
+    func rotate(duration: CFTimeInterval = 0.5) {
+        let rotateAnimation = CABasicAnimation(keyPath: "transform.rotation")
+        rotateAnimation.fromValue = 0.0
+        rotateAnimation.toValue = CGFloat(Double.pi * 2)
+        rotateAnimation.isRemovedOnCompletion = false
+        rotateAnimation.duration = duration
+        rotateAnimation.repeatCount = .infinity
+        self.layer.add(rotateAnimation, forKey: nil)
+    }
+}
+
+//pasue or resume animation
+extension CALayer {
+    func pauseAnimation() {
+        let pausedTime: CFTimeInterval = self.convertTime(CACurrentMediaTime(), from: nil)
+        self.speed = 0.0
+        self.timeOffset = pausedTime
+    }
+
+    func resumeAnimation() {
+        let pausedTime: CFTimeInterval = self.timeOffset
+        self.speed = 1.0
+        self.timeOffset = 0.0
+        self.beginTime = 0.0
+        let timeSincePause: CFTimeInterval = self.convertTime(CACurrentMediaTime(), from: nil) - pausedTime
+        self.beginTime = timeSincePause
+    }
 }

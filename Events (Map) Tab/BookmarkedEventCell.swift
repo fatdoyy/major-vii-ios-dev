@@ -61,7 +61,7 @@ class BookmarkedEventCell: UICollectionViewCell {
         eventTitle.font = UIFont.systemFont(ofSize: 20, weight: .medium)
         eventTitle.numberOfLines = 0
         eventTitle.textAlignment = .center
-        addSubview(eventTitle)
+        containerView.addSubview(eventTitle)
         eventTitle.snp.makeConstraints { (make) in
             make.centerY.equalToSuperview().offset(5)
             make.width.equalTo(UIScreen.main.bounds.width - 80)
@@ -72,7 +72,7 @@ class BookmarkedEventCell: UICollectionViewCell {
         performerName.font = UIFont.systemFont(ofSize: 12, weight: .semibold)
         performerName.numberOfLines = 1
         performerName.textAlignment = .center
-        addSubview(performerName)
+        containerView.addSubview(performerName)
         performerName.snp.makeConstraints { (make) in
             make.top.equalTo(eventTitle.snp.bottom).offset(3)
             make.width.equalToSuperview()
