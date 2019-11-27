@@ -65,6 +65,12 @@ class MapViewController: UIViewController {
     var currentVisibleMarkersEventId = [String]()
     var infoWindow: InfoWindow?
     
+    //status bar style
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return self.statusBarStyle
+    }
+    var statusBarStyle: UIStatusBarStyle = .default
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .m7DarkGray()
@@ -655,6 +661,10 @@ extension MapViewController: GMSMapViewDelegate, InfoWindowDelegate, BookmarkedE
         } catch {
             NSLog("One or more of the map styles failed to load. \(error)")
         }
+        
+        //change status bar style too
+        self.statusBarStyle = .default
+        setNeedsStatusBarAppearanceUpdate()
     }
     
     private func setMapToNightStyle() {
@@ -674,6 +684,10 @@ extension MapViewController: GMSMapViewDelegate, InfoWindowDelegate, BookmarkedE
         } catch {
             NSLog("One or more of the map styles failed to load. \(error)")
         }
+        
+        //change status bar style too
+        self.statusBarStyle = .lightContent
+        setNeedsStatusBarAppearanceUpdate()
     }
 }
 
