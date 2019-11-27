@@ -21,7 +21,6 @@ target 'major-7-ios' do
   pod 'GoogleMaps'
   
   #Networking
-  pod 'ReachabilitySwift'
   pod 'Alamofire', '~> 4.8'
   pod 'PromiseKit/CorePromise'
   pod 'Kingfisher'                              # image downloading

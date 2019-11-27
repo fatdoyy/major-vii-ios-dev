@@ -143,6 +143,8 @@
 		96C9899A2216C98C00170609 /* NewsDetailImageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96C989982216C98C00170609 /* NewsDetailImageCell.xib */; };
 		96C9899C221FFA4100170609 /* UIScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96C9899B221FFA4100170609 /* UIScrollView.swift */; };
 		96C9899E2220307600170609 /* TextHeight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96C9899D2220307600170609 /* TextHeight.swift */; };
+		96D041EA238E501700E7898A /* NetworkRequestRetrier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96D041E9238E501700E7898A /* NetworkRequestRetrier.swift */; };
+		96D041ED238E514600E7898A /* HTTPStatusCodes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96D041EC238E514600E7898A /* HTTPStatusCodes.swift */; };
 		96DCCBCA2316915B00C6707C /* DispatchQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96DCCBC92316915B00C6707C /* DispatchQueue.swift */; };
 		96DEB1EA2236471E005F87F4 /* VideoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96DEB1E92236471E005F87F4 /* VideoView.swift */; };
 		96DEB1ED22378446005F87F4 /* BuskerProfileEventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96DEB1EB22378446005F87F4 /* BuskerProfileEventCell.swift */; };
@@ -315,6 +317,8 @@
 		96C989982216C98C00170609 /* NewsDetailImageCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewsDetailImageCell.xib; sourceTree = "<group>"; };
 		96C9899B221FFA4100170609 /* UIScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIScrollView.swift; sourceTree = "<group>"; };
 		96C9899D2220307600170609 /* TextHeight.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextHeight.swift; sourceTree = "<group>"; };
+		96D041E9238E501700E7898A /* NetworkRequestRetrier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkRequestRetrier.swift; sourceTree = "<group>"; };
+		96D041EC238E514600E7898A /* HTTPStatusCodes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPStatusCodes.swift; sourceTree = "<group>"; };
 		96DCCBC92316915B00C6707C /* DispatchQueue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DispatchQueue.swift; sourceTree = "<group>"; };
 		96DEB1E92236471E005F87F4 /* VideoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoView.swift; sourceTree = "<group>"; };
 		96DEB1EB22378446005F87F4 /* BuskerProfileEventCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuskerProfileEventCell.swift; sourceTree = "<group>"; };
@@ -511,6 +515,7 @@
 		966A6CC8217DC27500DF872F /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				96D041EB238E506400E7898A /* Networking */,
 				96799FE121889D520074C828 /* Animations.swift */,
 				9662425321F24D2200EF7695 /* ArrayExtension.swift */,
 				966A6CC6217DC16500DF872F /* Colors.swift */,
@@ -527,7 +532,6 @@
 				96799FE5218C5A270074C828 /* ImageOverlay.swift */,
 				96EA375521B66BBC00E9DB74 /* ImageViewerHelper.swift */,
 				96E268A322F05A45006AE52A /* InAppNotifications.swift */,
-				961D87A123618FC300AB8CBE /* NetworkReachability.swift */,
 				9662425521F25F1900EF7695 /* NotificationCenter.swift */,
 				96C5544F219438F00065D70A /* PagedCollectionViewLayout.swift */,
 				967BD33E2240C00300469CF9 /* PinterestLayout.swift */,
@@ -710,6 +714,16 @@
 				96313E5E22DC7FE40033EA49 /* PostImageCell.xib */,
 			);
 			path = "Posts Section";
+			sourceTree = "<group>";
+		};
+		96D041EB238E506400E7898A /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				961D87A123618FC300AB8CBE /* NetworkReachability.swift */,
+				96D041E9238E501700E7898A /* NetworkRequestRetrier.swift */,
+				96D041EC238E514600E7898A /* HTTPStatusCodes.swift */,
+			);
+			name = Networking;
 			sourceTree = "<group>";
 		};
 		96EA375021B5271100E9DB74 /* Event Details Page */ = {
@@ -1060,6 +1074,7 @@
 				967B562B2244B68D006F0AF9 /* GenreCell.swift in Sources */,
 				963A9EDA22FC2609006D4065 /* FollowingsCell.swift in Sources */,
 				96C8115A230D476900D3844C /* EventSearchViewController.swift in Sources */,
+				96D041EA238E501700E7898A /* NetworkRequestRetrier.swift in Sources */,
 				961EC5C5230A8CFE003EE66C /* SearchService.swift in Sources */,
 				96C55447219408410065D70A /* FeaturedSectionHeader.swift in Sources */,
 				961EC5C7230A8F2F003EE66C /* SearchResult.swift in Sources */,
@@ -1097,6 +1112,7 @@
 				96C55414219044D00065D70A /* EventsListViewController.swift in Sources */,
 				96B0BE4A21F056B4003C9BA5 /* LocalKeys.swift in Sources */,
 				966A6CDC218086BC00DF872F /* NewsSectionHeader.swift in Sources */,
+				96D041ED238E514600E7898A /* HTTPStatusCodes.swift in Sources */,
 				96F15D2123811E8200BB6A97 /* OtherService.swift in Sources */,
 				96F37331224CF2630088E142 /* BookmarkedEventCollectionFooterView.swift in Sources */,
 				9639217421AD1C4500BA515A /* HashtagCell.swift in Sources */,

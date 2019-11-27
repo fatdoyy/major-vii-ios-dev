@@ -46,6 +46,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         SkeletonAppearance.default.multilineCornerRadius = Int(GlobalCornerRadius.value / 2.75)
         SkeletonAppearance.default.gradient = SkeletonGradient(baseColor: .gray)
         
+        //Network reachability
+        NetworkManager.sharedInstance.startNetworkReachabilityObserver()
+        
         return true
     }
 

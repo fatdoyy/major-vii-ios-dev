@@ -167,7 +167,6 @@ PODS:
   - pop (1.0.12)
   - PromiseKit/CorePromise (6.12.0)
   - Protobuf (3.11.0)
-  - ReachabilitySwift (5.0.0)
   - Reqres (3.1.0)
   - SkeletonView (1.6)
   - SkyFloatingLabelTextField (3.7.0)
@@ -213,7 +212,6 @@ DEPENDENCIES:
   - Pastel
   - PIPKit
   - PromiseKit/CorePromise
-  - ReachabilitySwift
   - Reqres
   - SkeletonView (= 1.6)
   - SkyFloatingLabelTextField (~> 3.0)
@@ -273,7 +271,6 @@ SPEC REPOS:
     - pop
     - PromiseKit
     - Protobuf
-    - ReachabilitySwift
     - Reqres
     - SkeletonView
     - SkyFloatingLabelTextField
@@ -347,7 +344,6 @@ SPEC CHECKSUMS:
   pop: d582054913807fd11fd50bfe6a539d91c7e1a55a
   PromiseKit: c06835ba442ce5454ce3cdde470232804a6e4ff8
   Protobuf: 394b2bf29ec303f4325e3ee4892c09e675647152
-  ReachabilitySwift: 985039c6f7b23a1da463388634119492ff86c825
   Reqres: da8d0497e660dc12c4db8285f30008c27c1800b7
   SkeletonView: 6c2bf622c352c7e36b4f3c8d73afc46d6c9360d6
   SkyFloatingLabelTextField: 4b46db0ab1ccde0919cded29c656e6b4805eda04
@@ -358,6 +354,6 @@ SPEC CHECKSUMS:
   Validator: 9cfe0da15338f2e36fcf9e394f5bc1761888bec4
   XCDYouTubeKit: 43843b87c143120fdcbd908e031258ea60f7ba0a
 
-PODFILE CHECKSUM: 820de8cc80f11fdfe20aa3634b89301b31965681
+PODFILE CHECKSUM: 1f49119588d8d1f5386b8decd9acd352d02c49ba
 
 COCOAPODS: 1.7.2

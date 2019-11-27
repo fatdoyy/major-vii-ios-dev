@@ -313,8 +313,9 @@ extension BuskersSearchViewController: BuskersViewControllerDelegate {
     func searchWithGenre(_ genre: String) {
         searchResults.removeAll()
         resultsCollectionView.reloadData()
+        let genreStr = genre.replacingOccurrences(of: "-", with: "_")
         
-        SearchService.byBuskers(genre: genre).done { response in
+        SearchService.byBuskers(genre: genreStr).done { response in
             if !response.list.isEmpty {
                 self.searchResults = response.list
                 //self.searchResults.append(contentsOf: response.list)

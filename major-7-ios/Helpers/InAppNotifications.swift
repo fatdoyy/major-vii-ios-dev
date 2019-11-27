@@ -11,7 +11,7 @@ import SwiftMessages
 
 class InAppNotifications {}
 
-//MARK: Login warning msg
+//MARK: - Warning messages
 extension InAppNotifications {
     static func loginWarning() -> UIView {
         let loginMsgView = MessageView.viewFromNib(layout: .cardView)
@@ -44,5 +44,42 @@ extension InAppNotifications {
     @objc static func showLoginVC(_ sender: UIButton) {
         Animations.btnBounce(sender: sender)
         NotificationCenter.default.post(name: .showLoginVC, object: nil)
+    }
+    
+    static func offlineWarning() -> UIView {
+        let msg = MessageView.viewFromNib(layout: .statusLine)
+        msg.configureTheme(.error)
+        
+        //layout fix
+        if !UIDevice.current.hasHomeButton {
+            msg.layoutMarginAdditions.top = -16
+        }
+        
+        msg.bodyLabel?.font = UIFont.systemFont(ofSize: 10, weight: .medium)
+        msg.configureContent(body: "Offline")
+        
+        return msg
+    }
+}
+
+//MARK: - SwiftMessages configs
+extension InAppNotifications {
+    static func foreverDurationConfig() -> SwiftMessages.Config {
+        var config = SwiftMessages.Config()
+        
+        // Display in a window at the specified window level: UIWindow.Level.statusBar
+        // displays over the status bar while UIWindow.Level.normal displays under.
+        config.presentationContext = .window(windowLevel: .statusBar)
+
+        // Disable the default auto-hiding behavior.
+        config.duration = .forever
+
+        // Disable the interactive pan-to-hide gesture.
+        config.interactiveHide = false
+
+        // Specify a status bar style to if the message is displayed directly under the status bar.
+        config.preferredStatusBarStyle = .lightContent
+        
+        return config
     }
 }
