@@ -16,18 +16,18 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="app_icon_splash" translatesAutoresizingMaskIntoConstraints="NO" id="Cu3-Bw-QHw">
-                                <rect key="frame" x="147" y="422.66666666666669" width="120" height="51"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="app_icon_splash" translatesAutoresizingMaskIntoConstraints="NO" id="PhH-8i-mlb">
+                                <rect key="frame" x="134.66666666666666" y="417" width="144.99999999999997" height="62"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="120" id="kJ1-X8-JY7"/>
-                                    <constraint firstAttribute="height" constant="51" id="pi4-VQ-DJB"/>
+                                    <constraint firstAttribute="height" constant="62" id="Djb-8F-NDG"/>
+                                    <constraint firstAttribute="width" constant="145" id="GpA-A8-p3Q"/>
                                 </constraints>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" red="0.11764705882352941" green="0.11764705882352941" blue="0.14117647058823529" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="Cu3-Bw-QHw" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="EBu-gB-9ne"/>
-                            <constraint firstItem="Cu3-Bw-QHw" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="lzl-vq-8qF"/>
+                            <constraint firstItem="PhH-8i-mlb" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="WnI-QM-Iec"/>
+                            <constraint firstItem="PhH-8i-mlb" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="wom-oF-aix"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
@@ -38,6 +38,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="app_icon_splash" width="120" height="51"/>
+        <image name="app_icon_splash" width="145" height="62"/>
     </resources>
 </document>

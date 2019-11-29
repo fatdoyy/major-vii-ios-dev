@@ -121,16 +121,16 @@ extension HomeViewController {
         splashView.addSubview(iconView)
         iconView.snp.makeConstraints { (make) in
             make.center.equalToSuperview()
-            make.width.equalTo(120)
-            make.height.equalTo(51)
+            make.width.equalTo(145)
+            make.height.equalTo(62)
         }
         
-        let indicator = NVActivityIndicatorView(frame: CGRect(origin: CGPoint.zero, size: CGSize(width: 15, height: 15)), type: .lineScale)
+        let indicator = NVActivityIndicatorView(frame: CGRect(origin: CGPoint.zero, size: CGSize(width: 17, height: 17)), type: .lineScale)
         indicator.startAnimating()
         indicator.alpha = 0
         splashView.addSubview(indicator)
         indicator.snp.makeConstraints { (make) in
-            make.top.equalTo(iconView.snp.bottom).offset(60)
+            make.top.equalTo(iconView.snp.bottom).offset(80)
             make.centerX.equalToSuperview()
         }
         
