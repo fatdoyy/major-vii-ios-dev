@@ -20,6 +20,9 @@ class HomeViewController: UIViewController {
     let network = NetworkManager.sharedInstance
     weak var previousController: UIViewController? //for tabbar scroll to top
 
+    //Splash View
+    var splashView: UIView!
+    
     // Remove when comments and image section API in Post are done
     var haveComments = [true, false, true]
     var username = ["fatdoyy", "John Mayer", "ronniefieg"]
@@ -28,7 +31,6 @@ class HomeViewController: UIViewController {
     
     //Custom refresh control
     var refreshView: RefreshView!
-    var refreshIndicator: NVActivityIndicatorView?
     var customRefreshControl: UIRefreshControl = {
         let refreshControl = UIRefreshControl()
         refreshControl.backgroundColor = .clear
@@ -95,18 +97,57 @@ extension HomeViewController {
         view.backgroundColor = .m7DarkGray()
         navigationController?.interactivePopGestureRecognizer?.delegate = self
         tabBarController?.delegate = self
-        mainCollectionView.refreshControl = customRefreshControl
+        setupLoadingSplash()
         
         setupMainCollectionView()
+    }
+    
+    func setupLoadingSplash() {
+        TabBar.hide(from: self)
+        
+        splashView = UIView()
+        splashView.backgroundColor = .m7DarkGray()
+        UIApplication.shared.keyWindow!.addSubview(splashView)
+        splashView.snp.makeConstraints { (make) in
+            make.bottom.equalToSuperview()
+            make.size.equalToSuperview()
+        }
+        UIApplication.shared.keyWindow!.bringSubviewToFront(splashView)
+        
+        let iconView = UIImageView()
+        iconView.image = UIImage(named: "app_icon_splash")
+        iconView.clipsToBounds = true
+        iconView.autoresizesSubviews = true
+        splashView.addSubview(iconView)
+        iconView.snp.makeConstraints { (make) in
+            make.center.equalToSuperview()
+            make.width.equalTo(120)
+            make.height.equalTo(51)
+        }
+        
+        let indicator = NVActivityIndicatorView(frame: CGRect(origin: CGPoint.zero, size: CGSize(width: 15, height: 15)), type: .lineScale)
+        indicator.startAnimating()
+        indicator.alpha = 0
+        splashView.addSubview(indicator)
+        indicator.snp.makeConstraints { (make) in
+            make.top.equalTo(iconView.snp.bottom).offset(60)
+            make.centerX.equalToSuperview()
+        }
+        
+        UIView.animate(withDuration: 0.15) {
+            indicator.alpha = 1
+        }
     }
     
     func setupMainCollectionView() {
         mainCollectionView.dataSource = self
         mainCollectionView.delegate = self
         
+        mainCollectionView.refreshControl = customRefreshControl
         mainCollectionView.backgroundColor = .m7DarkGray()
         mainCollectionView.showsVerticalScrollIndicator = false
         mainCollectionView.showsHorizontalScrollIndicator = false
+        mainCollectionView.alpha = 0
         
         mainCollectionView.register(UINib.init(nibName: "HomeHeaderView", bundle: nil), forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HomeHeaderView.reuseIdentifier)
         
@@ -143,7 +184,6 @@ extension HomeViewController {
     @objc func refreshCollectionView() {
         // Start animation here.
         refreshView.startAnimation()
-        print("refreshing")
         
         //First refresh upcoming events section
         delegate?.refreshUpcomingEvents()
@@ -172,13 +212,27 @@ extension HomeViewController {
         mainCollectionView.isUserInteractionEnabled = false
 
         NewsService.getList(skip: skip, limit: limit).done { response -> () in
-            //self.newsList = response.list
             self.news.append(contentsOf: response.list)
             self.gotMoreNews = response.list.count < self.newsLimit || response.list.count == 0 ? false : true
             self.mainCollectionView.reloadData()
             }.ensure {
                 self.mainCollectionView.isUserInteractionEnabled = true
                 UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                
+                //Hide splash screen if not hidden
+                if self.splashView != nil {
+                    UIView.animate(withDuration: 0.15, animations: {
+                        self.splashView.alpha = 0
+                    }, completion: { _ in
+                        self.splashView.removeFromSuperview()
+                        UIView.animate(withDuration: 0.15) {
+                            self.mainCollectionView.alpha = 1
+                        }
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                            TabBar.show(from: self)
+                        }
+                    })
+                }
                 
                 //pull to refresh
                 if let refreshView = self.refreshView {

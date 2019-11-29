@@ -297,7 +297,8 @@ extension BuskersSearchViewController: BuskersViewControllerDelegate {
                 self.searchResults = response.list
                 //self.searchResults.append(contentsOf: response.list)
                 self.resultsLabel.text = "Search results for \"\(query)\""
-                NotificationCenter.default.post(name: .dismissKeyboard, object: nil) //hide keyboard
+                
+                //NotificationCenter.default.post(name: .dismissKeyboard, object: nil) //hide keyboard
             } else {
                 self.resultsLabel.shake()
                 HapticFeedback.createNotificationFeedback(style: .error)

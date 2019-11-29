@@ -151,6 +151,7 @@ PODS:
     - Kingfisher/Core (= 5.10.1)
   - Kingfisher/Core (5.10.1)
   - Localize-Swift (3.1.0)
+  - lottie-ios (3.1.5)
   - MarqueeLabel (4.0.0)
   - nanopb (0.3.9011):
     - nanopb/decode (= 0.3.9011)
@@ -205,6 +206,7 @@ DEPENDENCIES:
   - JGProgressHUD
   - Kingfisher
   - Localize-Swift
+  - lottie-ios
   - MarqueeLabel
   - NVActivityIndicatorView
   - ObjectMapper
@@ -261,6 +263,7 @@ SPEC REPOS:
     - JGProgressHUD
     - Kingfisher
     - Localize-Swift
+    - lottie-ios
     - MarqueeLabel
     - nanopb
     - NVActivityIndicatorView
@@ -334,6 +337,7 @@ SPEC CHECKSUMS:
   JGProgressHUD: aa403e9a5b45cae98903c4600cccdd98c0c3ec90
   Kingfisher: eb36b7dfcc78d60877051c92c119a2865972961a
   Localize-Swift: 4bed4f0ccac8be2ec3517ee359da80ba2adb0fae
+  lottie-ios: 32bf84389337d86fbc8b12266e88452e0abf1dee
   MarqueeLabel: b55b26e690b6ad41faedd95cbf5eae6f1d1735b4
   nanopb: 18003b5e52dab79db540fe93fe9579f399bd1ccd
   NVActivityIndicatorView: d24b7ebcf80af5dcd994adb650e2b6c93379270f
@@ -354,6 +358,6 @@ SPEC CHECKSUMS:
   Validator: 9cfe0da15338f2e36fcf9e394f5bc1761888bec4
   XCDYouTubeKit: 43843b87c143120fdcbd908e031258ea60f7ba0a
 
-PODFILE CHECKSUM: 1f49119588d8d1f5386b8decd9acd352d02c49ba
+PODFILE CHECKSUM: a5a80614b2ebd9eb7f4f5095d5264c2c7bfb80b2
 
 COCOAPODS: 1.7.2

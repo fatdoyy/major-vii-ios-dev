@@ -54,6 +54,7 @@ target 'major-7-ios' do
   pod 'MarqueeLabel'                            # auto scrolling UILabel
   pod 'SwiftDate'                               # as title
   pod 'Hero'                                    # transitions
+  pod 'lottie-ios'                              # After Effects animations
 #  pod 'ActiveLabel'                             # supporting Hashtags (#), Mentions (@), URLs (http:/)
 
   pod 'Validator', :git => 'https://github.com/kikikiktai/Validator.git'                            # UITextField validation

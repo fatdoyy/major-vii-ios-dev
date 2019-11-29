@@ -9,7 +9,6 @@
 import UIKit
 import Localize_Swift
 import AMScrollingNavbar
-import NVActivityIndicatorView
 import SwiftMessages
 
 class EventsListViewController: ScrollingNavigationViewController {
@@ -26,7 +25,6 @@ class EventsListViewController: ScrollingNavigationViewController {
     
     //Custom refresh control
     var refreshView: RefreshView!
-    var refreshIndicator: NVActivityIndicatorView?
     var customRefreshControl: UIRefreshControl = {
         let refreshControl = UIRefreshControl()
         refreshControl.backgroundColor = .clear

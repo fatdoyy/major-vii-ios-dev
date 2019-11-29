@@ -109,6 +109,8 @@
 		96AC42F222327F9600F9D62C /* BuskerProfileMemberCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96AC42F022327F9600F9D62C /* BuskerProfileMemberCell.swift */; };
 		96AC42F322327F9600F9D62C /* BuskerProfileMemberCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96AC42F122327F9600F9D62C /* BuskerProfileMemberCell.xib */; };
 		96AF5CE72381796A00DAE9DA /* UISearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96AF5CE62381796A00DAE9DA /* UISearchBar.swift */; };
+		96AF6D2B239125CD00D243D2 /* 2020.json in Resources */ = {isa = PBXBuildFile; fileRef = 96AF6D29239125CC00D243D2 /* 2020.json */; };
+		96AF6D2C239125CD00D243D2 /* nyan-cat.json in Resources */ = {isa = PBXBuildFile; fileRef = 96AF6D2A239125CD00D243D2 /* nyan-cat.json */; };
 		96B0BE4021EDF452003C9BA5 /* HideKeyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B0BE3F21EDF452003C9BA5 /* HideKeyboard.swift */; };
 		96B0BE4221EF2235003C9BA5 /* ValidationRules.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B0BE4121EF2235003C9BA5 /* ValidationRules.swift */; };
 		96B0BE4A21F056B4003C9BA5 /* LocalKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B0BE4921F056B4003C9BA5 /* LocalKeys.swift */; };
@@ -283,6 +285,8 @@
 		96AC42F022327F9600F9D62C /* BuskerProfileMemberCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuskerProfileMemberCell.swift; sourceTree = "<group>"; };
 		96AC42F122327F9600F9D62C /* BuskerProfileMemberCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BuskerProfileMemberCell.xib; sourceTree = "<group>"; };
 		96AF5CE62381796A00DAE9DA /* UISearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UISearchBar.swift; sourceTree = "<group>"; };
+		96AF6D29239125CC00D243D2 /* 2020.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = 2020.json; sourceTree = "<group>"; };
+		96AF6D2A239125CD00D243D2 /* nyan-cat.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "nyan-cat.json"; sourceTree = "<group>"; };
 		96B0BE3F21EDF452003C9BA5 /* HideKeyboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HideKeyboard.swift; sourceTree = "<group>"; };
 		96B0BE4121EF2235003C9BA5 /* ValidationRules.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidationRules.swift; sourceTree = "<group>"; };
 		96B0BE4921F056B4003C9BA5 /* LocalKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalKeys.swift; sourceTree = "<group>"; };
@@ -614,6 +618,7 @@
 		967E9D9A238933A80010E85F /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				96AF6D28239125B500D243D2 /* Lottie Animations */,
 				9680373422509E6C00A9C65F /* Font */,
 				967E9D9B238933C50010E85F /* GoogleMaps style */,
 			);
@@ -646,6 +651,15 @@
 				96C5542D2192C6730065D70A /* FollowingSectionCell.xib */,
 			);
 			name = "Following Section";
+			sourceTree = "<group>";
+		};
+		96AF6D28239125B500D243D2 /* Lottie Animations */ = {
+			isa = PBXGroup;
+			children = (
+				96AF6D29239125CC00D243D2 /* 2020.json */,
+				96AF6D2A239125CD00D243D2 /* nyan-cat.json */,
+			);
+			path = "Lottie Animations";
 			sourceTree = "<group>";
 		};
 		96C55412219044710065D70A /* All Events Page */ = {
@@ -900,6 +914,7 @@
 				9620022D21E4AF000055D070 /* gif2.gif in Resources */,
 				966A6CD1217F096700DF872F /* HomeHeaderView.xib in Resources */,
 				966AE61622D31CC800AC17EC /* HomePostCell.xib in Resources */,
+				96AF6D2C239125CD00D243D2 /* nyan-cat.json in Resources */,
 				96C5541C21918CB90065D70A /* TrendingSectionCell.xib in Resources */,
 				9639217521AD1C4500BA515A /* HashtagCell.xib in Resources */,
 				9639216F21ABC85500BA515A /* EventDetailsView.xib in Resources */,
@@ -912,6 +927,7 @@
 				9620022E21E4AF000055D070 /* gif4.gif in Resources */,
 				96642E6B22CCA436003A9188 /* RefreshView.xib in Resources */,
 				96C5544D219408580065D70A /* FeaturedCell.xib in Resources */,
+				96AF6D2B239125CD00D243D2 /* 2020.json in Resources */,
 				96DEB1F22237B08B005F87F4 /* BuskerProfilePostCell.xib in Resources */,
 				969C2A112370209F006C93C4 /* GoogleService-Info.plist in Resources */,
 				9620021A21DDFDC20055D070 /* LoginView.xib in Resources */,
