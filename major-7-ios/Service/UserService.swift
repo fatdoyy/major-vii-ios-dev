@@ -33,7 +33,7 @@ class UserService: BaseService {
         //GIDSignIn.sharedInstance().uiDelegate = self
     }
     
-    struct User {
+    struct current {
         //check current user
         static func isLoggedIn() -> Bool {
             let notLoggedIn = hasUserId() == false || hasAccessToken() == false || hasRefreshToken() == false || hasUsername() == false

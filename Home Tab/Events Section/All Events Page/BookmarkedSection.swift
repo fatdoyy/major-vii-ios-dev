@@ -165,7 +165,7 @@ extension BookmarkedSection {
             make.centerY.equalTo(bookmarksCollectionView.snp.centerY)
         }
         
-        if UserService.User.isLoggedIn() {
+        if UserService.current.isLoggedIn() {
             getBookmarkedEvents()
         } else {
             bookmarksCollectionView.alpha = 0
@@ -378,7 +378,7 @@ extension BookmarkedSection {
 //MARK: - UICollectionView delegate
 extension BookmarkedSection: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        let count = UserService.User.isLoggedIn() && !bookmarkedEvents.isEmpty ? bookmarkedEvents.count : 3
+        let count = UserService.current.isLoggedIn() && !bookmarkedEvents.isEmpty ? bookmarkedEvents.count : 3
         return count
     }
     

@@ -54,7 +54,7 @@ class LoginViewController: UIViewController {
         self.navigationController?.setNavigationBarHidden(false, animated: animated)
         
         if !self.isModal { //send notification to refresh EventListViewController
-            if UserService.User.isLoggedIn() {
+            if UserService.current.isLoggedIn() {
                 NotificationCenter.default.post(name: .refreshEventListVC, object: nil)
                 NotificationCenter.default.removeObserver(loginView!) // also remove observer in LoginView.swift
             }
@@ -486,7 +486,7 @@ extension LoginViewController: ASAuthorizationControllerDelegate, ASAuthorizatio
 //            } catch {
 //                print("Unable to save userIdentifier to keychain.")
 //            }
-            print("state: \(appleIDCredential.state)")
+            //print("state: \(appleIDCredential.state)")
         } else if let passwordCredential = authorization.credential as? ASPasswordCredential {
             // Sign in using an existing iCloud Keychain credential.
             let username = passwordCredential.user
@@ -495,7 +495,7 @@ extension LoginViewController: ASAuthorizationControllerDelegate, ASAuthorizatio
         }
         
         //Temp fix for re-login
-        if !UserService.User.isLoggedIn() {
+        if !UserService.current.isLoggedIn() {
             print("re-login using Apple...")
             if
                 let userID = UserDefaults.standard.string(forKey: LOCAL_KEY.APPLE_USER_ID),

@@ -110,7 +110,6 @@
 		96AC42F322327F9600F9D62C /* BuskerProfileMemberCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96AC42F122327F9600F9D62C /* BuskerProfileMemberCell.xib */; };
 		96AF5CE72381796A00DAE9DA /* UISearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96AF5CE62381796A00DAE9DA /* UISearchBar.swift */; };
 		96AF6D2B239125CD00D243D2 /* 2020.json in Resources */ = {isa = PBXBuildFile; fileRef = 96AF6D29239125CC00D243D2 /* 2020.json */; };
-		96AF6D2C239125CD00D243D2 /* nyan-cat.json in Resources */ = {isa = PBXBuildFile; fileRef = 96AF6D2A239125CD00D243D2 /* nyan-cat.json */; };
 		96B0BE4021EDF452003C9BA5 /* HideKeyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B0BE3F21EDF452003C9BA5 /* HideKeyboard.swift */; };
 		96B0BE4221EF2235003C9BA5 /* ValidationRules.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B0BE4121EF2235003C9BA5 /* ValidationRules.swift */; };
 		96B0BE4A21F056B4003C9BA5 /* LocalKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B0BE4921F056B4003C9BA5 /* LocalKeys.swift */; };
@@ -286,7 +285,6 @@
 		96AC42F122327F9600F9D62C /* BuskerProfileMemberCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BuskerProfileMemberCell.xib; sourceTree = "<group>"; };
 		96AF5CE62381796A00DAE9DA /* UISearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UISearchBar.swift; sourceTree = "<group>"; };
 		96AF6D29239125CC00D243D2 /* 2020.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = 2020.json; sourceTree = "<group>"; };
-		96AF6D2A239125CD00D243D2 /* nyan-cat.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "nyan-cat.json"; sourceTree = "<group>"; };
 		96B0BE3F21EDF452003C9BA5 /* HideKeyboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HideKeyboard.swift; sourceTree = "<group>"; };
 		96B0BE4121EF2235003C9BA5 /* ValidationRules.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidationRules.swift; sourceTree = "<group>"; };
 		96B0BE4921F056B4003C9BA5 /* LocalKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalKeys.swift; sourceTree = "<group>"; };
@@ -511,6 +509,7 @@
 				96F37322224B95850088E142 /* Events (Map) Tab */,
 				9611CD76225B226A00ACA937 /* Settings Tab */,
 				CA550AA921706A65008E493D /* Main.storyboard */,
+				CA550AB121706A66008E493D /* LaunchScreen.storyboard */,
 			);
 			name = UI;
 			path = ..;
@@ -657,7 +656,6 @@
 			isa = PBXGroup;
 			children = (
 				96AF6D29239125CC00D243D2 /* 2020.json */,
-				96AF6D2A239125CD00D243D2 /* nyan-cat.json */,
 			);
 			path = "Lottie Animations";
 			sourceTree = "<group>";
@@ -795,7 +793,6 @@
 				96EFC1CE232BA53A00D65C0A /* major-7-ios.entitlements */,
 				CA550AA521706A65008E493D /* AppDelegate.swift */,
 				966A6CBD217DBC2C00DF872F /* UI */,
-				CA550AB121706A66008E493D /* LaunchScreen.storyboard */,
 				967B562F2244E80A006F0AF9 /* Assets.xcassets */,
 				CA550AB421706A66008E493D /* Info.plist */,
 				969C2A102370209E006C93C4 /* GoogleService-Info.plist */,
@@ -914,7 +911,6 @@
 				9620022D21E4AF000055D070 /* gif2.gif in Resources */,
 				966A6CD1217F096700DF872F /* HomeHeaderView.xib in Resources */,
 				966AE61622D31CC800AC17EC /* HomePostCell.xib in Resources */,
-				96AF6D2C239125CD00D243D2 /* nyan-cat.json in Resources */,
 				96C5541C21918CB90065D70A /* TrendingSectionCell.xib in Resources */,
 				9639217521AD1C4500BA515A /* HashtagCell.xib in Resources */,
 				9639216F21ABC85500BA515A /* EventDetailsView.xib in Resources */,

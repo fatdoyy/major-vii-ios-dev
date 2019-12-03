@@ -22,6 +22,8 @@ class HomeViewController: UIViewController {
 
     //Splash View
     var splashView: UIView!
+    var splashIcon: UIImageView!
+    var splashIndicator: NVActivityIndicatorView!
     
     // Remove when comments and image section API in Post are done
     var haveComments = [true, false, true]
@@ -59,7 +61,7 @@ class HomeViewController: UIViewController {
         super.viewDidLoad()
         
         //check if we need to present loginVC
-        if !UserService.User.isLoggedIn() {
+        if !UserService.current.isLoggedIn() {
             let loginVC = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "loginVC") as! LoginViewController
             //            loginVC.hero.isEnabled = true
             //            loginVC.hero.modalAnimationType = .selectBy(presenting: .zoom, dismissing: .zoomOut)
@@ -114,28 +116,27 @@ extension HomeViewController {
         }
         UIApplication.shared.keyWindow!.bringSubviewToFront(splashView)
         
-        let iconView = UIImageView()
-        iconView.image = UIImage(named: "app_icon_splash")
-        iconView.clipsToBounds = true
-        iconView.autoresizesSubviews = true
-        splashView.addSubview(iconView)
-        iconView.snp.makeConstraints { (make) in
+        splashIcon = UIImageView()
+        splashIcon.image = UIImage(named: "app_icon_small")
+        splashIcon.clipsToBounds = true
+        splashView.addSubview(splashIcon)
+        splashIcon.snp.makeConstraints { (make) in
             make.center.equalToSuperview()
-            make.width.equalTo(145)
-            make.height.equalTo(62)
+            make.width.equalTo(96)
+            make.height.equalTo(46)
         }
         
-        let indicator = NVActivityIndicatorView(frame: CGRect(origin: CGPoint.zero, size: CGSize(width: 17, height: 17)), type: .lineScale)
-        indicator.startAnimating()
-        indicator.alpha = 0
-        splashView.addSubview(indicator)
-        indicator.snp.makeConstraints { (make) in
-            make.top.equalTo(iconView.snp.bottom).offset(80)
+        splashIndicator = NVActivityIndicatorView(frame: CGRect(origin: CGPoint.zero, size: CGSize(width: 17, height: 17)), type: .lineScale)
+        splashIndicator.startAnimating()
+        splashIndicator.alpha = 0
+        splashView.addSubview(splashIndicator)
+        splashIndicator.snp.makeConstraints { (make) in
+            make.top.equalTo(splashIcon.snp.bottom).offset(60)
             make.centerX.equalToSuperview()
         }
         
         UIView.animate(withDuration: 0.15) {
-            indicator.alpha = 1
+            self.splashIndicator.alpha = 1
         }
     }
     
@@ -164,6 +165,56 @@ extension HomeViewController {
         mainCollectionView.register(UINib.init(nibName: "HomePostCell", bundle: nil), forCellWithReuseIdentifier: HomePostCell.reuseIdentifier)
         
         mainCollectionView.register(UINib.init(nibName: "NewsSectionFooter", bundle: nil), forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: NewsSectionFooter.reuseIdentifier)
+    }
+    
+    func hideSplashScreen() {
+        if self.splashView != nil {
+            if UserService.current.isLoggedIn() {
+                self.splashIcon.snp.remakeConstraints { (make) in
+                    if UIDevice.current.hasHomeButton {
+                        make.top.equalToSuperview().offset(61)
+                    } else {
+                        make.top.equalToSuperview().offset(85)
+                    }
+                    make.left.equalToSuperview().offset(20)
+                    make.width.equalTo(96)
+                    make.height.equalTo(46)
+                }
+                
+                UIView.animate(withDuration: 0.25, animations: {
+                    self.splashView.layoutIfNeeded()
+                }, completion: { _ in
+                    let allUsableViews = self.mainCollectionView.visibleSupplementaryViews(ofKind: UICollectionView.elementKindSectionHeader)
+                    if let headerView = allUsableViews.first as? HomeHeaderView {
+                        headerView.appIcon.alpha = 1
+                        self.splashView.removeFromSuperview()
+                    }
+                })
+                
+                UIView.animate(withDuration: 0.15, animations: {
+                    self.splashView.backgroundColor = .clear
+                    self.splashIndicator.alpha = 0
+                    self.mainCollectionView.alpha = 1
+                }, completion: { _ in
+                    self.splashIndicator.removeFromSuperview()
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                        TabBar.show(from: self)
+                    }
+                })
+            } else { //not logged in
+                UIView.animate(withDuration: 0.15, animations: {
+                    self.splashView.alpha = 0
+                }, completion: { _ in
+                    self.splashView.removeFromSuperview()
+                    UIView.animate(withDuration: 0.15) {
+                        self.mainCollectionView.alpha = 1
+                    }
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                        TabBar.show(from: self)
+                    }
+                })
+            }
+        }
     }
 }
 
@@ -220,19 +271,7 @@ extension HomeViewController {
                 UIApplication.shared.isNetworkActivityIndicatorVisible = false
                 
                 //Hide splash screen if not hidden
-                if self.splashView != nil {
-                    UIView.animate(withDuration: 0.15, animations: {
-                        self.splashView.alpha = 0
-                    }, completion: { _ in
-                        self.splashView.removeFromSuperview()
-                        UIView.animate(withDuration: 0.15) {
-                            self.mainCollectionView.alpha = 1
-                        }
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                            TabBar.show(from: self)
-                        }
-                    })
-                }
+                self.hideSplashScreen()
                 
                 //pull to refresh
                 if let refreshView = self.refreshView {

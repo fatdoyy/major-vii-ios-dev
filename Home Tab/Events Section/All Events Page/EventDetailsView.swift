@@ -81,7 +81,7 @@ class EventDetailsView: UIView {
         contentView.backgroundColor = .m7DarkGray()
         contentView.layer.cornerRadius = GlobalCornerRadius.value + 4
         
-        if UserService.User.isLoggedIn() {
+        if UserService.current.isLoggedIn() {
             bookmarkBtn.setImage(nil, for: .normal)
             //loading indicatior
             loadingIndicator.startAnimating()

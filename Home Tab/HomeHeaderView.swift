@@ -27,7 +27,9 @@ class HomeHeaderView: UICollectionReusableView {
         newsTitle.text = "News"
         newsTitle.textColor = .whiteText()
         
-        premiumBadge.alpha = UserService.User.isLoggedIn() ? 1 : 0
+        appIcon.alpha = UserService.current.isLoggedIn() ? 0 : 1
+        
+        premiumBadge.alpha = UserService.current.isLoggedIn() ? 1 : 0
     }
     
 }

@@ -64,7 +64,7 @@ class EventsListViewController: ScrollingNavigationViewController {
         NotificationCenter.default.setObserver(self, selector: #selector(refreshEventListVC), name: .refreshEventListVC, object: nil)
         NotificationCenter.default.setObserver(self, selector: #selector(refreshFeaturedSectionCell(_:)), name: .refreshFeaturedSectionCell, object: nil)
         
-        if UserService.User.isLoggedIn() && isFromLoginView == true {
+        if UserService.current.isLoggedIn() && isFromLoginView == true {
             print("popped from loginView")
             
             //refresh mainCollectionView
@@ -98,7 +98,7 @@ class EventsListViewController: ScrollingNavigationViewController {
             navigationController.followScrollView(mainCollectionView, delay: 20.0)
         }
         
-        if UserService.User.isLoggedIn() {
+        if UserService.current.isLoggedIn() {
             let bookmarkedSection = mainCollectionView.visibleCells //hide bookmark section when view did disappear
             for cell in bookmarkedSection {
                 if let cell = cell as? BookmarkedSection {
@@ -159,7 +159,7 @@ extension EventsListViewController: FeaturedCellDelegate {
     }
     
     func checkBookmarkBtnState(cell: FeaturedCell, indexPath: IndexPath) {
-        if UserService.User.isLoggedIn() {
+        if UserService.current.isLoggedIn() {
             if let eventID = featuredEvents[indexPath.row].id {
                 if !bookmarkedEventIDArray.contains(eventID) {
                     /// Check if local array is holding this bookmarked cell
@@ -224,7 +224,7 @@ extension EventsListViewController: FeaturedCellDelegate {
     }
     
     func bookmarkBtnTapped(cell: FeaturedCell, tappedIndex: IndexPath) {
-        if UserService.User.isLoggedIn() {
+        if UserService.current.isLoggedIn() {
             if let eventID = self.featuredEvents[tappedIndex.row].id {
                 if (cell.bookmarkBtn.backgroundColor?.isEqual(UIColor.clear))! { //do bookmark action
                     HapticFeedback.createImpact(style: .light)
@@ -570,7 +570,7 @@ extension EventsListViewController: UICollectionViewDelegate, UICollectionViewDe
             switch section {
             case .Following:
                 let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: FollowingSection.reuseIdentifier, for: indexPath) as! FollowingSection
-                if UserService.User.isLoggedIn() {
+                if UserService.current.isLoggedIn() {
                     cell.delegate = self
                 } else {
                     //hide following section if not logged in (i.e. disable constriants)
@@ -583,7 +583,7 @@ extension EventsListViewController: UICollectionViewDelegate, UICollectionViewDe
             case .Bookmarked:
                 let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: BookmarkedSection.reuseIdentifier, for: indexPath) as! BookmarkedSection
                 cell.delegate = self
-                if !UserService.User.isLoggedIn() {
+                if !UserService.current.isLoggedIn() {
                     cell.bookmarksCountLabel.text = "No account? It's totally free to create one!"
                 }
                 return cell
@@ -641,7 +641,7 @@ extension EventsListViewController: UICollectionViewDelegate, UICollectionViewDe
             let width = self.view.frame.width
             switch section {
             case .Following:
-                let size = UserService.User.isLoggedIn() ? CGSize(width: width, height: FollowingSection.height) : CGSize(width: width, height: 1)
+                let size = UserService.current.isLoggedIn() ? CGSize(width: width, height: FollowingSection.height) : CGSize(width: width, height: 1)
                 return size
                 
             case .Bookmarked:   return CGSize(width: width, height: BookmarkedSection.height)

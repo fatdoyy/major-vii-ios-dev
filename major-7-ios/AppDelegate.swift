@@ -60,7 +60,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             case .authorized:
                 print()
             case .revoked:
-                //UserService.User.logout(fromVC: self)
+                //UserService.current.logout(fromVC: self)
                 print()
             case .notFound:
                 print()

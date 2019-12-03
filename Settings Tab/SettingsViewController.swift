@@ -118,14 +118,14 @@ class SettingsViewController: UIViewController {
         UIApplication.shared.statusBarUIView?.backgroundColor = .m7DarkGray()
         
         //show OR hide header
-        if UserService.User.isLoggedIn() { //update username
+        if UserService.current.isLoggedIn() { //update username
             buskerNameLabel.text = "Hello, \(UserDefaults.standard.string(forKey: LOCAL_KEY.USERNAME) ?? "")!"
         }
         for view in loggedInHeaderViews {
-            view.alpha = UserService.User.isLoggedIn() ? 1 : 0
+            view.alpha = UserService.current.isLoggedIn() ? 1 : 0
         }
-        loginShadowView.alpha = UserService.User.isLoggedIn() ? 0 : 1
-        loginBtn.alpha = UserService.User.isLoggedIn() ? 0 : 1
+        loginShadowView.alpha = UserService.current.isLoggedIn() ? 0 : 1
+        loginBtn.alpha = UserService.current.isLoggedIn() ? 0 : 1
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -166,10 +166,10 @@ extension SettingsViewController {
         setupLoginHeader()
         
         for view in loggedInHeaderViews {
-            view.alpha = UserService.User.isLoggedIn() ? 1 : 0
+            view.alpha = UserService.current.isLoggedIn() ? 1 : 0
         }
-        loginShadowView.alpha = UserService.User.isLoggedIn() ? 0 : 1
-        loginBtn.alpha = UserService.User.isLoggedIn() ? 0 : 1
+        loginShadowView.alpha = UserService.current.isLoggedIn() ? 0 : 1
+        loginBtn.alpha = UserService.current.isLoggedIn() ? 0 : 1
     }
     
     private func setupLoggedInHeader() {
@@ -321,7 +321,7 @@ extension SettingsViewController {
     
     @objc func didTapLogoutBtn(_ sender: Any) {
         logoutBtn.setTitle("Logging out...", for: .normal)
-        UserService.User.logout(fromVC: self).done { _ -> () in
+        UserService.current.logout(fromVC: self).done { _ -> () in
             UIView.animate(withDuration: 0.2) {
                 self.loginShadowView.alpha = 1
                 self.loginBtn.alpha = 1

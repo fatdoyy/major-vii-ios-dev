@@ -97,7 +97,7 @@ class FeaturedCell: UICollectionViewCell {
     }
     
     func checkShouldDisplayIndicator() {
-        if UserService.User.isLoggedIn() {
+        if UserService.current.isLoggedIn() {
             bookmarkBtn.setImage(nil, for: .normal)
             bookmarkBtnIndicator.alpha = 1
         } else {

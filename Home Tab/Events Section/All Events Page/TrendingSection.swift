@@ -220,7 +220,7 @@ extension TrendingSection: TrendingSectionCellDelegate {
     }
     
     func checkBookmarkBtnState(cell: TrendingSectionCell, indexPath: IndexPath) {
-        if UserService.User.isLoggedIn() {
+        if UserService.current.isLoggedIn() {
             if let eventID = trendingEvents[indexPath.row].id {
                 if !bookmarkedEventIDArray.contains(eventID) {
                     /// Check if local array is holding this bookmarked cell
@@ -349,7 +349,7 @@ extension TrendingSection: TrendingSectionCellDelegate {
     
     //bookmarkBtn tapped
     func bookmarkBtnTapped(cell: TrendingSectionCell, tappedIndex: IndexPath) {
-        if UserService.User.isLoggedIn() {
+        if UserService.current.isLoggedIn() {
             if let eventID = self.trendingEvents[tappedIndex.row].id {
                 if (cell.bookmarkBtn.backgroundColor?.isEqual(UIColor.clear))! { //do bookmark action
                     HapticFeedback.createImpact(style: .light)

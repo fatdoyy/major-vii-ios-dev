@@ -100,7 +100,7 @@ extension EventSearchViewController: FeaturedCellDelegate {
     }
     
     func checkBookmarkBtnState(cell: FeaturedCell, indexPath: IndexPath) {
-        if UserService.User.isLoggedIn() {
+        if UserService.current.isLoggedIn() {
             if let eventID = trendingEvents[indexPath.row].id {
                 if !bookmarkedEventIDArray.contains(eventID) {
                     /// Check if local array is holding this bookmarked cell
@@ -165,7 +165,7 @@ extension EventSearchViewController: FeaturedCellDelegate {
     }
     
     func searchResultCheckBookmarkBtnState(cell: FeaturedCell, indexPath: IndexPath) {
-        if UserService.User.isLoggedIn() {
+        if UserService.current.isLoggedIn() {
             if let eventID = searchResults[indexPath.row].id {
                 if !bookmarkedEventIDArray.contains(eventID) {
                     /// Check if local array is holding this bookmarked cell
@@ -230,7 +230,7 @@ extension EventSearchViewController: FeaturedCellDelegate {
     }
 
     func bookmarkBtnTapped(cell: FeaturedCell, tappedIndex: IndexPath) {
-        if UserService.User.isLoggedIn() {
+        if UserService.current.isLoggedIn() {
             if let eventID = isSearching ? self.searchResults[tappedIndex.row].id : self.trendingEvents[tappedIndex.row].id {
                 if (cell.bookmarkBtn.backgroundColor?.isEqual(UIColor.clear))! { //do bookmark action
                     HapticFeedback.createImpact(style: .light)

@@ -16,6 +16,7 @@ import Pastel
 import SkeletonView
 import NVActivityIndicatorView
 import InfiniteLayout
+import MarqueeLabel
 
 //MARK: isFollowingBusker Enum
 enum isFollowingBusker {
@@ -68,7 +69,7 @@ class BuskerProfileViewController: UIViewController {
     
     let pageControl = CHIPageControlJaloro(frame: CGRect(x: 0, y: 0, width: 100, height: 10))
     
-    var buskerTaglineLabel = UILabel()
+    var buskerTaglineLabel = MarqueeLabel(frame: CGRect.zero, rate: 30, fadeLength: 30)
     var buskerLabel = UILabel()
     
     var verifiedBadge = UIView()
@@ -676,7 +677,7 @@ extension BuskerProfileViewController {
         followBtn.setTitleColor(.white, for: .normal)
         followBtn.layer.cornerRadius = GlobalCornerRadius.value
         
-        if UserService.User.isLoggedIn() {
+        if UserService.current.isLoggedIn() {
             followBtn.isUserInteractionEnabled = false
             followBtn.addTarget(self, action: #selector(didTapFollowBtn), for: .touchUpInside)
             followBtn.addSubview(followBtnLoadingIndicator)
@@ -697,7 +698,7 @@ extension BuskerProfileViewController {
     }
     
     @objc private func didTapFollowBtn(_ sender: UIButton) {
-        if UserService.User.isLoggedIn() {
+        if UserService.current.isLoggedIn() {
             self.followBtn.setTitle("", for: .normal)
             UIView.animate(withDuration: 0.2) {
                 self.followBtnLoadingIndicator.alpha = 1

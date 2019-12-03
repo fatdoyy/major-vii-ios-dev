@@ -120,7 +120,7 @@ class EventDetailsViewController: UIViewController {
         }
 
         //check if need to refresh EventListVC after dismissing this VC
-        if UserService.User.isLoggedIn() {
+        if UserService.current.isLoggedIn() {
             NotificationCenter.default.post(name: .refreshTrendingSectionCell, object: nil, userInfo: ["check_id": eventID])
             NotificationCenter.default.post(name: .refreshFollowingSectionCell, object: nil, userInfo: ["check_id": eventID])
             NotificationCenter.default.post(name: .refreshFeaturedSectionCell, object: nil, userInfo: ["check_id": eventID])
@@ -153,7 +153,7 @@ class EventDetailsViewController: UIViewController {
         bgView.delegate = self
         
         //check bookmarkBtn state
-        if UserService.User.isLoggedIn() {
+        if UserService.current.isLoggedIn() {
             if !isFromBookmarkedSection { //do checking when not from bookmarked section
                 UserService.getBookmarkedEvents().done { response in
                     if !response.list.isEmpty {
@@ -354,7 +354,7 @@ extension EventDetailsViewController: UIScrollViewDelegate {
 //MARK: Events Details View Delegate
 extension EventDetailsViewController: EventsDetailsViewDelegate {
     func bookmarkBtnTapped(sender: UIButton) {
-        if UserService.User.isLoggedIn() {
+        if UserService.current.isLoggedIn() {
             sender.isUserInteractionEnabled = false
             
             let bookmarkedImg = UIImage(named: "eventdetails_bookmarked_1")

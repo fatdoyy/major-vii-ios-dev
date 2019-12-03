@@ -62,7 +62,7 @@ class FollowingSection: UICollectionViewCell {
         
         setupUI()
         
-        if UserService.User.isLoggedIn() {
+        if UserService.current.isLoggedIn() {
             getCurrentUserFollowings(limit: followingsLimit)
         }
     }
@@ -378,11 +378,11 @@ extension FollowingSection: UICollectionViewDataSource, UICollectionViewDelegate
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         switch collectionView {
         case followingsCollectionView:
-            let count = UserService.User.isLoggedIn() && !userFollowings.isEmpty ? userFollowings.count : 0
+            let count = UserService.current.isLoggedIn() && !userFollowings.isEmpty ? userFollowings.count : 0
             return count
             
         case followingSectionCollectionView:
-            let count = UserService.User.isLoggedIn() && !userFollowingsEvents.isEmpty ? userFollowingsEvents.count : 3
+            let count = UserService.current.isLoggedIn() && !userFollowingsEvents.isEmpty ? userFollowingsEvents.count : 3
             return count
             
         default: return 0
@@ -394,7 +394,7 @@ extension FollowingSection: UICollectionViewDataSource, UICollectionViewDelegate
         switch collectionView {
         case followingsCollectionView:
             let cell = followingsCollectionView.dequeueReusableCell(withReuseIdentifier: FollowingsCell.reuseIdentifier, for: indexPath) as! FollowingsCell
-            cell.name.text = UserService.User.isLoggedIn() && !userFollowings.isEmpty ? userFollowings[indexPath.row].targetProfile?.name : "EMPTY"
+            cell.name.text = UserService.current.isLoggedIn() && !userFollowings.isEmpty ? userFollowings[indexPath.row].targetProfile?.name : "EMPTY"
             cell.name.textColor = (self.selectedIndexPath != nil && indexPath == self.selectedIndexPath) ? .m7DarkGray() : .purpleText()
             cell.backgroundColor = (self.selectedIndexPath != nil && indexPath == self.selectedIndexPath) ? .purpleText() : UIColor(hexString: "#7e7ecf").withAlphaComponent(0.2)
             return cell
@@ -484,7 +484,7 @@ extension FollowingSection: UICollectionViewDataSource, UICollectionViewDelegate
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         switch collectionView {
         case followingsCollectionView:
-            let name = UserService.User.isLoggedIn() && !userFollowings.isEmpty ? userFollowings[indexPath.row].targetProfile?.name : "EMPTY"
+            let name = UserService.current.isLoggedIn() && !userFollowings.isEmpty ? userFollowings[indexPath.row].targetProfile?.name : "EMPTY"
             let size = (name! as NSString).size(withAttributes: nil)
             return CGSize(width: size.width + 32, height: FollowingsCell.height)
             
@@ -703,7 +703,7 @@ extension FollowingSection: FollowingSectionCellDelegate {
     }
     
     func checkBookmarkBtnState(cell: FollowingSectionCell, indexPath: IndexPath) {
-        if UserService.User.isLoggedIn() {
+        if UserService.current.isLoggedIn() {
             if let eventID = userFollowingsEvents[indexPath.row].id {
                 if !bookmarkedEventIDArray.contains(eventID) {
                     /// Check if local array is holding this bookmarked cell
@@ -828,7 +828,7 @@ extension FollowingSection: FollowingSectionCellDelegate {
     }
     
     func bookmarkBtnTapped(cell: FollowingSectionCell, tappedIndex: IndexPath) {
-        if UserService.User.isLoggedIn() {
+        if UserService.current.isLoggedIn() {
             if let eventID = self.userFollowingsEvents[tappedIndex.row].id {
                 if (cell.bookmarkBtn.backgroundColor?.isEqual(UIColor.clear))! { //do bookmark action
                     HapticFeedback.createImpact(style: .light)

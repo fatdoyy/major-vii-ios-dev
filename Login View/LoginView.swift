@@ -106,7 +106,7 @@ class LoginView: UIView {
         
         videoOverlay.backgroundColor = UIColor.black.withAlphaComponent(0.35)
         
-        let randomIndex = Int(arc4random_uniform(UInt32(gifThumbnail.count))) // not using .randomElemnt() here beacuse we will need the index
+        let randomIndex = Int.random(in: 0 ... gifThumbnail.count) // not using .randomElemnt() here beacuse we will need the index
         gifIndex = "gif\(randomIndex)"
         videoBg.image = gifThumbnail[randomIndex]
         

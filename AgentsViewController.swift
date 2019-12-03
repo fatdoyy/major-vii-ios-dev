@@ -15,7 +15,6 @@ class AgentsViewController: UIViewController {
     }
     
     var animationView: AnimationView!
-    var animationView2: AnimationView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,21 +34,6 @@ class AgentsViewController: UIViewController {
         animationView.play { _ in
             print("finished!!!")
         }
-        
-        animationView2 = AnimationView(name: "nyan-cat")
-        animationView2.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
-        animationView2.contentMode = .scaleAspectFill
-        animationView2.loopMode = .loop
-        
-        view.addSubview(animationView2)
-        animationView2.snp.makeConstraints { (make) in
-            make.left.equalTo(view.safeAreaLayoutGuide.snp.left)
-            make.centerY.equalToSuperview().offset(-20)
-        }
-        
-        animationView2.play { _ in
-            print("finished!!!")
-        }
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -57,10 +41,5 @@ class AgentsViewController: UIViewController {
         animationView.play { _ in
             print("finished!!!")
         }
-        
-        animationView2.play { _ in
-            print("finished!!!")
-        }
     }
-    
 }
