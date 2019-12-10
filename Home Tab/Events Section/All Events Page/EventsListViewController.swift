@@ -13,9 +13,7 @@ import SwiftMessages
 
 class EventsListViewController: ScrollingNavigationViewController {
     static let storyboardID = "eventsListVC"
-    
-    var isFromLoginView: Bool?
-    
+        
     let searchResultsVC = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "buskersSearchVC") as! BuskersSearchViewController
     var searchController: UISearchController!
     
@@ -42,8 +40,6 @@ class EventsListViewController: ScrollingNavigationViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .m7DarkGray()
-        
-        isFromLoginView = false
 
         setupLeftBarItems()
         setupRightBarItems()
@@ -63,32 +59,6 @@ class EventsListViewController: ScrollingNavigationViewController {
         
         NotificationCenter.default.setObserver(self, selector: #selector(refreshEventListVC), name: .refreshEventListVC, object: nil)
         NotificationCenter.default.setObserver(self, selector: #selector(refreshFeaturedSectionCell(_:)), name: .refreshFeaturedSectionCell, object: nil)
-        
-        if UserService.current.isLoggedIn() && isFromLoginView == true {
-            print("popped from loginView")
-            
-            //refresh mainCollectionView
-            let allSections = mainCollectionView.visibleCells
-            for section in allSections {
-                if let cell = section as? TrendingSection { //Trending section
-                    cell.trendingCollectionView.reloadData()
-                }
-                
-                if let cell = section as? FollowingSection { //following section
-                    cell.getCurrentUserFollowings()
-                    cell.getCurrentUserFollowingsEvents()
-                }
-                
-                if let cell = section as? BookmarkedSection { //bookmark section
-                    cell.emptyLoginShadowView.alpha = 0
-                    cell.getBookmarkedEvents()
-                    cell.bookmarksCollectionView.alpha = 1
-                }
-            }
-            
-            mainCollectionView.reloadData()
-            isFromLoginView = false
-        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -132,7 +102,26 @@ class EventsListViewController: ScrollingNavigationViewController {
     }
     
     @objc private func refreshEventListVC() {
-        isFromLoginView = true
+        //refresh mainCollectionView
+        let allSections = mainCollectionView.visibleCells
+        for section in allSections {
+            if let cell = section as? TrendingSection { //Trending section
+                cell.trendingCollectionView.reloadData()
+            }
+            
+            if let cell = section as? FollowingSection { //following section
+                cell.getCurrentUserFollowings()
+                cell.getCurrentUserFollowingsEvents()
+            }
+            
+            if let cell = section as? BookmarkedSection { //bookmark section
+                cell.emptyLoginShadowView.alpha = 0
+                cell.getBookmarkedEvents()
+                cell.bookmarksCollectionView.alpha = 1
+            }
+        }
+        
+        mainCollectionView.reloadData()
     }
     
     func showLoginVC() {
@@ -260,7 +249,6 @@ extension EventsListViewController: FeaturedCellDelegate {
                             NotificationCenter.default.post(name: .refreshFollowingSectionCell, object: nil, userInfo: ["add_id": eventID]) //refresh bookmarkBtn state in FollowingSection
                             NotificationCenter.default.post(name: .refreshBookmarkedSection, object: nil, userInfo: ["add_id": eventID]) //reload collection view in BookmarkedSection
 
-                            
                             UIApplication.shared.isNetworkActivityIndicatorVisible = false
                             HapticFeedback.createNotificationFeedback(style: .success)
                         }.catch { error in }
@@ -641,8 +629,9 @@ extension EventsListViewController: UICollectionViewDelegate, UICollectionViewDe
             let width = self.view.frame.width
             switch section {
             case .Following:
-                let size = UserService.current.isLoggedIn() ? CGSize(width: width, height: FollowingSection.height) : CGSize(width: width, height: 1)
-                return size
+//                let size = UserService.current.isLoggedIn() ? CGSize(width: width, height: FollowingSection.height) : CGSize(width: width, height: 50)
+//                return size
+                return CGSize(width: width, height: FollowingSection.height)
                 
             case .Bookmarked:   return CGSize(width: width, height: BookmarkedSection.height)
             case .Featured:     return CGSize(width: FeaturedCell.width, height: FeaturedCell.height)

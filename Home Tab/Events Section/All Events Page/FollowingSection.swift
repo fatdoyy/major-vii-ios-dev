@@ -76,6 +76,8 @@ class FollowingSection: UICollectionViewCell {
 //MARK: - UI related
 extension FollowingSection {
     private func setupUI() {
+        backgroundColor = .red
+        
         followingSectionTitle.textColor = .whiteText()
         followingSectionTitle.text = "Your Followings"
         
@@ -100,7 +102,7 @@ extension FollowingSection {
         followingsCollectionView.showsVerticalScrollIndicator = false
         followingsCollectionView.showsHorizontalScrollIndicator = false
         
-        followingsCollectionView.backgroundColor = .m7DarkGray()
+        followingsCollectionView.backgroundColor = .pumpkin
         followingsCollectionView.register(UINib.init(nibName: "FollowingsCell", bundle: nil), forCellWithReuseIdentifier: FollowingsCell.reuseIdentifier)
         
         let overlayLeft = UIImageView(image: UIImage(named: "collectionview_overlay_left_to_right"))
@@ -135,7 +137,7 @@ extension FollowingSection {
         followingSectionCollectionView.showsVerticalScrollIndicator = false
         followingSectionCollectionView.showsHorizontalScrollIndicator = false
         
-        followingSectionCollectionView.backgroundColor = .m7DarkGray()
+        followingSectionCollectionView.backgroundColor = .blue
         followingSectionCollectionView.register(UINib.init(nibName: "FollowingSectionCell", bundle: nil), forCellWithReuseIdentifier: FollowingSectionCell.reuseIdentifier)
         
         let overlayLeft = UIImageView(image: UIImage(named: "collectionview_overlay_left_to_right"))
@@ -575,7 +577,7 @@ extension FollowingSection: FollowingSectionCellDelegate {
                     self.followingsCollectionView.alpha = 1
                     self.emptyFollowingShadowView.alpha = 0
                 }
-            } else {
+            } else { //empty
                 self.followingSectionDesc.text = "0 followers"
                 self.setupEmptyFollowingsView()
                 self.emptyFollowingShadowView.alpha = 1
@@ -686,7 +688,6 @@ extension FollowingSection: FollowingSectionCellDelegate {
             self.followingSectionDesc.alpha = 1
             self.followingsCollectionView.alpha = 0
         }
-        
         
         followingSectionDesc.text = "Loading"
         emptyFollowingShadowView.alpha = 0

@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina4_7" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15400" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15404"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -25,14 +23,6 @@
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="ksR-eM-H75">
-                        <rect key="frame" x="0.0" y="95" width="335" height="169"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <constraints>
-                            <constraint firstAttribute="height" constant="169" id="dBx-Uu-iyd"/>
-                        </constraints>
-                        <collectionViewLayout key="collectionViewLayout" id="FQQ-aa-e7S" customClass="BouncyLayout" customModule="BouncyLayout"/>
-                    </collectionView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qEP-P2-llF">
                         <rect key="frame" x="20" y="53" width="32" height="15"/>
                         <fontDescription key="fontDescription" type="system" weight="medium" pointSize="12"/>
@@ -47,19 +37,27 @@
                         </constraints>
                         <collectionViewLayout key="collectionViewLayout" id="2fh-TO-qZQ" customClass="HashtagsFlowLayout" customModule="major_7_ios" customModuleProvider="target"/>
                     </collectionView>
+                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="ksR-eM-H75">
+                        <rect key="frame" x="0.0" y="95" width="335" height="169"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="169" id="dBx-Uu-iyd"/>
+                        </constraints>
+                        <collectionViewLayout key="collectionViewLayout" id="FQQ-aa-e7S" customClass="BouncyLayout" customModule="BouncyLayout"/>
+                    </collectionView>
                 </subviews>
             </view>
             <constraints>
-                <constraint firstAttribute="bottom" secondItem="ksR-eM-H75" secondAttribute="bottom" id="8lO-Sb-gkM"/>
                 <constraint firstItem="YXT-wF-HkY" firstAttribute="top" secondItem="ZTg-uK-7eu" secondAttribute="top" constant="20" id="Bfw-a3-ixg"/>
-                <constraint firstItem="ksR-eM-H75" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="FjX-aJ-F91"/>
-                <constraint firstAttribute="trailing" secondItem="0fc-GZ-ZET" secondAttribute="trailing" id="KZ9-sl-Mel"/>
-                <constraint firstItem="0fc-GZ-ZET" firstAttribute="top" secondItem="YXT-wF-HkY" secondAttribute="bottom" constant="6" id="Nyi-Qk-Z16"/>
+                <constraint firstItem="ZTg-uK-7eu" firstAttribute="trailing" secondItem="0fc-GZ-ZET" secondAttribute="trailing" id="MgH-3s-wbH"/>
+                <constraint firstItem="ZTg-uK-7eu" firstAttribute="trailing" secondItem="ksR-eM-H75" secondAttribute="trailing" id="XeH-wX-Tkd"/>
                 <constraint firstItem="YXT-wF-HkY" firstAttribute="leading" secondItem="ZTg-uK-7eu" secondAttribute="leading" constant="20" id="Y7T-Ld-syn"/>
                 <constraint firstItem="qEP-P2-llF" firstAttribute="leading" secondItem="ZTg-uK-7eu" secondAttribute="leading" constant="20" id="c03-1S-zqH"/>
                 <constraint firstItem="qEP-P2-llF" firstAttribute="top" secondItem="YXT-wF-HkY" secondAttribute="bottom" constant="4" id="i4P-ud-Ury"/>
-                <constraint firstAttribute="trailing" secondItem="ksR-eM-H75" secondAttribute="trailing" id="kWP-WD-e1I"/>
-                <constraint firstItem="0fc-GZ-ZET" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="nzN-wO-3PS"/>
+                <constraint firstItem="ksR-eM-H75" firstAttribute="leading" secondItem="ZTg-uK-7eu" secondAttribute="leading" id="ljV-M7-2ix"/>
+                <constraint firstItem="ZTg-uK-7eu" firstAttribute="bottom" secondItem="ksR-eM-H75" secondAttribute="bottom" id="nvG-UG-6wz"/>
+                <constraint firstItem="0fc-GZ-ZET" firstAttribute="leading" secondItem="ZTg-uK-7eu" secondAttribute="leading" id="tzP-DX-Bgt"/>
+                <constraint firstItem="ksR-eM-H75" firstAttribute="top" secondItem="0fc-GZ-ZET" secondAttribute="bottom" constant="16" id="yf8-wh-g5d"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
             <connections>
@@ -69,9 +67,6 @@
                 <outlet property="followingsCollectionView" destination="0fc-GZ-ZET" id="MLm-aL-7fw"/>
                 <outletCollection property="layoutConstraints" destination="Bfw-a3-ixg" collectionClass="NSMutableArray" id="wl1-UU-NuI"/>
                 <outletCollection property="layoutConstraints" destination="Y7T-Ld-syn" collectionClass="NSMutableArray" id="7fg-D2-zRp"/>
-                <outletCollection property="layoutConstraints" destination="8lO-Sb-gkM" collectionClass="NSMutableArray" id="PDt-Ev-FfA"/>
-                <outletCollection property="layoutConstraints" destination="FjX-aJ-F91" collectionClass="NSMutableArray" id="3hs-Wu-zK4"/>
-                <outletCollection property="layoutConstraints" destination="kWP-WD-e1I" collectionClass="NSMutableArray" id="tc9-Ng-V79"/>
                 <outletCollection property="layoutConstraints" destination="c03-1S-zqH" collectionClass="NSMutableArray" id="fKf-l0-LT4"/>
                 <outletCollection property="layoutConstraints" destination="i4P-ud-Ury" collectionClass="NSMutableArray" id="nNL-J6-XO9"/>
                 <outletCollection property="layoutConstraints" destination="dBx-Uu-iyd" collectionClass="NSMutableArray" id="GQ6-7J-Ysu"/>

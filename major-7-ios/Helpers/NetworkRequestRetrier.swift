@@ -29,7 +29,7 @@ class NetworkRequestRetrier: RequestRetrier {
         
         let errorGenerated = error as NSError
         switch URLError.Code(rawValue: errorGenerated.code) {
-        case .timedOut, .notConnectedToInternet, .cannotConnectToHost:
+        case .timedOut, .notConnectedToInternet, .cannotConnectToHost, .networkConnectionLost:
             guard let retryCount = retriedRequests[url] else {
                 retriedRequests[url] = 1
                 completion(true, 3) // retry after 3 second

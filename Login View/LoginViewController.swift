@@ -52,7 +52,7 @@ class LoginViewController: UIViewController {
         super.viewWillDisappear(animated)
         self.navigationController?.setNavigationBarHidden(false, animated: animated)
         
-        if !self.isModal { //send notification to refresh EventListViewController
+        if self.isModal { //send notification to refresh EventListViewController
             if UserService.current.isLoggedIn() {
                 NotificationCenter.default.post(name: .refreshEventListVC, object: nil)
                 NotificationCenter.default.removeObserver(loginView!) // also remove observer in LoginView.swift
