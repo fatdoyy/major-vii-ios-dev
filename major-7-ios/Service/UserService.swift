@@ -147,7 +147,7 @@ extension UserService {
                                     UserDefaults.standard.set(name, forKey: LOCAL_KEY.USERNAME)
                                     
                                     //hide login view
-                                    NotificationCenter.default.post(name: .loginCompleted, object: nil)
+                                    NotificationCenter.default.post(name: .dismissLoginVC, object: nil)
                                     hud.dismiss(afterDelay: 0.75)
                                 } else { //api respond error
                                     HapticFeedback.createNotificationFeedback(style: .error)
@@ -263,7 +263,7 @@ extension UserService: GIDSignInDelegate/*, GIDSignInUIDelegate*/ {
                             UserDefaults.standard.set(name, forKey: LOCAL_KEY.USERNAME)
                             
                             //hide login view
-                            NotificationCenter.default.post(name: .loginCompleted, object: nil)
+                            NotificationCenter.default.post(name: .dismissLoginVC, object: nil)
 
                         } else { //api respond error
                             HapticFeedback.createNotificationFeedback(style: .error)
@@ -353,7 +353,7 @@ extension UserService {
                         UserDefaults.standard.set(userName, forKey: LOCAL_KEY.USERNAME)
                         
                         //hide login view
-                        NotificationCenter.default.post(name: .loginCompleted, object: nil)
+                        NotificationCenter.default.post(name: .dismissLoginVC, object: nil)
                         
                     } else { //api respond error
                         HapticFeedback.createNotificationFeedback(style: .error)
@@ -432,7 +432,7 @@ extension UserService {
                         }, completion: nil)
                         
                         //hide login view
-                        NotificationCenter.default.post(name: .loginCompleted, object: nil)
+                        NotificationCenter.default.post(name: .dismissLoginVC, object: nil)
                         
                     } else { //api respond error
                         HapticFeedback.createNotificationFeedback(style: .error)
@@ -501,7 +501,7 @@ extension UserService {
                         }, completion: nil)
                         
                         //hide login view
-                        NotificationCenter.default.post(name: .loginCompleted, object: nil)
+                        NotificationCenter.default.post(name: .dismissLoginVC, object: nil)
 
                     } else {
                         HapticFeedback.createNotificationFeedback(style: .error)

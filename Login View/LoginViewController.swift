@@ -39,8 +39,7 @@ class LoginViewController: UIViewController {
             loadGIF()
         }
         
-        NotificationCenter.default.setObserver(self, selector: #selector(dismissLoginVC), name: .loginCompleted, object: nil)
-        
+        NotificationCenter.default.setObserver(self, selector: #selector(dismissLoginVC), name: .dismissLoginVC, object: nil)
         self.navigationController?.setNavigationBarHidden(true, animated: animated)
     }
     
@@ -72,6 +71,11 @@ class LoginViewController: UIViewController {
     @objc func dismissLoginVC() {
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
             if self.isModal {
+                if #available(iOS 13.0, *) { //call delegate method manually for iOS 13 modal views
+                    if let pvc = self.presentationController {
+                        pvc.delegate?.presentationControllerWillDismiss?(pvc)
+                    }
+                }
                 self.dismiss(animated: true, completion: nil)
             } else {
                 self.navigationController?.popViewController(animated: true)
@@ -525,4 +529,3 @@ extension LoginViewController: ASAuthorizationControllerDelegate, ASAuthorizatio
         hud.show(in: self.view)
     }
 }
-

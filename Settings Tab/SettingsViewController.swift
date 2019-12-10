@@ -25,7 +25,7 @@ class SettingsViewController: UIViewController {
     var loggedInHeaderViews = [UIView]()
     var emptyLoginBgView: UIView!
     var emptyLoginGradientBg: PastelView!
-    var loginShadowView: UIView!
+    var emptyLoginShadowView: UIView! // <- main empty login view
     var loginBtn: UIButton!
     var headerSectionTotalHeight: CGFloat!
     
@@ -116,16 +116,7 @@ class SettingsViewController: UIViewController {
         super.viewWillAppear(animated)
         setupNavBar()
         UIApplication.shared.statusBarUIView?.backgroundColor = .m7DarkGray()
-        
-        //show OR hide header
-        if UserService.current.isLoggedIn() { //update username
-            buskerNameLabel.text = "Hello, \(UserDefaults.standard.string(forKey: LOCAL_KEY.USERNAME) ?? "")!"
-        }
-        for view in loggedInHeaderViews {
-            view.alpha = UserService.current.isLoggedIn() ? 1 : 0
-        }
-        loginShadowView.alpha = UserService.current.isLoggedIn() ? 0 : 1
-        loginBtn.alpha = UserService.current.isLoggedIn() ? 0 : 1
+        checkIfNeedToHideHeader()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -168,7 +159,7 @@ extension SettingsViewController {
         for view in loggedInHeaderViews {
             view.alpha = UserService.current.isLoggedIn() ? 1 : 0
         }
-        loginShadowView.alpha = UserService.current.isLoggedIn() ? 0 : 1
+        emptyLoginShadowView.alpha = UserService.current.isLoggedIn() ? 0 : 1
         loginBtn.alpha = UserService.current.isLoggedIn() ? 0 : 1
     }
     
@@ -229,14 +220,14 @@ extension SettingsViewController {
     
     private func setupLoginHeader() {
         //empty view's drop shadow
-        loginShadowView = UIView()
-        loginShadowView.alpha = 1
-        loginShadowView.frame = CGRect(x: 20, y: 78, width: UIScreen.main.bounds.width - 40, height: 106)
-        loginShadowView.clipsToBounds = false
-        loginShadowView.layer.shadowOpacity = 0.5
-        loginShadowView.layer.shadowOffset = CGSize(width: -1, height: -1)
-        loginShadowView.layer.shadowRadius = GlobalCornerRadius.value
-        loginShadowView.layer.shadowPath = UIBezierPath(roundedRect: loginShadowView.bounds, cornerRadius: GlobalCornerRadius.value).cgPath
+        emptyLoginShadowView = UIView()
+        emptyLoginShadowView.alpha = 1
+        emptyLoginShadowView.frame = CGRect(x: 20, y: 78, width: UIScreen.main.bounds.width - 40, height: 106)
+        emptyLoginShadowView.clipsToBounds = false
+        emptyLoginShadowView.layer.shadowOpacity = 0.5
+        emptyLoginShadowView.layer.shadowOffset = CGSize(width: -1, height: -1)
+        emptyLoginShadowView.layer.shadowRadius = GlobalCornerRadius.value
+        emptyLoginShadowView.layer.shadowPath = UIBezierPath(roundedRect: emptyLoginShadowView.bounds, cornerRadius: GlobalCornerRadius.value).cgPath
         
         //empty view
         //bgView.alpha = 0
@@ -251,12 +242,12 @@ extension SettingsViewController {
         emptyLoginGradientBg.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width - 40, height: 106)
         emptyLoginGradientBg.animationDuration = 2.5
         emptyLoginGradientBg.setColors([UIColor(hexString: "#FDC830"), UIColor(hexString: "#F37335")])
-        loginShadowView.layer.shadowColor = UIColor(hexString: "#FDC830").cgColor
+        emptyLoginShadowView.layer.shadowColor = UIColor(hexString: "#FDC830").cgColor
         
         emptyLoginGradientBg.startAnimation()
         
         emptyLoginBgView.insertSubview(emptyLoginGradientBg, at: 0)
-        loginShadowView.addSubview(emptyLoginBgView)
+        emptyLoginShadowView.addSubview(emptyLoginBgView)
         
         let loginImgView = UIImageView()
         loginImgView.image = UIImage(named: "icon_login")
@@ -304,9 +295,9 @@ extension SettingsViewController {
             make.height.equalTo(28)
         }
         
-        mainScrollView.addSubview(loginShadowView)
+        mainScrollView.addSubview(emptyLoginShadowView)
         mainScrollView.bringSubviewToFront(loginBtn)
-        loginShadowView.snp.makeConstraints { (make) in
+        emptyLoginShadowView.snp.makeConstraints { (make) in
             make.top.equalToSuperview().offset(98)
             make.left.equalToSuperview().offset(20)
             make.width.equalTo(screenWidth - 40)
@@ -315,7 +306,7 @@ extension SettingsViewController {
     
     @objc func showLoginVC(_ sender: Any) {
         let loginVC = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "loginVC") as! LoginViewController
-        print("tapped")
+        if #available(iOS 13.0, *) { loginVC.presentationController?.delegate = self }
         self.present(loginVC, animated: true, completion: nil)
     }
     
@@ -323,11 +314,23 @@ extension SettingsViewController {
         logoutBtn.setTitle("Logging out...", for: .normal)
         UserService.current.logout(fromVC: self).done { _ -> () in
             UIView.animate(withDuration: 0.2) {
-                self.loginShadowView.alpha = 1
+                self.emptyLoginShadowView.alpha = 1
                 self.loginBtn.alpha = 1
             }
             self.logoutBtn.setTitle("Logout", for: .normal) //reset title
         }.catch { error in }
+    }
+    
+    @objc func checkIfNeedToHideHeader() {
+        //show OR hide header
+        if UserService.current.isLoggedIn() { //update username
+            buskerNameLabel.text = "Hello, \(UserDefaults.standard.string(forKey: LOCAL_KEY.USERNAME) ?? "")!"
+        }
+        for view in loggedInHeaderViews {
+            view.alpha = UserService.current.isLoggedIn() ? 1 : 0
+        }
+        emptyLoginShadowView.alpha = UserService.current.isLoggedIn() ? 0 : 1
+        loginBtn.alpha = UserService.current.isLoggedIn() ? 0 : 1
     }
 }
 
@@ -867,5 +870,13 @@ extension SettingsViewController: UITabBarControllerDelegate {
         }
         previousController = viewController;
         return true
+    }
+}
+
+// MARK: - iOS 13 Modal (Swipe to Dismiss)
+extension SettingsViewController: UIAdaptivePresentationControllerDelegate {
+    @available(iOS 13.0, *)
+    func presentationControllerWillDismiss(_ presentationController: UIPresentationController) {
+        checkIfNeedToHideHeader()
     }
 }
