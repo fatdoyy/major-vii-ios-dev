@@ -76,8 +76,6 @@ class FollowingSection: UICollectionViewCell {
 //MARK: - UI related
 extension FollowingSection {
     private func setupUI() {
-        backgroundColor = .red
-        
         followingSectionTitle.textColor = .whiteText()
         followingSectionTitle.text = "Your Followings"
         
@@ -102,7 +100,7 @@ extension FollowingSection {
         followingsCollectionView.showsVerticalScrollIndicator = false
         followingsCollectionView.showsHorizontalScrollIndicator = false
         
-        followingsCollectionView.backgroundColor = .pumpkin
+        followingsCollectionView.backgroundColor = .m7DarkGray()
         followingsCollectionView.register(UINib.init(nibName: "FollowingsCell", bundle: nil), forCellWithReuseIdentifier: FollowingsCell.reuseIdentifier)
         
         let overlayLeft = UIImageView(image: UIImage(named: "collectionview_overlay_left_to_right"))
@@ -137,7 +135,7 @@ extension FollowingSection {
         followingSectionCollectionView.showsVerticalScrollIndicator = false
         followingSectionCollectionView.showsHorizontalScrollIndicator = false
         
-        followingSectionCollectionView.backgroundColor = .blue
+        followingSectionCollectionView.backgroundColor = .m7DarkGray()
         followingSectionCollectionView.register(UINib.init(nibName: "FollowingSectionCell", bundle: nil), forCellWithReuseIdentifier: FollowingSectionCell.reuseIdentifier)
         
         let overlayLeft = UIImageView(image: UIImage(named: "collectionview_overlay_left_to_right"))

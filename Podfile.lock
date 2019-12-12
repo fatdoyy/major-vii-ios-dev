@@ -162,6 +162,7 @@ PODS:
     - NVActivityIndicatorView/Presenter (= 4.8.0)
   - NVActivityIndicatorView/Presenter (4.8.0)
   - ObjectMapper (3.5.1)
+  - paper-onboarding (6.1.4)
   - Parchment (1.7.0)
   - Pastel (0.6.0)
   - PIPKit (0.1.0)
@@ -210,6 +211,7 @@ DEPENDENCIES:
   - MarqueeLabel
   - NVActivityIndicatorView
   - ObjectMapper
+  - paper-onboarding
   - Parchment
   - Pastel
   - PIPKit
@@ -268,6 +270,7 @@ SPEC REPOS:
     - nanopb
     - NVActivityIndicatorView
     - ObjectMapper
+    - paper-onboarding
     - Parchment
     - Pastel
     - PIPKit
@@ -342,6 +345,7 @@ SPEC CHECKSUMS:
   nanopb: 18003b5e52dab79db540fe93fe9579f399bd1ccd
   NVActivityIndicatorView: d24b7ebcf80af5dcd994adb650e2b6c93379270f
   ObjectMapper: 70187b8941977c62ccfb423caf6b50be405cabf0
+  paper-onboarding: d3f16416e6f42add686117e8b32bfffaad899a79
   Parchment: cae686f73685d16742cec9c19239b7578a15f0f5
   Pastel: 814f081efbe2859c37e65ee44f396e6e5be88619
   PIPKit: bf6c7a1d8a16757a6800c36ae1f5fcb88d686408
@@ -358,6 +362,6 @@ SPEC CHECKSUMS:
   Validator: 9cfe0da15338f2e36fcf9e394f5bc1761888bec4
   XCDYouTubeKit: 43843b87c143120fdcbd908e031258ea60f7ba0a
 
-PODFILE CHECKSUM: 9a1f9e1329378e82c1f0eb6764813f0d491a63ec
+PODFILE CHECKSUM: 6675c949804d8df9bafd79f492ccedf56d741743
 
 COCOAPODS: 1.7.2

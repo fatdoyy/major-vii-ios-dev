@@ -103,6 +103,7 @@
 		9680373622509EA300A9C65F /* CREDC___.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9680373522509E8700A9C65F /* CREDC___.ttf */; };
 		96862EB9219ACE1F00F709B0 /* EventDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96862EB8219ACE1F00F709B0 /* EventDetailsViewController.swift */; };
 		96862EBB219AD8AC00F709B0 /* TabBarToggle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96862EBA219AD8AC00F709B0 /* TabBarToggle.swift */; };
+		9687D79E23A230EC00F98A69 /* OnboardingScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9687D79D23A230EC00F98A69 /* OnboardingScreen.swift */; };
 		9688DA8F22859D0100CCE925 /* PostService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9688DA8E22859D0100CCE925 /* PostService.swift */; };
 		969C2A112370209F006C93C4 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 969C2A102370209E006C93C4 /* GoogleService-Info.plist */; };
 		96A34FF423027B2B000E46EE /* DateTimeHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96A34FF323027B2B000E46EE /* DateTimeHelper.swift */; };
@@ -278,6 +279,7 @@
 		9680373522509E8700A9C65F /* CREDC___.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "CREDC___.ttf"; sourceTree = "<group>"; };
 		96862EB8219ACE1F00F709B0 /* EventDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDetailsViewController.swift; sourceTree = "<group>"; };
 		96862EBA219AD8AC00F709B0 /* TabBarToggle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarToggle.swift; sourceTree = "<group>"; };
+		9687D79D23A230EC00F98A69 /* OnboardingScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingScreen.swift; sourceTree = "<group>"; };
 		9688DA8E22859D0100CCE925 /* PostService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostService.swift; sourceTree = "<group>"; };
 		969C2A102370209E006C93C4 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		96A34FF323027B2B000E46EE /* DateTimeHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateTimeHelper.swift; sourceTree = "<group>"; };
@@ -500,6 +502,7 @@
 		966A6CBD217DBC2C00DF872F /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				9687D79A23A22E5100F98A69 /* Onboarding */,
 				966AE61122D3188200AC17EC /* Custom Refresh View */,
 				966AE61222D318BD00AC17EC /* Login View */,
 				966A6CB7217DB5F500DF872F /* TabBarViewController.swift */,
@@ -650,6 +653,14 @@
 				96C5542D2192C6730065D70A /* FollowingSectionCell.xib */,
 			);
 			name = "Following Section";
+			sourceTree = "<group>";
+		};
+		9687D79A23A22E5100F98A69 /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				9687D79D23A230EC00F98A69 /* OnboardingScreen.swift */,
+			);
+			path = Onboarding;
 			sourceTree = "<group>";
 		};
 		96AF6D28239125B500D243D2 /* Lottie Animations */ = {
@@ -1031,6 +1042,7 @@
 				96086BB322E1D3690016A0B8 /* User.swift in Sources */,
 				965838BA2181CAFE000FE8B0 /* NewsCellType3.swift in Sources */,
 				966A6CD42180492F00DF872F /* EventsCell.swift in Sources */,
+				9687D79E23A230EC00F98A69 /* OnboardingScreen.swift in Sources */,
 				96B34DEC224F599E00D9F236 /* UIDevice.swift in Sources */,
 				966A6CBC217DB86D00DF872F /* HomeViewController.swift in Sources */,
 				967B56372248C2E3006F0AF9 /* SearchResultCell.swift in Sources */,

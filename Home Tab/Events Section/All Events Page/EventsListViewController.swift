@@ -560,6 +560,9 @@ extension EventsListViewController: UICollectionViewDelegate, UICollectionViewDe
                 let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: FollowingSection.reuseIdentifier, for: indexPath) as! FollowingSection
                 if UserService.current.isLoggedIn() {
                     cell.delegate = self
+                    for constraint in cell.layoutConstraints {
+                        if !constraint.isActive { constraint.isActive = true }
+                    }
                 } else {
                     //hide following section if not logged in (i.e. disable constriants)
                     for constraint in cell.layoutConstraints {
@@ -629,9 +632,8 @@ extension EventsListViewController: UICollectionViewDelegate, UICollectionViewDe
             let width = self.view.frame.width
             switch section {
             case .Following:
-//                let size = UserService.current.isLoggedIn() ? CGSize(width: width, height: FollowingSection.height) : CGSize(width: width, height: 50)
-//                return size
-                return CGSize(width: width, height: FollowingSection.height)
+                let size = UserService.current.isLoggedIn() ? CGSize(width: width, height: FollowingSection.height) : CGSize(width: width, height: 1)
+                return size
                 
             case .Bookmarked:   return CGSize(width: width, height: BookmarkedSection.height)
             case .Featured:     return CGSize(width: FeaturedCell.width, height: FeaturedCell.height)

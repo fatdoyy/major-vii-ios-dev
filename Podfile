@@ -1,5 +1,5 @@
 # Uncomment the next line to define a global platform for your project
- platform :ios, '10.0'
+ platform :ios, '11.0'
 
 target 'major-7-ios' do
   # Comment the next line if you're not using Swift and don't want to use dynamic frameworks
@@ -55,6 +55,7 @@ target 'major-7-ios' do
   pod 'SwiftDate'                               # as title
   pod 'Hero'                                    # transitions
   pod 'lottie-ios'                              # After Effects animations
+  pod 'paper-onboarding'                        # welcome tutorial
 #  pod 'ActiveLabel'                             # supporting Hashtags (#), Mentions (@), URLs (http:/)
 
   pod 'Validator', :git => 'https://github.com/kikikiktai/Validator.git'                            # UITextField validation

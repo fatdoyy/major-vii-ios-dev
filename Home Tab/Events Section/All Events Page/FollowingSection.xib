@@ -70,6 +70,12 @@
                 <outletCollection property="layoutConstraints" destination="c03-1S-zqH" collectionClass="NSMutableArray" id="fKf-l0-LT4"/>
                 <outletCollection property="layoutConstraints" destination="i4P-ud-Ury" collectionClass="NSMutableArray" id="nNL-J6-XO9"/>
                 <outletCollection property="layoutConstraints" destination="dBx-Uu-iyd" collectionClass="NSMutableArray" id="GQ6-7J-Ysu"/>
+                <outletCollection property="layoutConstraints" destination="MgH-3s-wbH" collectionClass="NSMutableArray" id="ATV-lS-dnA"/>
+                <outletCollection property="layoutConstraints" destination="XeH-wX-Tkd" collectionClass="NSMutableArray" id="1gR-1f-sdQ"/>
+                <outletCollection property="layoutConstraints" destination="nvG-UG-6wz" collectionClass="NSMutableArray" id="VEg-xp-TPE"/>
+                <outletCollection property="layoutConstraints" destination="tzP-DX-Bgt" collectionClass="NSMutableArray" id="JY1-Ok-lsi"/>
+                <outletCollection property="layoutConstraints" destination="ljV-M7-2ix" collectionClass="NSMutableArray" id="4PR-jk-wO6"/>
+                <outletCollection property="layoutConstraints" destination="yf8-wh-g5d" collectionClass="NSMutableArray" id="By0-Pv-uAZ"/>
             </connections>
             <point key="canvasLocation" x="39.200000000000003" y="45.877061469265371"/>
         </collectionViewCell>
