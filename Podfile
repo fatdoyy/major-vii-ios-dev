@@ -55,11 +55,11 @@ target 'major-7-ios' do
   pod 'SwiftDate'                               # as title
   pod 'Hero'                                    # transitions
   pod 'lottie-ios'                              # After Effects animations
-  pod 'paper-onboarding'                        # welcome tutorial
-#  pod 'ActiveLabel'                             # supporting Hashtags (#), Mentions (@), URLs (http:/)
+  #pod 'paper-onboarding'                        # welcome tutorial
+  #pod 'ActiveLabel'                             # supporting Hashtags (#), Mentions (@), URLs (http:/)
 
   pod 'Validator', :git => 'https://github.com/kikikiktai/Validator.git'                            # UITextField validation
-  #  pod 'ImageViewer', :inhibit_warnings => true, :git=> 'https://github.com/mezhevikin/ImageViewer'  # as title
+  #pod 'ImageViewer', :inhibit_warnings => true, :git=> 'https://github.com/mezhevikin/ImageViewer'  # as title
   pod 'ImageViewer', :git=> 'https://github.com/Nabeatsu/ImageViewer', :branch=> 'master'           # as title
 
 end
