@@ -69,6 +69,11 @@ class HomeViewController: UIViewController {
         }
         
         setupUI()
+        
+//        let onboarding = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "onboardingScreen") as! OnboardingScreen
+//        onboarding.modalPresentationStyle = .fullScreen
+//        self.present(onboarding, animated: true, completion: nil)
+
         getNews(limit: newsLimit)
     }
     
