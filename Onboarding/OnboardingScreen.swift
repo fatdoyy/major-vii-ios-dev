@@ -14,7 +14,8 @@ class OnboardingScreen: UIViewController {
     var gradientBg: PastelView!
     var mainScrollView: UIScrollView!
     var pageSize: CGSize!
-    
+    var isKeyboardPresent = false
+
     //screen one
     var screenOneBg: UIView!
     var screenOneTitle: UILabel!
@@ -27,6 +28,8 @@ class OnboardingScreen: UIViewController {
     var screenTwoBg: UIView!
     var screenTwoTitle: UILabel!
     var screenTwoSubTitle: UILabel!
+    var genreCollectionView: UICollectionView!
+    var genres = ["jazz", "kpop", "jpop", "canto-pop", "rock", "indie", "house", "country", "blues", "r&b"]
     
     //screen three
     var screenThreeBg: UIView!
@@ -39,6 +42,7 @@ class OnboardingScreen: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        hideKeyboardWhenTappedAround()
         setupUI()
     }
     
@@ -83,11 +87,15 @@ extension OnboardingScreen {
         view.addSubview(mainScrollView)
         mainScrollView.snp.makeConstraints { (make) in
             make.top.left.right.equalTo(0)
-            make.bottom.equalToSuperview().offset(-100)
+            make.bottom.equalToSuperview().offset(-80)
         }
     }
     
     private func setupUI() {
+        //handle keyboard
+        NotificationCenter.default.setObserver(self, selector: #selector(keyboardWillDisappear), name: UIResponder.keyboardWillHideNotification, object: nil)
+        NotificationCenter.default.setObserver(self, selector: #selector(keyboardWillAppear), name: UIResponder.keyboardWillShowNotification, object: nil)
+        
         setupPastelView()
         setupScrollView()
         
@@ -99,11 +107,18 @@ extension OnboardingScreen {
     }
 }
 
-//MARK: - Onboarding Screens UI
+//MARK: - Page control
 extension OnboardingScreen {
+    func setupPageControl() {
+        
+    }
+}
+
+//MARK: - Onboarding Screens UI
+//MARK: Screen One: UITextFieldDelegate, Keyboard handling
+extension OnboardingScreen: UITextFieldDelegate {
     private func setupScreenOne() {
         screenOneBg = UIView()
-        screenOneBg.backgroundColor = .greenSea
         mainScrollView.addSubview(screenOneBg)
         screenOneBg.snp.makeConstraints { (make) in
             make.left.equalToSuperview()
@@ -112,12 +127,13 @@ extension OnboardingScreen {
         
         screenOneTitle = UILabel()
         screenOneTitle.alpha = 0
+        screenOneTitle.numberOfLines = 0
         screenOneTitle.text = "Pick a username!"
         screenOneTitle.font = UIFont.systemFont(ofSize: 36, weight: .bold)
         screenOneTitle.textColor = .white
         screenOneBg.addSubview(screenOneTitle)
         screenOneTitle.snp.makeConstraints { (make) in
-            make.top.equalTo(88)
+            if UIDevice.current.hasHomeButton { make.top.equalTo(50) } else { make.top.equalTo(83) }
             make.width.equalTo(pageSize.width - 60)
             make.left.equalTo(UIScreen.main.bounds.midX)
         }
@@ -130,35 +146,51 @@ extension OnboardingScreen {
         screenOneSubTitle.numberOfLines = 0
         screenOneBg.addSubview(screenOneSubTitle)
         screenOneSubTitle.snp.makeConstraints { (make) in
-            make.top.equalTo(screenOneTitle.snp.bottom).offset(40)
+            if UIDevice.current.type == .iPhone_5_5S_5C_SE {
+                make.top.equalTo(screenOneTitle.snp.bottom).offset(25)
+            } else {
+                make.top.equalTo(screenOneTitle.snp.bottom).offset(35)
+            }
             make.width.equalTo(UIScreen.main.bounds.width - 60)
             make.left.equalTo(screenOneTitle.snp.left)
         }
         
         profilePic = UIImageView()
-        //profilePic.alpha = 0
-        profilePic.layer.cornerRadius = 65
+        profilePic.alpha = 0
+        profilePic.layer.cornerRadius = UIDevice.current.type == .iPhone_5_5S_5C_SE ? 50 : 65
         profilePic.contentMode = .scaleAspectFill
         profilePic.backgroundColor = .darkGray
         screenOneBg.addSubview(profilePic)
         profilePic.snp.makeConstraints { (make) in
-            make.top.equalTo(screenOneSubTitle.snp.bottom).offset(50)
-            make.size.equalTo(130)
-            make.centerX.equalToSuperview()
-            make.left.equalTo(UIScreen.main.bounds.midX + 100)
+            if UIDevice.current.type == .iPhone_5_5S_5C_SE {
+                make.top.equalTo(screenOneSubTitle.snp.bottom).offset(50)
+                make.size.equalTo(100)
+            } else {
+                make.top.equalTo(screenOneSubTitle.snp.bottom).offset(100)
+                make.size.equalTo(130)
+            }
+            make.centerX.equalToSuperview().offset(100)
         }
 
         usernameField = SkyFloatingLabelTextField()
         usernameField.alpha = 0
+        usernameField.delegate = self
         usernameField.placeholder = "Username"
         usernameField.title = "Username"
+        usernameField.titleColor = .white
+        usernameField.selectedTitleColor = .white
+        usernameField.lineHeight = 1.25
+        usernameField.lineColor = .white15Alpha()
+        usernameField.placeholderColor = .white15Alpha()
+        usernameField.selectedLineHeight = 1.5
+        usernameField.selectedLineColor = .white
+        usernameField.textColor = .white
         screenOneBg.addSubview(usernameField)
         usernameField.snp.makeConstraints { (make) in
             make.top.equalTo(profilePic.snp.bottom).offset(32)
             make.width.equalTo(200)
             make.height.equalTo(40)
-            make.centerX.equalToSuperview()
-            make.left.equalTo(UIScreen.main.bounds.midX + 100)
+            make.centerX.equalToSuperview().offset(100)
         }
 
         usernameDesc = UILabel()
@@ -170,10 +202,113 @@ extension OnboardingScreen {
             make.top.equalTo(usernameField.snp.bottom).offset(10)
             make.height.equalTo(17)
             make.centerX.equalToSuperview()
-            make.left.equalTo(UIScreen.main.bounds.midX + 100)
         }
     }
     
+    private func animateScreenOne() {
+        let originalTitleTransform = screenOneTitle.transform
+        let translatedTitleTransform = originalTitleTransform.translatedBy(x: -UIScreen.main.bounds.midX + 30, y: -0)
+        
+        UIView.animate(withDuration: 0.65, delay: 0.1, options: .curveEaseInOut, animations: {
+            self.screenOneTitle.transform = translatedTitleTransform
+            self.screenOneTitle.alpha = 1
+        }, completion: nil)
+                        
+        UIView.animate(withDuration: 0.65, delay: 0.3, options: .curveEaseInOut, animations: {
+            self.screenOneSubTitle.transform = translatedTitleTransform
+            self.screenOneSubTitle.alpha = 1
+        }, completion: nil)
+        
+        let originalImgViewTransform = profilePic.transform
+        let translatedImgViewTransform = originalImgViewTransform.translatedBy(x: -100, y: -0)
+        
+        UIView.animate(withDuration: 0.65, delay: 0.5, options: .curveEaseInOut, animations: {
+            self.profilePic.transform = translatedImgViewTransform
+            self.profilePic.alpha = 1
+        }, completion: nil)
+
+        UIView.animate(withDuration: 0.65, delay: 0.7, options: .curveEaseInOut, animations: {
+            self.usernameField.transform = translatedImgViewTransform
+            self.usernameField.alpha = 1
+        }, completion: nil)
+        
+        isScreenOneAnimated = true
+    }
+    
+    @objc func keyboardWillAppear(_ notification: Notification) {
+        //Get keyboard height
+        if !isKeyboardPresent {
+            if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+                let keyboardRectangle = keyboardFrame.cgRectValue
+                let keyboardMinY = keyboardRectangle.minY
+                var keyboardTopPlusPadding = self.usernameDesc.frame.minY - keyboardMinY
+                if #available(iOS 13.0, *) {
+                    keyboardTopPlusPadding += 80
+                } else {
+                    keyboardTopPlusPadding += 40
+                }
+                
+                //animate the constraint's constant change
+                profilePic.snp.updateConstraints { (make) in
+                    if UIDevice.current.type == .iPhone_5_5S_5C_SE {
+                        make.top.equalTo(screenOneSubTitle.snp.bottom).offset(-130)
+                    } else {
+                        make.top.equalTo(screenOneSubTitle.snp.bottom).offset(30)
+                    }
+                }
+                
+                if UIDevice.current.type == .iPhone_5_5S_5C_SE {
+                    UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: {
+                        self.screenOneTitle.alpha = 0
+                        self.screenOneSubTitle.alpha = 0
+                        self.screenOneBg.layoutIfNeeded()
+                    }, completion: nil)
+                } else {
+                    UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: {
+                        self.screenOneBg.layoutIfNeeded()
+                    }, completion: nil)
+                }
+            }
+            isKeyboardPresent = true
+        }
+    }
+    
+    @objc func keyboardWillDisappear() {
+        if isKeyboardPresent {
+            //animate the constraint's constant change
+            profilePic.snp.updateConstraints { (make) in
+                if UIDevice.current.type == .iPhone_5_5S_5C_SE {
+                    make.top.equalTo(screenOneSubTitle.snp.bottom).offset(50)
+                } else {
+                    make.top.equalTo(screenOneSubTitle.snp.bottom).offset(80)
+                }
+            }
+            
+            if UIDevice.current.type == .iPhone_5_5S_5C_SE {
+                UIView.animate(withDuration: 0.3) {
+                    self.screenOneTitle.alpha = 1
+                    self.screenOneSubTitle.alpha = 1
+                    self.screenOneBg.layoutIfNeeded()
+                }
+            } else {
+                UIView.animate(withDuration: 0.3) {
+                    self.screenOneBg.layoutIfNeeded()
+                }
+            }
+            isKeyboardPresent = false
+        }
+    }
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        UIView.animate(withDuration: 0.65, delay: 0.6, options: .curveEaseInOut, animations: {
+            self.usernameDesc.alpha = 1
+        }, completion: nil)
+    }
+
+}
+
+//MARK: Screen Two:
+extension OnboardingScreen: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     private func setupScreenTwo() {
         screenTwoBg = UIView()
         mainScrollView.addSubview(screenTwoBg)
@@ -184,12 +319,13 @@ extension OnboardingScreen {
         
         screenTwoTitle = UILabel()
         screenTwoTitle.alpha = 0
+        screenTwoTitle.numberOfLines = 0
         screenTwoTitle.text = "Pick your genres!"
         screenTwoTitle.font = UIFont.systemFont(ofSize: 36, weight: .bold)
         screenTwoTitle.textColor = .white
         screenTwoBg.addSubview(screenTwoTitle)
         screenTwoTitle.snp.makeConstraints { (make) in
-            make.top.equalTo(88)
+            if UIDevice.current.hasHomeButton { make.top.equalTo(50) } else { make.top.equalTo(83) }
             make.width.equalTo(pageSize.width - 60)
             make.left.equalTo(UIScreen.main.bounds.midX)
         }
@@ -202,84 +338,35 @@ extension OnboardingScreen {
         screenTwoSubTitle.numberOfLines = 0
         screenTwoBg.addSubview(screenTwoSubTitle)
         screenTwoSubTitle.snp.makeConstraints { (make) in
-            make.top.equalTo(screenTwoTitle.snp.bottom).offset(40)
+            if UIDevice.current.type == .iPhone_5_5S_5C_SE {
+                make.top.equalTo(screenTwoTitle.snp.bottom).offset(25)
+            } else {
+                make.top.equalTo(screenTwoTitle.snp.bottom).offset(35)
+            }
             make.width.equalTo(UIScreen.main.bounds.width - 60)
             make.left.equalTo(screenTwoTitle.snp.left)
         }
-    }
-    
-    private func setupScreenThree() {
-        screenThreeBg = UIView()
-        mainScrollView.addSubview(screenThreeBg)
-        screenThreeBg.snp.makeConstraints { (make) in
-            make.left.equalTo(screenTwoBg.snp.right)
-            make.size.equalTo(pageSize)
-            make.right.equalToSuperview()
-        }
         
-        screenThreeTitle = UILabel()
-        screenThreeTitle.alpha = 0
-        screenThreeTitle.text = "Notifications"
-        screenThreeTitle.font = UIFont.systemFont(ofSize: 36, weight: .bold)
-        screenThreeTitle.textColor = .white
-        screenThreeBg.addSubview(screenThreeTitle)
-        screenThreeTitle.snp.makeConstraints { (make) in
-            make.top.equalTo(88)
-            make.width.equalTo(pageSize.width - 60)
-            make.left.equalTo(UIScreen.main.bounds.midX)
-            //make.right.equalTo(-30) //setup right side constraint on last screen
-        }
+        let layout = HashtagsFlowLayout()
+        layout.scrollDirection = .horizontal
         
-        screenThreeSubTitle = UILabel()
-        screenThreeSubTitle.alpha = 0
-        screenThreeSubTitle.text = "請允許我們向你提供推送通知，例如表演者將舉行表演的時間地點 、本地音樂消息等等。\n\n你稍後可在設定中變更通知選項。"
-        screenThreeSubTitle.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
-        screenThreeSubTitle.textColor = .white
-        screenThreeSubTitle.numberOfLines = 0
-        screenThreeBg.addSubview(screenThreeSubTitle)
-        screenThreeSubTitle.snp.makeConstraints { (make) in
-            make.top.equalTo(screenThreeTitle.snp.bottom).offset(40)
-            make.width.equalTo(UIScreen.main.bounds.width - 60)
-            make.left.equalTo(screenThreeTitle.snp.left)
-            //make.right.equalToSuperview().offset(-30) //setup right side constraint on last screen
+        genreCollectionView = UICollectionView(frame: CGRect(origin: .zero, size: .zero), collectionViewLayout: layout)
+        genreCollectionView.backgroundColor = .m7DarkGray()
+        genreCollectionView.dataSource = self
+        genreCollectionView.delegate = self
+        
+        genreCollectionView.showsVerticalScrollIndicator = false
+        genreCollectionView.showsHorizontalScrollIndicator = false
+        genreCollectionView.register(UINib.init(nibName: "SearchViewKeywordCell", bundle: nil), forCellWithReuseIdentifier: SearchViewKeywordCell.reuseIdentifier)
+        
+        screenTwoBg.addSubview(genreCollectionView)
+        genreCollectionView.snp.makeConstraints { (make) in
+            make.height.equalTo(300)
+            make.width.equalTo(pageSize.width)
+            make.top.equalTo(screenTwoSubTitle.snp.bottom).offset(30)
         }
     }
-}
 
-//MARK: - Animations
-extension OnboardingScreen {
-    private func animateScreenOne() {
-        let originalTransform = screenOneTitle.transform
-        let translatedTransform = originalTransform.translatedBy(x: -UIScreen.main.bounds.midX + 30, y: -0)
-        
-        UIView.animate(withDuration: 0.65, delay: 0.1, options: .curveEaseInOut, animations: {
-            self.screenOneTitle.transform = translatedTransform
-            self.screenOneTitle.alpha = 1
-        }, completion: nil)
-                        
-        UIView.animate(withDuration: 0.65, delay: 0.3, options: .curveEaseInOut, animations: {
-            self.screenOneSubTitle.transform = translatedTransform
-            self.screenOneSubTitle.alpha = 1
-        }, completion: nil)
-        
-        UIView.animate(withDuration: 0.65, delay: 0.5, options: .curveEaseInOut, animations: {
-            //self.screenOneSubTitle.transform = translatedTransform
-            self.profilePic.alpha = 1
-        }, completion: nil)
-
-        UIView.animate(withDuration: 0.65, delay: 0.7, options: .curveEaseInOut, animations: {
-            //self.screenOneSubTitle.transform = translatedTransform
-            self.usernameField.alpha = 1
-        }, completion: nil)
-
-        UIView.animate(withDuration: 0.65, delay: 0.9, options: .curveEaseInOut, animations: {
-            //self.screenOneSubTitle.transform = translatedTransform
-            self.usernameDesc.alpha = 1
-        }, completion: nil)
-        
-        isScreenOneAnimated = true
-    }
-    
     private func animateScreenTwo() {
         let originalTransform = screenTwoTitle.transform
         let translatedTransform = originalTransform.translatedBy(x: -UIScreen.main.bounds.midX + 30, y: -0)
@@ -295,6 +382,66 @@ extension OnboardingScreen {
         }, completion: nil)
         
         isScreenTwoAnimated = true
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return genres.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = genreCollectionView.dequeueReusableCell(withReuseIdentifier: SearchViewKeywordCell.reuseIdentifier, for: indexPath) as! SearchViewKeywordCell
+        cell.keyword.text = genres[indexPath.row]
+        
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let genre = genres[indexPath.row]
+        let size = (genre as NSString).size(withAttributes: nil)
+        return CGSize(width: size.width + 32, height: SearchViewKeywordCell.height)
+    }
+}
+
+//MARK: Screen Three
+extension OnboardingScreen {
+    private func setupScreenThree() {
+        screenThreeBg = UIView()
+        mainScrollView.addSubview(screenThreeBg)
+        screenThreeBg.snp.makeConstraints { (make) in
+            make.left.equalTo(screenTwoBg.snp.right)
+            make.size.equalTo(pageSize)
+            make.right.equalToSuperview()
+        }
+        
+        screenThreeTitle = UILabel()
+        screenThreeTitle.alpha = 0
+        screenThreeTitle.numberOfLines = 0
+        screenThreeTitle.text = "Notifications"
+        screenThreeTitle.font = UIFont.systemFont(ofSize: 36, weight: .bold)
+        screenThreeTitle.textColor = .white
+        screenThreeBg.addSubview(screenThreeTitle)
+        screenThreeTitle.snp.makeConstraints { (make) in
+            if UIDevice.current.hasHomeButton { make.top.equalTo(50) } else { make.top.equalTo(83) }
+            make.width.equalTo(pageSize.width - 60)
+            make.left.equalTo(UIScreen.main.bounds.midX)
+        }
+        
+        screenThreeSubTitle = UILabel()
+        screenThreeSubTitle.alpha = 0
+        screenThreeSubTitle.text = "請允許我們向你提供推送通知，例如表演者將舉行表演的時間地點 、本地音樂消息等等。\n\n你稍後可在設定中變更通知選項。"
+        screenThreeSubTitle.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
+        screenThreeSubTitle.textColor = .white
+        screenThreeSubTitle.numberOfLines = 0
+        screenThreeBg.addSubview(screenThreeSubTitle)
+        screenThreeSubTitle.snp.makeConstraints { (make) in
+            if UIDevice.current.type == .iPhone_5_5S_5C_SE {
+                make.top.equalTo(screenThreeTitle.snp.bottom).offset(25)
+            } else {
+                make.top.equalTo(screenThreeTitle.snp.bottom).offset(35)
+            }
+            make.width.equalTo(UIScreen.main.bounds.width - 60)
+            make.left.equalTo(screenThreeTitle.snp.left)
+        }
     }
     
     private func animateScreenThree() {
@@ -319,7 +466,8 @@ extension OnboardingScreen {
 extension OnboardingScreen: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let pageIndex = scrollView.contentOffset.x / scrollView.bounds.size.width
-        /// initiate animations on half way before user scrolls to next page (i.e. pageIndex == 1)
+        
+        // initiate animations on half way before user scrolls to next page (i.e. pageIndex == 1)
         if pageIndex > 0.35 && !isScreenTwoAnimated   { animateScreenTwo() }
         if pageIndex > 1.35 && !isScreenThreeAnimated { animateScreenThree() }
     }
