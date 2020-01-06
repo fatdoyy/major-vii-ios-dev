@@ -19,8 +19,6 @@ class BookmarkedEventCell: UICollectionViewCell {
     static let aspectRatio: CGFloat = width / 188
     static let height: CGFloat = width / aspectRatio
     
-    var loadingIndicator = NVActivityIndicatorView(frame: CGRect(origin: CGPoint.zero, size: CGSize(width: 10, height: 10)), type: .lineScale)
-    
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var bgImgView: UIImageView!
     @IBOutlet weak var gradientBg: UIView!
@@ -28,24 +26,10 @@ class BookmarkedEventCell: UICollectionViewCell {
     @IBOutlet weak var bookmarkIcon: UIImageView!
     var eventTitle = UILabel()
     var performerName = UILabel()
-    
-    @IBOutlet var viewsToShowLater: Array<UIView>!
-    
+        
     override func awakeFromNib() {
         super.awakeFromNib()
-        
-        for view in viewsToShowLater {
-            view.alpha = 0
-        }
-        
-        loadingIndicator.startAnimating()
-        addSubview(loadingIndicator)
-        loadingIndicator.snp.makeConstraints { make in
-            make.size.equalTo(10)
-            make.top.equalTo(10)
-            make.right.equalTo(-10)
-        }
-        
+
         containerView.layer.cornerRadius = GlobalCornerRadius.value
         
         gradientBg.layer.cornerRadius = GlobalCornerRadius.value

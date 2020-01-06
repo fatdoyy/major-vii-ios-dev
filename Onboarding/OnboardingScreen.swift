@@ -9,12 +9,15 @@
 import UIKit
 import Pastel
 import SkyFloatingLabelTextField
+import ViewAnimator
+import NVActivityIndicatorView
 
 class OnboardingScreen: UIViewController {
     var gradientBg: PastelView!
     var mainScrollView: UIScrollView!
     var pageSize: CGSize!
     var isKeyboardPresent = false
+    private var timer: Timer?
 
     //screen one
     var screenOneBg: UIView!
@@ -29,8 +32,10 @@ class OnboardingScreen: UIViewController {
     var screenTwoTitle: UILabel!
     var screenTwoSubTitle: UILabel!
     var genreCollectionView: UICollectionView!
-    var genres = ["jazz", "kpop", "jpop", "canto-pop", "rock", "indie", "house", "country", "blues", "r&b"]
-    
+    var genres = [Genre]()
+    var indicator = NVActivityIndicatorView(frame: CGRect(origin: CGPoint.zero, size: CGSize(width: 20, height: 20)), type: .lineScale)
+    private let animations = [AnimationType.from(direction: .right, offset: 100), AnimationType.zoom(scale: 0.5)]
+
     //screen three
     var screenThreeBg: UIView!
     var screenThreeTitle: UILabel!
@@ -307,7 +312,7 @@ extension OnboardingScreen: UITextFieldDelegate {
 
 }
 
-//MARK: Screen Two:
+//MARK: Screen Two: UICollectionView
 extension OnboardingScreen: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     private func setupScreenTwo() {
         screenTwoBg = UIView()
@@ -347,26 +352,39 @@ extension OnboardingScreen: UICollectionViewDataSource, UICollectionViewDelegate
             make.left.equalTo(screenTwoTitle.snp.left)
         }
         
-        let layout = HashtagsFlowLayout()
-        layout.scrollDirection = .horizontal
+        indicator.alpha = 0
+        screenTwoBg.addSubview(indicator)
+        indicator.snp.makeConstraints { (make) in
+            make.centerX.equalToSuperview().offset(100)
+            make.top.equalTo(screenTwoSubTitle.snp.bottom).offset(100)
+        }
+        indicator.startAnimating()
         
+        setupGenreCollectionView()
+    }
+
+    private func setupGenreCollectionView() {
+        let layout = GenresLayout()
+        layout.scrollDirection = .vertical
+        layout.sectionInset = UIEdgeInsets (top: 0, left: 30, bottom: 0, right: 30)
+
         genreCollectionView = UICollectionView(frame: CGRect(origin: .zero, size: .zero), collectionViewLayout: layout)
-        genreCollectionView.backgroundColor = .m7DarkGray()
+        genreCollectionView.backgroundColor = .clear
         genreCollectionView.dataSource = self
         genreCollectionView.delegate = self
         
         genreCollectionView.showsVerticalScrollIndicator = false
         genreCollectionView.showsHorizontalScrollIndicator = false
-        genreCollectionView.register(UINib.init(nibName: "SearchViewKeywordCell", bundle: nil), forCellWithReuseIdentifier: SearchViewKeywordCell.reuseIdentifier)
+        genreCollectionView.register(UINib.init(nibName: "OnboardingGenreCell", bundle: nil), forCellWithReuseIdentifier: OnboardingGenreCell.reuseIdentifier)
         
         screenTwoBg.addSubview(genreCollectionView)
         genreCollectionView.snp.makeConstraints { (make) in
-            make.height.equalTo(300)
+            make.height.equalTo(mainScrollView.snp.height)
             make.width.equalTo(pageSize.width)
             make.top.equalTo(screenTwoSubTitle.snp.bottom).offset(30)
         }
     }
-
+    
     private func animateScreenTwo() {
         let originalTransform = screenTwoTitle.transform
         let translatedTransform = originalTransform.translatedBy(x: -UIScreen.main.bounds.midX + 30, y: -0)
@@ -381,25 +399,33 @@ extension OnboardingScreen: UICollectionViewDataSource, UICollectionViewDelegate
             self.screenTwoSubTitle.alpha = 1
         }, completion: nil)
         
+        let originalIndicatorTransform = indicator.transform
+        let translatedIndicatorTransform = originalIndicatorTransform.translatedBy(x: -100, y: -0)
+        
+        UIView.animate(withDuration: 0.65, delay: 0.4, options: .curveEaseInOut, animations: {
+            self.indicator.transform = translatedIndicatorTransform
+            self.indicator.alpha = 1
+        }, completion: nil)
+        
         isScreenTwoAnimated = true
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return genres.count
+        return genres.isEmpty ? 0 : genres.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = genreCollectionView.dequeueReusableCell(withReuseIdentifier: SearchViewKeywordCell.reuseIdentifier, for: indexPath) as! SearchViewKeywordCell
-        cell.keyword.text = genres[indexPath.row]
-        
+        let cell = genreCollectionView.dequeueReusableCell(withReuseIdentifier: OnboardingGenreCell.reuseIdentifier, for: indexPath) as! OnboardingGenreCell
+        cell.genre.text = genres.isEmpty ? "" : genres[indexPath.row].titleEN?.lowercased()
+
         return cell
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let genre = genres[indexPath.row]
-        let size = (genre as NSString).size(withAttributes: nil)
-        return CGSize(width: size.width + 32, height: SearchViewKeywordCell.height)
-    }
+//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+//        let genre = genres[indexPath.row].titleEN?.lowercased()
+//        let size = genre!.size(withAttributes: nil)
+//        return CGSize(width: size.width + 32, height: OnboardingGenreCell.height)
+//    }
 }
 
 //MARK: Screen Three
@@ -462,13 +488,42 @@ extension OnboardingScreen {
     }
 }
 
+//MARK: - API Calls
+extension OnboardingScreen {
+    func getGenres() {
+        self.genreCollectionView.isUserInteractionEnabled = false
+        OtherService.getGenres().done { response -> () in
+            self.genres.append(contentsOf: response.list.shuffled())
+            self.genreCollectionView.reloadData()
+            self.genreCollectionView.performBatchUpdates({
+                UIView.animate(views: self.genreCollectionView!.orderedVisibleCells,
+                               animations: self.animations, duration: 0.6)
+            }, completion: nil)
+
+            }.ensure {
+                UIView.animate(withDuration: 0.2) {
+                    self.indicator.alpha = 0
+                }
+                
+                self.genreCollectionView.isUserInteractionEnabled = true
+                UIApplication.shared.isNetworkActivityIndicatorVisible = false
+            }.catch { error in }
+    }
+}
+
 //MARK: - UIScrollView delegate
 extension OnboardingScreen: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let pageIndex = scrollView.contentOffset.x / scrollView.bounds.size.width
         
         // initiate animations on half way before user scrolls to next page (i.e. pageIndex == 1)
-        if pageIndex > 0.35 && !isScreenTwoAnimated   { animateScreenTwo() }
+        if pageIndex > 0.35 && !isScreenTwoAnimated {
+            animateScreenTwo()
+            getGenres()
+        }
+        
         if pageIndex > 1.35 && !isScreenThreeAnimated { animateScreenThree() }
+        
+        //if pageIndex > 0.35 && pageIndex
     }
 }

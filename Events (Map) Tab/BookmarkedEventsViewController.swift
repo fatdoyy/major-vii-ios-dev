@@ -10,6 +10,7 @@ import UIKit
 import BouncyLayout
 import Kingfisher
 import SwiftMessages
+import ViewAnimator
 
 protocol BookmarkedEventsViewControllerDelegate: class {
     func refreshBtnTapped()
@@ -24,6 +25,7 @@ class BookmarkedEventsViewController: UIViewController {
     var emptyLabel: UILabel!
     
     var isRefreshing = false
+    let animations = [AnimationType.from(direction: .bottom, offset: 30), AnimationType.zoom(scale: 0.5)]
     var bookmarkedEvents = [BookmarkedEvent]() {
         didSet {
             if !bookmarkedEvents.isEmpty {
@@ -36,6 +38,10 @@ class BookmarkedEventsViewController: UIViewController {
                 
                 isRefreshing = false
                 eventsCollectionView.reloadData()
+                eventsCollectionView.performBatchUpdates({
+                    UIView.animate(views: eventsCollectionView!.orderedVisibleCells,
+                                   animations: animations, duration: 0.4)
+                }, completion: nil)
             } else { //bookmarked events is empty
                 if (emptyLabel == nil || emptyLabel.alpha == 0) && !isRefreshing {
                     emptyLabel = UILabel()
@@ -155,13 +161,6 @@ extension BookmarkedEventsViewController: UICollectionViewDelegate, UICollection
                 cell.eventTitle.text = event.title
                 cell.performerName.text = event.organizerProfile?.name
                 cell.bookmarkCount.text = "468" //bookmark.count
-                
-                for view in cell.viewsToShowLater {
-                    UIView.animate(withDuration: 0.3) {
-                        view.alpha = 1
-                        cell.loadingIndicator.alpha = 0
-                    }
-                }
             }
         }
         return cell

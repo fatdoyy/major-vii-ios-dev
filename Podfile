@@ -55,6 +55,7 @@ target 'major-7-ios' do
   pod 'SwiftDate'                               # as title
   pod 'Hero'                                    # transitions
   pod 'lottie-ios'                              # After Effects animations
+  pod 'ViewAnimator'                            # Animate uicollectionview cells
   #pod 'paper-onboarding'                        # welcome tutorial
   #pod 'ActiveLabel'                             # supporting Hashtags (#), Mentions (@), URLs (http:/)
 
