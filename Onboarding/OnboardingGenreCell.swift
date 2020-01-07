@@ -17,16 +17,35 @@ class OnboardingGenreCell: UICollectionViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        backgroundColor = UIColor(hexString: "#7e7ecf").withAlphaComponent(0.2)
+        backgroundColor = .clear
         layer.cornerRadius = 20
+        layer.borderWidth = 1.5
+        layer.borderColor = UIColor.white.withAlphaComponent(0.2).cgColor
         
-        genre.textColor = .purpleText()
+        genre.textColor = UIColor.white.withAlphaComponent(0.75)
         genre.numberOfLines = 1
+    }
+    
+    override var isSelected: Bool {
+        didSet {
+            if self.isSelected {
+                backgroundColor = .white
+                genre.textColor = UIColor(hexString: "#3c1053")
+                Animations.cellBounce(isSelected, view: self)
+            }
+            else {
+                backgroundColor = .clear
+                genre.textColor = UIColor.white.withAlphaComponent(0.75)
+                Animations.cellBounce(isSelected, view: self)
+            }
+        }
     }
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        genre.textColor = .purpleText()
-        backgroundColor = UIColor(hexString: "#7e7ecf").withAlphaComponent(0.2)
+        genre.textColor = UIColor.white.withAlphaComponent(0.75)
+        backgroundColor = .clear
+        layer.borderWidth = 1.5
+        layer.borderColor = UIColor.white.withAlphaComponent(0.2).cgColor
     }
 }

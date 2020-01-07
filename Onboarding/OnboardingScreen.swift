@@ -372,6 +372,7 @@ extension OnboardingScreen: UICollectionViewDataSource, UICollectionViewDelegate
         genreCollectionView.backgroundColor = .clear
         genreCollectionView.dataSource = self
         genreCollectionView.delegate = self
+        genreCollectionView.allowsMultipleSelection = true
         
         genreCollectionView.showsVerticalScrollIndicator = false
         genreCollectionView.showsHorizontalScrollIndicator = false
