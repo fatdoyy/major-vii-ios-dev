@@ -36,7 +36,7 @@ class NewsDetailViewController: UIViewController {
     
     let detailUpperView = UIView()
     var imgCollectionView: InfiniteCollectionView!
-    let pageControl = CHIPageControlJalapeno(frame: CGRect(x: 0, y: 0, width: 100, height: 20))
+    var pageControl: CHIPageControlJalapeno!
     let imgOverlay = UIView()
     var titleLabel = UILabel()
     var subTitleLabel = UILabel()
@@ -255,6 +255,7 @@ extension NewsDetailViewController {
     }
     
     private func setupPageControl() {
+        pageControl = CHIPageControlJalapeno(frame: CGRect(x: 0, y: 0, width: 100, height: 20))
         pageControl.alpha = 0
         pageControl.numberOfPages = 3
         pageControl.radius = 5

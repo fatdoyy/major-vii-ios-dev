@@ -9,7 +9,6 @@
 import UIKit
 import Kingfisher
 import NVActivityIndicatorView
-import ViewAnimator
 
 protocol BuskersViewControllerDelegate: class {
     func searchWithQuery(_ query: String)
@@ -20,7 +19,6 @@ class BuskersViewController: UIViewController {
     weak var delegate: BuskersViewControllerDelegate?
     
     var indicator = NVActivityIndicatorView(frame: CGRect(origin: CGPoint.zero, size: CGSize(width: 5, height: 5)), type: .lineScale)
-    private let animations = [AnimationType.from(direction: .bottom, offset: 50), AnimationType.zoom(scale: 0.7)]
     
     var mainCollectionView: UICollectionView!
     var skeletonCollectionView: UICollectionView!
@@ -235,10 +233,6 @@ extension BuskersViewController {
 
         setupSkeletonCollectionView()
         skeletonCollectionView.reloadData()
-        skeletonCollectionView.performBatchUpdates({
-            UIView.animate(views: skeletonCollectionView!.orderedVisibleCells,
-                           animations: animations, duration: 0.65)
-        }, completion: nil)
     }
     
     private func setupSkeletonCollectionView() {

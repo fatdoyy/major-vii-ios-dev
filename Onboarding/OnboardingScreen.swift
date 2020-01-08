@@ -11,18 +11,22 @@ import Pastel
 import SkyFloatingLabelTextField
 import ViewAnimator
 import NVActivityIndicatorView
+import CHIPageControl
 
 class OnboardingScreen: UIViewController {
-    var gradientBg: PastelView!
-    var mainScrollView: UIScrollView!
     var pageSize: CGSize!
     var isKeyboardPresent = false
-    private var timer: Timer?
+    let numberOfScreens: Int = 3
 
+    var gradientBg: PastelView!
+    var mainScrollView: UIScrollView!
+    var pageControl: CHIPageControlPaprika!
+    var nextBtn: UIButton!
+    
     //screen one
     var screenOneBg: UIView!
     var screenOneTitle: UILabel!
-    var screenOneSubTitle: UILabel!
+    var screenOneSubtitle: UILabel!
     var profilePic: UIImageView!
     var usernameField: SkyFloatingLabelTextField!
     var usernameDesc: UILabel!
@@ -30,16 +34,17 @@ class OnboardingScreen: UIViewController {
     //screen two
     var screenTwoBg: UIView!
     var screenTwoTitle: UILabel!
-    var screenTwoSubTitle: UILabel!
+    var screenTwoSubtitle: UILabel!
     var genreCollectionView: UICollectionView!
     var genres = [Genre]()
+    var selectedGenres = [String]()
     var indicator = NVActivityIndicatorView(frame: CGRect(origin: CGPoint.zero, size: CGSize(width: 20, height: 20)), type: .lineScale)
     private let animations = [AnimationType.from(direction: .right, offset: 100), AnimationType.zoom(scale: 0.5)]
 
     //screen three
     var screenThreeBg: UIView!
     var screenThreeTitle: UILabel!
-    var screenThreeSubTitle: UILabel!
+    var screenThreeSubtitle: UILabel!
     
     var isScreenOneAnimated = false
     var isScreenTwoAnimated = false
@@ -54,7 +59,7 @@ class OnboardingScreen: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        mainScrollView.contentSize = CGSize(width: pageSize.width * 3, height: pageSize.height - 100)
+        mainScrollView.contentSize = CGSize(width: pageSize.width * CGFloat(numberOfScreens), height: pageSize.height - 100)
     }
 }
 
@@ -79,6 +84,7 @@ extension OnboardingScreen {
         }
     }
     
+    //scroll view
     private func setupScrollView() {
         pageSize = view.bounds.size
 
@@ -96,6 +102,26 @@ extension OnboardingScreen {
         }
     }
     
+    //page control
+    private func setupPageControl() {
+        pageControl = CHIPageControlPaprika(frame: CGRect(x: 0, y: 0, width: 100, height: 20))
+        pageControl.numberOfPages = numberOfScreens
+        pageControl.radius = 5
+        pageControl.tintColor = .white
+        pageControl.currentPageTintColor = .white
+        pageControl.padding = 10
+        view.addSubview(pageControl)
+        pageControl.snp.makeConstraints { (make) -> Void in
+            make.top.equalTo(mainScrollView.snp.bottom)
+            make.left.equalToSuperview().offset(40)
+        }
+    }
+    
+    //next btn
+    private func setupNextBtn() {
+        nextBtn = UIButton()
+    }
+    
     private func setupUI() {
         //handle keyboard
         NotificationCenter.default.setObserver(self, selector: #selector(keyboardWillDisappear), name: UIResponder.keyboardWillHideNotification, object: nil)
@@ -103,19 +129,13 @@ extension OnboardingScreen {
         
         setupPastelView()
         setupScrollView()
+        setupPageControl()
         
         setupScreenOne()
         setupScreenTwo()
         setupScreenThree()
         
         animateScreenOne()
-    }
-}
-
-//MARK: - Page control
-extension OnboardingScreen {
-    func setupPageControl() {
-        
     }
 }
 
@@ -143,14 +163,14 @@ extension OnboardingScreen: UITextFieldDelegate {
             make.left.equalTo(UIScreen.main.bounds.midX)
         }
         
-        screenOneSubTitle = UILabel()
-        screenOneSubTitle.alpha = 0
-        screenOneSubTitle.text = "A great name helps you produce better music (joke)"
-        screenOneSubTitle.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
-        screenOneSubTitle.textColor = .white
-        screenOneSubTitle.numberOfLines = 0
-        screenOneBg.addSubview(screenOneSubTitle)
-        screenOneSubTitle.snp.makeConstraints { (make) in
+        screenOneSubtitle = UILabel()
+        screenOneSubtitle.alpha = 0
+        screenOneSubtitle.text = "A great name helps you produce better music (joke)"
+        screenOneSubtitle.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
+        screenOneSubtitle.textColor = .white
+        screenOneSubtitle.numberOfLines = 0
+        screenOneBg.addSubview(screenOneSubtitle)
+        screenOneSubtitle.snp.makeConstraints { (make) in
             if UIDevice.current.type == .iPhone_5_5S_5C_SE {
                 make.top.equalTo(screenOneTitle.snp.bottom).offset(25)
             } else {
@@ -168,10 +188,10 @@ extension OnboardingScreen: UITextFieldDelegate {
         screenOneBg.addSubview(profilePic)
         profilePic.snp.makeConstraints { (make) in
             if UIDevice.current.type == .iPhone_5_5S_5C_SE {
-                make.top.equalTo(screenOneSubTitle.snp.bottom).offset(50)
+                make.top.equalTo(screenOneSubtitle.snp.bottom).offset(50)
                 make.size.equalTo(100)
             } else {
-                make.top.equalTo(screenOneSubTitle.snp.bottom).offset(100)
+                make.top.equalTo(screenOneSubtitle.snp.bottom).offset(100)
                 make.size.equalTo(130)
             }
             make.centerX.equalToSuperview().offset(100)
@@ -220,8 +240,8 @@ extension OnboardingScreen: UITextFieldDelegate {
         }, completion: nil)
                         
         UIView.animate(withDuration: 0.65, delay: 0.3, options: .curveEaseInOut, animations: {
-            self.screenOneSubTitle.transform = translatedTitleTransform
-            self.screenOneSubTitle.alpha = 1
+            self.screenOneSubtitle.transform = translatedTitleTransform
+            self.screenOneSubtitle.alpha = 1
         }, completion: nil)
         
         let originalImgViewTransform = profilePic.transform
@@ -256,16 +276,16 @@ extension OnboardingScreen: UITextFieldDelegate {
                 //animate the constraint's constant change
                 profilePic.snp.updateConstraints { (make) in
                     if UIDevice.current.type == .iPhone_5_5S_5C_SE {
-                        make.top.equalTo(screenOneSubTitle.snp.bottom).offset(-130)
+                        make.top.equalTo(screenOneSubtitle.snp.bottom).offset(-130)
                     } else {
-                        make.top.equalTo(screenOneSubTitle.snp.bottom).offset(30)
+                        make.top.equalTo(screenOneSubtitle.snp.bottom).offset(30)
                     }
                 }
                 
                 if UIDevice.current.type == .iPhone_5_5S_5C_SE {
                     UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: {
                         self.screenOneTitle.alpha = 0
-                        self.screenOneSubTitle.alpha = 0
+                        self.screenOneSubtitle.alpha = 0
                         self.screenOneBg.layoutIfNeeded()
                     }, completion: nil)
                 } else {
@@ -283,16 +303,16 @@ extension OnboardingScreen: UITextFieldDelegate {
             //animate the constraint's constant change
             profilePic.snp.updateConstraints { (make) in
                 if UIDevice.current.type == .iPhone_5_5S_5C_SE {
-                    make.top.equalTo(screenOneSubTitle.snp.bottom).offset(50)
+                    make.top.equalTo(screenOneSubtitle.snp.bottom).offset(50)
                 } else {
-                    make.top.equalTo(screenOneSubTitle.snp.bottom).offset(80)
+                    make.top.equalTo(screenOneSubtitle.snp.bottom).offset(80)
                 }
             }
             
             if UIDevice.current.type == .iPhone_5_5S_5C_SE {
                 UIView.animate(withDuration: 0.3) {
                     self.screenOneTitle.alpha = 1
-                    self.screenOneSubTitle.alpha = 1
+                    self.screenOneSubtitle.alpha = 1
                     self.screenOneBg.layoutIfNeeded()
                 }
             } else {
@@ -335,14 +355,14 @@ extension OnboardingScreen: UICollectionViewDataSource, UICollectionViewDelegate
             make.left.equalTo(UIScreen.main.bounds.midX)
         }
         
-        screenTwoSubTitle = UILabel()
-        screenTwoSubTitle.alpha = 0
-        screenTwoSubTitle.text = "This help us suggest suitable artists for you"
-        screenTwoSubTitle.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
-        screenTwoSubTitle.textColor = .white
-        screenTwoSubTitle.numberOfLines = 0
-        screenTwoBg.addSubview(screenTwoSubTitle)
-        screenTwoSubTitle.snp.makeConstraints { (make) in
+        screenTwoSubtitle = UILabel()
+        screenTwoSubtitle.alpha = 0
+        screenTwoSubtitle.text = "This help us suggest suitable artists for you"
+        screenTwoSubtitle.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
+        screenTwoSubtitle.textColor = .white
+        screenTwoSubtitle.numberOfLines = 0
+        screenTwoBg.addSubview(screenTwoSubtitle)
+        screenTwoSubtitle.snp.makeConstraints { (make) in
             if UIDevice.current.type == .iPhone_5_5S_5C_SE {
                 make.top.equalTo(screenTwoTitle.snp.bottom).offset(25)
             } else {
@@ -356,7 +376,7 @@ extension OnboardingScreen: UICollectionViewDataSource, UICollectionViewDelegate
         screenTwoBg.addSubview(indicator)
         indicator.snp.makeConstraints { (make) in
             make.centerX.equalToSuperview().offset(100)
-            make.top.equalTo(screenTwoSubTitle.snp.bottom).offset(100)
+            make.top.equalTo(screenTwoSubtitle.snp.bottom).offset(100)
         }
         indicator.startAnimating()
         
@@ -382,7 +402,8 @@ extension OnboardingScreen: UICollectionViewDataSource, UICollectionViewDelegate
         genreCollectionView.snp.makeConstraints { (make) in
             make.height.equalTo(mainScrollView.snp.height)
             make.width.equalTo(pageSize.width)
-            make.top.equalTo(screenTwoSubTitle.snp.bottom).offset(30)
+            make.top.equalTo(screenTwoSubtitle.snp.bottom).offset(30)
+            make.left.equalTo(screenTwoSubtitle.snp.left).offset(-UIScreen.main.bounds.midX)
         }
     }
     
@@ -396,8 +417,8 @@ extension OnboardingScreen: UICollectionViewDataSource, UICollectionViewDelegate
         }, completion: nil)
         
         UIView.animate(withDuration: 0.65, delay: 0.2, options: .curveEaseInOut, animations: {
-            self.screenTwoSubTitle.transform = translatedTransform
-            self.screenTwoSubTitle.alpha = 1
+            self.screenTwoSubtitle.transform = translatedTransform
+            self.screenTwoSubtitle.alpha = 1
         }, completion: nil)
         
         let originalIndicatorTransform = indicator.transform
@@ -422,11 +443,27 @@ extension OnboardingScreen: UICollectionViewDataSource, UICollectionViewDelegate
         return cell
     }
     
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-//        let genre = genres[indexPath.row].titleEN?.lowercased()
-//        let size = genre!.size(withAttributes: nil)
-//        return CGSize(width: size.width + 32, height: OnboardingGenreCell.height)
-//    }
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let cell = collectionView.cellForItem(at: indexPath) as! OnboardingGenreCell
+        HapticFeedback.createImpact(style: .heavy)
+
+        if let genre = cell.genre.text {
+            print("Selected \(genre)!")
+            selectedGenres.append(genre)
+            print("selectedGenres: \(selectedGenres)")
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
+        let cell = collectionView.cellForItem(at: indexPath) as! OnboardingGenreCell
+        HapticFeedback.createImpact(style: .light)
+
+        if let genre = cell.genre.text {
+            print("Deselected \(genre)!")
+            selectedGenres.removeAll { $0 == genre }
+            print("selectedGenres: \(selectedGenres)")
+        }
+    }
 }
 
 //MARK: Screen Three
@@ -453,14 +490,14 @@ extension OnboardingScreen {
             make.left.equalTo(UIScreen.main.bounds.midX)
         }
         
-        screenThreeSubTitle = UILabel()
-        screenThreeSubTitle.alpha = 0
-        screenThreeSubTitle.text = "請允許我們向你提供推送通知，例如表演者將舉行表演的時間地點 、本地音樂消息等等。\n\n你稍後可在設定中變更通知選項。"
-        screenThreeSubTitle.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
-        screenThreeSubTitle.textColor = .white
-        screenThreeSubTitle.numberOfLines = 0
-        screenThreeBg.addSubview(screenThreeSubTitle)
-        screenThreeSubTitle.snp.makeConstraints { (make) in
+        screenThreeSubtitle = UILabel()
+        screenThreeSubtitle.alpha = 0
+        screenThreeSubtitle.text = "請允許我們向你提供推送通知，例如表演者將舉行表演的時間地點 、本地音樂消息等等。\n\n你稍後可在設定中變更通知選項。"
+        screenThreeSubtitle.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
+        screenThreeSubtitle.textColor = .white
+        screenThreeSubtitle.numberOfLines = 0
+        screenThreeBg.addSubview(screenThreeSubtitle)
+        screenThreeSubtitle.snp.makeConstraints { (make) in
             if UIDevice.current.type == .iPhone_5_5S_5C_SE {
                 make.top.equalTo(screenThreeTitle.snp.bottom).offset(25)
             } else {
@@ -481,8 +518,8 @@ extension OnboardingScreen {
         }, completion: nil)
         
         UIView.animate(withDuration: 0.65, delay: 0.2, options: .curveEaseInOut, animations: {
-            self.screenThreeSubTitle.transform = translatedTransform
-            self.screenThreeSubTitle.alpha = 1
+            self.screenThreeSubtitle.transform = translatedTransform
+            self.screenThreeSubtitle.alpha = 1
         }, completion: nil)
         
         isScreenThreeAnimated = true
@@ -498,7 +535,7 @@ extension OnboardingScreen {
             self.genreCollectionView.reloadData()
             self.genreCollectionView.performBatchUpdates({
                 UIView.animate(views: self.genreCollectionView!.orderedVisibleCells,
-                               animations: self.animations, duration: 0.6)
+                               animations: self.animations, duration: 0.65)
             }, completion: nil)
 
             }.ensure {
@@ -526,5 +563,10 @@ extension OnboardingScreen: UIScrollViewDelegate {
         if pageIndex > 1.35 && !isScreenThreeAnimated { animateScreenThree() }
         
         //if pageIndex > 0.35 && pageIndex
+    }
+    
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        let pageIndex = Int(scrollView.contentOffset.x / scrollView.bounds.size.width)
+        pageControl.set(progress: pageIndex, animated: true)
     }
 }
