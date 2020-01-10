@@ -22,6 +22,8 @@ class OnboardingScreen: UIViewController {
     var mainScrollView: UIScrollView!
     var pageControl: CHIPageControlPaprika!
     var nextBtn: UIButton!
+    var progressView: UIView!
+    var currentPage = 0
     
     //screen one
     var screenOneBg: UIView!
@@ -30,6 +32,7 @@ class OnboardingScreen: UIViewController {
     var profilePic: UIImageView!
     var usernameField: SkyFloatingLabelTextField!
     var usernameDesc: UILabel!
+    var isScreenOneAnimated = false
     
     //screen two
     var screenTwoBg: UIView!
@@ -40,14 +43,13 @@ class OnboardingScreen: UIViewController {
     var selectedGenres = [String]()
     var indicator = NVActivityIndicatorView(frame: CGRect(origin: CGPoint.zero, size: CGSize(width: 20, height: 20)), type: .lineScale)
     private let animations = [AnimationType.from(direction: .right, offset: 100), AnimationType.zoom(scale: 0.5)]
+    var isScreenTwoAnimated = false
 
     //screen three
     var screenThreeBg: UIView!
     var screenThreeTitle: UILabel!
     var screenThreeSubtitle: UILabel!
-    
-    var isScreenOneAnimated = false
-    var isScreenTwoAnimated = false
+    var notiBtn: UIButton!
     var isScreenThreeAnimated = false
     
     override func viewDidLoad() {
@@ -98,7 +100,7 @@ extension OnboardingScreen {
         view.addSubview(mainScrollView)
         mainScrollView.snp.makeConstraints { (make) in
             make.top.left.right.equalTo(0)
-            make.bottom.equalToSuperview().offset(-80)
+            make.bottom.equalToSuperview().offset(-100)
         }
     }
     
@@ -112,7 +114,7 @@ extension OnboardingScreen {
         pageControl.padding = 10
         view.addSubview(pageControl)
         pageControl.snp.makeConstraints { (make) -> Void in
-            make.top.equalTo(mainScrollView.snp.bottom)
+            make.top.equalTo(mainScrollView.snp.bottom).offset(20)
             make.left.equalToSuperview().offset(40)
         }
     }
@@ -120,6 +122,42 @@ extension OnboardingScreen {
     //next btn
     private func setupNextBtn() {
         nextBtn = UIButton()
+        nextBtn.setTitle("Next >", for: .normal)
+        nextBtn.setTitleColor(.white, for: .normal)
+        nextBtn.titleLabel?.font = UIFont.systemFont(ofSize: 12, weight: .semibold)
+        nextBtn.backgroundColor = UIColor.white.withAlphaComponent(0.3)
+        nextBtn.layer.cornerRadius = 20
+        nextBtn.addTarget(self, action: #selector(didTapBtn), for: .touchUpInside)
+        view.addSubview(nextBtn)
+        nextBtn.snp.makeConstraints { (make) in
+            make.height.equalTo(40)
+            make.width.equalTo(129)
+            make.top.equalTo(mainScrollView.snp.bottom)
+            make.right.equalToSuperview().offset(-30)
+        }
+    }
+    
+    //Next page action
+    @objc func didTapBtn() {
+        switch currentPage {
+        case 0:
+            let customOffset = CGPoint(x: pageSize.width, y: 0)
+            mainScrollView.setContentOffset(customOffset, animated: true)
+            currentPage = 1
+            pageControl.set(progress: currentPage, animated: true)
+            
+        case 1:
+            let customOffset = CGPoint(x: pageSize.width * 2, y: 0)
+            mainScrollView.setContentOffset(customOffset, animated: true)
+            currentPage = 2
+            pageControl.set(progress: currentPage, animated: true)
+            
+        case 2:
+            nextBtn.shake()
+            
+        default: print("Error")
+        }
+
     }
     
     private func setupUI() {
@@ -130,6 +168,7 @@ extension OnboardingScreen {
         setupPastelView()
         setupScrollView()
         setupPageControl()
+        setupNextBtn()
         
         setupScreenOne()
         setupScreenTwo()
@@ -506,6 +545,21 @@ extension OnboardingScreen {
             make.width.equalTo(UIScreen.main.bounds.width - 60)
             make.left.equalTo(screenThreeTitle.snp.left)
         }
+        
+        notiBtn = UIButton()
+        notiBtn.setTitle("Enable Notifications", for: .normal)
+        notiBtn.setTitleColor(.white, for: .normal)
+        notiBtn.titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: .medium)
+        notiBtn.layer.borderWidth = 2
+        notiBtn.layer.borderColor = UIColor.white.withAlphaComponent(0.5).cgColor
+        notiBtn.layer.cornerRadius = 25
+        screenThreeBg.addSubview(notiBtn)
+        notiBtn.snp.makeConstraints { (make) in
+            make.top.equalTo(screenThreeSubtitle.snp.bottom).offset(30)
+            make.left.equalTo(screenThreeSubtitle.snp.left).offset(-UIScreen.main.bounds.midX)
+            make.width.equalTo(UIScreen.main.bounds.width - 60)
+            make.height.equalTo(50)
+        }
     }
     
     private func animateScreenThree() {
@@ -554,15 +608,21 @@ extension OnboardingScreen: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let pageIndex = scrollView.contentOffset.x / scrollView.bounds.size.width
         
+        if pageIndex < 0.35 { currentPage = 0 }
+        
         // initiate animations on half way before user scrolls to next page (i.e. pageIndex == 1)
-        if pageIndex > 0.35 && !isScreenTwoAnimated {
+        if pageIndex > 0.35 && !isScreenTwoAnimated { //going to page 1
             animateScreenTwo()
             getGenres()
+            currentPage = 1
         }
         
-        if pageIndex > 1.35 && !isScreenThreeAnimated { animateScreenThree() }
+        if 0.35 ... 1.35 ~= pageIndex { currentPage = 1 }
         
-        //if pageIndex > 0.35 && pageIndex
+        if pageIndex > 1.35 && !isScreenThreeAnimated { //going to page 2
+            animateScreenThree()
+            currentPage = 2
+        }
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {

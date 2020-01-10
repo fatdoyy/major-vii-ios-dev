@@ -19,7 +19,7 @@ class OnboardingGenreCell: UICollectionViewCell {
         super.awakeFromNib()
         backgroundColor = .clear
         layer.cornerRadius = 20
-        layer.borderWidth = 1.5
+        layer.borderWidth = 2
         layer.borderColor = UIColor.white.withAlphaComponent(0.2).cgColor
         
         genre.textColor = UIColor.white.withAlphaComponent(0.75)

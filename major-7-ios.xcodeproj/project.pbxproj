@@ -175,6 +175,7 @@
 		96F5308521EC68FD007BCCB0 /* UIVisualEffectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96F5308421EC68FD007BCCB0 /* UIVisualEffectView.swift */; };
 		96FAF247223A1D7300DF23B9 /* BuskerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96FAF246223A1D7300DF23B9 /* BuskerService.swift */; };
 		96FAF249223A287C00DF23B9 /* Busker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96FAF248223A287C00DF23B9 /* Busker.swift */; };
+		96FE25E123C86C5900BD25FE /* notification.json in Resources */ = {isa = PBXBuildFile; fileRef = 96FE25E023C86C5900BD25FE /* notification.json */; };
 		B68A6EBA7A4606BC0A254B37 /* Pods_major_7_ios.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D1EB7AD3B0BF35C51EBA3013 /* Pods_major_7_ios.framework */; };
 		CA550AA621706A65008E493D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA550AA521706A65008E493D /* AppDelegate.swift */; };
 		CA550AAB21706A65008E493D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CA550AA921706A65008E493D /* Main.storyboard */; };
@@ -354,6 +355,7 @@
 		96F5308421EC68FD007BCCB0 /* UIVisualEffectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIVisualEffectView.swift; sourceTree = "<group>"; };
 		96FAF246223A1D7300DF23B9 /* BuskerService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuskerService.swift; sourceTree = "<group>"; };
 		96FAF248223A287C00DF23B9 /* Busker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Busker.swift; sourceTree = "<group>"; };
+		96FE25E023C86C5900BD25FE /* notification.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = notification.json; sourceTree = "<group>"; };
 		CA550AA221706A65008E493D /* major-7-ios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "major-7-ios.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CA550AA521706A65008E493D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CA550AAA21706A65008E493D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -672,6 +674,7 @@
 		96AF6D28239125B500D243D2 /* Lottie Animations */ = {
 			isa = PBXGroup;
 			children = (
+				96FE25E023C86C5900BD25FE /* notification.json */,
 				96AF6D29239125CC00D243D2 /* 2020.json */,
 			);
 			path = "Lottie Animations";
@@ -924,6 +927,7 @@
 				9620022B21E4AF000055D070 /* gif3.gif in Resources */,
 				9620023521E4B13A0055D070 /* gif9.gif in Resources */,
 				966A6CDD218086BC00DF872F /* NewsSectionHeader.xib in Resources */,
+				96FE25E123C86C5900BD25FE /* notification.json in Resources */,
 				96C55420219199700065D70A /* TrendingSection.xib in Resources */,
 				9620022D21E4AF000055D070 /* gif2.gif in Resources */,
 				966A6CD1217F096700DF872F /* HomeHeaderView.xib in Resources */,
