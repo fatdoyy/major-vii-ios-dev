@@ -12,6 +12,7 @@ import SkyFloatingLabelTextField
 import ViewAnimator
 import NVActivityIndicatorView
 import CHIPageControl
+import UserNotifications
 
 class OnboardingScreen: UIViewController {
     var pageSize: CGSize!
@@ -50,11 +51,14 @@ class OnboardingScreen: UIViewController {
     var screenThreeTitle: UILabel!
     var screenThreeSubtitle: UILabel!
     var notiBtn: UIButton!
+    let notiCenter = UNUserNotificationCenter.current()
+    var notiState = false
     var isScreenThreeAnimated = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
         hideKeyboardWhenTappedAround()
+        notiState = checkNotiStatus()
         setupUI()
     }
     
@@ -547,18 +551,66 @@ extension OnboardingScreen {
         }
         
         notiBtn = UIButton()
-        notiBtn.setTitle("Enable Notifications", for: .normal)
-        notiBtn.setTitleColor(.white, for: .normal)
+        notiBtn.alpha = 0
         notiBtn.titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: .medium)
+        if checkNotiStatus() == false {
+            notiBtn.setTitle("Enable Notifications", for: .normal)
+            notiBtn.setTitleColor(.white, for: .normal)
+            notiBtn.addTarget(self, action: #selector(showNotiAlert), for: .touchUpInside)
+        } else if checkNotiStatus() == true {
+            notiBtn.setTitle("Enabled!", for: .normal)
+            notiBtn.setTitleColor(.darkPurple(), for: .normal)
+            notiBtn.backgroundColor = .white
+        }
         notiBtn.layer.borderWidth = 2
         notiBtn.layer.borderColor = UIColor.white.withAlphaComponent(0.5).cgColor
         notiBtn.layer.cornerRadius = 25
         screenThreeBg.addSubview(notiBtn)
         notiBtn.snp.makeConstraints { (make) in
-            make.top.equalTo(screenThreeSubtitle.snp.bottom).offset(30)
-            make.left.equalTo(screenThreeSubtitle.snp.left).offset(-UIScreen.main.bounds.midX)
+            make.top.equalTo(screenThreeSubtitle.snp.bottom).offset(40)
+            make.left.equalTo(UIScreen.main.bounds.midX)
             make.width.equalTo(UIScreen.main.bounds.width - 60)
             make.height.equalTo(50)
+        }
+    }
+    
+    private func checkNotiStatus() -> Bool {
+        notiCenter.getNotificationSettings(completionHandler: { (settings) in
+            switch settings.authorizationStatus {
+            case .notDetermined:
+                print("not detemined")
+                self.notiState = false
+
+            case .denied:
+                print("denied")
+                self.notiState = false
+
+            case .authorized:
+                print("authorized")
+                self.notiState = true
+
+            default: self.notiState = false
+            }
+        })
+        
+        return notiState
+    }
+    
+    @objc private func showNotiAlert() {
+        notiCenter.requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
+            if let error = error {
+                print("\(error.localizedDescription)")
+            } else {
+                DispatchQueue.main.async {
+                    UIApplication.shared.registerForRemoteNotifications()
+                    
+                    //notiBtn state change
+                    self.notiBtn.setTitle("Enabled!", for: .normal)
+                    self.notiBtn.setTitleColor(UIColor(hexString: "#3c1053"), for: .normal)
+                    self.notiBtn.backgroundColor = .white
+                    self.notiBtn.removeTarget(nil, action: nil, for: .allEvents)
+                }
+            }
         }
     }
     
@@ -574,6 +626,11 @@ extension OnboardingScreen {
         UIView.animate(withDuration: 0.65, delay: 0.2, options: .curveEaseInOut, animations: {
             self.screenThreeSubtitle.transform = translatedTransform
             self.screenThreeSubtitle.alpha = 1
+        }, completion: nil)
+        
+        UIView.animate(withDuration: 0.65, delay: 0.4, options: .curveEaseInOut, animations: {
+            self.notiBtn.transform = translatedTransform
+            self.notiBtn.alpha = 1
         }, completion: nil)
         
         isScreenThreeAnimated = true
@@ -623,6 +680,8 @@ extension OnboardingScreen: UIScrollViewDelegate {
             animateScreenThree()
             currentPage = 2
         }
+        
+        if pageIndex == 2 { print(checkNotiStatus()) }
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
