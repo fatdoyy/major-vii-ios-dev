@@ -1,6 +1,6 @@
 PODS:
   - Alamofire (4.9.1)
-  - AMScrollingNavbar (5.5.2)
+  - AMScrollingNavbar (5.6.0)
   - AppAuth (1.3.0):
     - AppAuth/Core (= 1.3.0)
     - AppAuth/ExternalUserAgent (= 1.3.0)
@@ -45,64 +45,69 @@ PODS:
     - Bolts (~> 1.9)
   - FBSDKLoginKit (4.38.1):
     - FBSDKCoreKit
-  - Firebase/Analytics (6.14.0):
+  - Firebase/Analytics (6.16.0):
     - Firebase/Core
-  - Firebase/Core (6.14.0):
+  - Firebase/Core (6.16.0):
     - Firebase/CoreOnly
-    - FirebaseAnalytics (= 6.1.7)
-  - Firebase/CoreOnly (6.14.0):
-    - FirebaseCore (= 6.5.0)
-  - Firebase/Messaging (6.14.0):
+    - FirebaseAnalytics (= 6.2.2)
+  - Firebase/CoreOnly (6.16.0):
+    - FirebaseCore (= 6.6.1)
+  - Firebase/Messaging (6.16.0):
     - Firebase/CoreOnly
-    - FirebaseMessaging (~> 4.1.10)
-  - FirebaseAnalytics (6.1.7):
-    - FirebaseCore (~> 6.5)
-    - FirebaseInstanceID (~> 4.2)
-    - GoogleAppMeasurement (= 6.1.7)
+    - FirebaseMessaging (~> 4.2.0)
+  - FirebaseAnalytics (6.2.2):
+    - FirebaseCore (~> 6.6)
+    - FirebaseInstanceID (~> 4.3)
+    - GoogleAppMeasurement (= 6.2.2)
     - GoogleUtilities/AppDelegateSwizzler (~> 6.0)
     - GoogleUtilities/MethodSwizzler (~> 6.0)
     - GoogleUtilities/Network (~> 6.0)
     - "GoogleUtilities/NSData+zlib (~> 6.0)"
     - nanopb (= 0.3.9011)
-  - FirebaseAnalyticsInterop (1.4.0)
-  - FirebaseCore (6.5.0):
-    - FirebaseCoreDiagnostics (~> 1.0)
-    - FirebaseCoreDiagnosticsInterop (~> 1.0)
-    - GoogleUtilities/Environment (~> 6.4)
-    - GoogleUtilities/Logger (~> 6.4)
-  - FirebaseCoreDiagnostics (1.1.2):
-    - FirebaseCoreDiagnosticsInterop (~> 1.0)
-    - GoogleDataTransportCCTSupport (~> 1.0)
-    - GoogleUtilities/Environment (~> 6.2)
-    - GoogleUtilities/Logger (~> 6.2)
+  - FirebaseAnalyticsInterop (1.5.0)
+  - FirebaseCore (6.6.1):
+    - FirebaseCoreDiagnostics (~> 1.2)
+    - FirebaseCoreDiagnosticsInterop (~> 1.2)
+    - GoogleUtilities/Environment (~> 6.5)
+    - GoogleUtilities/Logger (~> 6.5)
+  - FirebaseCoreDiagnostics (1.2.0):
+    - FirebaseCoreDiagnosticsInterop (~> 1.2)
+    - GoogleDataTransportCCTSupport (~> 1.3)
+    - GoogleUtilities/Environment (~> 6.5)
+    - GoogleUtilities/Logger (~> 6.5)
     - nanopb (~> 0.3.901)
-  - FirebaseCoreDiagnosticsInterop (1.1.0)
-  - FirebaseInstanceID (4.2.8):
-    - FirebaseCore (~> 6.5)
-    - GoogleUtilities/Environment (~> 6.4)
-    - GoogleUtilities/UserDefaults (~> 6.4)
-  - FirebaseMessaging (4.1.10):
-    - FirebaseAnalyticsInterop (~> 1.3)
-    - FirebaseCore (~> 6.2)
-    - FirebaseInstanceID (~> 4.1)
-    - GoogleUtilities/AppDelegateSwizzler (~> 6.2)
-    - GoogleUtilities/Environment (~> 6.2)
-    - GoogleUtilities/Reachability (~> 6.2)
-    - GoogleUtilities/UserDefaults (~> 6.2)
+  - FirebaseCoreDiagnosticsInterop (1.2.0)
+  - FirebaseInstallations (1.1.0):
+    - FirebaseCore (~> 6.6)
+    - GoogleUtilities/UserDefaults (~> 6.5)
+    - PromisesObjC (~> 1.2)
+  - FirebaseInstanceID (4.3.0):
+    - FirebaseCore (~> 6.6)
+    - FirebaseInstallations (~> 1.0)
+    - GoogleUtilities/Environment (~> 6.5)
+    - GoogleUtilities/UserDefaults (~> 6.5)
+  - FirebaseMessaging (4.2.0):
+    - FirebaseAnalyticsInterop (~> 1.5)
+    - FirebaseCore (~> 6.6)
+    - FirebaseInstanceID (~> 4.3)
+    - GoogleUtilities/AppDelegateSwizzler (~> 6.5)
+    - GoogleUtilities/Environment (~> 6.5)
+    - GoogleUtilities/Reachability (~> 6.5)
+    - GoogleUtilities/UserDefaults (~> 6.5)
     - Protobuf (>= 3.9.2, ~> 3.9)
   - FloatingPanel (1.7.1)
   - Floaty (4.2.0)
   - fluid-slider (1.1.0):
     - pop
-  - GoogleAppMeasurement (6.1.7):
+  - GoogleAppMeasurement (6.2.2):
     - GoogleUtilities/AppDelegateSwizzler (~> 6.0)
     - GoogleUtilities/MethodSwizzler (~> 6.0)
     - GoogleUtilities/Network (~> 6.0)
     - "GoogleUtilities/NSData+zlib (~> 6.0)"
     - nanopb (= 0.3.9011)
-  - GoogleDataTransport (3.2.0)
-  - GoogleDataTransportCCTSupport (1.2.3):
-    - GoogleDataTransport (~> 3.2)
+  - GoogleDataTransport (3.3.1)
+  - GoogleDataTransportCCTSupport (1.3.1):
+    - GoogleDataTransport (~> 3.3)
     - nanopb (~> 0.3.901)
   - GoogleMaps (3.7.0):
     - GoogleMaps/Maps (= 3.7.0)
@@ -113,32 +118,32 @@ PODS:
     - AppAuth (~> 1.2)
     - GTMAppAuth (~> 1.0)
     - GTMSessionFetcher/Core (~> 1.1)
-  - GoogleUtilities/AppDelegateSwizzler (6.4.0):
+  - GoogleUtilities/AppDelegateSwizzler (6.5.1):
     - GoogleUtilities/Environment
     - GoogleUtilities/Logger
     - GoogleUtilities/Network
-  - GoogleUtilities/Environment (6.4.0)
-  - GoogleUtilities/Logger (6.4.0):
+  - GoogleUtilities/Environment (6.5.1)
+  - GoogleUtilities/Logger (6.5.1):
     - GoogleUtilities/Environment
-  - GoogleUtilities/MethodSwizzler (6.4.0):
+  - GoogleUtilities/MethodSwizzler (6.5.1):
     - GoogleUtilities/Logger
-  - GoogleUtilities/Network (6.4.0):
+  - GoogleUtilities/Network (6.5.1):
     - GoogleUtilities/Logger
     - "GoogleUtilities/NSData+zlib"
     - GoogleUtilities/Reachability
-  - "GoogleUtilities/NSData+zlib (6.4.0)"
-  - GoogleUtilities/Reachability (6.4.0):
+  - "GoogleUtilities/NSData+zlib (6.5.1)"
+  - GoogleUtilities/Reachability (6.5.1):
     - GoogleUtilities/Logger
-  - GoogleUtilities/UserDefaults (6.4.0):
+  - GoogleUtilities/UserDefaults (6.5.1):
     - GoogleUtilities/Logger
   - GTMAppAuth (1.0.0):
     - AppAuth/Core (~> 1.0)
     - GTMSessionFetcher (~> 1.1)
-  - GTMSessionFetcher (1.3.0):
-    - GTMSessionFetcher/Full (= 1.3.0)
-  - GTMSessionFetcher/Core (1.3.0)
-  - GTMSessionFetcher/Full (1.3.0):
-    - GTMSessionFetcher/Core (= 1.3.0)
+  - GTMSessionFetcher (1.3.1):
+    - GTMSessionFetcher/Full (= 1.3.1)
+  - GTMSessionFetcher/Core (1.3.1)
+  - GTMSessionFetcher/Full (1.3.1):
+    - GTMSessionFetcher/Core (= 1.3.1)
   - Hero (1.5.0)
   - ImageViewer (5.0.0)
   - InfiniteLayout (0.4.2):
@@ -147,12 +152,12 @@ PODS:
   - InfiniteLayout/Core (0.4.2):
     - InfiniteLayout/CocoaProxy
   - JGProgressHUD (2.1)
-  - Kingfisher (5.12.0):
-    - Kingfisher/Core (= 5.12.0)
-  - Kingfisher/Core (5.12.0)
+  - Kingfisher (5.13.0):
+    - Kingfisher/Core (= 5.13.0)
+  - Kingfisher/Core (5.13.0)
   - Localize-Swift (3.1.0)
-  - lottie-ios (3.1.5)
-  - MarqueeLabel (4.0.1)
+  - lottie-ios (3.1.6)
+  - MarqueeLabel (4.0.2)
   - nanopb (0.3.9011):
     - nanopb/decode (= 0.3.9011)
     - nanopb/encode (= 0.3.9011)
@@ -166,7 +171,8 @@ PODS:
   - Pastel (0.6.0)
   - PIPKit (0.1.0)
   - pop (1.0.12)
-  - PromiseKit/CorePromise (6.12.0)
+  - PromiseKit/CorePromise (6.13.1)
+  - PromisesObjC (1.2.8)
   - Protobuf (3.11.2)
   - Reqres (3.1.0)
   - SkeletonView (1.6)
@@ -247,6 +253,7 @@ SPEC REPOS:
     - FirebaseCore
     - FirebaseCoreDiagnostics
     - FirebaseCoreDiagnosticsInterop
+    - FirebaseInstallations
     - FirebaseInstanceID
     - FirebaseMessaging
     - FloatingPanel
@@ -275,6 +282,7 @@ SPEC REPOS:
     - PIPKit
     - pop
     - PromiseKit
+    - PromisesObjC
     - Protobuf
     - Reqres
     - SkeletonView
@@ -303,7 +311,7 @@ CHECKOUT OPTIONS:
 
 SPEC CHECKSUMS:
   Alamofire: 85e8a02c69d6020a0d734f6054870d7ecb75cf18
-  AMScrollingNavbar: aed9ef17a94692ccd1d9a89769d87a379acb399a
+  AMScrollingNavbar: cf0ec5a5ee659d76ba2509f630bf14fba7e16dc3
   AppAuth: 73574f3013a1e65b9601a3ddc8b3158cce68c09d
   Bartinter: 3c1fc3bcb631b066fdd78f7e01f1635fbafffdea
   BetterSegmentedControl: 85d1b0343a09603b098884d527f550dfc8e6cdd9
@@ -315,33 +323,34 @@ SPEC CHECKSUMS:
   FacebookLogin: ebcf34714a1cb9f0759d9f071cfb01ed500996cf
   FBSDKCoreKit: 8d47857400e2f5bdea697a80daff882e91c84ef6
   FBSDKLoginKit: 4621c690d9dd8628031a4791497062183ea34b0d
-  Firebase: 0219bb4782eb1406f1b9b0628a2e625484ce910d
-  FirebaseAnalytics: f68b9f3f1241385129ae0a83b63627fc420c05e5
-  FirebaseAnalyticsInterop: d48b6ab67bcf016a05e55b71fc39c61c0cb6b7f3
-  FirebaseCore: 632e05cc5e1199d9147122c16d92305eb04c34bd
-  FirebaseCoreDiagnostics: 511f4f3ed7d440bb69127e8b97c2bc8befae639e
-  FirebaseCoreDiagnosticsInterop: e9b1b023157e3a2fc6418b5cb601e79b9af7b3a0
-  FirebaseInstanceID: ce993a3c3670a8f5d47ce371ac5d143c560608c5
-  FirebaseMessaging: 089b7a4991425783384acc8bcefcd78c0af913bd
+  Firebase: 497158b816d0a86fc31babbd05546fcd7e6083ff
+  FirebaseAnalytics: cf95d3aab897612783020fbd98401d5366f135ee
+  FirebaseAnalyticsInterop: 3f86269c38ae41f47afeb43ebf32a001f58fcdae
+  FirebaseCore: 85064903ed6c28e47fec9c7bd149d94ba1b6b6e7
+  FirebaseCoreDiagnostics: 5e78803ab276bc5b50340e3c539c06c3de35c649
+  FirebaseCoreDiagnosticsInterop: 296e2c5f5314500a850ad0b83e9e7c10b011a850
+  FirebaseInstallations: 575cd32f2aec0feeb0e44f5d0110a09e5e60b47b
+  FirebaseInstanceID: 6668efc1655a4052c083f287a7141f1ead12f9c2
+  FirebaseMessaging: 448cf4c727f3c95f4f90816907d67306ba785cfe
   FloatingPanel: 2f87246071476cf05d77ba3f50a373ca4b04549e
   Floaty: e2bd5a0f6f7f70899e26ff2da31081c8bee8d1b0
   fluid-slider: 68037ac7247f16a89f3e24ff5d0167c8eea6f50b
-  GoogleAppMeasurement: db118eb61a97dd8c4f7014e368d3c335cbbcf80a
-  GoogleDataTransport: 8e9b210c97d55fbff306cc5468ff91b9cb32dcf5
-  GoogleDataTransportCCTSupport: 202d7cdf9c4a7d81a2bb7f7e7e1ba6faa421b1f2
+  GoogleAppMeasurement: d0560d915abf15e692e8538ba1d58442217b6aff
+  GoogleDataTransport: 0048df6388dab1c254799f2a30365b1dffe20422
+  GoogleDataTransportCCTSupport: f880d70972efa2ed1be4e9173a0f4c5f3dc2d176
   GoogleMaps: 55da829c68aa931f3ae982b9e341cc2f3d89c587
   GoogleSignIn: 7137d297ddc022a7e0aa4619c86d72c909fa7213
-  GoogleUtilities: 29bd0d8f850efbd28cff6d99e8b7da1f8d236bcf
+  GoogleUtilities: 06eb53bb579efe7099152735900dd04bf09e7275
   GTMAppAuth: 4deac854479704f348309e7b66189e604cf5e01e
-  GTMSessionFetcher: 43b8b64263023d4f32caa0b40f4c8bfa3c5f36d8
+  GTMSessionFetcher: cea130bbfe5a7edc8d06d3f0d17288c32ffe9925
   Hero: b7385b75e7259da62f4f85462f59a5082d66b058
   ImageViewer: 997018c2f4f7f9830602349bbcc3b2b776424942
   InfiniteLayout: de51cfad9ed480a3e3a0af7d28242d3257c606d9
   JGProgressHUD: aa403e9a5b45cae98903c4600cccdd98c0c3ec90
-  Kingfisher: dc6e0f53bb5b12c3e75bedb0e01bbd7a640eea69
+  Kingfisher: 0d334cada987fcddbe9b5cec516406e1ee9d4748
   Localize-Swift: 4bed4f0ccac8be2ec3517ee359da80ba2adb0fae
-  lottie-ios: 32bf84389337d86fbc8b12266e88452e0abf1dee
-  MarqueeLabel: d24e821159667c93064ea3042ccf1875ca94db6b
+  lottie-ios: 85ce835dd8c53e02509f20729fc7d6a4e6645a0a
+  MarqueeLabel: f762aa681ae201f66c1d511858b171f75d83013a
   nanopb: 18003b5e52dab79db540fe93fe9579f399bd1ccd
   NVActivityIndicatorView: d24b7ebcf80af5dcd994adb650e2b6c93379270f
   ObjectMapper: 70187b8941977c62ccfb423caf6b50be405cabf0
@@ -349,7 +358,8 @@ SPEC CHECKSUMS:
   Pastel: 814f081efbe2859c37e65ee44f396e6e5be88619
   PIPKit: bf6c7a1d8a16757a6800c36ae1f5fcb88d686408
   pop: d582054913807fd11fd50bfe6a539d91c7e1a55a
-  PromiseKit: c06835ba442ce5454ce3cdde470232804a6e4ff8
+  PromiseKit: 28fda91c973cc377875d8c0ea4f973013c05b6db
+  PromisesObjC: c119f3cd559f50b7ae681fa59dc1acd19173b7e6
   Protobuf: dd1aaea7140debfe4dd0683fb8ef208e527ae153
   Reqres: da8d0497e660dc12c4db8285f30008c27c1800b7
   SkeletonView: 6c2bf622c352c7e36b4f3c8d73afc46d6c9360d6

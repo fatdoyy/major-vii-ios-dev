@@ -52,13 +52,13 @@ class OnboardingScreen: UIViewController {
     var screenThreeSubtitle: UILabel!
     var notiBtn: UIButton!
     let notiCenter = UNUserNotificationCenter.current()
-    var notiState = false
+    var notiAuthStatus = NotificationAuthorizationStatus.NotDetermined
     var isScreenThreeAnimated = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
         hideKeyboardWhenTappedAround()
-        notiState = checkNotiStatus()
+        notiAuthStatus = checkNotiStatus()
         setupUI()
     }
     
@@ -157,7 +157,11 @@ extension OnboardingScreen {
             pageControl.set(progress: currentPage, animated: true)
             
         case 2:
-            nextBtn.shake()
+            if checkNotiStatus() == .NotDetermined {
+                showNotiAlert()
+            } else {
+                print("dismiss VC")
+            }
             
         default: print("Error")
         }
@@ -553,15 +557,23 @@ extension OnboardingScreen {
         notiBtn = UIButton()
         notiBtn.alpha = 0
         notiBtn.titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: .medium)
-        if checkNotiStatus() == false {
+        switch checkNotiStatus() {
+        case .NotDetermined:
             notiBtn.setTitle("Enable Notifications", for: .normal)
             notiBtn.setTitleColor(.white, for: .normal)
             notiBtn.addTarget(self, action: #selector(showNotiAlert), for: .touchUpInside)
-        } else if checkNotiStatus() == true {
+            
+        case .Authorized:
             notiBtn.setTitle("Enabled!", for: .normal)
             notiBtn.setTitleColor(.darkPurple(), for: .normal)
             notiBtn.backgroundColor = .white
+            
+        case .Denied:
+            notiBtn.setTitle("Enable in \"Settings\"", for: .normal)
+            notiBtn.setTitleColor(.white, for: .normal)
+            notiBtn.addTarget(self, action: #selector(openNotiSettings), for: .touchUpInside)
         }
+
         notiBtn.layer.borderWidth = 2
         notiBtn.layer.borderColor = UIColor.white.withAlphaComponent(0.5).cgColor
         notiBtn.layer.cornerRadius = 25
@@ -574,33 +586,23 @@ extension OnboardingScreen {
         }
     }
     
-    private func checkNotiStatus() -> Bool {
+    private func checkNotiStatus() -> NotificationAuthorizationStatus {
         notiCenter.getNotificationSettings(completionHandler: { (settings) in
             switch settings.authorizationStatus {
-            case .notDetermined:
-                print("not detemined")
-                self.notiState = false
-
-            case .denied:
-                print("denied")
-                self.notiState = false
-
-            case .authorized:
-                print("authorized")
-                self.notiState = true
-
-            default: self.notiState = false
+            case .notDetermined:    self.notiAuthStatus = .NotDetermined
+            case .denied:           self.notiAuthStatus = .Denied
+            case .authorized:       self.notiAuthStatus = .Authorized
+            default:                self.notiAuthStatus = .NotDetermined
             }
         })
-        
-        return notiState
+        return notiAuthStatus
     }
     
     @objc private func showNotiAlert() {
         notiCenter.requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
             if let error = error {
                 print("\(error.localizedDescription)")
-            } else {
+            } else if granted {
                 DispatchQueue.main.async {
                     UIApplication.shared.registerForRemoteNotifications()
                     
@@ -609,9 +611,24 @@ extension OnboardingScreen {
                     self.notiBtn.setTitleColor(UIColor(hexString: "#3c1053"), for: .normal)
                     self.notiBtn.backgroundColor = .white
                     self.notiBtn.removeTarget(nil, action: nil, for: .allEvents)
+                    
+                    //also change nextBtn too
+                    self.nextBtn.setTitle("Finish!", for: .normal)
+                }
+            } else if !granted { //user denied
+                DispatchQueue.main.async {
+                    self.notiBtn.setTitle("Enable in \"Settings\"", for: .normal)
+                    self.notiBtn.removeTarget(nil, action: nil, for: .allEvents)
+                    self.notiBtn.addTarget(self, action: #selector(self.openNotiSettings), for: .touchUpInside)
+
+                    self.nextBtn.setTitle("Finish!", for: .normal)
                 }
             }
         }
+    }
+    
+    @objc private func openNotiSettings() {
+        print("redirect to settings app")
     }
     
     private func animateScreenThree() {
@@ -665,8 +682,11 @@ extension OnboardingScreen: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let pageIndex = scrollView.contentOffset.x / scrollView.bounds.size.width
         
-        if pageIndex < 0.35 { currentPage = 0 }
-        
+        //Page 0
+        if pageIndex < 0.35 {
+            currentPage = 0
+            nextBtn.setTitle("Next >", for: .normal)
+        }
         // initiate animations on half way before user scrolls to next page (i.e. pageIndex == 1)
         if pageIndex > 0.35 && !isScreenTwoAnimated { //going to page 1
             animateScreenTwo()
@@ -674,18 +694,32 @@ extension OnboardingScreen: UIScrollViewDelegate {
             currentPage = 1
         }
         
-        if 0.35 ... 1.35 ~= pageIndex { currentPage = 1 }
-        
+        //Page 1
+        if 0.35 ... 1.35 ~= pageIndex {
+            currentPage = 1
+            nextBtn.setTitle("Next >", for: .normal)
+        }
         if pageIndex > 1.35 && !isScreenThreeAnimated { //going to page 2
             animateScreenThree()
             currentPage = 2
+            nextBtn.setTitle(checkNotiStatus() == .NotDetermined ? "Next >" : "Finish!", for: .normal)
         }
         
-        if pageIndex == 2 { print(checkNotiStatus()) }
+        //Page 2
+        if 1.35 ... 2 ~= pageIndex {
+            nextBtn.setTitle(checkNotiStatus() == .NotDetermined ? "Next >" : "Finish!", for: .normal)
+        }
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         let pageIndex = Int(scrollView.contentOffset.x / scrollView.bounds.size.width)
         pageControl.set(progress: pageIndex, animated: true)
     }
+}
+
+//MARK: Notification Authorization Status enum
+enum NotificationAuthorizationStatus {
+    case Authorized
+    case Denied
+    case NotDetermined
 }
