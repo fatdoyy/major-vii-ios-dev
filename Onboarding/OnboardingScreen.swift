@@ -159,8 +159,30 @@ extension OnboardingScreen {
         case 2:
             if checkNotiStatus() == .NotDetermined {
                 showNotiAlert()
-            } else {
-                print("dismiss VC")
+            } else { //go to Home VC
+                let indicator = NVActivityIndicatorView(frame: CGRect(origin: CGPoint.zero, size: CGSize(width: 15, height: 15)), type: .lineScale)
+                nextBtn.addSubview(indicator)
+                indicator.alpha = 0
+                indicator.startAnimating()
+                indicator.snp.makeConstraints { (make) in
+                    make.size.equalTo(15)
+                    make.center.equalToSuperview()
+                }
+                nextBtn.isUserInteractionEnabled = false
+                
+                UIView.animate(withDuration: 0.2, delay: 0, options: .transitionCrossDissolve, animations: {
+                    self.nextBtn.setTitle("", for: .normal)
+                })
+                
+                UIView.animate(withDuration: 0.2) {
+                    indicator.alpha = 1
+                }
+            
+                //TODO: send request to server
+                
+                let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                let homeVC = storyBoard.instantiateViewController(withIdentifier: "tabBarVC") as! TabBarViewController
+                UIApplication.shared.keyWindow?.rootViewController = homeVC
             }
             
         default: print("Error")

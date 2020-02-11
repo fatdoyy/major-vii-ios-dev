@@ -49,24 +49,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //Network reachability
         NetworkManager.sharedInstance.startNetworkReachabilityObserver()
         
+        setInitialVC()
+        
         return true
-    }
-
-    @available(iOS 13.0, *)
-    @objc func appleIDStateChanged() {
-        let provider = ASAuthorizationAppleIDProvider()
-        provider.getCredentialState(forUserID: "12345") { (credentialState, error) in
-            switch credentialState {
-            case .authorized:
-                print()
-            case .revoked:
-                //UserService.current.logout(fromVC: self)
-                print()
-            case .notFound:
-                print()
-            default: break
-            }
-        }
     }
     
     func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
@@ -151,6 +136,36 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 }
 
-extension UITabBarDelegate {
+//MARK: - Custom App Delegate functions
+extension AppDelegate {
+    @available(iOS 13.0, *)
+    @objc func appleIDStateChanged() {
+        let provider = ASAuthorizationAppleIDProvider()
+        provider.getCredentialState(forUserID: "12345") { (credentialState, error) in
+            switch credentialState {
+            case .authorized:
+                print()
+            case .revoked:
+                //UserService.current.logout(fromVC: self)
+                print()
+            case .notFound:
+                print()
+            default: break
+            }
+        }
+    }
     
+    func setInitialVC() {
+        let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        var initialVC: UIViewController
+        
+        if !UserDefaults.standard.hasValue(LOCAL_KEY.IS_FIRST_LAUNCH) {
+            initialVC = mainStoryboard.instantiateViewController(withIdentifier: "onboardingScreen") as! OnboardingScreen
+            UserDefaults.standard.set(false, forKey: LOCAL_KEY.IS_FIRST_LAUNCH)
+            
+            self.window?.rootViewController = initialVC
+            self.window?.makeKeyAndVisible()
+        }
+
+    }
 }

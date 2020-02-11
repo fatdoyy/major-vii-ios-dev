@@ -45,7 +45,7 @@ target 'major-7-ios' do
   pod 'SwiftMessages'                           # in-app notifications/empty states of tableview/collectionview etc...
   pod 'CHIPageControl'                          # UIPageControl
   pod 'Parchment'                               # Paging menu
-  pod 'XCDYouTubeKit', '~> 2.7.3'               # Youtube AVPlayer
+  pod 'XCDYouTubeKit'                           # Youtube AVPlayer
   pod 'PIPKit'                                  # picture in picture mode
   pod 'FloatingPanel'                           # as title
   pod 'fluid-slider'                            # custom ui slider

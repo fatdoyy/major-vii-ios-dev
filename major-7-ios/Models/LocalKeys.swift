@@ -9,6 +9,9 @@
 import Foundation
 
 struct LOCAL_KEY {
+    //App settings
+    static var IS_FIRST_LAUNCH = "is_first_launch"
+    
     //major vii credentials
     static var USER_ID       = "user_id"
     static var ACCESS_TOKEN  = "access_token"
