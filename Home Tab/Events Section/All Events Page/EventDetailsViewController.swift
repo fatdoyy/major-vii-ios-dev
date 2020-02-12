@@ -150,6 +150,13 @@ class EventDetailsViewController: UIViewController {
             headerImg.kf.setImage(with: url, options: [.transition(.fade(0.3))])
         }
         
+        for view in bgView.skeletonViews {
+            if view.tag == 2 { //remove dummyTagLabel
+                view.removeFromSuperview()
+            }
+            view.hideSkeleton()
+        }
+        
         bgView.delegate = self
         
         //check bookmarkBtn state
@@ -240,13 +247,6 @@ class EventDetailsViewController: UIViewController {
         bgView.webLabel.text = eventDetails?.item?.webUrl
         
         bgView.layoutIfNeeded()
-        
-        for view in bgView.skeletonViews {
-            if view.tag == 2 { //remove dummyTagLabel
-                view.removeFromSuperview()
-            }
-            view.hideSkeleton()
-        }
         
         for view in bgView.viewsToShowLater {
             if view.tag == 111 { //not fading hashtagsCollectionView for better exp.

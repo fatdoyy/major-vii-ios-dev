@@ -134,7 +134,7 @@ class EventsListViewController: ScrollingNavigationViewController {
 extension EventsListViewController: FeaturedCellDelegate {
     private func getFeaturedEvents() { //get trending events list
         mainCollectionView.isUserInteractionEnabled = false
-        EventService.getTrendingEvents().done { response in
+        EventService.getFeaturedEvents().done { response in
             self.featuredEvents = response.list.shuffled()
             for _ in 0 ..< self.featuredEvents.count {
                 self.boolArr.append(Int.random(in: 0 ... 1))
@@ -650,6 +650,9 @@ extension EventsListViewController: UICollectionViewDelegate, UICollectionViewDe
         case UICollectionView.elementKindSectionHeader:
             if indexPath.section == EventsListSection.Featured.rawValue {
                 let reusableView = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: FeaturedSectionHeader.reuseIdentifier, for: indexPath) as! FeaturedSectionHeader
+                if !featuredEvents.isEmpty {
+                    reusableView.featuredCountLabel.text = "\(featuredEvents.count) Events"
+                }
                 return reusableView
             } else {
                 let reusableView = UICollectionReusableView(frame: .zero)

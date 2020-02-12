@@ -404,6 +404,10 @@ extension FollowingSection: UICollectionViewDataSource, UICollectionViewDelegate
             if !userFollowingsEvents.isEmpty {
                 let event = userFollowingsEvents[indexPath.row]
                 
+                for view in cell.skeletonViews { //hide all skeleton views
+                    view.hideSkeleton()
+                }
+                
                 if let id = userFollowingsEvents[indexPath.row].id {
                     cell.eventID = id
                 }
@@ -421,10 +425,6 @@ extension FollowingSection: UICollectionViewDataSource, UICollectionViewDelegate
                 cell.bookmarkBtn.backgroundColor = .clear
                 if let url = URL(string: event.images[0].secureUrl!) {
                     cell.bgImgView.kf.setImage(with: url, options: [.transition(.fade(0.3))])
-                }
-                
-                for view in cell.skeletonViews { //hide all skeleton views
-                    view.hideSkeleton()
                 }
                 
                 for view in cell.viewsToShowLater {

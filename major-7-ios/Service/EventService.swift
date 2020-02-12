@@ -70,6 +70,31 @@ extension EventService {
         }
     }
     
+    //featured events
+    static func getFeaturedEvents(skip: Int? = nil, limit: Int? = nil) -> Promise<Events> {
+        var params: [String: Any] = [:]
+        if let skip = skip {
+            params["skip"] = skip
+        }
+        
+        if let limit = limit {
+            params["limit"] = limit
+        }
+        
+        return Promise { resolver in
+            request(method: .get, url: getActionPath(.getFeaturedEvents), params: params).done { response in
+                guard let events = Mapper<Events>().map(JSONObject: response) else {
+                    resolver.reject(PMKError.cancelled)
+                    return
+                }
+                
+                resolver.fulfill(events)
+                }.catch { error in
+                    resolver.reject(error)
+            }
+        }
+    }
+    
     //nearby events
     static func getNearbyEvents(lat: Double, long: Double, radius: Int? = nil, skip: Int? = nil, limit: Int? = nil) -> Promise<NearbyEvents> {
         var params: [String: Any] = [:]

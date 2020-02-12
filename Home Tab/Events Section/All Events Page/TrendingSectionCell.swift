@@ -111,6 +111,7 @@ class TrendingSectionCell: UICollectionViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         bookmarkBtn.backgroundColor = .clear
+        eventTitle.text = "Title"
         bgImgView.image = nil
         premiumBadge.alpha = 0
         verifiedIcon.alpha = 0

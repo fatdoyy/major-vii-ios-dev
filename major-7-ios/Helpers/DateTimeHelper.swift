@@ -15,7 +15,7 @@ extension DateTimeHelper {
     static func getEventInterval(from: DateInRegion, to: DateInRegion) -> String {
         let dayDifference = from.getInterval(toDate: to, component: .day)
         switch dayDifference {
-        case ..<0:  return "Ongoing / Ended"
+        case ..<0:  return "Happening / Ended"
         case 0:     return "Today"
         case 1:     return "1 day later"
             

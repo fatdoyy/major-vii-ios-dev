@@ -32,7 +32,7 @@ target 'major-7-ios' do
   pod 'SnapKit'                                 # layout constaints
   pod 'Pastel'                                  # dynamic gradient background
   pod 'ObjectMapper'                            # json mapping
-  pod 'SkeletonView', '1.6'                     # as title
+  pod 'SkeletonView'                            # as title
   pod 'BouncyLayout'                            # UICollectionView animation
   pod 'AMScrollingNavbar'                       # UINavigationBar hiding
   #pod 'MXParallaxHeader'                        # parallax header
@@ -56,7 +56,6 @@ target 'major-7-ios' do
   pod 'Hero'                                    # transitions
   pod 'lottie-ios'                              # After Effects animations
   pod 'ViewAnimator'                            # Animate uicollectionview cells
-  #pod 'paper-onboarding'                        # welcome tutorial
   #pod 'ActiveLabel'                             # supporting Hashtags (#), Mentions (@), URLs (http:/)
 
   pod 'Validator', :git => 'https://github.com/kikikiktai/Validator.git'                            # UITextField validation

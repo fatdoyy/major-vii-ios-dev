@@ -90,7 +90,7 @@ class BaseService: NSObject {
         case .getFollowingEvents:
             actionPathStr = "events/userFollowing"
         case .getFeaturedEvents:
-            actionPathStr = "events/feature"
+            actionPathStr = "events/featured"
         case .getNearbyEvents:
             actionPathStr = "events/nearby"
         case .getEventDetails(let eventID):

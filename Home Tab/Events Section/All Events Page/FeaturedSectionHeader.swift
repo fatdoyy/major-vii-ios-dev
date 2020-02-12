@@ -24,7 +24,7 @@ class FeaturedSectionHeader: UICollectionReusableView {
         featuredTitle.text = "Featured"
         
         featuredCountLabel.textColor = .purpleText()
-        featuredCountLabel.text = "100+ Events"
+        featuredCountLabel.text = "Loading..."
     }
     
 }

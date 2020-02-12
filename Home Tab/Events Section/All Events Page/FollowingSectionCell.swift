@@ -111,6 +111,7 @@ class FollowingSectionCell: UICollectionViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         bookmarkBtn.backgroundColor = .clear
+        eventTitle.text = "title"
         bgImgView.image = nil
         premiumBadge.alpha = 0
         verifiedIcon.alpha = 0
