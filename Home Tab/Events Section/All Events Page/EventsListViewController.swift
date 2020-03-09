@@ -357,7 +357,6 @@ extension EventsListViewController: FeaturedCellDelegate {
                                 }
                             }
                         }
-
                     } else { //bookmarked list is empty, remove id from array
                         if self.bookmarkedEventIDArray.contains(checkID) {
                             self.bookmarkedEventIDArray.remove(object: checkID)
@@ -377,7 +376,6 @@ extension EventsListViewController: FeaturedCellDelegate {
 //MARK: - UI related
 extension EventsListViewController {
     private func setupMainCollectionView() {
-        
         mainCollectionView.backgroundColor = .m7DarkGray()
         mainCollectionView.showsVerticalScrollIndicator = false
         mainCollectionView.showsHorizontalScrollIndicator = false

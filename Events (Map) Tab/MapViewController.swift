@@ -54,7 +54,7 @@ class MapViewController: UIViewController {
     var swipeUpImg = UIImageView()
     var swipeDownImg = UIImageView()
     
-    var bookmarkedEvents = [BookmarkedEvent]()
+    var bookmarkedEvents = [Event]()
     var nearbyEvents = [NearbyEvent]()
     
     var eventDetails: EventDetails?
@@ -93,11 +93,7 @@ class MapViewController: UIViewController {
         setupUI()
         setupFPC()
     }
-    
-//    override var preferredStatusBarStyle: UIStatusBarStyle {
-//        return .lightContent
-//    }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setupNavBar()
@@ -115,7 +111,14 @@ class MapViewController: UIViewController {
 extension MapViewController {
     private func getBookmarkedEvents() {
         UserService.getBookmarkedEvents().done { response in
-            self.bookmarkedEvents = response.list.reversed()
+            let list = response.list.reversed()
+            var bookmarkedEvents = [Event]()
+            for event in list {
+                if let bookmarkedEvent = event.targetEvent {
+                    bookmarkedEvents.append(bookmarkedEvent)
+                }
+            }
+            self.bookmarkedEvents = bookmarkedEvents
             
             //parse data to eventsVC
             self.eventsVC.bookmarkedEvents = self.bookmarkedEvents
@@ -257,7 +260,7 @@ extension MapViewController {
     private func setupFilterBtn() {
         filterBtn = UIButton()
         let moreImg = UIImage(named: "icon_more")
-        let tintedImg = moreImg!.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+        let tintedImg = moreImg!.withRenderingMode(.alwaysTemplate)
         filterBtn.setImage(tintedImg, for: .normal)
         filterBtn.tintColor = mapStyle == .Standard ? .m7LightGray() : .lightGray
         filterBtn.setTitle("", for: .normal)
@@ -279,7 +282,7 @@ extension MapViewController {
     private func setupMapStyleBtn() {
         mapStyleBtn = UIButton()
         let styleImg = mapStyle == .Standard ? UIImage(named: "icon_dark_mode_diselect") : UIImage(named: "icon_dark_mode")
-        let tintedImg = styleImg!.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+        let tintedImg = styleImg!.withRenderingMode(.alwaysTemplate)
         mapStyleBtn.setImage(tintedImg, for: .normal)
         mapStyleBtn.tintColor = mapStyle == .Standard ? .m7LightGray() : .lightGray
         mapStyleBtn.setTitle("", for: .normal)
@@ -299,7 +302,7 @@ extension MapViewController {
     private func setupMyLocationBtn() {
         myLocationBtn = UIButton()
         let locationIcon = UIImage(named: "icon_locationBtn")
-        let tintedImg = locationIcon!.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+        let tintedImg = locationIcon!.withRenderingMode(.alwaysTemplate)
         myLocationBtn.setImage(tintedImg, for: .normal)
         myLocationBtn.tintColor = mapStyle == .Standard ? .m7LightGray() : .lightGray
         myLocationBtn.setTitle("", for: .normal)
@@ -649,7 +652,7 @@ extension MapViewController: GMSMapViewDelegate, InfoWindowDelegate, BookmarkedE
             eventsTitle.textColor = .m7DarkGray()
             nearbyEventsCountLabel.textColor = .m7LightGray()
             filterBtn.tintColor = .m7LightGray()
-            mapStyleBtn.setImage(UIImage(named: "icon_dark_mode_diselect")!.withRenderingMode(UIImage.RenderingMode.alwaysTemplate), for: .normal)
+            mapStyleBtn.setImage(UIImage(named: "icon_dark_mode_diselect")!.withRenderingMode(.alwaysTemplate), for: .normal)
             mapStyleBtn.tintColor = .m7LightGray()
             myLocationBtn.tintColor = .m7LightGray()
         }
@@ -672,7 +675,7 @@ extension MapViewController: GMSMapViewDelegate, InfoWindowDelegate, BookmarkedE
             eventsTitle.textColor = .white
             nearbyEventsCountLabel.textColor = .lightGray
             filterBtn.tintColor = .lightGray
-            mapStyleBtn.setImage(UIImage(named: "icon_dark_mode")!.withRenderingMode(UIImage.RenderingMode.alwaysTemplate), for: .normal)
+            mapStyleBtn.setImage(UIImage(named: "icon_dark_mode")!.withRenderingMode(.alwaysTemplate), for: .normal)
             mapStyleBtn.tintColor = .lightGray
             myLocationBtn.tintColor = .lightGray
         }

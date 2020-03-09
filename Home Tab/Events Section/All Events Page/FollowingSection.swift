@@ -420,7 +420,7 @@ extension FollowingSection: UICollectionViewDataSource, UICollectionViewDelegate
                     let difference = DateTimeHelper.getEventInterval(from: currentDate, to: eventDate)
                     cell.dateLabel.text = difference
                 }
-
+                
                 cell.performerLabel.text = event.organizerProfile?.name
                 cell.bookmarkBtn.backgroundColor = .clear
                 if let url = URL(string: event.images[0].secureUrl!) {
@@ -530,7 +530,7 @@ extension FollowingSection: UICollectionViewDataSource, UICollectionViewDelegate
                     followingSectionCollectionView.reloadData()
                     getCurrentUserFollowingsEvents(limit: eventsLimit)
                 }
-
+                
             }
             
         case followingSectionCollectionView:
@@ -553,7 +553,7 @@ extension FollowingSection: UICollectionViewDataSource, UICollectionViewDelegate
                 
             }
             selectedIndexPath = nil
-
+            
         default: print("no action needed")
         }
     }
@@ -658,18 +658,18 @@ extension FollowingSection: FollowingSectionCellDelegate {
                     self.emptyFollowingEventsShadowView.alpha = 1
                 })
             }
-            }.ensure {
-                if self.loadingIndicator.alpha != 0 {
-                    UIView.animate(withDuration: 0.2) {
-                        self.loadingIndicator.alpha = 0
-                    }
+        }.ensure {
+            if self.loadingIndicator.alpha != 0 {
+                UIView.animate(withDuration: 0.2) {
+                    self.loadingIndicator.alpha = 0
                 }
-                
-                self.followingsCollectionView.isUserInteractionEnabled = true
-                self.followingSectionCollectionView.isUserInteractionEnabled = true
-                NotificationCenter.default.post(name: .eventListEndRefreshing, object: nil)
-                UIApplication.shared.isNetworkActivityIndicatorVisible = false
-            }.catch { error in }
+            }
+            
+            self.followingsCollectionView.isUserInteractionEnabled = true
+            self.followingSectionCollectionView.isUserInteractionEnabled = true
+            NotificationCenter.default.post(name: .eventListEndRefreshing, object: nil)
+            UIApplication.shared.isNetworkActivityIndicatorVisible = false
+        }.catch { error in }
     }
     
     //pull to refresh
@@ -747,7 +747,7 @@ extension FollowingSection: FollowingSectionCellDelegate {
                                 cell.bookmarkBtn.setImage(UIImage(named: "bookmark"), for: .normal)
                             }, completion: nil)
                         }
-                        }.ensure { UIApplication.shared.isNetworkActivityIndicatorVisible = false }.catch { error in }
+                    }.ensure { UIApplication.shared.isNetworkActivityIndicatorVisible = false }.catch { error in }
                     
                 } else { //this cell is bookmarked and held by local array, will bypass check from api
                     //animate button state
@@ -810,7 +810,6 @@ extension FollowingSection: FollowingSectionCellDelegate {
                                 }
                             }
                         }
-                        
                     } else { //bookmarked list is empty, remove id from array
                         if self.bookmarkedEventIDArray.contains(checkID) {
                             self.bookmarkedEventIDArray.remove(object: checkID)
@@ -820,7 +819,7 @@ extension FollowingSection: FollowingSectionCellDelegate {
                             self.removeBookmarkAnimation(cell: cell)
                         }
                     }
-                    }.ensure { UIApplication.shared.isNetworkActivityIndicatorVisible = false }.catch { error in }
+                }.ensure { UIApplication.shared.isNetworkActivityIndicatorVisible = false }.catch { error in }
                 
             }
         }
@@ -845,28 +844,28 @@ extension FollowingSection: FollowingSectionCellDelegate {
                     //create bookmark action
                     EventService.createBookmark(eventID: eventID).done { _ in
                         print("Event with ID (\(eventID)) bookmarked")
-                        }.ensure {
-                            UIView.animate(withDuration: 0.2) {
-                                cell.bookmarkBtn.backgroundColor = .mintGreen()
-                                cell.bookmarkBtnIndicator.alpha = 0
-                            }
-                            
-                            UIView.transition(with: cell.bookmarkBtn, duration: 0.2, options: .transitionCrossDissolve, animations: {
-                                cell.bookmarkBtn.setImage(UIImage(named: "bookmark"), for: .normal)
-                            }, completion: nil)
-                            
-                            cell.bookmarkBtn.isUserInteractionEnabled = true
-                            if !self.bookmarkedEventIDArray.contains(eventID) {
-                                self.bookmarkedEventIDArray.append(eventID)
-                            }
-                            
-                            NotificationCenter.default.post(name: .refreshTrendingSectionCell, object: nil, userInfo: ["add_id": eventID]) //refresh bookmarkBtn state in TrendingSection
-                            NotificationCenter.default.post(name: .refreshBookmarkedSection, object: nil, userInfo: ["add_id": eventID]) //reload collection view in BookmarkedSection
-                            NotificationCenter.default.post(name: .refreshFeaturedSectionCell, object: nil, userInfo: ["add_id": eventID]) //refresh bookmarkBtn state in FeaturedSection
-                            
-                            UIApplication.shared.isNetworkActivityIndicatorVisible = false
-                            HapticFeedback.createNotificationFeedback(style: .success)
-                        }.catch { error in }
+                    }.ensure {
+                        UIView.animate(withDuration: 0.2) {
+                            cell.bookmarkBtn.backgroundColor = .mintGreen()
+                            cell.bookmarkBtnIndicator.alpha = 0
+                        }
+                        
+                        UIView.transition(with: cell.bookmarkBtn, duration: 0.2, options: .transitionCrossDissolve, animations: {
+                            cell.bookmarkBtn.setImage(UIImage(named: "bookmark"), for: .normal)
+                        }, completion: nil)
+                        
+                        cell.bookmarkBtn.isUserInteractionEnabled = true
+                        if !self.bookmarkedEventIDArray.contains(eventID) {
+                            self.bookmarkedEventIDArray.append(eventID)
+                        }
+                        
+                        NotificationCenter.default.post(name: .refreshTrendingSectionCell, object: nil, userInfo: ["add_id": eventID]) //refresh bookmarkBtn state in TrendingSection
+                        NotificationCenter.default.post(name: .refreshBookmarkedSection, object: nil, userInfo: ["add_id": eventID]) //reload collection view in BookmarkedSection
+                        NotificationCenter.default.post(name: .refreshFeaturedSectionCell, object: nil, userInfo: ["add_id": eventID]) //refresh bookmarkBtn state in FeaturedSection
+                        
+                        UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                        HapticFeedback.createNotificationFeedback(style: .success)
+                    }.catch { error in }
                     
                 } else { //remove bookmark
                     HapticFeedback.createImpact(style: .light)
@@ -899,14 +898,14 @@ extension FollowingSection: FollowingSectionCellDelegate {
                             self.bookmarkedEventIDArray.remove(at: index)
                             print("Trending Section array: \(self.bookmarkedEventIDArray)\n")
                         }
-                        }.ensure {
-                            NotificationCenter.default.post(name: .refreshTrendingSectionCell, object: nil, userInfo: ["remove_id": eventID]) //refresh bookmarkBtn state in TrendingSection
-                            NotificationCenter.default.post(name: .refreshBookmarkedSection, object: nil, userInfo: ["remove_id": eventID]) //reload collection view in BookmarkedSection
-                            NotificationCenter.default.post(name: .refreshFeaturedSectionCell, object: nil, userInfo: ["remove_id": eventID]) //refresh bookmarkBtn state in FeaturedSection
-                            
-                            UIApplication.shared.isNetworkActivityIndicatorVisible = false
-                            HapticFeedback.createNotificationFeedback(style: .success)
-                        }.catch { error in }
+                    }.ensure {
+                        NotificationCenter.default.post(name: .refreshTrendingSectionCell, object: nil, userInfo: ["remove_id": eventID]) //refresh bookmarkBtn state in TrendingSection
+                        NotificationCenter.default.post(name: .refreshBookmarkedSection, object: nil, userInfo: ["remove_id": eventID]) //reload collection view in BookmarkedSection
+                        NotificationCenter.default.post(name: .refreshFeaturedSectionCell, object: nil, userInfo: ["remove_id": eventID]) //refresh bookmarkBtn state in FeaturedSection
+                        
+                        UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                        HapticFeedback.createNotificationFeedback(style: .success)
+                    }.catch { error in }
                 }
                 
             } else {

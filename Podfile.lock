@@ -1,6 +1,6 @@
 PODS:
   - Alamofire (4.9.1)
-  - AMScrollingNavbar (5.6.0)
+  - AMScrollingNavbar (5.6.1)
   - AppAuth (1.3.0):
     - AppAuth/Core (= 1.3.0)
     - AppAuth/ExternalUserAgent (= 1.3.0)
@@ -45,32 +45,32 @@ PODS:
     - Bolts (~> 1.9)
   - FBSDKLoginKit (4.38.1):
     - FBSDKCoreKit
-  - Firebase/Analytics (6.17.0):
+  - Firebase/Analytics (6.18.0):
     - Firebase/Core
-  - Firebase/Core (6.17.0):
+  - Firebase/Core (6.18.0):
     - Firebase/CoreOnly
-    - FirebaseAnalytics (= 6.2.2)
-  - Firebase/CoreOnly (6.17.0):
-    - FirebaseCore (= 6.6.2)
-  - Firebase/Messaging (6.17.0):
+    - FirebaseAnalytics (= 6.3.0)
+  - Firebase/CoreOnly (6.18.0):
+    - FirebaseCore (= 6.6.3)
+  - Firebase/Messaging (6.18.0):
     - Firebase/CoreOnly
-    - FirebaseMessaging (~> 4.2.1)
-  - FirebaseAnalytics (6.2.2):
+    - FirebaseMessaging (~> 4.3.0)
+  - FirebaseAnalytics (6.3.0):
     - FirebaseCore (~> 6.6)
-    - FirebaseInstanceID (~> 4.3)
-    - GoogleAppMeasurement (= 6.2.2)
+    - FirebaseInstallations (~> 1.1)
+    - GoogleAppMeasurement (= 6.3.0)
     - GoogleUtilities/AppDelegateSwizzler (~> 6.0)
     - GoogleUtilities/MethodSwizzler (~> 6.0)
     - GoogleUtilities/Network (~> 6.0)
     - "GoogleUtilities/NSData+zlib (~> 6.0)"
     - nanopb (= 0.3.9011)
   - FirebaseAnalyticsInterop (1.5.0)
-  - FirebaseCore (6.6.2):
+  - FirebaseCore (6.6.3):
     - FirebaseCoreDiagnostics (~> 1.2)
     - FirebaseCoreDiagnosticsInterop (~> 1.2)
     - GoogleUtilities/Environment (~> 6.5)
     - GoogleUtilities/Logger (~> 6.5)
-  - FirebaseCoreDiagnostics (1.2.0):
+  - FirebaseCoreDiagnostics (1.2.1):
     - FirebaseCoreDiagnosticsInterop (~> 1.2)
     - GoogleDataTransportCCTSupport (~> 1.3)
     - GoogleUtilities/Environment (~> 6.5)
@@ -81,12 +81,12 @@ PODS:
     - FirebaseCore (~> 6.6)
     - GoogleUtilities/UserDefaults (~> 6.5)
     - PromisesObjC (~> 1.2)
-  - FirebaseInstanceID (4.3.1):
+  - FirebaseInstanceID (4.3.2):
     - FirebaseCore (~> 6.6)
     - FirebaseInstallations (~> 1.0)
     - GoogleUtilities/Environment (~> 6.5)
     - GoogleUtilities/UserDefaults (~> 6.5)
-  - FirebaseMessaging (4.2.1):
+  - FirebaseMessaging (4.3.0):
     - FirebaseAnalyticsInterop (~> 1.5)
     - FirebaseCore (~> 6.6)
     - FirebaseInstanceID (~> 4.3)
@@ -95,24 +95,24 @@ PODS:
     - GoogleUtilities/Reachability (~> 6.5)
     - GoogleUtilities/UserDefaults (~> 6.5)
     - Protobuf (>= 3.9.2, ~> 3.9)
-  - FloatingPanel (1.7.2)
+  - FloatingPanel (1.7.4)
   - Floaty (4.2.0)
   - fluid-slider (1.1.0):
     - pop
-  - GoogleAppMeasurement (6.2.2):
+  - GoogleAppMeasurement (6.3.0):
     - GoogleUtilities/AppDelegateSwizzler (~> 6.0)
     - GoogleUtilities/MethodSwizzler (~> 6.0)
     - GoogleUtilities/Network (~> 6.0)
     - "GoogleUtilities/NSData+zlib (~> 6.0)"
     - nanopb (= 0.3.9011)
-  - GoogleDataTransport (4.0.0)
-  - GoogleDataTransportCCTSupport (1.4.0):
+  - GoogleDataTransport (4.0.1)
+  - GoogleDataTransportCCTSupport (1.4.1):
     - GoogleDataTransport (~> 4.0)
     - nanopb (~> 0.3.901)
-  - GoogleMaps (3.7.0):
-    - GoogleMaps/Maps (= 3.7.0)
-  - GoogleMaps/Base (3.7.0)
-  - GoogleMaps/Maps (3.7.0):
+  - GoogleMaps (3.8.0):
+    - GoogleMaps/Maps (= 3.8.0)
+  - GoogleMaps/Base (3.8.0)
+  - GoogleMaps/Maps (3.8.0):
     - GoogleMaps/Base
   - GoogleSignIn (5.0.2):
     - AppAuth (~> 1.2)
@@ -152,9 +152,9 @@ PODS:
   - InfiniteLayout/Core (0.4.2):
     - InfiniteLayout/CocoaProxy
   - JGProgressHUD (2.1)
-  - Kingfisher (5.13.0):
-    - Kingfisher/Core (= 5.13.0)
-  - Kingfisher/Core (5.13.0)
+  - Kingfisher (5.13.2):
+    - Kingfisher/Core (= 5.13.2)
+  - Kingfisher/Core (5.13.2)
   - Localize-Swift (3.1.0)
   - lottie-ios (3.1.6)
   - MarqueeLabel (4.0.2)
@@ -173,7 +173,7 @@ PODS:
   - pop (1.0.12)
   - PromiseKit/CorePromise (6.13.1)
   - PromisesObjC (1.2.8)
-  - Protobuf (3.11.3)
+  - Protobuf (3.11.4)
   - Reqres (3.1.0)
   - SkeletonView (1.8.5)
   - SkyFloatingLabelTextField (3.8.0)
@@ -185,7 +185,7 @@ PODS:
   - SwiftMessages/App (7.0.1)
   - Validator (3.2)
   - ViewAnimator (2.7.0)
-  - XCDYouTubeKit (2.9.0)
+  - XCDYouTubeKit (2.12.0)
 
 DEPENDENCIES:
   - Alamofire (~> 4.8)
@@ -222,7 +222,7 @@ DEPENDENCIES:
   - PIPKit
   - PromiseKit/CorePromise
   - Reqres
-  - SkeletonView
+  - SkeletonView (= 1.8.5)
   - SkyFloatingLabelTextField (~> 3.0)
   - SnapKit
   - SwiftDate
@@ -311,7 +311,7 @@ CHECKOUT OPTIONS:
 
 SPEC CHECKSUMS:
   Alamofire: 85e8a02c69d6020a0d734f6054870d7ecb75cf18
-  AMScrollingNavbar: cf0ec5a5ee659d76ba2509f630bf14fba7e16dc3
+  AMScrollingNavbar: 602dd7a26efd0edb40d67ec20b5ee80b9f573bbb
   AppAuth: 73574f3013a1e65b9601a3ddc8b3158cce68c09d
   Bartinter: 3c1fc3bcb631b066fdd78f7e01f1635fbafffdea
   BetterSegmentedControl: 85d1b0343a09603b098884d527f550dfc8e6cdd9
@@ -323,22 +323,22 @@ SPEC CHECKSUMS:
   FacebookLogin: ebcf34714a1cb9f0759d9f071cfb01ed500996cf
   FBSDKCoreKit: 8d47857400e2f5bdea697a80daff882e91c84ef6
   FBSDKLoginKit: 4621c690d9dd8628031a4791497062183ea34b0d
-  Firebase: 2672e5636b42f977177716317e68346ae5e9de25
-  FirebaseAnalytics: cf95d3aab897612783020fbd98401d5366f135ee
+  Firebase: 0490eca762a72e4f1582319539153897f1508dee
+  FirebaseAnalytics: 058d71e714a1a6804d9e0f25e3bb18e377a51579
   FirebaseAnalyticsInterop: 3f86269c38ae41f47afeb43ebf32a001f58fcdae
-  FirebaseCore: a1dd9dd6355a8356dd30a8f076839e242285a81c
-  FirebaseCoreDiagnostics: 5e78803ab276bc5b50340e3c539c06c3de35c649
+  FirebaseCore: 78276943ad85e616dfa54dafa6c89512987d9d60
+  FirebaseCoreDiagnostics: 2109d10c35e8289b1ee6cabf44d9ffb055620194
   FirebaseCoreDiagnosticsInterop: 296e2c5f5314500a850ad0b83e9e7c10b011a850
   FirebaseInstallations: 575cd32f2aec0feeb0e44f5d0110a09e5e60b47b
-  FirebaseInstanceID: 031d7d0c8e7b5c030bbeb4d2a690550375e83fec
-  FirebaseMessaging: 9e23f9d603b1fb71ccbeb48d79bf0d4ba0272c84
-  FloatingPanel: b275a35d0a09be4bd37025e710a6a1d063bfc161
+  FirebaseInstanceID: 7ee0d6777013bb952f377b41965bf132b6a075be
+  FirebaseMessaging: 4ec33842d36b3319e062e51fb8b35a74f726950d
+  FloatingPanel: 3c9d0e30fe350e1613157557769d2ec97f76b96b
   Floaty: e2bd5a0f6f7f70899e26ff2da31081c8bee8d1b0
   fluid-slider: 68037ac7247f16a89f3e24ff5d0167c8eea6f50b
-  GoogleAppMeasurement: d0560d915abf15e692e8538ba1d58442217b6aff
-  GoogleDataTransport: 47fe3b8e1673e5187dfd615656a3c5034f150d69
-  GoogleDataTransportCCTSupport: 36f69887fd212db6d7ef4dd45ba44523717a434e
-  GoogleMaps: 55da829c68aa931f3ae982b9e341cc2f3d89c587
+  GoogleAppMeasurement: 39ecba10918b21c83877d392246157f65db351cf
+  GoogleDataTransport: 653963cf5be60fb59cf051e070f0836fdc305f81
+  GoogleDataTransportCCTSupport: 84e4d4bbab642f2e9d83ee65d78aca2b5527d314
+  GoogleMaps: 7c8d66d70e4e8c300f43a7219d8fdaad7b325a9a
   GoogleSignIn: 7137d297ddc022a7e0aa4619c86d72c909fa7213
   GoogleUtilities: 06eb53bb579efe7099152735900dd04bf09e7275
   GTMAppAuth: 4deac854479704f348309e7b66189e604cf5e01e
@@ -347,7 +347,7 @@ SPEC CHECKSUMS:
   ImageViewer: 997018c2f4f7f9830602349bbcc3b2b776424942
   InfiniteLayout: de51cfad9ed480a3e3a0af7d28242d3257c606d9
   JGProgressHUD: aa403e9a5b45cae98903c4600cccdd98c0c3ec90
-  Kingfisher: 0d334cada987fcddbe9b5cec516406e1ee9d4748
+  Kingfisher: d342c8354c10c3d85a27d6d4c42c41285924b898
   Localize-Swift: 4bed4f0ccac8be2ec3517ee359da80ba2adb0fae
   lottie-ios: 85ce835dd8c53e02509f20729fc7d6a4e6645a0a
   MarqueeLabel: f762aa681ae201f66c1d511858b171f75d83013a
@@ -360,7 +360,7 @@ SPEC CHECKSUMS:
   pop: d582054913807fd11fd50bfe6a539d91c7e1a55a
   PromiseKit: 28fda91c973cc377875d8c0ea4f973013c05b6db
   PromisesObjC: c119f3cd559f50b7ae681fa59dc1acd19173b7e6
-  Protobuf: 0e94afe3b47cb11876eb6aee296638711a24bf75
+  Protobuf: 176220c526ad8bd09ab1fb40a978eac3fef665f7
   Reqres: da8d0497e660dc12c4db8285f30008c27c1800b7
   SkeletonView: 3a8d8dd241eaa7e7bb3744bc000fed94fcd69823
   SkyFloatingLabelTextField: 5a338412114808e961fe2d14ea2c5452c8b6e4aa
@@ -370,8 +370,8 @@ SPEC CHECKSUMS:
   SwiftMessages: b577dc7043be8b299857ab35bb663dbff6483bd0
   Validator: 9cfe0da15338f2e36fcf9e394f5bc1761888bec4
   ViewAnimator: 5af1c6f3b310f012bf081259c43717aa54fbae73
-  XCDYouTubeKit: 65b8c362ad9e8b69a7f6bba4e4fa3b26dc0c29f3
+  XCDYouTubeKit: cdad9e696f991aac2739c5b25586c81f1301ba30
 
-PODFILE CHECKSUM: d8d68848fc29a0a382bbc2ecb4819e92e4c9f059
+PODFILE CHECKSUM: 99b3f7ecfdf71754f86153889623b6fbb8033f0b
 
 COCOAPODS: 1.7.2

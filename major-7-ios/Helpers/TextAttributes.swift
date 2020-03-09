@@ -11,7 +11,7 @@ import UIKit
 class TextAttributes {}
 
 extension TextAttributes {
-    class func newsSubtitleConfig() -> [NSAttributedString.Key : Any] {
+    class func newsSubtitleConfig() -> [NSAttributedString.Key: Any] {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = 6
         paragraphStyle.lineBreakMode = .byTruncatingTail
@@ -20,7 +20,7 @@ extension TextAttributes {
         return myAttribute
     }
     
-    class func newsContentConfig() -> [NSAttributedString.Key : Any] {
+    class func newsContentConfig() -> [NSAttributedString.Key: Any] {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = 8
         paragraphStyle.lineBreakMode = .byTruncatingTail
@@ -29,7 +29,7 @@ extension TextAttributes {
         return myAttribute
     }
     
-    class func postContentConfig() -> [NSAttributedString.Key : Any] {
+    class func postContentConfig() -> [NSAttributedString.Key: Any] {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = 5
         //paragraphStyle.lineBreakMode = .byTruncatingTail

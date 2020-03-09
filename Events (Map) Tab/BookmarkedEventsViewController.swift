@@ -26,7 +26,7 @@ class BookmarkedEventsViewController: UIViewController {
     
     var isRefreshing = false
     let animations = [AnimationType.from(direction: .bottom, offset: 30), AnimationType.zoom(scale: 0.5)]
-    var bookmarkedEvents = [BookmarkedEvent]() {
+    var bookmarkedEvents = [Event]() {
         didSet {
             if !bookmarkedEvents.isEmpty {
                 //hide empty state label
@@ -153,30 +153,29 @@ extension BookmarkedEventsViewController: UICollectionViewDelegate, UICollection
                     cell.containerView.alpha = 1
                 }
             }
-            if let event = bookmarkedEvents[indexPath.row].targetEvent {
-                let urlArr = event.images.randomElement()!.secureUrl!.components(separatedBy: "upload/")
-                let desaturatedUrl = URL(string: "\(urlArr[0])upload/e_saturation:-60/\(urlArr[1])") //apply saturation effect by Cloudinary
-                cell.bgImgView.kf.setImage(with: desaturatedUrl, options: [.transition(.fade(0.3))])
-                
-                cell.eventTitle.text = event.title
-                cell.performerName.text = event.organizerProfile?.name
-                cell.bookmarkCount.text = "468" //bookmark.count
-            }
+            let event = bookmarkedEvents[indexPath.row]
+            let urlArr = event.images.randomElement()!.secureUrl!.components(separatedBy: "upload/")
+            let desaturatedUrl = URL(string: "\(urlArr[0])upload/e_saturation:-60/\(urlArr[1])") //apply saturation effect by Cloudinary
+            cell.bgImgView.kf.setImage(with: desaturatedUrl, options: [.transition(.fade(0.3))])
+            
+            cell.eventTitle.text = event.title
+            cell.performerName.text = event.organizerProfile?.name
+            cell.bookmarkCount.text = "468" //bookmark.count
         }
+        
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if !bookmarkedEvents.isEmpty {
-            if let event = bookmarkedEvents[indexPath.row].targetEvent {
-                if let location = event.location, let performer = event.organizerProfile {
-                    let lat = location.coordinates[1]
-                    let long = location.coordinates[0]
-                    delegate?.cellTapped(lat: lat, long: long, iconUrl: (performer.coverImages.randomElement()?.secureUrl)!, name: performer.name!, id: event.id!)
-                } else {
-                    print("location is empty")
-                    SwiftMessages.show(view: locationEmptyMsgView)
-                }
+            let event = bookmarkedEvents[indexPath.row]
+            if let location = event.location, let performer = event.organizerProfile {
+                let lat = location.coordinates[1]
+                let long = location.coordinates[0]
+                delegate?.cellTapped(lat: lat, long: long, iconUrl: (performer.coverImages.randomElement()?.secureUrl)!, name: performer.name!, id: event.id!)
+            } else {
+                print("location is empty")
+                SwiftMessages.show(view: locationEmptyMsgView)
             }
         }
     }

@@ -98,12 +98,14 @@ class BookmarkedSectionCell: UICollectionViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         bookmarkBtn.backgroundColor = .mintGreen()
+        bookmarkBtnIndicator.alpha = 0
+        bookmarkBtn.setImage(UIImage(named: "bookmark"), for: .normal)
+        
         bgImgView.image = nil
+        eventTitle.text = "title"
         premiumBadge.alpha = 0
         verifiedIcon.alpha = 0
         setupSkeletonViews()
-        //checkShouldDisplayIndicator()
-        //bookmarkBtn.setImage(UIImage(named: "bookmark"), for: .normal)
     }
     
     @IBAction func bookmarkBtnTapped(_ sender: Any) {

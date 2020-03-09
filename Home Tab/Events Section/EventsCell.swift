@@ -71,7 +71,7 @@ extension EventsCell {
         dateLabel.tag = 1
         for view in skeletonViews {
             if view.tag == 1 {
-                SkeletonAppearance.default.multilineHeight = 18
+                SkeletonAppearance.default.multilineHeight = 15
             } else {
                 SkeletonAppearance.default.multilineHeight = 13
             }

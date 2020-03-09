@@ -14,7 +14,7 @@ import InfiniteLayout
 
 class NewsDetailViewController: UIViewController {
 
-    static let storyboardId = "newsDetailVC"
+    static let storyboardID = "newsDetailVC"
 
     //newsID
     var newsID = "" {
@@ -367,8 +367,8 @@ extension NewsDetailViewController {
         detailLowerView.addSubview(contentLabel)
         contentLabel.snp.makeConstraints { (make) -> Void in
             make.top.equalToSuperview().offset(UIDevice.current.hasHomeButton ? 80 : 100)
-            make.leftMargin.equalTo(20)
-            make.rightMargin.equalTo(-20)
+            make.left.equalTo(20)
+            make.right.equalTo(-20)
         }
         
         detailViews.append(detailLowerView)
@@ -453,7 +453,7 @@ extension NewsDetailViewController: UIScrollViewDelegate {
 extension NewsDetailViewController {
     static func push(fromView: UIViewController, newsID: String) {
         let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
-        let detailsVC = storyboard.instantiateViewController(withIdentifier: NewsDetailViewController.storyboardId) as! NewsDetailViewController
+        let detailsVC = storyboard.instantiateViewController(withIdentifier: NewsDetailViewController.storyboardID) as! NewsDetailViewController
         
         detailsVC.newsID = newsID
         

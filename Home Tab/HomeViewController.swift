@@ -709,8 +709,6 @@ extension HomeViewController: EventsSectionDelegate {
 //MARK: - NewsHeaderSection delegate
 extension HomeViewController: NewsSectionHeaderDelegate {
     func newsBtnTapped(sender: UIButton) {
-        print("news btn tapped")
-        
         if selectedSection != .News {
             news.removeAll()
             mainCollectionView.reloadData()
@@ -719,12 +717,9 @@ extension HomeViewController: NewsSectionHeaderDelegate {
             
             selectedSection = .News
         }
-        
     }
     
     func postsBtnTapped(sender: UIButton) {
-        print("post btn tapped")
-        
         if selectedSection != .Posts {
             posts.removeAll()
             mainCollectionView.reloadData()

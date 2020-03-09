@@ -28,7 +28,7 @@ class BookmarkedEventCollectionHeaderView: UICollectionReusableView {
         bookmarkedEventsLabel.text = "Bookmarked Events"
         
         let styleImg = UIImage(named: "icon_refresh")
-        let tintedImg = styleImg!.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+        let tintedImg = styleImg!.withRenderingMode(.alwaysTemplate)
         refreshBtn.setImage(tintedImg, for: .normal)
         refreshBtn.tintColor = .white
         refreshBtn.rotate()
