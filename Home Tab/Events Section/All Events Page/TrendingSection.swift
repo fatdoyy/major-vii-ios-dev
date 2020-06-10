@@ -154,7 +154,7 @@ extension TrendingSection: UICollectionViewDataSource, UICollectionViewDelegate,
                 }
             }
             
-            if let imgUrl = URL(string: (trendingEvents[indexPath.row].images.first?.secureUrl)!) {
+            if let imgUrl = URL(string: (trendingEvents[indexPath.row].images.first?.url)!) {
                 cell.bgImgView.kf.setImage(with: imgUrl, options: [.transition(.fade(0.2))])
             }
             

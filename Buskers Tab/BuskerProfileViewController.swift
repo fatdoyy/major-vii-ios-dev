@@ -1258,7 +1258,7 @@ extension BuskerProfileViewController: UICollectionViewDelegateFlowLayout, UICol
             let cell = imgCollectionView.dequeueReusableCell(withReuseIdentifier: BuskerProfileImgCell.reuseIdentifier, for: indexPath) as! BuskerProfileImgCell
             if let profile = buskerDetails?.item {
                 let realIndexPath = self.imgCollectionView.indexPath(from: indexPath) //InfiniteLayout indexPath
-                if let url = URL(string: profile.coverImages[realIndexPath.row].secureUrl!) {
+                if let url = URL(string: profile.coverImages[realIndexPath.row].url!) {
                     cell.imgView.kf.setImage(with: url, options: [.transition(.fade(0.3))])
                 }
             }
@@ -1274,7 +1274,7 @@ extension BuskerProfileViewController: UICollectionViewDelegateFlowLayout, UICol
         case membersCollectionView:
             let cell = membersCollectionView.dequeueReusableCell(withReuseIdentifier: BuskerProfileMemberCell.reuseIdentifier, for: indexPath) as! BuskerProfileMemberCell
             if let profile = buskerDetails?.item {
-                if let url = URL(string: profile.members[indexPath.row].icon!.secureUrl!) {
+                if let url = URL(string: profile.members[indexPath.row].icon!.url!) {
                     let urlArr = url.absoluteString.components(separatedBy: "upload/")
                     let faceUrl = URL(string: "\(urlArr[0])upload/w_200,h_200,c_thumb,g_face/\(urlArr[1])") //apply crop and detect face by Cloudinary
                     cell.icon.kf.setImage(with: faceUrl, options: [.transition(.fade(0.3))])
@@ -1293,7 +1293,7 @@ extension BuskerProfileViewController: UICollectionViewDelegateFlowLayout, UICol
         case eventsCollectionView:
             let cell = eventsCollectionView.dequeueReusableCell(withReuseIdentifier: BuskerProfileEventCell.reuseIdentifier, for: indexPath) as! BuskerProfileEventCell
             if let events = buskerEvents?.list {
-                if let url = URL(string: events[indexPath.row].images[0].secureUrl!) {
+                if let url = URL(string: events[indexPath.row].images[0].url!) {
                     cell.eventImg.kf.setImage(with: url, options: [.transition(.fade(0.3))])
                 }
                 cell.eventLabel.text = events[indexPath.row].title

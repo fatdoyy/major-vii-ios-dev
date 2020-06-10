@@ -410,7 +410,7 @@ extension NewsDetailViewController: UICollectionViewDelegateFlowLayout, UICollec
 
         if let newsDetails = self.details?.item {
             let realIndexPath = self.imgCollectionView.indexPath(from: indexPath) //InfiniteLayout indexPath
-            if let url = URL(string: newsDetails.coverImages[realIndexPath.row].secureUrl!) {
+            if let url = URL(string: newsDetails.coverImages[realIndexPath.row].url!) {
                 cell.imgView.kf.setImage(with: url, options: [.transition(.fade(0.3))])
             }
         }

@@ -146,7 +146,7 @@ class EventDetailsViewController: UIViewController {
     }
     
     private func loadDetails() {
-        if let url = URL(string: (eventDetails!.item?.images.first?.secureUrl)!) {
+        if let url = URL(string: (eventDetails!.item?.images.first?.url)!) {
             headerImg.kf.setImage(with: url, options: [.transition(.fade(0.3))])
         }
         
@@ -236,7 +236,7 @@ class EventDetailsViewController: UIViewController {
         //only load imgCollectionView if device is not iPhone SE
         if UIDevice.current.type != .iPhone_5_5S_5C_SE {
             for img in (eventDetails?.item?.images)! {
-                imgUrlArray.append(img.secureUrl ?? "")
+                imgUrlArray.append(img.url ?? "")
             }
             
             bgView.imgUrlArray = self.imgUrlArray

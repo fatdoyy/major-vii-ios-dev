@@ -600,7 +600,7 @@ extension EventSearchViewController: UICollectionViewDataSource, UICollectionVie
                     cell.performerLabel.text = searchResults[indexPath.row].organizerProfile?.name
                     cell.bookmarkCountLabel.text = "201"
                     
-                    if let imgUrl = URL(string: (searchResults[indexPath.row].images.first?.secureUrl)!) {
+                    if let imgUrl = URL(string: (searchResults[indexPath.row].images.first?.url)!) {
                         cell.bgImgView.kf.setImage(with: imgUrl, options: [.transition(.fade(0.2))])
                     }
                     
@@ -631,7 +631,7 @@ extension EventSearchViewController: UICollectionViewDataSource, UICollectionVie
                     cell.performerLabel.text = trendingEvents[indexPath.row].organizerProfile?.name
                     cell.bookmarkCountLabel.text = "201"
                     
-                    if let imgUrl = URL(string: (trendingEvents[indexPath.row].images.first?.secureUrl)!) {
+                    if let imgUrl = URL(string: (trendingEvents[indexPath.row].images.first?.url)!) {
                         cell.bgImgView.kf.setImage(with: imgUrl, options: [.transition(.fade(0.2))])
                     }
                     

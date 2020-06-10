@@ -423,7 +423,7 @@ extension FollowingSection: UICollectionViewDataSource, UICollectionViewDelegate
                 
                 cell.performerLabel.text = event.organizerProfile?.name
                 cell.bookmarkBtn.backgroundColor = .clear
-                if let url = URL(string: event.images[0].secureUrl!) {
+                if let url = URL(string: event.images[0].url!) {
                     cell.bgImgView.kf.setImage(with: url, options: [.transition(.fade(0.3))])
                 }
                 

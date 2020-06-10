@@ -9,24 +9,24 @@
 import ObjectMapper
 
 class Image: Mappable {
-    var publicId: String?
-    var version: Int?
+    var publicID: String?
+    var resID: String?
+    var createTime: String?
     var format: String?
     var resourceType: String?
     var url: String?
-    var secureUrl: String?
     var width: CGFloat?
     var height: CGFloat?
     
     required init?(map: Map) {}
     
     func mapping(map: Map) {
-        publicId        <- map["public_id"]
-        version         <- map["version"]
+        publicID        <- map["public_id"]
+        resID           <- map["res_id"]
+        createTime      <- map["create_time"]
         format          <- map["format"]
         resourceType    <- map["resource_type"]
         url             <- map["url"]
-        secureUrl       <- map["secure_url"]
         width           <- map["width"]
         height          <- map["height"]
     }

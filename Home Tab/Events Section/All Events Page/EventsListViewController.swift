@@ -594,7 +594,7 @@ extension EventsListViewController: UICollectionViewDelegate, UICollectionViewDe
                     cell.performerLabel.text = featuredEvents[indexPath.row].organizerProfile?.name
                     cell.bookmarkCountLabel.text = "201"
                     
-                    if let imgUrl = URL(string: (featuredEvents[indexPath.row].images.first?.secureUrl)!) {
+                    if let imgUrl = URL(string: (featuredEvents[indexPath.row].images.first?.url)!) {
                         cell.bgImgView.kf.setImage(with: imgUrl, options: [.transition(.fade(0.2))])
                     }
                     

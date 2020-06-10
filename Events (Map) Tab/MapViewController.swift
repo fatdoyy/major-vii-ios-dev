@@ -494,7 +494,7 @@ extension MapViewController: GMSMapViewDelegate, InfoWindowDelegate, BookmarkedE
                         guard let lat = event.location?.coordinates[1] else { fatalError("event lat is not set?") }
                         guard let long = event.location?.coordinates[0] else { fatalError("event long is not set?") }
                         let name = event.organizerProfile?.name
-                        let url = event.organizerProfile?.coverImages.randomElement()?.secureUrl
+                        let url = event.organizerProfile?.coverImages.randomElement()?.url
                         
                         addMarker(id: id, lat: lat, long: long, performerName: name!, iconUrl: url!)
                     } else {

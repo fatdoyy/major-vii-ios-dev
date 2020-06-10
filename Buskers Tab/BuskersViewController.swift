@@ -312,7 +312,7 @@ extension BuskersViewController: UICollectionViewDelegate, UICollectionViewDataS
                 //Gradient.createOverlay(cell: cell, imgHeight: imgHeight[indexPath.row])
                 
                 let profile = buskers[indexPath.row]
-                if let url = URL(string: profile.coverImages[0].secureUrl!) {
+                if let url = URL(string: profile.coverImages[0].url!) {
                     cell.imgView.kf.setImage(with: url, options: [.transition(.fade(0.3))])
                 }
                 

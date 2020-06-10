@@ -111,7 +111,7 @@ extension EventsSection: HomeViewControllerDelegate {
             self.upcomingEvents = response.list.reversed()
             
             for event in self.upcomingEvents {
-                if let url = event.images.randomElement()?.secureUrl {
+                if let url = event.images.randomElement()?.url {
                     self.randomImgUrl.append(URL(string: url)!)
                 }
             }

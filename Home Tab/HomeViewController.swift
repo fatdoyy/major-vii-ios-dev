@@ -353,7 +353,7 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
                         
                         cell.newsTitle.text = news[indexPath.row].title
                         //cell.bgImgView.sd_imageTransition = .fade
-                        if let url = URL(string: news[indexPath.row].coverImages[0].secureUrl!) {
+                        if let url = URL(string: news[indexPath.row].coverImages[0].url!) {
                             cell.bgImgView.kf.setImage(with: url, options: [.transition(.fade(0.3))])
                         }
                         
@@ -371,7 +371,7 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
                         
                         cell.newsTitle.text = news[indexPath.row].title
                         
-                        if let url = URL(string: news[indexPath.row].coverImages[0].secureUrl!) {
+                        if let url = URL(string: news[indexPath.row].coverImages[0].url!) {
                             cell.bgImgView.kf.setImage(with: url, options: [.transition(.fade(0.3))])
                         }
                         
@@ -394,7 +394,7 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
                         cell.newsTitle.text = news[indexPath.row].title
                         cell.subTitle.text = news[indexPath.row].subTitle
                         
-                        if let url = URL(string: news[indexPath.row].coverImages[0].secureUrl!) {
+                        if let url = URL(string: news[indexPath.row].coverImages[0].url!) {
                             cell.bgImgView.kf.setImage(with: url, options: [.transition(.fade(0.3))])
                         }
                         
@@ -466,7 +466,7 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
                     let cell = mainCollectionView.dequeueReusableCell(withReuseIdentifier: HomePostCell.reuseIdentifier, for: indexPath) as! HomePostCell
                     cell.delegate = self
                     
-                    if let url = URL(string: posts[indexPath.row].authorProfile?.coverImages[0].secureUrl! ?? "") {
+                    if let url = URL(string: posts[indexPath.row].authorProfile?.coverImages[0].url! ?? "") {
                         cell.buskerIcon.kf.setImage(with: url, options: [.transition(.fade(0.3))])
                     }
                     

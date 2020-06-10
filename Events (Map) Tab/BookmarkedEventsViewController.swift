@@ -154,7 +154,7 @@ extension BookmarkedEventsViewController: UICollectionViewDelegate, UICollection
                 }
             }
             let event = bookmarkedEvents[indexPath.row]
-            let urlArr = event.images.randomElement()!.secureUrl!.components(separatedBy: "upload/")
+            let urlArr = event.images.randomElement()!.url!.components(separatedBy: "upload/")
             let desaturatedUrl = URL(string: "\(urlArr[0])upload/e_saturation:-60/\(urlArr[1])") //apply saturation effect by Cloudinary
             cell.bgImgView.kf.setImage(with: desaturatedUrl, options: [.transition(.fade(0.3))])
             
@@ -172,7 +172,7 @@ extension BookmarkedEventsViewController: UICollectionViewDelegate, UICollection
             if let location = event.location, let performer = event.organizerProfile {
                 let lat = location.coordinates[1]
                 let long = location.coordinates[0]
-                delegate?.cellTapped(lat: lat, long: long, iconUrl: (performer.coverImages.randomElement()?.secureUrl)!, name: performer.name!, id: event.id!)
+                delegate?.cellTapped(lat: lat, long: long, iconUrl: (performer.coverImages.randomElement()?.url)!, name: performer.name!, id: event.id!)
             } else {
                 print("location is empty")
                 SwiftMessages.show(view: locationEmptyMsgView)
