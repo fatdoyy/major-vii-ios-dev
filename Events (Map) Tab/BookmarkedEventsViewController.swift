@@ -154,9 +154,12 @@ extension BookmarkedEventsViewController: UICollectionViewDelegate, UICollection
                 }
             }
             let event = bookmarkedEvents[indexPath.row]
-            let urlArr = event.images.randomElement()!.url!.components(separatedBy: "upload/")
-            let desaturatedUrl = URL(string: "\(urlArr[0])upload/e_saturation:-60/\(urlArr[1])") //apply saturation effect by Cloudinary
-            cell.bgImgView.kf.setImage(with: desaturatedUrl, options: [.transition(.fade(0.3))])
+            if let imgUrl = event.images.randomElement()!.url {
+                //            let urlArr = event.images.randomElement()!.url!.components(separatedBy: "upload/")
+                //            let desaturatedUrl = URL(string: "\(urlArr[0])upload/e_saturation:-60/\(urlArr[1])") //apply saturation effect by Cloudinary
+                //            cell.bgImgView.kf.setImage(with: desaturatedUrl, options: [.transition(.fade(0.3))])
+                cell.bgImgView.kf.setImage(with: URL(string: imgUrl), options: [.transition(.fade(0.3))])
+            }
             
             cell.eventTitle.text = event.title
             cell.performerName.text = event.organizerProfile?.name

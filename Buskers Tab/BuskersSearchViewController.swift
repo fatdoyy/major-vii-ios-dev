@@ -367,9 +367,11 @@ extension BuskersSearchViewController: UICollectionViewDelegate, UICollectionVie
             if !searchResults.isEmpty {
                 cell.performerLabel.text = searchResults[indexPath.row].name
                 if let url = URL(string: searchResults[indexPath.row].coverImages[0].url!) {
-                    let urlArr = url.absoluteString.components(separatedBy: "upload/")
-                    let desaturatedUrl = URL(string: "\(urlArr[0])upload/e_saturation:-60/\(urlArr[1])") //apply saturation effect by Cloudinary
-                    cell.bgImgView.kf.setImage(with: desaturatedUrl, options: [.transition(.fade(0.3))])
+                    /// temporaryily disabled cloudinary parameters due to backend
+//                    let urlArr = url.absoluteString.components(separatedBy: "upload/")
+//                    let desaturatedUrl = URL(string: "\(urlArr[0])upload/e_saturation:-60/\(urlArr[1])") //apply saturation effect by Cloudinary
+//                    cell.bgImgView.kf.setImage(with: desaturatedUrl, options: [.transition(.fade(0.3))])
+                    cell.bgImgView.kf.setImage(with: url, options: [.transition(.fade(0.3))])
                 }
                 
                 if searchResults[indexPath.row].genreCodes.count > 1 && !searchResults[indexPath.row].genreCodes.isEmpty {

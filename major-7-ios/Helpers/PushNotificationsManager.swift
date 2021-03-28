@@ -37,12 +37,13 @@ class PushNotificationManager: NSObject, MessagingDelegate, UNUserNotificationCe
         UIApplication.shared.registerForRemoteNotifications()
     }
     
-    func messaging(_ messaging: Messaging, didReceive remoteMessage: MessagingRemoteMessage) {
-        print(remoteMessage.appData)
+    func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
+        print("Firebase registration token: \(fcmToken)")
     }
-    
-    func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String) {
-        print("fcmToken: \(fcmToken)")
+
+
+    func messaging(_ messaging: Messaging, didReceive remoteMessage: MessagingDelegate) {
+        print("Received data message: \(remoteMessage.description)")
     }
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {

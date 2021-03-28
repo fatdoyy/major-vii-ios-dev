@@ -55,7 +55,7 @@ target 'major-7-ios' do
   pod 'SwiftDate'                               # as title
   pod 'Hero'                                    # transitions
   pod 'lottie-ios'                              # After Effects animations
-  pod 'ViewAnimator'                            # Animate uicollectionview cells
+  pod 'ViewAnimator', '2.7.1'                   # Animate uicollectionview cells
   #pod 'ActiveLabel'                             # supporting Hashtags (#), Mentions (@), URLs (http:/)
 
   pod 'Validator', :git => 'https://github.com/kikikiktai/Validator.git'                            # UITextField validation

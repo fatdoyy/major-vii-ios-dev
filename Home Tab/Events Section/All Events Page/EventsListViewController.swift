@@ -679,8 +679,9 @@ extension EventsListViewController: UICollectionViewDelegate, UICollectionViewDe
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if indexPath.section == EventsListSection.Featured.rawValue {
-            print("\(indexPath.row)")
-            EventDetailsViewController.push(from: self, eventID: "")
+            if let eventID = featuredEvents[indexPath.row].id {
+                EventDetailsViewController.push(from: self, eventID: eventID)
+            }
         }
     }
     

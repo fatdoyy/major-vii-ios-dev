@@ -108,7 +108,7 @@ extension EventsSection: HomeViewControllerDelegate {
     func getUpcomingEvents() {
         eventsCollectionView.isUserInteractionEnabled = false
         EventService.getUpcomingEvents().done { response -> () in
-            self.upcomingEvents = response.list.reversed()
+            self.upcomingEvents = response.list //.reversed()
             
             for event in self.upcomingEvents {
                 if let url = event.images.randomElement()?.url {

@@ -319,7 +319,7 @@ extension MapViewController {
         guard let lat = self.mapView.myLocation?.coordinate.latitude,
             let lng = self.mapView.myLocation?.coordinate.longitude else { return }
         
-        if fpc.position != .tip { fpc.move(to: .tip, animated: true) }
+        if fpc.state != .tip { fpc.move(to: .tip, animated: true) }
         if infoWindow != nil {
             if infoWindow?.alpha != 0 {
                 UIView.animate(withDuration: 0.2) {
@@ -464,10 +464,11 @@ extension MapViewController: GMSMapViewDelegate, InfoWindowDelegate, BookmarkedE
             let marker = MapMarker(name: performerName)
             marker.opacity = 0
             
+            /// temporaryily disabled cloudinary parameters due to backend
             //apply filter to icon
-            let urlArr = iconUrl.components(separatedBy: "upload/")
-            let filteredUrl = URL(string: "\(urlArr[0])upload/w_100,h_100,c_thumb,g_faces/\(urlArr[1])") //apply face detection by Cloudinary
-            marker.performerIcon.kf.setImage(with: filteredUrl) { result in
+//            let urlArr = iconUrl.components(separatedBy: "upload/")
+//            let filteredUrl = URL(string: "\(urlArr[0])upload/w_100,h_100,c_thumb,g_faces/\(urlArr[1])") //apply face detection by Cloudinary
+            marker.performerIcon.kf.setImage(with: URL(string: iconUrl)) { result in
                 switch result {
                 case .success(_):
                     marker.title = id //set id as title for tapped action
@@ -565,7 +566,7 @@ extension MapViewController: GMSMapViewDelegate, InfoWindowDelegate, BookmarkedE
         } else { //then check if need hide info window
             if infoWindow != nil {
                 if !(infoWindow?.isDescendant(of: view))! { //infoWindow not visible
-                    if fpc.position != .tip {
+                    if fpc.state != .tip {
                         fpc.move(to: .tip, animated: true)
                     }
                 } else { //infoWindow is visible
@@ -698,8 +699,9 @@ extension MapViewController: GMSMapViewDelegate, InfoWindowDelegate, BookmarkedE
 extension MapViewController: FloatingPanelControllerDelegate {
     private func setupFPC() {
         // Initialize FloatingPanelController
-        fpc = FloatingPanelController()
-        fpc.delegate = self
+        fpc = FloatingPanelController(delegate: self)
+        fpc.layout = MyFloatingPanelLayout()
+        fpc.behavior = MyFloatingPanelBehavior()
         
         swipeUpImg.image = UIImage(named: "icon_swipe_up")
         swipeDownImg.image = UIImage(named: "icon_swipe_down")
@@ -720,8 +722,23 @@ extension MapViewController: FloatingPanelControllerDelegate {
             make.centerX.equalToSuperview()
         }
         
-        fpc.surfaceView.cornerRadius = 30
-        fpc.surfaceView.shadowHidden = false
+        // Create a new appearance.
+        let appearance = SurfaceAppearance()
+
+        // Define shadows
+        let shadow = SurfaceAppearance.Shadow()
+        shadow.color = .black
+        shadow.offset = CGSize(width: 0, height: 16)
+        shadow.radius = 16
+        shadow.spread = 8
+        appearance.shadows = [shadow]
+
+        // Define corner radius and background color
+        appearance.cornerRadius = 30
+        //appearance.backgroundColor = .clear
+
+        // Set the new appearance
+        fpc.surfaceView.appearance = appearance
         
         // Set a content view controller and track the scroll view
         let eventsVC = storyboard?.instantiateViewController(withIdentifier: "bookmarkedEventsVC") as! BookmarkedEventsViewController
@@ -739,10 +756,10 @@ extension MapViewController: FloatingPanelControllerDelegate {
     }
     
     func floatingPanelDidChangePosition(_ vc: FloatingPanelController) {
-        swipeUpImg.alpha = vc.position == .full ? 0 : 1
-        swipeDownImg.alpha = vc.position == .full ? 1 : 0
+        swipeUpImg.alpha = vc.state == .full ? 0 : 1
+        swipeDownImg.alpha = vc.state == .full ? 1 : 0
         
-        switch vc.position {
+        switch vc.state {
         case .full:
             if self.bookmarkedEvents.isEmpty {
                 DispatchQueue.main.async { self.getBookmarkedEvents() }
@@ -763,11 +780,11 @@ extension MapViewController: FloatingPanelControllerDelegate {
     }
     
     
-    func floatingPanel(_ vc: FloatingPanelController, layoutFor newCollection: UITraitCollection) -> FloatingPanelLayout? {
+    func floatingPanel(_ fpc: FloatingPanelController, layoutFor size: CGSize) -> FloatingPanelLayout {
         return MyFloatingPanelLayout()
     }
     
-    func floatingPanel(_ vc: FloatingPanelController, behaviorFor newCollection: UITraitCollection) -> FloatingPanelBehavior? {
+    func floatingPanel(_ fpc: FloatingPanelController, behaviorFor newCollection: UITraitCollection) -> FloatingPanelBehavior? {
         return MyFloatingPanelBehavior()
     }
 }

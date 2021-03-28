@@ -1210,7 +1210,7 @@ extension BuskerProfileViewController {
         copyrightLabel.numberOfLines = 1
         copyrightLabel.font = UIFont.systemFont(ofSize: 10, weight: .medium)
         copyrightLabel.textColor = .lightGrayText()
-        copyrightLabel.text = "Copyright © 2019 | Major VII | ALL RIGHTS RESERVED"
+        copyrightLabel.text = "Copyright © 2021 | Major VII | ALL RIGHTS RESERVED"
         mainScrollView.addSubview(copyrightLabel)
         copyrightLabel.snp.makeConstraints { (make) -> Void in
             make.height.equalTo(14)
@@ -1275,9 +1275,12 @@ extension BuskerProfileViewController: UICollectionViewDelegateFlowLayout, UICol
             let cell = membersCollectionView.dequeueReusableCell(withReuseIdentifier: BuskerProfileMemberCell.reuseIdentifier, for: indexPath) as! BuskerProfileMemberCell
             if let profile = buskerDetails?.item {
                 if let url = URL(string: profile.members[indexPath.row].icon!.url!) {
-                    let urlArr = url.absoluteString.components(separatedBy: "upload/")
-                    let faceUrl = URL(string: "\(urlArr[0])upload/w_200,h_200,c_thumb,g_face/\(urlArr[1])") //apply crop and detect face by Cloudinary
-                    cell.icon.kf.setImage(with: faceUrl, options: [.transition(.fade(0.3))])
+                    
+                    /// temporaryily disabled cloudinary parameters due to backend
+//                    let urlArr = url.absoluteString.components(separatedBy: "upload/")
+//                    let faceUrl = URL(string: "\(urlArr[0])upload/w_200,h_200,c_thumb,g_face/\(urlArr[1])") //apply crop and detect face by Cloudinary
+//                    cell.icon.kf.setImage(with: faceUrl, options: [.transition(.fade(0.3))])
+                    cell.icon.kf.setImage(with: url, options: [.transition(.fade(0.3))])
                 }
                 cell.nameLabel.text = profile.members[indexPath.row].name
                 cell.roleLabel.text = profile.members[indexPath.row].role
