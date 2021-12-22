@@ -29,8 +29,8 @@ class UserService: BaseService {
     override init() {
         super.init()
         UserService.hud.vibrancyEnabled = true
-        GIDSignIn.sharedInstance().delegate = self
-        //GIDSignIn.sharedInstance().uiDelegate = self
+        //GIDSignIn.sharedInstance.delegate = self
+        //GIDSignIn.sharedInstance.uiDelegate = self
     }
     
     struct current {
@@ -208,11 +208,12 @@ extension UserService {
 }
 
 //MARK: - Google login (Disabled)
+/*
 extension UserService: GIDSignInDelegate/*, GIDSignInUIDelegate*/ {
     struct Google {
         static func logIn(fromVC: UIViewController) {
             
-            GIDSignIn.sharedInstance().signIn()
+            GIDSignIn.sharedInstance.signIn()
             
             //hud.textLabel.text = "123..."
             hud.indicatorView = JGProgressHUDIndeterminateIndicatorView()
@@ -222,9 +223,9 @@ extension UserService: GIDSignInDelegate/*, GIDSignInUIDelegate*/ {
         
         //Google logout, NOTE: NOT Major VII logout
         static func logOut() {
-            //if GIDSignIn.sharedInstance()?.hasAuthInKeychain() == true {
-                GIDSignIn.sharedInstance()?.signOut()
-                GIDSignIn.sharedInstance()?.disconnect()
+            //if GIDSignIn.sharedInstance?.hasAuthInKeychain() == true {
+                GIDSignIn.sharedInstance?.signOut()
+                GIDSignIn.sharedInstance?.disconnect()
             //}
         }
     }
@@ -237,7 +238,7 @@ extension UserService: GIDSignInDelegate/*, GIDSignInUIDelegate*/ {
             //let dimension = round(100 * UIScreen.main.scale)
             //let pic = user.profile.imageURL(withDimension: UInt(dimension))
             
-            if let userId = user.userID, let token = user.authentication.idToken, let name = user.profile.givenName, let email = user.profile.email {
+            if let userId = user.userID, let token = user.authentication.idToken, let name = user.profile?.givenName, let email = user.profile?.email {
                 
                 print("Successfully got data from Google\nuserid = \(userId)\ntoken = \(token)\nname = \(name)\nemail = \(email)\nProceeding to request JWT...")
                 
@@ -326,7 +327,7 @@ extension UserService: GIDSignInDelegate/*, GIDSignInUIDelegate*/ {
     }
     
 }
-
+*/
 //MARK: - Apple Sign in
 extension UserService {
     struct Apple {

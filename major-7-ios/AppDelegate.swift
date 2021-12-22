@@ -34,7 +34,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
         
         //google login/maps
-        GIDSignIn.sharedInstance().clientID = "1044647301084-uomk81nqohoq7vv28eakhqgbvgj5pbsr.apps.googleusercontent.com"
+        //GIDSignIn.sharedInstance.clientID = "1044647301084-uomk81nqohoq7vv28eakhqgbvgj5pbsr.apps.googleusercontent.com"
         GMSServices.provideAPIKey("AIzaSyCAa_jFyV8aWPkTJeslEuDhGHFjFRJzhvI")	
         
         //dark UI elements
@@ -58,9 +58,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         let fbDidHandle = FBSDKApplicationDelegate.sharedInstance().application(app, open: url, sourceApplication: options[.sourceApplication] as? String, annotation: options[.annotation])
         //let googleDidHandle = GIDSignIn.sharedInstance().handle(url as URL?, sourceApplication: options[.sourceApplication] as? String, annotation: options[.annotation])
-        let googleDidHandle = GIDSignIn.sharedInstance()?.handle(url as URL?)
+        //let googleDidHandle = GIDSignIn.sharedInstance.handle(url as URL? ?? nil)
         
-        return fbDidHandle || googleDidHandle!
+        return fbDidHandle /*|| googleDidHandle! */
     }
     
     func applicationWillResignActive(_ application: UIApplication) {
