@@ -45,7 +45,7 @@ class LoginViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        performExistingAccountSetupFlows()
+        //performAppleSignInExistingAccountSetupFlows()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -129,7 +129,7 @@ extension LoginViewController: LoginViewDelegate, UserServiceDelegate {
     }
     
     /// Prompts the user if an existing iCloud Keychain credential or Apple ID credential is found.
-    func performExistingAccountSetupFlows() {
+    func performAppleSignInExistingAccountSetupFlows() {
         if #available(iOS 13.0, *) {
             // Prepare requests for both Apple ID and password providers.
             let req1 = ASAuthorizationAppleIDProvider().createRequest()

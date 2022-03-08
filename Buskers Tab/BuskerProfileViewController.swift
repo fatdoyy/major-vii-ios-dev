@@ -1210,7 +1210,7 @@ extension BuskerProfileViewController {
         copyrightLabel.numberOfLines = 1
         copyrightLabel.font = UIFont.systemFont(ofSize: 10, weight: .medium)
         copyrightLabel.textColor = .lightGrayText()
-        copyrightLabel.text = "Copyright © 2021 | Major VII | ALL RIGHTS RESERVED"
+        copyrightLabel.text = "Copyright © 2022 | Major VII | ALL RIGHTS RESERVED"
         mainScrollView.addSubview(copyrightLabel)
         copyrightLabel.snp.makeConstraints { (make) -> Void in
             make.height.equalTo(14)

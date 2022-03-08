@@ -331,7 +331,7 @@ extension NewsDetailViewController {
         copyrightLabel.numberOfLines = 1
         copyrightLabel.font = UIFont.systemFont(ofSize: 10, weight: .medium)
         copyrightLabel.textColor = .lightGrayText()
-        copyrightLabel.text = "Copyright © 2021 | Major VII | ALL RIGHTS RESERVED"
+        copyrightLabel.text = "Copyright © 2022 | Major VII | ALL RIGHTS RESERVED"
         detailLowerView.addSubview(copyrightLabel)
         copyrightLabel.snp.makeConstraints { (make) -> Void in
             make.bottom.equalToSuperview().offset(UIDevice.current.hasHomeButton ? -20 : -40)

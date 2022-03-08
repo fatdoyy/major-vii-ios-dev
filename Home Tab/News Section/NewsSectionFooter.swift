@@ -31,7 +31,7 @@ class NewsSectionFooter: UICollectionReusableView {
         copyrightLabel.alpha = 0
         copyrightLabel.font = UIFont.systemFont(ofSize: 10, weight: .medium)
         copyrightLabel.textColor = .lightGrayText()
-        copyrightLabel.text = "Copyright © 2021 | Major VII | ALL RIGHTS RESERVED"
+        copyrightLabel.text = "Copyright © 2022 | Major VII | ALL RIGHTS RESERVED"
         
         loadingIndicator = NVActivityIndicatorView(frame: CGRect(origin: CGPoint.zero, size: CGSize(width: 20, height: 20)), type: .lineScale)
         loadingIndicator.startAnimating()

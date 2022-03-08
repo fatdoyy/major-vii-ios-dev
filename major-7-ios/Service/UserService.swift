@@ -36,8 +36,10 @@ class UserService: BaseService {
     struct current {
         //check current user
         static func isLoggedIn() -> Bool {
-            let notLoggedIn = hasUserId() == false || hasAccessToken() == false || hasRefreshToken() == false || hasUsername() == false
-            return true != notLoggedIn
+            /* 20220309 Temporary disabled login feature */
+//            let notLoggedIn = hasUserId() == false || hasAccessToken() == false || hasRefreshToken() == false || hasUsername() == false
+//            return true != notLoggedIn
+            return true
         }
         
         //logout

@@ -36,6 +36,7 @@ class EventsSection: UICollectionViewCell {
     @IBOutlet weak var eventsCollectionView: UICollectionView!
     @IBOutlet weak var eventsLabel: UILabel!
     @IBOutlet weak var viewAllBtn: UIButton!
+    @IBOutlet weak var emptyEventsLabel: UILabel!
     
     var randomImgUrl = [URL]()
     var upcomingEvents = [Event]()
@@ -81,6 +82,9 @@ extension EventsSection {
         eventsCollectionView.backgroundColor = .m7DarkGray()
         eventsCollectionView.register(UINib.init(nibName: "EventsCell", bundle: nil), forCellWithReuseIdentifier: EventsCell.reuseIdentifier)
         
+        emptyEventsLabel.text = "No events?? Really?"
+        emptyEventsLabel.alpha = 0
+        
         let overlayLeft = UIImageView(image: UIImage(named: "collectionview_overlay_left_to_right"))
         addSubview(overlayLeft)
         overlayLeft.snp.makeConstraints { (make) in
@@ -110,14 +114,19 @@ extension EventsSection: HomeViewControllerDelegate {
         EventService.getUpcomingEvents().done { response -> () in
             self.upcomingEvents = response.list //.reversed()
             
-            for event in self.upcomingEvents {
-                if let url = event.images.randomElement()?.url {
-                    self.randomImgUrl.append(URL(string: url)!)
+            if !self.upcomingEvents.isEmpty {
+                for event in self.upcomingEvents {
+                    if let url = event.images.randomElement()?.url {
+                        self.randomImgUrl.append(URL(string: url)!)
+                    }
                 }
+                
+                self.eventsCollectionView.isUserInteractionEnabled = true
+                self.eventsCollectionView.reloadData()
+            } else {
+                self.eventsCollectionView.alpha = 0
+                self.emptyEventsLabel.alpha = 1
             }
-            
-            self.eventsCollectionView.isUserInteractionEnabled = true
-            self.eventsCollectionView.reloadData()
             }.ensure {
                 UIApplication.shared.isNetworkActivityIndicatorVisible = false
             }.catch { error in }
