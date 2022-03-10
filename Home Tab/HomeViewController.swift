@@ -11,7 +11,7 @@ import Kingfisher
 import Localize_Swift
 import NVActivityIndicatorView
 
-protocol HomeViewControllerDelegate: class {
+protocol HomeViewControllerDelegate: AnyObject {
     func refreshUpcomingEvents()
 }
 

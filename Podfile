@@ -1,12 +1,3 @@
-# Temporary fix, ref: https://developer.apple.com/forums/thread/656616
-post_install do |installer|
-  installer.pods_project.targets.each do |target|
-    target.build_configurations.each do |config|
-      config.build_settings.delete 'IPHONEOS_DEPLOYMENT_TARGET'
-    end
-  end
-end
-
 # Uncomment the next line to define a global platform for your project
  platform :ios, '11.0'
 
@@ -14,6 +5,18 @@ target 'major-7-ios' do
   # Comment the next line if you're not using Swift and don't want to use dynamic frameworks
   use_frameworks!
 
+  post_install do |installer|
+    installer.pods_project.targets.each do |target|
+      target.build_configurations.each do |config|
+        config.build_settings.delete 'IPHONEOS_DEPLOYMENT_TARGET'
+        # Temporary fix, ref: https://developer.apple.com/forums/thread/656616
+        
+        config.build_settings['ARCHS[sdk=iphonesimulator*]'] = 'x86_64'
+        # M1 simulator fix, ref: https://blog.sudeium.com/2021/06/18/build-for-x86-simulator-on-apple-silicon-macs/
+      end
+    end
+  end
+  
   # Pods for major-7-ios
   
   #Facebook
@@ -37,7 +40,7 @@ target 'major-7-ios' do
   
   #General Pods
   pod 'Localize-Swift'                          # localization
-  pod 'DynamicColor', '~> 4.1'                  # UIColor extension
+  pod 'DynamicColor'                            # UIColor extension
   pod 'SnapKit'                                 # layout constaints
   pod 'Pastel'                                  # dynamic gradient background
   pod 'ObjectMapper'                            # json mapping
@@ -49,7 +52,7 @@ target 'major-7-ios' do
   pod 'JGProgressHUD'                           # progress hud
   pod 'SwiftGifOrigin', '~> 1.6'                # gif in UIImageView
   pod 'Bartinter'                               # update status bar style automatically
-  pod 'SkyFloatingLabelTextField', '~> 3.0'     # floating label above textfield
+  pod 'SkyFloatingLabelTextField'               # floating label above textfield
   pod 'NVActivityIndicatorView'                 # as title
   pod 'SwiftMessages'                           # in-app notifications/empty states of tableview/collectionview etc...
   pod 'CHIPageControl'                          # UIPageControl
@@ -64,11 +67,12 @@ target 'major-7-ios' do
   pod 'SwiftDate'                               # as title
   pod 'Hero'                                    # transitions
   pod 'lottie-ios'                              # After Effects animations
-  pod 'ViewAnimator', '2.7.1'                   # Animate uicollectionview cells
+  pod 'ViewAnimator'                            # Animate uicollectionview cells
   #pod 'ActiveLabel'                             # supporting Hashtags (#), Mentions (@), URLs (http:/)
 
   pod 'Validator', :git => 'https://github.com/kikikiktai/Validator.git'                            # UITextField validation
   #pod 'ImageViewer', :inhibit_warnings => true, :git=> 'https://github.com/mezhevikin/ImageViewer'  # as title
-  pod 'ImageViewer', :git=> 'https://github.com/Nabeatsu/ImageViewer', :branch=> 'master'           # as title
-
+  #pod 'ImageViewer', :git=> 'https://github.com/Nabeatsu/ImageViewer', :branch=> 'master'           # as title
+  pod 'ImageViewer'
+  
 end

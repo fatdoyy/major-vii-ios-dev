@@ -13,7 +13,7 @@ import PromiseKit
 import ObjectMapper
 import JGProgressHUD
 
-protocol UserServiceDelegate: class {
+protocol UserServiceDelegate: AnyObject {
     func googleLoginPresent(_ viewController: UIViewController)
     func googleLoginDismiss(_ viewController: UIViewController)
     func googleLoginWillDispatch()

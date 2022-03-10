@@ -10,7 +10,7 @@ import UIKit
 import BouncyLayout
 import Kingfisher
 
-protocol EventsSectionDelegate: class {
+protocol EventsSectionDelegate: AnyObject {
     func viewAllBtnTapped()
     func cellTapped(eventID: String)
 }

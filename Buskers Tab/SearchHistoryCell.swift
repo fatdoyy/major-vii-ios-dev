@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol SearchHistoryCellDelegate: class {
+protocol SearchHistoryCellDelegate: AnyObject {
     func removeBtnTapped(cell: SearchHistoryCell)
 }
 

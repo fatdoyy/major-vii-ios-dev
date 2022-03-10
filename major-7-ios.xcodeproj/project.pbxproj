@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7C56D4B940CF04A4C8196151 /* Pods_major_7_ios.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 029506F3A537B84CA923F13C /* Pods_major_7_ios.framework */; };
 		96086BB322E1D3690016A0B8 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96086BB222E1D3690016A0B8 /* User.swift */; };
 		960A4760219AA8FE00780AD4 /* HapticFeedback.swift in Sources */ = {isa = PBXBuildFile; fileRef = 960A475F219AA8FE00780AD4 /* HapticFeedback.swift */; };
 		960B54BE22437C0700FEA079 /* BuskersSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 960B54BD22437C0700FEA079 /* BuskersSearchViewController.swift */; };
@@ -180,11 +181,11 @@
 		CA550AAB21706A65008E493D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CA550AA921706A65008E493D /* Main.storyboard */; };
 		CA550AAE21706A65008E493D /* major_7_ios.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = CA550AAC21706A65008E493D /* major_7_ios.xcdatamodeld */; };
 		CA550AB321706A66008E493D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CA550AB121706A66008E493D /* LaunchScreen.storyboard */; };
-		F85C7B01E1F592BAF5F7DE71 /* Pods_major_7_ios.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FEE47E29F413A49F3C14C852 /* Pods_major_7_ios.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		7E5139242B48864F787A83B8 /* Pods-major-7-ios.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-major-7-ios.debug.xcconfig"; path = "Target Support Files/Pods-major-7-ios/Pods-major-7-ios.debug.xcconfig"; sourceTree = "<group>"; };
+		029506F3A537B84CA923F13C /* Pods_major_7_ios.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_major_7_ios.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8E6E4F1DD03C41DE1487219A /* Pods-major-7-ios.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-major-7-ios.debug.xcconfig"; path = "Target Support Files/Pods-major-7-ios/Pods-major-7-ios.debug.xcconfig"; sourceTree = "<group>"; };
 		96086BB222E1D3690016A0B8 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		960A475F219AA8FE00780AD4 /* HapticFeedback.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticFeedback.swift; sourceTree = "<group>"; };
 		960B54BD22437C0700FEA079 /* BuskersSearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuskersSearchViewController.swift; sourceTree = "<group>"; };
@@ -280,7 +281,7 @@
 		967BD3402240E60200469CF9 /* BuskerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuskerCell.swift; sourceTree = "<group>"; };
 		967BD3412240E60200469CF9 /* BuskerCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BuskerCell.xib; sourceTree = "<group>"; };
 		967E9D98238932510010E85F /* GoogleMapsStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleMapsStyle.swift; sourceTree = "<group>"; };
-		9680373522509E8700A9C65F /* CREDC___.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "CREDC___.ttf"; sourceTree = "<group>"; };
+		9680373522509E8700A9C65F /* CREDC___.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = CREDC___.ttf; sourceTree = "<group>"; };
 		96862EB8219ACE1F00F709B0 /* EventDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDetailsViewController.swift; sourceTree = "<group>"; };
 		96862EBA219AD8AC00F709B0 /* TabBarToggle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarToggle.swift; sourceTree = "<group>"; };
 		9687D79D23A230EC00F98A69 /* OnboardingScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingScreen.swift; sourceTree = "<group>"; };
@@ -355,14 +356,13 @@
 		96FAF246223A1D7300DF23B9 /* BuskerService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuskerService.swift; sourceTree = "<group>"; };
 		96FAF248223A287C00DF23B9 /* Busker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Busker.swift; sourceTree = "<group>"; };
 		96FE25E023C86C5900BD25FE /* notification.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = notification.json; sourceTree = "<group>"; };
-		B5A9F3AB3CFC92988076F91D /* Pods-major-7-ios.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-major-7-ios.release.xcconfig"; path = "Target Support Files/Pods-major-7-ios/Pods-major-7-ios.release.xcconfig"; sourceTree = "<group>"; };
 		CA550AA221706A65008E493D /* major-7-ios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "major-7-ios.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CA550AA521706A65008E493D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CA550AAA21706A65008E493D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		CA550AAD21706A65008E493D /* major_7_ios.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = major_7_ios.xcdatamodel; sourceTree = "<group>"; };
 		CA550AB221706A66008E493D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		CA550AB421706A66008E493D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		FEE47E29F413A49F3C14C852 /* Pods_major_7_ios.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_major_7_ios.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D80BD36100BBFC9940ABAF93 /* Pods-major-7-ios.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-major-7-ios.release.xcconfig"; path = "Target Support Files/Pods-major-7-ios/Pods-major-7-ios.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -370,17 +370,17 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F85C7B01E1F592BAF5F7DE71 /* Pods_major_7_ios.framework in Frameworks */,
+				7C56D4B940CF04A4C8196151 /* Pods_major_7_ios.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		1D8F7093190D8C3FBC1DDD66 /* Frameworks */ = {
+		15803115F581AFB0BE002B7D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				FEE47E29F413A49F3C14C852 /* Pods_major_7_ios.framework */,
+				029506F3A537B84CA923F13C /* Pods_major_7_ios.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -795,7 +795,7 @@
 				CA550AA421706A65008E493D /* major-7-ios */,
 				CA550AA321706A65008E493D /* Products */,
 				CB6AB9CA3250323F94C0197D /* Pods */,
-				1D8F7093190D8C3FBC1DDD66 /* Frameworks */,
+				15803115F581AFB0BE002B7D /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -829,8 +829,8 @@
 		CB6AB9CA3250323F94C0197D /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				7E5139242B48864F787A83B8 /* Pods-major-7-ios.debug.xcconfig */,
-				B5A9F3AB3CFC92988076F91D /* Pods-major-7-ios.release.xcconfig */,
+				8E6E4F1DD03C41DE1487219A /* Pods-major-7-ios.debug.xcconfig */,
+				D80BD36100BBFC9940ABAF93 /* Pods-major-7-ios.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -842,13 +842,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = CA550AB721706A66008E493D /* Build configuration list for PBXNativeTarget "major-7-ios" */;
 			buildPhases = (
-				B92206CEAFD94FD8E6DFCEE1 /* [CP] Check Pods Manifest.lock */,
+				37F7A19B0708468A8AE11A92 /* [CP] Check Pods Manifest.lock */,
 				CA550A9E21706A65008E493D /* Sources */,
 				CA550A9F21706A65008E493D /* Frameworks */,
 				960A05C62387D9B6005990DE /* ShellScript */,
 				CA550AA021706A65008E493D /* Resources */,
-				65FC253B67D61BBE8A0EE713 /* [CP] Embed Pods Frameworks */,
-				A6029D2DAF5227CFB8242593 /* [CP] Copy Pods Resources */,
+				A1FB16C8785E9F42DA9C8ED9 /* [CP] Embed Pods Frameworks */,
+				EEE6FA2B5EF986A162BC4FAE /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -968,58 +968,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		65FC253B67D61BBE8A0EE713 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-major-7-ios/Pods-major-7-ios-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-major-7-ios/Pods-major-7-ios-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-major-7-ios/Pods-major-7-ios-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		960A05C62387D9B6005990DE /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/bash;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nbuildNumber=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"$INFOPLIST_FILE\")\nbuildNumber=$(($buildNumber + 1))\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $buildNumber\" \"$INFOPLIST_FILE\"\n";
-		};
-		A6029D2DAF5227CFB8242593 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-major-7-ios/Pods-major-7-ios-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-major-7-ios/Pods-major-7-ios-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-major-7-ios/Pods-major-7-ios-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		B92206CEAFD94FD8E6DFCEE1 /* [CP] Check Pods Manifest.lock */ = {
+		37F7A19B0708468A8AE11A92 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1039,6 +988,57 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		960A05C62387D9B6005990DE /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/bash;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nbuildNumber=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"$INFOPLIST_FILE\")\nbuildNumber=$(($buildNumber + 1))\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $buildNumber\" \"$INFOPLIST_FILE\"\n";
+		};
+		A1FB16C8785E9F42DA9C8ED9 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-major-7-ios/Pods-major-7-ios-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-major-7-ios/Pods-major-7-ios-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-major-7-ios/Pods-major-7-ios-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		EEE6FA2B5EF986A162BC4FAE /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-major-7-ios/Pods-major-7-ios-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-major-7-ios/Pods-major-7-ios-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-major-7-ios/Pods-major-7-ios-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -1191,6 +1191,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				"ARCHS[sdk=iphonesimulator*]" = x86_64;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -1252,6 +1253,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				"ARCHS[sdk=iphonesimulator*]" = x86_64;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -1296,6 +1298,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
@@ -1305,7 +1308,7 @@
 		};
 		CA550AB821706A66008E493D /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7E5139242B48864F787A83B8 /* Pods-major-7-ios.debug.xcconfig */;
+			baseConfigurationReference = 8E6E4F1DD03C41DE1487219A /* Pods-major-7-ios.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "major-7-ios/major-7-ios.entitlements";
@@ -1329,7 +1332,7 @@
 		};
 		CA550AB921706A66008E493D /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B5A9F3AB3CFC92988076F91D /* Pods-major-7-ios.release.xcconfig */;
+			baseConfigurationReference = D80BD36100BBFC9940ABAF93 /* Pods-major-7-ios.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "major-7-ios/major-7-ios.entitlements";

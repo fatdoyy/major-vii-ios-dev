@@ -10,7 +10,7 @@ import UIKit
 import Kingfisher
 import NVActivityIndicatorView
 
-protocol BuskersViewControllerDelegate: class {
+protocol BuskersViewControllerDelegate: AnyObject {
     func searchWithQuery(_ query: String)
 }
 

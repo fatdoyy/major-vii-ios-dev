@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol InfoWindowDelegate: class {
+protocol InfoWindowDelegate: AnyObject {
     func infoWindowMoreBtnTapped()
 }
 

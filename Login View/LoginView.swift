@@ -14,7 +14,7 @@ import Localize_Swift
 import NVActivityIndicatorView
 import AuthenticationServices
 
-protocol LoginViewDelegate: class {
+protocol LoginViewDelegate: AnyObject {
     func didTapDismissBtn()
     func didTapFbLogin()
     func didTapGoogleLogin()

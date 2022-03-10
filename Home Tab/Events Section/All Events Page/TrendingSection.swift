@@ -9,7 +9,7 @@
 import UIKit
 import SwiftMessages
 
-protocol TrendingSectionDelegate: class {
+protocol TrendingSectionDelegate: AnyObject {
     func trendingCellTapped(eventID: String)
     func showLoginVC()
 }

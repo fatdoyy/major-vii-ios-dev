@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol BookmarkedEventCollectionHeaderViewDelegate: class {
+protocol BookmarkedEventCollectionHeaderViewDelegate: AnyObject {
     func refreshBtnTapped()
 }
 

@@ -11,7 +11,7 @@ import BouncyLayout
 import NVActivityIndicatorView
 import Pastel
 
-protocol BookmarkSectionDelegate: class {
+protocol BookmarkSectionDelegate: AnyObject {
     func bookmarkedCellTapped(eventID: String)
     func showLoginVC()
 }

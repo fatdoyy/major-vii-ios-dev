@@ -9,7 +9,7 @@
 import UIKit
 import SkeletonView
 
-protocol HomePostCellDelegate: class {
+protocol HomePostCellDelegate: AnyObject {
     func contentLabelTapped(indexPath: IndexPath)
 }
 

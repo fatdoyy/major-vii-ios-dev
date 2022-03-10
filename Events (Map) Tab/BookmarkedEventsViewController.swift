@@ -12,7 +12,7 @@ import Kingfisher
 import SwiftMessages
 import ViewAnimator
 
-protocol BookmarkedEventsViewControllerDelegate: class {
+protocol BookmarkedEventsViewControllerDelegate: AnyObject {
     func refreshBtnTapped()
     func cellTapped(lat: Double, long: Double, iconUrl: String, name: String, id: String)
 }

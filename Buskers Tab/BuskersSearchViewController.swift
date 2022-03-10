@@ -11,7 +11,7 @@ import BouncyLayout
 import NVActivityIndicatorView
 import Kingfisher
 
-protocol BuskersSearchViewControllerDelegate: class {
+protocol BuskersSearchViewControllerDelegate: AnyObject {
     func reassureShowingVC()
 }
 

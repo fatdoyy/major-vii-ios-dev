@@ -12,7 +12,7 @@ import SwiftMessages
 import NVActivityIndicatorView
 import Pastel
 
-protocol FollowingSectionDelegate: class {
+protocol FollowingSectionDelegate: AnyObject {
     func followingCellTapped(eventID: String)
 }
 

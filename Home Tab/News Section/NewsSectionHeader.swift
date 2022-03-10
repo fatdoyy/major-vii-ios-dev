@@ -9,7 +9,7 @@
 import UIKit
 
 
-protocol NewsSectionHeaderDelegate: class {
+protocol NewsSectionHeaderDelegate: AnyObject {
     func newsBtnTapped(sender: UIButton)
     func postsBtnTapped(sender: UIButton)
 }

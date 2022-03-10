@@ -12,7 +12,7 @@ import SkeletonView
 import BouncyLayout
 import NVActivityIndicatorView
 
-protocol EventsDetailsViewDelegate: class {
+protocol EventsDetailsViewDelegate: AnyObject {
     func imageCellTapped(index: Int, displacementItem: UIImageView)
     func bookmarkBtnTapped(sender: UIButton)
     func performerLabelTapped(sender: Any)

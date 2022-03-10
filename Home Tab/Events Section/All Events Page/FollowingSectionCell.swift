@@ -10,7 +10,7 @@ import UIKit
 import SkeletonView
 import NVActivityIndicatorView
 
-protocol FollowingSectionCellDelegate: class {
+protocol FollowingSectionCellDelegate: AnyObject {
     func bookmarkBtnTapped(cell: FollowingSectionCell, tappedIndex: IndexPath)
 }
 
