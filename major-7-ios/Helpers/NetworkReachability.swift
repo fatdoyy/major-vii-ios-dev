@@ -13,10 +13,10 @@ class NetworkManager {
     //shared instance
     static let sharedInstance = NetworkManager()
     
-    let reachabilityManager = Alamofire.NetworkReachabilityManager()
+    let reachabilityManager = NetworkReachabilityManager()
     
     func startNetworkReachabilityObserver() {
-        reachabilityManager?.listener = { status in
+        reachabilityManager?.startListening { status in
             switch status {
             case .notReachable:
                 print("The network is not reachable")
@@ -26,7 +26,7 @@ class NetworkManager {
                 print("The network is reachable over the WiFi connection")
                 SwiftMessages.hide()
                 
-            case .reachable(.wwan):
+            case .reachable(.cellular):
                 print("The network is reachable over the WWAN connection")
                 SwiftMessages.hide()
                 
@@ -34,8 +34,5 @@ class NetworkManager {
                 print("It is unknown whether the network is reachable")
             }
         }
-        
-        // start listening
-        reachabilityManager?.startListening()
     }
 }

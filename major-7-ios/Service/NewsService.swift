@@ -13,6 +13,9 @@ import ObjectMapper
 class NewsService: BaseService {}
 
 extension NewsService {
+    struct params: Codable {
+        
+    }
     static func getList(skip: Int? = nil, limit: Int? = nil) -> Promise<NewsList> {
         var params: [String: Any] = [:]
         if let skip = skip {

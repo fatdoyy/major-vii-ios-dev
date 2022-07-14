@@ -1,10 +1,10 @@
 # Uncomment the next line to define a global platform for your project
- platform :ios, '11.0'
+platform :ios, '14.0'
 
 target 'major-7-ios' do
   # Comment the next line if you're not using Swift and don't want to use dynamic frameworks
   use_frameworks!
-
+  
   post_install do |installer|
     installer.pods_project.targets.each do |target|
       target.build_configurations.each do |config|
@@ -20,10 +20,8 @@ target 'major-7-ios' do
   # Pods for major-7-ios
   
   #Facebook
-  pod 'FacebookCore', '0.5.0'
-  pod 'FacebookLogin', '0.5.0'
-  pod 'FBSDKCoreKit', '~> 4.38.0'
-  pod 'FBSDKLoginKit', '~> 4.38.0'
+  pod 'FBSDKCoreKit/Swift'
+  pod 'FBSDKLoginKit/Swift'
   
   #Google / Firebase
   pod 'Firebase/Core'
@@ -33,7 +31,7 @@ target 'major-7-ios' do
   pod 'GoogleMaps'
   
   #Networking
-  pod 'Alamofire', '~> 4.8'
+  pod 'Alamofire'
   pod 'PromiseKit/CorePromise'
   pod 'Kingfisher'                              # image downloading
   pod 'Reqres'                                  # network activity logger
@@ -52,7 +50,7 @@ target 'major-7-ios' do
   pod 'JGProgressHUD'                           # progress hud
   pod 'SwiftGifOrigin', '~> 1.6'                # gif in UIImageView
   pod 'Bartinter'                               # update status bar style automatically
-  pod 'SkyFloatingLabelTextField', '~> 3.0'     # floating label above textfield
+  pod 'SkyFloatingLabelTextField'               # floating label above textfield
   pod 'NVActivityIndicatorView'                 # as title
   pod 'SwiftMessages'                           # in-app notifications/empty states of tableview/collectionview etc...
   pod 'CHIPageControl'                          # UIPageControl
@@ -67,10 +65,10 @@ target 'major-7-ios' do
   pod 'SwiftDate'                               # as title
   pod 'Hero'                                    # transitions
   pod 'lottie-ios'                              # After Effects animations
-  pod 'ViewAnimator', '2.7.1'                   # Animate uicollectionview cells
+  pod 'ViewAnimator'                            # Animate uicollectionview cells
   #pod 'ActiveLabel'                             # supporting Hashtags (#), Mentions (@), URLs (http:/)
-
-  pod 'Validator', :git => 'https://github.com/kikikiktai/Validator.git'                            # UITextField validation
+  
+  pod 'Validator', :git => 'https://github.com/fatdoyy/Validator.git'                            # UITextField validation
   #pod 'ImageViewer', :inhibit_warnings => true, :git=> 'https://github.com/mezhevikin/ImageViewer'  # as title
   #pod 'ImageViewer', :git=> 'https://github.com/Nabeatsu/ImageViewer', :branch=> 'master'           # as title
   pod 'ImageViewer'

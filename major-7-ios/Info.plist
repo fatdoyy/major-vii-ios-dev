@@ -36,9 +36,11 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>732</string>
+	<string>784</string>
 	<key>FacebookAppID</key>
 	<string>427391091488819</string>
+	<key>FacebookClientToken</key>
+	<string>2395ea4b871411e6aede9cce8ab7f0c8</string>
 	<key>FacebookDisplayName</key>
 	<string>Major VII (Testing)</string>
 	<key>LSApplicationQueriesSchemes</key>

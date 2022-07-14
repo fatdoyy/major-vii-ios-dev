@@ -147,21 +147,21 @@ class BaseService: NSObject {
         return endpoint + actionPathStr
     }
     
-    static private var manager : Alamofire.SessionManager = {
+    static private var manager : Session = {
         let configuration = URLSessionConfiguration.default
         //let configuration = Reqres.defaultSessionConfiguration()
         
-        configuration.httpAdditionalHeaders = Alamofire.SessionManager.defaultHTTPHeaders
+        configuration.headers = .default
         configuration.requestCachePolicy = .reloadIgnoringLocalCacheData
         configuration.urlCache = nil
-        let sessionManager = Alamofire.SessionManager(configuration: configuration)
-        sessionManager.retrier = NetworkRequestRetrier()
+        let sessionManager = Session(configuration: configuration, interceptor: NetworkRequestRetrier())
+        //sessionManager.interceptor = NetworkRequestRetrier()
         
         return sessionManager
     }()
     
-    static private func sharedHeaders() -> [String: String] {
-        var headers = [
+    static private func sharedHeaders() -> HTTPHeaders {
+        var headers : HTTPHeaders = [
             "Content-Type": "application/x-www-form-urlencoded",
         ]
         
@@ -184,7 +184,7 @@ class BaseService: NSObject {
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
 
         return Promise { resolver in
-            manager.request(url, method: method, parameters: params, encoding: URLEncoding.methodDependent, headers: sharedHeaders()).responseJSON { response in
+            manager.request(url, method: method, parameters: params, encoding: URLEncoding.default, headers: sharedHeaders()).responseJSON { response in
                 switch response.result {
                 case .success(let value):
                     resolver.fulfill(value)
@@ -194,6 +194,21 @@ class BaseService: NSObject {
             }
         }
     }
+    
+//    static func request2(method: Alamofire.HTTPMethod, url: String, params: Codable? = nil) -> Promise<Any> {
+//        UIApplication.shared.isNetworkActivityIndicatorVisible = true
+//
+//        return Promise { resolver in
+//            manager.request(url, method: method, parameters: params, encoder: URLEncodedFormParameterEncoder(destination: .methodDependent), headers: sharedHeaders(), interceptor: NetworkRequestRetrier()) { response in
+//                switch response.result {
+//                case .success(let value):
+//                    resolver.fulfill(value)
+//                case .failure(let error):
+//                    resolver.reject(error)
+//                }
+//            }
+//        }
+//    }
 }
 
 extension BaseService {

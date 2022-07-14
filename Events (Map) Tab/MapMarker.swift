@@ -47,7 +47,7 @@ class MapMarker: GMSMarker {
 
         markerImg.contentMode = .scaleAspectFill
         markerImg.clipsToBounds = true
-        markerImg.image = UIImage(named: "icon_map_marker")
+        markerImg.image = UIImage(named: "map_marker")
         iconView.addSubview(markerImg)
         markerImg.snp.makeConstraints { (make) in
             make.size.equalTo(60)

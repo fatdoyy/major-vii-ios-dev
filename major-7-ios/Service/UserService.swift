@@ -6,8 +6,8 @@
 //  Copyright © 2019 Major VII. All rights reserved.
 //
 
-import FacebookCore
-import FacebookLogin
+import FBSDKCoreKit
+import FBSDKLoginKit
 import GoogleSignIn
 import PromiseKit
 import ObjectMapper
@@ -36,10 +36,8 @@ class UserService: BaseService {
     struct current {
         //check current user
         static func isLoggedIn() -> Bool {
-            /* 20220309 Temporary disabled login feature */
-//            let notLoggedIn = hasUserId() == false || hasAccessToken() == false || hasRefreshToken() == false || hasUsername() == false
-//            return true != notLoggedIn
-            return true
+            let notLoggedIn = hasUserId() == false || hasAccessToken() == false || hasRefreshToken() == false || hasUsername() == false
+            return true != notLoggedIn
         }
         
         //logout
@@ -88,20 +86,27 @@ class UserService: BaseService {
 extension UserService {
     struct FB {
         static func logIn(fromVC: UIViewController) {
-            
             let loginManager = LoginManager()
             
-            loginManager.logIn(readPermissions: [.publicProfile, .email], viewController: fromVC) { loginResult in
-                switch loginResult {
-                case .failed(let error):
-                    print(error)
-                case .cancelled:
-                    print("User cancelled login.")
-                case .success(let grantedPermissions, let declinedPermissions, let accessToken):
-                    print("Logged in - \(accessToken.authenticationToken)")
-                    print("grantedPermissions - \(grantedPermissions)")
-                    print("declinedPermissions - \(declinedPermissions)")
-                    
+            loginManager.logIn(permissions: ["public_profile", "email"], from: fromVC) { (result, error) in
+                // Check for error
+                guard error == nil else {
+                    print(error!.localizedDescription)
+                    return
+                }
+                
+                // Check for cancel
+                guard let result = result, !result.isCancelled else {
+                    print("User cancelled login")
+                    return
+                }
+                
+                // Successful
+                if let token = result.token {
+                    print("Logged in - \(token)")
+                    print("grantedPermissions - \(result.grantedPermissions)")
+                    print("declinedPermissions - \(result.declinedPermissions)")
+                                        
                     //show hud
                     hud.indicatorView = JGProgressHUDIndeterminateIndicatorView()
                     hud.textLabel.text = "Working Hard..."
@@ -109,45 +114,52 @@ extension UserService {
                     hud.layoutMargins = UIEdgeInsets.init(top: 10.0, left: 10.0, bottom: 10.0, right: 10.0)
                     hud.show(in: fromVC.view)
                     
-                    getFbUserInfo(accessToken: accessToken, vc: fromVC, hud: hud)
+                    getFbUserInfo(accessToken: token, vc: fromVC, hud: hud)
                 }
             }
         }
         
         static func getFbUserInfo(accessToken: AccessToken, vc: UIViewController, hud: JGProgressHUD) {
-            let graphRequest: GraphRequest = GraphRequest(graphPath: "me", parameters: ["fields": "first_name, email, picture.type(large)"], accessToken: accessToken, httpMethod: .GET)
-            graphRequest.start({ (response, result) in
-                switch result {
-                case .success(let result):
-                    if let fbResponse = result.dictionaryValue {
-                        
-                        let userId  = fbResponse["id"] as! String
-                        let email   = fbResponse["email"] as! String
-                        let name    = fbResponse["first_name"] as! String
+            guard AccessToken.current != nil else { return }
+            
+            let graphRequest = GraphRequest(graphPath: "me", parameters: ["fields": "first_name, email, picture.type(large)"], httpMethod: .get)
+            graphRequest.start() { (connection, result, error) in
+                // Check error
+                guard error == nil else {
+                    print(error!.localizedDescription)
+                    return
+                }
+                
+                // Successful
+                if let result = result {
+                    if let response = result as? Dictionary<String, AnyObject> {
+                        let userId  = response["id"] as! String
+                        let email   = response["email"] as! String
+                        let name    = response["first_name"] as! String
                         print("Successfully got data from Facebook, proceeding to request JWT...")
-                        
+                     
                         //After getting user details on FB, register/login to Major VII
-                        loginRequest(token: accessToken.authenticationToken, userId: userId, email: email, name: name, dismissVC: vc).done { response in
+                        loginRequest(token: accessToken.tokenString, userId: userId, email: email, name: name, dismissVC: vc).done { response in
                             if let apiResponse = response as? [String: Any] {
                                 print(apiResponse)
                                 if apiResponse["success"] != nil { //200 OK
                                     /// NOTE: We can't get the response's HTTPStatusCode here because of the way we handle http request (Alamofire + PromiseKit), by the way here the response must be 200 OK from Alamofire, so we need to check the content(key) of the response (i.e. success = 1; error: "message")
                                     print("Sucecssfully created MajorVII account")
                                     HapticFeedback.createNotificationFeedback(style: .success)
-                                    
+
                                     //animate hud change
                                     UIView.animate(withDuration: 0.25, animations: {
                                         hud.indicatorView = JGProgressHUDSuccessIndicatorView()
                                         hud.textLabel.text = "Hello \(name)! (ᵔᴥᵔ)"
                                         hud.detailTextLabel.text = nil
                                     })
-                                    
+
                                     //save tokens/user id to local
                                     UserDefaults.standard.set(apiResponse["user_id"], forKey: LOCAL_KEY.USER_ID)
                                     UserDefaults.standard.set(apiResponse["access_token"], forKey: LOCAL_KEY.ACCESS_TOKEN)
                                     UserDefaults.standard.set(apiResponse["refresh_token"], forKey: LOCAL_KEY.REFRESH_TOKEN)
                                     UserDefaults.standard.set(name, forKey: LOCAL_KEY.USERNAME)
-                                    
+
                                     //hide login view
                                     NotificationCenter.default.post(name: .dismissLoginVC, object: nil)
                                     hud.dismiss(afterDelay: 0.75)
@@ -172,14 +184,19 @@ extension UserService {
                                 }
                                 hud.dismiss(afterDelay: 2)
                             }
-                            }.ensure  {
-                                UIApplication.shared.isNetworkActivityIndicatorVisible = false
-                            }.catch { error in }
+                        }.ensure  {
+                            UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                        }.catch { error in }
                     }
-                case .failed(let error):
-                    print("Failed to get data from Facebook: \(error)")
                 }
-            })
+                
+                
+                
+                
+                
+                
+                
+            }
         }
         
         //Login to Major VII with facebook params
