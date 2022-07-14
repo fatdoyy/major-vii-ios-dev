@@ -52,7 +52,7 @@ target 'major-7-ios' do
   pod 'JGProgressHUD'                           # progress hud
   pod 'SwiftGifOrigin', '~> 1.6'                # gif in UIImageView
   pod 'Bartinter'                               # update status bar style automatically
-  pod 'SkyFloatingLabelTextField'               # floating label above textfield
+  pod 'SkyFloatingLabelTextField', '~> 3.0'     # floating label above textfield
   pod 'NVActivityIndicatorView'                 # as title
   pod 'SwiftMessages'                           # in-app notifications/empty states of tableview/collectionview etc...
   pod 'CHIPageControl'                          # UIPageControl
@@ -67,7 +67,7 @@ target 'major-7-ios' do
   pod 'SwiftDate'                               # as title
   pod 'Hero'                                    # transitions
   pod 'lottie-ios'                              # After Effects animations
-  pod 'ViewAnimator'                            # Animate uicollectionview cells
+  pod 'ViewAnimator', '2.7.1'                   # Animate uicollectionview cells
   #pod 'ActiveLabel'                             # supporting Hashtags (#), Mentions (@), URLs (http:/)
 
   pod 'Validator', :git => 'https://github.com/kikikiktai/Validator.git'                            # UITextField validation

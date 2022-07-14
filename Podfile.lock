@@ -190,7 +190,7 @@ PODS:
   - PromisesObjC (2.0.0)
   - Reqres (3.1.1)
   - SkeletonView (1.8.5)
-  - SkyFloatingLabelTextField (4.0.0)
+  - SkyFloatingLabelTextField (3.8.0)
   - SnapKit (5.0.1)
   - SwiftDate (6.3.1)
   - SwiftGifOrigin (1.7.0)
@@ -198,7 +198,7 @@ PODS:
     - SwiftMessages/App (= 9.0.6)
   - SwiftMessages/App (9.0.6)
   - Validator (3.2)
-  - ViewAnimator (3.1.0)
+  - ViewAnimator (2.7.1)
   - XCDYouTubeKit (2.15.2)
 
 DEPENDENCIES:
@@ -237,13 +237,13 @@ DEPENDENCIES:
   - PromiseKit/CorePromise
   - Reqres
   - SkeletonView (= 1.8.5)
-  - SkyFloatingLabelTextField
+  - SkyFloatingLabelTextField (~> 3.0)
   - SnapKit
   - SwiftDate
   - SwiftGifOrigin (~> 1.6)
   - SwiftMessages
   - Validator (from `https://github.com/kikikiktai/Validator.git`)
-  - ViewAnimator
+  - ViewAnimator (= 2.7.1)
   - XCDYouTubeKit
 
 SPEC REPOS:
@@ -362,15 +362,15 @@ SPEC CHECKSUMS:
   PromisesObjC: 68159ce6952d93e17b2dfe273b8c40907db5ba58
   Reqres: 4ebafc15b75c65fdf67edcec14520d43b836d4da
   SkeletonView: 3a8d8dd241eaa7e7bb3744bc000fed94fcd69823
-  SkyFloatingLabelTextField: 79ddc40e4ad59707fedbb48d605417aee48bb78a
+  SkyFloatingLabelTextField: 5a338412114808e961fe2d14ea2c5452c8b6e4aa
   SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
   SwiftDate: 72d28954e8e1c6c1c0f917ccc8005e4f83c7d4b2
   SwiftGifOrigin: fbd6cf37afcfcf97a5c3db996ddc0492e5c5c145
   SwiftMessages: f0c7ef4705a570ad6c5e208b611f4333e660ed92
   Validator: 9cfe0da15338f2e36fcf9e394f5bc1761888bec4
-  ViewAnimator: a9ceed80266e00fd435ec4fb99b2df64d580d0e4
+  ViewAnimator: 7512352ec4dec2901b980d16b1256d601c30a44c
   XCDYouTubeKit: b120aced3d8638ffb570c5450cddb5a1dac448c7
 
-PODFILE CHECKSUM: fab91e85ea9415dad41d59a3c9b0ed6eda61648d
+PODFILE CHECKSUM: b1e5f8df1686c89f174598f3f2fd33be55e21504
 
 COCOAPODS: 1.11.2
