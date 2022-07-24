@@ -1,0 +1,559 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="nPd-NX-Cc6">
+    <device id="retina5_9" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Settings View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController automaticallyAdjustsScrollViewInsets="NO" id="BYZ-38-t0r" customClass="SettingsViewController" customModule="major_7_ios" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="w7q-Dt-Kuu"/>
+                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1879.2" y="1117.2413793103449"/>
+        </scene>
+        <!--Map View Controller-->
+        <scene sceneID="4j0-ao-38G">
+            <objects>
+                <viewController id="wTP-qq-E8x" customClass="MapViewController" customModule="major_7_ios" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="URT-q8-mzZ">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dm6-sV-0Ao" customClass="GMSMapView">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="dm6-sV-0Ao" firstAttribute="leading" secondItem="Jre-s0-qBI" secondAttribute="leading" id="aEy-8U-MZD"/>
+                            <constraint firstAttribute="bottom" secondItem="dm6-sV-0Ao" secondAttribute="bottom" id="exz-Ne-oH0"/>
+                            <constraint firstItem="dm6-sV-0Ao" firstAttribute="trailing" secondItem="Jre-s0-qBI" secondAttribute="trailing" id="t6e-Nf-RvN"/>
+                            <constraint firstItem="dm6-sV-0Ao" firstAttribute="top" secondItem="URT-q8-mzZ" secondAttribute="top" id="xW2-ng-J5W"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="Jre-s0-qBI"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="eGZ-4G-0C2"/>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="isHeroEnabled" value="YES"/>
+                    </userDefinedRuntimeAttributes>
+                    <connections>
+                        <outlet property="mapView" destination="dm6-sV-0Ao" id="rYG-qc-Lxa"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Kjm-bj-XPm" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1879.2" y="386.45320197044339"/>
+        </scene>
+        <!--Bookmarked Events View Controller-->
+        <scene sceneID="R9p-6I-iYq">
+            <objects>
+                <viewController storyboardIdentifier="bookmarkedEventsVC" id="mA7-GB-4WL" customClass="BookmarkedEventsViewController" customModule="major_7_ios" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="0JJ-hg-OAQ">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="qci-xr-bXu"/>
+                    </view>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="isHeroEnabled" value="YES"/>
+                    </userDefinedRuntimeAttributes>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ENq-3V-d2C" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2649" y="386"/>
+        </scene>
+        <!--Buskers View Controller-->
+        <scene sceneID="82B-WS-XpR">
+            <objects>
+                <viewController storyboardIdentifier="buskersViewVC" id="ISg-XY-dAr" customClass="BuskersViewController" customModule="major_7_ios" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="lhR-5D-GAr">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="724"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="3Xa-nK-xVa"/>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="boolean" keyPath="isHeroEnabled" value="YES"/>
+                        </userDefinedRuntimeAttributes>
+                    </view>
+                    <navigationItem key="navigationItem" id="qV0-jt-4Ei"/>
+                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="isHeroEnabled" value="YES"/>
+                    </userDefinedRuntimeAttributes>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="JZZ-Dv-j0t" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1862" y="-986"/>
+        </scene>
+        <!--Buskers Search View Controller-->
+        <scene sceneID="TZW-Ic-l0U">
+            <objects>
+                <viewController storyboardIdentifier="buskersSearchVC" id="nw1-Ry-a7I" customClass="BuskersSearchViewController" customModule="major_7_ios" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="tRc-Rs-LQI">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="ptp-5u-YEE"/>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="boolean" keyPath="isHeroEnabled" value="YES"/>
+                        </userDefinedRuntimeAttributes>
+                    </view>
+                    <navigationItem key="navigationItem" id="pMU-RL-8GU"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Nqf-V7-biu" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2649" y="-989"/>
+        </scene>
+        <!--Agents View Controller-->
+        <scene sceneID="apQ-qF-xM3">
+            <objects>
+                <viewController id="JNt-6k-y41" customClass="AgentsViewController" customModule="major_7_ios" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="3xs-7Q-aci">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="a9I-E6-5Cq"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="" image="tabbar_coop" id="HDB-70-6wy">
+                        <inset key="imageInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="-10"/>
+                    </tabBarItem>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="enw-Kl-JBh" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="936.79999999999995" y="-278.57142857142856"/>
+        </scene>
+        <!--Onboarding Screen-->
+        <scene sceneID="o6x-lX-uEp">
+            <objects>
+                <viewController storyboardIdentifier="onboardingScreen" id="kLt-NG-dot" customClass="OnboardingScreen" customModule="major_7_ios" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="hYg-X4-DMY">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="UPP-02-OCn"/>
+                    </view>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="isHeroEnabled" value="YES"/>
+                    </userDefinedRuntimeAttributes>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Lru-Ww-fiw" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1838" y="-18"/>
+        </scene>
+        <!--Login View Controller-->
+        <scene sceneID="XPO-q8-cDK">
+            <objects>
+                <viewController storyboardIdentifier="loginVC" id="dix-dk-rni" customClass="LoginViewController" customModule="major_7_ios" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="psk-N4-ecg">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dLa-3j-ao0" customClass="LoginView" customModule="major_7_ios" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="dLa-3j-ao0" firstAttribute="top" secondItem="psk-N4-ecg" secondAttribute="top" id="JZy-UH-px9"/>
+                            <constraint firstItem="dLa-3j-ao0" firstAttribute="trailing" secondItem="N7T-pX-Ocz" secondAttribute="trailing" id="PoC-w6-mKx"/>
+                            <constraint firstAttribute="bottom" secondItem="dLa-3j-ao0" secondAttribute="bottom" id="XK4-5J-OID"/>
+                            <constraint firstItem="dLa-3j-ao0" firstAttribute="leading" secondItem="N7T-pX-Ocz" secondAttribute="leading" id="l5A-Q1-avA"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="N7T-pX-Ocz"/>
+                    </view>
+                    <connections>
+                        <outlet property="loginView" destination="dLa-3j-ao0" id="U3w-iM-Hpg"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="KEJ-5W-gQY" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-934" y="-18"/>
+        </scene>
+        <!--News Detail View Controller-->
+        <scene sceneID="Zgg-XU-nzV">
+            <objects>
+                <viewController storyboardIdentifier="newsDetailVC" id="Ngs-yU-oTq" customClass="NewsDetailViewController" customModule="major_7_ios" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="xyu-Bk-P6u">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KQt-A7-Gby">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                            </scrollView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="KQt-A7-Gby" firstAttribute="top" secondItem="xyu-Bk-P6u" secondAttribute="top" id="LFR-kE-AX4"/>
+                            <constraint firstItem="KQt-A7-Gby" firstAttribute="trailing" secondItem="0Zc-8u-rMo" secondAttribute="trailing" id="WfH-Mo-i58"/>
+                            <constraint firstAttribute="bottom" secondItem="KQt-A7-Gby" secondAttribute="bottom" id="dU6-kw-bUU"/>
+                            <constraint firstItem="KQt-A7-Gby" firstAttribute="leading" secondItem="0Zc-8u-rMo" secondAttribute="leading" id="lQQ-GM-ndl"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="0Zc-8u-rMo"/>
+                    </view>
+                    <connections>
+                        <outlet property="mainScrollView" destination="KQt-A7-Gby" id="ZcY-sh-TLY"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="HYE-0M-TUf" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="82.400000000000006" y="-1675.1231527093596"/>
+        </scene>
+        <!--Tab Bar View Controller-->
+        <scene sceneID="DMq-wy-dzv">
+            <objects>
+                <tabBarController storyboardIdentifier="tabBarVC" id="nPd-NX-Cc6" customClass="TabBarViewController" customModule="major_7_ios" customModuleProvider="target" sceneMemberID="viewController">
+                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="dlg-U7-va2">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="49"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="24W-mU-zt7" kind="relationship" relationship="viewControllers" id="mEj-n3-OD1"/>
+                        <segue destination="Tg2-OL-Zj8" kind="relationship" relationship="viewControllers" id="5Gy-VL-jnl"/>
+                        <segue destination="JNt-6k-y41" kind="relationship" relationship="viewControllers" id="zI7-hD-bDb"/>
+                        <segue destination="09e-1x-hXU" kind="relationship" relationship="viewControllers" id="AZQ-vC-L3I"/>
+                        <segue destination="fVK-ET-OZc" kind="relationship" relationship="viewControllers" id="a8o-sS-84h"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="0bE-mM-5vO" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-87" y="-17"/>
+        </scene>
+        <!--Home View Controller-->
+        <scene sceneID="Kim-5d-BVd">
+            <objects>
+                <viewController storyboardIdentifier="homeVC" id="sXn-Jw-JsF" customClass="HomeViewController" customModule="major_7_ios" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="ENP-Qc-3Y5">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="jRV-mZ-rWk">
+                                <rect key="frame" x="0.0" y="88" width="375" height="724"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="20" minimumInteritemSpacing="0.0" id="up6-qi-OQN">
+                                    <size key="itemSize" width="50" height="50"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells/>
+                            </collectionView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="jRV-mZ-rWk" firstAttribute="leading" secondItem="ENP-Qc-3Y5" secondAttribute="leading" id="MWE-4W-BIV"/>
+                            <constraint firstAttribute="bottom" secondItem="jRV-mZ-rWk" secondAttribute="bottom" id="chZ-Xt-blY"/>
+                            <constraint firstItem="jRV-mZ-rWk" firstAttribute="top" secondItem="Qmu-PV-ePk" secondAttribute="top" id="phh-Ho-A2a"/>
+                            <constraint firstAttribute="trailing" secondItem="jRV-mZ-rWk" secondAttribute="trailing" id="zZh-Yi-DAA"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="Qmu-PV-ePk"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="xuC-tY-7LJ"/>
+                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="isHeroEnabled" value="YES"/>
+                    </userDefinedRuntimeAttributes>
+                    <connections>
+                        <outlet property="mainCollectionView" destination="jRV-mZ-rWk" id="U6G-un-PRI"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="HVC-kG-RG6" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1861.5999999999999" y="-1675.1231527093596"/>
+        </scene>
+        <!--Events List View Controller-->
+        <scene sceneID="OQ6-Fa-v8w">
+            <objects>
+                <viewController storyboardIdentifier="eventsListVC" id="C84-6i-1Og" customClass="EventsListViewController" customModule="major_7_ios" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="ZTv-ls-liq">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="xs1-tf-VX4">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="ulZ-OY-Nvb">
+                                    <size key="itemSize" width="50" height="50"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="isHeroEnabled" value="YES"/>
+                                </userDefinedRuntimeAttributes>
+                            </collectionView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="xs1-tf-VX4" firstAttribute="top" secondItem="ZTv-ls-liq" secondAttribute="top" id="86b-lO-Kao"/>
+                            <constraint firstAttribute="bottom" secondItem="xs1-tf-VX4" secondAttribute="bottom" id="aFH-st-5fo"/>
+                            <constraint firstItem="xs1-tf-VX4" firstAttribute="leading" secondItem="ZTv-ls-liq" secondAttribute="leading" id="djW-3M-vQE"/>
+                            <constraint firstAttribute="trailing" secondItem="xs1-tf-VX4" secondAttribute="trailing" id="uWY-ni-gn7"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="wwf-Ze-8TO"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="c0U-xo-uyT"/>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="isHeroEnabled" value="YES"/>
+                    </userDefinedRuntimeAttributes>
+                    <connections>
+                        <outlet property="mainCollectionView" destination="xs1-tf-VX4" id="s6T-Ym-SHb"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="qoJ-B8-Y4x" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2644" y="-1675"/>
+        </scene>
+        <!--Busker Profile View Controller-->
+        <scene sceneID="QE1-hP-28t">
+            <objects>
+                <viewController storyboardIdentifier="buskerProfileVC" id="9Ok-EZ-1sD" customClass="BuskerProfileViewController" customModule="major_7_ios" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="vv2-xP-mlS">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WUR-8Q-DKa">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                            </scrollView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="WUR-8Q-DKa" firstAttribute="trailing" secondItem="Vle-xd-ms8" secondAttribute="trailing" id="9En-dy-aTo"/>
+                            <constraint firstItem="WUR-8Q-DKa" firstAttribute="top" secondItem="vv2-xP-mlS" secondAttribute="top" id="9eS-UY-KvH"/>
+                            <constraint firstItem="WUR-8Q-DKa" firstAttribute="leading" secondItem="Vle-xd-ms8" secondAttribute="leading" id="Dl4-LL-Fxb"/>
+                            <constraint firstAttribute="bottom" secondItem="WUR-8Q-DKa" secondAttribute="bottom" id="nVw-BZ-hjK"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="Vle-xd-ms8"/>
+                    </view>
+                    <connections>
+                        <outlet property="mainScrollView" destination="WUR-8Q-DKa" id="eue-co-TbE"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="SId-EQ-EOF" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3430" y="-989"/>
+        </scene>
+        <!--Busker Profile Edit View Controller-->
+        <scene sceneID="FtA-t7-p2v">
+            <objects>
+                <viewController storyboardIdentifier="buskerProfileEditVC" id="sbI-7r-r4g" customClass="BuskerProfileEditViewController" customModule="major_7_ios" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="paM-YA-hGH">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="cvG-kS-7RM"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ech-am-fe5" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4233" y="-989"/>
+        </scene>
+        <!--Event Details View Controller-->
+        <scene sceneID="5GU-zy-LRZ">
+            <objects>
+                <viewController storyboardIdentifier="eventDetails" automaticallyAdjustsScrollViewInsets="NO" id="GMV-qX-vEE" customClass="EventDetailsViewController" customModule="major_7_ios" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="hgd-DL-QC7">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="cpZ-ve-JUZ">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="330"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="330" id="sZh-V8-mdG"/>
+                                </constraints>
+                            </imageView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FBG-96-rLN" customClass="ImageOverlayRevert" customModule="major_7_ios" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="110"/>
+                                <color key="backgroundColor" red="0.59607843140000005" green="0.80000000000000004" blue="0.31764705879999999" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="110" id="XLh-YF-8Yi"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SaP-N2-BUd" customClass="roundedView" customModule="major_7_ios" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="300" width="375" height="30"/>
+                                <color key="backgroundColor" red="0.59999999999999998" green="0.0" blue="0.015686274510000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </view>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" contentInsetAdjustmentBehavior="never" translatesAutoresizingMaskIntoConstraints="NO" id="QNu-xN-zbw">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fzh-wP-JSm" customClass="EventDetailsView" customModule="major_7_ios" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                                    </view>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="fzh-wP-JSm" firstAttribute="top" secondItem="QNu-xN-zbw" secondAttribute="top" id="6z4-ba-Yml"/>
+                                    <constraint firstItem="fzh-wP-JSm" firstAttribute="leading" secondItem="QNu-xN-zbw" secondAttribute="leading" id="WBc-hM-uGh"/>
+                                    <constraint firstAttribute="bottom" secondItem="fzh-wP-JSm" secondAttribute="bottom" id="dmK-4Q-wAc"/>
+                                    <constraint firstItem="fzh-wP-JSm" firstAttribute="width" secondItem="QNu-xN-zbw" secondAttribute="width" id="lAG-yp-XVY"/>
+                                    <constraint firstItem="fzh-wP-JSm" firstAttribute="height" secondItem="QNu-xN-zbw" secondAttribute="height" priority="250" id="s0l-EW-ET5"/>
+                                    <constraint firstAttribute="trailing" secondItem="fzh-wP-JSm" secondAttribute="trailing" id="ss3-tK-gL6"/>
+                                </constraints>
+                            </scrollView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="cpZ-ve-JUZ" firstAttribute="trailing" secondItem="arw-y3-SIZ" secondAttribute="trailing" id="5hg-3l-DoX"/>
+                            <constraint firstItem="FBG-96-rLN" firstAttribute="trailing" secondItem="arw-y3-SIZ" secondAttribute="trailing" id="K5z-GQ-e36"/>
+                            <constraint firstItem="SaP-N2-BUd" firstAttribute="top" secondItem="cpZ-ve-JUZ" secondAttribute="top" constant="300" id="Lxa-b2-fAW"/>
+                            <constraint firstAttribute="bottom" secondItem="QNu-xN-zbw" secondAttribute="bottom" id="NQM-ja-qaW"/>
+                            <constraint firstItem="FBG-96-rLN" firstAttribute="top" secondItem="hgd-DL-QC7" secondAttribute="top" id="OFO-mp-rPI"/>
+                            <constraint firstItem="FBG-96-rLN" firstAttribute="leading" secondItem="arw-y3-SIZ" secondAttribute="leading" id="ObV-YR-aVe"/>
+                            <constraint firstItem="cpZ-ve-JUZ" firstAttribute="leading" secondItem="arw-y3-SIZ" secondAttribute="leading" id="a3b-6m-oDJ"/>
+                            <constraint firstItem="cpZ-ve-JUZ" firstAttribute="top" secondItem="hgd-DL-QC7" secondAttribute="top" id="bBC-3S-XtH"/>
+                            <constraint firstItem="SaP-N2-BUd" firstAttribute="bottom" secondItem="cpZ-ve-JUZ" secondAttribute="bottom" id="eBP-4n-XyV"/>
+                            <constraint firstItem="SaP-N2-BUd" firstAttribute="trailing" secondItem="arw-y3-SIZ" secondAttribute="trailing" id="fPF-Bo-Gx0"/>
+                            <constraint firstItem="QNu-xN-zbw" firstAttribute="trailing" secondItem="cpZ-ve-JUZ" secondAttribute="trailing" id="fv5-6W-c5y"/>
+                            <constraint firstItem="SaP-N2-BUd" firstAttribute="leading" secondItem="arw-y3-SIZ" secondAttribute="leading" id="hM3-L8-qzc"/>
+                            <constraint firstItem="QNu-xN-zbw" firstAttribute="leading" secondItem="cpZ-ve-JUZ" secondAttribute="leading" id="u3y-jc-BxV"/>
+                            <constraint firstItem="QNu-xN-zbw" firstAttribute="top" secondItem="cpZ-ve-JUZ" secondAttribute="top" id="vTP-dQ-9Xe"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="arw-y3-SIZ"/>
+                    </view>
+                    <connections>
+                        <outlet property="bgView" destination="fzh-wP-JSm" id="AdD-Zj-fMG"/>
+                        <outlet property="headerImg" destination="cpZ-ve-JUZ" id="rpJ-RX-aZw"/>
+                        <outlet property="mainScrollView" destination="QNu-xN-zbw" id="9ge-dw-Qfw"/>
+                        <outlet property="roundedView" destination="SaP-N2-BUd" id="0AT-B4-ip5"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Scu-FI-UHM" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3429.5999999999999" y="-1675.1231527093596"/>
+        </scene>
+        <!--Event Search View Controller-->
+        <scene sceneID="ZQq-Wv-rUh">
+            <objects>
+                <viewController storyboardIdentifier="eventsSearchVC" id="nrg-fp-jgh" customClass="EventSearchViewController" customModule="major_7_ios" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="m7I-sp-zni">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="J7W-C5-zEy"/>
+                    </view>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="isHeroEnabled" value="YES"/>
+                    </userDefinedRuntimeAttributes>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="c8p-xg-slt" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4234" y="-1675"/>
+        </scene>
+        <!--Scrolling Navigation Controller-->
+        <scene sceneID="jwi-gD-kLw">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="24W-mU-zt7" customClass="ScrollingNavigationController" customModule="AMScrollingNavbar" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="" image="tabbar_explore" id="qnY-OO-jlc">
+                        <inset key="imageInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="-10"/>
+                    </tabBarItem>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="MOF-FI-OrC">
+                        <rect key="frame" x="0.0" y="44" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="isHeroEnabled" value="YES"/>
+                    </userDefinedRuntimeAttributes>
+                    <connections>
+                        <segue destination="sXn-Jw-JsF" kind="relationship" relationship="rootViewController" id="040-qU-UKm"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="6Jk-na-5c4" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="919.20000000000005" y="-1675.1231527093596"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="hfL-WE-b47">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Tg2-OL-Zj8" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="" image="tabbar_buskers" id="Wfs-Ce-3lu">
+                        <inset key="imageInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="-10"/>
+                    </tabBarItem>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translucent="NO" id="bf9-3X-Fm3">
+                        <rect key="frame" x="0.0" y="44" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="isHeroEnabled" value="YES"/>
+                    </userDefinedRuntimeAttributes>
+                    <connections>
+                        <segue destination="ISg-XY-dAr" kind="relationship" relationship="rootViewController" id="Idu-GN-ndG"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="DcE-3S-lSV" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="936.79999999999995" y="-986.45320197044339"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="K4T-39-ceA">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="09e-1x-hXU" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="" image="tabbar_events" id="a1q-tS-mt5">
+                        <inset key="imageInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="-10"/>
+                    </tabBarItem>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="6v9-DY-5gc">
+                        <rect key="frame" x="0.0" y="44" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="isHeroEnabled" value="YES"/>
+                    </userDefinedRuntimeAttributes>
+                    <connections>
+                        <segue destination="wTP-qq-E8x" kind="relationship" relationship="rootViewController" id="WxU-aV-gEr"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Xzv-4x-bRV" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="936.79999999999995" y="386.45320197044339"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="Fjj-3o-bZR">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="fVK-ET-OZc" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="" image="tabbar_more" id="skP-eK-JY3">
+                        <inset key="imageInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="-10"/>
+                    </tabBarItem>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="itc-25-OGn">
+                        <rect key="frame" x="0.0" y="44" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="29H-Yl-Kso"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="UBa-oA-fSE" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="936.79999999999995" y="1116.5024630541873"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="tabbar_buskers" width="48" height="48"/>
+        <image name="tabbar_coop" width="48" height="48"/>
+        <image name="tabbar_events" width="48" height="48"/>
+        <image name="tabbar_explore" width="48" height="48"/>
+        <image name="tabbar_more" width="48" height="48"/>
+    </resources>
+</document>

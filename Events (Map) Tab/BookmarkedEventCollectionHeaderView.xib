@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15400" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15404"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionReusableView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="U6b-Vx-4bR" customClass="BookmarkedEventCollectionHeaderView" customModule="major_7_ios" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="79"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YeG-aJ-9Cg">
+                    <rect key="frame" x="20" y="40" width="50.5" height="24"/>
+                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="20"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jOE-2r-vcw">
+                    <rect key="frame" x="268" y="49" width="32" height="15"/>
+                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="12"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kd0-Pt-HvA">
+                    <rect key="frame" x="78" y="42" width="20" height="20"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="20" id="APs-5i-tzp"/>
+                        <constraint firstAttribute="width" constant="20" id="u9s-uu-JJE"/>
+                    </constraints>
+                    <state key="normal" image="icon_refresh"/>
+                    <connections>
+                        <action selector="refreshBtnTapped:" destination="U6b-Vx-4bR" eventType="touchUpInside" id="Qk1-Bv-yFT"/>
+                    </connections>
+                </button>
+            </subviews>
+            <constraints>
+                <constraint firstItem="kd0-Pt-HvA" firstAttribute="leading" secondItem="YeG-aJ-9Cg" secondAttribute="trailing" constant="7.5" id="0LS-Mg-NPd"/>
+                <constraint firstItem="VXr-Tz-HHm" firstAttribute="bottom" secondItem="jOE-2r-vcw" secondAttribute="bottom" constant="15" id="6IG-de-6zl"/>
+                <constraint firstItem="YeG-aJ-9Cg" firstAttribute="bottom" secondItem="VXr-Tz-HHm" secondAttribute="bottom" constant="-15" id="EHB-9b-SIN"/>
+                <constraint firstItem="VXr-Tz-HHm" firstAttribute="trailing" secondItem="jOE-2r-vcw" secondAttribute="trailing" constant="20" id="Hcp-H9-FdQ"/>
+                <constraint firstItem="YeG-aJ-9Cg" firstAttribute="leading" secondItem="VXr-Tz-HHm" secondAttribute="leading" constant="20" id="Jve-xi-wl7"/>
+                <constraint firstItem="VXr-Tz-HHm" firstAttribute="bottom" secondItem="kd0-Pt-HvA" secondAttribute="bottom" constant="17" id="nsx-m1-f9R"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="VXr-Tz-HHm"/>
+            <connections>
+                <outlet property="bookmarkedEventsLabel" destination="YeG-aJ-9Cg" id="PSq-np-INw"/>
+                <outlet property="eventCount" destination="jOE-2r-vcw" id="HmP-tu-XHi"/>
+                <outlet property="refreshBtn" destination="kd0-Pt-HvA" id="1qd-mH-byT"/>
+            </connections>
+            <point key="canvasLocation" x="133" y="154"/>
+        </collectionReusableView>
+    </objects>
+    <resources>
+        <image name="icon_refresh" width="20" height="20"/>
+    </resources>
+</document>
