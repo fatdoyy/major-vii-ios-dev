@@ -20,6 +20,10 @@ class TabBarViewController: UITabBarController {
         return .lightContent
     }
 
+    override var childForStatusBarStyle: UIViewController? {
+        return self.presentedViewController
+    }
+
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         

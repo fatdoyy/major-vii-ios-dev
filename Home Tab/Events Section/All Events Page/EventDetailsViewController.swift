@@ -95,11 +95,20 @@ class EventDetailsViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        //transparent navigation bar
-        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
-        navigationController?.navigationBar.shadowImage = UIImage()
-        //navigationController?.navigationBar.barTintColor = .darkGray()
-        navigationController?.navigationBar.isTranslucent = true
+        if let navigationController = navigationController {
+            if #available(iOS 15, *) { /**I n iOS 15, UIKit has extended the usage of the scrollEdgeAppearance, which by default produces a transparent background, to all navigation bars. */
+                let appearance = UINavigationBarAppearance()
+                appearance.configureWithTransparentBackground()
+                //appearance.backgroundColor = .clear
+                navigationController.navigationBar.standardAppearance = appearance
+                navigationController.navigationBar.scrollEdgeAppearance = appearance
+            } else {
+                navigationController.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
+                navigationController.navigationBar.shadowImage = UIImage()
+                navigationController.navigationBar.isTranslucent = true
+            }
+        }
+
         
         if !isModal {
             TabBar.hide(from: self)
@@ -139,10 +148,9 @@ class EventDetailsViewController: UIViewController {
         EventService.getEventDetails(eventID: eventID).done { details -> () in
             self.eventDetails = details
             self.loadImgIntoImgViewer()
-
-            }.ensure {
-                UIApplication.shared.isNetworkActivityIndicatorVisible = false
-            }.catch { error in }
+        }.ensure {
+            UIApplication.shared.isNetworkActivityIndicatorVisible = false
+        }.catch { error in }
     }
     
     private func loadDetails() {
@@ -194,7 +202,7 @@ class EventDetailsViewController: UIViewController {
                         
                         self.hideIndicator()
                     }
-                    }.catch { error in }
+                }.catch { error in }
             } else { //from bookmarked section, no need to do check (i.e. bookmarked = true)
                 hideIndicator()
                 bgView.bookmarkBtn.setImage(UIImage(named: "eventdetails_bookmarked_1"), for: .normal)
@@ -378,11 +386,11 @@ extension EventDetailsViewController: EventsDetailsViewDelegate {
                     print("Event(\(self.eventID)) bookmarked")
                     sender.isUserInteractionEnabled = true
                     self.bookmarkBtnNewState = true
-                    }.ensure {
-                        self.didChangeBookmarkBtnState = self.bookmarkBtnInitialState == self.bookmarkBtnNewState ? false : true
-                        HapticFeedback.createNotificationFeedback(style: .success)
-                        UIApplication.shared.isNetworkActivityIndicatorVisible = false
-                    }.catch { error in }
+                }.ensure {
+                    self.didChangeBookmarkBtnState = self.bookmarkBtnInitialState == self.bookmarkBtnNewState ? false : true
+                    HapticFeedback.createNotificationFeedback(style: .success)
+                    UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                }.catch { error in }
                 
             } else { //remove bookmark
                 HapticFeedback.createImpact(style: .light)
@@ -402,11 +410,11 @@ extension EventDetailsViewController: EventsDetailsViewDelegate {
                     print("Event(\(self.eventID)) bookmark removed")
                     sender.isUserInteractionEnabled = true
                     self.bookmarkBtnNewState = false
-                    }.ensure {
-                        self.didChangeBookmarkBtnState = self.bookmarkBtnInitialState == self.bookmarkBtnNewState ? false : true
-                        HapticFeedback.createNotificationFeedback(style: .success)
-                        UIApplication.shared.isNetworkActivityIndicatorVisible = false
-                    }.catch { error in }
+                }.ensure {
+                    self.didChangeBookmarkBtnState = self.bookmarkBtnInitialState == self.bookmarkBtnNewState ? false : true
+                    HapticFeedback.createNotificationFeedback(style: .success)
+                    UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                }.catch { error in }
             }
             
         } else { // not logged in action

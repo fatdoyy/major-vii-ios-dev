@@ -28,7 +28,7 @@ class ImageOverlay: UIView { //Black at bottom
         let gradientLayer = self.layer as! CAGradientLayer
         gradientLayer.colors = [
             UIColor.clear.cgColor,
-            UIColor.black.withAlphaComponent(0.65).cgColor
+            UIColor.black.withAlphaComponent(0.9).cgColor
         ]
         backgroundColor = UIColor.clear
     }

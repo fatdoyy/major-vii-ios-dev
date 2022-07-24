@@ -12,8 +12,8 @@ import PromiseKit
 import Reqres
 
 class BaseService: NSObject {
-
-    static let endpoint = "https://major7-api-dev.herokuapp.com/"
+    
+    static let endpoint = Bundle.main.appConfig()!.apiEndpoint
 
     static func getActionPath(_ actionPath: ActionPath) -> String {
         var actionPathStr = ""

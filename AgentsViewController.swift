@@ -20,15 +20,31 @@ class AgentsViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .m7DarkGray()
         
-        animationView = AnimationView(name: "2020")
-        animationView.frame = CGRect(x: 0, y: 0, width: 310, height: 223)
+        animationView = AnimationView(name: "code")
+        //animationView.frame = CGRect(x: 0, y: 0, width: 310, height: 223)
         animationView.contentMode = .scaleAspectFill
         animationView.loopMode = .loop
-        
         view.addSubview(animationView)
+
         animationView.snp.makeConstraints { (make) in
-            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
-            make.centerX.equalToSuperview()
+            //make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
+            make.center.equalToSuperview()
+            make.size.equalTo(300)
+            //make.centerX.equalToSuperview()
+        }
+        
+        
+        let lbl = UILabel()
+        lbl.text = "Coming soon..."
+        lbl.font = UIFont.systemFont(ofSize: 20, weight: .semibold)
+        lbl.textColor = .white
+        lbl.textAlignment = .center
+        view.addSubview(lbl)
+        
+        lbl.snp.makeConstraints { make in
+            make.width.equalToSuperview()
+            make.height.equalTo(25)
+            make.top.equalTo(animationView.snp.bottom)
         }
         
         animationView.play { _ in

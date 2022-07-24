@@ -30,12 +30,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //firebase
         FirebaseApp.configure()
         
-        //facebook
-        ApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: launchOptions)
-        
-        //google login/maps
-        //GIDSignIn.sharedInstance.clientID = "1044647301084-uomk81nqohoq7vv28eakhqgbvgj5pbsr.apps.googleusercontent.com"
-        GMSServices.provideAPIKey("AIzaSyCAa_jFyV8aWPkTJeslEuDhGHFjFRJzhvI")	
+        //Setup API Keys, using AppConfig.plist
+        if let appConfig = Bundle.main.appConfig() {
+            
+            //facebook
+            Settings.appID = appConfig.fbAppID
+            Settings.clientToken = appConfig.fbClientToken
+            Settings.displayName = appConfig.fbDisplayName
+            
+            //google login/maps
+            //GIDSignIn.sharedInstance.clientID = "1044647301084-uomk81nqohoq7vv28eakhqgbvgj5pbsr.apps.googleusercontent.com"
+            GMSServices.provideAPIKey(appConfig.googleMapsKey)
+        }
         
         //dark UI elements
         UITabBar.appearance().barTintColor = UIColor(red:0.13, green:0.13, blue:0.13, alpha:0.75)

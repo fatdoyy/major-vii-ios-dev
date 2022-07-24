@@ -79,6 +79,12 @@ class BuskersViewController: UIViewController {
         //status bar color
         UIApplication.shared.statusBarUIView?.backgroundColor = UIColor.m7DarkGray().withAlphaComponent(0.8)
         
+        if #available(iOS 15, *) {
+            let appearance = UINavigationBarAppearance()
+            // setup title font color
+            appearance.titleTextAttributes = [.foregroundColor: UIColor.white]
+        }
+        
         //nav bar handle
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         navigationController?.navigationBar.shadowImage = UIImage()

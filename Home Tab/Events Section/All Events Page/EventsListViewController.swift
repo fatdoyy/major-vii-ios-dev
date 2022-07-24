@@ -51,10 +51,22 @@ class EventsListViewController: ScrollingNavigationViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         //transparent navigation bar
-        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
-        navigationController?.navigationBar.shadowImage = UIImage()
-        navigationController?.navigationBar.barTintColor = .m7DarkGray()
-        navigationController?.navigationBar.isTranslucent = false
+        if let navigationController = navigationController {
+            if #available(iOS 15, *) { /**I n iOS 15, UIKit has extended the usage of the scrollEdgeAppearance, which by default produces a transparent background, to all navigation bars. */
+                let appearance = UINavigationBarAppearance()
+                appearance.configureWithTransparentBackground()
+                appearance.backgroundColor = .m7DarkGray()
+                navigationController.navigationBar.standardAppearance = appearance
+                navigationController.navigationBar.scrollEdgeAppearance = appearance
+                //navigationController.navigationBar.barStyle = .light
+            } else {
+                navigationController.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
+                navigationController.navigationBar.shadowImage = UIImage()
+                navigationController.navigationBar.barTintColor = .m7DarkGray()
+                navigationController.navigationBar.isTranslucent = false
+            }
+        }
+    
         TabBar.hide(from: self)
         
         NotificationCenter.default.setObserver(self, selector: #selector(refreshEventListVC), name: .refreshEventListVC, object: nil)
