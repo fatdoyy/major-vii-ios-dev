@@ -13,6 +13,8 @@ class NewsList: Mappable {
     var limit: Int?
     var list = [News]()
     
+    init() {}
+    
     required init?(map: Map) {}
     
     func mapping(map: Map) {
@@ -38,9 +40,9 @@ class News: Mappable {
     var publishTime: String?
     var type: String?
     var cellType: Int?
-    var title: String?
-    var subTitle: String?
-    var coverImages = [Image]()
+    var heading: String?
+    var subHeading: String?
+    var coverImages = [M7Image]()
     var videoUrl = [String]()
     var content: String?
     var contentUrl: String?
@@ -55,8 +57,8 @@ class News: Mappable {
         publishTime     <- map["publish_time"]
         type            <- map["type"]
         cellType        <- map["listing_template"]
-        title           <- map["title"]
-        subTitle        <- map["sub_title"]
+        heading           <- map["title"]
+        subHeading        <- map["sub_title"]
         coverImages     <- map["cover_images"]
         videoUrl        <- map["videos"]
         content         <- map["content"]

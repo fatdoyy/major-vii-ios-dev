@@ -10,7 +10,7 @@ import ObjectMapper
 
 class Event: Mappable {
     var hashtags = [String]()
-    var images = [Image]()
+    var images = [M7Image]()
     var id: String?
     var title: String?
     var organizerProfile: OrganizerProfile?
@@ -121,7 +121,7 @@ class EventLocation: Mappable {
 
 class NearbyEvent: Mappable {
     var hashtags = [String]()
-    var images = [Image]()
+    var images = [M7Image]()
     var id: String?
     var title: String?
     var organizerProfile: OrganizerProfile?

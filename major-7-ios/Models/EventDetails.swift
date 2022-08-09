@@ -28,7 +28,7 @@ class DetailsItem: Mappable {
     var venue: String?
     var location: EventLocation?
     var desc: String?
-    var images = [Image]()
+    var images = [M7Image]()
     var remarks: String?
     var webUrl: String?
     

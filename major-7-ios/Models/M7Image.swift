@@ -8,7 +8,7 @@
 
 import ObjectMapper
 
-class Image: Mappable {
+class M7Image: Mappable {
     var publicID: String?
     var resID: String?
     var createTime: String?

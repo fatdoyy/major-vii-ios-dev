@@ -286,9 +286,9 @@ extension NewsDetailViewController {
             if let newsDetails = self.details?.item {
                 imgCollectionView.infiniteLayout.isEnabled = newsDetails.coverImages.count > 1
                 pageControl.numberOfPages = newsDetails.coverImages.count
-                titleLabel.text = newsDetails.title
+                titleLabel.text = newsDetails.heading
                 
-                if let subTitle = newsDetails.subTitle {
+                if let subTitle = newsDetails.subHeading {
                     let subTitleAttrString = NSAttributedString(string: subTitle, attributes: TextAttributes.newsSubtitleConfig())
                     
                     subTitleLabel.attributedText = subTitleAttrString

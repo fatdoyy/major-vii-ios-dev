@@ -23,7 +23,7 @@ class Posts: Mappable {
 }
 
 class Post: Mappable {
-    var images = [Image]()
+    var images = [M7Image]()
     var id: String?
     var content: String?
     var authorProfile: OrganizerProfile?

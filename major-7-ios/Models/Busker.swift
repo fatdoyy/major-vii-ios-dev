@@ -42,7 +42,7 @@ class BuskerProfileDetails: Mappable {
     var verified: Bool?
     var desc: String?
     var genreCodes = [String]()
-    var coverImages = [Image]()
+    var coverImages = [M7Image]()
     var members = [BuskerMember]()
     var igID: String?
     var fbID: String?
@@ -67,7 +67,7 @@ class BuskerProfileDetails: Mappable {
 class BuskerMember: Mappable {
     var id: String?
     var name: String?
-    var icon: Image?
+    var icon: M7Image?
     var role: String?
     
     required init?(map: Map) {}
@@ -117,7 +117,7 @@ class BuskerPostsList: Mappable {
 
 class OrganizerProfile: Mappable {
     var genreCodes = [String]()
-    var coverImages = [Image]()
+    var coverImages = [M7Image]()
     var id: String?
     var name: String?
     var type: String?

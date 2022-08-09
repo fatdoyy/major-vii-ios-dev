@@ -8,6 +8,7 @@
 
 import UIKit
 import Lottie
+import SwiftUI
 
 class AgentsViewController: UIViewController {
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -15,9 +16,42 @@ class AgentsViewController: UIViewController {
     }
     
     var animationView: AnimationView!
+    private var newsList = NewsList()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .m7DarkGray()
+        print("printing before call \(newsList.list)")
+        
+        //setupUI()
+
+        let agentsMainView = AgentsMain(newsList: newsList)
+        let hostingController = UIHostingController(rootView: agentsMainView)
+        self.addChild(hostingController)
+        hostingController.view.translatesAutoresizingMaskIntoConstraints = false
+        self.view.addSubview(hostingController.view)
+        hostingController.didMove(toParent: self)
+        
+        hostingController.view.snp.makeConstraints { (make) in
+            make.edges.equalToSuperview()
+        }
+        
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+//        animationView.play { _ in
+//            print("finished!!!")
+//        }
+    }
+}
+
+
+
+
+// MARK: - UI related
+extension AgentsViewController {
+    private func setupUI() {
         view.backgroundColor = .m7DarkGray()
         
         animationView = AnimationView(name: "code")
@@ -47,13 +81,6 @@ class AgentsViewController: UIViewController {
             make.top.equalTo(animationView.snp.bottom)
         }
         
-        animationView.play { _ in
-            print("finished!!!")
-        }
-    }
-
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
         animationView.play { _ in
             print("finished!!!")
         }

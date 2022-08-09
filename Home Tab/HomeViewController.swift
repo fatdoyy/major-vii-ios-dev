@@ -351,7 +351,7 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
                         let hashtagsArr = news[indexPath.row].hashtags
                         if !hashtagsArr.isEmpty { cell.hashtagsArray = hashtagsArr }
                         
-                        cell.newsTitle.text = news[indexPath.row].title
+                        cell.newsTitle.text = news[indexPath.row].heading
                         //cell.bgImgView.sd_imageTransition = .fade
                         if let url = URL(string: news[indexPath.row].coverImages[0].url!) {
                             cell.bgImgView.kf.setImage(with: url, options: [.transition(.fade(0.3))])
@@ -369,7 +369,7 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
                         let hashtagsArr = news[indexPath.row].hashtags
                         if !hashtagsArr.isEmpty { cell.hashtagsArray = hashtagsArr }
                         
-                        cell.newsTitle.text = news[indexPath.row].title
+                        cell.newsTitle.text = news[indexPath.row].heading
                         
                         if let url = URL(string: news[indexPath.row].coverImages[0].url!) {
                             cell.bgImgView.kf.setImage(with: url, options: [.transition(.fade(0.3))])
@@ -391,8 +391,8 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
                                 make.top.equalTo(25)
                             }
                         }
-                        cell.newsTitle.text = news[indexPath.row].title
-                        cell.subTitle.text = news[indexPath.row].subTitle
+                        cell.newsTitle.text = news[indexPath.row].heading
+                        cell.subTitle.text = news[indexPath.row].subHeading
                         
                         if let url = URL(string: news[indexPath.row].coverImages[0].url!) {
                             cell.bgImgView.kf.setImage(with: url, options: [.transition(.fade(0.3))])
@@ -428,8 +428,8 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
                                 make.top.equalTo(25)
                             }
                         }
-                        cell.newsTitle.text = news[indexPath.row].title
-                        cell.subTitle.text = news[indexPath.row].subTitle
+                        cell.newsTitle.text = news[indexPath.row].heading
+                        cell.subTitle.text = news[indexPath.row].subHeading
                         
                         if let newsDate = news[indexPath.row].publishTime?.toDate(), let currentDate = Date().toISO().toDate() {
                             let difference = DateTimeHelper.getNewsOrPostInterval(from: currentDate, to: newsDate)
@@ -443,8 +443,8 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout, UICollectionVi
                         let hashtagsArr = news[indexPath.row].hashtags
                         if !hashtagsArr.isEmpty { cell.hashtagsArray = hashtagsArr }
                         
-                        cell.newsTitle.text = news[indexPath.row].title
-                        cell.subTitle.text = news[indexPath.row].subTitle
+                        cell.newsTitle.text = news[indexPath.row].heading
+                        cell.subTitle.text = news[indexPath.row].subHeading
                         
                         if let newsDate = news[indexPath.row].publishTime?.toDate(), let currentDate = Date().toISO().toDate() {
                             let difference = DateTimeHelper.getNewsOrPostInterval(from: currentDate, to: newsDate)

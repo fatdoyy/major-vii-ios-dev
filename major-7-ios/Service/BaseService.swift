@@ -148,8 +148,8 @@ class BaseService: NSObject {
     }
     
     static private var manager : Session = {
-        let configuration = URLSessionConfiguration.default
-        //let configuration = Reqres.defaultSessionConfiguration()
+        //let configuration = URLSessionConfiguration.default
+        let configuration = Reqres.defaultSessionConfiguration()
         
         configuration.headers = .default
         configuration.requestCachePolicy = .reloadIgnoringLocalCacheData
