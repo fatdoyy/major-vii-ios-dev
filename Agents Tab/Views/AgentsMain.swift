@@ -9,23 +9,59 @@
 import SwiftUI
 
 struct AgentsMain: View {
-    @State var newsList: NewsList
+    @State var events: Events
     @State private var animateGradient = true
     @State private var buttonHeight: CGFloat = 80
     
+    var rows =  [GridItem(.fixed(120))]
+    
     var body: some View {
-
         NavigationView {
             ZStack {
                 Color(UIColor.m7DarkGray())
                     .ignoresSafeArea()
                 VStack {
+                    HStack {
+                        Text("Top Rated Places Nearby")
+                            //.frame(maxWidth: .infinity, alignment: .leading)
+                            .font(.system(size: 20, weight: .medium))
+                            .foregroundColor(.white)
+                        
+                        
+                        Label("", systemImage: "location.circle.fill")
+                            .font(.system(size: 20))
+                            .foregroundColor(.white)
+                        
+                        Spacer()
+                    }
+                    .padding(.leading, 20)
+
+                    
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        LazyHGrid(rows: rows, spacing: 20) {
+                            if let list = events.list {
+                                ForEach((0 ..< (list.isEmpty ? 2 : list.count)), id: \.self) { index in
+                                    NavigationLink { AgentsView(events: $events) } label: {
+                                        TopRatedPlaceCell(title: list.isEmpty ? "" : list[index].title!)
+                                            .frame(width: 190, height: 120)
+                                    }
+                                    
+                                    
+                                }
+                            }
+                        }
+                        .frame(minHeight: 100, maxHeight: 120)
+                        .padding(.leading, 20)
+                    }
+                    
                     Spacer()
+                    
+                    
+                    
                     VStack {
                         NavigationLink {
-                            AgentsView(newsList: $newsList)
                         } label: {
-                            Label(newsList.list.first?.heading ?? "Loading...", systemImage: "figure.wave")
+                            Label(events.list.first?.title ?? "Loading...", systemImage: "figure.wave")
                                 .frame(maxWidth: UIScreen.main.bounds.width, maxHeight: buttonHeight)
                                 .foregroundColor(.white)
                                 .background(
@@ -35,7 +71,6 @@ struct AgentsMain: View {
                                         .hueRotation(.degrees(animateGradient ? 30 : 0))
                                         .shadow(color: .purple.opacity(0.7), radius: 6))
                                 .onAppear {
-                                    //getNewsList()
 //                                    withAnimation(.easeInOut(duration: 3).repeatForever(autoreverses: true)) {
 //                                        animateGradient.toggle()
 //                                    }
@@ -46,7 +81,7 @@ struct AgentsMain: View {
                         .padding(10)
                         
                         NavigationLink {
-                            AgentsView(newsList: $newsList)
+                            AgentsView(events: $events)
                         } label: {
                             Text("SIGN IN")
                                 .frame(maxWidth: UIScreen.main.bounds.width, maxHeight: buttonHeight)
@@ -61,8 +96,11 @@ struct AgentsMain: View {
                         .padding([.leading, .trailing, .bottom], 10)
                         //.offset(y: -20)
                     }
-                    
+
                 }
+            }
+            .onAppear {
+                getEvents()
             }
             .navigationTitle("Cooperation")
             .navigationBarTitleTextColor(.white)
@@ -73,20 +111,20 @@ struct AgentsMain: View {
 
 // MARK: - API Calls
 private extension AgentsMain {
-    private func getNewsList(skip: Int? = nil, limit: Int? = nil) {
-        NewsService.getList(skip: skip, limit: limit).done { response -> () in
-            self.newsList = response
-            }.catch { _ in }
+    private func getEvents() {
+        EventService.getFeaturedEvents().done { response in
+            self.events = response
+        }.catch { _ in }
     }
 }
 
 // MARK: - Previews
 struct AgentsMain_Previews: PreviewProvider {
-    static let newsList = NewsList()
+    static let events = Events()
     
     static var previews: some View {
         ForEach(["iPhone 13 Pro", "iPhone 8 Plus", "iPhone SE (3rd generation)"], id: \.self) { deviceName in
-            AgentsMain(newsList: newsList)
+            AgentsMain(events: events)
                 .previewDevice(PreviewDevice(rawValue: deviceName))
                 .previewDisplayName(deviceName)
         }

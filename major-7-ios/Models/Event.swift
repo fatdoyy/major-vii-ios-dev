@@ -35,6 +35,8 @@ class Event: Mappable {
 class Events: Mappable {
     var list = [Event]()
     
+    init() {}
+    
     required init?(map: Map) {}
     
     func mapping(map: Map) {

@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct AgentsView: View {
-    @Binding var newsList: NewsList
+    @Binding var events: Events
     
     var body: some View {
         if #available(iOS 15.0, *) {
@@ -27,11 +27,11 @@ struct AgentsView: View {
                             .zIndex(1)
                         
                         VStack(alignment: .leading) {
-                            Text(newsList.list.first?.heading ?? "Loading")
+                            Text(events.list.first?.title ?? "Loading")
                                 .bold()
                                 .font(.title)
                             HStack {
-                                Text(newsList.list.first?.subHeading ?? "Loading")
+                                Text(events.list.first?.title ?? "Loading")
                                     .font(.system(size: 20, weight: .semibold, design: .default))
                                 Spacer()
                                 Text("1234")
@@ -56,11 +56,11 @@ struct AgentsView: View {
 }
 
 struct AgentsView_Previews: PreviewProvider {
-    @State static var newsList = NewsList()
+    @State static var newsList = Events()
     
     static var previews: some View {
         ForEach(["iPhone 13 Pro", "iPhone 8 Plus", "iPhone SE (3rd generation)"], id: \.self) { deviceName in
-            AgentsView(newsList: $newsList)
+            AgentsView(events: $newsList)
                 .previewDevice(PreviewDevice(rawValue: deviceName))
                 .previewDisplayName(deviceName)
         }

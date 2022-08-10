@@ -16,16 +16,15 @@ class AgentsViewController: UIViewController {
     }
     
     var animationView: AnimationView!
-    private var newsList = NewsList()
+    private var events = Events()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .m7DarkGray()
-        print("printing before call \(newsList.list)")
         
         //setupUI()
 
-        let agentsMainView = AgentsMain(newsList: newsList)
+        let agentsMainView = AgentsMain(events: events)
         let hostingController = UIHostingController(rootView: agentsMainView)
         self.addChild(hostingController)
         hostingController.view.translatesAutoresizingMaskIntoConstraints = false
