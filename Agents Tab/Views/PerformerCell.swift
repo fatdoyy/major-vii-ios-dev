@@ -1,22 +1,21 @@
 //
-//  TopRatedPlaceCell.swift
+//  PerformerCell.swift
 //  major-7-ios
 //
-//  Created by jason on 9/8/2022.
+//  Created by jason on 12/8/2022.
 //  Copyright © 2022 Major VII. All rights reserved.
 //
 
 import SwiftUI
 import Kingfisher
 
-struct TopRatedPlaceCell: View {
-    var event: Event
-    private let width: CGFloat = 220
-    private let height: CGFloat = 150
+struct PerformerCell: View {
+    var performer: OrganizerProfile
     
     var body: some View {
-        ZStack(alignment: .bottom) {
-            KFImage(URL(string: event.images.first?.url ?? ""))
+        
+        HStack {
+            KFImage(URL(string: performer.coverImages.first?.url ?? ""))
                 .resizable()
                 .fade(duration: 0.25)
                 .loadDiskFileSynchronously()
@@ -29,46 +28,43 @@ struct TopRatedPlaceCell: View {
                 }
                 .onFailure { error in print("failure: \(error)") }
                 .retry(maxCount: 3, interval: .seconds(5))
-                .aspectRatio(contentMode: .fill)
+                .frame(width: 100, height: 100)
+                .aspectRatio(contentMode: .fit)
                 .clipped()
-            //.scaledToFill()
-
+            
             HStack {
                 VStack(alignment: .leading) {
-                    Text(event.address ?? "")
+                    Text(performer.name ?? "123")
                         .font(.headline)
                         .foregroundColor(Color(UIColor.m7DarkGray()))
                     //.frame(maxWidth: width, maxHeight: height, alignment: .bottomLeading)
                     
-                    Text(event.dateTime ?? "Loading...")
+
+                    Text(performer.genreCodes.joined(separator: " ").lowercased())
                         .font(.subheadline)
                         .foregroundColor(Color(UIColor.m7DarkGray()))
                     //.frame(maxWidth: width, maxHeight: height, alignment: .bottomLeading)
+                    
                 }
                 
                 Spacer()
+                
+                Image(systemName: "heart")
             }
-            .padding()
-            .frame(height: 60)
-            .background(Color.white.opacity(0.8))
             
+            Spacer()
             
         }
-        //.frame(width: width, height: height)
+        .background(Color.blue)
         .cornerRadius(GlobalCornerRadius.value)
         
     }
 }
 
-struct TopRatedPlaceCell_Previews: PreviewProvider {
-    static let event = Event()
-    static let width: CGFloat = 220
-    static let height: CGFloat = 150
+struct PerformerCell_Previews: PreviewProvider {
+    static let performer = OrganizerProfile()
     
     static var previews: some View {
-        TopRatedPlaceCell(event: event)
-            .previewLayout(.sizeThatFits)
-        //            .previewLayout(.fixed(width: width, height: height))
+        PerformerCell(performer: performer)
     }
 }
-

@@ -18,6 +18,8 @@ class Event: Mappable {
     var address: String?
     var location: EventLocation?
     
+    init() {}
+    
     required init?(map: Map) {}
     
     func mapping(map: Map) {

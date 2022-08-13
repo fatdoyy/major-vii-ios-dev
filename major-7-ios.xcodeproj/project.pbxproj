@@ -13,7 +13,8 @@
 		960B54BE22437C0700FEA079 /* BuskersSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 960B54BD22437C0700FEA079 /* BuskersSearchViewController.swift */; };
 		960C92C528A2DEAB0023CC3F /* ViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 960C92C428A2DEAB0023CC3F /* ViewExtensions.swift */; };
 		960C92C728A3075D0023CC3F /* TopRatedPlaceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 960C92C628A3075D0023CC3F /* TopRatedPlaceCell.swift */; };
-		960C92C928A318300023CC3F /* MockStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 960C92C828A318300023CC3F /* MockStore.swift */; };
+		960C92CB28A6AF7A0023CC3F /* WrappingHStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 960C92CA28A6AF7A0023CC3F /* WrappingHStack.swift */; };
+		960C92CD28A6CDED0023CC3F /* PerformerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 960C92CC28A6CDED0023CC3F /* PerformerCell.swift */; };
 		961D87A223618FC300AB8CBE /* NetworkReachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 961D87A123618FC300AB8CBE /* NetworkReachability.swift */; };
 		961D87A623700FB000AB8CBE /* PushNotificationsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 961D87A523700FB000AB8CBE /* PushNotificationsManager.swift */; };
 		961EC5C5230A8CFE003EE66C /* SearchService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 961EC5C4230A8CFE003EE66C /* SearchService.swift */; };
@@ -200,7 +201,8 @@
 		960B54BD22437C0700FEA079 /* BuskersSearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuskersSearchViewController.swift; sourceTree = "<group>"; };
 		960C92C428A2DEAB0023CC3F /* ViewExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewExtensions.swift; sourceTree = "<group>"; };
 		960C92C628A3075D0023CC3F /* TopRatedPlaceCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopRatedPlaceCell.swift; sourceTree = "<group>"; };
-		960C92C828A318300023CC3F /* MockStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockStore.swift; sourceTree = "<group>"; };
+		960C92CA28A6AF7A0023CC3F /* WrappingHStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WrappingHStack.swift; sourceTree = "<group>"; };
+		960C92CC28A6CDED0023CC3F /* PerformerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerformerCell.swift; sourceTree = "<group>"; };
 		961D87A123618FC300AB8CBE /* NetworkReachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkReachability.swift; sourceTree = "<group>"; };
 		961D87A523700FB000AB8CBE /* PushNotificationsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationsManager.swift; sourceTree = "<group>"; };
 		961EC5C4230A8CFE003EE66C /* SearchService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchService.swift; sourceTree = "<group>"; };
@@ -524,7 +526,8 @@
 				96FE8D2A2899A7F4007E2A3D /* CircleImage.swift */,
 				96FE8D2B2899A7F4007E2A3D /* MapView.swift */,
 				960C92C628A3075D0023CC3F /* TopRatedPlaceCell.swift */,
-				960C92C828A318300023CC3F /* MockStore.swift */,
+				960C92CA28A6AF7A0023CC3F /* WrappingHStack.swift */,
+				960C92CC28A6CDED0023CC3F /* PerformerCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1125,6 +1128,7 @@
 				96C5544C219408580065D70A /* FeaturedCell.swift in Sources */,
 				965798B222266BC500A03BE9 /* BuskerProfileViewController.swift in Sources */,
 				966A6CC3217DBDAF00DF872F /* MapViewController.swift in Sources */,
+				960C92CB28A6AF7A0023CC3F /* WrappingHStack.swift in Sources */,
 				9620025E21E5E5490055D070 /* UIView.swift in Sources */,
 				9643C498224DF76F00730DAB /* MapMarker.swift in Sources */,
 				96625F7B21C793DA0086A2B2 /* EventService.swift in Sources */,
@@ -1133,7 +1137,6 @@
 				960C92C728A3075D0023CC3F /* TopRatedPlaceCell.swift in Sources */,
 				96F15D232381207C00BB6A97 /* Genre.swift in Sources */,
 				960B54BE22437C0700FEA079 /* BuskersSearchViewController.swift in Sources */,
-				960C92C928A318300023CC3F /* MockStore.swift in Sources */,
 				961D87A623700FB000AB8CBE /* PushNotificationsManager.swift in Sources */,
 				965838BE218317CE000FE8B0 /* NewsCellType4.swift in Sources */,
 				96FAF247223A1D7300DF23B9 /* BuskerService.swift in Sources */,
@@ -1202,6 +1205,7 @@
 				966A6CC5217DBDC400DF872F /* SettingsViewController.swift in Sources */,
 				96799FE4218AF8E70074C828 /* Hashtag.swift in Sources */,
 				967BD33F2240C00300469CF9 /* PinterestLayout.swift in Sources */,
+				960C92CD28A6CDED0023CC3F /* PerformerCell.swift in Sources */,
 				96C554312192CBCE0065D70A /* GlobalCornerRadius.swift in Sources */,
 				96F3732D224CBD850088E142 /* BookmarkedEventCollectionHeaderView.swift in Sources */,
 				966AE61522D31CC800AC17EC /* HomePostCell.swift in Sources */,

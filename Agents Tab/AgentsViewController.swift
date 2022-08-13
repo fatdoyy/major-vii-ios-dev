@@ -17,6 +17,7 @@ class AgentsViewController: UIViewController {
     
     var animationView: AnimationView!
     private var events = Events()
+    private var performers = BuskerList()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,7 +25,7 @@ class AgentsViewController: UIViewController {
         
         //setupUI()
 
-        let agentsMainView = AgentsMain(events: events)
+        let agentsMainView = AgentsMain(events: events, performers: performers)
         let hostingController = UIHostingController(rootView: agentsMainView)
         self.addChild(hostingController)
         hostingController.view.translatesAutoresizingMaskIntoConstraints = false

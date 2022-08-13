@@ -13,6 +13,8 @@ class BuskerList: Mappable {
     var limit: Int?
     var list = [OrganizerProfile]()
     
+    init() {}
+    
     required init?(map: Map) {}
     
     func mapping(map: Map) {
@@ -123,6 +125,8 @@ class OrganizerProfile: Mappable {
     var type: String?
     var verified: Bool?
     var tagline: String?
+    
+    init() {}
     
     required init?(map: Map) {}
     
